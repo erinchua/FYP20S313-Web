@@ -1,8 +1,7 @@
 import React from 'react';
 //import logo from './logo.svg';
 import './App.css';
-
-const firebase = require('firebase');
+import firebase from './firebase';
 
 class App extends React.Component {
   constructor() {
