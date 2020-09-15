@@ -1,18 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
+import firebase from './firebase';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Hello World.
-        </p>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor() {
+    super();
+  }
+
+  componentDidMount = () => {
+    firebase.firestore();
+  }
+
+  render() {
+    return(<div>Hello World.</div>);
+  }
 }
 
 export default App;
