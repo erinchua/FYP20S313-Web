@@ -1,19 +1,19 @@
-import React from 'react';
-//import logo from './logo.svg';
-import './App.css';
-import firebase from './firebase';
+import React, { Component } from "react";
+import fire from "./config/firebase";
+import "./App.css";
+import Login from "./Login";
+import Home from "./Home";
 
-class App extends React.Component {
-  constructor() {
+class App extends Component {
+  constructor(props) {
     super();
   }
-
-  componentDidMount = () => {
-    firebase.firestore();
-  }
-
   render() {
-    return(<div>Hello World.</div>);
+    return (
+      <div className="App">
+        <Login />
+      </div>
+    );
   }
 }
 
