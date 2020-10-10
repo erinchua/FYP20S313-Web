@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import fire from "./config/firebase";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
 import history from "./config/history";
+import firecreate from "./config/firebasecreate";
 
 class Home extends Component {
   constructor() {
@@ -58,7 +59,7 @@ class Home extends Component {
 
   addUser = (e) => {
     e.preventDefault();
-    fire
+    firecreate
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((useraction) => {
@@ -73,6 +74,7 @@ class Home extends Component {
             password: this.state.password,
           })
           .then(function () {
+            alert("Added");
             window.location.reload();
           });
         this.setState({
@@ -93,7 +95,6 @@ class Home extends Component {
       .get()
       .then((snapshot) => {
         const users = [];
-        const id = [];
         snapshot.forEach((doc) => {
           const data = {
             administratorType: doc.data().administratorType,
@@ -108,7 +109,9 @@ class Home extends Component {
         this.setState({ users: users });
       });
   }
-
+  changepasswordpage = () => {
+    history.push("/ChangePassword");
+  };
   logout() {
     fire.auth().signOut();
     history.push("/Login");
@@ -185,7 +188,7 @@ class Home extends Component {
           />
           <button type="submit">Add User</button>
         </form>
-
+        <button onClick={this.changepasswordpage}>Change Password</button>
         <button onClick={this.logout}>Logout</button>
       </div>
     );

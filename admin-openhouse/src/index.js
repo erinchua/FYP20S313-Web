@@ -8,6 +8,8 @@ import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import history from "./config/history";
 import ResetPassword from "./ResetPassword";
+import StudentProfile from "./StudentProfile";
+import ChangePassword from "./ChangePassword";
 
 ReactDOM.render(
   <Router history={history}>
@@ -15,6 +17,8 @@ ReactDOM.render(
     <Route path="/Login" component={Login} />
     <Route path="/Home" component={Home} />
     <Route path="/ResetPassword" component={ResetPassword} />
+    <Route path="/StudentProfile" component={StudentProfile} />
+    <Route path="/ChangePassword" component={ChangePassword} />
   </Router>,
   document.getElementById("root")
 );
