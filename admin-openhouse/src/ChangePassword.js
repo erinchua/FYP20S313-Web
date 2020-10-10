@@ -76,7 +76,7 @@ class ChangePassword extends Component {
     }
   }
   ChangePassword = () => {
-    if (this.state.error == "Ok") {
+    if (this.state.error == "Password OK.") {
       var currentpassword = this.state.currentpassword;
       var newpassword = this.state.newpassword;
       var user = firebase.auth().currentUser;

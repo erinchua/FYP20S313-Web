@@ -115,11 +115,66 @@ class StudentProfile extends Component {
       });
   }
 
+  Search = (e) => {
+    console.log(e.target.value);
+    const db = fire.firestore();
+    const searchvalue = e.target.value;
+    if (searchvalue == "" || searchvalue == null) {
+      const userRef = db
+        .collection("Students")
+        .get()
+        .then((snapshot) => {
+          const users = [];
+          snapshot.forEach((doc) => {
+            const data = {
+              firstName: doc.data().firstName,
+              lastName: doc.data().lastName,
+              email: doc.data().email,
+              contactNo: doc.data().contactNo,
+              dob: doc.data().dob,
+              highestQualification: doc.data().highestQualification,
+              nationality: doc.data().nationality,
+              id: doc.id,
+            };
+            users.push(data);
+          });
+
+          this.setState({ users: users });
+        });
+    } else {
+      const userRef = db
+        .collection("Students")
+        .orderBy("email")
+        .startAt(searchvalue)
+        .endAt(searchvalue + "\uf8ff")
+        .get()
+        .then((snapshot) => {
+          const users = [];
+          snapshot.forEach((doc) => {
+            const data = {
+              firstName: doc.data().firstName,
+              lastName: doc.data().lastName,
+              email: doc.data().email,
+              contactNo: doc.data().contactNo,
+              dob: doc.data().dob,
+              highestQualification: doc.data().highestQualification,
+              nationality: doc.data().nationality,
+              id: doc.id,
+            };
+            users.push(data);
+          });
+
+          this.setState({ users: users });
+        });
+    }
+  };
+
   render() {
     return (
       <div className="home">
         <div>
-          <table class="table table-bordered">
+          <table id="users" class="table table-bordered">
+            Search: <input type="text" onChange={this.Search} />
             <tbody>
               <tr>
                 <th scope="col">First Name</th>
