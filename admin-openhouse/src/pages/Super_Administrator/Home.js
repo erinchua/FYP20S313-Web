@@ -3,7 +3,7 @@ import fire from "../../config/firebase";
 import history from "../../config/history";
 import firecreate from "../../config/firebasecreate";
 
-import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
+//import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
 
 class Home extends Component {
   constructor() {

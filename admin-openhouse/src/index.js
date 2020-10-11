@@ -12,7 +12,7 @@ import ResetPassword from "./pages/Marketing_Administrator/ResetPassword";
 import StudentProfile from "./pages/Marketing_Administrator/StudentProfile";
 import ChangePassword from "./pages/Marketing_Administrator/ChangePassword";
 
-import "../css/index.css";
+import './css/index.css';
 
 ReactDOM.render(
   <Router history={history}>
