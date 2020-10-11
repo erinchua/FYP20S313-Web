@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import fire from "../../config/firebase";
 import history from "../../config/history";
 
-import "../node_modules/bootstrap/dist/css/bootstrap.css";
+//import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
 
 class StudentProfile extends Component {
   constructor() {
