@@ -1,10 +1,14 @@
+import { Tabs, Tab, Nav } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../config/firebase";
 import history from "../config/history";
 
 //import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import '../css/Login.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Login extends Component {
+  
   constructor() {
     super();
     this.login = this.login.bind(this);
@@ -72,6 +76,20 @@ class Login extends Component {
   };
   render() {
     return (
+      /* <div id="login-content-container">
+        <Tab.Container defaultActiveKey="marketingAdministrator">
+          <Nav justify className="login-tabContainer justify-content-center" variant="tabs" as="ul">
+            <Nav.Item as="li">
+              <Nav.Link eventKey="marketingAdministrator" className="login-tabHeading">Marketing Administrator</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item as="li">
+              <Nav.Link eventKey="superAdministrator" className="login-tabHeading">Super Administrator</Nav.Link>
+            </Nav.Item>
+          </Nav>
+        </Tab.Container>
+      </div> */
+
       <div className="App">
         <form>
           <div className="col-and-6">
