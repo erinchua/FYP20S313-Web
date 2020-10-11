@@ -13,7 +13,9 @@ class Login extends Component {
       user: "",
     };
   }
-  componentDidMount() {}
+  componentDidMount() {
+    fire.auth().signOut();
+  }
   authListener() {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -30,8 +32,13 @@ class Login extends Component {
               if (doc.data().administratorType === "Super Administrator") {
                 this.setState({ user: "Super Administrator" });
                 history.push("/Home");
+              } else if (
+                doc.data().administratorType === "Marketing Administrator"
+              ) {
+                this.setState({ user: "Marketing Administrator" });
+                history.push("/StudentProfile");
               } else {
-                alert("you are not admin");
+                history.push("/Login");
               }
             });
           }
