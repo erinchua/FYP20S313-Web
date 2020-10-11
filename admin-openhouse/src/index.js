@@ -1,15 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import Login from "./Login";
-import Home from "./Home";
-import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import * as serviceWorker from "./serviceWorker";
 import history from "./config/history";
+
+import App from "./App";
+import Login from "./pages/Login";
+import Home from "./Home";
 import ResetPassword from "./ResetPassword";
 import StudentProfile from "./StudentProfile";
 import ChangePassword from "./ChangePassword";
+
+import "../css/index.css";
 
 ReactDOM.render(
   <Router history={history}>
