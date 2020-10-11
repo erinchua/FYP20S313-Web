@@ -1,7 +1,7 @@
 import React, { Component, useReducer } from "react";
 import history from "../../config/history";
 
-import "../node_modules/bootstrap/dist/css/bootstrap.css";
+import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
 
 const firebase = require("firebase");
 
