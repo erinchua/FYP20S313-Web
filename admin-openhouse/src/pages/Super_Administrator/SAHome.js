@@ -31,11 +31,13 @@ class SAHome extends Component {
               this.display();
             } else {
               history.push("/Login");
+              window.location.reload();
             }
           });
         });
       } else {
         history.push("/Login");
+        window.location.reload();
       }
     });
   }
