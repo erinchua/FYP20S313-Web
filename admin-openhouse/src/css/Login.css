@@ -21,3 +21,7 @@
 .login-tabHeading:hover {
     color: #424242;
 }
+
+#login-tabContent {
+    background-color: #FFFFFF;
+}

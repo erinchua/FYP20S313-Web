@@ -76,7 +76,7 @@ class Login extends Component {
   };
   render() {
     return (
-      /*<div id="login-content-container">
+      /* <div id="login-content-container">
         <Tab.Container defaultActiveKey="marketingAdministrator">
           <Row className="justify-content-center">
             <Col sm={4}>
@@ -89,10 +89,19 @@ class Login extends Component {
                   <Nav.Link eventKey="superAdministrator" className="login-tabHeading">Super Administrator</Nav.Link>
                 </Nav.Item>
               </Nav>
+
+              <Tab.Content id="login-tabContent">
+                <Tab.Pane eventKey="marketingAdministrator">
+                  <h1>Marketing</h1>
+                </Tab.Pane>
+                <Tab.Pane eventKey="superAdministrator">
+                  <h1>Super</h1>
+                </Tab.Pane>
+              </Tab.Content>
             </Col>
           </Row>
         </Tab.Container>
-      </div>*/
+      </div> */
 
       <div className="App">
         <form>
