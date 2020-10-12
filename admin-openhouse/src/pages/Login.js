@@ -1,4 +1,4 @@
-import { Tabs, Tab, Nav } from 'react-bootstrap';
+import { Tabs, Tab, Nav, Row, Col } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../config/firebase";
 import history from "../config/history";
@@ -76,19 +76,23 @@ class Login extends Component {
   };
   render() {
     return (
-      /* <div id="login-content-container">
+      /*<div id="login-content-container">
         <Tab.Container defaultActiveKey="marketingAdministrator">
-          <Nav justify className="login-tabContainer justify-content-center" variant="tabs" as="ul">
-            <Nav.Item as="li">
-              <Nav.Link eventKey="marketingAdministrator" className="login-tabHeading">Marketing Administrator</Nav.Link>
-            </Nav.Item>
+          <Row className="justify-content-center">
+            <Col sm={4}>
+              <Nav justify className="login-tabContainer justify-content-center" variant="tabs" as="ul">
+                <Nav.Item as="li">
+                  <Nav.Link eventKey="marketingAdministrator" className="login-tabHeading">Marketing Administrator</Nav.Link>
+                </Nav.Item>
 
-            <Nav.Item as="li">
-              <Nav.Link eventKey="superAdministrator" className="login-tabHeading">Super Administrator</Nav.Link>
-            </Nav.Item>
-          </Nav>
+                <Nav.Item as="li">
+                  <Nav.Link eventKey="superAdministrator" className="login-tabHeading">Super Administrator</Nav.Link>
+                </Nav.Item>
+              </Nav>
+            </Col>
+          </Row>
         </Tab.Container>
-      </div> */
+      </div>*/
 
       <div className="App">
         <form>
