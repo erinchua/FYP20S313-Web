@@ -11,7 +11,8 @@ import SAHome from "./pages/Super_Administrator/SAHome";
 import ResetPassword from "./pages/Marketing_Administrator/ResetPassword";
 import StudentProfile from "./pages/Marketing_Administrator/StudentProfile";
 import ChangePassword from "./pages/Marketing_Administrator/ChangePassword";
-
+import CampusFacilitiesMap from "./pages/Marketing_Administrator/CampusFacilitiesMap";
+import Openhouse from "./pages/Marketing_Administrator/Openhouse";
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -27,6 +28,8 @@ ReactDOM.render(
     {/* Routes for Marketing Admin */}
     <Route path="/StudentProfile" component={StudentProfile} />
     <Route path="/ChangePassword" component={ChangePassword} />
+    <Route path="/CampusFacilitiesMap" component={CampusFacilitiesMap} />
+    <Route path="/Openhouse" component={Openhouse} />
   </Router>,
   document.getElementById("root")
 );
