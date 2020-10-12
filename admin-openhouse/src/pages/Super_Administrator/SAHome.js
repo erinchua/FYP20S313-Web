@@ -3,7 +3,8 @@ import fire from "../../config/firebase";
 import history from "../../config/history";
 import firecreate from "../../config/firebasecreate";
 
-//import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
+import Navbar from "../../components/Navbar";
+
 
 class SAHome extends Component {
   constructor() {
@@ -121,6 +122,8 @@ class SAHome extends Component {
   render() {
     return (
       <div className="home">
+        <Navbar />
+
         <div>
           <table class="table table-bordered">
             <tbody>

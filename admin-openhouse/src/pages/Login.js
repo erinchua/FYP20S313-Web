@@ -37,7 +37,7 @@ class Login extends Component {
             snapshot.forEach((doc) => {
               if (doc.data().administratorType === "Super Administrator") {
                 this.setState({ user: "Super Administrator" });
-                history.push("/Home");
+                history.push("/SAHome");
               } else if (
                 doc.data().administratorType === "Marketing Administrator"
               ) {
