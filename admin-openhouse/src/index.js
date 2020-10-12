@@ -11,7 +11,8 @@ import Home from "./pages/Super_Administrator/Home";
 import ResetPassword from "./pages/Marketing_Administrator/ResetPassword";
 import StudentProfile from "./pages/Marketing_Administrator/StudentProfile";
 import ChangePassword from "./pages/Marketing_Administrator/ChangePassword";
-
+import CampusFacilitiesMap from "./pages/Marketing_Administrator/CampusFacilitiesMap";
+import Openhouse from "./pages/Marketing_Administrator/Openhouse";
 import './css/index.css';
 
 ReactDOM.render(
@@ -22,6 +23,8 @@ ReactDOM.render(
     <Route path="/ResetPassword" component={ResetPassword} />
     <Route path="/StudentProfile" component={StudentProfile} />
     <Route path="/ChangePassword" component={ChangePassword} />
+    <Route path="/CampusFacilitiesMap" component={CampusFacilitiesMap} />
+    <Route path="/Openhouse" component={Openhouse} />
   </Router>,
   document.getElementById("root")
 );
