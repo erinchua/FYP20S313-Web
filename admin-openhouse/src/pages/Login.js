@@ -5,7 +5,6 @@ import history from "../config/history";
 
 //import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import '../css/Login.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Login extends Component {
   
@@ -37,7 +36,7 @@ class Login extends Component {
             snapshot.forEach((doc) => {
               if (doc.data().administratorType === "Super Administrator") {
                 this.setState({ user: "Super Administrator" });
-                history.push("/Home");
+                history.push("/SAHome");
               } else if (
                 doc.data().administratorType === "Marketing Administrator"
               ) {
@@ -76,7 +75,7 @@ class Login extends Component {
   };
   render() {
     return (
-      /* <div id="login-content-container">
+      /*<div id="login-content-container">
         <Tab.Container defaultActiveKey="marketingAdministrator">
           <Row className="justify-content-center">
             <Col sm={4}>
@@ -101,7 +100,7 @@ class Login extends Component {
             </Col>
           </Row>
         </Tab.Container>
-      </div> */
+      </div>*/
 
       <div className="App">
         <form>

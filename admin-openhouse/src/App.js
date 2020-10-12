@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import fire from "./config/firebase";
 
-import "./css/App.css";
+//import "./css/App.css";
+import "./css/Login.css";
 import Login from "./pages/Login";
 import SAHome from "./pages/Super_Administrator/SAHome";
 
