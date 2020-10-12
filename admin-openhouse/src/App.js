@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import fire from "./config/firebase";
-import "./App.css";
-import Login from "./Login";
-import Home from "./Home";
+
+import "./css/App.css";
+import Login from "./pages/Login";
+import SAHome from "./pages/Super_Administrator/SAHome";
 
 class App extends Component {
   constructor(props) {

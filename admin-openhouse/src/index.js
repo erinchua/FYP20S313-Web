@@ -1,20 +1,35 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import Login from "./Login";
-import Home from "./Home";
-import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import * as serviceWorker from "./serviceWorker";
 import history from "./config/history";
-import ResetPassword from "./ResetPassword";
+
+import App from "./App";
+import Login from "./pages/Login";
+import SAHome from "./pages/Super_Administrator/SAHome";
+import ResetPassword from "./pages/Marketing_Administrator/ResetPassword";
+import StudentProfile from "./pages/Marketing_Administrator/StudentProfile";
+import ChangePassword from "./pages/Marketing_Administrator/ChangePassword";
+import CampusFacilitiesMap from "./pages/Marketing_Administrator/CampusFacilitiesMap";
+import Openhouse from "./pages/Marketing_Administrator/Openhouse";
+import './css/index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
   <Router history={history}>
     <Route exact path="/" component={App} />
     <Route path="/Login" component={Login} />
-    <Route path="/Home" component={Home} />
     <Route path="/ResetPassword" component={ResetPassword} />
+
+    {/* Routes for Super Admin */}
+    <Route path="/SAHome" component={SAHome} />
+
+    {/* Routes for Marketing Admin */}
+    <Route path="/StudentProfile" component={StudentProfile} />
+    <Route path="/ChangePassword" component={ChangePassword} />
+    <Route path="/CampusFacilitiesMap" component={CampusFacilitiesMap} />
+    <Route path="/Openhouse" component={Openhouse} />
   </Router>,
   document.getElementById("root")
 );
