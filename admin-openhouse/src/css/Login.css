@@ -1,0 +1,21 @@
+#login-content-container {
+    background-color: #313942;
+    min-height: 100vh;
+}
+
+.login-tabContainer {
+    padding-top: 10%;
+}
+
+.login-tabContainer li {
+    background-color: #E4F2F0;
+}
+
+.login-tabHeading {
+    font-weight: bold;
+    color: #424242;
+}
+
+.login-tabHeading:hover {
+    color: #424242;
+}
