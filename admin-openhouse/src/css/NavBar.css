@@ -1,9 +1,35 @@
 #navbar {
     background: #313942;
-    padding: 0 2% 0 2%;
+    padding: 0 1% 0 1%;
+    min-width: 100%;
+    width: 100%;
+}
+
+#webAppLogoNav {
+    margin-right: 0;
+    width: 30%;
 }
 
 #webAppLogo {
-    width: 15%;
-    height: 10%;
+    width: 30%;
+    height: 25%;
+    border-radius: 8px;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+#logoutLink {
+    color: #ffffff;
+    text-align: center;
+    font-size: 90%;
+}
+
+#SAEmail {
+    color: #ffffff;
+    text-align: center;
+    font-size: 90%;
+}
+
+#navContent {
+    min-width: 70%;
 }
