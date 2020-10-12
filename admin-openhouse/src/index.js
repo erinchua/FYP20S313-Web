@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
 
 import * as serviceWorker from "./serviceWorker";
 import history from "./config/history";
@@ -18,6 +18,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
   <Router history={history}>
+    <Switch>
     <Route exact path="/" component={App} />
     <Route path="/Login" component={Login} />
     <Route path="/ResetPassword" component={ResetPassword} />
@@ -30,6 +31,7 @@ ReactDOM.render(
     <Route path="/ChangePassword" component={ChangePassword} />
     <Route path="/CampusFacilitiesMap" component={CampusFacilitiesMap} />
     <Route path="/Openhouse" component={Openhouse} />
+    </Switch>
   </Router>,
   document.getElementById("root")
 );
