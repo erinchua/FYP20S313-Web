@@ -7,19 +7,24 @@ import history from "./config/history";
 
 import App from "./App";
 import Login from "./pages/Login";
-import Home from "./pages/Super_Administrator/Home";
+import SAHome from "./pages/Super_Administrator/SAHome";
 import ResetPassword from "./pages/Marketing_Administrator/ResetPassword";
 import StudentProfile from "./pages/Marketing_Administrator/StudentProfile";
 import ChangePassword from "./pages/Marketing_Administrator/ChangePassword";
 
 import './css/index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
   <Router history={history}>
     <Route exact path="/" component={App} />
     <Route path="/Login" component={Login} />
-    <Route path="/Home" component={Home} />
     <Route path="/ResetPassword" component={ResetPassword} />
+
+    {/* Routes for Super Admin */}
+    <Route path="/SAHome" component={SAHome} />
+
+    {/* Routes for Marketing Admin */}
     <Route path="/StudentProfile" component={StudentProfile} />
     <Route path="/ChangePassword" component={ChangePassword} />
   </Router>,

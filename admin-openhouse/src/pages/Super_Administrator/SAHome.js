@@ -5,7 +5,7 @@ import firecreate from "../../config/firebasecreate";
 
 //import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
 
-class Home extends Component {
+class SAHome extends Component {
   constructor() {
     super();
     this.logout = this.logout.bind(this);
@@ -195,4 +195,4 @@ class Home extends Component {
     );
   }
 }
-export default Home;
+export default SAHome;
