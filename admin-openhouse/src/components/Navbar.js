@@ -11,7 +11,7 @@ export default class NavBar extends React.Component {
         super();
         this.logout = this.logout.bind(this);
         this.state = {
-            useremail: null // <-- add this line
+            useremail: null
           }
       }
     componentDidMount=() =>{
