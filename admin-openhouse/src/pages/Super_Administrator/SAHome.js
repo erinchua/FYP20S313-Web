@@ -10,7 +10,6 @@ import Footer from "../../components/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
-
 class SAHome extends Component {
   constructor() {
     super();
@@ -26,15 +25,20 @@ class SAHome extends Component {
   authListener() {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
+       
         const db = fire.firestore();
-
+        var a  = this;
         var getrole = db
           .collection("Administrators")
           .where("email", "==", user.email);
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Super Administrator") {
+              a.setState(() => ({
+                Login: true, })
+              )
               this.display();
+              
             } else {
               history.push("/Login");
               window.location.reload();
@@ -127,6 +131,7 @@ class SAHome extends Component {
   }
 
   render() {
+    if(this.state.Login)
     return (
       <div>
         <Container fluid className="SAHomeCon">
@@ -269,6 +274,10 @@ class SAHome extends Component {
         </Container>
       </div>
     );
+    else {
+
+      return(<div></div>)
+      }
   }
 }
 export default SAHome;
