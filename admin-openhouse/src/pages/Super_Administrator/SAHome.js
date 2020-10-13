@@ -8,7 +8,8 @@ import "../../css/SAHome.css";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
 class SAHome extends Component {
   constructor() {
@@ -166,30 +167,43 @@ class SAHome extends Component {
                   <Table responsive="sm" bordered hover id="adminTable">
                     <thead>
                       <tr>
-                        <th></th>
-                        <th id="">S/N</th>
-                        <th colSpan="3">Name</th>
-                        <th colSpan="3">Email</th>
-                        <th>User Type</th>
-                        <th>Remove User</th>
+                        <th id="adminCheckboxHeader"></th>
+                        <th id="serialNoHeader">S/N</th>
+                        <th id="adminNameHeader">Name</th>
+                        <th id="adminEmailHeader">Email</th>
+                        <th id="adminUserTypeHeader">User Type</th>
+                        <th id="removeAdminHeader">Remove User</th>
                       </tr>
                     </thead>
 
-                    <tbody>
-                      <tr>
-                        <td></td>
-                        <td>1</td>
-                        <td colSpan="3">Mark</td>
-                        <td colSpan="3">@mdo</td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      
-                    </tbody>
+                    {this.state.users && this.state.users.map((user) => {
+                      return (
+                        <tbody>
+                          <tr>
+                            <td id="adminCheckboxData">
+                              <Form.Check type="checkbox" aria-label="admin checkbox" id="adminCheckbox"/>
+                            </td>
+
+                            {/* Serial No. to be generated dynamically, 1, 2, 3 and so on */}
+                            <td id="serialNoData">1</td>
+                            <td id="adminNameData">{user.name}</td>
+                            <td id="adminEmailData">{user.email}</td>
+                            <td id="adminUserTypeData">{user.administratorType}</td>
+                            <td id="removeAdminData">
+                              <Button id="removeAdminBtn" onClick={(e) => {
+                                this.DeleteUser(e, user.id);
+                              }}>
+                                <FontAwesomeIcon size="lg" id="removeAdminBtnIcon" icon={faTrashAlt} />  
+                              </Button>
+                            </td>
+                          </tr>
+                        </tbody>
+                        );
+                      })}
+
                   </Table>
 
                 </Col>
-
               </Row>
 
             </Container>
