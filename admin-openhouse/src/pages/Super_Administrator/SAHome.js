@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import fire from "../../config/firebase";
 import history from "../../config/history";
 import firecreate from "../../config/firebasecreate";
-import { Container } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table } from 'react-bootstrap';
 
 import "../../css/SAHome.css";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 
 class SAHome extends Component {
@@ -126,85 +128,144 @@ class SAHome extends Component {
 
   render() {
     return (
-      <div className="home SAHomeCon">
-        <Container className="SAHomeCon">
-          <Navbar />
+      <div>
+        <Container fluid className="SAHomeCon">
+            <Navbar />
 
-          <div>
-            <table class="table table-bordered">
-              <tbody>
-                <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Type of User</th>
-                </tr>
+            <Container fluid className="SAHomeContent">
+              <Row id="SAHomeSearchBarRow" className="justify-content-center">
+                <Col md="3" className="SAHomeSearchBarCol text-center">
+                  <Button id="addUserBtn">Add User</Button>
+                </Col>
                 
-                {this.state.users &&
-                  this.state.users.map((user) => {
-                    return (
+                <Col md="6" className="SAHomeSearchBarCol">
+                  <InputGroup className="justify-content-center">
+                    <Form inline className="SAHomeSearchInputForm">
+                      <FormControl id="SAHomeSearchBar" type="text" placeholder="Search" />
+
+                      <InputGroup.Prepend>
+                        <Button id="SAHomeSearchBarBtn">
+                          <FontAwesomeIcon size="lg" id="searchBtnIcon" icon={faSearch} />  
+                        </Button>
+                      </InputGroup.Prepend>
+                    </Form>
+
+                  </InputGroup>
+                </Col>
+
+                <Col md="3"></Col>
+              </Row>
+
+              <Row id="adminTableRow" className="justify-content-center">
+                <Col md="12" className="text-center">
+                  <Table responsive="sm" bordered hover id="adminTable">
+                    <thead>
                       <tr>
-                        <td>{user.id} </td>
-
-                        <td>{user.name} </td>
-                        <td>{user.email} </td>
-                        <td>{user.administratorType} </td>
-                        <td>
-                          <button
-                            onClick={(e) => {
-                              this.DeleteUser(e, user.id);
-                            }}
-                          >
-                            Delete
-                          </button>
-                        </td>
+                        <th></th>
+                        <th id="">S/N</th>
+                        <th colSpan="3">Name</th>
+                        <th colSpan="3">Email</th>
+                        <th>User Type</th>
+                        <th>Remove User</th>
                       </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
+                    </thead>
 
-            <form onSubmit={this.addUser}>
-              <input
-                type="text"
-                name="fullname"
-                placeholder="Full name"
-                onChange={this.updateInput}
-                value={this.state.fullname}
-                required
-              />
-              <input
-                type="text"
-                name="email"
-                placeholder="Email"
-                onChange={this.updateInput}
-                value={this.state.email}
-                required
-              />
-              <input
-                type="text"
-                name="administratorType"
-                placeholder="Type of User"
-                onChange={this.updateInput}
-                value={this.state.administratorType}
-                required
-              />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                onChange={this.updateInput}
-                value={this.state.password}
-                required
-              />
-              <button type="submit">Add User</button>
-            </form>
-            <button onClick={this.changepasswordpage}>Change Password</button>
-            <button onClick={this.logout}>Logout</button>
+                    <tbody>
+                      <tr>
+                        <td></td>
+                        <td>1</td>
+                        <td colSpan="3">Mark</td>
+                        <td colSpan="3">@mdo</td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      
+                    </tbody>
+                  </Table>
 
-          </div>
-          
-          <Footer />
+                </Col>
+
+              </Row>
+
+            </Container>
+
+            <Footer />
+
+            {/* <div className="SAHomeContent">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Type of User</th>
+                  </tr>
+                  
+                  {this.state.users &&
+                    this.state.users.map((user) => {
+                      return (
+                        <tr>
+                          <td>{user.id} </td>
+
+                          <td>{user.name} </td>
+                          <td>{user.email} </td>
+                          <td>{user.administratorType} </td>
+                          <td>
+                            <button
+                              onClick={(e) => {
+                                this.DeleteUser(e, user.id);
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+
+              <form onSubmit={this.addUser}>
+                <input
+                  type="text"
+                  name="fullname"
+                  placeholder="Full name"
+                  onChange={this.updateInput}
+                  value={this.state.fullname}
+                  required
+                />
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="Email"
+                  onChange={this.updateInput}
+                  value={this.state.email}
+                  required
+                />
+                <input
+                  type="text"
+                  name="administratorType"
+                  placeholder="Type of User"
+                  onChange={this.updateInput}
+                  value={this.state.administratorType}
+                  required
+                />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  onChange={this.updateInput}
+                  value={this.state.password}
+                  required
+                />
+                <button type="submit">Add User</button>
+              </form>
+              <button onClick={this.changepasswordpage}>Change Password</button>
+              <button onClick={this.logout}>Logout</button>
+
+            </div> */}
+            
+            
         </Container>
       </div>
     );
