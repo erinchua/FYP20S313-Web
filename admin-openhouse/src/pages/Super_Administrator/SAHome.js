@@ -4,12 +4,14 @@ import history from "../../config/history";
 import firecreate from "../../config/firebasecreate";
 import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table } from 'react-bootstrap';
 
-import "../../css/SAHome.css";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
+import "../../css/Super_Administrator/SAHome.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import AddUserModal from "../../components/Super_Administrator/AddUserModal";
 
 class SAHome extends Component {
   constructor() {
@@ -20,7 +22,9 @@ class SAHome extends Component {
       email: "",
       fullname: "",
       password: "",
+      addUserModal: false,
     };
+    this.handleAddUserModal = this.handleAddUserModal.bind(this);  
   }
 
   authListener() {
@@ -131,8 +135,16 @@ class SAHome extends Component {
     history.push("/Login");
   }
 
+  /* Add User Modal */
+  handleAddUserModal = () => {
+    const addUserModal = this.state.addUserModal;
+    this.setState.addUserModal(true);
+  };
+
+
   render() {
     if(this.state.Login)
+
     return (
       <div>
         <Container fluid className="SAHomeCon">
@@ -141,7 +153,7 @@ class SAHome extends Component {
             <Container fluid className="SAHomeContent">
               <Row id="SAHomeSearchBarRow" className="justify-content-center">
                 <Col md="3" className="SAHomeSearchBarCol text-center">
-                  <Button id="addUserBtn">Add User</Button>
+                  <Button id="addUserBtn" onClick={this.handleAddUserModal}>Add User</Button>
                 </Col>
                 
                 <Col md="6" className="SAHomeSearchBarCol">
@@ -205,6 +217,8 @@ class SAHome extends Component {
 
                 </Col>
               </Row>
+
+              <AddUserModal />
 
             </Container>
 
