@@ -1,0 +1,150 @@
+.SAHomeCon {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 0 auto;
+    padding: 0 !important;
+}
+
+.SAHomeContent {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#SAHomeSearchBarRow {
+    background: #e4f2f0;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.SAHomeSearchBarCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#addUserBtn {
+    background: #424242;
+    border-color: #424242;
+    min-width: 40%;
+    border-radius: 6px;
+}
+
+#addUserBtn:focus {
+    box-shadow: 1px 1px 10px #424242;
+}
+
+.SAHomeSearchInputForm {
+    min-width: 80%;
+}
+
+#SAHomeSearchBar {
+    min-width: 80%;
+    border: none;
+    border-radius: 8px;
+}
+
+#SAHomeSearchBarBtn {
+    background: none;
+    border: none;
+}
+
+#searchBtnIcon {
+    color: #424242;
+}
+
+/* Admin Table Css */
+#adminTable {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+#adminCheckboxHeader {
+    width: 5%;
+    color: #424242;
+    font-size: 80%;
+}
+
+#serialNoHeader {
+    width: 5%;
+    color: #424242;
+    font-size: 90%;
+}
+
+#adminNameHeader {
+    width: 30%;
+    color: #424242;
+    font-size: 90%;
+}
+
+#adminEmailHeader {
+    width: 30%;
+    color: #424242;
+    font-size: 90%;
+}
+
+#adminUserTypeHeader {
+    width: 20%;
+    color: #424242;
+    font-size: 90%;
+}
+
+#removeAdminHeader {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+#adminCheckboxData {
+    width: 5%;
+    padding: 1%;
+    color: #434343;
+    font-size: 85%;
+}
+
+#serialNoData {
+    width: 5%;
+    padding: 1%;
+    color: #434343;
+    font-size: 85%;
+}
+
+#adminNameData {
+    width: 30%;
+    padding: 1%;
+    color: #434343;
+    font-size: 85%;
+}
+
+#adminEmailData {
+    width: 30%;
+    padding: 1%;
+    color: #434343;
+    font-size: 85%;
+}
+
+#adminUserTypeData {
+    width: 20%;
+    padding: 1%;
+    color: #434343;
+    font-size: 85%;
+}
+
+#removeAdminData {
+    width: 10%;
+    padding: 1%;
+    color: #434343;
+    font-size: 85%;
+}
+
+#removeAdminBtn {
+    background: none;
+    border: none;
+    color: rgb(107, 100, 100);
+}
+
+#removeAdminBtn:focus {
+    box-shadow: 1px 1px 10px #808080;
+}
