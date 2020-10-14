@@ -79,7 +79,7 @@ class Login extends Component {
   };
   render() {
     return (
-      <div id="login-content-container">
+      /*<div id="login-content-container">
         <Tab.Container defaultActiveKey="marketingAdministrator">
           <Row className="justify-content-center">
             <Col md={4}>
@@ -126,9 +126,9 @@ class Login extends Component {
             </Col>
           </Row>
         </Tab.Container>
-      </div>
+      </div>*/
 
-      /*<div className="App">
+      <div className="App">
         <form>
           <div className="col-and-6">
             <div class="form-group">
@@ -172,7 +172,7 @@ class Login extends Component {
         >
           Reset Password
         </button>
-      </div>*/
+      </div>
     );
   }
 }
