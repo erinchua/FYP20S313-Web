@@ -1,9 +1,8 @@
-import { Tabs, Tab, Nav, Row, Col, Form, InputGroup } from 'react-bootstrap';
+import { Tab, Nav, Row, Col, Form, Container, Button } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../config/firebase";
 import history from "../config/history";
 
-//import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import '../css/Login.css';
 import simLogo from '../img/WebAppLogo.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -77,13 +76,14 @@ class Login extends Component {
   reset = () => {
     history.push("/ResetPassword");
   };
+
   render() {
     return (
-      /*<div id="login-content-container">
+      <div id="login-content-container">
         <Tab.Container defaultActiveKey="marketingAdministrator">
           <Row className="justify-content-center">
-            <Col md={4}>
-              <Nav justify className="login-tabContainer justify-content-center" variant="tabs" as="ul">
+            <Col md={5}>
+              <Nav justify className="login-tabContainer" variant="tabs" as="ul">
                 <Nav.Item as="li">
                   <Nav.Link eventKey="marketingAdministrator" className="login-tabHeading">Marketing Administrator</Nav.Link>
                 </Nav.Item>
@@ -95,40 +95,89 @@ class Login extends Component {
 
               <Tab.Content id="login-tabContent">
                 <Tab.Pane eventKey="marketingAdministrator">
-                  <div id="simLogo-container">
-                    <img src={simLogo} id="simLogo"/>
-                  </div>
-                  <Form id="login-form">
-                    <Form.Row className="login-formRow">    
-                      <Form.Group as={Col} md="1">
-                        <FontAwesomeIcon size="lg" icon={faAt} />
-                      </Form.Group> 
-                      <Form.Group as={Col} md="7">
-                          <Form.Control type="email" placeholder="Email" required></Form.Control>
-                          <Form.Control.Feedback type="invalid">Please enter your email</Form.Control.Feedback>
+                  <Container>
+                    <div id="simLogo-container">
+                      <img src={simLogo} id="simLogo"/>
+                    </div>
+                    <Form id="login-form">
+                      <Form.Group>
+                          <Form.Group as={Row} className="login-formGroup">
+                            <Form.Group as={Col} md="1">
+                              <FontAwesomeIcon size="lg" icon={faAt} />
+                            </Form.Group> 
+                            <Form.Group as={Col} md="7">
+                                <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange}></Form.Control>
+                                <Form.Control.Feedback type="invalid">Please enter your email</Form.Control.Feedback>
+                            </Form.Group>
+                          </Form.Group>                     
                       </Form.Group>
-                    </Form.Row>
-                    <Form.Row className="login-formRow">    
-                      <Form.Group as={Col} md="1">
-                        <FontAwesomeIcon size="lg" icon={faLock} />
-                      </Form.Group> 
-                      <Form.Group as={Col} md="7">
-                        <Form.Control type="password" placeholder="Password" required></Form.Control>
-                        <Form.Control.Feedback type="invalid">Please enter your password</Form.Control.Feedback>
+                      <Form.Group>
+                          <Form.Group as={Row} className="login-formGroup">
+                            <Form.Group as={Col} md="1">
+                              <FontAwesomeIcon size="lg" icon={faLock} />
+                            </Form.Group> 
+                            <Form.Group as={Col} md="7">
+                              <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange}></Form.Control>
+                              <Form.Control.Feedback type="invalid">Please enter your password</Form.Control.Feedback>
+                            </Form.Group>
+                          </Form.Group>  
+                          <Form.Group as={Row} id="login-forgetPassword">
+                            <Form.Group as={Col} md="3"></Form.Group>
+                            <Form.Group as={Col} md="7">
+                              <div className="text-right">
+                                <Button type="submit" variant="link" size="sm" onClick={this.reset}>Forget Password?</Button>
+                              </div>   
+                            </Form.Group> 
+                          </Form.Group>                          
                       </Form.Group>
-                    </Form.Row>
-                  </Form>
+                      <Form.Group className="login-formGroup">
+                        <Button onClick={this.login} type="submit" size="sm" id="login-button">Login</Button>
+                      </Form.Group>
+                    </Form>
+                  </Container>
                 </Tab.Pane>
+
                 <Tab.Pane eventKey="superAdministrator">
-                  <h1>Super</h1>
+                  <Container>
+                    <div id="simLogo-container">
+                      <img src={simLogo} id="simLogo"/>
+                    </div>
+                    <Form id="login-form">
+                      <Form.Group>
+                          <Form.Group as={Row} className="login-formGroup">
+                            <Form.Group as={Col} md="1">
+                              <FontAwesomeIcon size="lg" icon={faAt} />
+                            </Form.Group> 
+                            <Form.Group as={Col} md="7">
+                                <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange}></Form.Control>
+                                <Form.Control.Feedback type="invalid">Please enter your email</Form.Control.Feedback>
+                            </Form.Group>
+                          </Form.Group>                     
+                      </Form.Group>
+                      <Form.Group>
+                          <Form.Group as={Row} className="login-formGroup">
+                            <Form.Group as={Col} md="1">
+                              <FontAwesomeIcon size="lg" icon={faLock} />
+                            </Form.Group> 
+                            <Form.Group as={Col} md="7">
+                              <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange}></Form.Control>
+                              <Form.Control.Feedback type="invalid">Please enter your password</Form.Control.Feedback>
+                            </Form.Group>
+                          </Form.Group>                      
+                      </Form.Group>
+                      <Form.Group className="login-formGroup">
+                        <Button onClick={this.login} type="submit" size="sm" id="login-button">Login</Button>
+                      </Form.Group>
+                    </Form>
+                  </Container>
                 </Tab.Pane>
               </Tab.Content>
             </Col>
           </Row>
         </Tab.Container>
-      </div>*/
+      </div>
 
-      <div className="App">
+      /*<div className="App">
         <form>
           <div className="col-and-6">
             <div class="form-group">
@@ -172,7 +221,7 @@ class Login extends Component {
         >
           Reset Password
         </button>
-      </div>
+      </div>*/
     );
   }
 }
