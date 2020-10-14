@@ -25,3 +25,24 @@
 #login-tabContent {
     background-color: #FFFFFF;
 }
+
+#simLogo-container {
+    padding-top: 5%;
+}
+
+#simLogo {
+    height: 30%;
+    width: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+#login-form {
+    padding: 10% 0%;
+}
+
+.login-formRow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
