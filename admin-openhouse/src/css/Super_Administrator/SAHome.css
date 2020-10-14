@@ -142,7 +142,7 @@
 #removeAdminBtn {
     background: none;
     border: none;
-    color: rgb(107, 100, 100);
+    color: #434343;
 }
 
 #removeAdminBtn:focus {

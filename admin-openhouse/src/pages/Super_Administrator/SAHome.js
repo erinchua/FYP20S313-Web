@@ -25,6 +25,7 @@ class SAHome extends Component {
       addUserModal: false,
     };
     this.handleAddUserModal = this.handleAddUserModal.bind(this);
+    this.handleAddUserModalSubmit = this.handleAddUserModalSubmit.bind(this);
   }
 
   authListener() {
@@ -148,6 +149,11 @@ class SAHome extends Component {
         addUserModal: false 
       });
     }
+  };
+
+  /* Submit Add User Modal */
+  handleAddUserModalSubmit = () => {
+    console.log("Submitted");
     
   };
 
@@ -319,7 +325,7 @@ class SAHome extends Component {
            backdrop="static"
            keyboard={false}
           >
-            <AddUserModal />
+            <AddUserModal onClick={this.handleAddUserModalSubmit} />
           </Modal>
           :''
         }
