@@ -37,6 +37,7 @@ class Login extends Component {
               if (doc.data().administratorType === "Super Administrator") {
                 this.setState({ user: "Super Administrator" });
                 history.push("/SAHome");
+                window.location.reload();
               } else if (
                 doc.data().administratorType === "Marketing Administrator"
               ) {

@@ -7,7 +7,7 @@ import { Container } from 'react-bootstrap';
 import "../../css/SAHome.css";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class SAHome extends Component {
   constructor() {
@@ -24,15 +24,20 @@ class SAHome extends Component {
   authListener() {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
+       
         const db = fire.firestore();
-
+        var a  = this;
         var getrole = db
           .collection("Administrators")
           .where("email", "==", user.email);
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Super Administrator") {
+              a.setState(() => ({
+                Login: true, })
+              )
               this.display();
+              
             } else {
               history.push("/Login");
               window.location.reload();
@@ -125,12 +130,15 @@ class SAHome extends Component {
   }
 
   render() {
+    if(this.state.Login)
     return (
       <div className="home SAHomeCon">
         <Container className="SAHomeCon">
-          <Navbar />
-
+        <Navbar />
+    
           <div>
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
             <table class="table table-bordered">
               <tbody>
                 <tr>
@@ -138,6 +146,7 @@ class SAHome extends Component {
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
                   <th scope="col">Type of User</th>
+                  <th scope="col">Delete User</th>
                 </tr>
                 
                 {this.state.users &&
@@ -200,7 +209,6 @@ class SAHome extends Component {
               <button type="submit">Add User</button>
             </form>
             <button onClick={this.changepasswordpage}>Change Password</button>
-            <button onClick={this.logout}>Logout</button>
 
           </div>
           
@@ -208,6 +216,10 @@ class SAHome extends Component {
         </Container>
       </div>
     );
+    else {
+
+      return(<div></div>)
+      }
   }
 }
 export default SAHome;
