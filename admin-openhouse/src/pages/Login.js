@@ -1,10 +1,13 @@
-import { Tabs, Tab, Nav, Row, Col } from 'react-bootstrap';
+import { Tabs, Tab, Nav, Row, Col, Form, InputGroup } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../config/firebase";
 import history from "../config/history";
 
 //import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import '../css/Login.css';
+import simLogo from '../img/WebAppLogo.png';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAt, faLock } from '@fortawesome/free-solid-svg-icons';
 
 class Login extends Component {
   
@@ -76,10 +79,10 @@ class Login extends Component {
   };
   render() {
     return (
-      /*<div id="login-content-container">
+      <div id="login-content-container">
         <Tab.Container defaultActiveKey="marketingAdministrator">
           <Row className="justify-content-center">
-            <Col sm={4}>
+            <Col md={4}>
               <Nav justify className="login-tabContainer justify-content-center" variant="tabs" as="ul">
                 <Nav.Item as="li">
                   <Nav.Link eventKey="marketingAdministrator" className="login-tabHeading">Marketing Administrator</Nav.Link>
@@ -92,7 +95,29 @@ class Login extends Component {
 
               <Tab.Content id="login-tabContent">
                 <Tab.Pane eventKey="marketingAdministrator">
-                  <h1>Marketing</h1>
+                  <div id="simLogo-container">
+                    <img src={simLogo} id="simLogo"/>
+                  </div>
+                  <Form id="login-form">
+                    <Form.Row className="login-formRow">    
+                      <Form.Group as={Col} md="1">
+                        <FontAwesomeIcon size="lg" icon={faAt} />
+                      </Form.Group> 
+                      <Form.Group as={Col} md="7">
+                          <Form.Control type="email" placeholder="Email" required></Form.Control>
+                          <Form.Control.Feedback type="invalid">Please enter your email</Form.Control.Feedback>
+                      </Form.Group>
+                    </Form.Row>
+                    <Form.Row className="login-formRow">    
+                      <Form.Group as={Col} md="1">
+                        <FontAwesomeIcon size="lg" icon={faLock} />
+                      </Form.Group> 
+                      <Form.Group as={Col} md="7">
+                        <Form.Control type="password" placeholder="Password" required></Form.Control>
+                        <Form.Control.Feedback type="invalid">Please enter your password</Form.Control.Feedback>
+                      </Form.Group>
+                    </Form.Row>
+                  </Form>
                 </Tab.Pane>
                 <Tab.Pane eventKey="superAdministrator">
                   <h1>Super</h1>
@@ -101,9 +126,9 @@ class Login extends Component {
             </Col>
           </Row>
         </Tab.Container>
-      </div>*/
+      </div>
 
-      <div className="App">
+      /*<div className="App">
         <form>
           <div className="col-and-6">
             <div class="form-group">
@@ -147,7 +172,7 @@ class Login extends Component {
         >
           Reset Password
         </button>
-      </div>
+      </div>*/
     );
   }
 }
