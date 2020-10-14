@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import fire from "../../config/firebase";
 import history from "../../config/history";
 import firecreate from "../../config/firebasecreate";
-import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
 
 import "../../css/Super_Administrator/SAHome.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,7 +24,7 @@ class SAHome extends Component {
       password: "",
       addUserModal: false,
     };
-    this.handleAddUserModal = this.handleAddUserModal.bind(this);  
+    this.handleAddUserModal = this.handleAddUserModal.bind(this);
   }
 
   authListener() {
@@ -137,8 +137,9 @@ class SAHome extends Component {
 
   /* Add User Modal */
   handleAddUserModal = () => {
-    const addUserModal = this.state.addUserModal;
-    this.setState.addUserModal(true);
+    this.setState({ 
+      addUserModal: true 
+    });
   };
 
 
@@ -153,7 +154,7 @@ class SAHome extends Component {
             <Container fluid className="SAHomeContent">
               <Row id="SAHomeSearchBarRow" className="justify-content-center">
                 <Col md="3" className="SAHomeSearchBarCol text-center">
-                  <Button id="addUserBtn" onClick={this.handleAddUserModal}>Add User</Button>
+                  <Button id="addUserBtn" onClick={this.handleAddUserModal.bind(this)}>Add User</Button>
                 </Col>
                 
                 <Col md="6" className="SAHomeSearchBarCol">
@@ -218,7 +219,33 @@ class SAHome extends Component {
                 </Col>
               </Row>
 
-              <AddUserModal />
+              {this.state.addUserModal === true &&
+                <AddUserModal />
+
+                // <Modal
+                //     show={this.addUserModal}
+                //     onHide={() => this.setState(false)}
+                //     dialogClassName="modal-90w"
+                //     aria-labelledby="example-custom-modal-styling-title"
+                // >
+                //     <Modal.Header closeButton>
+                //     <Modal.Title id="example-custom-modal-styling-title">
+                //         Custom Modal Styling
+                //     </Modal.Title>
+                //     </Modal.Header>
+                //     <Modal.Body>
+                //     <p>
+                //         Ipsum molestiae natus adipisci modi eligendi? Debitis amet quae unde
+                //         commodi aspernatur enim, consectetur. Cumque deleniti temporibus
+                //         ipsam atque a dolores quisquam quisquam adipisci possimus
+                //         laboriosam. Quibusdam facilis doloribus debitis! Sit quasi quod
+                //         accusamus eos quod. Ab quos consequuntur eaque quo rem! Mollitia
+                //         reiciendis porro quo magni incidunt dolore amet atque facilis ipsum
+                //         deleniti rem!
+                //     </p>
+                //     </Modal.Body>
+                // </Modal>
+              }
 
             </Container>
 
