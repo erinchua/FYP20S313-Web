@@ -137,9 +137,18 @@ class SAHome extends Component {
 
   /* Add User Modal */
   handleAddUserModal = () => {
-    this.setState({ 
-      addUserModal: true 
-    });
+    this.addUserModal = this.state.addUserModal;
+    if (this.addUserModal == false) {
+      this.setState({ 
+        addUserModal: true 
+      });
+    }
+    else {
+      this.setState({ 
+        addUserModal: false 
+      });
+    }
+    
   };
 
 
@@ -211,41 +220,13 @@ class SAHome extends Component {
                             </td>
                           </tr>
                         </tbody>
-                        );
-                      })}
+                      );
+                    })}
 
                   </Table>
 
                 </Col>
               </Row>
-
-              {this.state.addUserModal === true &&
-                <AddUserModal />
-
-                // <Modal
-                //     show={this.addUserModal}
-                //     onHide={() => this.setState(false)}
-                //     dialogClassName="modal-90w"
-                //     aria-labelledby="example-custom-modal-styling-title"
-                // >
-                //     <Modal.Header closeButton>
-                //     <Modal.Title id="example-custom-modal-styling-title">
-                //         Custom Modal Styling
-                //     </Modal.Title>
-                //     </Modal.Header>
-                //     <Modal.Body>
-                //     <p>
-                //         Ipsum molestiae natus adipisci modi eligendi? Debitis amet quae unde
-                //         commodi aspernatur enim, consectetur. Cumque deleniti temporibus
-                //         ipsam atque a dolores quisquam quisquam adipisci possimus
-                //         laboriosam. Quibusdam facilis doloribus debitis! Sit quasi quod
-                //         accusamus eos quod. Ab quos consequuntur eaque quo rem! Mollitia
-                //         reiciendis porro quo magni incidunt dolore amet atque facilis ipsum
-                //         deleniti rem!
-                //     </p>
-                //     </Modal.Body>
-                // </Modal>
-              }
 
             </Container>
 
@@ -327,6 +308,20 @@ class SAHome extends Component {
             
             
         </Container>
+
+        {this.state.addUserModal == true ?
+          <Modal
+           show={this.state.addUserModal}
+           onHide={this.handleAddUserModal}
+           aria-labelledby="example-custom-modal-styling-title"
+           size="lg"
+           centered
+          >
+            <AddUserModal />
+          </Modal>
+          :''
+        }
+
       </div>
     );
     else {
