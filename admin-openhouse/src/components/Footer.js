@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 
 import "../css/Footer.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,15 +9,16 @@ import { faCopyright } from '@fortawesome/free-solid-svg-icons'
 export default class Footer extends React.Component {
     render(){
         return (
-            <div>    
-                <Navbar id="footer" fixed="bottom">
-                    <Nav id="navContent" className="justify-content-start">
-                        <Nav.Item>
-                            <h5><FontAwesomeIcon icon="faCopyright" /></h5>
-                        </Nav.Item>
-                    </Nav>
-                </Navbar>
-
+            <div>
+                <Container fluid className="footerCon">   
+                    <Navbar id="footerBar" sticky="bottom">
+                        <Nav id="footerContent" className="justify-content-start">
+                            <Navbar.Text id="footerText" id="copyrightText">
+                                <FontAwesomeIcon size="sm" id="copyrightIcon" icon={faCopyright} /> 2020 SIM Open House
+                            </Navbar.Text>
+                        </Nav>
+                    </Navbar>
+                </Container>
             </div>
         )
     }

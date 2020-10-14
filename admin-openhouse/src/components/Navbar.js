@@ -1,5 +1,6 @@
 import React from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+
 import fire from "../config/firebase";
 import history from "../config/history";
 import "../css/NavBar.css";
@@ -34,23 +35,25 @@ export default class NavBar extends React.Component {
       }
     render(){
         return (
-            <div>    
-                <Navbar id="navbar" fixed="top">
-                    <Navbar.Brand href="/SAHome" id="webAppLogoNav">
-                        <img src={WebAppLogo} id="webAppLogo" />
-                    </Navbar.Brand>
-                    
-                    <Nav id="navContent" className="justify-content-end">
-                        <Nav.Item>
-                            <Nav.Link id="SAEmail" className="text-center">{this.state.useremail}</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link href="/Login" id="logoutLink" onclick={this.logout} className="text-center">Logout</Nav.Link>
-                        </Nav.Item>
+            <div>
+                <Container fluid className="navbarCon">    
+                    <Navbar id="navbar" sticky="top">
+                        <Navbar.Brand href="/SAHome" id="webAppLogoNav">
+                            <img src={WebAppLogo} id="webAppLogo" />
+                        </Navbar.Brand>
                         
-                    </Nav>
-                </Navbar>
+                        <Nav id="navContent" className="justify-content-end">
+                            <Nav.Item>
+                                <Nav.Link id="SAEmail" className="text-center">{this.state.useremail}</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Button id="logoutBtn" href="/Login" onclick={this.logout} className="text-center">Logout</Button>
+                            </Nav.Item>
+                            
+                        </Nav>
+                    </Navbar>
 
+                </Container>
             </div>
         )
     }
