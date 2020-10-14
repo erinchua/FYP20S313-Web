@@ -2,10 +2,9 @@
     background-color: #313942;
     min-height: 100vh;
     overflow-x: hidden;
-}
-
-.login-tabContainer {
-    padding-top: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .login-tabContainer li {
@@ -24,6 +23,7 @@
 
 #login-tabContent {
     background-color: #FFFFFF;
+    min-height: 400px;
 }
 
 #simLogo-container {
@@ -41,8 +41,19 @@
     padding: 10% 0%;
 }
 
-.login-formRow {
+.login-formGroup {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#login-forgetPassword {
+    margin-top: -8%;
+}
+
+#login-button {
+    background-color: #424242;
+    border: 0;
+    padding-left: 5%;
+    padding-right: 5%;
 }
