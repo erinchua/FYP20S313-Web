@@ -62,7 +62,7 @@ export default class AddUserModal extends React.Component {
                 </Modal.Header>
 
                 <Modal.Body id="addUserModalBody">
-                    <Form>
+                    <Form onSubmit={this.addUser}>
                         {/* Admin Name */}
                         <Form.Row className="justify-content-center addAdminFormRow">
                             <Col md="3"></Col>
@@ -72,8 +72,8 @@ export default class AddUserModal extends React.Component {
                             </Col>
 
                             <Col md="5">
-                                <Form.Control type="text" placeholder="Name*" className="addAdminFormText" required minLength={2} />
-                                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                <Form.Control type="text" placeholder="Name*" className="addAdminFormText" required minLength={2} onChange={this.updateInput} value={this.state.fullname} />
+                                {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
                             </Col>
 
                             <Col md="3"></Col>
@@ -88,7 +88,7 @@ export default class AddUserModal extends React.Component {
                             </Col>
 
                             <Col md="5">
-                                <Form.Control type="email" placeholder="Email*" className="addAdminFormText" required />
+                                <Form.Control type="email" placeholder="Email*" className="addAdminFormText" required onChange={this.updateInput} value={this.state.email} />
                             </Col>
 
                             <Col md="3"></Col>
@@ -103,7 +103,7 @@ export default class AddUserModal extends React.Component {
                             </Col>
 
                             <Col md="5">
-                                <Form.Control as="select" defaultValue="marketingAdmin" className="addAdminFormText" id="addAdminFormSelect">
+                                <Form.Control as="select" defaultValue="marketingAdmin" className="addAdminFormText" id="addAdminFormSelect" required onChange={this.updateInput} value={this.state.administratorType}>
                                     <option value="marketingAdmin" className="addAdminFormSelectOption">Marketing Administrator</option>
                                 </Form.Control>
                             </Col>
@@ -118,49 +118,50 @@ export default class AddUserModal extends React.Component {
                         </Form.Row>
 
                     </Form>
-                    
-                <Modal.Body>
-                    <p>
-                         <form onSubmit={this.addUser}>
-                <input
-                  type="text"
-                  name="fullname"
-                  placeholder="Full name"
-                  onChange={this.updateInput}
-                  value={this.state.fullname}
-                  required
-                />
-                <input
-                  type="text"
-                  name="email"
-                  placeholder="Email"
-                  onChange={this.updateInput}
-                  value={this.state.email}
-                  required
-                />
-                <input
-                  type="text"
-                  name="administratorType"
-                  placeholder="Type of User"
-                  onChange={this.updateInput}
-                  value={this.state.administratorType}
-                  required
-                />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  onChange={this.updateInput}
-                  value={this.state.password}
-                  required
-                />
-                <button type="submit">Add User</button>
-              </form>
-              
-
-            
-                    </p>
                 </Modal.Body>
+                    
+                    {/* <Modal.Body>
+                        <p>
+                            <form onSubmit={this.addUser}>
+                    <input
+                    type="text"
+                    name="fullname"
+                    placeholder="Full name"
+                    onChange={this.updateInput}
+                    value={this.state.fullname}
+                    required
+                    />
+                    <input
+                    type="text"
+                    name="email"
+                    placeholder="Email"
+                    onChange={this.updateInput}
+                    value={this.state.email}
+                    required
+                    />
+                    <input
+                    type="text"
+                    name="administratorType"
+                    placeholder="Type of User"
+                    onChange={this.updateInput}
+                    value={this.state.administratorType}
+                    required
+                    />
+                    <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    onChange={this.updateInput}
+                    value={this.state.password}
+                    required
+                    />
+                    <button type="submit">Add User</button>
+                </form>
+                
+
+                
+                        </p>
+                    </Modal.Body> */}
             </div>
         )
     }
