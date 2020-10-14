@@ -47,7 +47,7 @@ export default class NavBar extends React.Component {
                                 <Nav.Link id="SAEmail" className="text-center">{this.state.useremail}</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Button id="logoutBtn" href="/Login" onclick={this.logout} className="text-center">Logout</Button>
+                                <Button id="logoutBtn" href="/Login" onClick={this.logout} className="text-center">Logout</Button>
                             </Nav.Item>
                             
                         </Nav>
