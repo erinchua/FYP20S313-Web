@@ -76,39 +76,14 @@ class SAHome extends Component {
       });
   }
 
-  addUser = (e) => {
-    e.preventDefault();
-    firecreate
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then((useraction) => {
-        const db = fire.firestore();
-
-        const userRef = db
-          .collection("Administrators")
-          .add({
-            administratorType: this.state.administratorType,
-            email: this.state.email,
-            name: this.state.fullname,
-            password: this.state.password,
-          })
-          .then(function () {
-            alert("Added");
-            window.location.reload();
-          });
-        this.setState({
-          fullname: "",
-          email: "",
-        });
-      });
-  };
+  
   componentDidMount() {
     this.authListener();
   }
 
   display() {
     const db = fire.firestore();
-
+    var counter = 1;
     const userRef = db
       .collection("Administrators")
       .get()
@@ -121,20 +96,22 @@ class SAHome extends Component {
             email: doc.data().email,
             password: doc.data.password,
             id: doc.id,
+            counter : counter,
+
           };
+          counter++;
           users.push(data);
         });
 
         this.setState({ users: users });
       });
   }
-  changepasswordpage = () => {
-    history.push("/ChangePassword");
-  };
   logout() {
     fire.auth().signOut();
     history.push("/Login");
   }
+
+
 
   /* Add User Modal */
   handleAddUserModal = () => {
@@ -156,8 +133,62 @@ class SAHome extends Component {
     console.log("Submitted");
     
   };
+  search = (e) => {
+var searchvalue = document.getElementById("SAHomeSearchBar").value;
+var counter = 1;
 
+const db = fire.firestore();
 
+var searchvalue = document.getElementById("SAHomeSearchBar").value;
+if (searchvalue == "" || searchvalue == null) {
+  
+  const userRef = db
+   .collection("Administrators")
+    .get()
+    .then((snapshot) => {
+      const users = [];
+      snapshot.forEach((doc) => {
+        const data = {
+          administratorType: doc.data().administratorType,
+        name: doc.data().name,
+        email: doc.data().email,
+        password: doc.data.password,
+        id: doc.id,
+        counter : counter,
+        };
+        users.push(data);
+        counter ++;
+      });
+
+      this.setState({ users: users });
+    });
+} else {
+  const userRef = db
+    .collection("Administrators")
+    .orderBy("email")
+    .startAt(searchvalue)
+    .endAt(searchvalue + "\uf8ff")
+    .get()
+    .then((snapshot) => {
+      const users = [];
+      snapshot.forEach((doc) => {
+        const data = {
+        administratorType: doc.data().administratorType,
+        name: doc.data().name,
+        email: doc.data().email,
+        password: doc.data.password,
+        id: doc.id,
+        counter : counter,
+        };
+        counter++;
+        users.push(data);
+      });
+      
+      this.setState({ users: users });
+      
+    });
+}
+}
   render() {
     if(this.state.Login)
 
@@ -179,7 +210,7 @@ class SAHome extends Component {
 
                       <InputGroup.Prepend>
                         <Button id="SAHomeSearchBarBtn">
-                          <FontAwesomeIcon size="lg" id="searchBtnIcon" icon={faSearch} />  
+                          <FontAwesomeIcon size="lg" id="searchBtnIcon" onClick={this.search} icon={faSearch} />  
                         </Button>
                       </InputGroup.Prepend>
                     </Form>
@@ -213,7 +244,7 @@ class SAHome extends Component {
                             </td>
 
                             {/* Serial No. to be generated dynamically, 1, 2, 3 and so on */}
-                            <td id="serialNoData">1</td>
+                            <td id="serialNoData">{user.counter}</td>
                             <td id="adminNameData">{user.name}</td>
                             <td id="adminEmailData">{user.email}</td>
                             <td id="adminUserTypeData">{user.administratorType}</td>

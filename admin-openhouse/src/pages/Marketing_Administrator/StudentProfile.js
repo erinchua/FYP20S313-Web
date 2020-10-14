@@ -86,6 +86,7 @@ class StudentProfile extends Component {
   logout() {
     fire.auth().signOut();
     history.push("/Login");
+    window.location.reload();
   }
   Unsuspend(e, studentdocid) {
     const db = fire.firestore();

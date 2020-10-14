@@ -23,7 +23,39 @@ class Login extends Component {
   componentDidMount() {
     fire.auth().signOut();
   }
-  authListener() {
+  marketingauthListener() {
+    fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const db = fire.firestore();
+
+        var getrole = db
+          .collection("Administrators")
+          .where("email", "==", user.email);
+        getrole.get().then((snapshot) => {
+          if (snapshot.empty) {
+            alert("no such users");
+          } else {
+            snapshot.forEach((doc) => {
+            if (
+                doc.data().administratorType === "Marketing Administrator"
+              ) {
+                this.setState({ user: "Marketing Administrator" });
+                history.push("/StudentProfile");
+                window.location.reload();
+              } else {
+                history.push("/Login");
+                window.location.reload();
+              }
+            });
+          }
+        });
+      } else {
+        this.setState({ user: null });
+      }
+    });
+  }
+
+  superauthListener() {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
         const db = fire.firestore();
@@ -40,13 +72,9 @@ class Login extends Component {
                 this.setState({ user: "Super Administrator" });
                 history.push("/SAHome");
                 window.location.reload();
-              } else if (
-                doc.data().administratorType === "Marketing Administrator"
-              ) {
-                this.setState({ user: "Marketing Administrator" });
-                history.push("/StudentProfile");
-              } else {
+              }  else {
                 history.push("/Login");
+                window.location.reload();
               }
             });
           }
@@ -56,13 +84,20 @@ class Login extends Component {
       }
     });
   }
-  login(e) {
-    e.preventDefault();
+
+  login(e,accounttype) {
+       e.preventDefault();
     fire
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then((u) => {
-        this.authListener();
+        if(accounttype ==="marketing") {
+        this.marketingauthListener();
+        }
+        else  if(accounttype ==="super")
+        {
+          this.superauthListener();
+        }
       })
       .catch((error) => {
         alert("Login Failure");
@@ -74,8 +109,9 @@ class Login extends Component {
   }
 
   reset = () => {
-    history.push("/ResetPassword");
-  };
+    history.push("/ResetPassword")
+    window.location.reload();
+  }
 
   render() {
     return (
@@ -131,7 +167,8 @@ class Login extends Component {
                           </Form.Group>                          
                       </Form.Group>
                       <Form.Group className="login-formGroup">
-                        <Button onClick={this.login} type="submit" size="sm" id="login-button">Login</Button>
+                        <Button  onClick={(e) => {this.login(e,"marketing")}} type="submit" size="sm" id="login-button">Login</Button>
+                       
                       </Form.Group>
                     </Form>
                   </Container>
@@ -166,7 +203,7 @@ class Login extends Component {
                           </Form.Group>                      
                       </Form.Group>
                       <Form.Group className="login-formGroup">
-                        <Button onClick={this.login} type="submit" size="sm" id="login-button">Login</Button>
+                      <Button  onClick={(e) => {this.login(e,"super")}} type="submit" size="sm" id="login-button">Login</Button>
                       </Form.Group>
                     </Form>
                   </Container>

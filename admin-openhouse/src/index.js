@@ -13,6 +13,7 @@ import StudentProfile from "./pages/Marketing_Administrator/StudentProfile";
 import ChangePassword from "./pages/Marketing_Administrator/ChangePassword";
 import CampusFacilitiesMap from "./pages/Marketing_Administrator/CampusFacilitiesMap";
 import Openhouse from "./pages/Marketing_Administrator/Openhouse";
+import GettingToSIMHQ from "./pages/Marketing_Administrator/GettingToSIMHQ";
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -31,6 +32,7 @@ ReactDOM.render(
     <Route path="/ChangePassword" component={ChangePassword} />
     <Route path="/CampusFacilitiesMap" component={CampusFacilitiesMap} />
     <Route path="/Openhouse" component={Openhouse} />
+    <Route path="/GettingToSIMHQ" component={GettingToSIMHQ} />
     </Switch>
   </Router>,
   document.getElementById("root")
