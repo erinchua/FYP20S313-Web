@@ -313,9 +313,11 @@ class SAHome extends Component {
           <Modal
            show={this.state.addUserModal}
            onHide={this.handleAddUserModal}
-           aria-labelledby="example-custom-modal-styling-title"
+           aria-labelledby="addUserModalTitle"
            size="lg"
            centered
+           backdrop="static"
+           keyboard={false}
           >
             <AddUserModal />
           </Modal>
