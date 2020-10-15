@@ -156,3 +156,38 @@
 #removeAdminBtn:focus {
     box-shadow: 1px 1px 10px #808080;
 }
+
+/* Delete Admin Modal */
+#deleteAdminModalTitle {
+    font-size: 95%;
+    color: #424242;
+}
+
+.deleteAdminModalCol {
+    padding-bottom: 4%;
+}
+
+#deleteAdminModalIcon {
+    width: 20%;
+}
+
+#deleteAdminModalText {
+    font-size: 85%;
+    color: #424242;
+}
+
+#confirmDeleteAdminModalBtn {
+    background: none;
+    border: 1px solid #8ac6d1;
+    border-radius: 6px;
+    color: #424242;
+    width: 40%;
+}
+
+#cancelDeleteAdminModalBtn {
+    background: #8ac6d1;
+    border: 1px solid #8ac6d1;
+    border-radius: 6px;
+    color: #424242;
+    width: 40%;
+}
