@@ -25,6 +25,14 @@
     padding-bottom: 2%;
 }
 
+#SAHomeSearchBar:focus {
+    box-shadow: 1px 1px 10px #e4f2f0;
+}
+
+#SAHomeSearchBarBtn:focus {
+    box-shadow: 1px 1px 10px #e4f2f0;
+}
+
 #addUserBtn {
     background: #424242;
     border-color: #424242;
@@ -142,7 +150,7 @@
 #removeAdminBtn {
     background: none;
     border: none;
-    color: rgb(107, 100, 100);
+    color: #434343;
 }
 
 #removeAdminBtn:focus {
