@@ -9,6 +9,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAddressCard, faEnvelope, faUserCircle } from '@fortawesome/free-regular-svg-icons'
 
 
+const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+const validateForm = (errors) => {
+  let valid = true;
+  Object.values(errors).forEach(
+    (val) => val.length > 0 && (valid = false)
+  );
+  return valid;
+}
+
 export default class AddUserModal extends React.Component {
     constructor() {
         super();
@@ -17,15 +26,28 @@ export default class AddUserModal extends React.Component {
           email: "",
           fullname: "",
           password: "",
-          addUserModal: false,
+          errors: {
+            fullname: "",
+            email: "",
+            password: "",
+          }
         };
-      }
-      updateInput = (e) => {
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    updateInput = (e) => {
         this.setState({
-          [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value,
         });
-      };
+    };
+      
     addUser = (e) => {
+        if (validateForm(this.state.errors)) {
+            console.info('Valid form');
+        } else {
+            console.error('Invalid form');
+        }
+
         e.preventDefault();
         firecreate
           .auth()
@@ -51,7 +73,42 @@ export default class AddUserModal extends React.Component {
             });
           });
       };
+
+      /* Add User Modal Validations */
+      handleChange = (e) => {
+        e.preventDefault();
+        const { name, value } = e.target;
+        
+        let errors = this.state.errors;
+      
+        switch (name) {
+            case 'fullname': 
+                errors.fullname = value.length < 2
+                    ? 'Please enter a valid full name!'
+                    : '';
+                break;
+
+            case 'email': 
+                errors.email = validEmailRegex.test(value)
+                    ? ''
+                    : 'Please enter a valid email!';
+                break;
+
+            default:
+                break;
+        }
+      
+        this.setState({errors, [name]: value}, ()=> {
+            console.log(errors)
+        })
+        
+      }
+
+
+
     render(){
+        const {errors} = this.state;
+
         return (
             <div>
                 <Modal.Header closeButton className="justify-content-center">
@@ -61,7 +118,7 @@ export default class AddUserModal extends React.Component {
                 </Modal.Header>
 
                 <Modal.Body id="addUserModalBody">
-                    <Form onSubmit={this.addUser}>
+                    <Form noValidate onSubmit={this.addUser}>
                         {/* Admin Name */}
                         <Form.Row className="justify-content-center addAdminFormRow">
                             <Col md="3"></Col>
@@ -71,8 +128,8 @@ export default class AddUserModal extends React.Component {
                             </Col>
 
                             <Col md="5">
-                                <Form.Control type="text" placeholder="Name*" className="addAdminFormText" required minLength={2} onChange={this.updateInput} value={this.state.fullname} />
-                                {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
+                                <Form.Control name="fullname" type="text" placeholder="Full Name*" className="addAdminFormText" required onChange={this.handleChange} value={this.state.fullname} noValidate />
+                                {errors.fullname.length > 0 && <span className='error'>{errors.fullname}</span>}
                             </Col>
 
                             <Col md="3"></Col>
@@ -87,7 +144,8 @@ export default class AddUserModal extends React.Component {
                             </Col>
 
                             <Col md="5">
-                                <Form.Control type="email" placeholder="Email*" className="addAdminFormText" required onChange={this.updateInput} value={this.state.email} />
+                                <Form.Control name="email" type="email" placeholder="Email*" className="addAdminFormText" required onChange={this.updateInput} value={this.state.email} />
+                                {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
                             </Col>
 
                             <Col md="3"></Col>
@@ -102,7 +160,7 @@ export default class AddUserModal extends React.Component {
                             </Col>
 
                             <Col md="5">
-                                <Form.Control as="select" defaultValue="marketingAdmin" className="addAdminFormText" id="addAdminFormSelect" required onChange={this.updateInput} value={this.state.administratorType}>
+                                <Form.Control as="select" name="administratorType" defaultValue="marketingAdmin" className="addAdminFormText" id="addAdminFormSelect" required onChange={this.updateInput} value={this.state.administratorType}>
                                     <option value="marketingAdmin" className="addAdminFormSelectOption">Marketing Administrator</option>
                                 </Form.Control>
                             </Col>
