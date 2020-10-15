@@ -25,7 +25,7 @@ class SAHome extends Component {
       addUserModal: false,
     };
     this.handleAddUserModal = this.handleAddUserModal.bind(this);
-    this.handleAddUserModalSubmit = this.handleAddUserModalSubmit.bind(this);
+    // this.handleAddUserModalSubmit = this.handleAddUserModalSubmit.bind(this);
   }
 
   authListener() {
@@ -128,11 +128,7 @@ class SAHome extends Component {
     }
   };
 
-  /* Submit Add User Modal */
-  handleAddUserModalSubmit = () => {
-    console.log("Submitted");
-    
-  };
+
 
   search = (e) => {
     var searchvalue = document.getElementById("SAHomeSearchBar").value;
@@ -359,7 +355,7 @@ class SAHome extends Component {
            backdrop="static"
            keyboard={false}
           >
-            <AddUserModal onClick={this.handleAddUserModalSubmit} />
+            <AddUserModal />
           </Modal>
           :''
         }
