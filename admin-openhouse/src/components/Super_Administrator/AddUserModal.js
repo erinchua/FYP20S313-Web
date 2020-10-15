@@ -1,6 +1,5 @@
 import React from 'react';
 import { Navbar, Nav, Container, Modal, Form, FormGroup, FormCheck, Button, InputGroup, Col } from 'react-bootstrap';
-import { useForm } from "react-hook-form";
 
 import fire from "../../config/firebase";
 import history from "../../config/history";
@@ -18,7 +17,11 @@ export default class AddUserModal extends React.Component {
           email: "",
           fullname: "",
           password: "",
-          addUserModal: false,
+          errors: {
+            fullname: "",
+            email: "",
+            password: "",
+          }
         };
       }
       updateInput = (e) => {
@@ -26,6 +29,43 @@ export default class AddUserModal extends React.Component {
           [e.target.name]: e.target.value,
         });
       };
+
+      handleChange = (event) => {
+        event.preventDefault();
+        const { name, value } = event.target;
+        const validEmailRegex = 
+        RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+        
+        let errors = this.state.errors;
+      
+        switch (name) {
+            case 'fullname': 
+                errors.fullname = value.length < 5
+                ? 'Full Name must be 5 characters long!'
+                : '';
+            break;
+
+            case 'email': 
+                errors.email = validEmailRegex.test(value)
+                ? ''
+                : 'Email is not valid!';
+            break;
+
+          case 'password': 
+            errors.password = value.length < 8
+                ? 'Password must be 8 characters long!'
+                : '';
+            break;
+          default:
+            break;
+        }
+      
+        this.setState({errors, [name]: value}, ()=> {
+            console.log(errors)
+        })
+      }
+
+      
     addUser = (e) => {
         e.preventDefault();
         firecreate
@@ -52,6 +92,8 @@ export default class AddUserModal extends React.Component {
             });
           });
       };
+
+
     render(){
         return (
             <div>
@@ -72,7 +114,7 @@ export default class AddUserModal extends React.Component {
                             </Col>
 
                             <Col md="5">
-                                <Form.Control type="text" placeholder="Name*" className="addAdminFormText" required minLength={2} onChange={this.updateInput} value={this.state.fullname} />
+                                <Form.Control name="fullname" type="text" placeholder="Full Name*" className="addAdminFormText" required minLength={2} onChange={this.updateInput} value={this.state.fullname} />
                                 {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
                             </Col>
 
@@ -88,7 +130,7 @@ export default class AddUserModal extends React.Component {
                             </Col>
 
                             <Col md="5">
-                                <Form.Control type="email" placeholder="Email*" className="addAdminFormText" required onChange={this.updateInput} value={this.state.email} />
+                                <Form.Control name="email" type="email" placeholder="Email*" className="addAdminFormText" required onChange={this.updateInput} value={this.state.email} />
                             </Col>
 
                             <Col md="3"></Col>
@@ -103,7 +145,7 @@ export default class AddUserModal extends React.Component {
                             </Col>
 
                             <Col md="5">
-                                <Form.Control as="select" defaultValue="marketingAdmin" className="addAdminFormText" id="addAdminFormSelect" required onChange={this.updateInput} value={this.state.administratorType}>
+                                <Form.Control as="select" name="administratorType" defaultValue="marketingAdmin" className="addAdminFormText" id="addAdminFormSelect" required onChange={this.updateInput} value={this.state.administratorType}>
                                     <option value="marketingAdmin" className="addAdminFormSelectOption">Marketing Administrator</option>
                                 </Form.Control>
                             </Col>
