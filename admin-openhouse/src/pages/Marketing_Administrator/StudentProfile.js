@@ -54,7 +54,7 @@ class StudentProfile extends Component {
 
   display() {
     const db = fire.firestore();
-
+    var counter = 1;
     const userRef = db
       .collection("Students")
       .get()
@@ -71,7 +71,9 @@ class StudentProfile extends Component {
             nationality: doc.data().nationality,
             isSuspendedFromForum: doc.data().isSuspendedFromForum,
             id: doc.id,
+            counter : counter,
           };
+          counter++;
           users.push(data);
         });
 
@@ -86,6 +88,7 @@ class StudentProfile extends Component {
   logout() {
     fire.auth().signOut();
     history.push("/Login");
+    window.location.reload();
   }
   Unsuspend(e, studentdocid) {
     const db = fire.firestore();
@@ -97,9 +100,20 @@ class StudentProfile extends Component {
         isSuspendedFromForum: false,
       })
       .then(function () {
+     
+        window.location.reload();
+      });
+      const userRef2 = db
+      .collection("Forum")
+      .doc(studentdocid)
+      .update({
+        suspended: false,
+      })
+      .then(function () {
         alert("Updated");
         window.location.reload();
       });
+
   }
   Suspend(e, studentdocid) {
     const db = fire.firestore();
@@ -111,6 +125,16 @@ class StudentProfile extends Component {
         isSuspendedFromForum: true,
       })
       .then(function () {
+       
+        window.location.reload();
+      });
+      const userRef2 = db
+      .collection("Forum")
+      .doc(studentdocid)
+      .update({
+        suspended: true,
+      })
+      .then(function () {
         alert("Updated");
         window.location.reload();
       });
@@ -120,6 +144,7 @@ class StudentProfile extends Component {
     console.log(e.target.value);
     const db = fire.firestore();
     const searchvalue = e.target.value;
+    var counter = 1;
     if (searchvalue == "" || searchvalue == null) {
       const userRef = db
         .collection("Students")
@@ -136,8 +161,10 @@ class StudentProfile extends Component {
               highestQualification: doc.data().highestQualification,
               nationality: doc.data().nationality,
               id: doc.id,
+              counter : counter,
             };
             users.push(data);
+            counter ++;
           });
 
           this.setState({ users: users });
@@ -161,7 +188,9 @@ class StudentProfile extends Component {
               highestQualification: doc.data().highestQualification,
               nationality: doc.data().nationality,
               id: doc.id,
+              counter : counter,
             };
+            counter++;
             users.push(data);
           });
 
@@ -178,6 +207,7 @@ class StudentProfile extends Component {
             Search: <input type="text" onChange={this.Search} />
             <tbody>
               <tr>
+              <th scope="col">S/N</th>
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
                 <th scope="col">Email</th>
@@ -191,8 +221,8 @@ class StudentProfile extends Component {
                 this.state.users.map((user) => {
                   return (
                     <tr>
+                      <td>{user.counter}</td>
                       <td>{user.firstName} </td>
-
                       <td>{user.lastName} </td>
                       <td>{user.email} </td>
                       <td>{user.contactNo} </td>

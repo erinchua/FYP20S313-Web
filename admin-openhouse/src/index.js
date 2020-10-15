@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
 
 import * as serviceWorker from "./serviceWorker";
 import history from "./config/history";
@@ -13,11 +13,14 @@ import StudentProfile from "./pages/Marketing_Administrator/StudentProfile";
 import ChangePassword from "./pages/Marketing_Administrator/ChangePassword";
 import CampusFacilitiesMap from "./pages/Marketing_Administrator/CampusFacilitiesMap";
 import Openhouse from "./pages/Marketing_Administrator/Openhouse";
+import GettingToSIMHQ from "./pages/Marketing_Administrator/GettingToSIMHQ";
+import Announcement from "./pages/Marketing_Administrator/Announcement";
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
   <Router history={history}>
+    <Switch>
     <Route exact path="/" component={App} />
     <Route path="/Login" component={Login} />
     <Route path="/ResetPassword" component={ResetPassword} />
@@ -30,6 +33,9 @@ ReactDOM.render(
     <Route path="/ChangePassword" component={ChangePassword} />
     <Route path="/CampusFacilitiesMap" component={CampusFacilitiesMap} />
     <Route path="/Openhouse" component={Openhouse} />
+    <Route path="/GettingToSIMHQ" component={GettingToSIMHQ} />
+    <Route path="/Announcement" component={Announcement} />
+    </Switch>
   </Router>,
   document.getElementById("root")
 );

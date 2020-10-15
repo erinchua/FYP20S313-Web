@@ -1,0 +1,22 @@
+.footerCon {
+    min-width: 100%;
+    width: 100%;
+    flex-shrink: 0;
+    padding: 0 !important;
+    height: 8vh;
+}
+
+#footerBar {
+    background: #313942;
+    padding: 0 1% 0 1%;
+    height: 100%;
+}
+
+#copyrightIcon {
+    color: #ffffff;
+}
+
+#copyrightText {
+    color: #ffffff;
+    font-size: 80%;
+}

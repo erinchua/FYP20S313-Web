@@ -1,154 +1,305 @@
-import { Tabs, Tab, Nav, Row, Col } from 'react-bootstrap';
+import { Tab, Nav, Row, Col, Form, Container, Button } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../config/firebase";
 import history from "../config/history";
 
-//import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import '../css/Login.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import simLogo from '../img/WebAppLogo.png';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAt, faLock } from '@fortawesome/free-solid-svg-icons';
+
+const initialState = {
+    emailError: "",
+    passwordError: "",
+}
 
 class Login extends Component {
+
+    state = initialState;
   
-  constructor() {
-    super();
-    this.login = this.login.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.state = {
-      email: "",
-      password: "",
-      user: "",
-    };
-  }
-  componentDidMount() {
-    fire.auth().signOut();
-  }
-  authListener() {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        const db = fire.firestore();
+    constructor() {
+        super();
+        this.login = this.login.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.state = {
+            email: "",
+            password: "",
+            user: "",
+            tab: ["marketingAdministrator", "superAdministrator"],
+        };
+    }
 
-        var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
-        getrole.get().then((snapshot) => {
-          if (snapshot.empty) {
-            alert("no such users");
-          } else {
-            snapshot.forEach((doc) => {
-              if (doc.data().administratorType === "Super Administrator") {
-                this.setState({ user: "Super Administrator" });
-                history.push("/Home");
-              } else if (
-                doc.data().administratorType === "Marketing Administrator"
-              ) {
-                this.setState({ user: "Marketing Administrator" });
-                history.push("/StudentProfile");
-              } else {
-                history.push("/Login");
-              }
-            });
-          }
+    componentDidMount() {
+        fire.auth().signOut();
+    }
+
+    marketingauthListener() {
+        fire.auth().onAuthStateChanged((user) => {
+            if (user) {
+                const db = fire.firestore();
+
+                var getrole = db
+                .collection("Administrators")
+                .where("email", "==", user.email);
+                getrole.get().then((snapshot) => {
+                    if (snapshot.empty) {
+                        alert("no such users");
+                    } else {
+                        snapshot.forEach((doc) => {
+                            if (doc.data().administratorType === "Marketing Administrator") {
+                                this.setState({ user: "Marketing Administrator" });
+                                history.push("/StudentProfile");
+                                window.location.reload();
+                            } else {
+                                history.push("/Login");
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
+            } else {
+                this.setState({ user: null });
+            }
         });
-      } else {
-        this.setState({ user: null });
-      }
-    });
-  }
-  login(e) {
-    e.preventDefault();
-    fire
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then((u) => {
-        this.authListener();
-      })
-      .catch((error) => {
-        alert("Login Failure");
-      });
-  }
+    }
 
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
+    superauthListener() {
+        fire.auth().onAuthStateChanged((user) => {
+            if (user) {
+                const db = fire.firestore();
 
-  reset = () => {
-    history.push("/ResetPassword");
-  };
-  render() {
-    return (
-      /* <div id="login-content-container">
-        <Tab.Container defaultActiveKey="marketingAdministrator">
-          <Row className="justify-content-center">
-            <Col sm={4}>
-              <Nav justify className="login-tabContainer justify-content-center" variant="tabs" as="ul">
-                <Nav.Item as="li">
-                  <Nav.Link eventKey="marketingAdministrator" className="login-tabHeading">Marketing Administrator</Nav.Link>
-                </Nav.Item>
+                var getrole = db
+                .collection("Administrators")
+                .where("email", "==", user.email);
+                getrole.get().then((snapshot) => {
+                    if (snapshot.empty) {
+                        alert("no such users");
+                    } else {
+                        snapshot.forEach((doc) => {
+                            if (doc.data().administratorType === "Super Administrator") {
+                                this.setState({ user: "Super Administrator" });
+                                history.push("/SAHome");
+                                window.location.reload();
+                            }  else {
+                                history.push("/Login");
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
+            } else {
+                this.setState({ user: null });
+            }
+        });
+    }
 
-                <Nav.Item as="li">
-                  <Nav.Link eventKey="superAdministrator" className="login-tabHeading">Super Administrator</Nav.Link>
-                </Nav.Item>
-              </Nav>
+    validate = () => {
+        let emailError = "";
+        let passwordError = "";
 
-              <Tab.Content id="login-tabContent">
-                <Tab.Pane eventKey="marketingAdministrator">
-                  <h1>Marketing</h1>
-                </Tab.Pane>
-                <Tab.Pane eventKey="superAdministrator">
-                  <h1>Super</h1>
-                </Tab.Pane>
-              </Tab.Content>
-            </Col>
-          </Row>
-        </Tab.Container>
-      </div> */
+        if (!this.state.email.includes('@')) {
+            emailError = "Please enter valid email!";
+        }
 
-      <div className="App">
-        <form>
-          <div className="col-and-6">
-            <div class="form-group">
-              <label for="exampleInputEmaill">Email address</label>
-              <input
-                value={this.state.email}
-                onChange={this.handleChange}
-                type="email"
-                name="email"
-                class="form-control"
-                id="exampleInputEmaill"
-                aria-describedby="emailHelp"
-                placeholder="Enter email"
-              />
-              <small id="emailHelp" class="form-text text-muted">
-                We'll never share your email with anyone else.
-              </small>
+        if (!this.state.password) {
+            passwordError = "Please enter valid password!";
+        }
+
+        if (emailError || passwordError) {
+            this.setState({emailError, passwordError});
+            return false;
+        }
+
+        return true;
+    }
+
+    login(e, accounttype) {
+        e.preventDefault();
+
+        //Continuing this part on Friday 16/10/2020
+        if (this.state.tab === "marketingAdministrator") {
+            console.log('marketing')
+            const isValid = this.validate();
+            if (isValid) {
+                this.setState(initialState);
+            }
+        } else {
+            console.log('dont have marketing')
+        }
+
+        fire
+        .auth()
+        .signInWithEmailAndPassword(this.state.email, this.state.password)
+        .then((u) => {
+            if (accounttype === "marketing") {
+                this.marketingauthListener();
+            }
+            else if(accounttype === "super") {
+                this.superauthListener();
+            }
+        })
+        .catch((error) => {
+            console.log("Login Failure");
+        });
+    }
+
+    handleChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
+    }
+
+    reset = () => {
+        history.push("/ResetPassword")
+        window.location.reload();
+    }
+
+    render() {
+        return (
+        <div id="login-content-container">
+            <Tab.Container defaultActiveKey="marketingAdminstrator">
+                <Row className="justify-content-center">
+                    <Col md={5}>
+                        <Nav justify className="login-tabContainer" variant="tabs" as="ul">
+                            <Nav.Item as="li">
+                                <Nav.Link eventKey="marketingAdministrator" onSelect={() => this.setState({tab: "marketingAdministrator"})} className="login-tabHeading">Marketing Administrator</Nav.Link>
+                            </Nav.Item>
+
+                            <Nav.Item as="li">
+                                <Nav.Link eventKey="superAdministrator" onSelect={() => this.setState({tab: "superAdministrator"})} className="login-tabHeading">Super Administrator</Nav.Link>
+                            </Nav.Item>
+                        </Nav>
+
+                        <Tab.Content id="login-tabContent">
+                            <Tab.Pane eventKey="marketingAdministrator">
+                                <Container>
+                                    <div id="simLogo-container">
+                                        <img src={simLogo} id="simLogo"/>
+                                    </div>
+                                    <Form id="login-form" noValidate onSubmit={this.login}>
+                                        <Form.Group>
+                                            <Form.Group as={Row} className="login-formGroup">
+                                                <Form.Group as={Col} md="1">
+                                                    <FontAwesomeIcon size="lg" icon={faAt} />
+                                                </Form.Group> 
+                                                <Form.Group as={Col} md="7">
+                                                    <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
+                                                    <div className="errorMessage">{this.state.emailError}</div>
+                                                </Form.Group>
+                                            </Form.Group>                     
+                                        </Form.Group>
+                                        <Form.Group>
+                                            <Form.Group as={Row} className="login-formGroup">
+                                                <Form.Group as={Col} md="1">
+                                                    <FontAwesomeIcon size="lg" icon={faLock} />
+                                                </Form.Group> 
+                                                <Form.Group as={Col} md="7">
+                                                    <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
+                                                    <div className="errorMessage">{this.state.passwordError}</div>
+                                                </Form.Group>
+                                            </Form.Group>  
+                                            <Form.Group as={Row} id="login-forgetPassword">
+                                                <Form.Group as={Col} md="3"></Form.Group>
+                                                <Form.Group as={Col} md="7">
+                                                    <div className="text-right">
+                                                        <Button type="submit" variant="link" size="sm" onClick={this.reset}>Forget Password?</Button>
+                                                    </div>   
+                                                </Form.Group> 
+                                            </Form.Group>                          
+                                        </Form.Group>
+                                        <Form.Group className="login-formGroup">
+                                            <Button onClick={(e) => {this.login(e, "marketing")}} type="submit" size="sm" id="login-button">Login</Button>
+                                        </Form.Group>
+                                    </Form>
+                                </Container>
+                            </Tab.Pane>
+
+                            <Tab.Pane eventKey="superAdministrator">
+                                <Container>
+                                    <div id="simLogo-container">
+                                        <img src={simLogo} id="simLogo"/>
+                                    </div>
+                                    <Form id="login-form" noValidate onSubmit={this.login}>
+                                        <Form.Group>
+                                            <Form.Group as={Row} className="login-formGroup">
+                                                <Form.Group as={Col} md="1">
+                                                    <FontAwesomeIcon size="lg" icon={faAt} />
+                                                </Form.Group> 
+                                                <Form.Group as={Col} md="7">
+                                                    <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
+                                                    <div className="errorMessage">{this.state.emailError}</div>
+                                                </Form.Group>
+                                            </Form.Group>                     
+                                        </Form.Group>
+
+                                        <Form.Group>
+                                            <Form.Group as={Row} className="login-formGroup">
+                                                <Form.Group as={Col} md="1">
+                                                    <FontAwesomeIcon size="lg" icon={faLock} />
+                                                </Form.Group> 
+                                                <Form.Group as={Col} md="7">
+                                                    <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
+                                                    <div className="errorMessage">{this.state.passwordError}</div>
+                                                </Form.Group>
+                                            </Form.Group>                      
+                                        </Form.Group>
+
+                                        <Form.Group className="login-formGroup">
+                                            <Button onClick={(e) => {this.login(e, "super")}} type="submit" size="sm" id="login-button">Login</Button>
+                                        </Form.Group>
+                                    </Form>
+                                </Container>
+                            </Tab.Pane>
+                        </Tab.Content>
+                    </Col>
+                </Row>
+            </Tab.Container>
+        </div>
+
+        /*<div className="App">
+            <form>
+            <div className="col-and-6">
+                <div class="form-group">
+                <label for="exampleInputEmaill">Email address</label>
+                <input
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    id="exampleInputEmaill"
+                    aria-describedby="emailHelp"
+                    placeholder="Enter email"
+                />
+                <small id="emailHelp" class="form-text text-muted">
+                    We'll never share your email with anyone else.
+                </small>
+                </div>
+                <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    id="exampleInputPasswordl"
+                    placeholder="Password"
+                />
+                </div>
+                <button type="submit" onClick={this.login} class="btn btn-primary">
+                Login
+                </button>
             </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input
-                value={this.state.password}
-                onChange={this.handleChange}
-                type="password"
-                name="password"
-                class="form-control"
-                id="exampleInputPasswordl"
-                placeholder="Password"
-              />
-            </div>
-            <button type="submit" onClick={this.login} class="btn btn-primary">
-              Login
+            </form>
+            <button
+            type="submit"
+            class="btn btn-warning"
+            style={{ marginLeft: "25px" }}
+            onClick={this.reset}
+            >
+            Reset Password
             </button>
-          </div>
-        </form>
-        <button
-          type="submit"
-          class="btn btn-warning"
-          style={{ marginLeft: "25px" }}
-          onClick={this.reset}
-        >
-          Reset Password
-        </button>
-      </div>
-    );
-  }
+        </div>*/
+        );
+    }
 }
 export default Login;
