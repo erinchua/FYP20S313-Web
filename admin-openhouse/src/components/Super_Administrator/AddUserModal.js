@@ -33,6 +33,7 @@ export default class AddUserModal extends React.Component {
           }
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleAddUserModalSubmit = this.handleAddUserModalSubmit.bind(this);
     }
 
     updateInput = (e) => {
@@ -43,9 +44,9 @@ export default class AddUserModal extends React.Component {
       
     addUser = (e) => {
         if (validateForm(this.state.errors)) {
-            console.info('Valid form');
+            console.info('Valid User');
         } else {
-            console.error('Invalid form');
+            console.error('Invalid User');
         }
 
         e.preventDefault();
@@ -56,31 +57,32 @@ export default class AddUserModal extends React.Component {
             const db = fire.firestore();
     
             const userRef = db
-              .collection("Administrators")
-              .add({
-                administratorType: this.state.administratorType,
-                email: this.state.email,
-                name: this.state.fullname,
-                password: this.state.password,
-              })
-              .then(function () {
-                alert("Added");
-                window.location.reload();
-              });
-            this.setState({
-              fullname: "",
-              email: "",
-            });
-          });
-      };
+                .collection("Administrators")
+                .add({
+                    administratorType: this.state.administratorType,
+                    email: this.state.email,
+                    name: this.state.fullname,
+                    password: this.state.password,
+                })
+                .then(function () {
+                    alert("Added");
+                    window.location.reload();
+                });
 
-      /* Add User Modal Validations */
-      handleChange = (e) => {
+            this.setState({
+                fullname: "",
+                email: "",
+            });
+        });
+    };
+
+    /* Add User Modal Validations */
+    handleChange = (e) => {
         e.preventDefault();
         const { name, value } = e.target;
         
         let errors = this.state.errors;
-      
+        
         switch (name) {
             case 'fullname': 
                 errors.fullname = value.length < 2
@@ -97,13 +99,12 @@ export default class AddUserModal extends React.Component {
             default:
                 break;
         }
-      
-        this.setState({errors, [name]: value}, ()=> {
+        
+        this.setState({errors, [e.target.name]: e.target.value}, ()=> {
             console.log(errors)
         })
-        
-      }
-
+    
+    }
 
 
     render(){
@@ -144,7 +145,7 @@ export default class AddUserModal extends React.Component {
                             </Col>
 
                             <Col md="5">
-                                <Form.Control name="email" type="email" placeholder="Email*" className="addAdminFormText" required onChange={this.updateInput} value={this.state.email} />
+                                <Form.Control name="email" type="email" placeholder="Email*" className="addAdminFormText" required onChange={this.handleChange} value={this.state.email} />
                                 {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
                             </Col>
 
@@ -160,7 +161,7 @@ export default class AddUserModal extends React.Component {
                             </Col>
 
                             <Col md="5">
-                                <Form.Control as="select" name="administratorType" defaultValue="marketingAdmin" className="addAdminFormText" id="addAdminFormSelect" required onChange={this.updateInput} value={this.state.administratorType}>
+                                <Form.Control as="select" name="administratorType" defaultValue="marketingAdmin" className="addAdminFormText" id="addAdminFormSelect" required onChange={this.handleChange} value={this.state.administratorType}>
                                     <option value="marketingAdmin" className="addAdminFormSelectOption">Marketing Administrator</option>
                                 </Form.Control>
                             </Col>
@@ -170,7 +171,7 @@ export default class AddUserModal extends React.Component {
 
                         <Form.Row className="justify-content-center addAdminFormBtnRow">
                             <Col className="text-center">
-                                <Button type="submit" id="addAdminFormBtn" onClick={this.props.onClick}>Submit</Button>
+                                <Button type="submit" id="addAdminFormBtn">Submit</Button>
                             </Col>
                         </Form.Row>
 
