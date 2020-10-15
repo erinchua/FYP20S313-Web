@@ -8,17 +8,14 @@ import simLogo from '../img/WebAppLogo.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAt, faLock } from '@fortawesome/free-solid-svg-icons';
 
-
-const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
-const validateForm = (errors) => {
-  let valid = true;
-  Object.values(errors).forEach(
-    (val) => val.length > 0 && (valid = false)
-  );
-  return valid;
+const initialState = {
+    emailError: "",
+    passwordError: "",
 }
 
 class Login extends Component {
+
+    state = initialState;
   
     constructor() {
         super();
@@ -28,10 +25,7 @@ class Login extends Component {
             email: "",
             password: "",
             user: "",
-            errors: {
-                email: '',
-                password: ''
-            }
+            tab: ["marketingAdministrator", "superAdministrator"],
         };
     }
 
@@ -99,21 +93,48 @@ class Login extends Component {
         });
     }
 
-    login(e,accounttype) {
-        e.preventDefault();
-        if (validateForm(this.state.errors)) {
-            console.info('Valid form');
-        } else {
-            console.error('Invalid form');
+    validate = () => {
+        let emailError = "";
+        let passwordError = "";
+
+        if (!this.state.email.includes('@')) {
+            emailError = "Please enter valid email!";
         }
+
+        if (!this.state.password) {
+            passwordError = "Please enter valid password!";
+        }
+
+        if (emailError || passwordError) {
+            this.setState({emailError, passwordError});
+            return false;
+        }
+
+        return true;
+    }
+
+    login(e, accounttype) {
+        e.preventDefault();
+
+        //Continuing this part on Friday 16/10/2020
+        if (this.state.tab === "marketingAdministrator") {
+            console.log('marketing')
+            const isValid = this.validate();
+            if (isValid) {
+                this.setState(initialState);
+            }
+        } else {
+            console.log('dont have marketing')
+        }
+
         fire
         .auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
         .then((u) => {
-            if (accounttype ==="marketing") {
+            if (accounttype === "marketing") {
                 this.marketingauthListener();
             }
-            else if(accounttype ==="super") {
+            else if(accounttype === "super") {
                 this.superauthListener();
             }
         })
@@ -123,25 +144,7 @@ class Login extends Component {
     }
 
     handleChange(e) {
-        e.preventDefault();
-        const { name, value } = e.target;
-        let errors = this.state.errors;
-
-        switch(name) {
-            case 'email':
-                errors.email = validEmailRegex.test(value) ? '' 
-                : 'Email is not valid!';
-                break;
-            case 'password':
-                errors.password = value.length < 8 ? 
-                'Password must be 8 characters long!' : '';
-                break;
-
-            default:
-                break;
-        }
-
-        this.setState({ errors, [e.target.name]: e.target.value });
+        this.setState({ [e.target.name]: e.target.value });
     }
 
     reset = () => {
@@ -150,19 +153,18 @@ class Login extends Component {
     }
 
     render() {
-        const {errors} = this.state;
         return (
         <div id="login-content-container">
-            <Tab.Container defaultActiveKey="marketingAdministrator">
+            <Tab.Container defaultActiveKey="marketingAdminstrator">
                 <Row className="justify-content-center">
                     <Col md={5}>
                         <Nav justify className="login-tabContainer" variant="tabs" as="ul">
                             <Nav.Item as="li">
-                                <Nav.Link eventKey="marketingAdministrator" className="login-tabHeading">Marketing Administrator</Nav.Link>
+                                <Nav.Link eventKey="marketingAdministrator" onSelect={() => this.setState({tab: "marketingAdministrator"})} className="login-tabHeading">Marketing Administrator</Nav.Link>
                             </Nav.Item>
 
                             <Nav.Item as="li">
-                                <Nav.Link eventKey="superAdministrator" className="login-tabHeading">Super Administrator</Nav.Link>
+                                <Nav.Link eventKey="superAdministrator" onSelect={() => this.setState({tab: "superAdministrator"})} className="login-tabHeading">Super Administrator</Nav.Link>
                             </Nav.Item>
                         </Nav>
 
@@ -180,7 +182,7 @@ class Login extends Component {
                                                 </Form.Group> 
                                                 <Form.Group as={Col} md="7">
                                                     <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
-                                                    {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
+                                                    <div className="errorMessage">{this.state.emailError}</div>
                                                 </Form.Group>
                                             </Form.Group>                     
                                         </Form.Group>
@@ -191,7 +193,7 @@ class Login extends Component {
                                                 </Form.Group> 
                                                 <Form.Group as={Col} md="7">
                                                     <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
-                                                    {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
+                                                    <div className="errorMessage">{this.state.passwordError}</div>
                                                 </Form.Group>
                                             </Form.Group>  
                                             <Form.Group as={Row} id="login-forgetPassword">
@@ -204,7 +206,7 @@ class Login extends Component {
                                             </Form.Group>                          
                                         </Form.Group>
                                         <Form.Group className="login-formGroup">
-                                            <Button onClick={(e) => {this.login(e,"marketing")}} type="submit" size="sm" id="login-button">Login</Button>
+                                            <Button onClick={(e) => {this.login(e, "marketing")}} type="submit" size="sm" id="login-button">Login</Button>
                                         </Form.Group>
                                     </Form>
                                 </Container>
@@ -223,7 +225,7 @@ class Login extends Component {
                                                 </Form.Group> 
                                                 <Form.Group as={Col} md="7">
                                                     <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
-                                                    {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
+                                                    <div className="errorMessage">{this.state.emailError}</div>
                                                 </Form.Group>
                                             </Form.Group>                     
                                         </Form.Group>
@@ -235,13 +237,13 @@ class Login extends Component {
                                                 </Form.Group> 
                                                 <Form.Group as={Col} md="7">
                                                     <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
-                                                    {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
+                                                    <div className="errorMessage">{this.state.passwordError}</div>
                                                 </Form.Group>
                                             </Form.Group>                      
                                         </Form.Group>
 
                                         <Form.Group className="login-formGroup">
-                                            <Button onClick={(e) => {this.login(e,"super")}} type="submit" size="sm" id="login-button">Login</Button>
+                                            <Button onClick={(e) => {this.login(e, "super")}} type="submit" size="sm" id="login-button">Login</Button>
                                         </Form.Group>
                                     </Form>
                                 </Container>
