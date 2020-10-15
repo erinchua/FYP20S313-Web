@@ -33,7 +33,6 @@ export default class AddUserModal extends React.Component {
           }
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleAddUserModalSubmit = this.handleAddUserModalSubmit.bind(this);
     }
 
     updateInput = (e) => {
