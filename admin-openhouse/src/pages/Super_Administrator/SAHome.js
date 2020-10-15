@@ -31,13 +31,11 @@ class SAHome extends Component {
   authListener() {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
-       
         const db = fire.firestore();
         var a  = this;
         var getrole = db
           .collection("Administrators")
           .where("email", "==", user.email);
-
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Super Administrator") {
@@ -58,7 +56,6 @@ class SAHome extends Component {
       }
     });
   }
-
   updateInput = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -87,7 +84,7 @@ class SAHome extends Component {
     const db = fire.firestore();
     var counter = 1;
     const userRef = db
-      .collection("Administrators")
+      .collection("Administrators").where("administratorType", "==", "Marketing Administrator")
       .get()
       .then((snapshot) => {
         const users = [];
@@ -130,64 +127,6 @@ class SAHome extends Component {
     }
   };
 
-
-  search = (e) => {
-    var searchvalue = document.getElementById("SAHomeSearchBar").value;
-    var counter = 1;
-
-    const db = fire.firestore();
-
-    var searchvalue = document.getElementById("SAHomeSearchBar").value;
-    if (searchvalue == "" || searchvalue == null) {
-  
-      const userRef = db
-      .collection("Administrators")
-      .get()
-      .then((snapshot) => {
-        const users = [];
-        snapshot.forEach((doc) => {
-          const data = {
-            administratorType: doc.data().administratorType,
-            name: doc.data().name,
-            email: doc.data().email,
-            password: doc.data.password,
-            id: doc.id,
-            counter : counter,
-          };
-          users.push(data);
-          counter ++;
-        });
-
-        this.setState({ users: users });
-      });
-    } else {
-      const userRef = db
-        .collection("Administrators")
-        .orderBy("email")
-        .startAt(searchvalue)
-        .endAt(searchvalue + "\uf8ff")
-        .get()
-        .then((snapshot) => {
-          const users = [];
-          snapshot.forEach((doc) => {
-            const data = {
-              administratorType: doc.data().administratorType,
-              name: doc.data().name,
-              email: doc.data().email,
-              password: doc.data.password,
-              id: doc.id,
-              counter : counter,
-            };
-            counter++;
-            users.push(data);
-          });
-          
-        this.setState({ users: users });
-        });
-    }
-  }
-
-
   search = (e) => {
     var searchvalue = document.getElementById("SAHomeSearchBar").value;
     var counter = 1;
@@ -198,18 +137,18 @@ class SAHome extends Component {
     if (searchvalue == "" || searchvalue == null) {
       
       const userRef = db
-      .collection("Administrators")
+      .collection("Administrators").where("administratorType", "==", "Marketing Administrator")
         .get()
         .then((snapshot) => {
           const users = [];
           snapshot.forEach((doc) => {
             const data = {
               administratorType: doc.data().administratorType,
-              name: doc.data().name,
-              email: doc.data().email,
-              password: doc.data.password,
-              id: doc.id,
-              counter : counter,
+            name: doc.data().name,
+            email: doc.data().email,
+            password: doc.data.password,
+            id: doc.id,
+            counter : counter,
             };
             users.push(data);
             counter ++;
@@ -219,7 +158,7 @@ class SAHome extends Component {
         });
     } else {
       const userRef = db
-        .collection("Administrators")
+        .collection("Administrators").where("administratorType", "==", "Marketing Administrator") 
         .orderBy("email")
         .startAt(searchvalue)
         .endAt(searchvalue + "\uf8ff")
@@ -228,12 +167,12 @@ class SAHome extends Component {
           const users = [];
           snapshot.forEach((doc) => {
             const data = {
-              administratorType: doc.data().administratorType,
-              name: doc.data().name,
-              email: doc.data().email,
-              password: doc.data.password,
-              id: doc.id,
-              counter : counter,
+            administratorType: doc.data().administratorType,
+            name: doc.data().name,
+            email: doc.data().email,
+            password: doc.data.password,
+            id: doc.id,
+            counter : counter,
             };
             counter++;
             users.push(data);
