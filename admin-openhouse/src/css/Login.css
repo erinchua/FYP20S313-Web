@@ -57,3 +57,8 @@
     padding-left: 5%;
     padding-right: 5%;
 }
+
+.errorMessage {
+    color: red;
+    font-size: 85%;
+}
