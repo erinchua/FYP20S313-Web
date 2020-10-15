@@ -74,7 +74,7 @@ export default class AddUserModal extends React.Component {
             });
         });
     };
-
+    
     /* Add User Modal Validations */
     handleChange = (e) => {
         e.preventDefault();
@@ -215,7 +215,6 @@ export default class AddUserModal extends React.Component {
                     <button type="submit">Add User</button>
                 </form>
                 
-
                 
                         </p>
                     </Modal.Body> */}
