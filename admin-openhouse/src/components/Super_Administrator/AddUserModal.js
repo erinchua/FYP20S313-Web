@@ -129,7 +129,7 @@ export default class AddUserModal extends React.Component {
 
                             <Col md="5">
                                 <Form.Control name="fullname" type="text" placeholder="Full Name*" className="addAdminFormText" required onChange={this.handleChange} value={this.state.fullname} noValidate />
-                                {errors.fullname.length > 0 && <span className='error'>{errors.fullname}</span>}
+                                {errors.fullname.length > 0 && <span className='error errorText'>{errors.fullname}</span>}
                             </Col>
 
                             <Col md="3"></Col>
@@ -145,7 +145,7 @@ export default class AddUserModal extends React.Component {
 
                             <Col md="5">
                                 <Form.Control name="email" type="email" placeholder="Email*" className="addAdminFormText" required onChange={this.handleChange} value={this.state.email} />
-                                {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
+                                {errors.email.length > 0 && <span className='error errorText'>{errors.email}</span>}
                             </Col>
 
                             <Col md="3"></Col>
