@@ -154,7 +154,6 @@ if (searchvalue == "" || searchvalue == null) {
         counter ++;
       });
 
-<<<<<<< HEAD
       this.setState({ users: users });
     });
 } else {
@@ -184,7 +183,6 @@ if (searchvalue == "" || searchvalue == null) {
     });
 }
 }
-=======
 
 
   search = (e) => {
@@ -245,7 +243,6 @@ if (searchvalue == "" || searchvalue == null) {
   }
   
   
->>>>>>> BeaBranch
   render() {
     if(this.state.Login)
 

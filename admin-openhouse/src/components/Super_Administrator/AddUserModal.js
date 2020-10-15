@@ -1,10 +1,6 @@
 import React from 'react';
-<<<<<<< HEAD
-import { Navbar, Nav, Container, Modal } from 'react-bootstrap';
-=======
 import { Navbar, Nav, Container, Modal, Form, FormGroup, FormCheck, Button, InputGroup, Col } from 'react-bootstrap';
 
->>>>>>> BeaBranch
 import fire from "../../config/firebase";
 import history from "../../config/history";
 import firecreate from "../../config/firebasecreate";
@@ -30,17 +26,6 @@ export default class AddUserModal extends React.Component {
           email: "",
           fullname: "",
           password: "",
-<<<<<<< HEAD
-          addUserModal: false,
-        };
-      }
-      updateInput = (e) => {
-        this.setState({
-          [e.target.name]: e.target.value,
-        });
-      };
-    addUser = (e) => {
-=======
           errors: {
             fullname: "",
             email: "",
@@ -63,7 +48,6 @@ export default class AddUserModal extends React.Component {
             console.error('Invalid User');
         }
 
->>>>>>> BeaBranch
         e.preventDefault();
         firecreate
           .auth()
@@ -72,25 +56,6 @@ export default class AddUserModal extends React.Component {
             const db = fire.firestore();
     
             const userRef = db
-<<<<<<< HEAD
-              .collection("Administrators")
-              .add({
-                administratorType: this.state.administratorType,
-                email: this.state.email,
-                name: this.state.fullname,
-                password: this.state.password,
-              })
-              .then(function () {
-                alert("Added");
-                window.location.reload();
-              });
-            this.setState({
-              fullname: "",
-              email: "",
-            });
-          });
-      };
-=======
                 .collection("Administrators")
                 .add({
                     administratorType: this.state.administratorType,
@@ -109,7 +74,7 @@ export default class AddUserModal extends React.Component {
             });
         });
     };
-
+    
     /* Add User Modal Validations */
     handleChange = (e) => {
         e.preventDefault();
@@ -141,61 +106,11 @@ export default class AddUserModal extends React.Component {
     }
 
 
->>>>>>> BeaBranch
     render(){
         const {errors} = this.state;
 
         return (
             <div>
-<<<<<<< HEAD
-                <Modal.Header closeButton>
-                    <Modal.Title id="example-custom-modal-styling-title">
-                        Add A User
-                    </Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
-                    <p>
-                         <form onSubmit={this.addUser}>
-                <input
-                  type="text"
-                  name="fullname"
-                  placeholder="Full name"
-                  onChange={this.updateInput}
-                  value={this.state.fullname}
-                  required
-                />
-                <input
-                  type="text"
-                  name="email"
-                  placeholder="Email"
-                  onChange={this.updateInput}
-                  value={this.state.email}
-                  required
-                />
-                <input
-                  type="text"
-                  name="administratorType"
-                  placeholder="Type of User"
-                  onChange={this.updateInput}
-                  value={this.state.administratorType}
-                  required
-                />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  onChange={this.updateInput}
-                  value={this.state.password}
-                  required
-                />
-                <button type="submit">Add User</button>
-              </form>
-              
-
-            
-                    </p>
-=======
                 <Modal.Header closeButton className="justify-content-center">
                     <Modal.Title id="addUserModalTitle" className="w-100">
                         Add Administrator
@@ -260,7 +175,6 @@ export default class AddUserModal extends React.Component {
                         </Form.Row>
 
                     </Form>
->>>>>>> BeaBranch
                 </Modal.Body>
                     
                     {/* <Modal.Body>
@@ -301,7 +215,6 @@ export default class AddUserModal extends React.Component {
                     <button type="submit">Add User</button>
                 </form>
                 
-
                 
                         </p>
                     </Modal.Body> */}

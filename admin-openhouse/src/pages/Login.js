@@ -20,7 +20,6 @@ const validateForm = (errors) => {
 
 class Login extends Component {
   
-<<<<<<< HEAD
   constructor() {
     super();
     this.login = this.login.bind(this);
@@ -255,7 +254,6 @@ class Login extends Component {
                 id="exampleInputPasswordl"
                 placeholder="Password"
               />
-=======
     constructor() {
         super();
         this.login = this.login.bind(this);
@@ -522,7 +520,6 @@ class Login extends Component {
                 <button type="submit" onClick={this.login} class="btn btn-primary">
                 Login
                 </button>
->>>>>>> BeaBranch
             </div>
             </form>
             <button
