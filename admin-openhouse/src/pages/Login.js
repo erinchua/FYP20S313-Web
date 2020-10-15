@@ -8,6 +8,16 @@ import simLogo from '../img/WebAppLogo.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAt, faLock } from '@fortawesome/free-solid-svg-icons';
 
+
+const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+const validateForm = (errors) => {
+  let valid = true;
+  Object.values(errors).forEach(
+    (val) => val.length > 0 && (valid = false)
+  );
+  return valid;
+}
+
 class Login extends Component {
   
   constructor() {
@@ -18,6 +28,10 @@ class Login extends Component {
       email: "",
       password: "",
       user: "",
+      errors: {
+        email: '',
+        password: ''
+      }
     };
   }
   componentDidMount() {
@@ -87,6 +101,11 @@ class Login extends Component {
 
   login(e,accounttype) {
        e.preventDefault();
+       if (validateForm(this.state.errors)) {
+         console.info('Valid form');
+       } else {
+         console.error('Invalid form');
+       }
     fire
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -100,12 +119,33 @@ class Login extends Component {
         }
       })
       .catch((error) => {
-        alert("Login Failure");
+        console.log("Login Failure");
       });
   }
 
+  
+
   handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    e.preventDefault();
+    const { name, value } = e.target;
+    let errors = this.state.errors;
+
+    switch(name) {
+      case 'email':
+        errors.email = validEmailRegex.test(value) ? '' 
+        : 'Email is not valid!';
+        break;
+      case 'password':
+        errors.password = value.length < 8 ? 
+        'Password must be 8 characters long!' : '';
+        break;
+
+        default:
+          break;
+    }
+
+
+    this.setState({ errors, [e.target.name]: e.target.value });
   }
 
   reset = () => {
@@ -114,6 +154,7 @@ class Login extends Component {
   }
 
   render() {
+    const {errors} = this.state;
     return (
       <div id="login-content-container">
         <Tab.Container defaultActiveKey="marketingAdministrator">
@@ -135,15 +176,15 @@ class Login extends Component {
                     <div id="simLogo-container">
                       <img src={simLogo} id="simLogo"/>
                     </div>
-                    <Form id="login-form">
+                    <Form id="login-form" noValidate onSubmit={this.login}>
                       <Form.Group>
                           <Form.Group as={Row} className="login-formGroup">
                             <Form.Group as={Col} md="1">
                               <FontAwesomeIcon size="lg" icon={faAt} />
                             </Form.Group> 
                             <Form.Group as={Col} md="7">
-                                <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange}></Form.Control>
-                                <Form.Control.Feedback type="invalid">Please enter your email</Form.Control.Feedback>
+                                <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
+                                {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
                             </Form.Group>
                           </Form.Group>                     
                       </Form.Group>
@@ -153,8 +194,8 @@ class Login extends Component {
                               <FontAwesomeIcon size="lg" icon={faLock} />
                             </Form.Group> 
                             <Form.Group as={Col} md="7">
-                              <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange}></Form.Control>
-                              <Form.Control.Feedback type="invalid">Please enter your password</Form.Control.Feedback>
+                              <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
+                              {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
                             </Form.Group>
                           </Form.Group>  
                           <Form.Group as={Row} id="login-forgetPassword">
@@ -167,7 +208,7 @@ class Login extends Component {
                           </Form.Group>                          
                       </Form.Group>
                       <Form.Group className="login-formGroup">
-                        <Button  onClick={(e) => {this.login(e,"marketing")}} type="submit" size="sm" id="login-button">Login</Button>
+                        <Button onClick={(e) => {this.login(e,"marketing")}} type="submit" size="sm" id="login-button">Login</Button>
                        
                       </Form.Group>
                     </Form>
@@ -179,15 +220,15 @@ class Login extends Component {
                     <div id="simLogo-container">
                       <img src={simLogo} id="simLogo"/>
                     </div>
-                    <Form id="login-form">
+                    <Form id="login-form" noValidate onSubmit={this.login}>
                       <Form.Group>
                           <Form.Group as={Row} className="login-formGroup">
                             <Form.Group as={Col} md="1">
                               <FontAwesomeIcon size="lg" icon={faAt} />
                             </Form.Group> 
                             <Form.Group as={Col} md="7">
-                                <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange}></Form.Control>
-                                <Form.Control.Feedback type="invalid">Please enter your email</Form.Control.Feedback>
+                                <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
+                                {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
                             </Form.Group>
                           </Form.Group>                     
                       </Form.Group>
@@ -197,13 +238,13 @@ class Login extends Component {
                               <FontAwesomeIcon size="lg" icon={faLock} />
                             </Form.Group> 
                             <Form.Group as={Col} md="7">
-                              <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange}></Form.Control>
-                              <Form.Control.Feedback type="invalid">Please enter your password</Form.Control.Feedback>
+                              <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
+                              {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
                             </Form.Group>
                           </Form.Group>                      
                       </Form.Group>
                       <Form.Group className="login-formGroup">
-                      <Button  onClick={(e) => {this.login(e,"super")}} type="submit" size="sm" id="login-button">Login</Button>
+                      <Button onClick={(e) => {this.login(e,"super")}} type="submit" size="sm" id="login-button">Login</Button>
                       </Form.Group>
                     </Form>
                   </Container>
