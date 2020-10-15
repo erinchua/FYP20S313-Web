@@ -1,12 +1,26 @@
 import React from 'react';
+<<<<<<< HEAD
 import { Navbar, Nav, Container, Modal } from 'react-bootstrap';
+=======
+import { Navbar, Nav, Container, Modal, Form, FormGroup, FormCheck, Button, InputGroup, Col } from 'react-bootstrap';
+
+>>>>>>> BeaBranch
 import fire from "../../config/firebase";
 import history from "../../config/history";
 import firecreate from "../../config/firebasecreate";
 import "../../css/Super_Administrator/AddUserModal.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCopyright } from '@fortawesome/free-solid-svg-icons'
+import { faAddressCard, faEnvelope, faUserCircle } from '@fortawesome/free-regular-svg-icons'
 
+
+const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+const validateForm = (errors) => {
+  let valid = true;
+  Object.values(errors).forEach(
+    (val) => val.length > 0 && (valid = false)
+  );
+  return valid;
+}
 
 export default class AddUserModal extends React.Component {
     constructor() {
@@ -16,6 +30,7 @@ export default class AddUserModal extends React.Component {
           email: "",
           fullname: "",
           password: "",
+<<<<<<< HEAD
           addUserModal: false,
         };
       }
@@ -25,6 +40,30 @@ export default class AddUserModal extends React.Component {
         });
       };
     addUser = (e) => {
+=======
+          errors: {
+            fullname: "",
+            email: "",
+            password: "",
+          }
+        };
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    updateInput = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+    };
+      
+    addUser = (e) => {
+        if (validateForm(this.state.errors)) {
+            console.info('Valid User');
+        } else {
+            console.error('Invalid User');
+        }
+
+>>>>>>> BeaBranch
         e.preventDefault();
         firecreate
           .auth()
@@ -33,6 +72,7 @@ export default class AddUserModal extends React.Component {
             const db = fire.firestore();
     
             const userRef = db
+<<<<<<< HEAD
               .collection("Administrators")
               .add({
                 administratorType: this.state.administratorType,
@@ -50,9 +90,64 @@ export default class AddUserModal extends React.Component {
             });
           });
       };
+=======
+                .collection("Administrators")
+                .add({
+                    administratorType: this.state.administratorType,
+                    email: this.state.email,
+                    name: this.state.fullname,
+                    password: this.state.password,
+                })
+                .then(function () {
+                    alert("Added");
+                    window.location.reload();
+                });
+
+            this.setState({
+                fullname: "",
+                email: "",
+            });
+        });
+    };
+
+    /* Add User Modal Validations */
+    handleChange = (e) => {
+        e.preventDefault();
+        const { name, value } = e.target;
+        
+        let errors = this.state.errors;
+        
+        switch (name) {
+            case 'fullname': 
+                errors.fullname = value.length < 2
+                    ? 'Please enter a valid full name!'
+                    : '';
+                break;
+
+            case 'email': 
+                errors.email = validEmailRegex.test(value)
+                    ? ''
+                    : 'Please enter a valid email!';
+                break;
+
+            default:
+                break;
+        }
+        
+        this.setState({errors, [e.target.name]: e.target.value}, ()=> {
+            console.log(errors)
+        })
+    
+    }
+
+
+>>>>>>> BeaBranch
     render(){
+        const {errors} = this.state;
+
         return (
             <div>
+<<<<<<< HEAD
                 <Modal.Header closeButton>
                     <Modal.Title id="example-custom-modal-styling-title">
                         Add A User
@@ -100,7 +195,116 @@ export default class AddUserModal extends React.Component {
 
             
                     </p>
+=======
+                <Modal.Header closeButton className="justify-content-center">
+                    <Modal.Title id="addUserModalTitle" className="w-100">
+                        Add Administrator
+                    </Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body id="addUserModalBody">
+                    <Form noValidate onSubmit={this.addUser}>
+                        {/* Admin Name */}
+                        <Form.Row className="justify-content-center addAdminFormRow">
+                            <Col md="3"></Col>
+                            
+                            <Col md="1" className="addAdminFormCol text-right">
+                                <FontAwesomeIcon size="lg" className="addAdminFormIcon" icon={faAddressCard} />
+                            </Col>
+
+                            <Col md="5">
+                                <Form.Control name="fullname" type="text" placeholder="Full Name*" className="addAdminFormText" required onChange={this.handleChange} value={this.state.fullname} noValidate />
+                                {errors.fullname.length > 0 && <span className='error'>{errors.fullname}</span>}
+                            </Col>
+
+                            <Col md="3"></Col>
+                        </Form.Row>
+
+                        {/* Admin Email */}
+                        <Form.Row className="justify-content-center addAdminFormRow">
+                            <Col md="3"></Col>
+                            
+                            <Col md="1" className="addAdminFormCol text-right">
+                                <FontAwesomeIcon size="lg" className="addAdminFormIcon" icon={faEnvelope} />
+                            </Col>
+
+                            <Col md="5">
+                                <Form.Control name="email" type="email" placeholder="Email*" className="addAdminFormText" required onChange={this.handleChange} value={this.state.email} />
+                                {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
+                            </Col>
+
+                            <Col md="3"></Col>
+                        </Form.Row>
+
+                        {/* Admin User Type */}
+                        <Form.Row className="justify-content-center addAdminFormRow">
+                            <Col md="3"></Col>
+                            
+                            <Col md="1" className="addAdminFormCol text-right">
+                                <FontAwesomeIcon size="lg" className="addAdminFormIcon" icon={faUserCircle} />
+                            </Col>
+
+                            <Col md="5">
+                                <Form.Control as="select" name="administratorType" defaultValue="marketingAdmin" className="addAdminFormText" id="addAdminFormSelect" required onChange={this.handleChange} value={this.state.administratorType}>
+                                    <option value="marketingAdmin" className="addAdminFormSelectOption">Marketing Administrator</option>
+                                </Form.Control>
+                            </Col>
+
+                            <Col md="3"></Col>
+                        </Form.Row>
+
+                        <Form.Row className="justify-content-center addAdminFormBtnRow">
+                            <Col className="text-center">
+                                <Button type="submit" id="addAdminFormBtn">Submit</Button>
+                            </Col>
+                        </Form.Row>
+
+                    </Form>
+>>>>>>> BeaBranch
                 </Modal.Body>
+                    
+                    {/* <Modal.Body>
+                        <p>
+                            <form onSubmit={this.addUser}>
+                    <input
+                    type="text"
+                    name="fullname"
+                    placeholder="Full name"
+                    onChange={this.updateInput}
+                    value={this.state.fullname}
+                    required
+                    />
+                    <input
+                    type="text"
+                    name="email"
+                    placeholder="Email"
+                    onChange={this.updateInput}
+                    value={this.state.email}
+                    required
+                    />
+                    <input
+                    type="text"
+                    name="administratorType"
+                    placeholder="Type of User"
+                    onChange={this.updateInput}
+                    value={this.state.administratorType}
+                    required
+                    />
+                    <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    onChange={this.updateInput}
+                    value={this.state.password}
+                    required
+                    />
+                    <button type="submit">Add User</button>
+                </form>
+                
+
+                
+                        </p>
+                    </Modal.Body> */}
             </div>
         )
     }

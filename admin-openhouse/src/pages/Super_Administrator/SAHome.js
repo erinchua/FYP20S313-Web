@@ -25,6 +25,7 @@ class SAHome extends Component {
       addUserModal: false,
     };
     this.handleAddUserModal = this.handleAddUserModal.bind(this);
+    // this.handleAddUserModalSubmit = this.handleAddUserModalSubmit.bind(this);
   }
 
   authListener() {
@@ -125,7 +126,6 @@ class SAHome extends Component {
         addUserModal: false 
       });
     }
-    
   };
   search = (e) => {
 var searchvalue = document.getElementById("SAHomeSearchBar").value;
@@ -154,6 +154,7 @@ if (searchvalue == "" || searchvalue == null) {
         counter ++;
       });
 
+<<<<<<< HEAD
       this.setState({ users: users });
     });
 } else {
@@ -183,6 +184,68 @@ if (searchvalue == "" || searchvalue == null) {
     });
 }
 }
+=======
+
+
+  search = (e) => {
+    var searchvalue = document.getElementById("SAHomeSearchBar").value;
+    var counter = 1;
+
+    const db = fire.firestore();
+
+    var searchvalue = document.getElementById("SAHomeSearchBar").value;
+    if (searchvalue == "" || searchvalue == null) {
+      
+      const userRef = db
+      .collection("Administrators")
+        .get()
+        .then((snapshot) => {
+          const users = [];
+          snapshot.forEach((doc) => {
+            const data = {
+              administratorType: doc.data().administratorType,
+            name: doc.data().name,
+            email: doc.data().email,
+            password: doc.data.password,
+            id: doc.id,
+            counter : counter,
+            };
+            users.push(data);
+            counter ++;
+          });
+
+          this.setState({ users: users });
+        });
+    } else {
+      const userRef = db
+        .collection("Administrators")
+        .orderBy("email")
+        .startAt(searchvalue)
+        .endAt(searchvalue + "\uf8ff")
+        .get()
+        .then((snapshot) => {
+          const users = [];
+          snapshot.forEach((doc) => {
+            const data = {
+            administratorType: doc.data().administratorType,
+            name: doc.data().name,
+            email: doc.data().email,
+            password: doc.data.password,
+            id: doc.id,
+            counter : counter,
+            };
+            counter++;
+            users.push(data);
+          });
+          
+          this.setState({ users: users });
+          
+        });
+    }
+  }
+  
+  
+>>>>>>> BeaBranch
   render() {
     if(this.state.Login)
 
@@ -344,9 +407,11 @@ if (searchvalue == "" || searchvalue == null) {
           <Modal
            show={this.state.addUserModal}
            onHide={this.handleAddUserModal}
-           aria-labelledby="example-custom-modal-styling-title"
+           aria-labelledby="addUserModalTitle"
            size="lg"
            centered
+           backdrop="static"
+           keyboard={false}
           >
             <AddUserModal />
           </Modal>
