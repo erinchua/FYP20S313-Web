@@ -14,7 +14,7 @@ class MAHome extends Component {
         return (
             <div>
                 <Container fluid className="MAHome-container">
-                    <NavBar />
+                    <NavBar isMA={true} />
 
                     <Container fluid className="MAHome-content">
                         <SideNavBar />

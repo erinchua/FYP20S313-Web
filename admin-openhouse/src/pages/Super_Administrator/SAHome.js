@@ -208,7 +208,7 @@ class SAHome extends Component {
     return (
       <div>
         <Container fluid className="SAHomeCon">
-            <Navbar />
+            <Navbar isMA={false} />
 
             <Container fluid className="SAHomeContent">
               <Row id="SAHomeSearchBarRow" className="justify-content-center">
