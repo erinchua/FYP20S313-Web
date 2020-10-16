@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, Container, Modal, Form, FormCheck, Button, Col } from 'react-bootstrap';
+import { Navbar, Nav, Container, Modal, Form, FormCheck, Button, Col, Row } from 'react-bootstrap';
 
 import "../css/ForgetPasswordModal.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -23,17 +23,11 @@ export default class ForgetPasswordModal extends React.Component {
         this.state = {
           administratorType: "",
           email: "",
-          fullname: "",
-          password: "",
           errors: {
-            fullname: "",
             email: "",
-            password: "",
           }
         };
-        // this.handleChange = this.handleChange.bind(this);
     }
-
 
 
     render(){
@@ -42,69 +36,29 @@ export default class ForgetPasswordModal extends React.Component {
         return (
             <div>
                 <Modal.Header closeButton className="justify-content-center">
-                    {/* <Modal.Title id="forgetPasswordModalTitle" className="w-100">
-                        Add Administrator
-                    </Modal.Title> */}
                 </Modal.Header>
+                
+                <Modal.Body>
+                    <Row className="justify-content-center">
+                        <Col size="12" className="text-center forgetPasswordModalCol">
+                            {/* <img id="forgetPasswordModalIcon" src={DeleteAdmin} /> */}
+                        </Col>
+                    </Row>
+                    
+                    <Row className="justify-content-center">
+                        <Col size="12" className="text-center forgetPasswordModalCol">
+                            <h5 id="forgetPasswordModalText">Are you sure you want to remove this administrator?</h5>
+                        </Col>
+                    </Row>
 
-                <Modal.Body id="addUserModalBody">
-                    <Form noValidate onSubmit={this.addUser}>
-                        {/* Admin Name */}
-                        <Form.Row className="justify-content-center addAdminFormRow">
-                            <Col md="3"></Col>
-                            
-                            <Col md="1" className="addAdminFormCol text-right">
-                                <FontAwesomeIcon size="lg" className="addAdminFormIcon" icon={faAddressCard} />
-                            </Col>
-
-                            <Col md="5">
-                                <Form.Control name="fullname" type="text" placeholder="Full Name*" className="addAdminFormText" required onChange={this.handleChange} value={this.state.fullname} noValidate />
-                                {errors.fullname.length > 0 && <span className='error errorText'>{errors.fullname}</span>}
-                            </Col>
-
-                            <Col md="3"></Col>
-                        </Form.Row>
-
-                        {/* Admin Email */}
-                        <Form.Row className="justify-content-center addAdminFormRow">
-                            <Col md="3"></Col>
-                            
-                            <Col md="1" className="addAdminFormCol text-right">
-                                <FontAwesomeIcon size="lg" className="addAdminFormIcon" icon={faEnvelope} />
-                            </Col>
-
-                            <Col md="5">
-                                <Form.Control name="email" type="email" placeholder="Email*" className="addAdminFormText" required onChange={this.handleChange} value={this.state.email} />
-                                {errors.email.length > 0 && <span className='error errorText'>{errors.email}</span>}
-                            </Col>
-
-                            <Col md="3"></Col>
-                        </Form.Row>
-
-                        {/* Admin User Type */}
-                        <Form.Row className="justify-content-center addAdminFormRow">
-                            <Col md="3"></Col>
-                            
-                            <Col md="1" className="addAdminFormCol text-right">
-                                <FontAwesomeIcon size="lg" className="addAdminFormIcon" icon={faUserCircle} />
-                            </Col>
-
-                            <Col md="5">
-                                <Form.Control as="select" name="administratorType" defaultValue="marketingAdmin" className="addAdminFormText" id="addAdminFormSelect" required onChange={this.handleChange} value={this.state.administratorType}>
-                                    <option value="marketingAdmin" className="addAdminFormSelectOption">Marketing Administrator</option>
-                                </Form.Control>
-                            </Col>
-
-                            <Col md="3"></Col>
-                        </Form.Row>
-
-                        <Form.Row className="justify-content-center addAdminFormBtnRow">
-                            <Col className="text-center">
-                                <Button type="submit" id="addAdminFormBtn">Submit</Button>
-                            </Col>
-                        </Form.Row>
-
-                    </Form>
+                    <Row className="justify-content-center">
+                        <Col size="6" className="text-right forgetPasswordModalCol">
+                            {/* Add DeleteUser onclick function here */}
+                            <Button id="confirmDeleteAdminModalBtn"> {/* onClick={ (e) => {DeleteUser(e, user.id);} } */}
+                                Confirm
+                            </Button>
+                        </Col>
+                    </Row>
                 </Modal.Body>
             </div>
         )

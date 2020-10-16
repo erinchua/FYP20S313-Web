@@ -322,7 +322,6 @@ class Login extends Component {
                 <Modal
                     show={this.state.forgetPasswordModal}
                     onHide={this.handleForgetPasswordModal}
-                    aria-labelledby="forgetPasswordModalTitle"
                     size="lg"
                     centered
                     backdrop="static"
