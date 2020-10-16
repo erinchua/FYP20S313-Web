@@ -49,7 +49,7 @@ export default class SideNavBar extends React.Component {
                                 <ContextAwareToggle eventKey="0">User Accounts</ContextAwareToggle>
                                 <Accordion.Collapse eventKey="0">
                                     <div>
-                                        <Nav.Link href="/StudentProfile" className="sideNavBar-navLinks">Prospective Students</Nav.Link>
+                                        <Nav.Link href="/StudentAccounts" className="sideNavBar-navLinks">Prospective Students</Nav.Link>
                                     </div>
                                 </Accordion.Collapse>
                             </Accordion>

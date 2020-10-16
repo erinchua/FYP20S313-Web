@@ -1,10 +1,19 @@
 import React, { Component } from "react";
 import fire from "../../config/firebase";
 import history from "../../config/history";
+import firecreate from "../../config/firebasecreate";
+import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal, Alert } from 'react-bootstrap';
 
-//import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
+import "../../css/Marketing_Administrator/StudentAccounts.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
-class StudentProfile extends Component {
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+
+
+class StudentAccounts extends Component {
   constructor() {
     super();
     this.logout = this.logout.bind(this);
@@ -42,6 +51,7 @@ class StudentProfile extends Component {
       }
     });
   }
+
   updateInput = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -90,6 +100,7 @@ class StudentProfile extends Component {
     history.push("/Login");
     window.location.reload();
   }
+
   Unsuspend(e, studentdocid) {
     const db = fire.firestore();
 
@@ -115,6 +126,7 @@ class StudentProfile extends Component {
       });
 
   }
+
   Suspend(e, studentdocid) {
     const db = fire.firestore();
 
@@ -199,10 +211,21 @@ class StudentProfile extends Component {
     }
   };
 
+
   render() {
     return (
-      <div className="home">
-        <div>
+      <div>
+        <Container fluid className="MAStudentAcctCon">
+          <Navbar isMA={true} />
+
+          <Container fluid className="MAStudentAcctContent">
+
+          </Container>
+        </Container>
+
+        <Footer />
+
+        {/* <div>
           <table id="users" class="table table-bordered">
             Search: <input type="text" onChange={this.Search} />
             <tbody>
@@ -255,9 +278,9 @@ class StudentProfile extends Component {
           </table>
         </div>
         <button onClick={this.changepasswordpage}>Change Password</button>
-        <button onClick={this.logout}>Logout</button>
+        <button onClick={this.logout}>Logout</button> */}
       </div>
     );
   }
 }
-export default StudentProfile;
+export default StudentAccounts;
