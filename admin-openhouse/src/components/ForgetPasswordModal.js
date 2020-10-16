@@ -1,10 +1,7 @@
 import React from 'react';
-import { Navbar, Nav, Container, Modal, Form, FormGroup, FormCheck, Button, InputGroup, Col } from 'react-bootstrap';
+import { Navbar, Nav, Container, Modal, Form, FormCheck, Button, Col } from 'react-bootstrap';
 
-import fire from "../../config/firebase";
-import history from "../../config/history";
-import firecreate from "../../config/firebasecreate";
-import "../../css/Super_Administrator/AddUserModal.css";
+import "../css/ForgetPasswordModal.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAddressCard, faEnvelope, faUserCircle } from '@fortawesome/free-regular-svg-icons';
 
@@ -19,7 +16,7 @@ const validateForm = (errors) => {
   return valid;
 }
 
-export default class AddUserModal extends React.Component {
+export default class ForgetPasswordModal extends React.Component {
 
     constructor() {
         super();
@@ -34,78 +31,9 @@ export default class AddUserModal extends React.Component {
             password: "",
           }
         };
-        this.handleChange = this.handleChange.bind(this);
+        // this.handleChange = this.handleChange.bind(this);
     }
 
-    updateInput = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value,
-        });
-    };
-      
-    addUser = (e) => {
-        if (validateForm(this.state.errors)) {
-            console.info('Valid User');
-        } else {
-            console.error('Invalid User');
-        }
-
-        e.preventDefault();
-        firecreate
-          .auth()
-          .createUserWithEmailAndPassword(this.state.email, this.state.password)
-          .then((useraction) => {
-            const db = fire.firestore();
-    
-            const userRef = db
-                .collection("Administrators")
-                .add({
-                    administratorType: this.state.administratorType,
-                    email: this.state.email,
-                    name: this.state.fullname,
-                    password: this.state.password,
-                })
-                .then(function () {
-                    alert("Added");
-                    window.location.reload();
-                });
-
-            this.setState({
-                fullname: "",
-                email: "",
-            });
-        });
-    };
-    
-    /* Add User Modal Validations */
-    handleChange = (e) => {
-        e.preventDefault();
-        const { name, value } = e.target;
-        
-        let errors = this.state.errors;
-        
-        switch (name) {
-            case 'fullname': 
-                errors.fullname = value.length < 2
-                    ? 'Please enter a valid full name!'
-                    : '';
-                break;
-
-            case 'email': 
-                errors.email = validEmailRegex.test(value)
-                    ? ''
-                    : 'Please enter a valid email!';
-                break;
-
-            default:
-                break;
-        }
-        
-        this.setState({errors, [e.target.name]: e.target.value}, ()=> {
-            console.log(errors)
-        })
-    
-    }
 
 
     render(){
@@ -114,9 +42,9 @@ export default class AddUserModal extends React.Component {
         return (
             <div>
                 <Modal.Header closeButton className="justify-content-center">
-                    <Modal.Title id="addUserModalTitle" className="w-100">
+                    {/* <Modal.Title id="forgetPasswordModalTitle" className="w-100">
                         Add Administrator
-                    </Modal.Title>
+                    </Modal.Title> */}
                 </Modal.Header>
 
                 <Modal.Body id="addUserModalBody">
@@ -178,48 +106,6 @@ export default class AddUserModal extends React.Component {
 
                     </Form>
                 </Modal.Body>
-                    
-                    {/* <Modal.Body>
-                        <p>
-                            <form onSubmit={this.addUser}>
-                    <input
-                    type="text"
-                    name="fullname"
-                    placeholder="Full name"
-                    onChange={this.updateInput}
-                    value={this.state.fullname}
-                    required
-                    />
-                    <input
-                    type="text"
-                    name="email"
-                    placeholder="Email"
-                    onChange={this.updateInput}
-                    value={this.state.email}
-                    required
-                    />
-                    <input
-                    type="text"
-                    name="administratorType"
-                    placeholder="Type of User"
-                    onChange={this.updateInput}
-                    value={this.state.administratorType}
-                    required
-                    />
-                    <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    onChange={this.updateInput}
-                    value={this.state.password}
-                    required
-                    />
-                    <button type="submit">Add User</button>
-                </form>
-                
-                
-                        </p>
-                    </Modal.Body> */}
             </div>
         )
     }

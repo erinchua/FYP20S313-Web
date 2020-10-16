@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import fire from "../../config/firebase";
 import history from "../../config/history";
 import firecreate from "../../config/firebasecreate";
-import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal, Alert } from 'react-bootstrap';
 
 import "../../css/Super_Administrator/SAHome.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import DeleteAdmin from "../../img/Super_Administrator/deleteAdmin.png";
 
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
@@ -23,9 +24,10 @@ class SAHome extends Component {
       fullname: "",
       password: "",
       addUserModal: false,
+      deleteAdminModal: false,
     };
     this.handleAddUserModal = this.handleAddUserModal.bind(this);
-    // this.handleAddUserModalSubmit = this.handleAddUserModalSubmit.bind(this);
+    // this.handleDeleteModalSubmit = this.handleDeleteModalSubmit.bind(this);
   }
 
   authListener() {
@@ -56,6 +58,7 @@ class SAHome extends Component {
       }
     });
   }
+
   updateInput = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -70,11 +73,10 @@ class SAHome extends Component {
       .doc(administratorid)
       .delete()
       .then(function () {
-        alert("Deleted");
+        // alert("Deleted");
         window.location.reload();
       });
   }
-
   
   componentDidMount() {
     this.authListener();
@@ -105,11 +107,11 @@ class SAHome extends Component {
         this.setState({ users: users });
       });
   }
+  
   logout() {
     fire.auth().signOut();
     history.push("/Login");
   }
-
 
 
   /* Add User Modal */
@@ -123,6 +125,21 @@ class SAHome extends Component {
     else {
       this.setState({ 
         addUserModal: false 
+      });
+    }
+  };
+
+  /* Delete Admin Modal */
+  handleDeleteAdminModal = () => {
+    this.deleteAdminModal = this.state.deleteAdminModal;
+    if (this.deleteAdminModal == false) {
+      this.setState({
+        deleteAdminModal: true
+      });
+    }
+    else {
+      this.setState({
+        deleteAdminModal: false
       });
     }
   };
@@ -245,9 +262,13 @@ class SAHome extends Component {
                             <td id="adminEmailData">{user.email}</td>
                             <td id="adminUserTypeData">{user.administratorType}</td>
                             <td id="removeAdminData">
-                              <Button id="removeAdminBtn" onClick={(e) => {
+                              {/* <Button id="removeAdminBtn" onClick={(e) => {
                                 this.DeleteUser(e, user.id);
                               }}>
+                                <FontAwesomeIcon size="lg" id="removeAdminBtnIcon" icon={faTrashAlt} />  
+                              </Button> */}
+                              
+                              <Button id="removeAdminBtn" onClick={this.handleDeleteAdminModal}>
                                 <FontAwesomeIcon size="lg" id="removeAdminBtnIcon" icon={faTrashAlt} />  
                               </Button>
                             </td>
@@ -353,6 +374,52 @@ class SAHome extends Component {
            keyboard={false}
           >
             <AddUserModal />
+          </Modal>
+          :''
+        }
+
+        {this.state.deleteAdminModal == true ? 
+          <Modal 
+            show={this.state.deleteAdminModal}
+            onHide={this.handleDeleteAdminModal}
+            aria-labelledby="deleteAdminModalTitle"
+            size="md"
+            centered
+            backdrop="static"
+            keyboard={false}
+          >
+            <Modal.Header closeButton className="justify-content-center">
+              <Modal.Title id="deleteAdminModalTitle">
+                Remove Administrator?
+              </Modal.Title>
+            </Modal.Header>
+            
+            <Modal.Body>
+              <Row className="justify-content-center">
+                <Col size="12" className="text-center deleteAdminModalCol">
+                  <img id="deleteAdminModalIcon" src={DeleteAdmin} />
+                </Col>
+              </Row>
+              
+              <Row className="justify-content-center">
+                <Col size="12" className="text-center deleteAdminModalCol">
+                  <h5 id="deleteAdminModalText">Are you sure you want to remove this administrator?</h5>
+                </Col>
+              </Row>
+
+              <Row className="justify-content-center">
+                <Col size="6" className="text-right deleteAdminModalCol">
+                  {/* Add DeleteUser onclick function here */}
+                  <Button id="confirmDeleteAdminModalBtn"> {/* onClick={ (e) => {DeleteUser(e, user.id);} } */}
+                    Confirm
+                  </Button>
+                </Col>
+
+                <Col size="6" className="text-left deleteAdminModalCol">
+                  <Button id="cancelDeleteAdminModalBtn" onClick={this.handleDeleteAdminModal}>Cancel</Button>
+                </Col>
+              </Row>
+            </Modal.Body>
           </Modal>
           :''
         }
