@@ -1,9 +1,9 @@
 import React from 'react';
-import { Navbar, Nav, Container, Modal, Form, FormCheck, Button, Col } from 'react-bootstrap';
+import { Modal, Form, Button, Col, Row } from 'react-bootstrap';
 
 import "../css/ForgetPasswordModal.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAddressCard, faEnvelope, faUserCircle } from '@fortawesome/free-regular-svg-icons';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 
 const validEmailRegex = RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -23,17 +23,37 @@ export default class ForgetPasswordModal extends React.Component {
         this.state = {
           administratorType: "",
           email: "",
-          fullname: "",
-          password: "",
           errors: {
-            fullname: "",
             email: "",
-            password: "",
           }
         };
-        // this.handleChange = this.handleChange.bind(this);
+
+        this.handleEmailChange = this.handleEmailChange.bind(this);
     }
 
+    /* Forget Password Modal Validations */
+    handleEmailChange = (e) => {
+        e.preventDefault();
+        const { name, value } = e.target;
+        
+        let errors = this.state.errors;
+        
+        switch (name) {
+            case 'email': 
+                errors.email = validEmailRegex.test(value)
+                    ? ''
+                    : 'Please enter a valid email!';
+                break;
+
+            default:
+                break;
+        }
+        
+        this.setState({errors, [e.target.name]: e.target.value}, ()=> {
+            console.log(errors)
+        })
+    
+    }
 
 
     render(){
@@ -41,69 +61,43 @@ export default class ForgetPasswordModal extends React.Component {
 
         return (
             <div>
-                <Modal.Header closeButton className="justify-content-center">
-                    {/* <Modal.Title id="forgetPasswordModalTitle" className="w-100">
-                        Add Administrator
-                    </Modal.Title> */}
-                </Modal.Header>
-
-                <Modal.Body id="addUserModalBody">
-                    <Form noValidate onSubmit={this.addUser}>
-                        {/* Admin Name */}
-                        <Form.Row className="justify-content-center addAdminFormRow">
-                            <Col md="3"></Col>
-                            
-                            <Col md="1" className="addAdminFormCol text-right">
-                                <FontAwesomeIcon size="lg" className="addAdminFormIcon" icon={faAddressCard} />
+                <Modal.Header closeButton className="justify-content-center"></Modal.Header>
+                
+                <Modal.Body>
+                    <Form noValidate onSubmit={this.resetPassword} >
+                        <Form.Row className="justify-content-center">
+                            <Col size="12" className="text-center forgetPasswordModalImgCol">
+                                <FontAwesomeIcon id="registeredEmail_logo" size="3x" icon={faPaperPlane} />
                             </Col>
-
-                            <Col md="5">
-                                <Form.Control name="fullname" type="text" placeholder="Full Name*" className="addAdminFormText" required onChange={this.handleChange} value={this.state.fullname} noValidate />
-                                {errors.fullname.length > 0 && <span className='error errorText'>{errors.fullname}</span>}
+                        </Form.Row>
+                        
+                        <Form.Row className="justify-content-center">
+                            <Col size="12" className="text-center">
+                                <h5 id="forgetPasswordModalText">Please enter your registered email</h5>
                             </Col>
-
-                            <Col md="3"></Col>
                         </Form.Row>
 
-                        {/* Admin Email */}
-                        <Form.Row className="justify-content-center addAdminFormRow">
-                            <Col md="3"></Col>
-                            
-                            <Col md="1" className="addAdminFormCol text-right">
-                                <FontAwesomeIcon size="lg" className="addAdminFormIcon" icon={faEnvelope} />
+                        <Form.Row className="justify-content-center">
+                            <Col size="12" className="text-center forgetPasswordModalCol">
+                                <p id="forgetPasswordModalSubText">An email will be sent to your registered email shortly.</p>
                             </Col>
+                        </Form.Row>
 
-                            <Col md="5">
-                                <Form.Control name="email" type="email" placeholder="Email*" className="addAdminFormText" required onChange={this.handleChange} value={this.state.email} />
+                        <Form.Row className="justify-content-center forgetPasswordModalEmailRow">
+                            <Col size="12" className="text-left forgetPasswordModalEmailCol">
+                                <Form.Control name="email" type="email" placeholder="Email*" className="forgetPasswordFormText" required onFocus={this.handleEmailChange} onChange={this.handleEmailChange} value={this.state.email} noValidate />
                                 {errors.email.length > 0 && <span className='error errorText'>{errors.email}</span>}
                             </Col>
-
-                            <Col md="3"></Col>
                         </Form.Row>
 
-                        {/* Admin User Type */}
-                        <Form.Row className="justify-content-center addAdminFormRow">
-                            <Col md="3"></Col>
-                            
-                            <Col md="1" className="addAdminFormCol text-right">
-                                <FontAwesomeIcon size="lg" className="addAdminFormIcon" icon={faUserCircle} />
-                            </Col>
-
-                            <Col md="5">
-                                <Form.Control as="select" name="administratorType" defaultValue="marketingAdmin" className="addAdminFormText" id="addAdminFormSelect" required onChange={this.handleChange} value={this.state.administratorType}>
-                                    <option value="marketingAdmin" className="addAdminFormSelectOption">Marketing Administrator</option>
-                                </Form.Control>
-                            </Col>
-
-                            <Col md="3"></Col>
-                        </Form.Row>
-
-                        <Form.Row className="justify-content-center addAdminFormBtnRow">
-                            <Col className="text-center">
-                                <Button type="submit" id="addAdminFormBtn">Submit</Button>
+                        <Form.Row className="justify-content-center">
+                            <Col size="12" className="text-center forgetPasswordModalCol">
+                                {/* Add Send Email onclick function here */}
+                                <Button id="forgetPasswordModalSendEmailBtn" type="submit"> {/* onClick={ } */}
+                                    Send Email
+                                </Button>
                             </Col>
                         </Form.Row>
-
                     </Form>
                 </Modal.Body>
             </div>
