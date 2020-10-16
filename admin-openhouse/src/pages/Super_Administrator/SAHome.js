@@ -129,6 +129,7 @@ class SAHome extends Component {
     }
   };
 
+  /* Delete Admin Modal */
   handleDeleteAdminModal = () => {
     this.deleteAdminModal = this.state.deleteAdminModal;
     if (this.deleteAdminModal == false) {
