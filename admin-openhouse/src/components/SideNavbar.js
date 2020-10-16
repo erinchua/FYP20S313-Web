@@ -7,12 +7,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default class SideNavBar extends React.Component {
 
-    constructor () {
-        super();
-        this.state = {
-            open: false
-        }
-    }
+    // constructor () {
+    //     super();
+    //     this.state = {
+    //         open: false
+    //     }
+    // }
 
     render(){
         return (
@@ -29,7 +29,7 @@ export default class SideNavBar extends React.Component {
                         <div className="border"></div>
                         <Nav.Item className="sideNavBar-navItems">
                             <Accordion>
-                                <Accordion.Toggle eventKey="0" className="sideNavBar-accordion" onToggle={this.setState({open: true})}>User Accounts{this.state.open ? <FontAwesomeIcon icon={faChevronDown} className="sideNavBar-icons" /> : <FontAwesomeIcon icon={faChevronUp} className="sideNavBar-icons" />}</Accordion.Toggle>
+                                <Accordion.Toggle eventKey="0" className="sideNavBar-accordion">User Accounts<FontAwesomeIcon icon={faChevronDown} className="sideNavBar-icons" /></Accordion.Toggle>
                                 <Accordion.Collapse eventKey="0">
                                     <Nav.Link href="/StudentProfile" className="sideNavBar-navLinks">Prospective Students</Nav.Link>
                                 </Accordion.Collapse>

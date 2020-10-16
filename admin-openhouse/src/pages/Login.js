@@ -194,6 +194,7 @@ class Login extends Component {
 
     /* Forget Password Modal */
     handleForgetPasswordModal = () => {
+        this.resetForm();
         this.forgetPasswordModal = this.state.forgetPasswordModal;
         if (this.forgetPasswordModal == false) {
             this.setState({
@@ -256,8 +257,7 @@ class Login extends Component {
                                                 <Form.Group as={Col} md="7">
                                                     <div className="text-right">
                                                         {/* <Button type="submit" variant="link" size="sm" onClick={this.reset}>Forget Password?</Button> */}
-                                                        <Button type="submit" variant="link" size="sm" onClick={this.handleForgetPasswordModal.bind(this)}>Forget Password?</Button>
-                                                        
+                                                        <Button variant="link" size="sm" onClick={this.handleForgetPasswordModal.bind(this)}>Forget Password?</Button>
                                                     </div>   
                                                 </Form.Group> 
                                             </Form.Group>                          
