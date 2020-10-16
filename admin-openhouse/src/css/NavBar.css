@@ -45,3 +45,39 @@
 #navContent {
     min-width: 80%;
 }
+
+/* MA Nav */
+#MAEmail {
+    color: #ffffff;
+    text-align: center;
+    font-size: 90%;
+}
+
+#navDropdown {
+    color: #ffffff;
+}
+
+.navDropdownItem {
+    color: #ffffff !important;
+    background: #424242 !important;
+    padding: 0;
+    font-size: 85%;
+}
+
+.dropdown-menu-right {
+    background: #424242 !important;
+    border: 1px solid #424242;
+    margin-top: 10% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.navDropdownItem:hover {
+    background: #e4f2f0 !important;
+    color: #424242 !important;
+}
+
+.dropdownNavIcon {
+    margin-right: 5%;
+    font-size: 85%;
+}
