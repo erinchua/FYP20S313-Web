@@ -1,4 +1,4 @@
-import { Tab, Nav, Row, Col, Form, Container, Button } from 'react-bootstrap';
+import { Tab, Nav, Row, Col, Form, Container, Button, Modal } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../config/firebase";
 import history from "../config/history";
@@ -7,6 +7,8 @@ import '../css/Login.css';
 import simLogo from '../img/WebAppLogo.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAt, faLock } from '@fortawesome/free-solid-svg-icons';
+import ForgetPasswordModal from "../components/ForgetPasswordModal";
+ 
 
 const marketingInitialState = {
     marketingEmailError: "",
@@ -32,7 +34,9 @@ class Login extends Component {
             email: "",
             password: "",
             user: "",
+            forgetPasswordModal: false,
         };
+        this.handleForgetPasswordModal = this.handleForgetPasswordModal.bind(this);
     }
 
     componentDidMount() {
@@ -188,6 +192,21 @@ class Login extends Component {
         window.location.reload();
     }
 
+    /* Forget Password Modal */
+    handleForgetPasswordModal = () => {
+        this.forgetPasswordModal = this.state.forgetPasswordModal;
+        if (this.forgetPasswordModal == false) {
+            this.setState({
+                forgetPasswordModal: true
+            });
+            }
+            else {
+            this.setState({
+                forgetPasswordModal: false
+            });
+        }
+    };
+
     render() {
         return (
         <div id="login-content-container">
@@ -236,7 +255,9 @@ class Login extends Component {
                                                 <Form.Group as={Col} md="3"></Form.Group>
                                                 <Form.Group as={Col} md="7">
                                                     <div className="text-right">
-                                                        <Button type="submit" variant="link" size="sm" onClick={this.reset}>Forget Password?</Button>
+                                                        {/* <Button type="submit" variant="link" size="sm" onClick={this.reset}>Forget Password?</Button> */}
+                                                        <Button type="submit" variant="link" size="sm" onClick={this.handleForgetPasswordModal.bind(this)}>Forget Password?</Button>
+                                                        
                                                     </div>   
                                                 </Form.Group> 
                                             </Form.Group>                          
@@ -296,6 +317,22 @@ class Login extends Component {
                     </Col>
                 </Row>
             </Tab.Container>
+
+            {this.state.forgetPasswordModal == true ?
+                <Modal
+                    show={this.state.forgetPasswordModal}
+                    onHide={this.handleForgetPasswordModal}
+                    aria-labelledby="forgetPasswordModalTitle"
+                    size="lg"
+                    centered
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <ForgetPasswordModal />
+                </Modal>
+                :''
+            }
+
         </div>
 
         /*<div className="App">
