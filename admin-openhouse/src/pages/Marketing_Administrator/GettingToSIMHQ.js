@@ -46,40 +46,94 @@ class GettingToSIMHQ extends Component {
   };
 
   componentDidMount() {
-   this.authListener();
+  //this.authListener();
+  this.display();
   }
 
 display() {
     const db = fire.firestore();
-    var counter = 1;
-    const userRef = db
+  //car
+    const car = db
+      .collection("CampusLocation").doc("car")
+      .get()
+      .then((snapshot) => {
+        const cararray = [];
+        const car = snapshot.data();
+        const data = {
+        
+          carDescription:car.carDescription ,
+          
+        };
+        cararray.push(data); 
+        this.setState({ cararr: cararray}); 
+        
+      
+      });
+//bus 
+      const bust = db
       .collection("CampusLocation").doc("bus")
       .get()
       .then((snapshot) => {
-        //const location = [];
-        console.log(snapshot.data());
+        const busarray = [];
         const bus = snapshot.data();
-        console.log(Object.keys(bus.busNo)[0])
-        console.log(Object.keys(bus.busNo)[1])
-        for (var i = 0; i <Object.keys(bus.busNo).length; i++) {
+      
 
-        console.log(Object.keys(bus.busNo)[0])
+        for (var i = 1; i <= Object.keys(bus.busNo).length; i++) {
+          var querynumber = "bus"+i;
+                
+          const data = {
+            busid : querynumber,
+            busno: bus.busNo[querynumber],
+            
+          };
+          busarray.push(data); 
         }
-         /* const data = {
-            carDescription: doc.data().carDescription,
-            carParkingDescription: doc.data().carParkingDescription,
-            modeOfTransport: doc.data().modeOfTransport,
-            busNo: doc.data().busNo,
-            nearestMRT: doc.data().nearestMRT,
-            id: doc.id,
-            counter : counter,
-          };*/
-          counter++;
-          //location.push(data); 
-    
-
-        //this.setState({ location: location });
+       this.setState(() => ({ busarray: busarray }))
       });
+//mrt
+const mrt = db
+      .collection("CampusLocation").doc("mrt")
+      .get()
+      .then((snapshot) => {
+        const mrtarray = [];
+        const mrt = snapshot.data();
+       //console.log(mrt.mrt)
+
+       for (var i = 1; i <= Object.keys(mrt.mrt).length; i++) {
+          var querynumber = "nearestMRT"+i;
+                
+          const data = {
+            id : querynumber,
+            nearestMRT: mrt.mrt[querynumber],
+            
+          };
+          mrtarray.push(data); 
+        }
+       this.setState(() => ({ mrtarr: mrtarray }))
+    
+      });
+
+
+
+//carpark
+const carpark = db
+.collection("CampusLocation").doc("car")
+.get()
+.then((snapshot) => {
+  const carparkarray = [];
+  const carpark = snapshot.data();
+  const data = {
+  
+    carparkDescription:carpark.carparkDescription,
+    
+  };
+  carparkarray.push(data); 
+  this.setState({ carparkarr: carparkarray}); 
+  
+
+});
+
+      
   }
 
   carupdate= (e, locationid) => {
@@ -90,7 +144,7 @@ display() {
      
       const userRef = db
         .collection("CampusLocation")
-        .doc(locationid)
+        .doc("car")
         .update({
          carDescription: value
         
@@ -107,16 +161,19 @@ display() {
   }
 
   busupdate= (e, locationid) => {
-    var value = document.getElementById(locationid + "busno").value;
+    const dbfiled = "busNo." + locationid;
+
+    alert(dbfiled);
+  var value = document.getElementById(locationid + "busno").value;
     if(value !== ""  ){
     value = document.getElementById(locationid + "busno").value;
     const db = fire.firestore();
      
       const userRef = db
         .collection("CampusLocation")
-        .doc(locationid)
+        .doc("bus")
         .update({
-         busNo: value
+          [dbfiled]: value
         
         })
         .then(function () {
@@ -134,13 +191,14 @@ display() {
     var value = document.getElementById(locationid + "nearmrt").value;
     if(value !== ""  ){
     value = document.getElementById(locationid + "nearmrt").value;
+    var dbfield = "mrt."+locationid;
     const db = fire.firestore();
      
       const userRef = db
         .collection("CampusLocation")
-        .doc(locationid)
+        .doc("mrt")
         .update({
-         nearestMRT: value
+         [dbfield]: value
         
         })
         .then(function () {
@@ -154,16 +212,16 @@ display() {
 
   }
   carparkupdate= (e, locationid) => {
-    var value = document.getElementById(locationid + "carpark").value;
+    var value = document.getElementById("carparkinput").value;
     if(value !== ""  ){
-    value = document.getElementById(locationid + "carpark").value;
+    value = document.getElementById("carparkinput").value;
     const db = fire.firestore();
      
       const userRef = db
         .collection("CampusLocation")
-        .doc(locationid)
+        .doc("car")
         .update({
-          carParkingDescription: value
+          carparkDescription: value
         
         })
         .then(function () {
@@ -216,12 +274,12 @@ display() {
       }
     }
     if(type==="carpark"){
-      document.getElementById(locationid + "spancarpark").removeAttribute("hidden");      
-      document.getElementById(locationid + "editbutton").setAttribute("hidden", "");
-      document.getElementById(locationid + "updatebutton").removeAttribute("hidden");
-      document.getElementById(locationid + "cancelbutton").removeAttribute("hidden");
+      document.getElementById("carparkspan").removeAttribute("hidden");      
+      document.getElementById("carparkeditbutton").setAttribute("hidden", "");
+      document.getElementById("carparkupdatebutton").removeAttribute("hidden");
+      document.getElementById("carparkcancelbutton").removeAttribute("hidden");
       var texttohide = document.getElementsByClassName(
-        locationid + "text"
+        "carparktext"
       );
       for (var i = 0; i < texttohide.length; i++) {
         texttohide[i].setAttribute("hidden", "");
@@ -270,12 +328,12 @@ display() {
       }
     }
     if(type==="carpark"){
-      document.getElementById(locationid + "spancarpark").setAttribute("hidden", "")
-      document.getElementById(locationid + "editbutton").removeAttribute("hidden");
-      document.getElementById(locationid + "updatebutton").setAttribute("hidden", "");
-      document.getElementById(locationid + "cancelbutton").setAttribute("hidden", "");
+      document.getElementById("carparkspan").setAttribute("hidden", "")
+      document.getElementById("carparkeditbutton").removeAttribute("hidden");
+      document.getElementById("carparkupdatebutton").setAttribute("hidden", "");
+      document.getElementById("carparkcancelbutton").setAttribute("hidden", "");
       var texttohide = document.getElementsByClassName(
-        locationid + "text"
+        "carparktext"
       );
       for (var i = 0; i < texttohide.length; i++) {
         texttohide[i].removeAttribute("hidden", "");
@@ -283,7 +341,6 @@ display() {
     }
    
 }
-
   render() {
     return (
       <div className="home">
@@ -292,57 +349,57 @@ display() {
             <tbody>
                 <h5>By Car</h5>
               <tr>
-                <th scope="col">S/N</th>
+                <th scope="col">ID</th>
                 <th scope="col">Information</th>
                 <th scope="col">Edit</th>
               </tr>
-              {this.state.location &&
-                this.state.location.map((location) => {
-                    if(location.modeOfTransport === "Car"){
+              {this.state.cararr &&
+                this.state.cararr.map((car) => {
+                    
                         return (
                             <tr>
-                              <td>{location.counter}</td>
+                              <td>{car.id}</td>
                               <td>
-                              <span class={location.id + "text"}>
-                              {location.carDescription} 
+                              <span class={car.id + "text"}>
+                              {car.carDescription} 
                         </span>
                           
-                          <span id={location.id + "spancardes"} hidden>
+                          <span id={car.id + "spancardes"} hidden>
                           <input
-                            id={location.id + "carDes"}
-                            defaultValue={location.carDescription}
+                            id={car.id + "carDes"}
+                            defaultValue={car.carDescription}
                             type="text"
-                            name={location.id + "carDes"}
+                            name={car.id + "carDes"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={location.carDescription}
+                            placeholder={car.carDescription}
                             required
                           />
                         </span></td>
                         <td>
                         <button
-                          id={location.id + "editbutton"}
+                          id={car.id + "editbutton"}
                           onClick={(e) => {
-                            this.editLocation(e, location.id,"car");
+                            this.editLocation(e, car.id,"car");
                           }}
                         >
                           Edit
                         </button>
 
                         <button
-                          id={location.id + "updatebutton"}
+                          id={car.id + "updatebutton"}
                           hidden
                           onClick={(e) => {
-                            this.carupdate(e, location.id);
+                            this.carupdate(e, car.id);
                           }}
                         >
                           Update
                         </button>
                         <button
                           hidden
-                          id={location.id + "cancelbutton"}
+                          id={car.id + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, location.id,"car");
+                            this.CancelEdit(e, car.id,"car");
                           }}
                         >
                           Cancel
@@ -350,62 +407,61 @@ display() {
                       </td>
                             </tr>
                           );
-                    }
+                    
                 })}
                 <h5>By Bus</h5>
               <tr>
-                <th scope="col">S/N</th>
+                <th scope="col">ID</th>
                 <th scope="col">Bus Number</th>
                 <th scope="col">Edit</th>
               </tr>
-              {this.state.location &&
-                this.state.location.map((location,index) => {
-                  if(location.modeOfTransport === "Bus"){
-                    
+              {this.state.busarray &&
+                this.state.busarray.map((bus,index) => {
+                
                         return (
                             <tr>
-                              <td>{index} </td>
+                              <td>{index+1} </td>
                               <td>
-                              <span class={location.id + "text"}>
-                              {location.busNo} 
+                              <span class={bus.busid + "text"}>
+                              {bus.busno} 
                         </span>
                           
-                          <span id={location.id + "spanbusno"} hidden>
+                          <span id={bus.busid + "spanbusno"} hidden>
                           <input
-                            id={location.id + "busno"}
-                            defaultValue={location.busNo}
+                            id={bus.busid + "busno"}
+                            defaultValue={bus.busno}
                             type="text"
-                            name={location.id + "busno"}
+                            name={bus.busid + "busno"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={location.busNo}
+                            placeholder={bus.busNo}
                             required
                           />
                         </span> </td>
                         <td>
                         <button
-                          id={location.id + "editbutton"}
+                          id={bus.busid + "editbutton"}
                           onClick={(e) => {
-                            this.editLocation(e, location.id,"bus");
+                            this.editLocation(e, bus.busid,"bus");
                           }}
                         >
                           Edit
                         </button>
 
                         <button
-                          id={location.id + "updatebutton"}
+                          id={bus.busid + "updatebutton"}
                           hidden
                           onClick={(e) => {
-                            this.busupdate(e, location.id);
+                            this.busupdate(e, bus.busid);
                           }}
                         >
                           Update
                         </button>
                         <button
                           hidden
-                          id={location.id + "cancelbutton"}
+                          id={bus.busid + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, location.id,"bus");
+                            this.CancelEdit(e, bus.busid,"bus");
                           }}
                         >
                           Cancel
@@ -413,63 +469,61 @@ display() {
                       </td>
                             </tr>
                           );
-                          
-                        }
+                    
                 })}
                 <h5>By MRT</h5>
               <tr>
-                <th scope="col">S/N</th>
+                <th scope="col">ID</th>
                 <th scope="col">Nearest MRT</th>
                 <th scope="col">Edit</th>
               </tr>
-              {this.state.location &&
-                this.state.location.map((location,index) => {
-                    if(location.modeOfTransport === "MRT"){
-                     console.log(index);
+              {this.state.mrtarr &&
+                this.state.mrtarr.map((mrt,index) => {
+                    
                         return (
                             <tr>
                               <td>{index} </td>
                               <td>
-                              <span class={location.id + "text"}>
-                              {location.nearestMRT}
+                              <span class={mrt.id + "text"}>
+                              {mrt.nearestMRT}
                         </span>
                           
-                          <span id={location.id + "spannearmrt"} hidden>
+                          <span id={mrt.id + "spannearmrt"} hidden>
                           <input
-                            id={location.id + "nearmrt"}
-                            defaultValue={location.nearestMRT}
+                            id={mrt.id + "nearmrt"}
+                            defaultValue={mrt.nearestMRT}
                             type="text"
-                            name={location.id + "nearmrt"}
+                            name={mrt.id + "nearmrt"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={location.nearestMRT}
+                            placeholder={mrt.nearestMRT}
                             required
                           />
                         </span></td>
                         <td>
                         <button
-                          id={location.id + "editbutton"}
+                          id={mrt.id + "editbutton"}
                           onClick={(e) => {
-                            this.editLocation(e, location.id,"mrt");
+                            this.editLocation(e, mrt.id,"mrt");
                           }}
                         >
                           Edit
                         </button>
 
                         <button
-                          id={location.id + "updatebutton"}
+                          id={mrt.id + "updatebutton"}
                          hidden
                           onClick={(e) => {
-                            this.mrtupdate(e, location.id);
+                            this.mrtupdate(e, mrt.id);
                           }}
                         >
                           Update
                         </button>
                         <button
                           hidden
-                          id={location.id + "cancelbutton"}
+                          id={mrt.id + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, location.id,"mrt");
+                            this.CancelEdit(e, mrt.id,"mrt");
                           }}
                         >
                           Cancel
@@ -477,61 +531,61 @@ display() {
                       </td>
                             </tr>
                           );
-                    }
+                    
                 })}
                 <h5>Car Park Info</h5>
               <tr>
-                <th scope="col">S/N</th>
+                <th scope="col">ID</th>
                 <th scope="col">Car Park Information</th>
                 <th scope="col">Edit</th>
               </tr>
-              {this.state.location &&
-                this.state.location.map((location) => {
-                    if(location.modeOfTransport === "Car"){
+              {this.state.carparkarr &&
+                this.state.carparkarr.map((carpark,index) => {
+                   
                         return (
                             <tr>
-                              <td>{location.counter} </td>
+                              <td>{index} </td>
                               <td>
-                              <span class={location.id + "text"}>
-                              {location.carParkingDescription}  
+                              <span class="carparktext">
+                              {carpark.carparkDescription}
                         </span>
                           
-                          <span id={location.id + "spancarpark"} hidden>
+                          <span id={"carparkspan"} hidden>
                           <input
-                            id={location.id + "carpark"}
-                            defaultValue={location.carParkingDescription}
+                            id="carparkinput"
+                            defaultValue={carpark.carparkDescription}
                             type="text"
-                            name={location.id + "carpark"}
+                            name={carpark.id + "carpark"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={location.carParkingDescription}
+                            placeholder={carpark.carparkDescription}
                             required
                           />
                         </span></td>
                               <td>
                         <button
-                          id={location.id + "editbutton"}
+                          id="carparkeditbutton"
                           onClick={(e) => {
-                            this.editLocation(e, location.id,"carpark");
+                            this.editLocation(e, carpark.id,"carpark");
                           }}
                         >
                           Edit
                         </button>
 
                         <button
-                          id={location.id + "updatebutton"}
+                          id={"carparkupdatebutton"}
                           hidden
                           onClick={(e) => {
-                            this.carparkupdate(e, location.id);
+                            this.carparkupdate(e, carpark.id);
                           }}
                         >
                           Update
                         </button>
                         <button
                           hidden
-                          id={location.id + "cancelbutton"}
+                          id={"carparkcancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, location.id,"carpark");
+                            this.CancelEdit(e, carpark.id,"carpark");
                           }}
                         >
                           Cancel
@@ -539,11 +593,12 @@ display() {
                       </td>
                             </tr>
                           );
-                    }
+                   
                 })}
             </tbody>
           </table>
         </div>
+        {/*<button onClick={this.logout}>Logout</button>*/}
       </div>
     );
   }
