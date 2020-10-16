@@ -27,6 +27,7 @@ class Login extends Component {
         super();
         this.login = this.login.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.resetForm = this.resetForm.bind(this);
         this.state = {
             email: "",
             password: "",
@@ -138,6 +139,12 @@ class Login extends Component {
         return true;
     }
 
+    resetForm () {
+        this.setState({email: '', password: ''});
+        this.setState(marketingInitialState);
+        this.setState(superInitialState);
+    }
+
     login(e, accounttype) {
         e.preventDefault();
 
@@ -189,11 +196,11 @@ class Login extends Component {
                     <Col md={5}>
                         <Nav fill className="login-tabContainer" variant="tabs" as="ul">
                             <Nav.Item as="li">
-                                <Nav.Link eventKey="marketingAdministrator" className="login-tabHeading">Marketing Administrator</Nav.Link>
+                                <Nav.Link eventKey="marketingAdministrator" onSelect={this.resetForm} className="login-tabHeading">Marketing Administrator</Nav.Link>
                             </Nav.Item>
 
                             <Nav.Item as="li">
-                                <Nav.Link eventKey="superAdministrator" className="login-tabHeading">Super Administrator</Nav.Link>
+                                <Nav.Link eventKey="superAdministrator" onSelect={this.resetForm} className="login-tabHeading">Super Administrator</Nav.Link>
                             </Nav.Item>
                         </Nav>
 
