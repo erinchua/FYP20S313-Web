@@ -1,4 +1,4 @@
-.MAHome-container {
+.MAStudentAcctCon {
     min-height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -6,9 +6,13 @@
     padding: 0 !important;
 }
 
-.MAHome-content {
+.MAStudentAcctContent {
     background: #ffffff;
     min-height: 84vh;
     padding: 0 !important;
 }
 
+.MAStudentAcctContentCon {
+    background: blue;
+    min-height: 84vh;
+}

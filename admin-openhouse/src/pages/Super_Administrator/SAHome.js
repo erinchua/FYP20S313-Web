@@ -65,12 +65,12 @@ class SAHome extends Component {
     });
   };
 
-  DeleteUser(e, administratorid) {
+  DeleteUser() {
     const db = fire.firestore();
 
     const userRef = db
       .collection("Administrators")
-      .doc(administratorid)
+      .doc(this.state.userid)
       .delete()
       .then(function () {
         // alert("Deleted");
@@ -200,7 +200,14 @@ class SAHome extends Component {
         });
     }
   }
+  retrieveuserdata(id){
+
   
+    
+    this.setState({ userid: id }, () => {
+      this.handleDeleteAdminModal();
+    }); 
+  }
   
   render() {
     if(this.state.Login)
@@ -250,30 +257,80 @@ class SAHome extends Component {
 
                     {this.state.users && this.state.users.map((user) => {
                       return (
-                        <tbody>
-                          <tr>
-                            <td id="adminCheckboxData">
-                              <Form.Check type="checkbox" aria-label="admin checkbox" id="adminCheckbox"/>
-                            </td>
+                        <>
+                          <tbody>
+                            <tr>
+                              <td id="adminCheckboxData">
+                                <Form.Check type="checkbox" aria-label="admin checkbox" id="adminCheckbox"/>
+                              </td>
 
-                            {/* Serial No. to be generated dynamically, 1, 2, 3 and so on */}
-                            <td id="serialNoData">{user.counter}</td>
-                            <td id="adminNameData">{user.name}</td>
-                            <td id="adminEmailData">{user.email}</td>
-                            <td id="adminUserTypeData">{user.administratorType}</td>
-                            <td id="removeAdminData">
-                              {/* <Button id="removeAdminBtn" onClick={(e) => {
-                                this.DeleteUser(e, user.id);
-                              }}>
-                                <FontAwesomeIcon size="lg" id="removeAdminBtnIcon" icon={faTrashAlt} />  
-                              </Button> */}
+                              <td id="serialNoData">{user.counter}</td>
+                              <td id="adminNameData">{user.name}</td>
+                              <td id="adminEmailData">{user.email}</td>
+                              <td id="adminUserTypeData">{user.administratorType}</td>
+                              <td id="removeAdminData">
+                                {/* <Button id="removeAdminBtn" onClick={(e) => {
+                                  this.DeleteUser(e, user.id);
+                                }}>
+                                  <FontAwesomeIcon size="lg" id="removeAdminBtnIcon" icon={faTrashAlt} />  
+                                </Button> */}
+                                
+                                <Button id="removeAdminBtn" onClick={(e) => {
+                                  this.retrieveuserdata(user.id);
+                                }}>
+                                  <FontAwesomeIcon size="lg" id="removeAdminBtnIcon" icon={faTrashAlt} />  
+                                </Button>
+                              </td>
+                            </tr>
+                          </tbody>
+                          
+                          {this.state.deleteAdminModal == true && 
+                            <Modal 
+                              show={this.state.deleteAdminModal}
+                              onHide={this.handleDeleteAdminModal}
+                              aria-labelledby="deleteAdminModalTitle"
+                              size="md"
+                              centered
+                              backdrop="static"
+                              keyboard={false}
+                            >
+                              <Modal.Header closeButton className="justify-content-center">
+                                <Modal.Title id="deleteAdminModalTitle">
+                                  Remove Administrator?
+                                </Modal.Title>
+                              </Modal.Header>
                               
-                              <Button id="removeAdminBtn" onClick={this.handleDeleteAdminModal}>
-                                <FontAwesomeIcon size="lg" id="removeAdminBtnIcon" icon={faTrashAlt} />  
-                              </Button>
-                            </td>
-                          </tr>
-                        </tbody>
+                              <Modal.Body>
+                                <Row className="justify-content-center">
+                                  <Col size="12" className="text-center deleteAdminModalCol">
+                                    <img id="deleteAdminModalIcon" src={DeleteAdmin} />
+                                  </Col>
+                                </Row>
+                                
+                                <Row className="justify-content-center">
+                                  <Col size="12" className="text-center deleteAdminModalCol">
+                                    <h5 id="deleteAdminModalText">Are you sure you want to remove this administrator?</h5>
+                                  </Col>
+                                </Row>
+
+                                <Row className="justify-content-center">
+                                  <Col size="6" className="text-right deleteAdminModalCol">
+                                    {/* Add DeleteUser onclick function here */}
+                                    <Button id="confirmDeleteAdminModalBtn" onClick={ (e) => {this.DeleteUser()} } >
+                                      Confirm
+                                    </Button>
+                                  </Col>
+
+                                  <Col size="6" className="text-left deleteAdminModalCol">
+                                    <Button id="cancelDeleteAdminModalBtn" onClick={this.handleDeleteAdminModal}>Cancel</Button>
+                                  </Col>
+                                </Row>
+                              </Modal.Body>
+                            </Modal>
+                          }
+
+                        </>
+                        
                       );
                     })}
 
@@ -378,51 +435,7 @@ class SAHome extends Component {
           :''
         }
 
-        {this.state.deleteAdminModal == true ? 
-          <Modal 
-            show={this.state.deleteAdminModal}
-            onHide={this.handleDeleteAdminModal}
-            aria-labelledby="deleteAdminModalTitle"
-            size="md"
-            centered
-            backdrop="static"
-            keyboard={false}
-          >
-            <Modal.Header closeButton className="justify-content-center">
-              <Modal.Title id="deleteAdminModalTitle">
-                Remove Administrator?
-              </Modal.Title>
-            </Modal.Header>
-            
-            <Modal.Body>
-              <Row className="justify-content-center">
-                <Col size="12" className="text-center deleteAdminModalCol">
-                  <img id="deleteAdminModalIcon" src={DeleteAdmin} />
-                </Col>
-              </Row>
-              
-              <Row className="justify-content-center">
-                <Col size="12" className="text-center deleteAdminModalCol">
-                  <h5 id="deleteAdminModalText">Are you sure you want to remove this administrator?</h5>
-                </Col>
-              </Row>
-
-              <Row className="justify-content-center">
-                <Col size="6" className="text-right deleteAdminModalCol">
-                  {/* Add DeleteUser onclick function here */}
-                  <Button id="confirmDeleteAdminModalBtn"> {/* onClick={ (e) => {DeleteUser(e, user.id);} } */}
-                    Confirm
-                  </Button>
-                </Col>
-
-                <Col size="6" className="text-left deleteAdminModalCol">
-                  <Button id="cancelDeleteAdminModalBtn" onClick={this.handleDeleteAdminModal}>Cancel</Button>
-                </Col>
-              </Row>
-            </Modal.Body>
-          </Modal>
-          :''
-        }
+        
 
       </div>
     );

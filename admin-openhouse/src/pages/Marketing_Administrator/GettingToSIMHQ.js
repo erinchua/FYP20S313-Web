@@ -7,7 +7,6 @@ import history from "../../config/history";
 class GettingToSIMHQ extends Component {
   constructor() {
     super();
-    this.logout = this.logout.bind(this);
     this.state = {
       carDescription: "",
       carParkingDescription: "",
@@ -42,99 +41,247 @@ class GettingToSIMHQ extends Component {
   updateInput = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
+      
     });
   };
 
   componentDidMount() {
-    this.authListener();
+   this.authListener();
   }
 
-  display() {
+display() {
     const db = fire.firestore();
-
+    var counter = 1;
     const userRef = db
-      .collection("CampusLocation")
+      .collection("CampusLocation").doc("bus")
       .get()
       .then((snapshot) => {
-        const location = [];
-        snapshot.forEach((doc) => {
-          const data = {
+        //const location = [];
+        console.log(snapshot.data());
+        const bus = snapshot.data();
+        console.log(Object.keys(bus.busNo)[0])
+        console.log(Object.keys(bus.busNo)[1])
+        for (var i = 0; i <Object.keys(bus.busNo).length; i++) {
+
+        console.log(Object.keys(bus.busNo)[0])
+        }
+         /* const data = {
             carDescription: doc.data().carDescription,
             carParkingDescription: doc.data().carParkingDescription,
             modeOfTransport: doc.data().modeOfTransport,
             busNo: doc.data().busNo,
             nearestMRT: doc.data().nearestMRT,
             id: doc.id,
-          };
-          location.push(data);
-        });
+            counter : counter,
+          };*/
+          counter++;
+          //location.push(data); 
+    
 
-        this.setState({ location: location });
+        //this.setState({ location: location });
       });
   }
 
-  logout() {
-    fire.auth().signOut();
-    history.push("/Login");
-  }
-
-
-
-  update(e, locationid) {
-  
-    const carDescription = document.getElementById(locationid + "carDes").value
-    const busNo = document.getElementById(locationid + "busno").value
-    const nearestMRT = document.getElementById(locationid + "nearmrt").value
-    const carParkingDescription = document.getElementById(locationid + "carpark").value
-
+  carupdate= (e, locationid) => {
+    var value = document.getElementById(locationid + "carDes").value;
+    if(value !== ""  ){
+    value = document.getElementById(locationid + "carDes").value;
     const db = fire.firestore();
-    if (carDescription != null && busNo != null && nearestMRT != null && carParkingDescription != null) {
+     
       const userRef = db
         .collection("CampusLocation")
         .doc(locationid)
         .update({
-          carDescription: carDescription,
-          carParkingDescription: carParkingDescription,
-         busNo: busNo,
-          nearestMRT: nearestMRT,
+         carDescription: value
+        
         })
         .then(function () {
           alert("Updated");
           window.location.reload();
         });
+        
+    }else{
+    alert("Fields cannot be empty ");
     }
+    
   }
 
-  editLocation(e, locationid) {
-    document.getElementById(locationid + "spancardes").removeAttribute("hidden");
-    /*document.getElementById(locationid + "spanbusno").removeAttribute("hidden");
-    document.getElementById(locationid + "spannearmrt").removeAttribute("hidden");
-    document.getElementById(locationid + "spancarpark").removeAttribute("hidden");*/
-    document.getElementById(locationid + "editbutton").setAttribute("hidden", "");
-    document.getElementById(locationid + "updatebutton").removeAttribute("hidden");
-    document.getElementById(locationid + "cancelbutton").removeAttribute("hidden");
-    var texttohide = document.getElementsByClassName(
+  busupdate= (e, locationid) => {
+    var value = document.getElementById(locationid + "busno").value;
+    if(value !== ""  ){
+    value = document.getElementById(locationid + "busno").value;
+    const db = fire.firestore();
+     
+      const userRef = db
+        .collection("CampusLocation")
+        .doc(locationid)
+        .update({
+         busNo: value
+        
+        })
+        .then(function () {
+          alert("Updated");
+          window.location.reload();
+        });
+        
+    }else{
+    alert("Fields cannot be empty ");
+    }
+
+  }
+
+  mrtupdate= (e, locationid) => {
+    var value = document.getElementById(locationid + "nearmrt").value;
+    if(value !== ""  ){
+    value = document.getElementById(locationid + "nearmrt").value;
+    const db = fire.firestore();
+     
+      const userRef = db
+        .collection("CampusLocation")
+        .doc(locationid)
+        .update({
+         nearestMRT: value
+        
+        })
+        .then(function () {
+          alert("Updated");
+          window.location.reload();
+        });
+        
+    }else{
+    alert("Fields cannot be empty ");
+    }
+
+  }
+  carparkupdate= (e, locationid) => {
+    var value = document.getElementById(locationid + "carpark").value;
+    if(value !== ""  ){
+    value = document.getElementById(locationid + "carpark").value;
+    const db = fire.firestore();
+     
+      const userRef = db
+        .collection("CampusLocation")
+        .doc(locationid)
+        .update({
+          carParkingDescription: value
+        
+        })
+        .then(function () {
+          alert("Updated");
+          window.location.reload();
+        });
+        
+    }else{
+    alert("Fields cannot be empty ");
+    }
+
+  }
+
+  editLocation(e, locationid,type) {
+    
+    if(type==="car"){
+      document.getElementById(locationid + "spancardes").removeAttribute("hidden");
+      document.getElementById(locationid + "editbutton").setAttribute("hidden", "");
+      document.getElementById(locationid + "updatebutton").removeAttribute("hidden");
+      document.getElementById(locationid + "cancelbutton").removeAttribute("hidden");
+      var texttohide = document.getElementsByClassName(
         locationid + "text"
       );
       for (var i = 0; i < texttohide.length; i++) {
         texttohide[i].setAttribute("hidden", "");
       }  
+    }
+    if(type==="bus"){
+      document.getElementById(locationid + "spanbusno").removeAttribute("hidden");
+      document.getElementById(locationid + "editbutton").setAttribute("hidden", "");
+      document.getElementById(locationid + "updatebutton").removeAttribute("hidden");
+      document.getElementById(locationid + "cancelbutton").removeAttribute("hidden");
+      var texttohide = document.getElementsByClassName(
+        locationid + "text"
+      );
+      for (var i = 0; i < texttohide.length; i++) {
+        texttohide[i].setAttribute("hidden", "");
+      }
+    }
+    if(type==="mrt"){
+      document.getElementById(locationid + "spannearmrt").removeAttribute("hidden");
+      document.getElementById(locationid + "editbutton").setAttribute("hidden", "");
+      document.getElementById(locationid + "updatebutton").removeAttribute("hidden");
+      document.getElementById(locationid + "cancelbutton").removeAttribute("hidden");
+      var texttohide = document.getElementsByClassName(
+        locationid + "text"
+      );
+      for (var i = 0; i < texttohide.length; i++) {
+        texttohide[i].setAttribute("hidden", "");
+      }
+    }
+    if(type==="carpark"){
+      document.getElementById(locationid + "spancarpark").removeAttribute("hidden");      
+      document.getElementById(locationid + "editbutton").setAttribute("hidden", "");
+      document.getElementById(locationid + "updatebutton").removeAttribute("hidden");
+      document.getElementById(locationid + "cancelbutton").removeAttribute("hidden");
+      var texttohide = document.getElementsByClassName(
+        locationid + "text"
+      );
+      for (var i = 0; i < texttohide.length; i++) {
+        texttohide[i].setAttribute("hidden", "");
+      }
+    }
+  
 }
 
-  CancelEdit(e, locationid) {
-    document.getElementById(locationid + "spancardes").setAttribute("hidden", "");
-    /*document.getElementById(locationid + "spanbusno").setAttribute("hidden", "");
-    document.getElementById(locationid + "spannearmrt").setAttribute("hidden", "");
-    document.getElementById(locationid + "spancarpark").setAttribute("hidden", "");*/
-    document.getElementById(locationid + "editbutton").removeAttribute("hidden");
-    document.getElementById(locationid + "updatebutton").setAttribute("hidden", "");
-    document.getElementById(locationid + "cancelbutton").setAttribute("hidden", "");
-    var texttohide = document.getElementsByClassName(
+  CancelEdit(e, locationid,type) {
+    
+    if(type==="car"){
+      document.getElementById(locationid + "spancardes").setAttribute("hidden", "");  
+      document.getElementById(locationid + "editbutton").removeAttribute("hidden");
+      document.getElementById(locationid + "updatebutton").setAttribute("hidden", "");
+      document.getElementById(locationid + "cancelbutton").setAttribute("hidden", "");
+      var texttohide = document.getElementsByClassName(
+        locationid + "text"
+      );
+      for (var i = 0; i < texttohide.length; i++) {
+        texttohide[i].removeAttribute("hidden", "");
+    }
+
+    }
+    if(type==="bus"){
+      document.getElementById(locationid + "spanbusno").setAttribute("hidden", "");
+      document.getElementById(locationid + "editbutton").removeAttribute("hidden");
+      document.getElementById(locationid + "updatebutton").setAttribute("hidden", "");
+      document.getElementById(locationid + "cancelbutton").setAttribute("hidden", "");
+      var texttohide = document.getElementsByClassName(
         locationid + "text"
       );
       for (var i = 0; i < texttohide.length; i++) {
         texttohide[i].removeAttribute("hidden", "");
       }
+    }
+    if(type==="mrt"){
+      document.getElementById(locationid + "spannearmrt").setAttribute("hidden", "")
+      document.getElementById(locationid + "editbutton").removeAttribute("hidden");
+      document.getElementById(locationid + "updatebutton").setAttribute("hidden", "");
+      document.getElementById(locationid + "cancelbutton").setAttribute("hidden", "");
+      var texttohide = document.getElementsByClassName(
+        locationid + "text"
+      );
+      for (var i = 0; i < texttohide.length; i++) {
+        texttohide[i].removeAttribute("hidden", "");
+      }
+    }
+    if(type==="carpark"){
+      document.getElementById(locationid + "spancarpark").setAttribute("hidden", "")
+      document.getElementById(locationid + "editbutton").removeAttribute("hidden");
+      document.getElementById(locationid + "updatebutton").setAttribute("hidden", "");
+      document.getElementById(locationid + "cancelbutton").setAttribute("hidden", "");
+      var texttohide = document.getElementsByClassName(
+        locationid + "text"
+      );
+      for (var i = 0; i < texttohide.length; i++) {
+        texttohide[i].removeAttribute("hidden", "");
+      }
+    }
+   
 }
 
   render() {
@@ -145,7 +292,7 @@ class GettingToSIMHQ extends Component {
             <tbody>
                 <h5>By Car</h5>
               <tr>
-                <th scope="col">ID</th>
+                <th scope="col">S/N</th>
                 <th scope="col">Information</th>
                 <th scope="col">Edit</th>
               </tr>
@@ -154,7 +301,7 @@ class GettingToSIMHQ extends Component {
                     if(location.modeOfTransport === "Car"){
                         return (
                             <tr>
-                              <td>{location.id}</td>
+                              <td>{location.counter}</td>
                               <td>
                               <span class={location.id + "text"}>
                               {location.carDescription} 
@@ -176,7 +323,7 @@ class GettingToSIMHQ extends Component {
                         <button
                           id={location.id + "editbutton"}
                           onClick={(e) => {
-                            this.editLocation(e, location.id);
+                            this.editLocation(e, location.id,"car");
                           }}
                         >
                           Edit
@@ -186,7 +333,7 @@ class GettingToSIMHQ extends Component {
                           id={location.id + "updatebutton"}
                           hidden
                           onClick={(e) => {
-                            this.update(e, location.id);
+                            this.carupdate(e, location.id);
                           }}
                         >
                           Update
@@ -195,7 +342,7 @@ class GettingToSIMHQ extends Component {
                           hidden
                           id={location.id + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, location.id);
+                            this.CancelEdit(e, location.id,"car");
                           }}
                         >
                           Cancel
@@ -207,16 +354,17 @@ class GettingToSIMHQ extends Component {
                 })}
                 <h5>By Bus</h5>
               <tr>
-                <th scope="col">ID</th>
+                <th scope="col">S/N</th>
                 <th scope="col">Bus Number</th>
                 <th scope="col">Edit</th>
               </tr>
               {this.state.location &&
-                this.state.location.map((location) => {
-                    if(location.modeOfTransport === "Bus"){
+                this.state.location.map((location,index) => {
+                  if(location.modeOfTransport === "Bus"){
+                    
                         return (
                             <tr>
-                              <td>{location.id} </td>
+                              <td>{index} </td>
                               <td>
                               <span class={location.id + "text"}>
                               {location.busNo} 
@@ -238,7 +386,7 @@ class GettingToSIMHQ extends Component {
                         <button
                           id={location.id + "editbutton"}
                           onClick={(e) => {
-                            this.editLocation(e, location.id);
+                            this.editLocation(e, location.id,"bus");
                           }}
                         >
                           Edit
@@ -248,7 +396,7 @@ class GettingToSIMHQ extends Component {
                           id={location.id + "updatebutton"}
                           hidden
                           onClick={(e) => {
-                            this.update(e, location.id);
+                            this.busupdate(e, location.id);
                           }}
                         >
                           Update
@@ -257,7 +405,7 @@ class GettingToSIMHQ extends Component {
                           hidden
                           id={location.id + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, location.id);
+                            this.CancelEdit(e, location.id,"bus");
                           }}
                         >
                           Cancel
@@ -265,20 +413,22 @@ class GettingToSIMHQ extends Component {
                       </td>
                             </tr>
                           );
-                    }
+                          
+                        }
                 })}
                 <h5>By MRT</h5>
               <tr>
-                <th scope="col">ID</th>
+                <th scope="col">S/N</th>
                 <th scope="col">Nearest MRT</th>
                 <th scope="col">Edit</th>
               </tr>
               {this.state.location &&
-                this.state.location.map((location) => {
+                this.state.location.map((location,index) => {
                     if(location.modeOfTransport === "MRT"){
+                     console.log(index);
                         return (
                             <tr>
-                              <td>{location.id} </td>
+                              <td>{index} </td>
                               <td>
                               <span class={location.id + "text"}>
                               {location.nearestMRT}
@@ -300,7 +450,7 @@ class GettingToSIMHQ extends Component {
                         <button
                           id={location.id + "editbutton"}
                           onClick={(e) => {
-                            this.editLocation(e, location.id);
+                            this.editLocation(e, location.id,"mrt");
                           }}
                         >
                           Edit
@@ -308,9 +458,9 @@ class GettingToSIMHQ extends Component {
 
                         <button
                           id={location.id + "updatebutton"}
-                          hidden
+                         hidden
                           onClick={(e) => {
-                            this.update(e, location.id);
+                            this.mrtupdate(e, location.id);
                           }}
                         >
                           Update
@@ -319,7 +469,7 @@ class GettingToSIMHQ extends Component {
                           hidden
                           id={location.id + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, location.id);
+                            this.CancelEdit(e, location.id,"mrt");
                           }}
                         >
                           Cancel
@@ -331,7 +481,7 @@ class GettingToSIMHQ extends Component {
                 })}
                 <h5>Car Park Info</h5>
               <tr>
-                <th scope="col">ID</th>
+                <th scope="col">S/N</th>
                 <th scope="col">Car Park Information</th>
                 <th scope="col">Edit</th>
               </tr>
@@ -340,7 +490,7 @@ class GettingToSIMHQ extends Component {
                     if(location.modeOfTransport === "Car"){
                         return (
                             <tr>
-                              <td>{location.id} </td>
+                              <td>{location.counter} </td>
                               <td>
                               <span class={location.id + "text"}>
                               {location.carParkingDescription}  
@@ -362,7 +512,7 @@ class GettingToSIMHQ extends Component {
                         <button
                           id={location.id + "editbutton"}
                           onClick={(e) => {
-                            this.editLocation(e, location.id);
+                            this.editLocation(e, location.id,"carpark");
                           }}
                         >
                           Edit
@@ -372,7 +522,7 @@ class GettingToSIMHQ extends Component {
                           id={location.id + "updatebutton"}
                           hidden
                           onClick={(e) => {
-                            this.update(e, location.id);
+                            this.carparkupdate(e, location.id);
                           }}
                         >
                           Update
@@ -381,7 +531,7 @@ class GettingToSIMHQ extends Component {
                           hidden
                           id={location.id + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, location.id);
+                            this.CancelEdit(e, location.id,"carpark");
                           }}
                         >
                           Cancel
@@ -394,7 +544,6 @@ class GettingToSIMHQ extends Component {
             </tbody>
           </table>
         </div>
-        <button onClick={this.logout}>Logout</button>
       </div>
     );
   }

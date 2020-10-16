@@ -1,4 +1,4 @@
-import { Navbar, Nav, Accordion, useAccordionToggle, AccordionContext, OverlayTrigger, Card, Popover } from 'react-bootstrap';
+import { Navbar, Nav, Accordion, useAccordionToggle, AccordionContext, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useContext } from 'react';
 
 import '../css/SideNavBar.css';
@@ -16,20 +16,87 @@ function ContextAwareToggle({ children, eventKey, callback }) {
     const isCurrentEventKey = currentEventKey === eventKey;
   
     return (
-        <Accordion.Toggle eventKey="0" className="sideNavBar-accordion" onClick={decoratedOnClick}>{children}{isCurrentEventKey ? <FontAwesomeIcon icon={faChevronUp} className="sideNavBar-icons" /> : <FontAwesomeIcon icon={faChevronDown} className="sideNavBar-icons" />}</Accordion.Toggle>
+        <Accordion.Toggle className="sideNavBar-accordion" onClick={decoratedOnClick}>{children}{isCurrentEventKey ? <FontAwesomeIcon icon={faChevronUp} className="sideNavBar-icons" /> : <FontAwesomeIcon icon={faChevronDown} className="sideNavBar-icons" />}</Accordion.Toggle>
     );
 }
 
-const renderTooltip = (props) => (
-    <Popover {...props}>
-            <Nav.Link href="#" className="sideNavBar-inner-navLinks">Admission & Application</Nav.Link>
-            <Nav.Link href="#" className="sideNavBar-inner-navLinks">Contact Information</Nav.Link>
-            <Nav.Link href="#" className="sideNavBar-inner-navLinks">Open House Feedback Form</Nav.Link>
-            <Nav.Link href="#" className="sideNavBar-inner-navLinks">Common FAQs</Nav.Link>
-    </Popover>
+//Tooltip for Programme Talks
+const renderProgrammeTalks = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Schedule</Nav.Link>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Live Streams</Nav.Link>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Past Recordings</Nav.Link>
+    </Tooltip>
 );
 
+//Tooltip for Guided Tours
+const renderGuidedTours = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Schedule</Nav.Link>
+    </Tooltip>
+);
+
+//Tooltip for Open House Activities
+const renderOpenHouseActivities = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Performances</Nav.Link>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Games & Activities</Nav.Link>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Prizes</Nav.Link>
+    </Tooltip>
+);
+
+//Tooltip for Forum
+const renderForum = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+        <Nav.Link href="#" className="sideNavBar-navLinks">View Forum</Nav.Link>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Flagged Forum</Nav.Link>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Settings</Nav.Link>
+    </Tooltip>
+);
+
+//Tooltip for Clubs & Councils@SIM
+const renderClubs_Councils_SIM = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Arts & Culture</Nav.Link>
+        <Nav.Link href="#" className="sideNavBar-navLinks">International Students Clubs</Nav.Link>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Student Councils</Nav.Link>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Special Interest Club</Nav.Link>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Sports & Fitness</Nav.Link>
+    </Tooltip>
+);
+
+//Tooltip for Scholarships
+const renderScholarships = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+        <Nav.Link href="#" className="sideNavBar-navLinks">SIM GE Scholarship</Nav.Link>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Sponsors</Nav.Link>
+    </Tooltip>
+);
+
+//Tooltip for Bursary
+const renderBursary = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+        <Nav.Link href="#" className="sideNavBar-navLinks">SIM GE Bursary</Nav.Link>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Other Financial Assistance</Nav.Link>
+    </Tooltip>
+);
+
+//Tooltip for Brochures
+const renderBrochures = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Study@SIM</Nav.Link>
+        <Nav.Link href="#" className="sideNavBar-navLinks">Student Life@SIM</Nav.Link>
+    </Tooltip>
+);
+
+//State for show tooltip to false
+const initialState = {
+    show: false,
+}
+
 export default class SideNavBar extends React.Component {
+
+    state = initialState;
 
     render(){
         return (
@@ -49,7 +116,7 @@ export default class SideNavBar extends React.Component {
                                 <ContextAwareToggle eventKey="0">User Accounts</ContextAwareToggle>
                                 <Accordion.Collapse eventKey="0">
                                     <div>
-                                        <Nav.Link href="/StudentProfile" className="sideNavBar-navLinks">Prospective Students</Nav.Link>
+                                        <Nav.Link href="/StudentAccounts" className="sideNavBar-navLinks">Prospective Students</Nav.Link>
                                     </div>
                                 </Accordion.Collapse>
                             </Accordion>
@@ -65,15 +132,21 @@ export default class SideNavBar extends React.Component {
                                             <ContextAwareToggle eventKey="2">Open House Programmes</ContextAwareToggle>
                                             <Accordion.Collapse eventKey="2">
                                                 <div>
-                                                    <OverlayTrigger placement="right" delay={{ show: 250, hide: 400 }} overlay={renderTooltip}>
-                                                        <Nav.Link href="#" className="sideNavBar-inner-navLinks">Programmes Talks</Nav.Link>
+                                                    <OverlayTrigger placement="right" defaultShow={this.state.show} trigger="focus" overlay={renderProgrammeTalks}>
+                                                        <Nav.Link onClick={() => this.setState({show: true})} className="sideNavBar-inner-navLinks">Programmes Talks</Nav.Link>
                                                     </OverlayTrigger>
-                                                    <Nav.Link href="#" className="sideNavBar-inner-navLinks">Guided Tours</Nav.Link>
-                                                    <Nav.Link href="#" className="sideNavBar-inner-navLinks">Open House Activities</Nav.Link>
+                                                    <OverlayTrigger placement="right" defaultShow={this.state.show} trigger="focus" overlay={renderGuidedTours}>
+                                                        <Nav.Link onClick={() => this.setState({show: true})} className="sideNavBar-inner-navLinks">Guided Tours</Nav.Link>
+                                                    </OverlayTrigger>
+                                                    <OverlayTrigger placement="right" defaultShow={this.state.show} trigger="focus" overlay={renderOpenHouseActivities}>
+                                                        <Nav.Link onClick={() => this.setState({show: true})} className="sideNavBar-inner-navLinks">Open House Activities</Nav.Link>
+                                                    </OverlayTrigger>
                                                 </div>
                                             </Accordion.Collapse>
                                         </Accordion>
-                                        <Nav.Link href="/Forum" className="sideNavBar-navLinks">Forum</Nav.Link>
+                                        <OverlayTrigger placement="right" defaultShow={this.state.show} trigger="focus" overlay={renderForum}>
+                                            <Nav.Link onClick={() => this.setState({show: true})} className="sideNavBar-navLinks">Forum</Nav.Link>
+                                        </OverlayTrigger>
                                         <Nav.Link href="/CampusFacilitiesMap" className="sideNavBar-navLinks">Campus Facilities Map</Nav.Link>
                                         <Nav.Link href="/GettingToSIMHQ" className="sideNavBar-navLinks">Getting To SIM HQ</Nav.Link>
                                         <Accordion>
@@ -104,15 +177,23 @@ export default class SideNavBar extends React.Component {
                                             <ContextAwareToggle eventKey="5">Student Life@SIM</ContextAwareToggle>
                                             <Accordion.Collapse eventKey="5">
                                                 <div>
-                                                    <Nav.Link href="#" className="sideNavBar-inner-navLinks">Clubs & Councils@SIM</Nav.Link>
+                                                    <OverlayTrigger placement="right" defaultShow={this.state.show} trigger="focus" overlay={renderClubs_Councils_SIM}>
+                                                        <Nav.Link onClick={() => this.setState({show: true})} className="sideNavBar-inner-navLinks">Clubs & Councils@SIM</Nav.Link>
+                                                    </OverlayTrigger>
                                                     <Nav.Link href="#" className="sideNavBar-inner-navLinks">Student Care</Nav.Link>
-                                                    <Nav.Link href="#" className="sideNavBar-inner-navLinks">Scholarships</Nav.Link>
-                                                    <Nav.Link href="#" className="sideNavBar-inner-navLinks">Bursary</Nav.Link>
+                                                    <OverlayTrigger placement="right" defaultShow={this.state.show} trigger="focus" overlay={renderScholarships}>
+                                                        <Nav.Link onClick={() => this.setState({show: true})} className="sideNavBar-inner-navLinks">Scholarships</Nav.Link>
+                                                    </OverlayTrigger>
+                                                    <OverlayTrigger placement="right" defaultShow={this.state.show} trigger="focus" overlay={renderBursary}>
+                                                        <Nav.Link onClick={() => this.setState({show: true})} className="sideNavBar-inner-navLinks">Bursary</Nav.Link>
+                                                    </OverlayTrigger>
                                                 </div>
                                             </Accordion.Collapse>
                                         </Accordion>
                                         <Nav.Link href="/Announcement" className="sideNavBar-navLinks">Announcement</Nav.Link>
-                                        <Nav.Link href="#" className="sideNavBar-navLinks">Brochures</Nav.Link>
+                                        <OverlayTrigger placement="right" defaultShow={this.state.show} trigger="focus" overlay={renderBrochures}>
+                                            <Nav.Link onClick={() => this.setState({show: true})} className="sideNavBar-navLinks">Brochures</Nav.Link>
+                                        </OverlayTrigger>
                                     </div>
                                 </Accordion.Collapse>
                             </Accordion>
