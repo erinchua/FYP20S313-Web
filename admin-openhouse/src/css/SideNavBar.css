@@ -1,0 +1,52 @@
+.sideNavBar-container {
+    max-width: 15%;
+    max-height: 84vh;
+    padding: 0 !important;
+}
+
+.sideNavBar-content {
+    min-width: 100%;
+    min-height: 84vh;
+    /* border: 1px solid red; */
+}
+
+.sideNavBar-navItems {
+    text-align: start;
+    min-width: 100%;
+    padding: 2% 0%;
+    /* border: 1px solid yellow; */
+}
+
+.sideNavBar-navLinks {
+    color: white !important;
+    display: flex;
+    justify-content: start;
+    font-size: 90%;
+    /* border: 1px solid white; */
+}
+
+#sideNavBar-homeIcon {
+    margin-right: 10%;
+}
+
+.border {
+    border: 1px solid white;
+}
+
+.sideNavBar-accordion {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 90%;
+    min-width: 100%;
+    text-align: start;
+}
+
+.sideNavBar-accordion:focus {
+    outline:0 !important;
+}
+
+.sideNavBar-icons {
+    float: right;
+    margin-top: 2%;
+}
