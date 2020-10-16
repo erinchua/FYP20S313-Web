@@ -220,12 +220,21 @@ class StudentAccounts extends Component {
           <NavBar isMA={true} />
 
           <Container fluid className="MAStudentAcctContent">
-            <SideNavBar />
+            {/* <Row>
+              <Col md="2" style={{paddingRight:"0"}}>
+                <SideNavBar />
+              </Col>
+
+              <Col md="10" style={{paddingLeft:"0"}}>
+                <Container fluid className="MAStudentAcctContentCon">
+
+
+                </Container>
+              </Col>
+            </Row> */}
             
-            {/* <Container fluid className="MAStudentAcctContentCon">
+            
 
-
-            </Container> */}
           </Container>
 
           <Footer />
