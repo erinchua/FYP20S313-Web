@@ -57,3 +57,7 @@
     float: right;
     margin-top: 2%;
 }
+
+#button-tooltip {
+    width: 15%;
+}
