@@ -256,7 +256,6 @@ class Login extends Component {
                                                 <Form.Group as={Col} md="3"></Form.Group>
                                                 <Form.Group as={Col} md="7">
                                                     <div className="text-right">
-                                                        {/* <Button type="submit" variant="link" size="sm" onClick={this.reset}>Forget Password?</Button> */}
                                                         <Button variant="link" size="sm" onClick={this.handleForgetPasswordModal.bind(this)}>Forget Password?</Button>
                                                     </div>   
                                                 </Form.Group> 
@@ -301,7 +300,7 @@ class Login extends Component {
                                                 <Form.Group as={Col} md="3"></Form.Group>
                                                 <Form.Group as={Col} md="7">
                                                     <div className="text-right">
-                                                        <Button type="submit" variant="link" size="sm" onClick={this.reset}>Forget Password?</Button>
+                                                        <Button variant="link" size="sm" onClick={this.handleForgetPasswordModal.bind(this)}>Forget Password?</Button>
                                                     </div>   
                                                 </Form.Group> 
                                             </Form.Group>                          
