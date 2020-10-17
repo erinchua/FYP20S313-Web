@@ -62,3 +62,7 @@
     color: red;
     font-size: 85%;
 }
+
+#login-alertFail-data {
+    font-size: 90%;
+}

@@ -1,4 +1,4 @@
-import { Tab, Nav, Row, Col, Form, Container, Button, Modal } from 'react-bootstrap';
+import { Tab, Nav, Row, Col, Form, Container, Button, Modal, Alert } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../config/firebase";
 import history from "../config/history";
@@ -35,6 +35,7 @@ class Login extends Component {
             password: "",
             user: "",
             forgetPasswordModal: false,
+            showAlert: false,
         };
         this.handleForgetPasswordModal = this.handleForgetPasswordModal.bind(this);
     }
@@ -179,6 +180,8 @@ class Login extends Component {
             }
         })
         .catch((error) => {
+            //Alert box for login failure
+            this.setState({showAlert: true});
             console.log("Login Failure");
         });
     }
@@ -225,6 +228,7 @@ class Login extends Component {
                         </Nav>
 
                         <Tab.Content id="login-tabContent">
+                            
                             <Tab.Pane eventKey="marketingAdministrator">
                                 <Container>
                                     <div id="simLogo-container">
@@ -330,6 +334,18 @@ class Login extends Component {
                 </Modal>
                 :''
             }
+
+            {this.state.showAlert == true ?
+                <Modal show={this.state.showAlert} onHide={() => [this.setState({showAlert: false}), this.resetForm()]} size="sm" centered backdrop="static" keyboard={false}>
+                    <Alert show={this.state.showAlert} onClose={() => [this.setState({showAlert: false}), this.resetForm()]} dismissible>
+                        <Alert.Heading>Error Occurred!</Alert.Heading>
+                        <p id="login-alertFail-data">Please enter the correct email and password.</p>
+                    </Alert>
+                </Modal> : ''
+            }
+
+            
+
 
         </div>
 
