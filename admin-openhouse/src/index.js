@@ -16,6 +16,8 @@ import Openhouse from "./pages/Marketing_Administrator/Openhouse";
 import GettingToSIMHQ from "./pages/Marketing_Administrator/GettingToSIMHQ";
 import Announcement from "./pages/Marketing_Administrator/Announcement";
 import MAHome from './pages/Marketing_Administrator/MAHome';
+import ProgrammeTalkSchedule from './pages/Marketing_Administrator/ProgrammeTalkSchedule';
+import LiveTalk from './pages/Marketing_Administrator/LiveTalk';
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -38,6 +40,8 @@ ReactDOM.render(
     <Route path="/GettingToSIMHQ" component={GettingToSIMHQ} />
     <Route path="/Announcement" component={Announcement} />
     <Route path="/MAHome" component={MAHome} />
+    <Route path="/ProgrammeTalkSchedule" component={ProgrammeTalkSchedule} />
+    <Route path="/LiveTalk" component={LiveTalk} />
     </Switch>
   </Router>,
   document.getElementById("root")

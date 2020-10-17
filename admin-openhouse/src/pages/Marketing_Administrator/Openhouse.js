@@ -7,8 +7,6 @@ import firebase from "firebase/app";
 class Openhouse extends Component {
   constructor() {
     super();
-    this.logout = this.logout.bind(this);
-
     this.state = {
       day: "",
       date: "",
@@ -110,10 +108,6 @@ class Openhouse extends Component {
       });
   }
 
-  logout() {
-    fire.auth().signOut();
-    history.push("/Login");
-  }
   update(e, openhouseid, day) {
     var dateinput = document.getElementById(day + "date").value;
     var starttimeinput = document.getElementById(day + "starttime").value;
@@ -274,8 +268,6 @@ class Openhouse extends Component {
             </tbody>
           </table>
         </div>
-
-        <button onClick={this.logout}>Logout</button>
       </div>
     );
   }

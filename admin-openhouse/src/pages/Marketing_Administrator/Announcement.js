@@ -7,7 +7,6 @@ import history from "../../config/history";
 class Announcement extends Component {
   constructor() {
     super();
-    this.logout = this.logout.bind(this);
     this.state = {
       announcementTitle: "",
       Description: "",
@@ -51,7 +50,7 @@ class Announcement extends Component {
   display() {
     const db = fire.firestore();
     const userRef = db
-      .collection("Announcements")
+      .collection("Announcements").orderBy("Date", "desc")
       .get()
       .then((snapshot) => {
         const announcement = [];
@@ -154,12 +153,6 @@ class Announcement extends Component {
         texttohide[i].removeAttribute("hidden", "");
       }
 }
-
-  logout() {
-    fire.auth().signOut();
-    history.push("/Login");
-    window.location.reload();
-  }
 
   render() {
     return (
@@ -325,7 +318,6 @@ class Announcement extends Component {
           />
           <button type="submit">Add Announcement</button>
         </form>
-        <button onClick={this.logout}>Logout</button>
       </div>
     );
   }

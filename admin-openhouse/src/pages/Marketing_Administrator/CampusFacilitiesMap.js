@@ -7,7 +7,6 @@ import history from "../../config/history";
 class CampusFacilitiesMap extends Component {
   constructor() {
     super();
-    this.logout = this.logout.bind(this);
     this.state = {
       blockName: "",
       facilityName: "",
@@ -69,10 +68,6 @@ class CampusFacilitiesMap extends Component {
       });
   }
 
-  logout() {
-    fire.auth().signOut();
-    history.push("/Login");
-  }
   update(e, facilitiesid) {
     const blockName = document.getElementById(facilitiesid + "block").value
     const facilityName = document.getElementById(facilitiesid + "name").value
@@ -228,7 +223,6 @@ class CampusFacilitiesMap extends Component {
             </tbody>
           </table>
         </div>
-        <button onClick={this.logout}>Logout</button>
       </div>
     );
   }
