@@ -22,6 +22,8 @@ import GuidedTour from './pages/Marketing_Administrator/GuidedTour';
 import Performances from './pages/Marketing_Administrator/Performances';
 import GameActivities from './pages/Marketing_Administrator/GameActivities';
 import Prizes from './pages/Marketing_Administrator/Prizes';
+import OpenHouseFeedback from './pages/Marketing_Administrator/OpenHouseFeedback';
+import CommonFAQs from './pages/Marketing_Administrator/CommonFAQs';
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -50,6 +52,8 @@ ReactDOM.render(
     <Route path="/Performances" component={Performances} />
     <Route path="/GameActivities" component={GameActivities} />
     <Route path="/Prizes" component={Prizes} />
+    <Route path="/OpenHouseFeedback" component={OpenHouseFeedback} />
+    <Route path="/CommonFAQs" component={CommonFAQs} />
     </Switch>
   </Router>,
   document.getElementById("root")
