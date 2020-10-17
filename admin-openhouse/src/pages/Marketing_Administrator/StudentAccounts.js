@@ -17,7 +17,6 @@ import SideNavBar from '../../components/SideNavbar';
 class StudentAccounts extends Component {
   constructor() {
     super();
-    this.logout = this.logout.bind(this);
     this.state = {
       firstName: "",
       lastName: "",
@@ -96,11 +95,6 @@ class StudentAccounts extends Component {
     history.push("/ChangePassword");
   };
 
-  logout() {
-    fire.auth().signOut();
-    history.push("/Login");
-    window.location.reload();
-  }
 
   Unsuspend(e, studentdocid) {
     const db = fire.firestore();
