@@ -9,8 +9,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
+import NavBar from '../../components/Navbar';
+import Footer from '../../components/Footer';
+import SideNavBar from '../../components/SideNavbar';
 
 
 class StudentAccounts extends Component {
@@ -216,14 +217,30 @@ class StudentAccounts extends Component {
     return (
       <div>
         <Container fluid className="MAStudentAcctCon">
-          <Navbar isMA={true} />
+          <NavBar isMA={true} />
 
           <Container fluid className="MAStudentAcctContent">
+            {/* <Row>
+              <Col md="2" style={{paddingRight:"0"}}>
+                <SideNavBar />
+              </Col>
+
+              <Col md="10" style={{paddingLeft:"0"}}>
+                <Container fluid className="MAStudentAcctContentCon">
+
+
+                </Container>
+              </Col>
+            </Row> */}
+            
+            
 
           </Container>
+
+          <Footer />
         </Container>
 
-        <Footer />
+
 
         {/* <div>
           <table id="users" class="table table-bordered">
