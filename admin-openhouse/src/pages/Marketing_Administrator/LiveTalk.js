@@ -382,7 +382,7 @@ class LiveTalk extends Component {
           <input
             type="text"
             name="endTime"
-            placeholder="Start Time"
+            placeholder="End Time"
             onChange={this.updateInput}
             value={this.state.endTime}
             required

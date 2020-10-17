@@ -201,9 +201,6 @@ class SAHome extends Component {
     }
   }
   retrieveuserdata(id){
-
-  
-    
     this.setState({ userid: id }, () => {
       this.handleDeleteAdminModal();
     }); 

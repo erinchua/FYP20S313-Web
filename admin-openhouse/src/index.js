@@ -18,6 +18,10 @@ import Announcement from "./pages/Marketing_Administrator/Announcement";
 import MAHome from './pages/Marketing_Administrator/MAHome';
 import ProgrammeTalkSchedule from './pages/Marketing_Administrator/ProgrammeTalkSchedule';
 import LiveTalk from './pages/Marketing_Administrator/LiveTalk';
+import GuidedTour from './pages/Marketing_Administrator/GuidedTour';
+import Performances from './pages/Marketing_Administrator/Performances';
+import GameActivities from './pages/Marketing_Administrator/GameActivities';
+import Prizes from './pages/Marketing_Administrator/Prizes';
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -42,6 +46,10 @@ ReactDOM.render(
     <Route path="/MAHome" component={MAHome} />
     <Route path="/ProgrammeTalkSchedule" component={ProgrammeTalkSchedule} />
     <Route path="/LiveTalk" component={LiveTalk} />
+    <Route path="/GuidedTour" component={GuidedTour} />
+    <Route path="/Performances" component={Performances} />
+    <Route path="/GameActivities" component={GameActivities} />
+    <Route path="/Prizes" component={Prizes} />
     </Switch>
   </Router>,
   document.getElementById("root")

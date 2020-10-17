@@ -91,11 +91,6 @@ class StudentAccounts extends Component {
       });
   }
 
-  changepasswordpage = () => {
-    history.push("/ChangePassword");
-  };
-
-
   Unsuspend(e, studentdocid) {
     const db = fire.firestore();
 
