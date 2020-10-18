@@ -1,0 +1,14 @@
+.MAHome-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 0 auto;
+    padding: 0 !important;
+}
+
+.MAHome-content {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+

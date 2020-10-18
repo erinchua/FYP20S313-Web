@@ -1,0 +1,64 @@
+.sideNavBar-container {
+    max-width: 15%; /* max-width: 100%;*/
+    min-height: 84vh;
+    padding: 0 !important;
+    
+}
+
+.sideNavBar-content {
+    min-width: 100%;
+    min-height: 84vh;
+}
+
+.sideNavBar-navItems {
+    text-align: start;
+    min-width: 100%;
+    padding: 2% 0%;
+}
+
+.sideNavBar-navLinks {
+    color: white !important;
+    display: flex;
+    justify-content: start;
+    font-size: 85%;
+}
+
+.sideNavBar-inner-navLinks {
+    color: white !important;
+    display: flex;
+    justify-content: start;
+    font-size: 85%;
+    margin-left: 5%;
+}
+
+#sideNavBar-homeIcon {
+    margin-right: 10%;
+}
+
+.border {
+    border: 1px solid white;
+}
+
+.sideNavBar-accordion {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 85%;
+    min-width: 100%;
+    text-align: start;
+    padding-top: 4%;
+    padding-bottom: 4%;
+}
+
+.sideNavBar-accordion:focus {
+    outline:0 !important;
+}
+
+.sideNavBar-icons {
+    float: right;
+    margin-top: 2%;
+}
+
+#button-tooltip {
+    width: 15%;
+}

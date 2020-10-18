@@ -1,4 +1,4 @@
-import { Tab, Nav, Row, Col, Form, Container, Button } from 'react-bootstrap';
+import { Tab, Nav, Row, Col, Form, Container, Button, Modal, Alert } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../config/firebase";
 import history from "../config/history";
@@ -7,26 +7,37 @@ import '../css/Login.css';
 import simLogo from '../img/WebAppLogo.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAt, faLock } from '@fortawesome/free-solid-svg-icons';
+import ForgetPasswordModal from "../components/ForgetPasswordModal";
+ 
 
-const initialState = {
-    emailError: "",
-    passwordError: "",
+const marketingInitialState = {
+    marketingEmailError: "",
+    marketingPasswordError: "",
+    
+}
+
+const superInitialState = {
+    superEmailError: "",
+    superPasswordError: "",
 }
 
 class Login extends Component {
 
-    state = initialState;
+    state = {marketingInitialState, superInitialState};
   
     constructor() {
         super();
         this.login = this.login.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.resetForm = this.resetForm.bind(this);
         this.state = {
             email: "",
             password: "",
             user: "",
-            tab: ["marketingAdministrator", "superAdministrator"],
+            forgetPasswordModal: false,
+            showAlert: false,
         };
+        this.handleForgetPasswordModal = this.handleForgetPasswordModal.bind(this);
     }
 
     componentDidMount() {
@@ -48,7 +59,7 @@ class Login extends Component {
                         snapshot.forEach((doc) => {
                             if (doc.data().administratorType === "Marketing Administrator") {
                                 this.setState({ user: "Marketing Administrator" });
-                                history.push("/StudentProfile");
+                                history.push("/MAHome");
                                 window.location.reload();
                             } else {
                                 history.push("/Login");
@@ -93,38 +104,68 @@ class Login extends Component {
         });
     }
 
-    validate = () => {
-        let emailError = "";
-        let passwordError = "";
+    validateMarketing = () => {
+        let marketingEmailError = "";
+        let marketingPasswordError = "";
 
         if (!this.state.email.includes('@')) {
-            emailError = "Please enter valid email!";
+            marketingEmailError = "Please enter valid email!";
         }
 
         if (!this.state.password) {
-            passwordError = "Please enter valid password!";
+            marketingPasswordError = "Please enter valid password!";
         }
 
-        if (emailError || passwordError) {
-            this.setState({emailError, passwordError});
+        if (marketingEmailError || marketingPasswordError) {
+            this.setState({marketingEmailError, marketingPasswordError});
+            return false;
+        } 
+
+        return true;
+    }
+
+    validateSuper = () => {
+        let superEmailError = "";
+        let superPasswordError = "";
+
+        if (!this.state.email.includes('@')) {
+            superEmailError = "Please enter valid email!";
+        }
+
+        if (!this.state.password) {
+            superPasswordError = "Please enter valid password!";
+        }
+
+        if (superEmailError || superPasswordError) {
+            this.setState({superEmailError, superPasswordError});
             return false;
         }
 
         return true;
     }
 
+    resetForm () {
+        this.setState({email: '', password: ''});
+        this.setState(marketingInitialState);
+        this.setState(superInitialState);
+    }
+
     login(e, accounttype) {
         e.preventDefault();
 
-        //Continuing this part on Friday 16/10/2020
-        if (this.state.tab === "marketingAdministrator") {
-            console.log('marketing')
-            const isValid = this.validate();
-            if (isValid) {
-                this.setState(initialState);
+        const isMarketingValid = this.validateMarketing();
+        const isSuperValid = this.validateSuper();
+
+        if (accounttype === "marketing") {
+            this.setState(superInitialState);
+            if (isMarketingValid) {
+                this.setState(marketingInitialState);
             }
-        } else {
-            console.log('dont have marketing')
+        } else if (accounttype === "super") {
+            this.setState(marketingInitialState);
+            if (isSuperValid) {
+                this.setState(superInitialState);
+            }
         }
 
         fire
@@ -139,6 +180,8 @@ class Login extends Component {
             }
         })
         .catch((error) => {
+            //Alert box for login failure
+            this.setState({showAlert: true});
             console.log("Login Failure");
         });
     }
@@ -152,23 +195,40 @@ class Login extends Component {
         window.location.reload();
     }
 
+    /* Forget Password Modal */
+    handleForgetPasswordModal = () => {
+        this.resetForm();
+        this.forgetPasswordModal = this.state.forgetPasswordModal;
+        if (this.forgetPasswordModal == false) {
+            this.setState({
+                forgetPasswordModal: true
+            });
+            }
+            else {
+            this.setState({
+                forgetPasswordModal: false
+            });
+        }
+    };
+
     render() {
         return (
         <div id="login-content-container">
-            <Tab.Container defaultActiveKey="marketingAdminstrator">
+            <Tab.Container defaultActiveKey="marketingAdministrator">
                 <Row className="justify-content-center">
                     <Col md={5}>
-                        <Nav justify className="login-tabContainer" variant="tabs" as="ul">
+                        <Nav fill className="login-tabContainer" variant="tabs" as="ul">
                             <Nav.Item as="li">
-                                <Nav.Link eventKey="marketingAdministrator" onSelect={() => this.setState({tab: "marketingAdministrator"})} className="login-tabHeading">Marketing Administrator</Nav.Link>
+                                <Nav.Link eventKey="marketingAdministrator" onSelect={this.resetForm} className="login-tabHeading">Marketing Administrator</Nav.Link>
                             </Nav.Item>
 
                             <Nav.Item as="li">
-                                <Nav.Link eventKey="superAdministrator" onSelect={() => this.setState({tab: "superAdministrator"})} className="login-tabHeading">Super Administrator</Nav.Link>
+                                <Nav.Link eventKey="superAdministrator" onSelect={this.resetForm} className="login-tabHeading">Super Administrator</Nav.Link>
                             </Nav.Item>
                         </Nav>
 
                         <Tab.Content id="login-tabContent">
+                            
                             <Tab.Pane eventKey="marketingAdministrator">
                                 <Container>
                                     <div id="simLogo-container">
@@ -182,7 +242,7 @@ class Login extends Component {
                                                 </Form.Group> 
                                                 <Form.Group as={Col} md="7">
                                                     <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
-                                                    <div className="errorMessage">{this.state.emailError}</div>
+                                                    <div className="errorMessage">{this.state.marketingEmailError}</div>
                                                 </Form.Group>
                                             </Form.Group>                     
                                         </Form.Group>
@@ -193,14 +253,14 @@ class Login extends Component {
                                                 </Form.Group> 
                                                 <Form.Group as={Col} md="7">
                                                     <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
-                                                    <div className="errorMessage">{this.state.passwordError}</div>
+                                                    <div className="errorMessage">{this.state.marketingPasswordError}</div>
                                                 </Form.Group>
                                             </Form.Group>  
                                             <Form.Group as={Row} id="login-forgetPassword">
                                                 <Form.Group as={Col} md="3"></Form.Group>
                                                 <Form.Group as={Col} md="7">
                                                     <div className="text-right">
-                                                        <Button type="submit" variant="link" size="sm" onClick={this.reset}>Forget Password?</Button>
+                                                        <Button variant="link" size="sm" onClick={this.handleForgetPasswordModal.bind(this)}>Forget Password?</Button>
                                                     </div>   
                                                 </Form.Group> 
                                             </Form.Group>                          
@@ -225,7 +285,7 @@ class Login extends Component {
                                                 </Form.Group> 
                                                 <Form.Group as={Col} md="7">
                                                     <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
-                                                    <div className="errorMessage">{this.state.emailError}</div>
+                                                    <div className="errorMessage">{this.state.superEmailError}</div>
                                                 </Form.Group>
                                             </Form.Group>                     
                                         </Form.Group>
@@ -237,9 +297,17 @@ class Login extends Component {
                                                 </Form.Group> 
                                                 <Form.Group as={Col} md="7">
                                                     <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
-                                                    <div className="errorMessage">{this.state.passwordError}</div>
+                                                    <div className="errorMessage">{this.state.superPasswordError}</div>
                                                 </Form.Group>
-                                            </Form.Group>                      
+                                            </Form.Group>  
+                                            <Form.Group as={Row} id="login-forgetPassword">
+                                                <Form.Group as={Col} md="3"></Form.Group>
+                                                <Form.Group as={Col} md="7">
+                                                    <div className="text-right">
+                                                        <Button variant="link" size="sm" onClick={this.handleForgetPasswordModal.bind(this)}>Forget Password?</Button>
+                                                    </div>   
+                                                </Form.Group> 
+                                            </Form.Group>                          
                                         </Form.Group>
 
                                         <Form.Group className="login-formGroup">
@@ -252,6 +320,33 @@ class Login extends Component {
                     </Col>
                 </Row>
             </Tab.Container>
+
+            {this.state.forgetPasswordModal == true ?
+                <Modal
+                    show={this.state.forgetPasswordModal}
+                    onHide={this.handleForgetPasswordModal}
+                    size="lg"
+                    centered
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <ForgetPasswordModal />
+                </Modal>
+                :''
+            }
+
+            {this.state.showAlert == true ?
+                <Modal show={this.state.showAlert} onHide={() => [this.setState({showAlert: false}), this.resetForm()]} size="sm" centered backdrop="static" keyboard={false}>
+                    <Alert show={this.state.showAlert} onClose={() => [this.setState({showAlert: false}), this.resetForm()]} dismissible>
+                        <Alert.Heading>Error Occurred!</Alert.Heading>
+                        <p id="login-alertFail-data">Please enter the correct email and password.</p>
+                    </Alert>
+                </Modal> : ''
+            }
+
+            
+
+
         </div>
 
         /*<div className="App">

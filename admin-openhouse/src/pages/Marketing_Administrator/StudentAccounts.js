@@ -1,13 +1,22 @@
 import React, { Component } from "react";
 import fire from "../../config/firebase";
 import history from "../../config/history";
+import firecreate from "../../config/firebasecreate";
+import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal, Alert } from 'react-bootstrap';
 
-//import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
+import "../../css/Marketing_Administrator/StudentAccounts.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
-class StudentProfile extends Component {
+import NavBar from '../../components/Navbar';
+import Footer from '../../components/Footer';
+import SideNavBar from '../../components/SideNavbar';
+
+
+class StudentAccounts extends Component {
   constructor() {
     super();
-    this.logout = this.logout.bind(this);
     this.state = {
       firstName: "",
       lastName: "",
@@ -42,6 +51,7 @@ class StudentProfile extends Component {
       }
     });
   }
+
   updateInput = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -81,15 +91,6 @@ class StudentProfile extends Component {
       });
   }
 
-  changepasswordpage = () => {
-    history.push("/ChangePassword");
-  };
-
-  logout() {
-    fire.auth().signOut();
-    history.push("/Login");
-    window.location.reload();
-  }
   Unsuspend(e, studentdocid) {
     const db = fire.firestore();
 
@@ -115,6 +116,7 @@ class StudentProfile extends Component {
       });
 
   }
+
   Suspend(e, studentdocid) {
     const db = fire.firestore();
 
@@ -199,10 +201,37 @@ class StudentProfile extends Component {
     }
   };
 
+
   render() {
     return (
-      <div className="home">
-        <div>
+      <div>
+        <Container fluid className="MAStudentAcctCon">
+          <NavBar isMA={true} />
+
+          <Container fluid className="MAStudentAcctContent">
+            {/* <Row>
+              <Col md="2" style={{paddingRight:"0"}}>
+                <SideNavBar />
+              </Col>
+
+              <Col md="10" style={{paddingLeft:"0"}}>
+                <Container fluid className="MAStudentAcctContentCon">
+
+
+                </Container>
+              </Col>
+            </Row> */}
+            
+            
+
+          </Container>
+
+          <Footer />
+        </Container>
+
+
+
+        {/* <div>
           <table id="users" class="table table-bordered">
             Search: <input type="text" onChange={this.Search} />
             <tbody>
@@ -255,9 +284,9 @@ class StudentProfile extends Component {
           </table>
         </div>
         <button onClick={this.changepasswordpage}>Change Password</button>
-        <button onClick={this.logout}>Logout</button>
+        <button onClick={this.logout}>Logout</button> */}
       </div>
     );
   }
 }
-export default StudentProfile;
+export default StudentAccounts;

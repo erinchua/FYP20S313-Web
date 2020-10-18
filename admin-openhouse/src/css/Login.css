@@ -9,6 +9,7 @@
 
 .login-tabContainer li {
     background-color: #E4F2F0;
+    min-width: 50%;
 }
 
 .login-tabHeading {
@@ -23,7 +24,6 @@
 
 #login-tabContent {
     background-color: #FFFFFF;
-    min-height: 400px;
 }
 
 #simLogo-container {
@@ -61,4 +61,8 @@
 .errorMessage {
     color: red;
     font-size: 85%;
+}
+
+#login-alertFail-data {
+    font-size: 90%;
 }

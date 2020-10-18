@@ -5,8 +5,8 @@ import fire from "../../config/firebase";
 import history from "../../config/history";
 import firecreate from "../../config/firebasecreate";
 import "../../css/Super_Administrator/AddUserModal.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAddressCard, faEnvelope, faUserCircle } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAddressCard, faEnvelope, faUserCircle } from '@fortawesome/free-regular-svg-icons';
 
 
 const validEmailRegex = RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -130,7 +130,7 @@ export default class AddUserModal extends React.Component {
                             </Col>
 
                             <Col md="5">
-                                <Form.Control name="fullname" type="text" placeholder="Full Name*" className="addAdminFormText" required onChange={this.handleChange} value={this.state.fullname} noValidate />
+                                <Form.Control name="fullname" type="text" placeholder="Full Name*" className="addAdminFormText" required onFocus={this.handleChange} onChange={this.handleChange} value={this.state.fullname} noValidate />
                                 {errors.fullname.length > 0 && <span className='error errorText'>{errors.fullname}</span>}
                             </Col>
 
@@ -146,7 +146,7 @@ export default class AddUserModal extends React.Component {
                             </Col>
 
                             <Col md="5">
-                                <Form.Control name="email" type="email" placeholder="Email*" className="addAdminFormText" required onChange={this.handleChange} value={this.state.email} />
+                                <Form.Control name="email" type="email" placeholder="Email*" className="addAdminFormText" required onFocus={this.handleChange} onChange={this.handleChange} value={this.state.email} noValidate />
                                 {errors.email.length > 0 && <span className='error errorText'>{errors.email}</span>}
                             </Col>
 
@@ -162,7 +162,7 @@ export default class AddUserModal extends React.Component {
                             </Col>
 
                             <Col md="5">
-                                <Form.Control as="select" name="administratorType" defaultValue="marketingAdmin" className="addAdminFormText" id="addAdminFormSelect" required onChange={this.handleChange} value={this.state.administratorType}>
+                                <Form.Control as="select" name="administratorType" defaultValue="marketingAdmin" className="addAdminFormText" id="addAdminFormSelect" required onFocus={this.handleChange} onChange={this.handleChange} value={this.state.administratorType} noValidate>
                                     <option value="marketingAdmin" className="addAdminFormSelectOption">Marketing Administrator</option>
                                 </Form.Control>
                             </Col>
