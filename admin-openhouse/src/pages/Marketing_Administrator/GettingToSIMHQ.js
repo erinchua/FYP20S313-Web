@@ -113,8 +113,6 @@ const mrt = db
     
       });
 
-
-
 //carpark
 const carpark = db
 .collection("CampusLocation").doc("car")
@@ -354,11 +352,11 @@ const carpark = db
                 <th scope="col">Edit</th>
               </tr>
               {this.state.cararr &&
-                this.state.cararr.map((car) => {
+                this.state.cararr.map((car, index) => {
                     
                         return (
                             <tr>
-                              <td>{car.id}</td>
+                              <td>{index+1}</td>
                               <td>
                               <span class={car.id + "text"}>
                               {car.carDescription} 
@@ -482,7 +480,7 @@ const carpark = db
                     
                         return (
                             <tr>
-                              <td>{index} </td>
+                              <td>{index+1} </td>
                               <td>
                               <span class={mrt.id + "text"}>
                               {mrt.nearestMRT}
@@ -544,7 +542,7 @@ const carpark = db
                    
                         return (
                             <tr>
-                              <td>{index} </td>
+                              <td>{index+1} </td>
                               <td>
                               <span class="carparktext">
                               {carpark.carparkDescription}

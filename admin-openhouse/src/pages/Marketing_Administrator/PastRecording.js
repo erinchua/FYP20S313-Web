@@ -4,7 +4,7 @@ import history from "../../config/history";
 
 //import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
 
-class LiveTalk extends Component {
+class PastRecording extends Component {
   constructor() {
     super();
     this.state = {
@@ -57,10 +57,10 @@ class LiveTalk extends Component {
     const db = fire.firestore();
     var counter = 1;
     const userRef = db
-      .collection("ProgrammeTalks").where("isLive", "==", true)
+      .collection("ProgrammeTalks").where("hasRecording", "==", true)
       .get()
       .then((snapshot) => {
-        const liveTalk = [];
+        const pastrecording = [];
         snapshot.forEach((doc) => {
           const data = {
             awardingUni: doc.data().awardingUni,
@@ -78,14 +78,14 @@ class LiveTalk extends Component {
             counter: counter,
           };
           counter++;
-          liveTalk.push(data);
+          pastrecording.push(data);
         });
 
-        this.setState({ liveTalk: liveTalk });
+        this.setState({ pastrecording: pastrecording });
       });
   }
 
-  addLiveTalks = (e) => {
+  addPastRecording = (e) => {
     e.preventDefault();
     const db = fire.firestore();
     const userRef = db
@@ -108,11 +108,11 @@ class LiveTalk extends Component {
       });
   };
 
-  DeleteLiveTalk(e, livetalkid) {
+  DeletePastRecording(e, pastrecordingid) {
     const db = fire.firestore();
     const userRef = db
       .collection("ProgrammeTalks")
-      .doc(livetalkid)
+      .doc(pastrecordingid)
       .delete()
       .then(function () {
         alert("Deleted");
@@ -120,19 +120,19 @@ class LiveTalk extends Component {
       });
   }
 
-  update(e, livetalkid) {
-    const talkName = document.getElementById(livetalkid + "talkname").value
-    const awardingUni = document.getElementById(livetalkid + "awarduni").value
-    const startTime = document.getElementById(livetalkid + "starttime").value
-    const endTime = document.getElementById(livetalkid + "endtime").value
-    const venue = document.getElementById(livetalkid + "venue").value
-    const Link = document.getElementById(livetalkid + "link").value
+  update(e, pastrecordingid) {
+    const talkName = document.getElementById(pastrecordingid + "talkname").value
+    const awardingUni = document.getElementById(pastrecordingid + "awarduni").value
+    const startTime = document.getElementById(pastrecordingid + "starttime").value
+    const endTime = document.getElementById(pastrecordingid + "endtime").value
+    const venue = document.getElementById(pastrecordingid + "venue").value
+    const Link = document.getElementById(pastrecordingid + "link").value
 
     const db = fire.firestore();
     if (talkName != null && awardingUni != null && startTime != null && endTime != null && venue != null && Link != null) {
       const userRef = db
         .collection("ProgrammeTalks")
-        .doc(livetalkid)
+        .doc(pastrecordingid)
         .update({
             awardingUni: awardingUni,
             endTime: endTime,
@@ -148,36 +148,36 @@ class LiveTalk extends Component {
     }
   }
 
-  editLiveTalk(e, livetalkid) {
-    document.getElementById(livetalkid + "spantalkname").removeAttribute("hidden");
-    document.getElementById(livetalkid + "spanawarduni").removeAttribute("hidden");
-    document.getElementById(livetalkid + "spanstarttime").removeAttribute("hidden");
-    document.getElementById(livetalkid + "spanendtime").removeAttribute("hidden");
-    document.getElementById(livetalkid + "spanvenue").removeAttribute("hidden");
-    document.getElementById(livetalkid + "spanlink").removeAttribute("hidden");
-    document.getElementById(livetalkid + "editbutton").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "updatebutton").removeAttribute("hidden");
-    document.getElementById(livetalkid + "cancelbutton").removeAttribute("hidden");
+  editPastRecording(e, pastrecordingid) {
+    document.getElementById(pastrecordingid + "spantalkname").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "spanawarduni").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "spanstarttime").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "spanendtime").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "spanvenue").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "spanlink").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "editbutton").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "updatebutton").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "cancelbutton").removeAttribute("hidden");
     var texttohide = document.getElementsByClassName(
-        livetalkid + "text"
+        pastrecordingid + "text"
       );
       for (var i = 0; i < texttohide.length; i++) {
         texttohide[i].setAttribute("hidden", "");
       }  
 }
 
-  CancelEdit(e, livetalkid) {
-    document.getElementById(livetalkid + "spantalkname").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "spanawarduni").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "spanstarttime").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "spanendtime").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "spanvenue").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "spanlink").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "editbutton").removeAttribute("hidden");
-    document.getElementById(livetalkid + "updatebutton").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "cancelbutton").setAttribute("hidden", "");
+  CancelEdit(e, pastrecordingid) {
+    document.getElementById(pastrecordingid + "spantalkname").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "spanawarduni").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "spanstarttime").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "spanendtime").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "spanvenue").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "spanlink").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "editbutton").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "updatebutton").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "cancelbutton").setAttribute("hidden", "");
     var texttohide = document.getElementsByClassName(
-        livetalkid + "text"
+        pastrecordingid + "text"
       );
       for (var i = 0; i < texttohide.length; i++) {
         texttohide[i].removeAttribute("hidden", "");
@@ -201,138 +201,138 @@ class LiveTalk extends Component {
                 <th scope="col">Edit</th>
                 <th scope="col">Delete</th>
               </tr>
-              {this.state.liveTalk &&
-                this.state.liveTalk.map((liveTalk) => {
+              {this.state.pastrecording &&
+                this.state.pastrecording.map((pastrecording) => {
                   return (
                     <tr>
-                        <td>{liveTalk.counter}</td>
+                        <td>{pastrecording.counter}</td>
                       <td>
-                      <span class={liveTalk.id + "text"}>
-                      {liveTalk.talkName}
+                      <span class={pastrecording.id + "text"}>
+                      {pastrecording.talkName}
                         </span>
-                          <span id={liveTalk.id + "spantalkname"} hidden>
+                          <span id={pastrecording.id + "spantalkname"} hidden>
                           <input
-                            id={liveTalk.id + "talkname"}
-                            defaultValue={liveTalk.talkName}
+                            id={pastrecording.id + "talkname"}
+                            defaultValue={pastrecording.talkName}
                             type="text"
-                            name={liveTalk.id + "talkname"}
+                            name={pastrecording.id + "talkname"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={liveTalk.talkName}
+                            placeholder={pastrecording.talkName}
                             required
                           />
                         </span>            
                       </td>
                       <td>
-                      <span class={liveTalk.id + "text"}>
-                      {liveTalk.awardingUni}
+                      <span class={pastrecording.id + "text"}>
+                      {pastrecording.awardingUni}
                         </span>
-                          <span id={liveTalk.id + "spanawarduni"} hidden>
+                          <span id={pastrecording.id + "spanawarduni"} hidden>
                           <input
-                            id={liveTalk.id + "awarduni"}
-                            defaultValue={liveTalk.awardingUni}
+                            id={pastrecording.id + "awarduni"}
+                            defaultValue={pastrecording.awardingUni}
                             type="text"
-                            name={liveTalk.id + "awarduni"}
+                            name={pastrecording.id + "awarduni"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={liveTalk.awardingUni}
+                            placeholder={pastrecording.awardingUni}
                             required
                           />
                         </span>  
                       </td>
                       <td>
-                      <span class={liveTalk.id + "text"}>
-                      {liveTalk.startTime}
+                      <span class={pastrecording.id + "text"}>
+                      {pastrecording.startTime}
                         </span>
-                          <span id={liveTalk.id + "spanstarttime"} hidden>
+                          <span id={pastrecording.id + "spanstarttime"} hidden>
                           <input
-                            id={liveTalk.id + "starttime"}
-                            defaultValue={liveTalk.startTime}
+                            id={pastrecording.id + "starttime"}
+                            defaultValue={pastrecording.startTime}
                             type="text"
-                            name={liveTalk.id + "starttime"}
+                            name={pastrecording.id + "starttime"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={liveTalk.startTime}
+                            placeholder={pastrecording.startTime}
                             required
                           />
                         </span>  
                       </td>
                       <td>
-                      <span class={liveTalk.id + "text"}>
-                      {liveTalk.endTime}
+                      <span class={pastrecording.id + "text"}>
+                      {pastrecording.endTime}
                         </span>
-                          <span id={liveTalk.id + "spanendtime"} hidden>
+                          <span id={pastrecording.id + "spanendtime"} hidden>
                           <input
-                            id={liveTalk.id + "endtime"}
-                            defaultValue={liveTalk.endTime}
+                            id={pastrecording.id + "endtime"}
+                            defaultValue={pastrecording.endTime}
                             type="text"
-                            name={liveTalk.id + "endtime"}
+                            name={pastrecording.id + "endtime"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={liveTalk.endTime}
+                            placeholder={pastrecording.endTime}
                             required
                           />
                         </span>  
                       </td>
                       <td>
-                      <span class={liveTalk.id + "text"}>
-                      {liveTalk.venue}
+                      <span class={pastrecording.id + "text"}>
+                      {pastrecording.venue}
                         </span>
-                          <span id={liveTalk.id + "spanvenue"} hidden>
+                          <span id={pastrecording.id + "spanvenue"} hidden>
                           <input
-                            id={liveTalk.id + "venue"}
-                            defaultValue={liveTalk.venue}
+                            id={pastrecording.id + "venue"}
+                            defaultValue={pastrecording.venue}
                             type="text"
-                            name={liveTalk.id + "venue"}
+                            name={pastrecording.id + "venue"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={liveTalk.venue}
+                            placeholder={pastrecording.venue}
                             required
                           />
                         </span>  
                       </td>
                       <td>
-                      <span class={liveTalk.id + "text"}>
-                      {liveTalk.Link}
+                      <span class={pastrecording.id + "text"}>
+                      {pastrecording.Link}
                         </span>
                           
-                          <span id={liveTalk.id + "spanlink"} hidden>
+                          <span id={pastrecording.id + "spanlink"} hidden>
                           <input
-                            id={liveTalk.id + "link"}
-                            defaultValue={liveTalk.Link}
+                            id={pastrecording.id + "link"}
+                            defaultValue={pastrecording.Link}
                             type="text"
-                            name={liveTalk.id + "link"}
+                            name={pastrecording.id + "link"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={liveTalk.Link}
+                            placeholder={pastrecording.Link}
                             required
                           />
                         </span>            
                       </td>
                       <td>
                         <button
-                          id={liveTalk.id + "editbutton"}
+                          id={pastrecording.id + "editbutton"}
                           onClick={(e) => {
-                            this.editLiveTalk(e, liveTalk.id);
+                            this.editPastRecording(e, pastrecording.id);
                           }}
                         >
                           Edit
                         </button>
 
                         <button
-                          id={liveTalk.id + "updatebutton"}
+                          id={pastrecording.id + "updatebutton"}
                           hidden
                           onClick={(e) => {
-                            this.update(e, liveTalk.id);
+                            this.update(e, pastrecording.id);
                           }}
                         >
                           Update
                         </button>
                         <button
                           hidden
-                          id={liveTalk.id + "cancelbutton"}
+                          id={pastrecording.id + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, liveTalk.id);
+                            this.CancelEdit(e, pastrecording.id);
                           }}
                         >
                           Cancel
@@ -341,7 +341,7 @@ class LiveTalk extends Component {
                       <td>
                         <button
                           onClick={(e) => {
-                            this.DeleteLiveTalk(e, liveTalk.id);
+                            this.DeletePastRecording(e, pastrecording.id);
                           }}
                         >
                           Delete
@@ -353,7 +353,7 @@ class LiveTalk extends Component {
             </tbody>
           </table>
         </div>
-        <form onSubmit={this.addLiveTalks}>
+        <form onSubmit={this.addPastRecording}>
           <input
             type="text"
             name="talkName"
@@ -444,10 +444,10 @@ class LiveTalk extends Component {
             value={this.state.Link}
             required
           />
-          <button type="submit">Add Live Talk</button>
+          <button type="submit">Add Past Recording</button>
         </form>
       </div>
     );
   }
 }
-export default LiveTalk;
+export default PastRecording;
