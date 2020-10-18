@@ -7,13 +7,37 @@
 }
 
 .MAHome-content {
-    background: #ffffff;
+    background-color: #ffffff;
     min-height: 84vh;
     padding: 0 !important;
 }
 
-.MAHome-mainContent {
-    background-color: #424242;
-    min-height: 84vh;
+#MAHome-topContentContainer {
     padding: 0 !important;
+}
+
+#MAHome-firstRow {
+    background-color: #fffdf6;
+    height: 13%;
+}
+
+#MAHome-secondRow {
+    max-height: 5%;
+}
+
+#MAHome-refreshBtn {
+    background: none;
+    color: black;
+    border: none;
+}
+
+#MAHome-secondRowCol1 {
+    font-weight: bold;
+}
+
+#MAHome-secondRowCol2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 5%;
 }

@@ -19,14 +19,14 @@
 .sideNavBar-navLinks {
     color: white !important;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     font-size: 85%;
 }
 
 .sideNavBar-inner-navLinks {
     color: white !important;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     font-size: 85%;
     margin-left: 5%;
 }
