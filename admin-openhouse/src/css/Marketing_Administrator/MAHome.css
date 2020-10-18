@@ -12,3 +12,8 @@
     padding: 0 !important;
 }
 
+.MAHome-mainContent {
+    background-color: #424242;
+    min-height: 84vh;
+    padding: 0 !important;
+}
