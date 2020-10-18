@@ -1,5 +1,5 @@
 .sideNavBar-container {
-    max-width: 15%; /* max-width: 100%;*/
+    max-width: 100%;
     min-height: 84vh;
     padding: 0 !important;
     
@@ -19,14 +19,14 @@
 .sideNavBar-navLinks {
     color: white !important;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     font-size: 85%;
 }
 
 .sideNavBar-inner-navLinks {
     color: white !important;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     font-size: 85%;
     margin-left: 5%;
 }

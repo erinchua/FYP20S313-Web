@@ -23,25 +23,25 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 //Tooltip for Programme Talks
 const renderProgrammeTalks = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Schedule</Nav.Link>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Live Streams</Nav.Link>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Past Recordings</Nav.Link>
+        <Nav.Link href="/ProgrammeTalkSchedule" className="sideNavBar-navLinks">Schedule</Nav.Link>
+        <Nav.Link href="/LiveTalk" className="sideNavBar-navLinks">Live Streams</Nav.Link>
+        <Nav.Link href="/PastRecording" className="sideNavBar-navLinks">Past Recordings</Nav.Link>
     </Tooltip>
 );
 
 //Tooltip for Guided Tours
 const renderGuidedTours = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Schedule</Nav.Link>
+        <Nav.Link href="/GuidedTour" className="sideNavBar-navLinks">Schedule</Nav.Link>
     </Tooltip>
 );
 
 //Tooltip for Open House Activities
 const renderOpenHouseActivities = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Performances</Nav.Link>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Games & Activities</Nav.Link>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Prizes</Nav.Link>
+        <Nav.Link href="/Performances" className="sideNavBar-navLinks">Performances</Nav.Link>
+        <Nav.Link href="/GameActivities" className="sideNavBar-navLinks">Games & Activities</Nav.Link>
+        <Nav.Link href="/Prizes" className="sideNavBar-navLinks">Prizes</Nav.Link>
     </Tooltip>
 );
 
@@ -57,7 +57,7 @@ const renderForum = (props) => (
 //Tooltip for Clubs & Councils@SIM
 const renderClubs_Councils_SIM = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Arts & Culture</Nav.Link>
+        <Nav.Link href="/ArtsAndCulture" className="sideNavBar-navLinks">Arts & Culture</Nav.Link>
         <Nav.Link href="#" className="sideNavBar-navLinks">International Students Clubs</Nav.Link>
         <Nav.Link href="#" className="sideNavBar-navLinks">Student Councils</Nav.Link>
         <Nav.Link href="#" className="sideNavBar-navLinks">Special Interest Club</Nav.Link>
@@ -155,8 +155,8 @@ export default class SideNavBar extends React.Component {
                                                 <div>
                                                     <Nav.Link href="#" className="sideNavBar-inner-navLinks">Admission & Application</Nav.Link>
                                                     <Nav.Link href="#" className="sideNavBar-inner-navLinks">Contact Information</Nav.Link>
-                                                    <Nav.Link href="#" className="sideNavBar-inner-navLinks">Open House Feedback Form</Nav.Link>
-                                                    <Nav.Link href="#" className="sideNavBar-inner-navLinks">Common FAQs</Nav.Link>
+                                                    <Nav.Link href="/OpenHouseFeedback" className="sideNavBar-inner-navLinks">Open House Feedback Form</Nav.Link>
+                                                    <Nav.Link href="/CommonFAQs" className="sideNavBar-inner-navLinks">Common FAQs</Nav.Link>
                                                 </div>
                                             </Accordion.Collapse>
                                         </Accordion>
