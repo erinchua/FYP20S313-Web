@@ -29,7 +29,7 @@ class LiveTalk extends Component {
         var getrole = db
           .collection("Administrators")
           .where("email", "==", user.email);
-        getrole.get().then((snapshot) => {
+          getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
               this.display();
