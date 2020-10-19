@@ -47,48 +47,126 @@ class Performances extends Component {
     this.authListener();
   }
 
-  display() {
-    const db = fire.firestore();
-    var counter = 1;
-    const userRef = db
-      .collection("Performances").orderBy("date", "desc")
-      .get()
-      .then((snapshot) => {
-        const performance = [];
-        snapshot.forEach((doc) => {
-          const data = {
-            date: doc.data().date,
-            endTime: doc.data().endTime,
-            startTime: doc.data().startTime,
-            performanceName: doc.data().performanceName,
-            venue: doc.data().venue,
-            id: doc.id,
-            counter: counter,
-          };
-          counter++;
-          performance.push(data);
-        });
+  display= () => {
+    var getYear = new Date().getFullYear();
+    console.log(getYear);
+    
+              const db = fire.firestore();
+              const performance = [];
+              const userRef = db
+              .collection("Performances")
+               .get()
+                .then((snapshot) => {
+                  
+                  snapshot.forEach((doc) => {
+                    
+                    performance.push(doc.data().date);
+                  
+                  });
+          
+                  console.log(performance);
+                  
+                  function onlyUnique(value, index, self) {
+                    return self.indexOf(value) === index;
+                  }
+               
+                 var unique = performance.filter(onlyUnique);
+                  console.log(unique);
+               //day1
+               const day1date = [];
+               day1date.push(unique[0]);
+               this.setState({ day1date: day1date });
+                const day1  = db
+                .collection("Performances").where("date", "==", unique[0])
+                  .get()
+                  .then((snapshot) => {
+                    const performance = [];
+                    snapshot.forEach((doc) => {
+                      const data = {
+                        docid : doc.id,
+                        id: doc.data().id,
+                        date: doc.data().date,
+                        endTime: doc.data().endTime,
+                        startTime: doc.data().startTime,
+                        performanceName: doc.data().performanceName,
+                        venue: doc.data().venue,
+                   };
+                   performance.push(data);
+ 
+                    });
+                    this.setState({ day1: performance });
+                                    
+                  });
+                  //day 2
+                  const day2date = [];
+                  day2date.push(unique[1]);
+                  this.setState({ day2date: day2date });
+                  const day2  = db
+                  .collection("Performances").where("date", "==", unique[1])
+                    .get()
+                    .then((snapshot) => {
+                      const performance = [];
+                      snapshot.forEach((doc) => {
+                        const data = {
+                          docid : doc.id,
+                          id: doc.data().id,
+                          date: doc.data().date,
+                          endTime: doc.data().endTime,
+                          startTime: doc.data().startTime,
+                          performanceName: doc.data().performanceName,
+                          venue: doc.data().venue,
+                       
+                        };
+                        performance.push(data);
+                    
+                      
+                      });
+                      this.setState({ day2: performance });
+                    
+                    });
 
-        this.setState({ performance: performance });
-      });
-  }
+                });
+  
+  
+               
+            }
 
   addPerformance = (e) => {
     e.preventDefault();
     const db = fire.firestore();
+      var lastdoc = db.collection("Performances").orderBy('id','desc')
+      .limit(1).get().then((snapshot) =>  {
+        snapshot.forEach((doc) => {
+  var docid= "";
+          var res = doc.data().id.substring(12);
+        var id = parseInt(res)
+        if(id.toString().length <= 1){
+          docid= "performance-00" + (id +1) 
+          }
+          else if(id.toString().length <= 2){
+            docid= "performance-0" + (id +1) 
+            }
+          else{
+            docid="performance-0" + (id +1) 
+          }
+
     const userRef = db
       .collection("Performances")
-      .add({
+      .doc(docid)
+      .set({
       date: this.state.date,
       endTime: this.state.endTime,
       startTime: this.state.startTime,
       performanceName: this.state.performanceName,
       venue: this.state.venue,
+      id: docid,
       })
       .then(function () {
         window.location.reload();
       });
-  };
+    })
+  })
+};
 
   DeletePerformance(e, performanceid) {
     const db = fire.firestore();
@@ -161,7 +239,13 @@ class Performances extends Component {
   render() {
     return (
       <div className="home">
+        {/* day1 */}
         <div>
+        {this.state.day1date &&
+                this.state.day1date.map((day1) => {
+                  return (
+                    <p>{day1}</p>
+                  )})}
           <table id="users" class="table table-bordered"> 
             <tbody>
               <tr>
@@ -173,104 +257,104 @@ class Performances extends Component {
                 <th scope="col">Edit</th>
                 <th scope="col">Delete</th>
               </tr>
-              {this.state.performance &&
-                this.state.performance.map((performance) => {
+              {this.state.day1 &&
+                this.state.day1.map((day1,index) => {
                   return (
                     <tr>
-                        <td>{performance.counter}</td>
+                        <td>{index+1}</td>
                       <td>
-                      <span class={performance.id + "text"}>
-                      {performance.performanceName}
+                      <span class={day1.docid + "text"}>
+                      {day1.performanceName}
                         </span>
                           
-                          <span id={performance.id + "spanperformancename"} hidden>
+                          <span id={day1.docid + "spanperformancename"} hidden>
                           <input
-                            id={performance.id + "performancename"}
-                            defaultValue={performance.performanceName}
+                            id={day1.docid + "performancename"}
+                            defaultValue={day1.performanceName}
                             type="text"
-                            name={performance.id + "performancename"}
+                            name={day1.docid + "performancename"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={performance.performanceName}
+                            placeholder={day1.performanceName}
                             required
                           />
                         </span>            
                       </td>
                       <td>
-                      <span class={performance.id + "text"}>
-                      {performance.startTime}
+                      <span class={day1.docid + "text"}>
+                      {day1.startTime}
                         </span>
-                          <span id={performance.id + "spanstarttime"} hidden>
+                          <span id={day1.docid + "spanstarttime"} hidden>
                           <input
-                            id={performance.id + "starttime"}
-                            defaultValue={performance.startTime}
+                            id={day1.docid + "starttime"}
+                            defaultValue={day1.startTime}
                             type="text"
-                            name={performance.id + "starttime"}
+                            name={day1.docid + "starttime"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={performance.startTime}
+                            placeholder={day1.startTime}
                             required
                           />
                         </span>  
                       </td>
                       <td>
-                      <span class={performance.id + "text"}>
-                      {performance.endTime}
+                      <span class={day1.docid + "text"}>
+                      {day1.endTime}
                         </span>
-                          <span id={performance.id + "spanendtime"} hidden>
+                          <span id={day1.docid + "spanendtime"} hidden>
                           <input
-                            id={performance.id + "endtime"}
-                            defaultValue={performance.endTime}
+                            id={day1.docid + "endtime"}
+                            defaultValue={day1.endTime}
                             type="text"
-                            name={performance.id + "endtime"}
+                            name={day1.docid + "endtime"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={performance.endTime}
+                            placeholder={day1.endTime}
                             required
                           />
                         </span>  
                       </td>
                       <td>
-                      <span class={performance.id + "text"}>
-                      {performance.venue}
+                      <span class={day1.docid + "text"}>
+                      {day1.venue}
                         </span>
-                          <span id={performance.id + "spanvenue"} hidden>
+                          <span id={day1.docid + "spanvenue"} hidden>
                           <input
-                            id={performance.id + "venue"}
-                            defaultValue={performance.venue}
+                            id={day1.docid + "venue"}
+                            defaultValue={day1.venue}
                             type="text"
-                            name={performance.id + "venue"}
+                            name={day1.docid + "venue"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={performance.venue}
+                            placeholder={day1.venue}
                             required
                           />
                         </span>  
                       </td>
                       <td>
                         <button
-                          id={performance.id + "editbutton"}
+                          id={day1.docid + "editbutton"}
                           onClick={(e) => {
-                            this.editPerformance(e, performance.id);
+                            this.editPerformance(e, day1.docid);
                           }}
                         >
                           Edit
                         </button>
 
                         <button
-                          id={performance.id + "updatebutton"}
+                          id={day1.docid + "updatebutton"}
                           hidden
                           onClick={(e) => {
-                            this.update(e, performance.id);
+                            this.update(e, day1.docid);
                           }}
                         >
                           Update
                         </button>
                         <button
                           hidden
-                          id={performance.id + "cancelbutton"}
+                          id={day1.docid + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, performance.id);
+                            this.CancelEdit(e, day1.docid);
                           }}
                         >
                           Cancel
@@ -279,7 +363,143 @@ class Performances extends Component {
                       <td>
                         <button
                           onClick={(e) => {
-                            this.DeletePerformance(e, performance.id);
+                            this.DeletePerformance(e, day1.docid);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        </div>
+        {/* day2 */}
+        <div>
+        {this.state.day2date &&
+                this.state.day2date.map((day2) => {
+                  return (
+                    <p>{day2}</p>
+                  )})}
+          <table id="users" class="table table-bordered"> 
+            <tbody>
+              <tr>
+                <th scope="col">S/N</th>
+                <th scope="col">Performance</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">End Time</th>
+                <th scope="col">Venue</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+              {this.state.day2 &&
+                this.state.day2.map((day2,index) => {
+                  return (
+                    <tr>
+                        <td>{index+1}</td>
+                      <td>
+                      <span class={day2.docid + "text"}>
+                      {day2.performanceName}
+                        </span>
+                          
+                          <span id={day2.docid + "spanperformancename"} hidden>
+                          <input
+                            id={day2.docid + "performancename"}
+                            defaultValue={day2.performanceName}
+                            type="text"
+                            name={day2.docid + "performancename"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={day2.performanceName}
+                            required
+                          />
+                        </span>            
+                      </td>
+                      <td>
+                      <span class={day2.docid + "text"}>
+                      {day2.startTime}
+                        </span>
+                          <span id={day2.docid + "spanstarttime"} hidden>
+                          <input
+                            id={day2.docid + "starttime"}
+                            defaultValue={day2.startTime}
+                            type="text"
+                            name={day2.docid + "starttime"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={day2.startTime}
+                            required
+                          />
+                        </span>  
+                      </td>
+                      <td>
+                      <span class={day2.docid + "text"}>
+                      {day2.endTime}
+                        </span>
+                          <span id={day2.docid + "spanendtime"} hidden>
+                          <input
+                            id={day2.docid + "endtime"}
+                            defaultValue={day2.endTime}
+                            type="text"
+                            name={day2.docid + "endtime"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={day2.endTime}
+                            required
+                          />
+                        </span>  
+                      </td>
+                      <td>
+                      <span class={day2.docid + "text"}>
+                      {day2.venue}
+                        </span>
+                          <span id={day2.docid + "spanvenue"} hidden>
+                          <input
+                            id={day2.docid + "venue"}
+                            defaultValue={day2.venue}
+                            type="text"
+                            name={day2.docid + "venue"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={day2.venue}
+                            required
+                          />
+                        </span>  
+                      </td>
+                      <td>
+                        <button
+                          id={day2.docid + "editbutton"}
+                          onClick={(e) => {
+                            this.editPerformance(e, day2.docid);
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          id={day2.docid + "updatebutton"}
+                          hidden
+                          onClick={(e) => {
+                            this.update(e, day2.docid);
+                          }}
+                        >
+                          Update
+                        </button>
+                        <button
+                          hidden
+                          id={day2.docid + "cancelbutton"}
+                          onClick={(e) => {
+                            this.CancelEdit(e, day2.docid);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          onClick={(e) => {
+                            this.DeletePerformance(e, day2.docid);
                           }}
                         >
                           Delete

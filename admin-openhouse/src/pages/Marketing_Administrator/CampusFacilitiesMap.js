@@ -11,6 +11,8 @@ class CampusFacilitiesMap extends Component {
       blockName: "",
       facilityName: "",
       location: "",
+      URL: "",
+      progress: "",
     };
   }
 
@@ -48,6 +50,23 @@ class CampusFacilitiesMap extends Component {
 
   display() {
     const db = fire.firestore();
+
+    //Map Image File
+    const image = db
+      .collection("CampusFacilities").doc("mapImage")
+      .get()
+      .then((snapshot) => {
+        const maparray = [];
+        const image = snapshot.data();
+        const data = {
+          URL: image.URL,
+
+        };
+        maparray.push(data);
+        this.setState({ maparr: maparray}); 
+        
+      
+      });
 
     const userRef = db
       .collection("CampusFacilities")
@@ -90,6 +109,34 @@ class CampusFacilitiesMap extends Component {
     }
   }
 
+  editLink(e, facilitiesid){
+    document.getElementById(facilitiesid + "upload").removeAttribute("hidden");
+    document.getElementById(facilitiesid + "spanimagelink").removeAttribute("hidden");
+    document.getElementById(facilitiesid + "editbutton").setAttribute("hidden", "");
+    document.getElementById(facilitiesid + "updatebutton").removeAttribute("hidden");
+    document.getElementById(facilitiesid + "cancelbutton").removeAttribute("hidden");
+    var texttohide = document.getElementsByClassName(
+      facilitiesid + "text"
+    );
+    for (var i = 0; i < texttohide.length; i++) {
+      texttohide[i].setAttribute("hidden", "");
+    }
+}
+
+CancelEditLink(e, facilitiesid) {
+  document.getElementById(facilitiesid + "upload").setAttribute("hidden", "");
+  document.getElementById(facilitiesid + "spanimagelink").setAttribute("hidden", "");
+  document.getElementById(facilitiesid + "editbutton").removeAttribute("hidden");
+  document.getElementById(facilitiesid + "updatebutton").setAttribute("hidden", "");
+    document.getElementById(facilitiesid + "cancelbutton").setAttribute("hidden", "");
+  var texttohide = document.getElementsByClassName(
+      facilitiesid + "text"
+    );
+    for (var i = 0; i < texttohide.length; i++) {
+      texttohide[i].removeAttribute("hidden", "");
+    }
+}
+
   editFacilities(e, facilitiesid) {
     document.getElementById(facilitiesid + "spanblock").removeAttribute("hidden");
     document.getElementById(facilitiesid + "spanname").removeAttribute("hidden");
@@ -102,7 +149,8 @@ class CampusFacilitiesMap extends Component {
       );
       for (var i = 0; i < texttohide.length; i++) {
         texttohide[i].setAttribute("hidden", "");
-      }  
+      }
+    
 }
 
   CancelEdit(e, facilitiesid) {
@@ -120,12 +168,122 @@ class CampusFacilitiesMap extends Component {
       }
 }
 
+handleFileUpload = (files) => {
+  this.setState({
+    files: files,
+  });
+};
+handleSave = () => {
+  const parentthis = this;
+  const db = fire.firestore();
+
+  if (this.state.files !== undefined) {
+    const foldername = "CampusFacilitiesMap";
+    const file = this.state.files[0];
+    const storageRef = fire.storage().ref(foldername);
+    const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
+    fileRef.on("state_changed", function (snapshot) {
+      fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+        console.log("File available at", downloadURL);
+
+        const userRef = db
+        .collection("CampusFacilities")
+        .doc("mapImage")
+        .update({
+            URL: downloadURL,
+        })
+        .then(function () {
+          alert("Updated");
+          window.location.reload();
+        });
+        
+      });
+      const progress = Math.round(
+        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      );
+      if (progress != "100") {
+        parentthis.setState({ progress: progress });
+      } else {
+        parentthis.setState({ progress: "Uploaded!" });
+      }
+    });
+    console.log();
+  } else {
+    alert("No Files Selected");
+  }
+};
+
   render() {
     return (
       <div className="home">
         <div>
           <table id="users" class="table table-bordered"> 
             <tbody>
+            {this.state.maparr &&
+                this.state.maparr.map((image) => {
+                        return (
+                            <tr>
+                              <td>Map Image File</td>
+                              <td>
+                              <span class={image.id + "text"}>
+                              {image.URL} 
+                        </span>
+                          <span id={image.id + "spanimagelink"} hidden>
+                          <input
+                            id={image.id + "imagelink"}
+                            defaultValue={image.URL}
+                            type="text"
+                            name={image.id + "imagelink"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={image.URL}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id= {image.id+ "upload" } hidden ><input
+            type="file"
+            onChange={(e) => {
+              this.handleFileUpload(e.target.files);
+            }}
+          />
+         
+       {this.state.progress}
+       <div>
+         <progress value={this.state.progress} max="100" />
+       </div>
+       </span> </td>
+                        <td>
+                        <button
+                          id={image.id + "editbutton"}
+                          onClick={(e) => {
+                            this.editLink(e, image.id);
+                          }}
+                        >
+                          Browse
+                        </button>
+                        <button id = {image.id + "updatebutton"}
+                        hidden
+                        onClick={(e) => {
+                          this.handleSave();
+                        }}>
+                          Save
+                          </button>
+                        <button
+                          hidden
+                          id={image.id + "cancelbutton"}
+                          onClick={(e) => {
+                            this.CancelEditLink(e, image.id);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                            </tr>
+                          );
+                    
+                })}
+              
               <tr>
                 <th scope="col">Block</th>
                 <th scope="col">Name of Place</th>

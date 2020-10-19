@@ -4,7 +4,7 @@ import history from "../../config/history";
 
 //import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
 
-class ArtsAndCulture extends Component {
+class SportAndFitness extends Component {
   constructor() {
     super();
     this.state = {
@@ -53,10 +53,10 @@ class ArtsAndCulture extends Component {
     const db = fire.firestore();
     var counter = 1;
     const userRef = db
-      .collection("ClubsAndCouncils").where("categoryType", "==", "Arts & Culture")
+      .collection("ClubsAndCouncils").where("categoryType", "==", "SportsFitness")
       .get()
       .then((snapshot) => {
-        const artsculture = [];
+        const sportfitness = [];
         snapshot.forEach((doc) => {
           const data = {
             categoryType: doc.data().categoryType,
@@ -67,10 +67,10 @@ class ArtsAndCulture extends Component {
             counter: counter,
           };
           counter++;
-          artsculture.push(data);
+          sportfitness.push(data);
         });
 
-        this.setState({ artsculture: artsculture });
+        this.setState({ sportfitness: sportfitness });
       });
   }
   handleFileUpload = (files) => {
@@ -79,8 +79,7 @@ class ArtsAndCulture extends Component {
     });
   
   };
-  addArtsCulture()  {
-
+  addSportFitness()  {
   const db = fire.firestore();
       var lastdoc = db.collection("ClubsAndCouncils").orderBy('id','desc')
       .limit(1).get().then((snapshot) =>  {
@@ -93,35 +92,31 @@ class ArtsAndCulture extends Component {
   }else{
     docid="club-0" + (id +1) 
   }
-  
-
-var clubsAndCouncilTitle = document.getElementById("clubsAndCouncilTitle").value;
+  var clubsAndCouncilTitle = document.getElementById("clubsAndCouncilTitle").value;
 var clubsAndCouncilDescription = document.getElementById("clubsAndCouncilDescription").value
 
-
 const parentthis = this;
-const foldername = "/ClubsAndCouncil/ArtsCulture";
+const foldername = "/ClubsAndCouncil/SportsFitness";
 const file = this.state.files[0];
 const storageRef = fire.storage().ref(foldername);
 const fileRef = storageRef.child(file.name).put(file);
 fileRef.on("state_changed", function (snapshot) {
   fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+  
 
     const userRef = db
     .collection("ClubsAndCouncils")
     .doc(docid)
     .set({
-        categoryType : "Arts & Culture",
+        categoryType : "SportsFitness",
         clubsAndCouncilTitle: clubsAndCouncilTitle,
         clubsAndCouncilDescription: clubsAndCouncilDescription,
         clubsAndCouncilsLogo: downloadURL,
-        id: docid,
     })
     .then(function () {
       alert("Added");
       window.location.reload();
     });
-
 
   });
   const progress = Math.round(
@@ -134,69 +129,68 @@ fileRef.on("state_changed", function (snapshot) {
   }
 });
 
+
       })
 
   });
 
 }
 
-  editArtsCulture(e, artscultureid) {
-    document.getElementById(artscultureid + "upload").removeAttribute("hidden");
-
-    document.getElementById(artscultureid + "spanartstitle").removeAttribute("hidden");
-    document.getElementById(artscultureid + "spanartsdesc").removeAttribute("hidden");
-    document.getElementById(artscultureid + "spanartslogo").removeAttribute("hidden");
-    document.getElementById(artscultureid + "editbutton").setAttribute("hidden", "");
-    document.getElementById(artscultureid + "updatebutton").removeAttribute("hidden");
-    document.getElementById(artscultureid + "cancelbutton").removeAttribute("hidden");
+  editSportFitness(e, sportfitnessid) {
+    document.getElementById(sportfitnessid + "upload").removeAttribute("hidden");
+    document.getElementById(sportfitnessid + "spansportfitnesstitle").removeAttribute("hidden");
+    document.getElementById(sportfitnessid + "spansportfitnessdesc").removeAttribute("hidden");
+    document.getElementById(sportfitnessid + "spansportfitnesslogo").removeAttribute("hidden");
+    document.getElementById(sportfitnessid + "editbutton").setAttribute("hidden", "");
+    document.getElementById(sportfitnessid + "updatebutton").removeAttribute("hidden");
+    document.getElementById(sportfitnessid + "cancelbutton").removeAttribute("hidden");
     var texttohide = document.getElementsByClassName(
-        artscultureid + "text"
+        sportfitnessid + "text"
       );
       for (var i = 0; i < texttohide.length; i++) {
         texttohide[i].setAttribute("hidden", "");
       }  
 }
 
-  CancelEdit(e, artscultureid) {
-    document.getElementById(artscultureid + "upload").setAttribute("hidden", "");
-
-    document.getElementById(artscultureid + "spanartstitle").setAttribute("hidden", "");
-    document.getElementById(artscultureid + "spanartsdesc").setAttribute("hidden", "");
-    document.getElementById(artscultureid + "spanartslogo").setAttribute("hidden", "");
-    document.getElementById(artscultureid + "editbutton").removeAttribute("hidden");
-    document.getElementById(artscultureid + "updatebutton").setAttribute("hidden", "");
-    document.getElementById(artscultureid + "cancelbutton").setAttribute("hidden", "");
+  CancelEdit(e, sportfitnessid) {
+    document.getElementById(sportfitnessid + "upload").setAttribute("hidden", "");
+    document.getElementById(sportfitnessid + "spansportfitnesstitle").setAttribute("hidden", "");
+    document.getElementById(sportfitnessid + "spansportfitnessdesc").setAttribute("hidden", "");
+    document.getElementById(sportfitnessid + "spansportfitnesslogo").setAttribute("hidden", "");
+    document.getElementById(sportfitnessid + "editbutton").removeAttribute("hidden");
+    document.getElementById(sportfitnessid + "updatebutton").setAttribute("hidden", "");
+    document.getElementById(sportfitnessid + "cancelbutton").setAttribute("hidden", "");
     var texttohide = document.getElementsByClassName(
-        artscultureid + "text"
+        sportfitnessid + "text"
       );
       for (var i = 0; i < texttohide.length; i++) {
         texttohide[i].removeAttribute("hidden", "");
       }
 }
 
-DeleteArtsCulture(e, artscultureid) {
-  const db = fire.firestore();
+DeleteSportFitness(e, sportfitnessid) {
+    const db = fire.firestore();
+  
+    const userRef = db
+      .collection("ClubsAndCouncils")
+      .doc(sportfitnessid)
+      .delete()
+      .then(function () {
+        alert("Deleted");
+        window.location.reload();
+      });
+  }
 
-  const userRef = db
-    .collection("ClubsAndCouncils")
-    .doc(artscultureid)
-    .delete()
-    .then(function () {
-      alert("Deleted");
-      window.location.reload();
-    });
-}
-
-handleSave = (artscultureid) => {
+handleSave = (sportfitnessid) => {
   const parentthis = this;
   const db = fire.firestore();
 
-  var clubsAndCouncilTitle = document.getElementById(artscultureid + "artstitle").value;
-var clubsAndCouncilDescription = document.getElementById(artscultureid + "artsdesc").value;
+  var clubsAndCouncilTitle = document.getElementById(sportfitnessid + "sportfitnesstitle").value;
+var clubsAndCouncilDescription = document.getElementById(sportfitnessid + "sportfitnessdesc").value;
 console.log(this.state.files);
 
 if (this.state.files !== undefined) {
-    const foldername = "/ClubsAndCouncil/ArtsCulture";
+    const foldername = "/ClubsAndCouncil/SportsFitness";
     const storageRef = fire.storage().ref(foldername);
     const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
     fileRef.on("state_changed", function (snapshot) {
@@ -204,12 +198,11 @@ if (this.state.files !== undefined) {
 
         const userRef = db
         .collection("ClubsAndCouncils")
-        .doc(artscultureid)
+        .doc(sportfitnessid)
         .update({
             clubsAndCouncilTitle: clubsAndCouncilTitle,
             clubsAndCouncilDescription: clubsAndCouncilDescription,
             clubsAndCouncilsLogo: downloadURL,
-           
         })
         .then(function () {
           alert("Updated");
@@ -230,7 +223,7 @@ if (this.state.files !== undefined) {
   } else {
     const userRef = db
     .collection("ClubsAndCouncils")
-    .doc(artscultureid)
+    .doc(sportfitnessid)
     .update({
         clubsAndCouncilTitle: clubsAndCouncilTitle,
         clubsAndCouncilDescription: clubsAndCouncilDescription,
@@ -256,63 +249,63 @@ if (this.state.files !== undefined) {
                 <th scope="col">Edit</th>
                 <th scope="col">Delete</th>
               </tr>
-              {this.state.artsculture &&
-                this.state.artsculture.map((artsculture) => {
+              {this.state.sportfitness &&
+                this.state.sportfitness.map((sportfitness) => {
                   return (
                     <tr>
-                        <td>{artsculture.counter}</td>
+                        <td>{sportfitness.counter}</td>
                       <td>
-                      <span class={artsculture.id + "text"}>
-                      {artsculture.clubsAndCouncilTitle}
+                      <span class={sportfitness.id + "text"}>
+                      {sportfitness.clubsAndCouncilTitle}
                         </span>
-                          <span id={artsculture.id + "spanartstitle"} hidden>
+                          <span id={sportfitness.id + "spansportfitnesstitle"} hidden>
                           <input
-                            id={artsculture.id + "artstitle"}
-                            defaultValue={artsculture.clubsAndCouncilTitle}
+                            id={sportfitness.id + "sportfitnesstitle"}
+                            defaultValue={sportfitness.clubsAndCouncilTitle}
                             type="text"
-                            name={artsculture.id + "artstitle"}
+                            name={sportfitness.id + "sportfitnesstitle"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={artsculture.clubsAndCouncilTitle}
+                            placeholder={sportfitness.clubsAndCouncilTitle}
                             required
                           />
                         </span>            
                       </td>
                       <td>
-                      <span class={artsculture.id + "text"}>
-                      {artsculture.clubsAndCouncilDescription}
+                      <span class={sportfitness.id + "text"}>
+                      {sportfitness.clubsAndCouncilDescription}
                         </span>
-                          <span id={artsculture.id + "spanartsdesc"} hidden>
+                          <span id={sportfitness.id + "spansportfitnessdesc"} hidden>
                           <input
-                            id={artsculture.id + "artsdesc"}
-                            defaultValue={artsculture.clubsAndCouncilDescription}
+                            id={sportfitness.id + "sportfitnessdesc"}
+                            defaultValue={sportfitness.clubsAndCouncilDescription}
                             type="text"
-                            name={artsculture.id + "artsdesc"}
+                            name={sportfitness.id + "sportfitnessdesc"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={artsculture.clubsAndCouncilDescription}
+                            placeholder={sportfitness.clubsAndCouncilDescription}
                             required
                           />
                         </span>  
                       </td>
                       <td>
-                      <span class={artsculture.id + "text"}>
-                      {artsculture.clubsAndCouncilsLogo}
+                      <span class={sportfitness.id + "text"}>
+                      {sportfitness.clubsAndCouncilsLogo}
                         </span>
-                          <span id={artsculture.id + "spanartslogo"} hidden>
+                          <span id={sportfitness.id + "spansportfitnesslogo"} hidden>
                           <input
-                            id={artsculture.id + "artslogo"}
-                            defaultValue={artsculture.clubsAndCouncilsLogo}
+                            id={sportfitness.id + "sportfitnesslogo"}
+                            defaultValue={sportfitness.clubsAndCouncilsLogo}
                             type="text"
-                            name={artsculture.id + "artslogo"}
+                            name={sportfitness.id + "sportfitnesslogo"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={artsculture.clubsAndCouncilsLogo}
+                            placeholder={sportfitness.clubsAndCouncilsLogo}
                             required
                             disabled={"disabled"}
                           />
                         </span>
-                       <span id= {artsculture.id+ "upload" } hidden ><input
+                       <span id= {sportfitness.id+ "upload" } hidden ><input
             type="file"
             onChange={(e) => {
               this.handleFileUpload(e.target.files);
@@ -327,28 +320,28 @@ if (this.state.files !== undefined) {
                       </td>
                       <td>
                         <button
-                          id={artsculture.id + "editbutton"}
+                          id={sportfitness.id + "editbutton"}
                           onClick={(e) => {
-                            this.editArtsCulture(e, artsculture.id);
+                            this.editSportFitness(e, sportfitness.id);
                           }}
                         >
                           Edit
                         </button>
 
                         <button
-                          id={artsculture.id + "updatebutton"}
+                          id={sportfitness.id + "updatebutton"}
                           hidden
                           onClick={(e) => {
-                            this.handleSave(artsculture.id);
+                            this.handleSave(sportfitness.id);
                           }}
                         >
                           Update
                         </button>
                         <button
                           hidden
-                          id={artsculture.id + "cancelbutton"}
+                          id={sportfitness.id + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, artsculture.id);
+                            this.CancelEdit(e, sportfitness.id);
                           }}
                         >
                           Cancel
@@ -357,7 +350,7 @@ if (this.state.files !== undefined) {
                       <td>
                         <button
                           onClick={(e) => {
-                            this.DeleteArtsCulture(e, artsculture.id);
+                            this.DeleteSportFitness(e, sportfitness.id);
                           }}
                         >
                           Delete
@@ -369,8 +362,8 @@ if (this.state.files !== undefined) {
             </tbody>
           </table>
         </div>
-        <form onSubmit={(e) => {this.addArtsCulture(); e.preventDefault();}}>
-           <input
+        <form onSubmit={(e) => {this.addSportFitness(); e.preventDefault();}}>
+          <input
             id="clubsAndCouncilTitle"
             type="text"
             name="clubsAndCouncilTitle"
@@ -396,10 +389,10 @@ if (this.state.files !== undefined) {
             }
             
             }required></input>
-          <button type="submit">Add Arts and Culture</button>
+          <button type="submit">Add Sport Fitness</button>
         </form>
       </div>
     );
   }
 }
-export default ArtsAndCulture;
+export default SportAndFitness;
