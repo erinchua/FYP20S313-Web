@@ -4,7 +4,7 @@ import history from "../../config/history";
 
 //import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
 
-class ArtsAndCulture extends Component {
+class StudentCouncil extends Component {
   constructor() {
     super();
     this.state = {
@@ -53,10 +53,10 @@ class ArtsAndCulture extends Component {
     const db = fire.firestore();
     var counter = 1;
     const userRef = db
-      .collection("ClubsAndCouncils").where("categoryType", "==", "Arts & Culture")
+      .collection("ClubsAndCouncils").where("categoryType", "==", "StudentCouncil")
       .get()
       .then((snapshot) => {
-        const artsculture = [];
+        const studentcouncil = [];
         snapshot.forEach((doc) => {
           const data = {
             categoryType: doc.data().categoryType,
@@ -67,10 +67,10 @@ class ArtsAndCulture extends Component {
             counter: counter,
           };
           counter++;
-          artsculture.push(data);
+          studentcouncil.push(data);
         });
 
-        this.setState({ artsculture: artsculture });
+        this.setState({ studentcouncil: studentcouncil });
       });
   }
   handleFileUpload = (files) => {
@@ -79,8 +79,7 @@ class ArtsAndCulture extends Component {
     });
   
   };
-  addArtsCulture()  {
-
+  addStudentCouncil()  {
   const db = fire.firestore();
       var lastdoc = db.collection("ClubsAndCouncils").orderBy('id','desc')
       .limit(1).get().then((snapshot) =>  {
@@ -93,35 +92,31 @@ class ArtsAndCulture extends Component {
   }else{
     docid="club-0" + (id +1) 
   }
-  
-
-var clubsAndCouncilTitle = document.getElementById("clubsAndCouncilTitle").value;
+  var clubsAndCouncilTitle = document.getElementById("clubsAndCouncilTitle").value;
 var clubsAndCouncilDescription = document.getElementById("clubsAndCouncilDescription").value
 
-
 const parentthis = this;
-const foldername = "/ClubsAndCouncil/ArtsCulture";
+const foldername = "/ClubsAndCouncil/StudentCouncil";
 const file = this.state.files[0];
 const storageRef = fire.storage().ref(foldername);
 const fileRef = storageRef.child(file.name).put(file);
 fileRef.on("state_changed", function (snapshot) {
   fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+  
 
     const userRef = db
     .collection("ClubsAndCouncils")
     .doc(docid)
     .set({
-        categoryType : "Arts & Culture",
+        categoryType : "StudentCouncil",
         clubsAndCouncilTitle: clubsAndCouncilTitle,
         clubsAndCouncilDescription: clubsAndCouncilDescription,
         clubsAndCouncilsLogo: downloadURL,
-        id: docid,
     })
     .then(function () {
       alert("Added");
       window.location.reload();
     });
-
 
   });
   const progress = Math.round(
@@ -134,69 +129,68 @@ fileRef.on("state_changed", function (snapshot) {
   }
 });
 
+
       })
 
   });
 
 }
 
-  editArtsCulture(e, artscultureid) {
-    document.getElementById(artscultureid + "upload").removeAttribute("hidden");
-
-    document.getElementById(artscultureid + "spanartstitle").removeAttribute("hidden");
-    document.getElementById(artscultureid + "spanartsdesc").removeAttribute("hidden");
-    document.getElementById(artscultureid + "spanartslogo").removeAttribute("hidden");
-    document.getElementById(artscultureid + "editbutton").setAttribute("hidden", "");
-    document.getElementById(artscultureid + "updatebutton").removeAttribute("hidden");
-    document.getElementById(artscultureid + "cancelbutton").removeAttribute("hidden");
+  editStudentCouncil(e, studentcouncilid) {
+    document.getElementById(studentcouncilid + "upload").removeAttribute("hidden");
+    document.getElementById(studentcouncilid + "spanstudcounciltitle").removeAttribute("hidden");
+    document.getElementById(studentcouncilid + "spanstudcouncildesc").removeAttribute("hidden");
+    document.getElementById(studentcouncilid + "spanstudcouncillogo").removeAttribute("hidden");
+    document.getElementById(studentcouncilid + "editbutton").setAttribute("hidden", "");
+    document.getElementById(studentcouncilid + "updatebutton").removeAttribute("hidden");
+    document.getElementById(studentcouncilid + "cancelbutton").removeAttribute("hidden");
     var texttohide = document.getElementsByClassName(
-        artscultureid + "text"
+        studentcouncilid + "text"
       );
       for (var i = 0; i < texttohide.length; i++) {
         texttohide[i].setAttribute("hidden", "");
       }  
 }
 
-  CancelEdit(e, artscultureid) {
-    document.getElementById(artscultureid + "upload").setAttribute("hidden", "");
-
-    document.getElementById(artscultureid + "spanartstitle").setAttribute("hidden", "");
-    document.getElementById(artscultureid + "spanartsdesc").setAttribute("hidden", "");
-    document.getElementById(artscultureid + "spanartslogo").setAttribute("hidden", "");
-    document.getElementById(artscultureid + "editbutton").removeAttribute("hidden");
-    document.getElementById(artscultureid + "updatebutton").setAttribute("hidden", "");
-    document.getElementById(artscultureid + "cancelbutton").setAttribute("hidden", "");
+  CancelEdit(e, studentcouncilid) {
+    document.getElementById(studentcouncilid + "upload").setAttribute("hidden", "");
+    document.getElementById(studentcouncilid + "spanstudcounciltitle").setAttribute("hidden", "");
+    document.getElementById(studentcouncilid + "spanstudcouncildesc").setAttribute("hidden", "");
+    document.getElementById(studentcouncilid + "spanstudcouncillogo").setAttribute("hidden", "");
+    document.getElementById(studentcouncilid + "editbutton").removeAttribute("hidden");
+    document.getElementById(studentcouncilid + "updatebutton").setAttribute("hidden", "");
+    document.getElementById(studentcouncilid + "cancelbutton").setAttribute("hidden", "");
     var texttohide = document.getElementsByClassName(
-        artscultureid + "text"
+        studentcouncilid + "text"
       );
       for (var i = 0; i < texttohide.length; i++) {
         texttohide[i].removeAttribute("hidden", "");
       }
 }
 
-DeleteArtsCulture(e, artscultureid) {
-  const db = fire.firestore();
+DeleteStudentCouncil(e, studentcouncilid) {
+    const db = fire.firestore();
+  
+    const userRef = db
+      .collection("ClubsAndCouncils")
+      .doc(studentcouncilid)
+      .delete()
+      .then(function () {
+        alert("Deleted");
+        window.location.reload();
+      });
+  }
 
-  const userRef = db
-    .collection("ClubsAndCouncils")
-    .doc(artscultureid)
-    .delete()
-    .then(function () {
-      alert("Deleted");
-      window.location.reload();
-    });
-}
-
-handleSave = (artscultureid) => {
+handleSave = (studentcouncilid) => {
   const parentthis = this;
   const db = fire.firestore();
 
-  var clubsAndCouncilTitle = document.getElementById(artscultureid + "artstitle").value;
-var clubsAndCouncilDescription = document.getElementById(artscultureid + "artsdesc").value;
+  var clubsAndCouncilTitle = document.getElementById(studentcouncilid + "studcounciltitle").value;
+var clubsAndCouncilDescription = document.getElementById(studentcouncilid + "studcouncildesc").value;
 console.log(this.state.files);
 
 if (this.state.files !== undefined) {
-    const foldername = "/ClubsAndCouncil/ArtsCulture";
+    const foldername = "/ClubsAndCouncil/StudentCouncil";
     const storageRef = fire.storage().ref(foldername);
     const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
     fileRef.on("state_changed", function (snapshot) {
@@ -204,12 +198,11 @@ if (this.state.files !== undefined) {
 
         const userRef = db
         .collection("ClubsAndCouncils")
-        .doc(artscultureid)
+        .doc(studentcouncilid)
         .update({
             clubsAndCouncilTitle: clubsAndCouncilTitle,
             clubsAndCouncilDescription: clubsAndCouncilDescription,
             clubsAndCouncilsLogo: downloadURL,
-           
         })
         .then(function () {
           alert("Updated");
@@ -230,7 +223,7 @@ if (this.state.files !== undefined) {
   } else {
     const userRef = db
     .collection("ClubsAndCouncils")
-    .doc(artscultureid)
+    .doc(studentcouncilid)
     .update({
         clubsAndCouncilTitle: clubsAndCouncilTitle,
         clubsAndCouncilDescription: clubsAndCouncilDescription,
@@ -256,63 +249,63 @@ if (this.state.files !== undefined) {
                 <th scope="col">Edit</th>
                 <th scope="col">Delete</th>
               </tr>
-              {this.state.artsculture &&
-                this.state.artsculture.map((artsculture) => {
+              {this.state.studentcouncil &&
+                this.state.studentcouncil.map((studentcouncil) => {
                   return (
                     <tr>
-                        <td>{artsculture.counter}</td>
+                        <td>{studentcouncil.counter}</td>
                       <td>
-                      <span class={artsculture.id + "text"}>
-                      {artsculture.clubsAndCouncilTitle}
+                      <span class={studentcouncil.id + "text"}>
+                      {studentcouncil.clubsAndCouncilTitle}
                         </span>
-                          <span id={artsculture.id + "spanartstitle"} hidden>
+                          <span id={studentcouncil.id + "spanstudcounciltitle"} hidden>
                           <input
-                            id={artsculture.id + "artstitle"}
-                            defaultValue={artsculture.clubsAndCouncilTitle}
+                            id={studentcouncil.id + "studcounciltitle"}
+                            defaultValue={studentcouncil.clubsAndCouncilTitle}
                             type="text"
-                            name={artsculture.id + "artstitle"}
+                            name={studentcouncil.id + "studcounciltitle"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={artsculture.clubsAndCouncilTitle}
+                            placeholder={studentcouncil.clubsAndCouncilTitle}
                             required
                           />
                         </span>            
                       </td>
                       <td>
-                      <span class={artsculture.id + "text"}>
-                      {artsculture.clubsAndCouncilDescription}
+                      <span class={studentcouncil.id + "text"}>
+                      {studentcouncil.clubsAndCouncilDescription}
                         </span>
-                          <span id={artsculture.id + "spanartsdesc"} hidden>
+                          <span id={studentcouncil.id + "spanstudcouncildesc"} hidden>
                           <input
-                            id={artsculture.id + "artsdesc"}
-                            defaultValue={artsculture.clubsAndCouncilDescription}
+                            id={studentcouncil.id + "studcouncildesc"}
+                            defaultValue={studentcouncil.clubsAndCouncilDescription}
                             type="text"
-                            name={artsculture.id + "artsdesc"}
+                            name={studentcouncil.id + "studcouncildesc"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={artsculture.clubsAndCouncilDescription}
+                            placeholder={studentcouncil.clubsAndCouncilDescription}
                             required
                           />
                         </span>  
                       </td>
                       <td>
-                      <span class={artsculture.id + "text"}>
-                      {artsculture.clubsAndCouncilsLogo}
+                      <span class={studentcouncil.id + "text"}>
+                      {studentcouncil.clubsAndCouncilsLogo}
                         </span>
-                          <span id={artsculture.id + "spanartslogo"} hidden>
+                          <span id={studentcouncil.id + "spanstudcouncillogo"} hidden>
                           <input
-                            id={artsculture.id + "artslogo"}
-                            defaultValue={artsculture.clubsAndCouncilsLogo}
+                            id={studentcouncil.id + "studcouncillogo"}
+                            defaultValue={studentcouncil.clubsAndCouncilsLogo}
                             type="text"
-                            name={artsculture.id + "artslogo"}
+                            name={studentcouncil.id + "studcouncillogo"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={artsculture.clubsAndCouncilsLogo}
+                            placeholder={studentcouncil.clubsAndCouncilsLogo}
                             required
                             disabled={"disabled"}
                           />
                         </span>
-                       <span id= {artsculture.id+ "upload" } hidden ><input
+                       <span id= {studentcouncil.id+ "upload" } hidden ><input
             type="file"
             onChange={(e) => {
               this.handleFileUpload(e.target.files);
@@ -327,28 +320,28 @@ if (this.state.files !== undefined) {
                       </td>
                       <td>
                         <button
-                          id={artsculture.id + "editbutton"}
+                          id={studentcouncil.id + "editbutton"}
                           onClick={(e) => {
-                            this.editArtsCulture(e, artsculture.id);
+                            this.editStudentCouncil(e, studentcouncil.id);
                           }}
                         >
                           Edit
                         </button>
 
                         <button
-                          id={artsculture.id + "updatebutton"}
+                          id={studentcouncil.id + "updatebutton"}
                           hidden
                           onClick={(e) => {
-                            this.handleSave(artsculture.id);
+                            this.handleSave(studentcouncil.id);
                           }}
                         >
                           Update
                         </button>
                         <button
                           hidden
-                          id={artsculture.id + "cancelbutton"}
+                          id={studentcouncil.id + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, artsculture.id);
+                            this.CancelEdit(e, studentcouncil.id);
                           }}
                         >
                           Cancel
@@ -357,7 +350,7 @@ if (this.state.files !== undefined) {
                       <td>
                         <button
                           onClick={(e) => {
-                            this.DeleteArtsCulture(e, artsculture.id);
+                            this.DeleteStudentCouncil(e, studentcouncil.id);
                           }}
                         >
                           Delete
@@ -369,8 +362,8 @@ if (this.state.files !== undefined) {
             </tbody>
           </table>
         </div>
-        <form onSubmit={(e) => {this.addArtsCulture(); e.preventDefault();}}>
-           <input
+        <form onSubmit={(e) => {this.addStudentCouncil(); e.preventDefault();}}>
+          <input
             id="clubsAndCouncilTitle"
             type="text"
             name="clubsAndCouncilTitle"
@@ -396,10 +389,10 @@ if (this.state.files !== undefined) {
             }
             
             }required></input>
-          <button type="submit">Add Arts and Culture</button>
+          <button type="submit">Add Student Councils</button>
         </form>
       </div>
     );
   }
 }
-export default ArtsAndCulture;
+export default StudentCouncil;
