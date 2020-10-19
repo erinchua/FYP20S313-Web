@@ -110,7 +110,6 @@ class CampusFacilitiesMap extends Component {
   }
 
   editLink(e, facilitiesid){
-    //if(type === "mapImage"){
     document.getElementById(facilitiesid + "upload").removeAttribute("hidden");
     document.getElementById(facilitiesid + "spanimagelink").removeAttribute("hidden");
     document.getElementById(facilitiesid + "editbutton").setAttribute("hidden", "");
@@ -122,11 +121,9 @@ class CampusFacilitiesMap extends Component {
     for (var i = 0; i < texttohide.length; i++) {
       texttohide[i].setAttribute("hidden", "");
     }
-  //}
 }
 
 CancelEditLink(e, facilitiesid) {
-  //if(type === "mapImage"){
   document.getElementById(facilitiesid + "upload").setAttribute("hidden", "");
   document.getElementById(facilitiesid + "spanimagelink").setAttribute("hidden", "");
   document.getElementById(facilitiesid + "editbutton").removeAttribute("hidden");
@@ -138,7 +135,6 @@ CancelEditLink(e, facilitiesid) {
     for (var i = 0; i < texttohide.length; i++) {
       texttohide[i].removeAttribute("hidden", "");
     }
-  //}
 }
 
   editFacilities(e, facilitiesid) {

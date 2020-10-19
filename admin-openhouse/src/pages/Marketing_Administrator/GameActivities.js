@@ -47,48 +47,130 @@ class GameActivities extends Component {
     this.authListener();
   }
 
-  display() {
-    const db = fire.firestore();
-    var counter = 1;
-    const userRef = db
-      .collection("GamesActivities").orderBy("date", "desc")
-      .get()
-      .then((snapshot) => {
-        const gameActivities = [];
-        snapshot.forEach((doc) => {
-          const data = {
-            date: doc.data().date,
-            pointsAward: doc.data().pointsAward,
-            startTime: doc.data().startTime,
-            gameBoothName: doc.data().gameBoothName,
-            venue: doc.data().venue,
-            id: doc.id,
-            counter: counter,
-          };
-          counter++;
-          gameActivities.push(data);
-        });
+  display= () => {
+    var getYear = new Date().getFullYear();
+    console.log(getYear);
+    
+              const db = fire.firestore();
+              const gameactivities = [];
+              const userRef = db
+              .collection("GamesActivities")
+               .get()
+                .then((snapshot) => {
+                  
+                  snapshot.forEach((doc) => {
+                    
+                    gameactivities.push(doc.data().date);
+                  
+                  });
+          
+                  console.log(gameactivities);
+                  
+                  function onlyUnique(value, index, self) {
+                    return self.indexOf(value) === index;
+                  }
+               
+                 var unique = gameactivities.filter(onlyUnique);
+                  console.log(unique);
+               //day1
+               const day1date = [];
+               day1date.push(unique[0]);
+               this.setState({ day1date: day1date });
+                const day1  = db
+                .collection("GamesActivities").where("date", "==", unique[0])
+                  .get()
+                  .then((snapshot) => {
+                    const gameactivities = [];
+                    snapshot.forEach((doc) => {
+                      const data = {
+                        docid : doc.id,
+                        id: doc.data().id,
+                        date: doc.data().date,
+                        pointsAward: doc.data().pointsAward,
+                        startTime: doc.data().startTime,
+                        gameBoothName: doc.data().gameBoothName,
+                        venue: doc.data().venue,
+                   };
+                   gameactivities.push(data);
+                   
+                    
+                    });
+   
+                 
+                    
+                    this.setState({ day1: gameactivities });
+                                    
+                  });
+                  //day 2
+                  const day2date = [];
+                  day2date.push(unique[1]);
+                  this.setState({ day2date: day2date });
+                  const day2  = db
+                  .collection("GamesActivities").where("date", "==", unique[1])
+                    .get()
+                    .then((snapshot) => {
+                      const gameactivities = [];
+                      snapshot.forEach((doc) => {
+                        const data = {
+                          docid : doc.id,
+                          id: doc.data().id,
+                          date: doc.data().date,
+                          pointsAward: doc.data().pointsAward,
+                          startTime: doc.data().startTime,
+                          gameBoothName: doc.data().gameBoothName,
+                          venue: doc.data().venue,
+                       
+                        };
+                        gameactivities.push(data);
+                    
+                      
+                      });
+                      this.setState({ day2: gameactivities });
+                    
+                    });
 
-        this.setState({ gameActivities: gameActivities });
-      });
-  }
+                });
+  
+  
+               
+            }
 
   addGameActivities = (e) => {
     e.preventDefault();
     const db = fire.firestore();
+      var lastdoc = db.collection("GamesActivities").orderBy('id','desc')
+      .limit(1).get().then((snapshot) =>  {
+        snapshot.forEach((doc) => {
+  var docid= "";
+          var res = doc.data().id.substring(9);
+        var id = parseInt(res)
+        if(id.toString().length <= 1){
+          docid= "activity-00" + (id +1) 
+          }
+          else if(id.toString().length <= 2){
+            docid= "activity-0" + (id +1) 
+            }
+          else{
+            docid="activity-0" + (id +1) 
+          }
+          alert(docid)
     const userRef = db
       .collection("GamesActivities")
-      .add({
+      .doc(docid)
+      .set({
       date: this.state.date,
       pointsAward: this.state.pointsAward,
       startTime: this.state.startTime,
       gameBoothName: this.state.gameBoothName,
       venue: this.state.venue,
+      id : docid,
       })
       .then(function () {
         window.location.reload();
       });
-  };
+    })
+  })
+};
 
   DeleteGameActivities(e, gameactivitiesid) {
     const db = fire.firestore();
@@ -157,7 +239,13 @@ class GameActivities extends Component {
   render() {
     return (
       <div className="home">
+        {/* day1 */}
         <div>
+        {this.state.day1date &&
+                this.state.day1date.map((day1) => {
+                  return (
+                    <p>{day1}</p>
+                  )})}
           <table id="users" class="table table-bordered"> 
             <tbody>
               <tr>
@@ -168,87 +256,87 @@ class GameActivities extends Component {
                 <th scope="col">Edit</th>
                 <th scope="col">Delete</th>
               </tr>
-              {this.state.gameActivities &&
-                this.state.gameActivities.map((gameActivities) => {
+              {this.state.day1 &&
+                this.state.day1.map((day1,index) => {
                   return (
                     <tr>
-                        <td>{gameActivities.counter}</td>
+                        <td>{index+1}</td>
                       <td>
-                      <span class={gameActivities.id + "text"}>
-                      {gameActivities.gameBoothName}
+                      <span class={day1.docid + "text"}>
+                      {day1.gameBoothName}
                         </span>
                           
-                          <span id={gameActivities.id + "spangameboothname"} hidden>
+                          <span id={day1.docid + "spangameboothname"} hidden>
                           <input
-                            id={gameActivities.id + "gameboothname"}
-                            defaultValue={gameActivities.gameBoothName}
+                            id={day1.docid + "gameboothname"}
+                            defaultValue={day1.gameBoothName}
                             type="text"
-                            name={gameActivities.id + "gameboothname"}
+                            name={day1.docid + "gameboothname"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={gameActivities.gameBoothName}
+                            placeholder={day1.gameBoothName}
                             required
                           />
                         </span>            
                       </td>
                       <td>
-                      <span class={gameActivities.id + "text"}>
-                      {gameActivities.venue}
+                      <span class={day1.docid + "text"}>
+                      {day1.venue}
                         </span>
-                          <span id={gameActivities.id + "spanvenue"} hidden>
+                          <span id={day1.docid + "spanvenue"} hidden>
                           <input
-                            id={gameActivities.id + "venue"}
-                            defaultValue={gameActivities.venue}
+                            id={day1.docid + "venue"}
+                            defaultValue={day1.venue}
                             type="text"
-                            name={gameActivities.id + "venue"}
+                            name={day1.docid + "venue"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={gameActivities.venue}
+                            placeholder={day1.venue}
                             required
                           />
                         </span>  
                       </td>
                       <td>
-                      <span class={gameActivities.id + "text"}>
-                      {gameActivities.pointsAward}
+                      <span class={day1.docid + "text"}>
+                      {day1.pointsAward}
                         </span>
-                          <span id={gameActivities.id + "spanpointsaward"} hidden>
+                          <span id={day1.docid + "spanpointsaward"} hidden>
                           <input
-                            id={gameActivities.id + "pointsaward"}
-                            defaultValue={gameActivities.pointsAward}
+                            id={day1.docid + "pointsaward"}
+                            defaultValue={day1.pointsAward}
                             type="text"
-                            name={gameActivities.id + "pointsaward"}
+                            name={day1.docid + "pointsaward"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={gameActivities.pointsAward}
+                            placeholder={day1.pointsAward}
                             required
                           />
                         </span>  
                       </td>
                       <td>
                         <button
-                          id={gameActivities.id + "editbutton"}
+                          id={day1.docid + "editbutton"}
                           onClick={(e) => {
-                            this.editGameActivities(e, gameActivities.id);
+                            this.editGameActivities(e, day1.docid);
                           }}
                         >
                           Edit
                         </button>
 
                         <button
-                          id={gameActivities.id + "updatebutton"}
+                          id={day1.docid + "updatebutton"}
                           hidden
                           onClick={(e) => {
-                            this.update(e, gameActivities.id);
+                            this.update(e, day1.docid);
                           }}
                         >
                           Update
                         </button>
                         <button
                           hidden
-                          id={gameActivities.id + "cancelbutton"}
+                          id={day1.docid + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, gameActivities.id);
+                            this.CancelEdit(e, day1.docid);
                           }}
                         >
                           Cancel
@@ -257,7 +345,125 @@ class GameActivities extends Component {
                       <td>
                         <button
                           onClick={(e) => {
-                            this.DeleteGameActivities(e, gameActivities.id);
+                            this.DeleteGameActivities(e, day1.docid);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        </div>
+        <div>
+        {/* day2 */}
+        {this.state.day2date &&
+                this.state.day2date.map((day2) => {
+                  return (
+                    <p>{day2}</p>
+                  )})}
+          <table id="users" class="table table-bordered"> 
+            <tbody>
+              <tr>
+                <th scope="col">Booth No.</th>
+                <th scope="col">Booth Name</th>
+                <th scope="col">Venue</th>
+                <th scope="col">Points</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+              {this.state.day2 &&
+                this.state.day2.map((day2,index) => {
+                  return (
+                    <tr>
+                        <td>{index+1}</td>
+                      <td>
+                      <span class={day2.docid + "text"}>
+                      {day2.gameBoothName}
+                        </span>
+                          
+                          <span id={day2.docid + "spangameboothname"} hidden>
+                          <input
+                            id={day2.docid + "gameboothname"}
+                            defaultValue={day2.gameBoothName}
+                            type="text"
+                            name={day2.docid + "gameboothname"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={day2.gameBoothName}
+                            required
+                          />
+                        </span>            
+                      </td>
+                      <td>
+                      <span class={day2.docid + "text"}>
+                      {day2.venue}
+                        </span>
+                          <span id={day2.docid + "spanvenue"} hidden>
+                          <input
+                            id={day2.docid + "venue"}
+                            defaultValue={day2.venue}
+                            type="text"
+                            name={day2.docid + "venue"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={day2.venue}
+                            required
+                          />
+                        </span>  
+                      </td>
+                      <td>
+                      <span class={day2.docid + "text"}>
+                      {day2.pointsAward}
+                        </span>
+                          <span id={day2.docid + "spanpointsaward"} hidden>
+                          <input
+                            id={day2.docid + "pointsaward"}
+                            defaultValue={day2.pointsAward}
+                            type="text"
+                            name={day2.docid + "pointsaward"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={day2.pointsAward}
+                            required
+                          />
+                        </span>  
+                      </td>
+                      <td>
+                        <button
+                          id={day2.docid + "editbutton"}
+                          onClick={(e) => {
+                            this.editGameActivities(e, day2.docid);
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          id={day2.docid + "updatebutton"}
+                          hidden
+                          onClick={(e) => {
+                            this.update(e, day2.docid);
+                          }}
+                        >
+                          Update
+                        </button>
+                        <button
+                          hidden
+                          id={day2.docid + "cancelbutton"}
+                          onClick={(e) => {
+                            this.CancelEdit(e, day2.docid);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          onClick={(e) => {
+                            this.DeleteGameActivities(e, day2.docid);
                           }}
                         >
                           Delete
