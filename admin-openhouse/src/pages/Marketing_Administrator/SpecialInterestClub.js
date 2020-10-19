@@ -92,7 +92,6 @@ class SpecialInterestClub extends Component {
   }else{
     docid="club-0" + (id +1) 
   }
-  var categoryType= document.getElementById("categoryType").value;
   var clubsAndCouncilTitle = document.getElementById("clubsAndCouncilTitle").value;
 var clubsAndCouncilDescription = document.getElementById("clubsAndCouncilDescription").value
 
@@ -109,7 +108,7 @@ fileRef.on("state_changed", function (snapshot) {
     .collection("ClubsAndCouncils")
     .doc(docid)
     .set({
-        categoryType : categoryType,
+        categoryType : "SpecialInterest",
         clubsAndCouncilTitle: clubsAndCouncilTitle,
         clubsAndCouncilDescription: clubsAndCouncilDescription,
         clubsAndCouncilsLogo: downloadURL,
@@ -364,15 +363,6 @@ if (this.state.files !== undefined) {
           </table>
         </div>
         <form onSubmit={(e) => {this.addSpecialInterest(); e.preventDefault();}}>
-          <input
-          id= "categoryType"
-            type="text"
-            name="categoryType"
-            placeholder="Category Type"
-            onChange={this.updateInput}
-            value={this.state.categoryType}
-            required
-          />
           <input
             id="clubsAndCouncilTitle"
             type="text"

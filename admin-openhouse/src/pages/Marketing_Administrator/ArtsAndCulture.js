@@ -94,8 +94,8 @@ class ArtsAndCulture extends Component {
     docid="club-0" + (id +1) 
   }
   
-  var categoryType= document.getElementById("categoryType").value;
-  var clubsAndCouncilTitle = document.getElementById("clubsAndCouncilTitle").value;
+
+var clubsAndCouncilTitle = document.getElementById("clubsAndCouncilTitle").value;
 var clubsAndCouncilDescription = document.getElementById("clubsAndCouncilDescription").value
 
 
@@ -106,28 +106,21 @@ const storageRef = fire.storage().ref(foldername);
 const fileRef = storageRef.child(file.name).put(file);
 fileRef.on("state_changed", function (snapshot) {
   fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-  
 
     const userRef = db
     .collection("ClubsAndCouncils")
     .doc(docid)
     .set({
-        categoryType : categoryType,
+        categoryType : "Arts & Culture",
         clubsAndCouncilTitle: clubsAndCouncilTitle,
         clubsAndCouncilDescription: clubsAndCouncilDescription,
         clubsAndCouncilsLogo: downloadURL,
+        id: docid,
     })
     .then(function () {
       alert("Added");
       window.location.reload();
     });
-
-
-
-
-
-
-
 
 
   });
@@ -140,7 +133,6 @@ fileRef.on("state_changed", function (snapshot) {
     parentthis.setState({ progress: "Uploaded!" });
   }
 });
-
 
       })
 
@@ -217,6 +209,7 @@ if (this.state.files !== undefined) {
             clubsAndCouncilTitle: clubsAndCouncilTitle,
             clubsAndCouncilDescription: clubsAndCouncilDescription,
             clubsAndCouncilsLogo: downloadURL,
+           
         })
         .then(function () {
           alert("Updated");
@@ -377,16 +370,7 @@ if (this.state.files !== undefined) {
           </table>
         </div>
         <form onSubmit={(e) => {this.addArtsCulture(); e.preventDefault();}}>
-          <input
-          id= "categoryType"
-            type="text"
-            name="categoryType"
-            placeholder="Category Type"
-            onChange={this.updateInput}
-            value={this.state.categoryType}
-            required
-          />
-          <input
+           <input
             id="clubsAndCouncilTitle"
             type="text"
             name="clubsAndCouncilTitle"
