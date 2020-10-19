@@ -27,6 +27,8 @@ import OpenHouseFeedback from './pages/Marketing_Administrator/OpenHouseFeedback
 import CommonFAQs from './pages/Marketing_Administrator/CommonFAQs';
 import ArtsAndCulture from './pages/Marketing_Administrator/ArtsAndCulture';
 import InternationalStudentClub from './pages/Marketing_Administrator/InternationalStudentClub';
+import StudentCouncil from './pages/Marketing_Administrator/StudentCouncil';
+import SpecialInterestClub from './pages/Marketing_Administrator/SpecialInterestClub';
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -60,6 +62,8 @@ ReactDOM.render(
     <Route path="/CommonFAQs" component={CommonFAQs} />
     <Route path="/ArtsAndCulture" component={ArtsAndCulture} />
     <Route path="/InternationalStudentClub" component={InternationalStudentClub} />
+    <Route path="/StudentCouncil" component={StudentCouncil} />
+    <Route path="/SpecialInterestClub" component={SpecialInterestClub} />
     </Switch>
   </Router>,
   document.getElementById("root")
