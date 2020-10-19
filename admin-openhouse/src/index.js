@@ -29,6 +29,7 @@ import ArtsAndCulture from './pages/Marketing_Administrator/ArtsAndCulture';
 import InternationalStudentClub from './pages/Marketing_Administrator/InternationalStudentClub';
 import StudentCouncil from './pages/Marketing_Administrator/StudentCouncil';
 import SpecialInterestClub from './pages/Marketing_Administrator/SpecialInterestClub';
+import SportAndFitness from './pages/Marketing_Administrator/SportAndFitness';
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -64,6 +65,7 @@ ReactDOM.render(
     <Route path="/InternationalStudentClub" component={InternationalStudentClub} />
     <Route path="/StudentCouncil" component={StudentCouncil} />
     <Route path="/SpecialInterestClub" component={SpecialInterestClub} />
+    <Route path="/SportAndFitness" component={SportAndFitness} />
     </Switch>
   </Router>,
   document.getElementById("root")
