@@ -391,7 +391,7 @@ handleFileUpload = (files) => {
     files: files,
   });
 };
-handleSave = (locationid) => {
+handleSave = (mapImage) => {
   const parentthis = this;
   const db = fire.firestore();
 
@@ -406,7 +406,7 @@ handleSave = (locationid) => {
 
         const userRef = db
         .collection("CampusLocation")
-        .doc(locationid)
+        .doc("mapImage")
         .update({
             URL: downloadURL,
         })
@@ -478,7 +478,7 @@ handleSave = (locationid) => {
                             this.editLocation(e, image.id,"mapImage");
                           }}
                         >
-                          Edit
+                          Browse
                         </button>
                         <button id = {image.id + "updatebutton"}
                         hidden
