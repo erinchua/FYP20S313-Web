@@ -59,7 +59,7 @@ class ProgrammeTalkSchedule extends Component {
     console.log(getYear);
     
               const db = fire.firestore();
-              const users = [];
+              const progtalk = [];
               const userRef = db
               .collection("ProgrammeTalks")
               .where('date', '>=', "2021")
@@ -68,17 +68,17 @@ class ProgrammeTalkSchedule extends Component {
                   
                   snapshot.forEach((doc) => {
                     
-                    users.push(doc.data().date);
+                    progtalk.push(doc.data().date);
                   
                   });
           
-                  console.log(users);
+                  console.log(progtalk);
                   
                   function onlyUnique(value, index, self) {
                     return self.indexOf(value) === index;
                   }
                
-                 var unique = users.filter(onlyUnique);
+                 var unique = progtalk.filter(onlyUnique);
                   console.log(unique);
                //day1
                const day1date = [];
@@ -88,8 +88,7 @@ class ProgrammeTalkSchedule extends Component {
                 .collection("ProgrammeTalks").where("date", "==", unique[0])
                   .get()
                   .then((snapshot) => {
-                    const users = [];
-                    
+                    const progtalk = [];
                     snapshot.forEach((doc) => {
                       const data = {
                         docid : doc.id,
@@ -105,15 +104,15 @@ class ProgrammeTalkSchedule extends Component {
                         Link : doc.data().Link,
                         isLive: doc.data().isLive.toString(),
                      
-                                          };
-                      users.push(data);
+                   };
+                       progtalk.push(data);
                    
                     
                     });
    
                  
                     
-                    this.setState({ day1: users });
+                    this.setState({ day1: progtalk });
                                     
                   });
                   //day 2
@@ -125,7 +124,7 @@ class ProgrammeTalkSchedule extends Component {
                   .collection("ProgrammeTalks").where("date", "==", unique[1])
                     .get()
                     .then((snapshot) => {
-                      const users = [];
+                      const progtalk = [];
                       snapshot.forEach((doc) => {
                         const data = {
                           docid : doc.id,
@@ -142,14 +141,14 @@ class ProgrammeTalkSchedule extends Component {
                           isLive: doc.data().isLive.toString(),
                        
                         };
-                        users.push(data);
+                        progtalk.push(data);
                     
                       
                       });
                      
                       
                       
-                      this.setState({ day2: users });
+                      this.setState({ day2: progtalk });
                     
                     });
 
@@ -649,14 +648,7 @@ class ProgrammeTalkSchedule extends Component {
             value={this.state.capacityLimit}
             required
           />
-         {/* <input
-            type="text"
-            name="hasRecording"
-            placeholder="Has Recording"
-            onChange={this.updateInput}
-            value={this.state.hasRecording}
-            required
-         />*/}
+         
 <select id = "recordingvalue" required>
 
             <option disabled selected value></option>
@@ -665,14 +657,6 @@ class ProgrammeTalkSchedule extends Component {
         
           </select>
 
-         {/* <input
-            type="text"
-            name="isLive"
-            placeholder="Is Live"
-            onChange={this.updateInput}
-            value={this.state.isLive}
-            required
-          />*/}
 <select id = "livestatus" required>
 <option disabled selected value></option>
             <option value="true">true</option>
