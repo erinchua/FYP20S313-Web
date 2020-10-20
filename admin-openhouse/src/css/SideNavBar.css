@@ -1,13 +1,13 @@
 .sideNavBar-container {
     max-width: 100%;
-    min-height: 84vh;
+    min-height: 100%;
     padding: 0 !important;
     
 }
 
 .sideNavBar-content {
     min-width: 100%;
-    min-height: 84vh;
+    min-height: 100vh;
 }
 
 .sideNavBar-navItems {
