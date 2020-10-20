@@ -6,8 +6,7 @@ import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Moda
 
 import "../../css/Marketing_Administrator/StudentAccounts.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { faSearch, faBan, faUserSlash } from '@fortawesome/free-solid-svg-icons';
 
 import NavBar from '../../components/Navbar';
 import Footer from '../../components/Footer';
@@ -209,18 +208,133 @@ class StudentAccounts extends Component {
           <NavBar isMA={true} />
 
           <Container fluid className="MAStudentAcctContent">
-            {/* <Row>
-              <Col md="2" style={{paddingRight:"0"}}>
+            <Row>
+              {/* SideNavBar Col */}
+              <Col md="2" style={{paddingRight:"0"}} className="sideNavBarCol">
                 <SideNavBar />
               </Col>
 
+              {/* Contents Col */}
               <Col md="10" style={{paddingLeft:"0"}}>
                 <Container fluid className="MAStudentAcctContentCon">
+                  {/* Search row */}
+                  <Row id="MAStudentAcctContentSearchRow">
+                    <Col md="12" id="MAStudentAcctContentSearchCol">
+                      <InputGroup className="justify-content-center">
+                        <Form inline className="MAStudentAcctSearchInputForm justify-content-center">
+                          <FormControl id="MAStudentAcctSearchBar" type="text" placeholder="Search" onChange={this.search} />
 
+                          <InputGroup.Prepend>
+                            <Button id="MAStudentAcctSearchBarBtn" onClick={this.search}>
+                              <FontAwesomeIcon size="lg" id="searchBtnIcon" icon={faSearch} />  
+                            </Button>
+                          </InputGroup.Prepend>
+                        </Form>
+                      </InputGroup>
+
+                    </Col>
+                  </Row>
+
+                  {/* Student Accounts Table */}
+                  <Row id="MAStudentAcctTableRow" className="justify-content-center">
+                    <Col md="12" className="text-center">
+                      <Table responsive="sm" bordered hover id="MAStudentAcctTable">
+                        <thead>
+                          <tr>
+                            <th id="studAcctHeader_Checkbox"></th>
+                            <th id="studAcctHeader_SNo">S/N</th>
+                            <th id="studAcctHeader_FirstName"> First Name</th>
+                            <th id="studAcctHeader_LastName"> Last Name</th>
+                            <th id="studAcctHeader_Email">Email</th>
+                            <th id="studAcctHeader_ContactNo">Contact No.</th>
+                            <th id="studAcctHeader_DOB">D.O.B</th>
+                            <th id="studAcctHeader_HighestQual">Highest Qualification</th>
+                            <th id="studAcctHeader_Nationality">Nationality</th>
+                            <th id="studAcctHeader_SuspendStud">Suspend From Forum</th>
+                          </tr>
+                        </thead>
+
+                        {this.state.users && this.state.users.map((user) => {
+                          return (
+                            <>
+                              <tbody>
+                                <tr>
+                                  <td id="studAcctData_Checkbox">
+                                    <Form.Check type="checkbox" aria-label="studAcctCheckbox" id="studAcctCheckbox"/>
+                                  </td>
+                                  <td id="studAcctData_SNo">{user.counter}</td>
+                                  <td id="studAcctData_FirstName">{user.firstName}</td>
+                                  <td id="studAcctData_LastName">{user.lastName}</td>
+                                  <td id="studAcctData_Email">{user.email}</td>
+                                  <td id="studAcctData_ContactNo">{user.contactNo}</td>
+                                  <td id="studAcctData_DOB">{user.dob}</td>
+                                  <td id="studAcctData_HighestQual">{user.highestQualification}</td>
+                                  <td id="studAcctData_Nationality">{user.nationality}</td>
+                                  <td id="studAcctData_SuspendStud">
+                                    <Button id="suspendStudBtn">
+                                      <FontAwesomeIcon size="lg" id="suspendStudBtnIcon" icon={faBan} />  
+                                    </Button>
+                                  </td>
+                                </tr>
+                              </tbody>
+
+                              {this.state.suspendStudAcctModal == true && 
+                                <Modal 
+                                  show={this.state.suspendStudAcctModal}
+                                  onHide={this.handleSuspendStudAcctModal}
+                                  aria-labelledby="suspendStudAcctModalTitle"
+                                  size="md"
+                                  centered
+                                  backdrop="static"
+                                  keyboard={false}
+                                >
+                                  <Modal.Header closeButton className="justify-content-center">
+                                    <Modal.Title id="suspendStudAcctModalTitle">
+                                      Suspend Student?
+                                    </Modal.Title>
+                                  </Modal.Header>
+                                  
+                                  <Modal.Body>
+                                    <Row className="justify-content-center">
+                                      <Col size="12" className="text-center suspendStudAcctModalCol">
+                                        <FontAwesomeIcon size="lg" id="suspendStudAcctModalIcon" icon={faUserSlash} />   {/* Stopped here */}
+                                      </Col>
+                                    </Row>
+                                    
+                                    <Row className="justify-content-center">
+                                      <Col size="12" className="text-center deleteAdminModalCol">
+                                        <h5 id="deleteAdminModalText">Are you sure you want to remove this administrator?</h5>
+                                      </Col>
+                                    </Row>
+
+                                    <Row className="justify-content-center">
+                                      <Col size="6" className="text-right deleteAdminModalCol">
+                                        {/* Add DeleteUser onclick function here */}
+                                        <Button id="confirmDeleteAdminModalBtn" onClick={ (e) => {this.DeleteUser()} } >
+                                          Confirm
+                                        </Button>
+                                      </Col>
+
+                                      <Col size="6" className="text-left deleteAdminModalCol">
+                                        <Button id="cancelDeleteAdminModalBtn" onClick={this.handleDeleteAdminModal}>Cancel</Button>
+                                      </Col>
+                                    </Row>
+                                  </Modal.Body>
+                                </Modal>
+                              }
+
+                            </> 
+
+                          );
+                        })}
+
+                      </Table>
+                    </ Col>
+                  </Row>
 
                 </Container>
               </Col>
-            </Row> */}
+            </Row>
             
             
 

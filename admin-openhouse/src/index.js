@@ -66,6 +66,7 @@ ReactDOM.render(
     <Route path="/StudentCouncil" component={StudentCouncil} />
     <Route path="/SpecialInterestClub" component={SpecialInterestClub} />
     <Route path="/SportAndFitness" component={SportAndFitness} />
+    
     </Switch>
   </Router>,
   document.getElementById("root")
