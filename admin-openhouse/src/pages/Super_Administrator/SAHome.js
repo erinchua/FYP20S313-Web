@@ -27,7 +27,6 @@ class SAHome extends Component {
       deleteAdminModal: false,
     };
     this.handleAddUserModal = this.handleAddUserModal.bind(this);
-    // this.handleDeleteModalSubmit = this.handleDeleteModalSubmit.bind(this);
   }
 
   authListener() {
@@ -150,7 +149,6 @@ class SAHome extends Component {
 
     const db = fire.firestore();
 
-    var searchvalue = document.getElementById("SAHomeSearchBar").value;
     if (searchvalue == "" || searchvalue == null) {
       
       const userRef = db
@@ -161,11 +159,11 @@ class SAHome extends Component {
           snapshot.forEach((doc) => {
             const data = {
               administratorType: doc.data().administratorType,
-            name: doc.data().name,
-            email: doc.data().email,
-            password: doc.data.password,
-            id: doc.id,
-            counter : counter,
+              name: doc.data().name,
+              email: doc.data().email,
+              password: doc.data.password,
+              id: doc.id,
+              counter : counter,
             };
             users.push(data);
             counter ++;
@@ -200,12 +198,14 @@ class SAHome extends Component {
         });
     }
   }
+
   retrieveuserdata(id){
     this.setState({ userid: id }, () => {
       this.handleDeleteAdminModal();
     }); 
   }
   
+
   render() {
     if(this.state.Login)
 
@@ -287,7 +287,7 @@ class SAHome extends Component {
                             >
                               <Modal.Header closeButton className="justify-content-center">
                                 <Modal.Title id="deleteAdminModalTitle">
-                                  Remove Administrator?
+                                  Remove Administrator
                                 </Modal.Title>
                               </Modal.Header>
                               
@@ -306,8 +306,7 @@ class SAHome extends Component {
 
                                 <Row className="justify-content-center">
                                   <Col size="6" className="text-right deleteAdminModalCol">
-                                    {/* Add DeleteUser onclick function here */}
-                                    <Button id="confirmDeleteAdminModalBtn" onClick={ (e) => {this.DeleteUser()} } >
+                                    <Button id="confirmDeleteAdminModalBtn" onClick={ (e) => {this.DeleteUser()} }>
                                       Confirm
                                     </Button>
                                   </Col>
@@ -333,81 +332,6 @@ class SAHome extends Component {
             </Container>
 
             <Footer />
-
-            {/* <div className="SAHomeContent">
-              <table class="table table-bordered">
-                <tbody>
-                  <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Type of User</th>
-                  </tr>
-                  
-                  {this.state.users &&
-                    this.state.users.map((user) => {
-                      return (
-                        <tr>
-                          <td>{user.id} </td>
-
-                          <td>{user.name} </td>
-                          <td>{user.email} </td>
-                          <td>{user.administratorType} </td>
-                          <td>
-                            <button
-                              onClick={(e) => {
-                                this.DeleteUser(e, user.id);
-                              }}
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
-
-              <form onSubmit={this.addUser}>
-                <input
-                  type="text"
-                  name="fullname"
-                  placeholder="Full name"
-                  onChange={this.updateInput}
-                  value={this.state.fullname}
-                  required
-                />
-                <input
-                  type="text"
-                  name="email"
-                  placeholder="Email"
-                  onChange={this.updateInput}
-                  value={this.state.email}
-                  required
-                />
-                <input
-                  type="text"
-                  name="administratorType"
-                  placeholder="Type of User"
-                  onChange={this.updateInput}
-                  value={this.state.administratorType}
-                  required
-                />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  onChange={this.updateInput}
-                  value={this.state.password}
-                  required
-                />
-                <button type="submit">Add User</button>
-              </form>
-              <button onClick={this.changepasswordpage}>Change Password</button>
-              <button onClick={this.logout}>Logout</button>
-
-            </div> */}
-            
             
         </Container>
 
@@ -425,8 +349,6 @@ class SAHome extends Component {
           </Modal>
           :''
         }
-
-        
 
       </div>
     );
