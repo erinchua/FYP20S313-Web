@@ -6,7 +6,7 @@ import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Moda
 
 import "../../css/Marketing_Administrator/StudentAccounts.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faBan } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faBan, faUserSlash } from '@fortawesome/free-solid-svg-icons';
 
 import NavBar from '../../components/Navbar';
 import Footer from '../../components/Footer';
@@ -256,27 +256,75 @@ class StudentAccounts extends Component {
 
                         {this.state.users && this.state.users.map((user) => {
                           return (
-                            <tbody>
-                              <tr>
-                                <td id="studAcctData_Checkbox">
-                                  <Form.Check type="checkbox" aria-label="studAcctCheckbox" id="studAcctCheckbox"/>
-                                </td>
-                                <td id="studAcctData_SNo">{user.counter}</td>
-                                <td id="studAcctData_FirstName">{user.firstName}</td>
-                                <td id="studAcctData_LastName">{user.lastName}</td>
-                                <td id="studAcctData_Email">{user.email}</td>
-                                <td id="studAcctData_ContactNo">{user.contactNo}</td>
-                                <td id="studAcctData_DOB">{user.dob}</td>
-                                <td id="studAcctData_HighestQual">{user.highestQualification}</td>
-                                <td id="studAcctData_Nationality">{user.nationality}</td>
-                                <td id="studAcctData_SuspendStud">
-                                  <Button id="suspendStudBtn">
-                                    <FontAwesomeIcon size="lg" id="suspendStudBtnIcon" icon={faBan} />  
-                                  </Button>
-                                </td>
-                              </tr>
+                            <>
+                              <tbody>
+                                <tr>
+                                  <td id="studAcctData_Checkbox">
+                                    <Form.Check type="checkbox" aria-label="studAcctCheckbox" id="studAcctCheckbox"/>
+                                  </td>
+                                  <td id="studAcctData_SNo">{user.counter}</td>
+                                  <td id="studAcctData_FirstName">{user.firstName}</td>
+                                  <td id="studAcctData_LastName">{user.lastName}</td>
+                                  <td id="studAcctData_Email">{user.email}</td>
+                                  <td id="studAcctData_ContactNo">{user.contactNo}</td>
+                                  <td id="studAcctData_DOB">{user.dob}</td>
+                                  <td id="studAcctData_HighestQual">{user.highestQualification}</td>
+                                  <td id="studAcctData_Nationality">{user.nationality}</td>
+                                  <td id="studAcctData_SuspendStud">
+                                    <Button id="suspendStudBtn">
+                                      <FontAwesomeIcon size="lg" id="suspendStudBtnIcon" icon={faBan} />  
+                                    </Button>
+                                  </td>
+                                </tr>
+                              </tbody>
 
-                            </tbody>
+                              {this.state.suspendStudAcctModal == true && 
+                                <Modal 
+                                  show={this.state.suspendStudAcctModal}
+                                  onHide={this.handleSuspendStudAcctModal}
+                                  aria-labelledby="suspendStudAcctModalTitle"
+                                  size="md"
+                                  centered
+                                  backdrop="static"
+                                  keyboard={false}
+                                >
+                                  <Modal.Header closeButton className="justify-content-center">
+                                    <Modal.Title id="suspendStudAcctModalTitle">
+                                      Suspend Student?
+                                    </Modal.Title>
+                                  </Modal.Header>
+                                  
+                                  <Modal.Body>
+                                    <Row className="justify-content-center">
+                                      <Col size="12" className="text-center suspendStudAcctModalCol">
+                                        <FontAwesomeIcon size="lg" id="suspendStudAcctModalIcon" icon={faUserSlash} />   {/* Stopped here */}
+                                      </Col>
+                                    </Row>
+                                    
+                                    <Row className="justify-content-center">
+                                      <Col size="12" className="text-center deleteAdminModalCol">
+                                        <h5 id="deleteAdminModalText">Are you sure you want to remove this administrator?</h5>
+                                      </Col>
+                                    </Row>
+
+                                    <Row className="justify-content-center">
+                                      <Col size="6" className="text-right deleteAdminModalCol">
+                                        {/* Add DeleteUser onclick function here */}
+                                        <Button id="confirmDeleteAdminModalBtn" onClick={ (e) => {this.DeleteUser()} } >
+                                          Confirm
+                                        </Button>
+                                      </Col>
+
+                                      <Col size="6" className="text-left deleteAdminModalCol">
+                                        <Button id="cancelDeleteAdminModalBtn" onClick={this.handleDeleteAdminModal}>Cancel</Button>
+                                      </Col>
+                                    </Row>
+                                  </Modal.Body>
+                                </Modal>
+                              }
+
+                            </> 
+
                           );
                         })}
 
