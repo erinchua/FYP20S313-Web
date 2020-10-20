@@ -2,7 +2,7 @@
     min-height: 100vh;
     overflow-y: auto;
     flex: 1 0 auto;
-    overflow-x: auto;
+    overflow-x: hidden;
     padding: 0 !important;
 }
 
@@ -20,7 +20,7 @@
 
 #MAHome-firstRow {
     background-color: #88B7B5;
-    height: 13%;
+    height: 13vh;
     margin-right: 0;
 }
 
@@ -44,7 +44,6 @@
 
 #MAHome-fourthRow {
     margin-right: 0;
-    height: 60%;
 }
 
 #MAHome-refreshBtn {
