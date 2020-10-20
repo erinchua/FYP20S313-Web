@@ -26,11 +26,11 @@
 }
 
 #SAHomeSearchBar:focus {
-    box-shadow: 1px 1px 10px #e4f2f0;
+    box-shadow: 1px 1px 10px #88B7B5;
 }
 
 #SAHomeSearchBarBtn:focus {
-    box-shadow: 1px 1px 10px #e4f2f0;
+    box-shadow: 1px 1px 10px #88B7B5;
 }
 
 #addUserBtn {
@@ -57,12 +57,14 @@
 #SAHomeSearchBarBtn {
     background: none;
     border: none;
+    margin-left: 5px;
 }
 
 #searchBtnIcon {
     color: #424242;
 }
 
+/************************************************************/
 /* Admin Table Css */
 #adminTable {
     width: 100%;
@@ -154,9 +156,10 @@
 }
 
 #removeAdminBtn:focus {
-    box-shadow: 1px 1px 10px #808080;
+    box-shadow: none;
 }
 
+/************************************************************/
 /* Delete Admin Modal */
 #deleteAdminModalTitle {
     font-size: 95%;

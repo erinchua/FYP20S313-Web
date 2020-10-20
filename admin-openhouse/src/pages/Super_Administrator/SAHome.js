@@ -223,11 +223,11 @@ class SAHome extends Component {
                 <Col md="6" className="SAHomeSearchBarCol">
                   <InputGroup className="justify-content-center">
                     <Form inline className="SAHomeSearchInputForm">
-                      <FormControl id="SAHomeSearchBar" type="text" placeholder="Search" />
+                      <FormControl id="SAHomeSearchBar" type="text" placeholder="Search" onChange={this.search} />
 
                       <InputGroup.Prepend>
-                        <Button id="SAHomeSearchBarBtn">
-                          <FontAwesomeIcon size="lg" id="searchBtnIcon" onClick={this.search} icon={faSearch} />  
+                        <Button id="SAHomeSearchBarBtn" onClick={this.search}>
+                          <FontAwesomeIcon size="lg" id="searchBtnIcon" icon={faSearch} />  
                         </Button>
                       </InputGroup.Prepend>
                     </Form>
@@ -258,20 +258,14 @@ class SAHome extends Component {
                           <tbody>
                             <tr>
                               <td id="adminCheckboxData">
-                                <Form.Check type="checkbox" aria-label="admin checkbox" id="adminCheckbox"/>
+                                <Form.Check type="checkbox" aria-label="admin_checkbox" id="adminCheckbox"/>
                               </td>
 
                               <td id="serialNoData">{user.counter}</td>
                               <td id="adminNameData">{user.name}</td>
                               <td id="adminEmailData">{user.email}</td>
                               <td id="adminUserTypeData">{user.administratorType}</td>
-                              <td id="removeAdminData">
-                                {/* <Button id="removeAdminBtn" onClick={(e) => {
-                                  this.DeleteUser(e, user.id);
-                                }}>
-                                  <FontAwesomeIcon size="lg" id="removeAdminBtnIcon" icon={faTrashAlt} />  
-                                </Button> */}
-                                
+                              <td id="removeAdminData">                                
                                 <Button id="removeAdminBtn" onClick={(e) => {
                                   this.retrieveuserdata(user.id);
                                 }}>
