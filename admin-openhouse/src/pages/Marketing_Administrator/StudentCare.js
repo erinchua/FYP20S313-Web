@@ -58,11 +58,12 @@ class StudentCare extends Component {
       .then((snapshot) => {
         const activitiesarray = [];
         const actvititiesdata = snapshot.data().activities;
-        for (var i = 0; i < Object.keys(actvititiesdata).length; i++) {
+        for (var i = 1; i <= Object.keys(actvititiesdata).length; i++) {
+          var activity = "activity" + i;
           const data = {
-            activitiesDesc: snapshot.data().desc,
-            activitiesLogo: [Object.values(actvititiesdata)[i].activitiesLogo],
-            activitiesName: [Object.values(actvititiesdata)[i].activitiesName],
+            activitiesLogo: snapshot.data().activities[activity].activitiesLogo,
+            activitiesName: snapshot.data().activities[activity].activitiesName,
+            id: snapshot.id,
           };
           activitiesarray.push(data);
         }
@@ -78,7 +79,7 @@ class StudentCare extends Component {
 
         const data = {
           activitiesDesc: snapshot.data().desc,
-          id: snapshot.data().id
+          id: snapshot.data().id,
         };
         activitiesDesc.push(data);
 
@@ -164,6 +165,9 @@ class StudentCare extends Component {
     if (type === "workPlayLiveWell") {
       document
         .getElementById(studentcareid + "spanactivitiesdes")
+        .removeAttribute("hidden");
+      document
+        .getElementById(studentcareid + "upload")
         .removeAttribute("hidden");
       document
         .getElementById(studentcareid + "editbutton")
@@ -399,7 +403,6 @@ class StudentCare extends Component {
         texttohide[i].removeAttribute("hidden", "");
       }
     }
-    
   }
 
   handleSave = (studentcareid) => {
@@ -452,6 +455,59 @@ class StudentCare extends Component {
         });
     }
   };
+  handleactivitesSave = (studentcareid, activity) => {
+    const parentthis = this;
+    const db = fire.firestore();
+    const updateactivitylogo =
+      "activities.activity" + activity + ".activitiesLogo";
+    const updateactivityname =
+      "activities.activity" + activity + ".activitiesName";
+
+    var actname = document.getElementById(studentcareid + activity + "actname")
+      .value;
+    if (this.state.files !== undefined) {
+      const foldername = "StudentCare";
+      const storageRef = fire.storage().ref(foldername);
+      const fileRef = storageRef
+        .child(this.state.files[0].name)
+        .put(this.state.files[0]);
+      fileRef.on("state_changed", function (snapshot) {
+        fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+          const userRef = db
+            .collection("StudentCare")
+            .doc(studentcareid)
+            .update({
+              [updateactivityname]: actname,
+              [updateactivitylogo]: downloadURL,
+            })
+            .then(function () {
+              alert("Updated");
+              window.location.reload();
+            });
+        });
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        if (progress != "100") {
+          parentthis.setState({ progress: progress });
+        } else {
+          parentthis.setState({ progress: "Uploaded!" });
+        }
+      });
+      console.log();
+    } else {
+      const userRef = db
+        .collection("StudentCare")
+        .doc(studentcareid)
+        .update({
+          [updateactivityname]: actname,
+        })
+        .then(function () {
+          alert("Updated");
+          window.location.reload();
+        });
+    }
+  };
 
   render() {
     return (
@@ -471,10 +527,13 @@ class StudentCare extends Component {
                   return (
                     <tr>
                       <td>
-                      <span class={activitiesDesc.id + "text"}>
-                      {activitiesDesc.activitiesDesc}
+                        <span class={activitiesDesc.id + "text"}>
+                          {activitiesDesc.activitiesDesc}
                         </span>
-                        <span id={activitiesDesc.id + "spanactivitiesdes"} hidden>
+                        <span
+                          id={activitiesDesc.id + "spanactivitiesdes"}
+                          hidden
+                        >
                           <input
                             id={activitiesDesc.id + "desc"}
                             defaultValue={activitiesDesc.activitiesDesc}
@@ -486,8 +545,9 @@ class StudentCare extends Component {
                             required
                           />
                         </span>
-                        </td>
-                      <td><button
+                      </td>
+                      <td>
+                        <button
                           id={activitiesDesc.id + "editbutton"}
                           onClick={(e) => {
                             this.editStudentCare(
@@ -521,7 +581,8 @@ class StudentCare extends Component {
                           }}
                         >
                           Cancel
-                        </button></td>
+                        </button>
+                      </td>
                     </tr>
                   );
                 })}
@@ -534,19 +595,23 @@ class StudentCare extends Component {
                 <th scope="col">Edit</th>
               </tr>
               {this.state.activitiesarray &&
-                this.state.activitiesarray.map((activitiesarray) => {
+                this.state.activitiesarray.map((activitiesarray, index) => {
+                  index = index + 1;
                   return (
                     <tr>
                       <td>
-                      <span class={activitiesarray.id + "text"}>
-                      {activitiesarray.activitiesName}
+                        <span class={activitiesarray.id + index + "text"}>
+                          {activitiesarray.activitiesName}
                         </span>
-                        <span id={activitiesarray.id + "spanactivitiesname"} hidden>
+                        <span
+                          id={activitiesarray.id + index + "spanactivitiesdes"}
+                          hidden
+                        >
                           <input
-                            id={activitiesarray.id + "desc"}
+                            id={activitiesarray.id + index + "actname"}
                             defaultValue={activitiesarray.activitiesName}
                             type="text"
-                            name={activitiesarray.id + "desc"}
+                            name={activitiesarray.id + index + "actname"}
                             class="form-control"
                             aria-describedby="emailHelp"
                             placeholder={activitiesarray.activitiesName}
@@ -554,8 +619,76 @@ class StudentCare extends Component {
                           />
                         </span>
                       </td>
-                      <td>{activitiesarray.activitiesLogo}</td>
-                      <td>{/*----------------------*/}</td>
+                      <td>
+                        <span class={activitiesarray.id + index + "text"}>
+                          {activitiesarray.activitiesLogo}
+                        </span>
+                        <span
+                          id={activitiesarray.id + index + "spanactivitieslogo"}
+                          hidden
+                        >
+                          <input
+                            id={activitiesarray.id + index + "actlogo"}
+                            defaultValue={activitiesarray.activitiesLogo}
+                            type="text"
+                            name={activitiesarray.id + index + "actlogo"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={activitiesarray.activitiesLogo}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={activitiesarray.id + index + "upload"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleFileUpload(e.target.files);
+                            }}
+                          />
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          id={activitiesarray.id + index + "editbutton"}
+                          onClick={(e) => {
+                            this.editStudentCare(
+                              e,
+                              activitiesarray.id + index,
+                              "workPlayLiveWell"
+                            );
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          id={activitiesarray.id + index + "updatebutton"}
+                          hidden
+                          onClick={(e) => {
+                            this.handleactivitesSave(activitiesarray.id, index);
+                          }}
+                        >
+                          Update
+                        </button>
+                        <button
+                          hidden
+                          id={activitiesarray.id + index + "cancelbutton"}
+                          onClick={(e) => {
+                            this.CancelEdit(
+                              e,
+                              activitiesarray.id,
+                              "workPlayLiveWell"
+                            );
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
                     </tr>
                   );
                 })}
