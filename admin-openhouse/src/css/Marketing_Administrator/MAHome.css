@@ -1,8 +1,8 @@
 .MAHome-container {
     min-height: 100vh;
     overflow-y: auto;
-    overflow-x: hidden;
     flex: 1 0 auto;
+    overflow-x: auto;
     padding: 0 !important;
 }
 
@@ -17,12 +17,32 @@
 }
 
 #MAHome-firstRow {
-    background-color: #fffdf6;
+    background-color: #88B7B5;
     height: 13%;
+    margin-right: 0;
 }
 
 #MAHome-secondRow {
-    max-height: 5%;
+    max-height: 10%;
+    margin-right: 0;
+    margin-bottom: 2%;
+}
+
+#MAHome-thirdRow {
+    display: flex;
+    justify-content: space-around;
+    margin-right: 0;
+    padding: 0 !important;
+}
+
+.MAHome-thirdInnerRow {
+    margin-right: 0;
+    padding: 10% 0;
+}
+
+#MAHome-fourthRow {
+    margin-right: 0;
+    height: 60%;
 }
 
 #MAHome-refreshBtn {
@@ -37,7 +57,22 @@
 
 #MAHome-secondRowCol2 {
     display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.MAHome-thirdInnerCol1 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.MAHome-thirdInnerCol2 {
+    display: flex;
     justify-content: center;
     align-items: center;
-    padding-left: 5%;
+}
+
+#MAHome-fourthChart {
+    font-size: 50%;
 }
