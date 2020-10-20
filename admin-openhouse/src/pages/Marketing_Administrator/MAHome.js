@@ -33,7 +33,7 @@ class MAHome extends Component {
                                 </Col>
 
                                 <Col md={10} id="MAHome-topContentContainer">
-                                    <Container fluid  id="MAHome-topContentContainer">
+                                    <Container fluid id="MAHome-topContentContainer">
                                         <Row id="MAHome-firstRow"></Row>
                                         <Row id="MAHome-secondRow">
                                             <Col md={10} id="MAHome-secondRowCol1">
@@ -79,7 +79,7 @@ class MAHome extends Component {
 
                                         <Row id="MAHome-fourthRow">
                                             <Col md={12}>
-                                                <Chart id="MAHome-fourthChart" height="100%" chartType="BarChart" data={data} options={{legend: "none", vAxis: {textStyle: {fontSize: 9}}}}/>
+                                                <Chart id="MAHome-fourthChart" height="45vh" chartType="BarChart" data={data} options={{legend: "none", vAxis: {textStyle: {fontSize: 8.5}}}}/>
                                             </Col>
                                         </Row>
                                     </Container>
