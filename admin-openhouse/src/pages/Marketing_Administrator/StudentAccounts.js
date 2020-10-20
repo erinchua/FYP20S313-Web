@@ -333,6 +333,25 @@ class StudentAccounts extends Component {
                                 </td>
                               </tr>
 
+                              <tr>
+                                <td id="studAcctData_Checkbox">
+                                  <Form.Check type="checkbox" aria-label="studAcctCheckbox" id="studAcctCheckbox"/>
+                                </td>
+                                <td id="studAcctData_SNo">{user.counter}</td>
+                                <td id="studAcctData_FirstName">{user.firstName}</td>
+                                <td id="studAcctData_LastName">{user.lastName}</td>
+                                <td id="studAcctData_Email">{user.email}</td>
+                                <td id="studAcctData_ContactNo">{user.contactNo}</td>
+                                <td id="studAcctData_DOB">{user.dob}</td>
+                                <td id="studAcctData_HighestQual">{user.highestQualification}</td>
+                                <td id="studAcctData_Nationality">{user.nationality}</td>
+                                <td id="studAcctData_SuspendStud">
+                                  <Button id="suspendStudBtn">
+                                    <FontAwesomeIcon size="lg" id="suspendStudBtnIcon" icon={faBan} />  
+                                  </Button>
+                                </td>
+                              </tr>
+
                             </tbody>
                           );
                         })}

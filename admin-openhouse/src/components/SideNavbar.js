@@ -100,7 +100,7 @@ export default class SideNavBar extends React.Component {
 
     render(){
         return (
-            <div>
+            <div className="SideNavBar_Con">
                 <Navbar bg="dark" className="sideNavBar-container">
                     <Nav defaultActiveKey="/MAHome" className="sideNavBar-content flex-column">
                         <Nav.Item className="sideNavBar-navItems">
