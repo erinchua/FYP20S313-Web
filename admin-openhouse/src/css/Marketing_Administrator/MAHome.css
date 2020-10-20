@@ -13,6 +13,8 @@
 }
 
 #MAHome-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
     padding: 0 !important;
 }
 

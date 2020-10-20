@@ -33,55 +33,56 @@ class MAHome extends Component {
                                 </Col>
 
                                 <Col md={10} id="MAHome-topContentContainer">
-                                    <Row id="MAHome-firstRow"></Row>
+                                    <Container fluid  id="MAHome-topContentContainer">
+                                        <Row id="MAHome-firstRow"></Row>
+                                        <Row id="MAHome-secondRow">
+                                            <Col md={10} id="MAHome-secondRowCol1">
+                                                <p>Real-Time Numbers</p>
+                                            </Col>
+                                            <Col md={2} id="MAHome-secondRowCol2">
+                                                <Button size="sm" id="MAHome-refreshBtn"><FontAwesomeIcon size="lg" icon={faSyncAlt}/></Button>
+                                            </Col>
+                                        </Row>
 
-                                    <Row id="MAHome-secondRow">
-                                        <Col md={10} id="MAHome-secondRowCol1">
-                                            <p>Real-Time Numbers</p>
-                                        </Col>
-                                        <Col md={2} id="MAHome-secondRowCol2">
-                                            <Button size="sm" id="MAHome-refreshBtn"><FontAwesomeIcon size="lg" icon={faSyncAlt}/></Button>
-                                        </Col>
-                                    </Row>
+                                        <Row id="MAHome-thirdRow">
+                                            <Col md={3} style={{backgroundColor: '#deecfc'}}>
+                                                <Row className="MAHome-thirdInnerRow">
+                                                    <Col md={6} className="MAHome-thirdInnerCol1">
+                                                        <FontAwesomeIcon size="3x" icon={faMobileAlt}/>
+                                                    </Col>
+                                                    <Col md={6} className="MAHome-thirdInnerCol2">
+                                                        <h3>400</h3>
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                            <Col md={3} style={{backgroundColor: '#b9ceeb'}}>
+                                                <Row className="MAHome-thirdInnerRow">
+                                                    <Col md={6} className="MAHome-thirdInnerCol1">
+                                                        <FontAwesomeIcon size="3x" icon={faSchool}/>
+                                                    </Col>
+                                                    <Col md={6} className="MAHome-thirdInnerCol2">
+                                                        <h3>350</h3>
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                            <Col md={3} style={{backgroundColor: '#87a8d0'}}>
+                                                <Row className="MAHome-thirdInnerRow">
+                                                    <Col md={6} className="MAHome-thirdInnerCol1">
+                                                        <FontAwesomeIcon size="3x" icon={faChalkboardTeacher}/>
+                                                    </Col>
+                                                    <Col md={6} className="MAHome-thirdInnerCol2">
+                                                        <h3>380</h3>
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                        </Row>
 
-                                    <Row id="MAHome-thirdRow">
-                                        <Col md={3} style={{backgroundColor: '#deecfc'}}>
-                                            <Row className="MAHome-thirdInnerRow">
-                                                <Col md={6} className="MAHome-thirdInnerCol1">
-                                                    <FontAwesomeIcon size="3x" icon={faMobileAlt}/>
-                                                </Col>
-                                                <Col md={6} className="MAHome-thirdInnerCol2">
-                                                    <h3>400</h3>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                        <Col md={3} style={{backgroundColor: '#b9ceeb'}}>
-                                            <Row className="MAHome-thirdInnerRow">
-                                                <Col md={6} className="MAHome-thirdInnerCol1">
-                                                    <FontAwesomeIcon size="3x" icon={faSchool}/>
-                                                </Col>
-                                                <Col md={6} className="MAHome-thirdInnerCol2">
-                                                    <h3>350</h3>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                        <Col md={3} style={{backgroundColor: '#87a8d0'}}>
-                                            <Row className="MAHome-thirdInnerRow">
-                                                <Col md={6} className="MAHome-thirdInnerCol1">
-                                                    <FontAwesomeIcon size="3x" icon={faChalkboardTeacher}/>
-                                                </Col>
-                                                <Col md={6} className="MAHome-thirdInnerCol2">
-                                                    <h3>380</h3>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                    </Row>
-
-                                    <Row id="MAHome-fourthRow">
-                                        <Col md={12}>
-                                            <Chart id="MAHome-fourthChart" height="100%" chartType="BarChart" data={data} options={{legend: "none", vAxis: {textStyle: {fontSize: 9}}}}/>
-                                        </Col>
-                                    </Row>
+                                        <Row id="MAHome-fourthRow">
+                                            <Col md={12}>
+                                                <Chart id="MAHome-fourthChart" height="100%" chartType="BarChart" data={data} options={{legend: "none", vAxis: {textStyle: {fontSize: 9}}}}/>
+                                            </Col>
+                                        </Row>
+                                    </Container>
                                 </Col>
 
                             </Row>    
