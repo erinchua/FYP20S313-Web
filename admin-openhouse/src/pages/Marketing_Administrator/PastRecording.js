@@ -1,10 +1,11 @@
+import { faOldRepublic } from "@fortawesome/free-brands-svg-icons";
 import React, { Component } from "react";
 import fire from "../../config/firebase";
 import history from "../../config/history";
 
 //import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
 
-class ProgrammeTalkSchedule extends Component {
+class PastRecording extends Component {
   constructor() {
     super();
     this.state = {
@@ -47,7 +48,6 @@ class ProgrammeTalkSchedule extends Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
-  
   };
 
   componentDidMount() {
@@ -59,26 +59,25 @@ class ProgrammeTalkSchedule extends Component {
     console.log(getYear);
     
               const db = fire.firestore();
-              const progtalk = [];
+              const pastrecording = [];
               const userRef = db
               .collection("ProgrammeTalks")
-              .where('date', '>=', "2021")
-                .get()
+               .get()
                 .then((snapshot) => {
                   
                   snapshot.forEach((doc) => {
                     
-                    progtalk.push(doc.data().date);
+                    pastrecording.push(doc.data().date);
                   
                   });
           
-                  console.log(progtalk);
+                  console.log(pastrecording);
                   
                   function onlyUnique(value, index, self) {
                     return self.indexOf(value) === index;
                   }
                
-                 var unique = progtalk.filter(onlyUnique);
+                 var unique = pastrecording.filter(onlyUnique);
                   console.log(unique);
                //day1
                const day1date = [];
@@ -86,9 +85,10 @@ class ProgrammeTalkSchedule extends Component {
                this.setState({ day1date: day1date });
                 const day1  = db
                 .collection("ProgrammeTalks").where("date", "==", unique[0])
+                .where("hasRecording", "==", true)
                   .get()
                   .then((snapshot) => {
-                    const progtalk = [];
+                    const pastrecording = [];
                     snapshot.forEach((doc) => {
                       const data = {
                         docid : doc.id,
@@ -103,28 +103,27 @@ class ProgrammeTalkSchedule extends Component {
                         hasRecording: doc.data().hasRecording.toString(),
                         Link : doc.data().Link,
                         isLive: doc.data().isLive.toString(),
-                     
                    };
-                       progtalk.push(data);
+                   pastrecording.push(data);
                    
                     
                     });
    
                  
                     
-                    this.setState({ day1: progtalk });
+                    this.setState({ day1: pastrecording });
                                     
                   });
                   //day 2
                   const day2date = [];
                   day2date.push(unique[1]);
                   this.setState({ day2date: day2date });
-  
                   const day2  = db
                   .collection("ProgrammeTalks").where("date", "==", unique[1])
+                  .where("hasRecording", "==", true)
                     .get()
                     .then((snapshot) => {
-                      const progtalk = [];
+                      const pastrecording = [];
                       snapshot.forEach((doc) => {
                         const data = {
                           docid : doc.id,
@@ -141,14 +140,11 @@ class ProgrammeTalkSchedule extends Component {
                           isLive: doc.data().isLive.toString(),
                        
                         };
-                        progtalk.push(data);
+                        pastrecording.push(data);
                     
                       
                       });
-                     
-                      
-                      
-                      this.setState({ day2: progtalk });
+                      this.setState({ day2: pastrecording });
                     
                     });
 
@@ -158,7 +154,7 @@ class ProgrammeTalkSchedule extends Component {
                
             }
 
-  addProgrammeTalks = (e) => { 
+  addPastRecording = (e) => {
     e.preventDefault();
     var recordingvalue = document.getElementById("recordingvalue");
     var livestatus = document.getElementById("livestatus");
@@ -207,11 +203,11 @@ class ProgrammeTalkSchedule extends Component {
       })
   };
 
-  DeleteProgrammeTalk(e, progtalkid) {
+  DeletePastRecording(e, pastrecordingid) {
     const db = fire.firestore();
     const userRef = db
       .collection("ProgrammeTalks")
-      .doc(progtalkid)
+      .doc(pastrecordingid)
       .delete()
       .then(function () {
         alert("Deleted");
@@ -219,25 +215,26 @@ class ProgrammeTalkSchedule extends Component {
       });
   }
 
-  update(e, progtalkid) {
-    
-    const talkName = document.getElementById(progtalkid + "talkname").value
-    const awardingUni = document.getElementById(progtalkid + "awarduni").value
-    const startTime = document.getElementById(progtalkid + "starttime").value
-    const endTime = document.getElementById(progtalkid + "endtime").value
-    const venue = document.getElementById(progtalkid + "venue").value
+  update(e, pastrecordingid) {
+    const talkName = document.getElementById(pastrecordingid + "talkname").value
+    const awardingUni = document.getElementById(pastrecordingid + "awarduni").value
+    const startTime = document.getElementById(pastrecordingid + "starttime").value
+    const endTime = document.getElementById(pastrecordingid + "endtime").value
+    const venue = document.getElementById(pastrecordingid + "venue").value
+    const Link = document.getElementById(pastrecordingid + "link").value
 
     const db = fire.firestore();
-    if (talkName != null && awardingUni != null && startTime != null && endTime != null && venue != null) {
+    if (talkName != null && awardingUni != null && startTime != null && endTime != null && venue != null && Link != null) {
       const userRef = db
         .collection("ProgrammeTalks")
-        .doc(progtalkid)
+        .doc(pastrecordingid)
         .update({
             awardingUni: awardingUni,
             endTime: endTime,
             startTime: startTime,
             talkName: talkName,
             venue: venue,
+            Link: Link,
         })
         .then(function () {
           alert("Updated");
@@ -246,34 +243,36 @@ class ProgrammeTalkSchedule extends Component {
     }
   }
 
-  editProgTalk(e, progtalkid) {
-    document.getElementById(progtalkid + "spantalkname").removeAttribute("hidden");
-    document.getElementById(progtalkid + "spanawarduni").removeAttribute("hidden");
-    document.getElementById(progtalkid + "spanstarttime").removeAttribute("hidden");
-    document.getElementById(progtalkid + "spanendtime").removeAttribute("hidden");
-    document.getElementById(progtalkid + "spanvenue").removeAttribute("hidden");
-    document.getElementById(progtalkid + "editbutton").setAttribute("hidden", "");
-    document.getElementById(progtalkid + "updatebutton").removeAttribute("hidden");
-    document.getElementById(progtalkid + "cancelbutton").removeAttribute("hidden");
+  editPastRecording(e, pastrecordingid) {
+    document.getElementById(pastrecordingid + "spantalkname").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "spanawarduni").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "spanstarttime").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "spanendtime").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "spanvenue").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "spanlink").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "editbutton").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "updatebutton").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "cancelbutton").removeAttribute("hidden");
     var texttohide = document.getElementsByClassName(
-        progtalkid + "text"
+        pastrecordingid + "text"
       );
       for (var i = 0; i < texttohide.length; i++) {
         texttohide[i].setAttribute("hidden", "");
       }  
 }
 
-  CancelEdit(e, progtalkid) {
-    document.getElementById(progtalkid + "spantalkname").setAttribute("hidden", "");
-    document.getElementById(progtalkid + "spanawarduni").setAttribute("hidden", "");
-    document.getElementById(progtalkid + "spanstarttime").setAttribute("hidden", "");
-    document.getElementById(progtalkid + "spanendtime").setAttribute("hidden", "");
-    document.getElementById(progtalkid + "spanvenue").setAttribute("hidden", "");
-    document.getElementById(progtalkid + "editbutton").removeAttribute("hidden");
-    document.getElementById(progtalkid + "updatebutton").setAttribute("hidden", "");
-    document.getElementById(progtalkid + "cancelbutton").setAttribute("hidden", "");
+  CancelEdit(e, pastrecordingid) {
+    document.getElementById(pastrecordingid + "spantalkname").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "spanawarduni").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "spanstarttime").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "spanendtime").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "spanvenue").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "spanlink").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "editbutton").removeAttribute("hidden");
+    document.getElementById(pastrecordingid + "updatebutton").setAttribute("hidden", "");
+    document.getElementById(pastrecordingid + "cancelbutton").setAttribute("hidden", "");
     var texttohide = document.getElementsByClassName(
-        progtalkid + "text"
+        pastrecordingid + "text"
       );
       for (var i = 0; i < texttohide.length; i++) {
         texttohide[i].removeAttribute("hidden", "");
@@ -299,11 +298,12 @@ class ProgrammeTalkSchedule extends Component {
                 <th scope="col">Start Time</th>
                 <th scope="col">End Time</th>
                 <th scope="col">Venue</th>
+                <th scope="col">Link</th>
                 <th scope="col">Edit</th>
                 <th scope="col">Delete</th>
               </tr>
               {this.state.day1 &&
-                this.state.day1.map((day1,index) => {
+                this.state.day1.map((day1, index) => {
                   return (
                     <tr>
                         <td>{index+1}</td>
@@ -311,7 +311,6 @@ class ProgrammeTalkSchedule extends Component {
                       <span class={day1.docid + "text"}>
                       {day1.talkName}
                         </span>
-                          
                           <span id={day1.docid + "spantalkname"} hidden>
                           <input
                             id={day1.docid + "talkname"}
@@ -394,10 +393,28 @@ class ProgrammeTalkSchedule extends Component {
                         </span>  
                       </td>
                       <td>
+                      <span class={day1.docid + "text"}>
+                      {day1.Link}
+                        </span>
+                          
+                          <span id={day1.docid + "spanlink"} hidden>
+                          <input
+                            id={day1.docid + "link"}
+                            defaultValue={day1.Link}
+                            type="text"
+                            name={day1.docid + "link"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={day1.Link}
+                            required
+                          />
+                        </span>            
+                      </td>
+                      <td>
                         <button
                           id={day1.docid + "editbutton"}
                           onClick={(e) => {
-                            this.editProgTalk(e, day1.docid);
+                            this.editPastRecording(e, day1.docid);
                           }}
                         >
                           Edit
@@ -425,7 +442,7 @@ class ProgrammeTalkSchedule extends Component {
                       <td>
                         <button
                           onClick={(e) => {
-                            this.DeleteProgrammeTalk(e, day1.docid);
+                            this.DeletePastRecording(e, day1.docid);
                           }}
                         >
                           Delete
@@ -453,6 +470,7 @@ class ProgrammeTalkSchedule extends Component {
                 <th scope="col">Start Time</th>
                 <th scope="col">End Time</th>
                 <th scope="col">Venue</th>
+                <th scope="col">Link</th>
                 <th scope="col">Edit</th>
                 <th scope="col">Delete</th>
               </tr>
@@ -548,10 +566,28 @@ class ProgrammeTalkSchedule extends Component {
                         </span>  
                       </td>
                       <td>
+                      <span class={day2.docid + "text"}>
+                      {day2.Link}
+                        </span>
+                          
+                          <span id={day2.docid + "spanlink"} hidden>
+                          <input
+                            id={day2.docid + "link"}
+                            defaultValue={day2.Link}
+                            type="text"
+                            name={day2.docid + "link"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={day2.Link}
+                            required
+                          />
+                        </span>            
+                      </td>
+                      <td>
                         <button
                           id={day2.docid + "editbutton"}
                           onClick={(e) => {
-                            this.editProgTalk(e, day2.docid);
+                            this.editLiveTalk(e, day2.docid);
                           }}
                         >
                           Edit
@@ -579,7 +615,7 @@ class ProgrammeTalkSchedule extends Component {
                       <td>
                         <button
                           onClick={(e) => {
-                            this.DeleteProgrammeTalk(e, day2.docid);
+                            this.DeleteLiveTalk(e, day2.docid);
                           }}
                         >
                           Delete
@@ -591,7 +627,7 @@ class ProgrammeTalkSchedule extends Component {
             </tbody>
           </table>
         </div>
-        <form onSubmit={this.addProgrammeTalks}>
+        <form onSubmit={this.addPastRecording}>
           <input
             type="text"
             name="talkName"
@@ -648,14 +684,13 @@ class ProgrammeTalkSchedule extends Component {
             value={this.state.capacityLimit}
             required
           />
-         
-<select id = "recordingvalue" required>
+          <select id = "recordingvalue" required>
 
-            <option disabled selected value></option>
-            <option value="true">true</option>
-            <option value="false">false</option>
-        
-          </select>
+<option disabled selected value></option>
+<option value="true">true</option>
+<option value="false">false</option>
+
+</select>
 
 <select id = "livestatus" required>
 <option disabled selected value></option>
@@ -663,8 +698,6 @@ class ProgrammeTalkSchedule extends Component {
             <option value="false">false</option>
         
           </select>
-
-
           <input
             type="text"
             name="noRegistered"
@@ -681,10 +714,10 @@ class ProgrammeTalkSchedule extends Component {
             value={this.state.Link}
             required
           />
-          <button type="submit">Add Programme Talk</button>
+          <button type="submit">Add Past Recording</button>
         </form>
       </div>
     );
   }
 }
-export default ProgrammeTalkSchedule;
+export default PastRecording;

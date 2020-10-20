@@ -13,6 +13,8 @@ class GettingToSIMHQ extends Component {
       modeOfTransport: "",
       busNo: "",
       nearestMRT: "",
+      URL: "",
+      progress: "",
     };
   }
 
@@ -46,12 +48,29 @@ class GettingToSIMHQ extends Component {
   };
 
   componentDidMount() {
-  //this.authListener();
-  this.display();
+  this.authListener();
   }
 
 display() {
     const db = fire.firestore();
+
+    //Map Image File
+    const image = db
+      .collection("CampusLocation").doc("mapImage")
+      .get()
+      .then((snapshot) => {
+        const maparray = [];
+        const image = snapshot.data();
+        const data = {
+          URL: image.URL ,
+          
+        };
+        maparray.push(data); 
+        this.setState({ maparr: maparray}); 
+        
+      
+      });
+
   //car
     const car = db
       .collection("CampusLocation").doc("car")
@@ -113,8 +132,6 @@ const mrt = db
     
       });
 
-
-
 //carpark
 const carpark = db
 .collection("CampusLocation").doc("car")
@@ -134,7 +151,7 @@ const carpark = db
 });
 
       
-  }
+  }  
 
   carupdate= (e, locationid) => {
     var value = document.getElementById(locationid + "carDes").value;
@@ -162,8 +179,6 @@ const carpark = db
 
   busupdate= (e, locationid) => {
     const dbfiled = "busNo." + locationid;
-
-    alert(dbfiled);
   var value = document.getElementById(locationid + "busno").value;
     if(value !== ""  ){
     value = document.getElementById(locationid + "busno").value;
@@ -236,6 +251,20 @@ const carpark = db
   }
 
   editLocation(e, locationid,type) {
+
+    if(type==="mapImage"){
+      document.getElementById(locationid + "upload").removeAttribute("hidden");
+      document.getElementById(locationid + "spanimagelink").removeAttribute("hidden");
+      document.getElementById(locationid + "editbutton").setAttribute("hidden", "");
+      document.getElementById(locationid + "updatebutton").removeAttribute("hidden");
+      document.getElementById(locationid + "cancelbutton").removeAttribute("hidden");
+      var texttohide = document.getElementsByClassName(
+        locationid + "text"
+      );
+      for (var i = 0; i < texttohide.length; i++) {
+        texttohide[i].setAttribute("hidden", "");
+      }  
+    }
     
     if(type==="car"){
       document.getElementById(locationid + "spancardes").removeAttribute("hidden");
@@ -289,6 +318,21 @@ const carpark = db
 }
 
   CancelEdit(e, locationid,type) {
+
+    if(type==="mapImage"){
+      document.getElementById(locationid + "upload").setAttribute("hidden", "");
+      document.getElementById(locationid + "spanimagelink").setAttribute("hidden", "");  
+      document.getElementById(locationid + "editbutton").removeAttribute("hidden");
+      document.getElementById(locationid + "updatebutton").setAttribute("hidden", "");
+      document.getElementById(locationid + "cancelbutton").setAttribute("hidden", "");
+      var texttohide = document.getElementsByClassName(
+        locationid + "text"
+      );
+      for (var i = 0; i < texttohide.length; i++) {
+        texttohide[i].removeAttribute("hidden", "");
+    }
+
+    }
     
     if(type==="car"){
       document.getElementById(locationid + "spancardes").setAttribute("hidden", "");  
@@ -341,12 +385,122 @@ const carpark = db
     }
    
 }
+
+handleFileUpload = (files) => {
+  this.setState({
+    files: files,
+  });
+};
+handleSave = (mapImage) => {
+  const parentthis = this;
+  const db = fire.firestore();
+
+  if (this.state.files !== undefined) {
+    const foldername = "Map";
+    const file = this.state.files[0];
+    const storageRef = fire.storage().ref(foldername);
+    const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
+    fileRef.on("state_changed", function (snapshot) {
+      fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+        console.log("File available at", downloadURL);
+
+        const userRef = db
+        .collection("CampusLocation")
+        .doc("mapImage")
+        .update({
+            URL: downloadURL,
+        })
+        .then(function () {
+          alert("Updated");
+          window.location.reload();
+        });
+        
+      });
+      const progress = Math.round(
+        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      );
+      if (progress != "100") {
+        parentthis.setState({ progress: progress });
+      } else {
+        parentthis.setState({ progress: "Uploaded!" });
+      }
+    });
+    console.log();
+  } else {
+    alert("No Files Selected");
+  }
+};
+
   render() {
     return (
       <div className="home">
         <div>
           <table id="users" class="table table-bordered">
             <tbody>
+              {this.state.maparr &&
+                this.state.maparr.map((image) => {
+                        return (
+                            <tr>
+                              <td>Map Image File</td>
+                              <td>
+                              <span class={image.id + "text"}>
+                              {image.URL} 
+                        </span>
+                          <span id={image.id + "spanimagelink"} hidden>
+                          <input
+                            id={image.id + "imagelink"}
+                            defaultValue={image.URL}
+                            type="text"
+                            name={image.id + "imagelink"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={image.URL}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id= {image.id+ "upload" } hidden ><input
+            type="file"
+            onChange={(e) => {
+              this.handleFileUpload(e.target.files);
+            }}
+          />
+         
+       {this.state.progress}
+       <div>
+         <progress value={this.state.progress} max="100" />
+       </div>
+       </span> </td>
+                        <td>
+                        <button
+                          id={image.id + "editbutton"}
+                          onClick={(e) => {
+                            this.editLocation(e, image.id,"mapImage");
+                          }}
+                        >
+                          Browse
+                        </button>
+                        <button id = {image.id + "updatebutton"}
+                        hidden
+                        onClick={(e) => {
+                          this.handleSave(image.id);
+                        }}>
+                          Save
+                          </button>
+                        <button
+                          hidden
+                          id={image.id + "cancelbutton"}
+                          onClick={(e) => {
+                            this.CancelEdit(e, image.id,"mapImage");
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                            </tr>
+                          );
+                    
+                })}
                 <h5>By Car</h5>
               <tr>
                 <th scope="col">ID</th>
@@ -354,11 +508,11 @@ const carpark = db
                 <th scope="col">Edit</th>
               </tr>
               {this.state.cararr &&
-                this.state.cararr.map((car) => {
+                this.state.cararr.map((car, index) => {
                     
                         return (
                             <tr>
-                              <td>{car.id}</td>
+                              <td>{index+1}</td>
                               <td>
                               <span class={car.id + "text"}>
                               {car.carDescription} 
@@ -482,7 +636,7 @@ const carpark = db
                     
                         return (
                             <tr>
-                              <td>{index} </td>
+                              <td>{index+1} </td>
                               <td>
                               <span class={mrt.id + "text"}>
                               {mrt.nearestMRT}
@@ -544,7 +698,7 @@ const carpark = db
                    
                         return (
                             <tr>
-                              <td>{index} </td>
+                              <td>{index+1} </td>
                               <td>
                               <span class="carparktext">
                               {carpark.carparkDescription}
