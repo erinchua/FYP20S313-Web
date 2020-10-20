@@ -336,8 +336,8 @@ class Login extends Component {
             }
 
             {this.state.showAlert == true ?
-                <Modal show={this.state.showAlert} onHide={() => [this.setState({showAlert: false}), this.resetForm()]} size="sm" centered backdrop="static" keyboard={false}>
-                    <Alert show={this.state.showAlert} onClose={() => [this.setState({showAlert: false}), this.resetForm()]} dismissible>
+                <Modal show={this.state.showAlert} onHide={() => this.setState({showAlert: false})} size="sm" centered backdrop="static" keyboard={false}>
+                    <Alert show={this.state.showAlert} onClose={() => this.setState({showAlert: false})} dismissible>
                         <Alert.Heading>Error Occurred!</Alert.Heading>
                         <p id="login-alertFail-data">Please enter the correct email and password.</p>
                     </Alert>
