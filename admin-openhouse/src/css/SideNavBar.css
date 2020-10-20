@@ -4,15 +4,25 @@
     min-height: 84vh;
 } */
 
+.full-height {
+    height: 100%;
+}
+
+.sideNavBar-con {
+    padding: 0 !important;
+    height: 100%;
+}
+
 .sideNavBar-container {
     max-width: 100%;
-    min-height: 84vh;
+    height: 100%;
     padding: 0 !important;
+    position: fixed;
 }
 
 .sideNavBar-content {
     min-width: 100%;
-    min-height: 84vh;
+    height: 100%;
 }
 
 .sideNavBar-navItems {
