@@ -33,6 +33,7 @@ import SportAndFitness from './pages/Marketing_Administrator/SportAndFitness';
 import StudentCare from './pages/Marketing_Administrator/StudentCare';
 import Forum from './pages/Marketing_Administrator/Forum/Forum';
 import ForumFlagged from './pages/Marketing_Administrator/Forum/ForumFlagged';
+import ForumSettings from "./pages/Marketing_Administrator/Forum/ForumSettings";
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -72,6 +73,7 @@ ReactDOM.render(
     <Route path="/StudentCare" component={StudentCare} />
     <Route path="/Forum" component={Forum} />
     <Route path="/ForumFlagged" component={ForumFlagged} />
+    <Route path="/ForumSettings" component={ForumSettings} />
     </Switch>
   </Router>,
   document.getElementById("root")

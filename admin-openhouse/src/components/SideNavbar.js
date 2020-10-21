@@ -50,7 +50,7 @@ const renderForum = (props) => (
     <Tooltip id="button-tooltip" {...props}>
         <Nav.Link href="/Forum" className="sideNavBar-navLinks">View Forum</Nav.Link>
         <Nav.Link href="/ForumFlagged" className="sideNavBar-navLinks">Flagged Forum</Nav.Link>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Settings</Nav.Link>
+        <Nav.Link href="/ForumSettings" className="sideNavBar-navLinks">Settings</Nav.Link>
     </Tooltip>
 );
 
