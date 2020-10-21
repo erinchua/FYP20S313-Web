@@ -7,7 +7,8 @@ import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Moda
 import "../../css/Marketing_Administrator/StudentAccounts.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faBan, faUserCheck } from '@fortawesome/free-solid-svg-icons';
-import SuspendStud from '../../img/Marketing_Administrator/user-slash-solid.svg';
+import SuspendStud from '../../img/Marketing_Administrator/ban-solid.svg';
+import UnsuspendStud from '../../img/Marketing_Administrator/user-check-solid.svg';
 
 import NavBar from '../../components/Navbar';
 import Footer from '../../components/Footer';
@@ -26,6 +27,7 @@ class StudentAccounts extends Component {
       highestQualification: "",
       nationality: "",
       isSuspendedFromForum: "",
+      id: "",
       suspendStudAcctModal: false,
       unsuspendStudAcctModal: false,
     };
@@ -67,7 +69,7 @@ class StudentAccounts extends Component {
   display() {
     const db = fire.firestore();
     var counter = 1;
-    const userRef = db
+    db
       .collection("Students")
       .get()
       .then((snapshot) => {
@@ -94,21 +96,20 @@ class StudentAccounts extends Component {
   }
 
   Unsuspend(e, studentdocid) {
-    console.log("Student unsuspended")
-
     const db = fire.firestore();
 
-    const userRef = db
+    db
       .collection("Students")
       .doc(studentdocid)
       .update({
         isSuspendedFromForum: false,
       })
       .then(function () {
-     
+        console.log("Student unsuspended")
         window.location.reload();
       });
-      const userRef2 = db
+
+      db
       .collection("Forum")
       .doc(studentdocid)
       .update({
@@ -121,21 +122,20 @@ class StudentAccounts extends Component {
   }
 
   Suspend(e, studentdocid) {
-    console.log("Student suspended")
-
     const db = fire.firestore();
 
-    const userRef = db
+    db
       .collection("Students")
       .doc(studentdocid)
       .update({
         isSuspendedFromForum: true,
       })
       .then(function () {
-       
+        console.log("Student suspended")
         window.location.reload();
       });
-      const userRef2 = db
+
+    db
       .collection("Forum")
       .doc(studentdocid)
       .update({
@@ -213,9 +213,7 @@ class StudentAccounts extends Component {
 
   /* Suspend Student Account Modal */
   handleSuspendStudAcctModal = () => {
-    this.suspendStudAcctModal = this.state.suspendStudAcctModal;
-
-    if (this.suspendStudAcctModal == false) {
+    if (this.state.suspendStudAcctModal == false) {
       this.setState({
         suspendStudAcctModal: true,
       });
@@ -227,43 +225,13 @@ class StudentAccounts extends Component {
     }
   };
 
-  /* Unsuspend Student Account Modal */
-  handleUnsuspendStudAcctModal = () => {
-    this.unsuspendStudAcctModal = this.state.unsuspendStudAcctModal;
-    if (this.unsuspendStudAcctModal == false) {
-      this.setState({
-        unsuspendStudAcctModal: true
-      });
-    }
-    else {
-      this.setState({
-        unsuspendStudAcctModal: false
-      });
-    }
-  };
-
   /* Handle Suspend Modals */
   retrieveuserdata_suspend(id, isSuspendedFromForum){
-    this.isSuspendedFromForum = this.state.isSuspendedFromForum;
-
-    if (this.isSuspendedFromForum == false){
-      console.log("isSuspended :" + this.isSuspendedFromForum)
-      
-      this.setState({ userid: id }, () => {
-        console.log("id :" + id)
-        this.handleSuspendStudAcctModal();
-      });
-      
-    } 
+      this.state.id = id
+      this.state.isSuspendedFromForum = isSuspendedFromForum
+      this.handleSuspendStudAcctModal();
   }
 
-  /* Handle Unsuspend Modals */
-  // retrieveuserdata_unsuspend(id){
-  //   this.setState({ userid: id }, () => {
-  //     console.log("Unsuspended Student")
-  //     this.handleUnsuspendStudAcctModal();
-  //   }); 
-  // }
 
 
   render() {
@@ -338,106 +306,15 @@ class StudentAccounts extends Component {
                                   <td id="studAcctData_SuspendStud">
                                     <Button id="unsuspendStudBtn" onClick={(e) => {this.retrieveuserdata_suspend(user.id, user.isSuspendedFromForum);} } > {/* TBC */}
                                       {user.isSuspendedFromForum ?
-                                        <FontAwesomeIcon size="lg" id="unsuspendStudBtnIcon" icon={faBan} /> 
-                                        :
                                         <FontAwesomeIcon size="lg" id="suspendStudBtnIcon" icon={faUserCheck} />
+                                        :
+                                        <FontAwesomeIcon size="lg" id="unsuspendStudBtnIcon" icon={faBan} /> 
                                       }
                                     </Button>
 
                                   </td>
                                 </tr>
                               </tbody>
-
-                              {/* Suspend Student Modal */}
-                              {this.state.suspendStudAcctModal == true && 
-                                <Modal 
-                                  show={this.state.suspendStudAcctModal}
-                                  onHide={this.handleSuspendStudAcctModal}
-                                  aria-labelledby="suspendStudAcctModalTitle"
-                                  size="md"
-                                  centered
-                                  backdrop="static"
-                                  keyboard={false}
-                                >
-                                  <Modal.Header closeButton className="justify-content-center">
-                                    <Modal.Title id="suspendStudAcctModalTitle">
-                                      Suspend Student
-                                    </Modal.Title>
-                                  </Modal.Header>
-                                  
-                                  <Modal.Body>
-                                    <Row className="justify-content-center">
-                                      <Col size="12" className="text-center suspendStudAcctModalCol">
-                                        <img src={SuspendStud} id="suspendStudAcctModalIcon" />
-                                      </Col>
-                                    </Row>
-                                    
-                                    <Row className="justify-content-center">
-                                      <Col size="12" className="text-center suspendStudAcctModalCol">
-                                        <h5 id="suspendStudAcctModalText">Are you sure you want to suspend this student from the forum?</h5>
-                                      </Col>
-                                    </Row>
-
-                                    <Row className="justify-content-center">
-                                      <Col size="6" className="text-right suspendStudAcctModalCol">
-                                        <Button id="confirmSuspendStudAcctModalBtn" onClick={ (e) => {this.Suspend(e, user.id)} } >
-                                          Confirm
-                                        </Button>
-                                      </Col>
-
-                                      <Col size="6" className="text-left suspendStudAcctModalCol">
-                                        <Button id="cancelSuspendStudAcctModalBtn" onClick={this.handleSuspendStudAcctModal}>Cancel</Button>
-                                      </Col>
-                                    </Row>
-                                  </Modal.Body>
-                                </Modal>
-                              }
-
-
-                              {/* Unsuspend Student Modal */}
-                              {this.state.unsuspendStudAcctModal == true && 
-                                <Modal 
-                                  show={this.state.unsuspendStudAcctModal}
-                                  onHide={this.handleUnsuspendStudAcctModal}
-                                  aria-labelledby="unsuspendStudAcctModalTitle"
-                                  size="md"
-                                  centered
-                                  backdrop="static"
-                                  keyboard={false}
-                                >
-                                  <Modal.Header closeButton className="justify-content-center">
-                                    <Modal.Title id="unsuspendStudAcctModalTitle">
-                                      Unsuspend Student
-                                    </Modal.Title>
-                                  </Modal.Header>
-                                  
-                                  <Modal.Body>
-                                    <Row className="justify-content-center">
-                                      <Col size="12" className="text-center unsuspendStudAcctModalCol">
-                                        <img src={SuspendStud} id="unsuspendStudAcctModalIcon" />
-                                      </Col>
-                                    </Row>
-                                    
-                                    <Row className="justify-content-center">
-                                      <Col size="12" className="text-center unsuspendStudAcctModalCol">
-                                        <h5 id="unsuspendStudAcctModalText">Are you sure you want to unsuspend this student from the forum?</h5>
-                                      </Col>
-                                    </Row>
-
-                                    <Row className="justify-content-center">
-                                      <Col size="6" className="text-right unsuspendStudAcctModalCol">
-                                        <Button id="confirmUnsuspendStudAcctModalBtn" onClick={ (e) => {this.Unsuspend(e, user.id)} } >
-                                          Confirm
-                                        </Button>
-                                      </Col>
-
-                                      <Col size="6" className="text-left unsuspendStudAcctModalCol">
-                                        <Button id="cancelUnsuspendStudAcctModalBtn" onClick={this.handleUnsuspendStudAcctModal}>Cancel</Button>
-                                      </Col>
-                                    </Row>
-                                  </Modal.Body>
-                                </Modal>
-                              }
 
                             </> 
                           );
@@ -457,6 +334,85 @@ class StudentAccounts extends Component {
           <Footer />
         </Container>
 
+         {/* Suspend Student Modal */}
+         {this.state.suspendStudAcctModal == true && 
+          <Modal 
+            show={this.state.suspendStudAcctModal}
+            onHide={this.handleSuspendStudAcctModal}
+            aria-labelledby="suspendStudAcctModalTitle"
+            size="md"
+            centered
+            backdrop="static"
+            keyboard={false}
+          >
+          { this.state.isSuspendedFromForum == false ?
+            <>
+              <Modal.Header closeButton className="justify-content-center">
+                <Modal.Title id="suspendStudAcctModalTitle">
+                  Suspend Student
+                </Modal.Title>
+              </Modal.Header>
+              
+              <Modal.Body>
+                <Row className="justify-content-center">
+                  <Col size="12" className="text-center suspendStudAcctModalCol">
+                    <img src={SuspendStud} id="suspendStudAcctModalIcon" />
+                  </Col>
+                </Row>
+                
+                <Row className="justify-content-center">
+                  <Col size="12" className="text-center suspendStudAcctModalCol">
+                    <h5 id="suspendStudAcctModalText">Are you sure you want to suspend this student from the forum?</h5>
+                  </Col>
+                </Row>
+
+                <Row className="justify-content-center">
+                  <Col size="6" className="text-right suspendStudAcctModalCol">
+                    <Button id="confirmSuspendStudAcctModalBtn" onClick={ (e) => {this.Suspend(e, this.state.id)} }>Confirm</Button>
+                  </Col>
+
+                  <Col size="6" className="text-left suspendStudAcctModalCol">
+                    <Button id="cancelSuspendStudAcctModalBtn" onClick={this.handleSuspendStudAcctModal}>Cancel</Button>
+                  </Col>
+                </Row>
+              </Modal.Body> 
+            </>
+
+            : 
+            <>
+              <Modal.Header closeButton className="justify-content-center">
+                <Modal.Title id="unsuspendStudAcctModalTitle">
+                  Unsuspend Student
+                </Modal.Title>
+              </Modal.Header>
+            
+              <Modal.Body>
+                <Row className="justify-content-center">
+                  <Col size="12" className="text-center unsuspendStudAcctModalCol">
+                    <img src={UnsuspendStud} id="unsuspendStudAcctModalIcon" />
+                  </Col>
+                </Row>
+                
+                <Row className="justify-content-center">
+                  <Col size="12" className="text-center unsuspendStudAcctModalCol">
+                    <h5 id="unsuspendStudAcctModalText">Are you sure you want to unsuspend this student from the forum?</h5>
+                  </Col>
+                </Row>
+
+                <Row className="justify-content-center">
+                  <Col size="6" className="text-right unsuspendStudAcctModalCol">
+                    <Button id="confirmUnsuspendStudAcctModalBtn" onClick={ (e) => {this.Unsuspend(e, this.state.id)} }>Confirm</Button>
+                  </Col>
+
+                  <Col size="6" className="text-left unsuspendStudAcctModalCol">
+                    <Button id="cancelUnsuspendStudAcctModalBtn" onClick={this.handleSuspendStudAcctModal}>Cancel</Button>
+                  </Col>
+                </Row>
+              </Modal.Body>
+            </>
+          }
+          </Modal>
+        }
 
 
         {/* <div>
