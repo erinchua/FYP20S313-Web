@@ -128,7 +128,6 @@ export default class SideNavBar extends React.Component {
                                     <ContextAwareToggle eventKey="1">Mobile Application</ContextAwareToggle>
                                     <Accordion.Collapse eventKey="1">
                                         <div>
-                                            <Nav.Link href="/MobileHome" className="sideNavBar-navLinks">Home</Nav.Link>
                                             <Accordion>
                                                 <ContextAwareToggle eventKey="2">Open House Programmes</ContextAwareToggle>
                                                 <Accordion.Collapse eventKey="2">

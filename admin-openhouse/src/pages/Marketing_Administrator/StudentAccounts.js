@@ -105,7 +105,6 @@ class StudentAccounts extends Component {
         isSuspendedFromForum: false,
       })
       .then(function () {
-        console.log("Student unsuspended")
         window.location.reload();
       });
 
@@ -131,7 +130,6 @@ class StudentAccounts extends Component {
         isSuspendedFromForum: true,
       })
       .then(function () {
-        console.log("Student suspended")
         window.location.reload();
       });
 
@@ -231,7 +229,6 @@ class StudentAccounts extends Component {
       this.state.isSuspendedFromForum = isSuspendedFromForum
       this.handleSuspendStudAcctModal();
   }
-
 
 
   render() {
@@ -413,62 +410,7 @@ class StudentAccounts extends Component {
           }
           </Modal>
         }
-
-
-        {/* <div>
-          <table id="users" class="table table-bordered">
-            Search: <input type="text" onChange={this.Search} />
-            <tbody>
-              <tr>
-              <th scope="col">S/N</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Contact Number</th>
-                <th scope="col">D.O.B</th>
-                <th scope="col">Highest Qualification</th>
-                <th scope="col">Nationality</th>
-                <th scope="col">Suspend from Forum</th>
-              </tr>
-              {this.state.users &&
-                this.state.users.map((user) => {
-                  return (
-                    <tr>
-                      <td>{user.counter}</td>
-                      <td>{user.firstName} </td>
-                      <td>{user.lastName} </td>
-                      <td>{user.email} </td>
-                      <td>{user.contactNo} </td>
-                      <td>{user.dob} </td>
-                      <td>{user.highestQualification} </td>
-                      <td>{user.nationality} </td>
-                      <td>
-                        {user.isSuspendedFromForum ? (
-                          <button
-                            onClick={(e) => {
-                              this.Unsuspend(e, user.id);
-                            }}
-                          >
-                            Unsuspend
-                          </button>
-                        ) : (
-                          <button
-                            onClick={(e) => {
-                              this.Suspend(e, user.id);
-                            }}
-                          >
-                            Suspend
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-        <button onClick={this.changepasswordpage}>Change Password</button>
-        <button onClick={this.logout}>Logout</button> */}
+        
       </div>
     );
   }
