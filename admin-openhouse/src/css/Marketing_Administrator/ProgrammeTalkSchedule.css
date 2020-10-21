@@ -119,56 +119,48 @@
     width: 5%;
     color: #424242;
     font-size: 90%;
-    max-width: 5%;
 }
 
 .progTalkScheduleHeader_ProgTalk {
     width: 20%;
     color: #424242;
     font-size: 90%;
-    max-width: 15%;
 }
 
 .progTalkScheduleHeader_ProgTalkDetails {
     width: 20%;
     color: #424242;
     font-size: 90%;
-    max-width: 20%;
 }
 
 .progTalkScheduleHeader_AwardingUni {
     width: 15%;
     color: #424242;
     font-size: 90%;
-    max-width: 15%;
 }
 
 .progTalkScheduleHeader_Time {
     width: 15%;
     color: #424242;
     font-size: 90%;
-    max-width: 15%;
 }
 
 .progTalkScheduleHeader_Venue {
     width: 15%;
     color: #424242;
     font-size: 90%;
-    max-width: 20%;
 }
 
 .progTalkScheduleHeader_Edit {
     width: 5%;
     color: #424242;
     font-size: 90%;
-    max-width: 5%;
 }
 
 .progTalkScheduleHeader_Delete {
     max-width: 5%;
     color: #424242;
     font-size: 90%;
-    max-width: 5%;
 }
 
 .progTalkScheduleData_SNo {
