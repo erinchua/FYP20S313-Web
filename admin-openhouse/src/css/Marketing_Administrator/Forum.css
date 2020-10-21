@@ -1,0 +1,25 @@
+.Forum-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.Forum-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#Forum-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#Forum-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin-right: 0;
+}
