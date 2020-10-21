@@ -31,6 +31,8 @@ import StudentCouncil from './pages/Marketing_Administrator/StudentCouncil';
 import SpecialInterestClub from './pages/Marketing_Administrator/SpecialInterestClub';
 import SportAndFitness from './pages/Marketing_Administrator/SportAndFitness';
 import StudentCare from './pages/Marketing_Administrator/StudentCare';
+import Forum from './pages/Marketing_Administrator/Forum/Forum';
+import ForumFlagged from './pages/Marketing_Administrator/Forum/ForumFlagged';
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -68,6 +70,8 @@ ReactDOM.render(
     <Route path="/SpecialInterestClub" component={SpecialInterestClub} />
     <Route path="/SportAndFitness" component={SportAndFitness} />
     <Route path="/StudentCare" component={StudentCare} />
+    <Route path="/Forum" component={Forum} />
+    <Route path="/ForumFlagged" component={ForumFlagged} />
     </Switch>
   </Router>,
   document.getElementById("root")

@@ -48,8 +48,8 @@ const renderOpenHouseActivities = (props) => (
 //Tooltip for Forum
 const renderForum = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-        <Nav.Link href="#" className="sideNavBar-navLinks">View Forum</Nav.Link>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Flagged Forum</Nav.Link>
+        <Nav.Link href="/Forum" className="sideNavBar-navLinks">View Forum</Nav.Link>
+        <Nav.Link href="/ForumFlagged" className="sideNavBar-navLinks">Flagged Forum</Nav.Link>
         <Nav.Link href="#" className="sideNavBar-navLinks">Settings</Nav.Link>
     </Tooltip>
 );
