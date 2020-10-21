@@ -1,0 +1,89 @@
+.OpenHouse-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.OpenHouse-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#OpenHouse-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#OpenHouse-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin-right: 0;
+}
+
+#OpenHouse-secondRow {
+    margin-right: 0;
+}
+
+#OpenHouse-secondRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#OpenHouse-tableHeader {
+    color: #424242;
+    font-size: 90%;
+}
+
+#OpenHouse-tableBody {
+    color: #434343;
+    font-size: 85%;
+}
+
+#OpenHouse-editBtn {
+    background: none;
+    color: #434343;
+    border: none;
+}
+
+.OpenHouse-formGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#OpenHouse-editFooter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.OpenHouse-editCol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#OpenHouse-saveBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#OpenHouse-cancelBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: #60c6d9;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 85%;
+}
