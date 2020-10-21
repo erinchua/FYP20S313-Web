@@ -1,8 +1,16 @@
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
+import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal, Tabs, Tab, Nav, NavItem } from 'react-bootstrap';
 
-//import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
+import "../../../css/Marketing_Administrator/ProgrammeTalkSchedule.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+
+import NavBar from '../../../components/Navbar';
+import Footer from '../../../components/Footer';
+import SideNavBar from '../../../components/SideNavbar';
 
 class ProgrammeTalkSchedule extends Component {
   constructor() {
@@ -43,6 +51,7 @@ class ProgrammeTalkSchedule extends Component {
       }
     });
   }
+
   updateInput = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -58,121 +67,106 @@ class ProgrammeTalkSchedule extends Component {
     var getYear = new Date().getFullYear();
     console.log(getYear);
     
-              const db = fire.firestore();
-              const progtalk = [];
-              const userRef = db
-              .collection("ProgrammeTalks")
-              .where('date', '>=', "2021")
-                .get()
-                .then((snapshot) => {
-                  
-                  snapshot.forEach((doc) => {
-                    
-                    progtalk.push(doc.data().date);
-                  
-                  });
-          
-                  console.log(progtalk);
-                  
-                  function onlyUnique(value, index, self) {
-                    return self.indexOf(value) === index;
-                  }
-               
-                 var unique = progtalk.filter(onlyUnique);
-                  console.log(unique);
-               //day1
-               const day1date = [];
-               day1date.push(unique[0]);
-               this.setState({ day1date: day1date });
-                const day1  = db
-                .collection("ProgrammeTalks").where("date", "==", unique[0])
-                  .get()
-                  .then((snapshot) => {
-                    const progtalk = [];
-                    snapshot.forEach((doc) => {
-                      const data = {
-                        docid : doc.id,
-                        id: doc.data().id,
-                        talkName:doc.data().talkName,
-                        awardingUni : doc.data().awardingUni,
-                        startTime:  doc.data().startTime,     
-                        endTime: doc.data().endTime,
-                        venue: doc.data().venue,
-                        capacityLimit: doc.data().capacityLimit,
-                        noRegistered: doc.data().noRegistered,
-                        hasRecording: doc.data().hasRecording.toString(),
-                        Link : doc.data().Link,
-                        isLive: doc.data().isLive.toString(),
-                     
-                   };
-                       progtalk.push(data);
-                   
-                    
-                    });
-   
-                 
-                    
-                    this.setState({ day1: progtalk });
-                                    
-                  });
-                  //day 2
-                  const day2date = [];
-                  day2date.push(unique[1]);
-                  this.setState({ day2date: day2date });
-  
-                  const day2  = db
-                  .collection("ProgrammeTalks").where("date", "==", unique[1])
-                    .get()
-                    .then((snapshot) => {
-                      const progtalk = [];
-                      snapshot.forEach((doc) => {
-                        const data = {
-                          docid : doc.id,
-                          id: doc.data().id,
-                          talkName:doc.data().talkName,
-                          awardingUni : doc.data().awardingUni,
-                          startTime:  doc.data().startTime,     
-                          endTime: doc.data().endTime,
-                          venue: doc.data().venue,
-                          capacityLimit: doc.data().capacityLimit,
-                          noRegistered: doc.data().noRegistered,
-                          hasRecording: doc.data().hasRecording.toString(),
-                          Link : doc.data().Link,
-                          isLive: doc.data().isLive.toString(),
-                       
-                        };
-                        progtalk.push(data);
-                    
-                      
-                      });
-                     
-                      
-                      
-                      this.setState({ day2: progtalk });
-                    
-                    });
+    const db = fire.firestore();
+    const progtalk = [];
+    const userRef = db
+    .collection("ProgrammeTalks")
+    .where('date', '>=', "2021")
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          progtalk.push(doc.data().date);
+        });
 
-                });
-  
-  
-               
-            }
+        console.log(progtalk);
+        
+        function onlyUnique(value, index, self) {
+          return self.indexOf(value) === index;
+        }
+      
+        var unique = progtalk.filter(onlyUnique);
+        console.log(unique);
+      //day1
+      const day1date = [];
+      day1date.push(unique[0]);
+      this.setState({ day1date: day1date });
+      const day1  = db
+      .collection("ProgrammeTalks").where("date", "==", unique[0])
+      .get()
+      .then((snapshot) => {
+        const progtalk = [];
+        snapshot.forEach((doc) => {
+          const data = {
+            docid : doc.id,
+            id: doc.data().id,
+            talkName:doc.data().talkName,
+            awardingUni : doc.data().awardingUni,
+            startTime:  doc.data().startTime,     
+            endTime: doc.data().endTime,
+            venue: doc.data().venue,
+            capacityLimit: doc.data().capacityLimit,
+            noRegistered: doc.data().noRegistered,
+            hasRecording: doc.data().hasRecording.toString(),
+            Link : doc.data().Link,
+            isLive: doc.data().isLive.toString(),
+          
+          };
+            progtalk.push(data);
+        });
+        
+        this.setState({ day1: progtalk });
+                        
+      });
+
+      //day 2
+      const day2date = [];
+      day2date.push(unique[1]);
+      this.setState({ day2date: day2date });
+
+      const day2  = db
+      .collection("ProgrammeTalks").where("date", "==", unique[1])
+      .get()
+      .then((snapshot) => {
+          const progtalk = [];
+          snapshot.forEach((doc) => {
+            const data = {
+              docid : doc.id,
+              id: doc.data().id,
+              talkName:doc.data().talkName,
+              awardingUni : doc.data().awardingUni,
+              startTime:  doc.data().startTime,     
+              endTime: doc.data().endTime,
+              venue: doc.data().venue,
+              capacityLimit: doc.data().capacityLimit,
+              noRegistered: doc.data().noRegistered,
+              hasRecording: doc.data().hasRecording.toString(),
+              Link : doc.data().Link,
+              isLive: doc.data().isLive.toString(),
+            };
+            progtalk.push(data);
+          });
+
+          this.setState({ day2: progtalk });       
+        });
+
+      });  
+  }
 
   addProgrammeTalks = (e) => { 
     e.preventDefault();
     var recordingvalue = document.getElementById("recordingvalue");
     var livestatus = document.getElementById("livestatus");
-     recordingvalue = recordingvalue.options[recordingvalue.selectedIndex].value;
-     livestatus = livestatus.options[livestatus.selectedIndex].value;
+    recordingvalue = recordingvalue.options[recordingvalue.selectedIndex].value;
+    livestatus = livestatus.options[livestatus.selectedIndex].value;
     recordingvalue = (recordingvalue === "true");
-   livestatus = (livestatus === "true");
+    livestatus = (livestatus === "true");
 
     const db = fire.firestore();
       var lastdoc = db.collection("ProgrammeTalks").orderBy('id','desc')
       .limit(1).get().then((snapshot) =>  {
         snapshot.forEach((doc) => {
-  var docid= "";
-          var res = doc.data().id.substring(5, 10);
+        var docid= "";
+        var res = doc.data().id.substring(5, 10);
         var id = parseInt(res)
         if(id.toString().length <= 1){
           docid= "talk-00" + (id +1) 
@@ -220,7 +214,6 @@ class ProgrammeTalkSchedule extends Component {
   }
 
   update(e, progtalkid) {
-    
     const talkName = document.getElementById(progtalkid + "talkname").value
     const awardingUni = document.getElementById(progtalkid + "awarduni").value
     const startTime = document.getElementById(progtalkid + "starttime").value
@@ -257,11 +250,11 @@ class ProgrammeTalkSchedule extends Component {
     document.getElementById(progtalkid + "cancelbutton").removeAttribute("hidden");
     var texttohide = document.getElementsByClassName(
         progtalkid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }  
-}
+    );
+    for (var i = 0; i < texttohide.length; i++) {
+      texttohide[i].setAttribute("hidden", "");
+    }  
+  }
 
   CancelEdit(e, progtalkid) {
     document.getElementById(progtalkid + "spantalkname").setAttribute("hidden", "");
@@ -274,17 +267,142 @@ class ProgrammeTalkSchedule extends Component {
     document.getElementById(progtalkid + "cancelbutton").setAttribute("hidden", "");
     var texttohide = document.getElementsByClassName(
         progtalkid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].removeAttribute("hidden", "");
-      }
-}
+    );
+    for (var i = 0; i < texttohide.length; i++) {
+      texttohide[i].removeAttribute("hidden", "");
+    }
+  }
+
 
   render() {
     return (
-      <div className="home">
+      <div>
+        <Container fluid className="MAProgTalkScheduleCon">
+          <NavBar isMA={true} />
+
+          <Container fluid className="MAProgTalkScheduleContent">
+            <Row>
+              {/* SideNavBar Col */}
+              <Col md="2" style={{paddingRight:"0"}} className="sideNavBarCol">
+                <SideNavBar />
+              </Col>
+
+              {/* Contents Col */}
+              <Col md="10" style={{paddingLeft:"0"}}>
+                <Container fluid className="MAProgTalkScheduleContentCon">
+                  {/* Programme Talks Schedule Page Header row */}
+                  <Row id="MAProgTalkScheduleContentHeaderRow" className="justify-content-center">
+                    <Col md="6" className="text-left MAProgTalkScheduleContentHeaderCol">
+                      <h4 id="MAProgTalkScheduleHeaderText">Programme Talks Schedule</h4>
+                    </Col>
+
+                    <Col md="6" className="text-right MAProgTalkScheduleContentHeaderCol">
+                      <Button id="addProgTalkBtn">
+                        <FontAwesomeIcon size="lg" id="addProgTalkBtnIcon" icon={faPlus} />
+                        <span id="addProgTalkBtnText">Add</span>
+                      </Button>
+                    </Col>
+                  </Row>
+
+                  {/* Tabs row */}
+                  <Row className="MAProgTalkScheduleContentTabRow">
+                    <Col md="12" className="MAProgTalkScheduleContentTabCol">
+
+                      <Tab.Container defaultActiveKey="day1">
+                        <Row className="MAProgTalkScheduleTabConRow">
+                          <Col md="12" className="MAProgTalkScheduleTabConCol">
+                            <Nav defaultActiveKey="day1">
+                              <Col md="6" className="MAProgTalkScheduleTabConInnerCol text-center">
+                                <Nav.Item className="MAProgTalkScheduleTab_NavItem">
+                                  <Nav.Link eventKey="day1" className="MAProgTalkScheduleTab_Day">Day 1</Nav.Link>
+                                </Nav.Item>
+                              </Col>
+
+                              <Col md="6" className="MAProgTalkScheduleTabConInnerCol text-center">
+                                <Nav.Item className="MAProgTalkScheduleTab_NavItem">
+                                  <Nav.Link eventKey="day2" className="MAProgTalkScheduleTab_Day">Day 2</Nav.Link>
+                                </Nav.Item>
+                              </Col>
+                            </Nav>
+
+                          </Col>
+                        </Row>
+
+                        <Row className="MAProgTalkScheduleTabConRow justify-content-center">
+                          <Col md="12" className="MAProgTalkScheduleTabConCol text-center">
+                            <Tab.Content id="MAProgTalkScheduleTabPane_Day1">
+                              {/* Tab Pane 1 */}
+                              <Tab.Pane eventKey="day1">
+                                <Col md="12" className="MAProgTalkScheduleTabpaneCol">
+                                  <Table responsive="sm" bordered id="MAProgTalkScheduleTable_Day1">
+                                    <thead>
+                                      <tr>
+                                        <th className="progTalkScheduleHeader_SNo">S/N</th>
+                                        <th className="progTalkScheduleHeader_ProgTalk">Programme Talk</th>
+                                        <th className="progTalkScheduleHeader_ProgTalkDetails">Programme Talk Details</th>
+                                        <th className="progTalkScheduleHeader_AwardingUni">Awarding University</th>
+                                        <th className="progTalkScheduleHeader_Time">Time</th>
+                                        <th className="progTalkScheduleHeader_Venue">Venue</th>
+                                        <th className="progTalkScheduleHeader_Edit">Edit</th>
+                                        <th className="progTalkScheduleHeader_Delete">Delete</th>
+                                      </tr>
+                                    </thead>
+
+                                    <tbody>
+                                      <tr>
+                                        <td className="progTalkScheduleData_SNo">1</td>
+                                        <td className="progTalkScheduleData_ProgTalk text-left">testtesttesttesttesttest</td>
+                                        <td className="progTalkScheduleData_ProgTalkDetails text-left">testtesttesttesttesttesttesttesttesttesttesttesttesttest</td>
+                                        <td className="progTalkScheduleData_AwardingUni">testtesttesttesttesttesttesttesttesttesttesttesttesttest</td>
+                                        <td className="progTalkScheduleData_Time text-left">testtesttest</td>
+                                        <td className="progTalkScheduleData_Venue text-left">testtesttesttest</td>
+                                        <td className="progTalkScheduleData_Edit">
+                                          <Button id="editProgTalkScheduleBtn">
+                                            <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
+                                          </Button>
+                                        </td>
+                                        <td className="progTalkScheduleData_Delete">
+                                          <Button id="deleteProgTalkScheduleBtn">
+                                            <FontAwesomeIcon size="lg" id="deleteProgTalkScheduleBtnIcon" icon={faTrashAlt} />
+                                          </Button>
+                                        </td>
+
+                                      </tr>
+                                    </tbody>
+
+                                  </Table>
+                                </Col>
+                              </Tab.Pane>
+
+                              {/* Tab Pane 2 */}
+                              <Tab.Pane eventKey="day2" id="MAProgTalkScheduleTabPane_Day2">
+                                <h5>Profile Details</h5>
+                                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+                              </Tab.Pane>
+
+                            </Tab.Content>
+                            
+                          </Col>
+                        </Row>
+                      </Tab.Container>
+
+                    </Col>
+                  </Row>
+
+                </Container>
+              </Col>
+
+            </Row>
+          </Container>
+
+          <Footer />
+        </Container>
+
+
+
+
         {/* day1 */}
-        <div>
+        {/* <div>
         {this.state.day1date &&
                 this.state.day1date.map((day1) => {
                   return (
@@ -437,9 +555,10 @@ class ProgrammeTalkSchedule extends Component {
             </tbody>
           </table>
         </div>
-        <div>
-          {/* day2 */}
-        {this.state.day2date &&
+        <div> */}
+
+        {/* day2 */}
+        {/* {this.state.day2date &&
                 this.state.day2date.map((day2) => {
                   return (
                     <p>{day2}</p>
@@ -640,6 +759,7 @@ class ProgrammeTalkSchedule extends Component {
             value={this.state.venue}
             required
           />
+
           <input
             type="text"
             name="capacityLimit"
@@ -649,21 +769,17 @@ class ProgrammeTalkSchedule extends Component {
             required
           />
          
-<select id = "recordingvalue" required>
-
+          <select id = "recordingvalue" required>
             <option disabled selected value></option>
             <option value="true">true</option>
             <option value="false">false</option>
-        
           </select>
 
-<select id = "livestatus" required>
-<option disabled selected value></option>
+          <select id = "livestatus" required>
+            <option disabled selected value></option>
             <option value="true">true</option>
             <option value="false">false</option>
-        
           </select>
-
 
           <input
             type="text"
@@ -673,6 +789,7 @@ class ProgrammeTalkSchedule extends Component {
             value={this.state.noRegistered}
             required
           />
+
           <input
             type="text"
             name="Link"
@@ -682,7 +799,7 @@ class ProgrammeTalkSchedule extends Component {
             required
           />
           <button type="submit">Add Programme Talk</button>
-        </form>
+        </form> */}
       </div>
     );
   }
