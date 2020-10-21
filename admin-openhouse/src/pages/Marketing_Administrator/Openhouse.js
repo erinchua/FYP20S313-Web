@@ -225,8 +225,7 @@ class Openhouse extends Component {
             this.setState({
                 editModal: true
             });
-            }
-            else {
+        } else {
             this.setState({
                 editModal: false
             });

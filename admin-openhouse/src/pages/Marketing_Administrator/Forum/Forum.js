@@ -1,4 +1,4 @@
-import { Container, Row, Col, Table, Nav } from 'react-bootstrap';
+import { Container, Row, Col, Table } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";

@@ -53,6 +53,7 @@
 #Forum-tableBody {
     color: #434343;
     font-size: 85% !important;
+    padding: 0 !important;
 }
 
 .Forum-question {
@@ -64,3 +65,102 @@
     color: #434343 !important;   
 }
 
+/* -- Forum Flagged -- */
+#ForumFlagged-removeBtn, #ForumFlagged-keepBtn {
+    background: none;
+    color: #434343;
+    border: none;
+}
+
+#ForumFlagged-removeBtn:focus, #ForumFlagged-keepBtn:focus {
+    box-shadow: none;
+}
+
+#ForumFlagged-SNo {
+    width: 3%;
+}
+
+#ForumFlagged-questionsComments, #ForumFlagged-reasons {
+    width: 20%;
+}
+
+#ForumFlagged-comments, #ForumFlagged-icons {
+    width: 5%;
+}
+
+.ForumFlagged-removeModalCol, .ForumFlagged-keepModalCol {
+    padding-bottom: 4%;
+}
+
+#ForumFlagged-removeText, #ForumFlagged-keepText {
+    font-size: 95%;
+    color: #424242;
+}
+
+#ForumFlagged-removeCancelBtn {
+    width: 40%;
+    background: #EA526F;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: white;    
+}
+
+#ForumFlagged-removeConfirmBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #EA526F;
+}
+
+#ForumFlagged-keepCancelBtn {
+    width: 40%;
+    background: #f69e7b;
+    border: 1px solid #f69e7b;
+    border-radius: 6px;
+    color: white;
+}
+
+#ForumFlagged-keepConfirmBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #f69e7b;
+    border-radius: 6px;
+    color: #f69e7b;
+}
+
+/* -- Forum Settings --  */
+
+.ForumSettings-text {
+    font-weight: bold;
+}
+
+.ForumSettings-switchModalCol {
+    padding-bottom: 4%;
+}
+
+#ForumSettings-switchText {
+    font-size: 95%;
+    color: #424242;
+    text-transform: lowercase;
+}
+
+#ForumSettings-switchText::first-letter {
+    text-transform: uppercase;
+}
+
+#ForumSettings-switchCancelBtn {
+    width: 40%;
+    background: #EA526F;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: white;    
+}
+
+#ForumSettings-switchConfirmBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #EA526F;
+}
