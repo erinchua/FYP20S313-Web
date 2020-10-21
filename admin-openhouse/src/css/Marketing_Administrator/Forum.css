@@ -1,3 +1,4 @@
+/* -- Main Forum -- */
 .Forum-container {
     min-height: 100vh;
     overflow-y: auto;
@@ -58,11 +59,12 @@
 
 .Forum-question {
     text-align: left;
+    text-decoration: underline;
+    color: #434343 !important; 
 }
 
-.Forum-questionLink {
-    text-decoration: underline;
-    color: #434343 !important;   
+.Forum-question:hover{
+    cursor: pointer;
 }
 
 /* -- Forum Flagged -- */
@@ -130,7 +132,6 @@
 }
 
 /* -- Forum Settings --  */
-
 .ForumSettings-text {
     font-weight: bold;
 }
@@ -163,4 +164,89 @@
     border: 1px solid #EA526F;
     border-radius: 6px;
     color: #EA526F;
+}
+
+/* -- View Forum Questions -- */
+#ViewForum-firstRow {
+    margin-right: 0;
+    background-color: #e8ecf1;
+}
+
+#ViewForum-secondRow {
+    margin-right: 0;
+    background-color: #6c737e;
+    padding-top: 1%;
+}
+
+#ViewForum-backBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#ViewForum-backBtn:focus {
+    box-shadow: none;
+}
+
+#ViewForum-backText {
+    color: #707070;
+    font-size: 90%;
+    margin-left: 5px;
+}
+
+.ViewForum-questionCon {
+    color: #424242;
+    padding: 1% 3%;
+}
+
+.ViewForum-questionDetailsCon {
+    padding: 1% 2% 0% 2%;
+    color: #434343;
+    font-size: 80%;
+}
+
+#ViewForum-secondRowText {
+    padding-left: 2%;
+    font-weight: bold;
+    font-size: 75%;
+    color: #f0ece3;
+}
+
+#ViewForum-thirdRow {
+    margin-right: 0;
+    background-color: #b5cfd8;
+}
+
+.ViewForum-commentCon {
+    color: #424242;
+    padding: 3% 3% 1% 3%;
+    font-size: 90%;
+}
+
+.ViewForum-commentDetailsCon {
+    padding: 1% 2% 0% 2%;
+    color: #434343;
+    font-size: 80%;
+}
+
+#ViewForum-replyRow {
+    margin-right: 0;
+    
+}
+
+.ViewForum-replyCol {
+    background-color: #e8ecf1;
+    border-radius: 10px;
+    margin: 1% 0% 3% 0%;
+}
+
+.ViewForum-replyInnerCon {
+    color: #424242;
+    padding: 2% 1% 1% 1%;
+    font-size: 90%;
+}
+
+.ViewForum-replyInnerDetailsCon {
+    color: #434343;
+    font-size: 80%;
 }
