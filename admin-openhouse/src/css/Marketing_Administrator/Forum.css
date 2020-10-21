@@ -23,3 +23,44 @@
     height: 13vh;
     margin-right: 0;
 }
+
+#Forum-firstRowCol {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: -1%;
+}
+
+#Forum-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#Forum-secondRow {
+    margin-right: 0;
+}
+
+#Forum-secondRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#Forum-tableHeader {
+    color: #424242;
+    font-size: 90%;
+}
+
+#Forum-tableBody {
+    color: #434343;
+    font-size: 85% !important;
+}
+
+.Forum-question {
+    text-align: left;
+}
+
+.Forum-questionLink {
+    text-decoration: underline;
+    color: #434343 !important;   
+}
+

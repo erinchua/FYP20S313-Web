@@ -35,10 +35,12 @@
 
 #OpenHouse-tableHeader {
     color: #424242;
+    font-size: 90%;
 }
 
 #OpenHouse-tableBody {
     color: #434343;
+    font-size: 85%;
 }
 
 #OpenHouse-editBtn {
