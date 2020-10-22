@@ -16,8 +16,8 @@ export default class NavBar extends React.Component {
         this.state = {
             useremail: null,
             isMA: false
-          }
-      }
+        }
+    }
 
     componentDidMount=() =>{
         fire.auth().onAuthStateChanged((user) => {
