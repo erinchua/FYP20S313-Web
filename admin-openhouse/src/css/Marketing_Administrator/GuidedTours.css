@@ -129,8 +129,23 @@
     color: #434343;
 }
 
+#GuidedTours-editBtn:focus {
+    box-shadow: none;
+}
+
 #GuidedTours-deleteBtn {
     background: none;
     border: none;
     color: #434343;
+}
+
+#GuidedTours-deleteBtn:focus {
+    box-shadow: none;
+}
+
+/* -- Add Modal -- */
+.GuidedTours-formGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
