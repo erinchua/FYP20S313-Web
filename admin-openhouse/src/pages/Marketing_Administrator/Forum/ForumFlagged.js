@@ -256,16 +256,16 @@ class ForumFlagged extends Component {
             className="Forum-content"
             style={{ paddingLeft: 0, paddingRight: 0 }}
           >
-            <Row style={{ marginRight: 0 }}>
+            <Row>
               <Col md={2} style={{ paddingRight: 0}}>
                 <SideNavBar />
               </Col>
 
-              <Col md={10} id="Forum-topContentContainer">
+              <Col md={10} style={{ paddingLeft: 0}}>
                 <Container fluid id="Forum-topContentContainer">
                   <Row id="Forum-firstRow">
                     <Col md={12} id="Forum-firstRowCol">
-                      <p id="Forum-title">Forum - Flagged Posts</p>
+                      <h4 id="Forum-title">Forum - Flagged Posts</h4>
                     </Col>
                   </Row>
 
