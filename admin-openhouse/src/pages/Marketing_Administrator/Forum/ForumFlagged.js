@@ -62,8 +62,7 @@ class ForumFlagged extends Component {
   };
 
   componentDidMount() {
-    //this.authListener();
-    this.display();
+    this.authListener();
   }
 
   display() {
@@ -258,7 +257,7 @@ class ForumFlagged extends Component {
             style={{ paddingLeft: 0, paddingRight: 0 }}
           >
             <Row style={{ marginRight: 0 }}>
-              <Col md={2}>
+              <Col md={2} style={{ paddingRight: 0}}>
                 <SideNavBar />
               </Col>
 
