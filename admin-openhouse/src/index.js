@@ -34,6 +34,7 @@ import StudentCare from './pages/Marketing_Administrator/StudentLife@SIM/Student
 import Forum from './pages/Marketing_Administrator/Forum/Forum';
 import ForumFlagged from './pages/Marketing_Administrator/Forum/ForumFlagged';
 import ForumSettings from "./pages/Marketing_Administrator/Forum/ForumSettings";
+import ViewForumQuestion from "./pages/Marketing_Administrator/Forum/ViewForumQuestion";
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -74,6 +75,7 @@ ReactDOM.render(
     <Route path="/Forum" component={Forum} />
     <Route path="/ForumFlagged" component={ForumFlagged} />
     <Route path="/ForumSettings" component={ForumSettings} />
+    <Route path="/ViewForumQuestion" component={ViewForumQuestion} />
     </Switch>
   </Router>,
   document.getElementById("root")

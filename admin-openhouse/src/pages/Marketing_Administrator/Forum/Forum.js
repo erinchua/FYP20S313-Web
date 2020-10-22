@@ -24,95 +24,60 @@ class Forum extends Component {
     };
   }
 
-  authListener() {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        const db = fire.firestore();
-
-        var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
-        getrole.get().then((snapshot) => {
-          snapshot.forEach((doc) => {
-            if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
-            } else {
-              history.push("/Login");
-            }
-          });
-        });
-      } else {
-        history.push("/Login");
-      }
-    });
-  }
-  updateInput = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+    render() {
+        return (
+            <div>
+                <Container fluid className="Forum-container">
+                    <NavBar isMA={true} />
 
   componentDidMount() {
     this.authListener();
   }
 
-  display() {
-    const db = fire.firestore();
-    var a = this;
-    var counter = 1;
-    const userRef = db.collection("Forum");
-    const question = [];
-    userRef.get().then((snapshot) => {
-      snapshot.forEach((doc) => {
-        const questionquery = userRef
-          .doc(doc.id)
-          .collection("Questions")
-          .get()
-          .then((snapshot) => {
-            snapshot.forEach((doc) => {
-              const data = {
-                questionid: doc.id,
-                question: doc.data().entry,
-                postedby: doc.data().posterName,
-                datetime: doc.data().dateTime,
-                noofcomments: doc.data().noOfComments,
-              };
-              question.push(data);
-            });
-            this.setState({ questions: question });
-          });
-      });
-    });
-  }
+                                <Col md={10} style={{paddingLeft: 0}}>
+                                    <Container fluid id="Forum-topContentContainer">
+                                        <Row id="Forum-firstRow">
+                                            <Col md={12} id="Forum-firstRowCol">
+                                                <h4 id="Forum-title">Forum</h4>
+                                            </Col>
+                                        </Row>
+                                        
+                                        <Row id="Forum-secondRow">
+                                            <Col md={12} className="text-center" id="Forum-secondRowCol">
+                                                <Table responsive="sm" bordered id="Forum-tableContainer">
+                                                    <thead id="Forum-tableHeader">
+                                                        <tr>
+                                                            <th>S/N</th>
+                                                            <th>Question</th>
+                                                            <th>Posted By</th>
+                                                            <th>Date/Time</th>
+                                                            <th>No. of Comments</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="Forum-tableBody">
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td className="text-left"><a href="/ViewForumQuestion" className="Forum-question">Anyone going for the Digital Systems Security (University of Wollongong) programme talk?</a></td>
+                                                            <td>Martin John</td>
+                                                            <td>20th November 2020, 8.55pm</td>
+                                                            <td>0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td className="text-left"><a href="/ViewForumQuestion" className="Forum-question">Where's the ATM?</a></td>
+                                                            <td>John Tan</td>
+                                                            <td>21st November 2020, 10.00am</td>
+                                                            <td>1</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </Table>
+                                            </Col>
+                                        </Row>
+                                    </Container>
+                                </Col>
 
-  logout() {
-    fire.auth().signOut();
-    history.push("/Login");
-    window.location.reload();
-  }
-  render() {
-    return (
-      <div>
-        <Container fluid className="Forum-container">
-          <NavBar isMA={true} />
-
-          <Container
-            fluid
-            className="Forum-content"
-            style={{ paddingLeft: 0, paddingRight: 0 }}
-          >
-            <Row style={{ marginRight: 0 }}>
-              <Col md={2}>
-                <SideNavBar />
-              </Col>
-
-              <Col md={10} id="Forum-topContentContainer">
-                <Container fluid id="Forum-topContentContainer">
-                  <Row id="Forum-firstRow">
-                    <Col md={12} id="Forum-firstRowCol">
-                      <p id="Forum-title">Forum</p>
-                    </Col>
-                  </Row>
+                            </Row>    
+                        </Container>                    
 
                   <Row id="Forum-secondRow">
                     <Col
