@@ -11,6 +11,8 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
+import AddProgTalkModal from "../../../components/Marketing_Administrator/AddProgTalkModal";
+
 
 class ProgrammeTalkSchedule extends Component {
   constructor() {
@@ -27,6 +29,7 @@ class ProgrammeTalkSchedule extends Component {
       talkName: "",
       venue: "",
       Link: "",
+      addProgTalkModal: false,
     };
   }
 
@@ -152,54 +155,54 @@ class ProgrammeTalkSchedule extends Component {
       });  
   }
 
-  addProgrammeTalks = (e) => { 
-    e.preventDefault();
-    var recordingvalue = document.getElementById("recordingvalue");
-    var livestatus = document.getElementById("livestatus");
-    recordingvalue = recordingvalue.options[recordingvalue.selectedIndex].value;
-    livestatus = livestatus.options[livestatus.selectedIndex].value;
-    recordingvalue = (recordingvalue === "true");
-    livestatus = (livestatus === "true");
+  // addProgrammeTalks = (e) => { 
+  //   e.preventDefault();
+  //   var recordingvalue = document.getElementById("recordingvalue");
+  //   var livestatus = document.getElementById("livestatus");
+  //   recordingvalue = recordingvalue.options[recordingvalue.selectedIndex].value;
+  //   livestatus = livestatus.options[livestatus.selectedIndex].value;
+  //   recordingvalue = (recordingvalue === "true");
+  //   livestatus = (livestatus === "true");
 
-    const db = fire.firestore();
-      var lastdoc = db.collection("ProgrammeTalks").orderBy('id','desc')
-      .limit(1).get().then((snapshot) =>  {
-        snapshot.forEach((doc) => {
-        var docid= "";
-        var res = doc.data().id.substring(5, 10);
-        var id = parseInt(res)
-        if(id.toString().length <= 1){
-          docid= "talk-00" + (id +1) 
-          }
-          else if(id.toString().length <= 2){
-            docid= "talk-0" + (id +1) 
-            }
-          else{
-            docid="talk-0" + (id +1) 
-          }
-          const userRef = db
-          .collection("ProgrammeTalks")
-          .doc(docid)
-          .set({
-          awardingUni: this.state.awardingUni,
-          capacityLimit: this.state.capacityLimit,
-          date: this.state.date,
-          endTime: this.state.endTime,
-          hasRecording: recordingvalue,
-          isLive: livestatus,
-          noRegistered: this.state.noRegistered,
-          startTime: this.state.startTime,
-          talkName: this.state.talkName,
-          venue: this.state.venue,
-          Link: this.state.Link,
-          id: docid,
-          })
-          .then(function () {
-            window.location.reload();
-          });
-        })
-      })
-  };
+  //   const db = fire.firestore();
+  //     var lastdoc = db.collection("ProgrammeTalks").orderBy('id','desc')
+  //     .limit(1).get().then((snapshot) =>  {
+  //       snapshot.forEach((doc) => {
+  //       var docid= "";
+  //       var res = doc.data().id.substring(5, 10);
+  //       var id = parseInt(res)
+  //       if(id.toString().length <= 1){
+  //         docid= "talk-00" + (id +1) 
+  //         }
+  //         else if(id.toString().length <= 2){
+  //           docid= "talk-0" + (id +1) 
+  //           }
+  //         else{
+  //           docid="talk-0" + (id +1) 
+  //         }
+  //         const userRef = db
+  //         .collection("ProgrammeTalks")
+  //         .doc(docid)
+  //         .set({
+  //         awardingUni: this.state.awardingUni,
+  //         capacityLimit: this.state.capacityLimit,
+  //         date: this.state.date,
+  //         endTime: this.state.endTime,
+  //         hasRecording: recordingvalue,
+  //         isLive: livestatus,
+  //         noRegistered: this.state.noRegistered,
+  //         startTime: this.state.startTime,
+  //         talkName: this.state.talkName,
+  //         venue: this.state.venue,
+  //         Link: this.state.Link,
+  //         id: docid,
+  //         })
+  //         .then(function () {
+  //           window.location.reload();
+  //         });
+  //       })
+  //     })
+  // };
 
   DeleteProgrammeTalk(e, progtalkid) {
     const db = fire.firestore();
@@ -273,6 +276,20 @@ class ProgrammeTalkSchedule extends Component {
     }
   }
 
+  /* Add Programme Talk Modal */
+  handleAddProgTalkModal = () => {
+    if (this.state.addProgTalkModal == false) {
+      this.setState({
+        addProgTalkModal: true,
+      });
+    }
+    else {
+      this.setState({
+        addProgTalkModal: false
+      });
+    }
+  };
+
 
   render() {
     return (
@@ -297,7 +314,7 @@ class ProgrammeTalkSchedule extends Component {
                     </Col>
 
                     <Col md="6" className="text-right MAProgTalkScheduleContentHeaderCol">
-                      <Button id="addProgTalkBtn">
+                      <Button id="addProgTalkBtn" onClick={this.handleAddProgTalkModal}>
                         <FontAwesomeIcon size="lg" id="addProgTalkBtnIcon" icon={faPlus} />
                         <span id="addProgTalkBtnText">Add</span>
                       </Button>
@@ -399,6 +416,18 @@ class ProgrammeTalkSchedule extends Component {
         </Container>
 
 
+        {/* Add Programme Talk Modal */}
+        <Modal 
+          show={this.state.addProgTalkModal}
+          onHide={this.handleAddProgTalkModal}
+          aria-labelledby="addProgTalkModalTitle"
+          size="lg"
+          centered
+          backdrop="static"
+          keyboard={false}
+        >
+          <AddProgTalkModal />
+        </Modal>
 
 
         {/* day1 */}
