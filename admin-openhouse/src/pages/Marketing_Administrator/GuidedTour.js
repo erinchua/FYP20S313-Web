@@ -8,7 +8,7 @@ import NavBar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import SideNavBar from '../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faHourglassEnd, faHourglassStart, faPlus, faSchool, faTrash, faMapPin } from '@fortawesome/free-solid-svg-icons';
 
 class GuidedTour extends Component {
     constructor() {
@@ -334,27 +334,18 @@ class GuidedTour extends Component {
 
                 
                 {this.state.addModal == true ? 
-                    <Modal show={this.state.addModal} onHide={this.handleAdd} size="lg" centered keyboard={false}>
-                        <Modal.Header closeButton></Modal.Header>
+                    <Modal show={this.state.addModal} onHide={this.handleAdd} size="md" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="GuidedTours-addModalTitle" className="w-100">Add Tours</Modal.Title>
+                        </Modal.Header>
                         <Modal.Body>
                             <Form novalidate>
                                 <Form.Group>
                                     <Form.Group as={Row} className="GuidedTours-formGroup">
-                                        <Form.Group as={Col} md="1">
-                                            <FontAwesomeIcon size="lg" />
+                                        <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
+                                            <FontAwesomeIcon size="lg" icon={faMapPin}/>
                                         </Form.Group> 
-                                        <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="date" placeholder="Date" required value="" noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
-                                        </Form.Group>
-                                    </Form.Group>                     
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Group as={Row} className="GuidedTours-formGroup">
-                                        <Form.Group as={Col} md="1">
-                                            <FontAwesomeIcon size="lg" />
-                                        </Form.Group> 
-                                        <Form.Group as={Col} md="7">
+                                        <Form.Group as={Col} md="5">
                                             <Form.Control type="text" name="tour" placeholder="Tour" required value="" noValidate></Form.Control>
                                             <div className="errorMessage"></div>
                                         </Form.Group>
@@ -362,10 +353,10 @@ class GuidedTour extends Component {
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Group as={Row} className="GuidedTours-formGroup">
-                                        <Form.Group as={Col} md="1">
-                                            <FontAwesomeIcon size="lg"/>
+                                        <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
+                                            <FontAwesomeIcon size="lg" icon={faHourglassStart}/>
                                         </Form.Group> 
-                                        <Form.Group as={Col} md="7">
+                                        <Form.Group as={Col} md="5">
                                             <Form.Control type="text" name="starttime" placeholder="Start Time" required value="" noValidate></Form.Control>
                                             <div className="errorMessage"></div>
                                         </Form.Group>
@@ -373,10 +364,10 @@ class GuidedTour extends Component {
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Group as={Row} className="GuidedTours-formGroup">
-                                        <Form.Group as={Col} md="1">
-                                            <FontAwesomeIcon size="lg"/>
+                                        <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
+                                            <FontAwesomeIcon size="lg" icon={faHourglassEnd}/>
                                         </Form.Group> 
-                                        <Form.Group as={Col} md="7">
+                                        <Form.Group as={Col} md="5">
                                             <Form.Control type="text" name="endtime" placeholder="End Time" required value="" noValidate></Form.Control>
                                             <div className="errorMessage"></div>
                                         </Form.Group>
@@ -384,11 +375,11 @@ class GuidedTour extends Component {
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Group as={Row} className="GuidedTours-formGroup">
-                                        <Form.Group as={Col} md="1">
-                                            <FontAwesomeIcon size="lg"/>
+                                        <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
+                                            <FontAwesomeIcon size="lg" icon={faSchool}/>
                                         </Form.Group> 
-                                        <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="description" placeholder="Description" required value="" noValidate></Form.Control>
+                                        <Form.Group as={Col} md="5">
+                                            <Form.Control type="text" name="venue" placeholder="Venue" required value="" noValidate></Form.Control>
                                             <div className="errorMessage"></div>
                                         </Form.Group>
                                     </Form.Group>                     
@@ -397,12 +388,9 @@ class GuidedTour extends Component {
                         </Modal.Body>
                         <Modal.Footer>
                             <Container>
-                                <Row id="OpenHouse-editFooter">
-                                    <Col md={6} className="OpenHouse-editCol">
-                                        <Button id="OpenHouse-saveBtn" type="submit">Save</Button>
-                                    </Col>
-                                    <Col md={6} className="OpenHouse-editCol">
-                                        <Button id="OpenHouse-cancelBtn">Cancel</Button>
+                                <Row id="GuidedTours-addFooter">
+                                    <Col md={12} className="GuidedTours-addFooterCol">
+                                        <Button id="GuidedTours-submitBtn" type="submit">Submit</Button>
                                     </Col>
                                 </Row>
                             </Container>
