@@ -26,17 +26,17 @@ class Forum extends Component {
                     <NavBar isMA={true} />
 
                         <Container fluid className="Forum-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
-                            <Row style={{ marginRight: 0 }}>
-                                <Col md={2}>
+                            <Row>
+                                <Col md={2} style={{paddingRight: 0}}>
                                     <SideNavBar />
                                 </Col>
 
                                 {this.state.viewQuestion == false ? 
-                                    <Col md={10} id="Forum-topContentContainer">
+                                    <Col md={10} style={{paddingLeft: 0}}>
                                         <Container fluid id="Forum-topContentContainer">
                                             <Row id="Forum-firstRow">
                                                 <Col md={12} id="Forum-firstRowCol">
-                                                    <p id="Forum-title">Forum</p>
+                                                    <h4 id="Forum-title">Forum</h4>
                                                 </Col>
                                             </Row>
                                             
@@ -74,7 +74,7 @@ class Forum extends Component {
                                         </Container>
                                     </Col> : 
                                     (
-                                        <Col md={10} id="Forum-topContentContainer">
+                                        <Col md={10} style={{paddingLeft: 0}}>
                                             <Container fluid id="Forum-topContentContainer">
                                                 <Row id="ViewForum-firstRow">
                                                     <Col md={12}>

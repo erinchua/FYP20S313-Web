@@ -84,14 +84,6 @@
     background: #e4f2f0;
 }
 
-.MAProgTalkScheduleTab_NavItem:focus {
-    background: #62929E;
-}
-
-.MAProgTalkScheduleTab_NavItem:hover {
-    background: #62929E;
-}
-
 .MAProgTalkScheduleTab_Day {
     color: #424242;
     font-weight: bold;
@@ -100,17 +92,19 @@
 .MAProgTalkScheduleTab_Day:focus {
     color: #ffffff;
     background: #62929E;
+    border-color: #62929E !important;
 }
 
 .MAProgTalkScheduleTab_Day:hover {
     color: #ffffff;
     background: #62929E;
+    border-color: #62929E !important;
 }
 
 .MAProgTalkScheduleTabNav .MAProgTalkScheduleTab_Day.active {
     background: #62929E !important;
     color: #ffffff !important;
-   
+    border-color: #62929E !important;   
 }
 
 /*******************************************************/

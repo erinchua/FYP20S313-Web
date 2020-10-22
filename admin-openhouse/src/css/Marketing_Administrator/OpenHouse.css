@@ -21,11 +21,11 @@
 #OpenHouse-firstRow {
     background-color: #88B7B5;
     height: 13vh;
-    margin-right: 0;
+    margin: 0 !important;
 }
 
 #OpenHouse-secondRow {
-    margin-right: 0;
+    margin: 0 !important;
 }
 
 #OpenHouse-secondRowCol {

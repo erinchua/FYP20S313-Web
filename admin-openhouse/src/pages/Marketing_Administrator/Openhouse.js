@@ -248,12 +248,12 @@ class Openhouse extends Component {
                     <NavBar isMA={true} />
 
                         <Container fluid className="OpenHouse-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
-                            <Row style={{ marginRight: 0 }}>
-                                <Col md={2}>
+                            <Row>
+                                <Col md={2} style={{paddingRight: 0}}>
                                     <SideNavBar />
                                 </Col>
 
-                                <Col md={10} id="OpenHouse-topContentContainer">
+                                <Col md={10} style={{paddingLeft: 0}}>
                                     <Container fluid id="OpenHouse-topContentContainer">
                                         <Row id="OpenHouse-firstRow"></Row>
 
