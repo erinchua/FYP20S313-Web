@@ -1,28 +1,16 @@
-import { Container, Row, Col, Table } from "react-bootstrap";
+import { Container, Row, Col, Table, Button } from 'react-bootstrap';
 import React, { Component } from "react";
-import fire from "../../config/firebase";
-import history from "../../config/history";
+import fire from "../../../config/firebase";
+import history from "../../../config/history";
 
-import "../../../src/css/Marketing_Administrator/Forum.css";
-import NavBar from "../../components/Navbar";
-import Footer from "../../components/Footer";
-import SideNavBar from "../../components/SideNavbar";
+import '../../../css/Marketing_Administrator/Forum.css';
+import NavBar from '../../../components/Navbar';
+import Footer from '../../../components/Footer';
+import SideNavBar from '../../../components/SideNavbar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHandPointLeft } from '@fortawesome/free-solid-svg-icons';
 
 class Forum extends Component {
-  constructor() {
-    super();
-    // this.logout = this.logout.bind(this);
-    this.state = {
-      firstName: "",
-      lastName: "",
-      email: "",
-      contactNo: "",
-      dob: "",
-      highestQualification: "",
-      nationality: "",
-      isSuspendedFromForum: "",
-    };
-  }
 
     render() {
         return (
@@ -30,9 +18,11 @@ class Forum extends Component {
                 <Container fluid className="Forum-container">
                     <NavBar isMA={true} />
 
-  componentDidMount() {
-    this.authListener();
-  }
+                        <Container fluid className="Forum-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                            <Row>
+                                <Col md={2} style={{paddingRight: 0}}>
+                                    <SideNavBar />
+                                </Col>
 
                                 <Col md={10} style={{paddingLeft: 0}}>
                                     <Container fluid id="Forum-topContentContainer">
@@ -79,55 +69,12 @@ class Forum extends Component {
                             </Row>    
                         </Container>                    
 
-                  <Row id="Forum-secondRow">
-                    <Col
-                      md={12}
-                      className="text-center"
-                      id="Forum-secondRowCol"
-                    >
-                      <Table responsive="sm" bordered id="Forum-tableContainer">
-                        <thead id="Forum-tableHeader">
-                          <tr>
-                            <th>S/N</th>
-                            <th>Question</th>
-                            <th>Posted By</th>
-                            <th>Date/Time</th>
-                            <th>No. of Comments</th>
-                          </tr>
-                        </thead>
-                        <tbody id="Forum-tableBody">
-                          {this.state.questions &&
-                            this.state.questions.map((questions, index) => {
-                              return (
-                                <tr>
-                                  <td>{index + 1}</td>
-                                  <td>
-                                    <a
-                                      href={"/test2?id=" + questions.questionid}
-                                    >
-                                      {questions.question}
-                                    </a>
-                                  </td>
-                                  <td>{questions.postedby}</td>
-                                  <td>{questions.datetime}</td>
-                                  <td>{questions.noofcomments}</td>
-                                </tr>
-                              );
-                            })}
-                        </tbody>
-                      </Table>
-                    </Col>
-                  </Row>
+                    <Footer />
                 </Container>
-              </Col>
-            </Row>
-          </Container>
+            </div>
+        )
+    }
 
-          <Footer />
-        </Container>
-      </div>
-    );
-  }
 }
 
 export default Forum;
