@@ -1,4 +1,4 @@
-import { Container, Row, Col, Table, Button, Tab, Nav } from 'react-bootstrap';
+import { Container, Row, Col, Table, Button, Tab, Nav, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../../config/firebase";
 import history from "../../config/history";
@@ -8,7 +8,7 @@ import NavBar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import SideNavBar from '../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faHourglassEnd, faHourglassStart, faPlus, faSchool, faTrash, faMapPin } from '@fortawesome/free-solid-svg-icons';
 
 class GuidedTour extends Component {
     constructor() {
@@ -20,6 +20,7 @@ class GuidedTour extends Component {
             tourName: "",
             venue: "",
             counter: "",
+            addModal: false,
         };
     }
 
@@ -181,6 +182,20 @@ class GuidedTour extends Component {
         }
     }
 
+    //Add Modal
+    handleAdd = () => {
+        this.addModal = this.state.addModal;
+        if (this.addModal == false) {
+            this.setState({
+                addModal: true
+            });
+        } else {
+            this.setState({
+                addModal: false
+            });
+        }
+    }
+
     render() {
         return (
             <div>
@@ -200,7 +215,7 @@ class GuidedTour extends Component {
                                                 <h4 id="GuidedTours-title">Guided Tours</h4>
                                             </Col>
                                             <Col md={6} className="text-right" id="GuidedTours-firstRowCol">
-                                                <Button id="GuidedTours-addBtn"><FontAwesomeIcon size="lg" icon={faPlus} /><span id="GuidedTours-addBtnText">Add</span></Button>
+                                                <Button id="GuidedTours-addBtn" onClick={this.handleAdd.bind(this)}><FontAwesomeIcon size="lg" icon={faPlus} /><span id="GuidedTours-addBtnText">Add</span></Button>
                                             </Col>
                                         </Row>
 
@@ -317,13 +332,76 @@ class GuidedTour extends Component {
                     <Footer />
                 </Container>
 
+                
+                {this.state.addModal == true ? 
+                    <Modal show={this.state.addModal} onHide={this.handleAdd} size="md" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="GuidedTours-addModalTitle" className="w-100">Add Tours</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form novalidate>
+                                <Form.Group>
+                                    <Form.Group as={Row} className="GuidedTours-formGroup">
+                                        <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
+                                            <FontAwesomeIcon size="lg" icon={faMapPin}/>
+                                        </Form.Group> 
+                                        <Form.Group as={Col} md="5">
+                                            <Form.Control type="text" name="tour" placeholder="Tour" required value="" noValidate></Form.Control>
+                                            <div className="errorMessage"></div>
+                                        </Form.Group>
+                                    </Form.Group>                     
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Group as={Row} className="GuidedTours-formGroup">
+                                        <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
+                                            <FontAwesomeIcon size="lg" icon={faHourglassStart}/>
+                                        </Form.Group> 
+                                        <Form.Group as={Col} md="5">
+                                            <Form.Control type="text" name="starttime" placeholder="Start Time" required value="" noValidate></Form.Control>
+                                            <div className="errorMessage"></div>
+                                        </Form.Group>
+                                    </Form.Group>                     
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Group as={Row} className="GuidedTours-formGroup">
+                                        <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
+                                            <FontAwesomeIcon size="lg" icon={faHourglassEnd}/>
+                                        </Form.Group> 
+                                        <Form.Group as={Col} md="5">
+                                            <Form.Control type="text" name="endtime" placeholder="End Time" required value="" noValidate></Form.Control>
+                                            <div className="errorMessage"></div>
+                                        </Form.Group>
+                                    </Form.Group>                     
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Group as={Row} className="GuidedTours-formGroup">
+                                        <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
+                                            <FontAwesomeIcon size="lg" icon={faSchool}/>
+                                        </Form.Group> 
+                                        <Form.Group as={Col} md="5">
+                                            <Form.Control type="text" name="venue" placeholder="Venue" required value="" noValidate></Form.Control>
+                                            <div className="errorMessage"></div>
+                                        </Form.Group>
+                                    </Form.Group>                     
+                                </Form.Group>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Container>
+                                <Row id="GuidedTours-addFooter">
+                                    <Col md={12} className="GuidedTours-addFooterCol">
+                                        <Button id="GuidedTours-submitBtn" type="submit">Submit</Button>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </Modal.Footer>
+                    </Modal>: ''
+                }
+                
+
             </div>
 
-
-
-
-
-
+                                                                                
 
     //   <div className="home">
     //     <div>

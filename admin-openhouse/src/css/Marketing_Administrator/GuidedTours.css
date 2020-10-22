@@ -129,8 +129,48 @@
     color: #434343;
 }
 
+#GuidedTours-editBtn:focus {
+    box-shadow: none;
+}
+
 #GuidedTours-deleteBtn {
     background: none;
     border: none;
     color: #434343;
+}
+
+#GuidedTours-deleteBtn:focus {
+    box-shadow: none;
+}
+
+/* -- Add Modal -- */
+.GuidedTours-formGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#GuidedTours-addModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+#GuidedTours-addfooter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.GuidedTours-addFooterCol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#GuidedTours-submitBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
 }
