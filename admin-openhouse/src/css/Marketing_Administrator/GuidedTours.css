@@ -150,24 +150,32 @@
     align-items: center;
 }
 
-#GuidedTours-addModalTitle {
+#GuidedTours-modalTitle {
     color: #424242;
     text-align: center;
 }
 
-#GuidedTours-addfooter {
+#GuidedTours-addfooter, #GuidedTours-editFooter {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.GuidedTours-addFooterCol {
+.GuidedTours-addFooterCol, .GuidedTours-editFooterCol{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #GuidedTours-submitBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#GuidedTours-saveBtn {
     width: 40%;
     background: #60c6d9;
     border: 1px solid #60c6d9;
