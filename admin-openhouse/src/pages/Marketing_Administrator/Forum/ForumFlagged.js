@@ -11,13 +11,13 @@ import {
   Alert,
 } from "react-bootstrap";
 import React, { Component } from "react";
-import fire from "../../config/firebase";
-import history from "../../config/history";
+import fire from "../../../config/firebase";
+import history from "../../../config/history";
 
-import "../../css/Marketing_Administrator/Forum.css";
-import NavBar from "../../components/Navbar";
-import Footer from "../../components/Footer";
-import SideNavBar from "../../components/SideNavbar";
+import "../../../css/Marketing_Administrator/Forum.css";
+import NavBar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
+import SideNavBar from "../../../components/SideNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheckCircle,
