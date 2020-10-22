@@ -57,6 +57,10 @@
     border-color: #424242;
 }
 
+#addProgTalkBtn:focus {
+    box-shadow: none;
+}
+
 /*******************************************************/
 /* Tabs Con Css*/
 .MAProgTalkScheduleContentTabRow {
@@ -253,5 +257,3 @@
 .MAProgTalkScheduleTabpaneCol {
     padding: 0 !important;
 }
-
-
