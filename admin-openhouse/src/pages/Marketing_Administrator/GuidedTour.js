@@ -8,7 +8,7 @@ import NavBar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import SideNavBar from '../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 class GuidedTour extends Component {
     constructor() {
@@ -19,6 +19,7 @@ class GuidedTour extends Component {
             startTime: "",
             tourName: "",
             venue: "",
+            counter: "",
         };
     }
 
@@ -56,26 +57,41 @@ class GuidedTour extends Component {
 
     display() {
         const db = fire.firestore();
-        var counter = 1;
+        var day1_counter = 1;
+        var day2_counter = 1;
         const userRef = db
-        .collection("GuidedTours").orderBy("date", "desc")
+        .collection("GuidedTours").orderBy("date", "asc")
         .get()
         .then((snapshot) => {
             const guidedTour = [];
             snapshot.forEach((doc) => {
-                const data = {
-                    date: doc.data().date,
-                    endTime: doc.data().endTime,
-                    startTime: doc.data().startTime,
-                    tourName: doc.data().tourName,
-                    venue: doc.data().venue,
-                    id: doc.id,
-                    counter: counter,
-                };
-                counter++;
-                guidedTour.push(data);
+                if (doc.data().date == "21-Nov-2020") {
+                    const data = {
+                        date: doc.data().date,
+                        endTime: doc.data().endTime,
+                        startTime: doc.data().startTime,
+                        tourName: doc.data().tourName,
+                        venue: doc.data().venue,
+                        id: doc.id,
+                        counter: day1_counter,
+                    };
+                    day1_counter++;
+                    guidedTour.push(data);
+                } else {
+                    const data = {
+                        date: doc.data().date,
+                        endTime: doc.data().endTime,
+                        startTime: doc.data().startTime,
+                        tourName: doc.data().tourName,
+                        venue: doc.data().venue,
+                        id: doc.id,
+                        counter: day2_counter,
+                    };
+                    day2_counter++;
+                    guidedTour.push(data);
+                }
             });
-
+            
             this.setState({ guidedTour: guidedTour });
         });
     }
@@ -191,8 +207,8 @@ class GuidedTour extends Component {
                                         <Row id="GuidedTours-secondRow">
                                             <Col md={12} id="GuidedTours-secondRowCol">
                                                 <Tab.Container defaultActiveKey="day1">
-                                                    <Row id="GuidedTours-secondInnerRow">
-                                                        <Col md={12} id="GuidedTours-secondInnerCol">
+                                                    <Row className="GuidedTours-secondInnerRow">
+                                                        <Col md={12} className="GuidedTours-secondInnerCol">
                                                             <Nav defaultActiveKey="day1" className="GuidedTours-nav" variant="tabs">
                                                                 <Col md={6} className="text-center GuidedTours-navItemCon">
                                                                     <Nav.Item className="GuidedTours-navItems">
@@ -208,6 +224,88 @@ class GuidedTour extends Component {
                                                             </Nav>
                                                         </Col>
                                                     </Row>
+
+                                                    <Row className="GuidedTours-secondInnerRow">
+                                                        <Col md={12} className="GuidedTours-secondInnerCol">
+                                                            <Tab.Content>
+                                                                <Tab.Pane eventKey="day1">
+                                                                    <Col md={12} className="text-center GuidedTours-tableColCon">
+                                                                        <Table responsive="sm" bordered className="GuidedTours-tableCon">
+                                                                            <thead className="GuidedTours-tableHeader">
+                                                                                <tr>
+                                                                                    <th>Tour No.</th>
+                                                                                    <th>Tour</th>
+                                                                                    <th>Start Time</th>
+                                                                                    <th>End Time</th>
+                                                                                    <th>Venue</th>
+                                                                                    <th>Edit</th>
+                                                                                    <th>Delete</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody className="GuidedTours-tableBody">
+                                                                                {this.state.guidedTour && this.state.guidedTour.map((guidedTour) => {
+                                                                                    return(
+                                                                                        <>
+                                                                                        {guidedTour.date == "21-Nov-2020" ? 
+                                                                                        <tr>
+                                                                                            <td>{guidedTour.counter}</td>
+                                                                                            <td>{guidedTour.tourName}</td>
+                                                                                            <td>{guidedTour.startTime}</td>
+                                                                                            <td>{guidedTour.endTime}</td>
+                                                                                            <td>{guidedTour.venue}</td>
+                                                                                            <td><Button size="sm" id="GuidedTours-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><Button size="sm" id="GuidedTours-deleteBtn"><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                                        </tr> : ''
+                                                                                        }
+                                                                                        </>
+                                                                                    );
+                                                                                })}
+                                                                            </tbody>
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Tab.Pane>
+
+
+                                                                <Tab.Pane eventKey="day2">
+                                                                    <Col md={12} className="text-center GuidedTours-tableColCon">
+                                                                        <Table responsive="sm" bordered className="GuidedTours-tableCon">
+                                                                            <thead className="GuidedTours-tableHeader">
+                                                                                <tr>
+                                                                                    <th>Tour No.</th>
+                                                                                    <th>Tour</th>
+                                                                                    <th>Start Time</th>
+                                                                                    <th>End Time</th>
+                                                                                    <th>Venue</th>
+                                                                                    <th>Edit</th>
+                                                                                    <th>Delete</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody className="GuidedTours-tableBody">
+                                                                                {this.state.guidedTour && this.state.guidedTour.map((guidedTour) => {
+                                                                                    return(
+                                                                                        <>
+                                                                                        {guidedTour.date == "22-Nov-2020" ? 
+                                                                                        <tr>
+                                                                                            <td>{guidedTour.counter}</td>
+                                                                                            <td>{guidedTour.tourName}</td>
+                                                                                            <td>{guidedTour.startTime}</td>
+                                                                                            <td>{guidedTour.endTime}</td>
+                                                                                            <td>{guidedTour.venue}</td>
+                                                                                            <td><Button size="sm" id="GuidedTours-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><Button size="sm" id="GuidedTours-deleteBtn"><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                                        </tr> : ''
+                                                                                        }
+                                                                                        </>
+                                                                                    );
+                                                                                })}
+                                                                            </tbody>
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Tab.Pane>
+                                                            </Tab.Content>
+                                                        </Col>
+                                                    </Row>
+
                                                 </Tab.Container>
                                             </Col>
                                         </Row>

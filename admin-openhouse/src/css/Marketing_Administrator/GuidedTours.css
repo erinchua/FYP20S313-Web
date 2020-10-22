@@ -61,11 +61,11 @@
     padding: 0 !important;
 }
 
-#GuidedTours-secondInnerRow {
+.GuidedTours-secondInnerRow {
     margin: 0 !important;
 }
 
-#GuidedTours-secondInnerCol {
+.GuidedTours-secondInnerCol {
     padding: 0 !important;
 }
 
@@ -98,4 +98,39 @@
     background-color: #62929E !important;
     color: white !important;
     border-color: #62929E !important;
+}
+
+/* -- Day 1 and 2 Content -- */
+.GuidedTours-tableColCon {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+
+.GuidedTours-tableCon {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+.GuidedTours-tableHeader {
+    color: #424242;
+    font-size: 90%;
+}
+
+.GuidedTours-tableBody {
+    color: #434343;
+    font-size: 85%;
+}
+
+#GuidedTours-editBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#GuidedTours-deleteBtn {
+    background: none;
+    border: none;
+    color: #434343;
 }
