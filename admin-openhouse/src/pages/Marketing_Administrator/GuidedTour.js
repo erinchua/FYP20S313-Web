@@ -19,7 +19,6 @@ class GuidedTour extends Component {
             startTime: "",
             tourName: "",
             venue: "",
-            backgroundColor: '#e4f2f0',
         };
     }
 
@@ -194,10 +193,10 @@ class GuidedTour extends Component {
                                                 <Tab.Container defaultActiveKey="day1">
                                                     <Row id="GuidedTours-secondInnerRow">
                                                         <Col md={12} id="GuidedTours-secondInnerCol">
-                                                            <Nav defaultActiveKey="day1">
+                                                            <Nav defaultActiveKey="day1" className="GuidedTours-nav" variant="tabs">
                                                                 <Col md={6} className="text-center GuidedTours-navItemCon">
-                                                                    <Nav.Item className="GuidedTours-navItems" style={{backgroundColor: this.state.backgroundColor}}>
-                                                                        <Nav.Link eventKey="day1" className="GuidedTours-navLinks" onSelect={()=>this.setState({backgroundColor: '#62929E'})}>Day 1</Nav.Link>
+                                                                    <Nav.Item className="GuidedTours-navItems">
+                                                                        <Nav.Link eventKey="day1" className="GuidedTours-navLinks">Day 1</Nav.Link>
                                                                     </Nav.Item>
                                                                 </Col>
 

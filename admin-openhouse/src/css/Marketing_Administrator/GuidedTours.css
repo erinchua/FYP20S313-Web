@@ -63,30 +63,18 @@
 
 #GuidedTours-secondInnerRow {
     margin: 0 !important;
-    border: 1px solid red;
 }
 
 #GuidedTours-secondInnerCol {
     padding: 0 !important;
-    border: 1px solid black;
 }
 
 .GuidedTours-navItemCon {
     padding: 0 !important;
 }
 
-/* .GuidedTours-navItems {
+.GuidedTours-navItems {
     background-color: #e4f2f0;
-}
-
-.GuidedTours-navItems:hover {
-    background-color: #62929E;
-    color: white;
-}
-
-.GuidedTours-navItems:active {
-    background-color: #62929E !important;
-    color: white !important;
 }
 
 .GuidedTours-navLinks {
@@ -97,9 +85,17 @@
 .GuidedTours-navLinks:hover {
     background-color: #62929E;
     color: white;
+    border-color: #62929E !important;
 }
 
 .GuidedTours-navLinks:focus {
     background-color: #62929E;
     color: white;
-} */
+    border-color: #62929E !important;
+}
+
+.GuidedTours-nav .GuidedTours-navLinks.active {
+    background-color: #62929E !important;
+    color: white !important;
+    border-color: #62929E !important;
+}
