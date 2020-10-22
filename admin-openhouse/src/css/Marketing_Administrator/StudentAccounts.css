@@ -136,48 +136,64 @@
     width: 5%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_FirstName {
     width: 11%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_LastName {
     width: 11%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_Email {
     width: 15%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_ContactNo {
     width: 10%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_DOB {
     width: 10%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_HighestQual {
     width: 10%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_Nationality {
     width: 10%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_SuspendStud {
@@ -185,7 +201,6 @@
     color: #434343;
     font-size: 85%;
 }
-
 
 #suspendStudBtn {
     background: none;
@@ -196,3 +211,89 @@
 #suspendStudBtn:focus {
     box-shadow: none;
 }
+
+#unsuspendStudBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#unsuspendStudBtn:focus {
+    box-shadow: none;
+}
+
+/************************************************************/
+/* Suspend Student Account Modal */
+#suspendStudAcctModalTitle {
+    font-size: 95%;
+    color: #EA526F;
+}
+
+.suspendStudAcctModalCol {
+    padding-bottom: 4%;
+}
+
+#suspendStudAcctModalIcon {
+    width: 20%;
+}
+
+#suspendStudAcctModalText {
+    font-size: 90%;
+    color: #424242;
+}
+
+#confirmSuspendStudAcctModalBtn {
+    background: none;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #EA526F;
+    width: 40%;
+}
+
+#cancelSuspendStudAcctModalBtn {
+    background: #EA526F;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #ffffff;
+    width: 40%;
+}
+
+/************************************************************/
+/* Unsuspend Student Account Modal */
+#unsuspendStudAcctModalTitle {
+    font-size: 95%;
+    color: #f69e7b;
+}
+
+.unsuspendStudAcctModalCol {
+    padding-bottom: 4%;
+}
+
+#unsuspendStudAcctModalIcon {
+    width: 20%;
+}
+
+#unsuspendStudAcctModalText {
+    font-size: 90%;
+    color: #424242;
+}
+
+#confirmUnsuspendStudAcctModalBtn {
+    background: none;
+    border: 1px solid #f69e7b;
+    border-radius: 6px;
+    color: #FAA300;
+    width: 40%;
+}
+
+#cancelUnsuspendStudAcctModalBtn {
+    background: #f69e7b;
+    border: 1px solid #f69e7b;
+    border-radius: 6px;
+    color: #ffffff;
+    width: 40%;
+}
+
+/* FF8C42 */
+/* FAA300 */
+/* f69e7b */

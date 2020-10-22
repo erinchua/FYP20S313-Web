@@ -35,13 +35,13 @@
 }
 
 #addAdminFormBtn {
-    background: #424242;
-    border-color: #424242;
+    background: #60c6d9;
+    border-color: #60c6d9;
     border-radius: 6px;
 }
 
 #addAdminFormBtn:focus {
-    box-shadow: 1px 1px 10px #424242;
+    box-shadow: none;
 }
 
 .errorText {

@@ -48,9 +48,9 @@ const renderOpenHouseActivities = (props) => (
 //Tooltip for Forum
 const renderForum = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-        <Nav.Link href="#" className="sideNavBar-navLinks">View Forum</Nav.Link>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Flagged Forum</Nav.Link>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Settings</Nav.Link>
+        <Nav.Link href="/Forum" className="sideNavBar-navLinks">View Forum</Nav.Link>
+        <Nav.Link href="/ForumFlagged" className="sideNavBar-navLinks">Flagged Forum</Nav.Link>
+        <Nav.Link href="/ForumSettings" className="sideNavBar-navLinks">Settings</Nav.Link>
     </Tooltip>
 );
 
@@ -128,7 +128,6 @@ export default class SideNavBar extends React.Component {
                                     <ContextAwareToggle eventKey="1">Mobile Application</ContextAwareToggle>
                                     <Accordion.Collapse eventKey="1">
                                         <div>
-                                            <Nav.Link href="/MobileHome" className="sideNavBar-navLinks">Home</Nav.Link>
                                             <Accordion>
                                                 <ContextAwareToggle eventKey="2">Open House Programmes</ContextAwareToggle>
                                                 <Accordion.Collapse eventKey="2">
