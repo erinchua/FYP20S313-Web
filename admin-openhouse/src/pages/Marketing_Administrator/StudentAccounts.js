@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import fire from "../../config/firebase";
 import history from "../../config/history";
 import firecreate from "../../config/firebasecreate";
-import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
 
 import "../../css/Marketing_Administrator/StudentAccounts.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -301,7 +301,7 @@ class StudentAccounts extends Component {
                                   <td id="studAcctData_HighestQual">{user.highestQualification}</td>
                                   <td id="studAcctData_Nationality">{user.nationality}</td>
                                   <td id="studAcctData_SuspendStud">
-                                    <Button id="unsuspendStudBtn" onClick={(e) => {this.retrieveuserdata_suspend(user.id, user.isSuspendedFromForum);} } > {/* TBC */}
+                                    <Button id="unsuspendStudBtn" onClick={(e) => {this.retrieveuserdata_suspend(user.id, user.isSuspendedFromForum);} } >
                                       {user.isSuspendedFromForum ?
                                         <FontAwesomeIcon size="lg" id="suspendStudBtnIcon" icon={faUserCheck} />
                                         :

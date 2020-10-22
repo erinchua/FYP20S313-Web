@@ -136,48 +136,64 @@
     width: 5%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_FirstName {
     width: 11%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_LastName {
     width: 11%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_Email {
     width: 15%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_ContactNo {
     width: 10%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_DOB {
     width: 10%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_HighestQual {
     width: 10%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_Nationality {
     width: 10%;
     color: #434343;
     font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #studAcctData_SuspendStud {
