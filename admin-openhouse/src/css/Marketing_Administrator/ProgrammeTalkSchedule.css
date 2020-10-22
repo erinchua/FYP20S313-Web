@@ -107,6 +107,12 @@
     background: #62929E;
 }
 
+.MAProgTalkScheduleTabNav .MAProgTalkScheduleTab_Day.active {
+    background: #62929E !important;
+    color: #ffffff !important;
+   
+}
+
 /*******************************************************/
 /* Programme Talk Schedule Table - Day 1 */
 #MAProgTalkScheduleTable_Day1 {
@@ -253,3 +259,5 @@
 .MAProgTalkScheduleTabpaneCol {
     padding: 0 !important;
 }
+
+

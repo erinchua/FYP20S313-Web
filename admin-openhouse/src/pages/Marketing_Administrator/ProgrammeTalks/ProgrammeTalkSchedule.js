@@ -311,7 +311,7 @@ class ProgrammeTalkSchedule extends Component {
                       <Tab.Container defaultActiveKey="day1">
                         <Row className="MAProgTalkScheduleTabConRow">
                           <Col md="12" className="MAProgTalkScheduleTabConCol">
-                            <Nav defaultActiveKey="day1">
+                            <Nav defaultActiveKey="day1" className="MAProgTalkScheduleTabNav" variant="tabs">
                               <Col md="6" className="MAProgTalkScheduleTabConInnerCol text-center">
                                 <Nav.Item className="MAProgTalkScheduleTab_NavItem">
                                   <Nav.Link eventKey="day1" className="MAProgTalkScheduleTab_Day">Day 1</Nav.Link>
