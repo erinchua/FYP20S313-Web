@@ -1,0 +1,105 @@
+.GuidedTours-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.GuidedTours-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#GuidedTours-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#GuidedTours-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#GuidedTours-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#GuidedTours-title {
+    color: #424242;
+}
+
+#GuidedTours-addBtn {
+    background: none;
+    border: 1px solid #424242;
+    color: #424242;
+    min-width: 20%;
+    border-radius: 6px;
+}
+
+#GuidedTours-addBtn:hover {
+    background: #424242;
+    border-color: #424242;
+    color: white;
+}
+
+#GuidedTours-addBtnText {
+    margin-left: 10%;
+}
+
+#GuidedTours-secondRow {
+    margin: 0 !important;
+}
+
+#GuidedTours-secondRowCol {
+    padding: 0 !important;
+}
+
+#GuidedTours-secondInnerRow {
+    margin: 0 !important;
+    border: 1px solid red;
+}
+
+#GuidedTours-secondInnerCol {
+    padding: 0 !important;
+    border: 1px solid black;
+}
+
+.GuidedTours-navItemCon {
+    padding: 0 !important;
+}
+
+/* .GuidedTours-navItems {
+    background-color: #e4f2f0;
+}
+
+.GuidedTours-navItems:hover {
+    background-color: #62929E;
+    color: white;
+}
+
+.GuidedTours-navItems:active {
+    background-color: #62929E !important;
+    color: white !important;
+}
+
+.GuidedTours-navLinks {
+    color: #424242;
+    font-weight: bold;
+}
+
+.GuidedTours-navLinks:hover {
+    background-color: #62929E;
+    color: white;
+}
+
+.GuidedTours-navLinks:focus {
+    background-color: #62929E;
+    color: white;
+} */

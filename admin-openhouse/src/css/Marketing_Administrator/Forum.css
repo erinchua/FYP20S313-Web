@@ -20,25 +20,25 @@
 }
 
 #Forum-firstRow {
-    background-color: #88B7B5;
-    height: 13vh;
-    margin-right: 0;
+    background: #88B7B5;
+    width: 100%;
+    margin: 0 !important;
 }
 
 #Forum-firstRowCol {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: -1%;
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
 }
 
 #Forum-title {
-    font-size: 24px;
-    font-weight: bold;
+    color: #424242;
 }
 
 #Forum-secondRow {
-    margin-right: 0;
+    width: 100%;
+    margin: 0 !important;
 }
 
 #Forum-secondRowCol {
@@ -168,14 +168,16 @@
 
 /* -- View Forum Questions -- */
 #ViewForum-firstRow {
-    margin-right: 0;
     background-color: #e8ecf1;
+    width: 100%;
+    margin: 0 !important;
 }
 
 #ViewForum-secondRow {
-    margin-right: 0;
     background-color: #6c737e;
     padding-top: 1%;
+    width: 100%;
+    margin: 0 !important;
 }
 
 #ViewForum-backBtn {
@@ -213,7 +215,7 @@
 }
 
 #ViewForum-thirdRow {
-    margin-right: 0;
+    margin: 0 !important;
     background-color: #b5cfd8;
 }
 
