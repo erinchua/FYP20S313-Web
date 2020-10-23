@@ -71,11 +71,13 @@ class GuidedTour extends Component {
         .then((snapshot) => {
             const guidedTour = [];
             snapshot.forEach((doc) => {
-                if (doc.data().date == "21-Nov-2020") {
+                if (doc.data().date === "21-Nov-2020") {
+                    const startTime = doc.data().startTime.split(":");
+                    startTime = startTime.sort();
                     const data = {
                         date: doc.data().date,
                         endTime: doc.data().endTime,
-                        startTime: doc.data().startTime,
+                        startTime: startTime,
                         tourName: doc.data().tourName,
                         venue: doc.data().venue,
                         id: doc.id,
