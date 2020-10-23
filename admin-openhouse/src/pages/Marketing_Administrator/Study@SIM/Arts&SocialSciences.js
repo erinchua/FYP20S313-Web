@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
-import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal, Tabs, Tab, Nav, NavItem } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
 
 import "../../../css/Marketing_Administrator/Study@SIM.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -149,7 +149,11 @@ class StudySIM_ArtsSocialSciences extends Component {
                                 <tbody>
                                     <tr>
                                         <td className="studySIMProgData_SNo text-center">S/N</td>
-                                        <td className="studySIMProgData_ProgName text-left">Programme Name</td>
+                                        <td className="studySIMProgData_ProgName text-left">
+                                            <a href="/studySIMProgDetail" className="studySIMProgData_ProgNameLink">
+                                                Programme Name
+                                            </a>
+                                        </td>
                                         <td className="studySIMProgData_AwardedBy text-left">Awarded By</td>
                                         <td className="studySIMProgData_LogoFile text-left">Logo File</td>
                                         <td className="studySIMProgData_Category text-left">Category</td>
@@ -185,12 +189,12 @@ class StudySIM_ArtsSocialSciences extends Component {
         </Container>
 
 
-        {/* Add Programme Talk Modal */}
+        {/* Add Programme Modal */}
         <Modal 
           show={this.state.addStudySIMProgModal}
           onHide={this.handleAddStudySIMProgModal}
-          aria-labelledby="addProgTalkModalTitle"
-          size="lg"
+          aria-labelledby="addStudySIMProgModalTitle"
+          size="xl"
           centered
           backdrop="static"
           keyboard={false}

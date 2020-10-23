@@ -486,7 +486,7 @@ class ProgrammeTalkSchedule extends Component {
           show={this.state.addProgTalkModal}
           onHide={this.handleAddProgTalkModal}
           aria-labelledby="addProgTalkModalTitle"
-          size="lg"
+          size="xl"
           centered
           backdrop="static"
           keyboard={false}
