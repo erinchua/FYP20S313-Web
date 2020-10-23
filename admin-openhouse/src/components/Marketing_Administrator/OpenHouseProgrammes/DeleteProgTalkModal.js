@@ -1,11 +1,11 @@
 import React from 'react';
-import { Modal, Form, Button, Col, Row, FormControl, Table } from 'react-bootstrap';
+import { Modal,Button, Col, Row } from 'react-bootstrap';
 
-import fire from "../../config/firebase";
-import history from "../../config/history";
-import firecreate from "../../config/firebasecreate";
+import fire from "../../../config/firebase";
+import history from "../../../config/history";
+import firecreate from "../../../config/firebasecreate";
 
-import "../../css/Marketing_Administrator/DeleteProgTalkModal.css";
+import "../../../css/Marketing_Administrator/DeleteProgTalkModal.css";
 
 export default class DeleteProgTalkModal extends React.Component {
     constructor() {
