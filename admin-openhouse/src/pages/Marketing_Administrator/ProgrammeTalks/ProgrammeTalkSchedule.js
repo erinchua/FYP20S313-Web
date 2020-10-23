@@ -517,7 +517,7 @@ class ProgrammeTalkSchedule extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <DeleteProgTalkModal handleConfirmDelete={this.handleDeleteProgTalkModal} handleCancelDelete={this.handleDeleteProgTalkModal} />
+          <DeleteProgTalkModal handleConfirmDelete={ (e) => {this.DeleteProgrammeTalk(e, this.state.id)} } handleCancelDelete={this.handleDeleteProgTalkModal} />
         </Modal>
 
 

@@ -1,0 +1,225 @@
+.MAStudySIMCon {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 0 auto;
+    padding: 0 !important;
+}
+
+.MAStudySIMContent {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+.MAStudySIMContentCon {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+.MAStudySIMContentHeaderRow {
+    background: #88B7B5;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.MAStudySIMContentHeaderCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.MAStudySIMHeaderText {
+    color: #424242;
+}
+
+.addStudySIMProgBtnIcon {
+    margin-right: 5%;
+}
+
+.addStudySIMProgBtnText {
+    margin-left: 5%;
+}
+
+.addStudySIMProgBtn {
+    background: none !important;
+    color: #424242 !important;
+    min-width: 20%;
+    border-radius: 6px;
+    border: 1px solid #424242 !important;
+}
+
+.addStudySIMProgBtn:hover {
+    background: #424242 !important;
+    color: #ffffff !important;
+    border-color: #424242 !important;
+}
+
+.addStudySIMProgBtn:focus {
+    box-shadow: none !important;
+}
+
+/*******************************************************/
+/* Study@SIM Table Css */
+.MAStudySIMTable {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.studySIMProgHeader_SNo {
+    width: 3%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.studySIMProgHeader_ProgName {
+    width: 11%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.studySIMProgHeader_AwardedBy {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.studySIMProgHeader_LogoFile {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.studySIMProgHeader_Category {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.studySIMProgHeader_MoS {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.studySIMProgHeader_Discipline {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.studySIMProgHeader_AcademicLvl {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.studySIMProgHeader_EntryQual {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.studySIMProgHeader_SubDiscipline {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.studySIMProgHeader_Edit {
+    width: 3%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.studySIMProgHeader_Delete {
+    width: 3%;
+    color: #424242;
+    font-size: 90%;
+}
+
+/******************* Table Data *******************/
+.studySIMProgData_SNo {
+    width: 3%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+
+.studySIMProgData_ProgName {
+    width: 11%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.studySIMProgData_AwardedBy {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.studySIMProgData_LogoFile {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.studySIMProgData_Category {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.studySIMProgData_MoS {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.studySIMProgData_Discipline {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.studySIMProgData_AcademicLvl {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.studySIMProgData_EntryQual {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.studySIMProgData_SubDiscipline {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.studySIMProgData_Edit {
+    width: 3%;
+    color: #434343;
+    font-size: 85%;
+}
+
+.studySIMProgData_Delete {
+    width: 3%;
+    color: #434343;
+    font-size: 85%;
+}
