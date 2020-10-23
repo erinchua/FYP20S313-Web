@@ -102,7 +102,7 @@ export default class AddProgTalkModal extends React.Component {
                 break;
 
             case 'email': 
-                errors.email = value.length == 1
+                errors.email = value.length < 1
                     ? ''
                     : 'Please enter a valid email!';
                 break;
@@ -142,7 +142,7 @@ export default class AddProgTalkModal extends React.Component {
                                         </InputGroup.Text>
                                     </InputGroup.Prepend>
 
-                                    <FormControl name="programmeTalkName" id="addProgTalkForm_ProgTalkName" placeholder="Name of Programme Talk*" />
+                                    <FormControl type="text" name="talkName" id="addProgTalkForm_ProgTalkName" placeholder="Name of Programme Talk*" required />
                                 </InputGroup>
                             </Col>
 
@@ -168,11 +168,11 @@ export default class AddProgTalkModal extends React.Component {
                                         </InputGroup.Text>
                                     </InputGroup.Prepend>
 
-                                    <FormControl name="venue" id="addProgTalkForm_Venue" placeholder="Venue*" />
+                                    <FormControl type="text" name="venue" id="addProgTalkForm_Venue" placeholder="Venue*" required />
                                 </InputGroup>
                             </Col>
 
-                            {/* Disciplines Name */}
+                            {/* Discipline Name */}
                             <Col md="6" className="addProgTalkFormCol text-center">
                                 <Form.Control as="select" name="disciplineName" defaultValue="chooseDiscipline" className="addProgTalkFormSelect" required noValidate>
                                     <option value="chooseDiscipline" className="addProgTalkFormSelectOption">Choose a Discipline</option>
@@ -194,7 +194,7 @@ export default class AddProgTalkModal extends React.Component {
                                         </InputGroup.Text>
                                     </InputGroup.Prepend>
                                     
-                                    <FormControl id="addProgTalkForm_ProgTalkDate" placeholder="Programme Talk Date*" />
+                                    <FormControl type="text" name="date" id="addProgTalkForm_ProgTalkDate" placeholder="Programme Talk Date*" required />
                                 </InputGroup>
                             </Col>
 
@@ -204,7 +204,7 @@ export default class AddProgTalkModal extends React.Component {
                                     <option value="chooseSubDiscipline" className="addProgTalkFormSelectOption">Choose a Sub-Discipline</option>
 
                                     {/* To be retrieved from DB */}
-                                    <option value="ArtsSocialSciences" className="addProgTalkFormSelectOption">Arts & Social Sciences</option>
+                                    <option value="Accounting" className="addProgTalkFormSelectOption">Accounting</option>
                                 </Form.Control>
                             </Col>
                         </Form.Row>
@@ -220,7 +220,7 @@ export default class AddProgTalkModal extends React.Component {
                                         </InputGroup.Text>
                                     </InputGroup.Prepend>
                                     
-                                    <FormControl id="addProgTalkForm_ProgTalkStartTime" placeholder="Programme Talk Start Time*" />
+                                    <FormControl type="text" name="startTime" id="addProgTalkForm_ProgTalkStartTime" placeholder="Programme Talk Start Time*" required />
                                 </InputGroup>
                             </Col>
 
@@ -233,7 +233,7 @@ export default class AddProgTalkModal extends React.Component {
                                         </InputGroup.Text>
                                     </InputGroup.Prepend>
                                     
-                                    <FormControl id="addProgTalkForm_ProgTalkEndTime" placeholder="Programme Talk End Time*" />
+                                    <FormControl type="text" name="endTime" id="addProgTalkForm_ProgTalkEndTime" placeholder="Programme Talk End Time*" required />
                                 </InputGroup>
                             </Col>
                         </Form.Row>
