@@ -1,14 +1,11 @@
 import React from 'react';
-import { Container, Modal, Form, FormGroup, FormCheck, Button, InputGroup, Col, Row, FormControl, Table, FormLabel } from 'react-bootstrap';
+import { Modal, Form, Button, Col, FormControl, Table } from 'react-bootstrap';
 
-import fire from "../../config/firebase";
-import history from "../../config/history";
-import firecreate from "../../config/firebasecreate";
+import fire from "../../../config/firebase";
+import history from "../../../config/history";
+import firecreate from "../../../config/firebasecreate";
 
-import "../../css/Marketing_Administrator/EditProgTalkModal.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';
-
+import "../../../css/Marketing_Administrator/EditProgTalkModal.css";
 
 // const validateForm = (errors) => {
 //   let valid = true;

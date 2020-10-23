@@ -120,23 +120,21 @@ class Forum extends Component {
                                                     </thead>
                                                     <tbody id="Forum-tableBody">
                                                     {this.state.questions &&
-                            this.state.questions.map((questions, index) => {
-                              return (
-                                <tr>
-                                  <td>{index + 1}</td>
-                                  <td>
-                                    <a
-                                      href={"/ViewForumQuestion?id=" + questions.questionid}
-                                    >
-                                      {questions.question}
-                                    </a>
-                                  </td>
-                                  <td>{questions.postedby}</td>
-                                  <td>{questions.datetime}</td>
-                                  <td>{questions.noofcomments}</td>
-                                </tr>
-                              );
-                            })}
+                                                    this.state.questions.map((questions, index) => {
+                                                        return (
+                                                            <tr>
+                                                            <td>{index + 1}</td>
+                                                            <td className="text-left">
+                                                                <a className="Forum-question" href={"/ViewForumQuestion?id=" + questions.questionid}>
+                                                                {questions.question}
+                                                                </a>
+                                                            </td>
+                                                            <td>{questions.postedby}</td>
+                                                            <td>{questions.datetime}</td>
+                                                            <td>{questions.noofcomments}</td>
+                                                            </tr>
+                                                        );
+                                                    })}
                                                     </tbody>
                                                 </Table>
                                             </Col>

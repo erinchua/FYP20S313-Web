@@ -11,9 +11,9 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
-import AddProgTalkModal from "../../../components/Marketing_Administrator/AddProgTalkModal";
-import EditProgTalkModal from "../../../components/Marketing_Administrator/EditProgTalkModal";
-import DeleteProgTalkModal from "../../../components/Marketing_Administrator/DeleteProgTalkModal";
+import AddProgTalkModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/AddProgTalkModal";
+import EditProgTalkModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/EditProgTalkModal";
+import DeleteProgTalkModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/DeleteProgTalkModal";
 
 
 class ProgrammeTalkSchedule extends Component {
@@ -486,7 +486,7 @@ class ProgrammeTalkSchedule extends Component {
           show={this.state.addProgTalkModal}
           onHide={this.handleAddProgTalkModal}
           aria-labelledby="addProgTalkModalTitle"
-          size="lg"
+          size="xl"
           centered
           backdrop="static"
           keyboard={false}

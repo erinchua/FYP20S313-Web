@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
-import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal, Tabs, Tab, Nav, NavItem } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
 
 import "../../../css/Marketing_Administrator/Study@SIM.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,9 +11,9 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
-import AddProgTalkModal from "../../../components/Marketing_Administrator/AddProgTalkModal";
-import EditProgTalkModal from "../../../components/Marketing_Administrator/EditProgTalkModal";
-import DeleteProgTalkModal from "../../../components/Marketing_Administrator/DeleteProgTalkModal";
+import AddStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/AddStudySIMProgModal";
+import EditStudySIMProgModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/EditProgTalkModal";
+import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/DeleteProgTalkModal";
 
 
 class StudySIM_ArtsSocialSciences extends Component {
@@ -36,7 +36,7 @@ class StudySIM_ArtsSocialSciences extends Component {
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
+              //this.display();
             } else {
               history.push("/Login");
             }
@@ -149,7 +149,11 @@ class StudySIM_ArtsSocialSciences extends Component {
                                 <tbody>
                                     <tr>
                                         <td className="studySIMProgData_SNo text-center">S/N</td>
-                                        <td className="studySIMProgData_ProgName text-left">Programme Name</td>
+                                        <td className="studySIMProgData_ProgName text-left">
+                                            <a href="/studySIMProgDetail" className="studySIMProgData_ProgNameLink">
+                                                Programme Name
+                                            </a>
+                                        </td>
                                         <td className="studySIMProgData_AwardedBy text-left">Awarded By</td>
                                         <td className="studySIMProgData_LogoFile text-left">Logo File</td>
                                         <td className="studySIMProgData_Category text-left">Category</td>
@@ -185,17 +189,17 @@ class StudySIM_ArtsSocialSciences extends Component {
         </Container>
 
 
-        {/* Add Programme Talk Modal */}
+        {/* Add Programme Modal */}
         <Modal 
           show={this.state.addStudySIMProgModal}
           onHide={this.handleAddStudySIMProgModal}
-          aria-labelledby="addProgTalkModalTitle"
-          size="lg"
+          aria-labelledby="addStudySIMProgModalTitle"
+          size="xl"
           centered
           backdrop="static"
           keyboard={false}
         >
-          <AddProgTalkModal />
+          <AddStudySIMProgModal />
         </Modal>
 
         {/* Edit Programme Talk Modal */}

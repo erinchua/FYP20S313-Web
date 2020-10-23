@@ -156,6 +156,11 @@
     word-wrap: break-word;
 }
 
+.studySIMProgData_ProgNameLink {
+    text-decoration: underline;
+    color: #434343;
+}
+
 .studySIMProgData_AwardedBy {
     width: 10%;
     color: #434343;
@@ -168,6 +173,7 @@
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
+    word-break: break-all;
 }
 
 .studySIMProgData_Category {
@@ -222,4 +228,32 @@
     width: 3%;
     color: #434343;
     font-size: 85%;
+}
+
+.editStudySIMProgBtn {
+    background: none !important;
+    border: none !important;
+    color: #434343 !important;
+}
+
+.editStudySIMProgBtn:focus {
+    box-shadow: none !important;
+}
+
+.editStudySIMProgBtnIcon {
+    color: #424242 !important;
+}
+
+.deleteStudySIMProgBtn {
+    background: none !important;
+    border: none !important;
+    color: #434343 !important;
+}
+
+.deleteStudySIMProgBtn:focus {
+    box-shadow: none !important;
+}
+
+.deleteStudySIMProgBtnIcon {
+    color: #424242 !important;
 }
