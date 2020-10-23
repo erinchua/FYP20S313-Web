@@ -198,6 +198,7 @@ class StudySIM_ArtsSocialSciences extends Component {
           centered
           backdrop="static"
           keyboard={false}
+          className="addStudySIMProgModal"
         >
           <AddStudySIMProgModal />
         </Modal>
