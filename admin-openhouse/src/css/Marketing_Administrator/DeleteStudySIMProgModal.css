@@ -1,18 +1,18 @@
-#deleteProgTalkModalTitle {
+#deleteStudySIMProgModalTitle {
     font-size: 95%;
     color: #EA526F;
 }
 
-.deleteProgTalkModalCol {
+.deleteStudySIMProgModalCol {
     padding-bottom: 4%;
 }
 
-#deleteProgTalkModalText {
+#deleteStudySIMProgModalText {
     font-size: 90%;
     color: #424242;
 }
 
-#confirmDeleteProgTalkModalBtn {
+#confirmDeleteStudySIMProgModalBtn {
     background: none;
     border: 1px solid #EA526F;
     border-radius: 6px;
@@ -20,11 +20,11 @@
     width: 40%;
 }
 
-#confirmDeleteProgTalkModalBtn:focus {
+#confirmDeleteStudySIMProgModalBtn:focus {
     box-shadow: none;
 }
 
-#cancelDeleteProgTalkModalBtn {
+#cancelDeleteStudySIMProgModalBtn {
     background: #EA526F;
     border: 1px solid #EA526F;
     border-radius: 6px;
@@ -32,6 +32,6 @@
     width: 40%;
 }
 
-#cancelDeleteProgTalkModalBtn:focus {
+#cancelDeleteStudySIMProgModalBtn {
     box-shadow: none;
 }

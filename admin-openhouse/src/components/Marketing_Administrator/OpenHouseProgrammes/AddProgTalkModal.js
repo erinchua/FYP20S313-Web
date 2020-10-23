@@ -7,7 +7,7 @@ import firecreate from "../../../config/firebasecreate";
 
 import "../../../css/Marketing_Administrator/AddProgTalkModal.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd, faChair } from '@fortawesome/free-solid-svg-icons';
 
 
 // const validateForm = (errors) => {
@@ -88,34 +88,34 @@ export default class AddProgTalkModal extends React.Component {
 
 
     /* Add Add Programme Talk Modal Validations */
-    handleChange = (e) => {
-        e.preventDefault();
-        const { name, value } = e.target;
+    // handleChange = (e) => {
+    //     e.preventDefault();
+    //     const { name, value } = e.target;
         
-        let errors = this.state.errors;
+    //     let errors = this.state.errors;
         
-        switch (name) {
-            case 'programmeTalkName': 
-                errors.programmeTalkName = value.length == 0
-                    ? 'Please enter a valid programme talk name!'
-                    : '';
-                break;
+    //     switch (name) {
+    //         case 'programmeTalkName': 
+    //             errors.programmeTalkName = value.length == 0
+    //                 ? 'Please enter a valid programme talk name!'
+    //                 : '';
+    //             break;
 
-            case 'email': 
-                errors.email = value.length < 1
-                    ? ''
-                    : 'Please enter a valid email!';
-                break;
+    //         case 'email': 
+    //             errors.email = value.length < 1
+    //                 ? ''
+    //                 : 'Please enter a valid email!';
+    //             break;
 
-            default:
-                break;
-        }
+    //         default:
+    //             break;
+    //     }
         
-        this.setState({errors, [e.target.name]: e.target.value}, ()=> {
-            console.log(errors)
-        })
+    //     this.setState({errors, [e.target.name]: e.target.value}, ()=> {
+    //         console.log(errors)
+    //     })
     
-    }
+    // }
 
 
     render(){
@@ -212,7 +212,7 @@ export default class AddProgTalkModal extends React.Component {
                         {/* 4th Row */}
                         <Form.Row className="justify-content-center addProgTalkFormRow">
                             {/* Programme Talk Start Time */}
-                            <Col md="6" className="addProgTalkFormCol text-center">
+                            <Col md="4" className="addProgTalkFormCol text-center">
                                 <InputGroup className="addProgTalkFormColInputGrp">
                                     <InputGroup.Prepend>
                                         <InputGroup.Text className="addProgTalkFormIconInputGrp">
@@ -225,7 +225,7 @@ export default class AddProgTalkModal extends React.Component {
                             </Col>
 
                             {/* Programme Talk End Time */}
-                            <Col md="6" className="addProgTalkFormCol text-center">
+                            <Col md="4" className="addProgTalkFormCol text-center">
                                 <InputGroup className="addProgTalkFormColInputGrp">
                                     <InputGroup.Prepend>
                                         <InputGroup.Text className="addProgTalkFormIconInputGrp">
@@ -234,6 +234,19 @@ export default class AddProgTalkModal extends React.Component {
                                     </InputGroup.Prepend>
                                     
                                     <FormControl type="text" name="endTime" id="addProgTalkForm_ProgTalkEndTime" placeholder="Programme Talk End Time*" required />
+                                </InputGroup>
+                            </Col>
+
+                            {/* Capacity Limit */}
+                            <Col md="4" className="addProgTalkFormCol text-center">
+                                <InputGroup className="addProgTalkFormColInputGrp">
+                                    <InputGroup.Prepend>
+                                        <InputGroup.Text className="addProgTalkFormIconInputGrp">
+                                            <FontAwesomeIcon size="lg" className="addProgTalkFormIcon" icon={faChair} />
+                                        </InputGroup.Text>
+                                    </InputGroup.Prepend>
+                                    
+                                    <FormControl type="text" name="endTime" id="addProgTalkForm_Capacity" placeholder="Capacity Limit*" required />
                                 </InputGroup>
                             </Col>
                         </Form.Row>
@@ -245,15 +258,13 @@ export default class AddProgTalkModal extends React.Component {
                             </Col>
                         </Form.Row>
 
-                        {/* Add Programme Talk Submit Btn Row */}
-                        <Form.Row className="justify-content-center addProgTalkFormRow">
-                            <Col className="text-center">
-                                <Button type="submit" id="addProgTalkFormBtn">Submit</Button>
-                            </Col>
-                        </Form.Row>
-
                     </Form>
                 </Modal.Body>
+
+                <Modal.Footer className="justify-content-center">
+                     {/* Add Programme Talk Submit Btn*/}
+                    <Button type="submit" id="addProgTalkFormBtn">Submit</Button>
+                </Modal.Footer>
             </div>
         )
     }

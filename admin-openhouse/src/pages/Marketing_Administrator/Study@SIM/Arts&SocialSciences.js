@@ -12,8 +12,8 @@ import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
 import AddStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/AddStudySIMProgModal";
-import EditStudySIMProgModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/EditProgTalkModal";
-import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/DeleteProgTalkModal";
+import EditStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/EditStudySIMProgModal";
+import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/DeleteStudySIMProgModal";
 
 
 class StudySIM_ArtsSocialSciences extends Component {
@@ -21,8 +21,8 @@ class StudySIM_ArtsSocialSciences extends Component {
     super();
     this.state = {
       addStudySIMProgModal: false,
-      editProgTalkModal: false,
-      deleteProgTalkModal: false,
+      editStudySIMProgModal: false,
+      deleteStudySIMProgModal: false,
     };
   }
 
@@ -67,29 +67,29 @@ class StudySIM_ArtsSocialSciences extends Component {
   };
 
   /* Edit Programme Talk Modal */
-  handleEditProgTalkModal = () => {
-    if (this.state.editProgTalkModal == false) {
+  handleEditStudySIMProgModal = () => {
+    if (this.state.editStudySIMProgModal == false) {
       this.setState({
-        editProgTalkModal: true,
+        editStudySIMProgModal: true,
       });
     }
     else {
       this.setState({
-        editProgTalkModal: false
+        editStudySIMProgModal: false
       });
     }
   };
 
-  /* Delete Programme Talk Modal */
-  handleDeleteProgTalkModal = () => {
-    if (this.state.deleteProgTalkModal == false) {
+  /* Delete Programme Modal */
+  handleDeleteStudySIMProgModal = () => {
+    if (this.state.deleteStudySIMProgModal == false) {
       this.setState({
-        deleteProgTalkModal: true,
+        deleteStudySIMProgModal: true,
       });
     }
     else {
       this.setState({
-        deleteProgTalkModal: false
+        deleteStudySIMProgModal: false
       });
     }
   };
@@ -168,7 +168,7 @@ class StudySIM_ArtsSocialSciences extends Component {
                                             </Button>
                                         </td>
                                         <td className="studySIMProgData_Delete text-center">
-                                            <Button className="deleteStudySIMProgBtn" onClick={this.handleDeleteStudySimProgModal}>
+                                            <Button className="deleteStudySIMProgBtn" onClick={this.handleDeleteStudySIMProgModal}>
                                                 <FontAwesomeIcon size="lg" className="deleteStudySIMProgBtnIcon" icon={faTrashAlt} />
                                             </Button>
                                         </td>
@@ -203,31 +203,32 @@ class StudySIM_ArtsSocialSciences extends Component {
           <AddStudySIMProgModal />
         </Modal>
 
-        {/* Edit Programme Talk Modal */}
-        {/* <Modal 
-          show={this.state.editProgTalkModal}
-          onHide={this.handleEditProgTalkModal}
-          aria-labelledby="editProgTalkModalTitle"
+        {/* Edit Programme Modal */}
+        <Modal 
+          show={this.state.editStudySIMProgModal}
+          onHide={this.handleEditStudySIMProgModal}
+          aria-labelledby="editStudySIMProgModalTitle"
           size="xl"
           centered
           backdrop="static"
           keyboard={false}
+          className="editStudySIMProgModal"
         >
-          <EditProgTalkModal />
-        </Modal> */}
+          <EditStudySIMProgModal handleSaveChanges={ ()=>{console.log("Edit Modal Saved")} } handleCancelEdit={this.handleEditStudySIMProgModal} />
+        </Modal>
 
         {/* Delete Programme Talk Modal */}
-        {/* <Modal 
-          show={this.state.deleteProgTalkModal}
-          onHide={this.handleDeleteProgTalkModal}
-          aria-labelledby="deleteProgTalkModalTitle"
+        <Modal 
+          show={this.state.deleteStudySIMProgModal}
+          onHide={this.handleDeleteStudySIMProgModal}
+          aria-labelledby="deleteStudySIMProgModalTitle"
           size="md"
           centered
           backdrop="static"
           keyboard={false}
         >
-          <DeleteProgTalkModal handleConfirmDelete={ (e) => {this.DeleteProgrammeTalk(e, this.state.id)} } handleCancelDelete={this.handleDeleteProgTalkModal} />
-        </Modal> */}
+          <DeleteStudySIMProgModal handleConfirmDelete={ ()=>{console.log("Deleted Programme")} } handleCancelDelete={this.handleDeleteStudySIMProgModal} />
+        </Modal>
 
 
       </div>
