@@ -65,13 +65,14 @@ class GuidedTour extends Component {
         const db = fire.firestore();
         var day1_counter = 1;
         var day2_counter = 1;
+
         const userRef = db
-        .collection("GuidedTours").orderBy("date", "asc")
+        .collection("GuidedTours").orderBy("endTime", "asc")
         .get()
         .then((snapshot) => {
             const guidedTour = [];
             snapshot.forEach((doc) => {
-                if (doc.data().date == "21-Nov-2020") {
+                if (doc.data().date === "21-Nov-2020") {
                     const data = {
                         date: doc.data().date,
                         endTime: doc.data().endTime,
@@ -126,7 +127,7 @@ class GuidedTour extends Component {
         .doc(guidedtourid)
         .delete()
         .then(function () {
-            alert("Deleted");
+            console.log("Deleted");
             window.location.reload();
         });
     }
@@ -170,7 +171,7 @@ class GuidedTour extends Component {
         //     texttohide[i].setAttribute("hidden", "");
         // }  
 
-        //Get data out by id for Edit Modal - Integrated.
+        //Get respective data out by their ids for Edit Modal - Integrated.
         const db = fire.firestore();
         this.editModal = this.state.editModal;
 
@@ -397,7 +398,7 @@ class GuidedTour extends Component {
                 {this.state.addModal == true ? 
                     <Modal show={this.state.addModal} onHide={this.handleAdd} size="md" centered keyboard={false}>
                         <Modal.Header closeButton className="justify-content-center">
-                            <Modal.Title id="GuidedTours-modalTitle" className="w-100">Add Tours</Modal.Title>
+                            <Modal.Title id="GuidedTours-modalTitle" className="w-100">Add Tour</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <Form novalidate onSubmit={this.addGuidedTour}>
@@ -473,7 +474,7 @@ class GuidedTour extends Component {
                 {this.state.editModal == true ? 
                     <Modal show={this.state.editModal} onHide={this.handleEdit} size="md" centered keyboard={false}>
                         <Modal.Header closeButton className="justify-content-center">
-                            <Modal.Title id="GuidedTours-modalTitle" className="w-100">Edit Tours</Modal.Title>
+                            <Modal.Title id="GuidedTours-modalTitle" className="w-100">Edit Tour</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             {this.state.editGuidedTours && this.state.editGuidedTours.map((editGuidedTour) => {
@@ -541,12 +542,45 @@ class GuidedTour extends Component {
                         <Modal.Footer>
                             <Container>
                                 <Row id="GuidedTours-editFooter">
-                                    <Col md={12} className="GuidedTours-editFooterCol">
+                                    <Col md={6} className="text-right GuidedTours-editFooterCol">
                                         <Button id="GuidedTours-saveBtn" type="submit">Save</Button>
+                                    </Col>
+                                    <Col md={6} className="text-left GuidedTours-editFooterCol">
+                                        <Button id="GuidedTours-cancelBtn" onClick={this.handleEdit.bind(this)}>Cancel</Button>
                                     </Col>
                                 </Row>
                             </Container>
                         </Modal.Footer>
+                    </Modal>: ''
+                }
+
+                {this.state.deleteModal == true ? 
+                    <Modal show={this.state.deleteModal} onHide={this.handleDelete} size="md" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="GuidedTours-modalTitle" className="w-100">Delete Tour</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Row className="justify-content-center">
+                                <Col md={12} className="text-center GuidedTours-deleteFooterCol">
+                                    <FontAwesomeIcon size="3x" />
+                                </Col>
+                            </Row>
+
+                            <Row className="justify-content-center">
+                                <Col md={12} className="text-center GuidedTours-deleteFooterCol">
+                                    <h5 id="GuidedTours-removeText">Do you want to delete this post?</h5>
+                                </Col>
+                            </Row>
+
+                            <Row className="justify-content-center">
+                                <Col md={6} className="text-right GuidedTours-deleteFooterCol">
+                                    <Button id="GuidedTours-deleteConfirmBtn" onClick={this.handleRemoveConfirm}>Confirm</Button>
+                                </Col>
+                                <Col md={6} className="text-left GuidedTours-deleteFooterCol">
+                                    <Button id="GuidedTours-deleteCancelBtn" onClick={this.handleRemoveCancel}>Cancel</Button>
+                                </Col>
+                            </Row>
+                        </Modal.Body>
                     </Modal>: ''
                 }
 
