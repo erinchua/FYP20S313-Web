@@ -156,46 +156,47 @@ class GuidedTour extends Component {
     }
 
     editGuidedTour(e, guidedtourid) {
-        document.getElementById(guidedtourid + "spantourname").removeAttribute("hidden");
-        document.getElementById(guidedtourid + "spanstarttime").removeAttribute("hidden");
-        document.getElementById(guidedtourid + "spanendtime").removeAttribute("hidden");
-        document.getElementById(guidedtourid + "spanvenue").removeAttribute("hidden");
-        document.getElementById(guidedtourid + "editbutton").setAttribute("hidden", "");
-        document.getElementById(guidedtourid + "updatebutton").removeAttribute("hidden");
-        document.getElementById(guidedtourid + "cancelbutton").removeAttribute("hidden");
-        var texttohide = document.getElementsByClassName(
-            guidedtourid + "text"
-        );
-        for (var i = 0; i < texttohide.length; i++) {
-            texttohide[i].setAttribute("hidden", "");
-        }  
+        // document.getElementById(guidedtourid + "spantourname").removeAttribute("hidden");
+        // document.getElementById(guidedtourid + "spanstarttime").removeAttribute("hidden");
+        // document.getElementById(guidedtourid + "spanendtime").removeAttribute("hidden");
+        // document.getElementById(guidedtourid + "spanvenue").removeAttribute("hidden");
+        // document.getElementById(guidedtourid + "editbutton").setAttribute("hidden", "");
+        // document.getElementById(guidedtourid + "updatebutton").removeAttribute("hidden");
+        // document.getElementById(guidedtourid + "cancelbutton").removeAttribute("hidden");
+        // var texttohide = document.getElementsByClassName(
+        //     guidedtourid + "text"
+        // );
+        // for (var i = 0; i < texttohide.length; i++) {
+        //     texttohide[i].setAttribute("hidden", "");
+        // }  
 
-        // const db = fire.firestore();
-        // this.editModal = this.state.editModal;
+        //Get data out by id for Edit Modal - Integrated.
+        const db = fire.firestore();
+        this.editModal = this.state.editModal;
 
-        // db.collection("GuidedTours").doc(guidedtourid).get()
-        // .then((doc) => {
-        //     const guidedTour = [];
-        //     const data = {
-        //         date: doc.data().date,
-        //         endTime: doc.data().endTime,
-        //         startTime: doc.data().startTime,
-        //         tourName: doc.data().tourName,
-        //         venue: doc.data().venue,
-        //     };
-        //     guidedTour.push(data);
-        //     this.setState({ editGuidedTours: guidedTour });
-        // });
+        db.collection("GuidedTours").doc(guidedtourid).get()
+        .then((doc) => {
+            const guidedTour = [];
+            const data = {
+                date: doc.data().date,
+                endTime: doc.data().endTime,
+                startTime: doc.data().startTime,
+                tourName: doc.data().tourName,
+                venue: doc.data().venue,
+            };
+            guidedTour.push(data);
+            this.setState({ editGuidedTours: guidedTour });
+        });
         
-        // if (this.editModal == false) {
-        //     this.setState({
-        //         editModal: true,
-        //     });
-        // } else {
-        //     this.setState({
-        //         editModal: false,
-        //     });
-        // }
+        if (this.editModal == false) {
+            this.setState({
+                editModal: true,
+            });
+        } else {
+            this.setState({
+                editModal: false,
+            });
+        }
             
     }
 
