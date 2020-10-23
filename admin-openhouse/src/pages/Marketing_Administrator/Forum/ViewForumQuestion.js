@@ -89,140 +89,246 @@ class ViewForumQuestion extends Component {
     
         const comments = db.collectionGroup("Comments").onSnapshot((snapshot) => {
           const comments = [];
+          const replies = [];
           snapshot.forEach((doc) => {
             if (doc.data().questionId == params) {
-              const data = {
-                commentid: doc.id,
-                comment: doc.data().entry,
-                postedby: doc.data().posterName,
-                datetime: doc.data().dateTime,
-                deleted: doc.data().deleted.toString(),
-              };
-              comments.push(data);
+              if (!doc.data().hasOwnProperty('commentId')){
+                    const data = {
+                        id: doc.data().id,
+                        comment: doc.data().entry,
+                        postedby: doc.data().posterName,
+                        datetime: doc.data().dateTime,
+                        deleted: doc.data().deleted.toString(),
+                    };
+                    comments.push(data);
+              } else {
+                    const data = {
+                        id: doc.data().id,
+                        reply: doc.data().entry,
+                        postedby: doc.data().posterName,
+                        datetime: doc.data().dateTime,
+                        deleted: doc.data().deleted.toString(),
+                        commentId: doc.data().commentId,
+                    };
+                     replies.push(data);
+              }
+              this.setState({ comments: comments });
+              this.setState({ replies: replies });
             }
-            this.setState({ comments: comments });
+            
           });
         });
+
       }
 
     render() {
         return (
             <div>
                 {this.state.question &&
-          this.state.question.map((question) => {
-            return (
-                <Container fluid className="Forum-container">
-                    <NavBar isMA={true} />
+                this.state.question.map((question) => {
+                    return (
+                        <Container fluid className="Forum-container">
+                            <NavBar isMA={true} />
 
-                        <Container fluid className="Forum-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
-                            <Row>
-                                <Col md={2} style={{paddingRight: 0}}>
-                                    <SideNavBar />
-                                </Col>
+                                <Container fluid className="Forum-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                    <Row>
+                                        <Col md={2} style={{paddingRight: 0}}>
+                                            <SideNavBar />
+                                        </Col>
 
-                                <Col md={10} style={{paddingLeft: 0}}>
-                                    <Container fluid id="Forum-topContentContainer">
-                                        <Row id="ViewForum-firstRow">
-                                            <Col md={12}>
-                                                <Row>
-                                                    <Button size="sm" id="ViewForum-backBtn" href="/Forum"><FontAwesomeIcon size="sm" icon={faHandPointLeft}/><span id="ViewForum-backText">Return to Forum</span></Button>
-                                                </Row>
-                                                <Row className="ViewForum-questionCon">
-                                                    <h6>{question.entry}</h6>
-                                                </Row>
-                                                <Row className="ViewForum-questionDetailsCon">
-                                                    <Col md={6} className="text-left">
-                                                        <p><b>Date/Time Posted: </b><span>{question.datetime}</span></p>
-                                                    </Col>
-                                                    <Col md={6} className="text-right">
-                                                        <p><b>Posted by: </b><span>{question.postedby}</span></p>
-                                                    </Col>
-                                                </Row>
-                                            </Col>
-                                        </Row>
-
-                                        <Row id="ViewForum-secondRow">
-                                            <p id="ViewForum-secondRowText">Comments</p>
-                                        </Row>
-                                        {this.state.comments &&
-                          this.state.comments.map((comments, index) => {
-                            if (comments.deleted.toString() === "false") {
-                              return (
-                                <Row id="ViewForum-thirdRow">
-                                  <Col md={5}>
-                                    <Row className="ViewForum-replyRow justify-content-center">
-                                      <Col
-                                        md={11}
-                                        className="ViewForum-replyCol"
-                                      >
-                                        <Row className="ViewForum-replyInnerCon">
-                                          <p>{comments.comment}</p>
-                                        </Row>
-                                        <Row className="ViewForum-replyInnerDetailsCon">
-                                          <Col md={6} className="text-left">
-                                            <p>
-                                              <b>Date/Time Posted: </b>
-                                              <span>{comments.datetime}</span>
-                                            </p>
-                                          </Col>
-                                          <Col md={6} className="text-right">
-                                            <p>
-                                              <b>Posted by: </b>
-                                              <span>{comments.postedby}</span>
-                                            </p>
-                                          </Col>
-                                        </Row>
-                                      </Col>
-                                    </Row>
-                                  </Col>
-                                </Row>
-                              );
-                            } else {
-                              return (                                                                           
-                                        <Row id="ViewForum-thirdRow">
-                                            <Col md={12}>
-                                                <Row className="ViewForum-commentCon">
-                                                    <p>[Deleted]</p>
-                                                </Row>
-                                                <Row className="ViewForum-commentDetailsCon">
-                                                    <Col md={6} className="text-left">
-                                                        <p><b>Date/Time Posted: </b><span>{comments.datetime}</span></p>
-                                                    </Col>
-                                                    <Col md={6} className="text-right">
-                                                        <p><b>Posted by: </b><span>{comments.postedby}</span></p>
-                                                    </Col>
-                                                </Row>
-                                                
-                                                {/*<Row className="ViewForum-replyRow justify-content-center">
-                                                    <Col md={11} className="ViewForum-replyCol">
-                                                        <Row className="ViewForum-replyInnerCon">
-                                                            <p>Me too!</p>
+                                        <Col md={10} style={{paddingLeft: 0}}>
+                                            <Container fluid id="Forum-topContentContainer">
+                                                <Row id="ViewForum-firstRow">
+                                                    <Col md={12}>
+                                                        <Row>
+                                                            <Button size="sm" id="ViewForum-backBtn" href="/Forum"><FontAwesomeIcon size="sm" icon={faHandPointLeft}/><span id="ViewForum-backText">Return to Forum</span></Button>
                                                         </Row>
-                                                        <Row className="ViewForum-replyInnerDetailsCon">
+                                                        <Row className="ViewForum-questionCon">
+                                                            <h6>{question.entry}</h6>
+                                                        </Row>
+                                                        <Row className="ViewForum-questionDetailsCon">
                                                             <Col md={6} className="text-left">
-                                                                <p><b>Date/Time Posted: </b><span>21st November 2020, 8.35am</span></p>
+                                                                <p><b>Date/Time Posted: </b><span>{question.datetime}</span></p>
                                                             </Col>
                                                             <Col md={6} className="text-right">
-                                                                <p><b>Posted by: </b><span>Winston Obama</span></p>
+                                                                <p><b>Posted by: </b><span>{question.postedby}</span></p>
                                                             </Col>
                                                         </Row>
                                                     </Col>
-                                                 </Row>*/}
-                                            </Col>
-                                        </Row>
-                                        );
-                                    }
-                                  })}
-                                    </Container>
-                                </Col>
+                                                </Row>
 
-                            </Row>    
-                        </Container>                    
+                                                <Row id="ViewForum-secondRow">
+                                                    <p id="ViewForum-secondRowText">Comments</p>
+                                                </Row>
+                                                {this.state.comments &&
+                                                this.state.comments.map((comments, index) => {
+                                                    if (comments.deleted.toString() === "false") {
+                                                        return (
+                                                            <div key={comments.id}>
+                                                                <Row id="ViewForum-thirdRow">
+                                                                    <Col md={12}>
 
-                    <Footer />
-                </Container>
-                );
-            })}
+                                                                        <Row className="ViewForum-commentCon">
+                                                                            <p>{comments.comment}</p>
+                                                                        </Row>
+                                                                        <Row className="ViewForum-commentDetailsCon">
+                                                                            <Col md={6} className="text-left">
+                                                                                <p><b>Date/Time Posted: </b><span>{comments.datetime}</span></p>
+                                                                            </Col>
+                                                                            <Col md={6} className="text-right">
+                                                                                <p><b>Posted by: </b><span>{comments.postedby}</span></p>
+                                                                            </Col>
+                                                                        </Row>
+
+                                                                        {this.state.replies && this.state.replies.map((replies) => {
+                                                                            if (replies.deleted.toString() === "false") {
+                                                                                if(replies.commentId === comments.id){
+                                                                                    return (
+                                                                                        <Row className="ViewForum-replyRow justify-content-center">
+                                                                                            <Col md={11} className="ViewForum-replyCol">
+                                                                                                <Row className="ViewForum-replyInnerCon">
+                                                                                                    <p>{replies.reply}</p>
+                                                                                                </Row>
+                                                                                                <Row className="ViewForum-replyInnerDetailsCon">
+                                                                                                    <Col md={6} className="text-left">
+                                                                                                        <p>
+                                                                                                            <b>Date/Time Posted: </b>
+                                                                                                            <span>{replies.datetime}</span>
+                                                                                                        </p>
+                                                                                                    </Col>
+                                                                                                    <Col md={6} className="text-right">
+                                                                                                        <p>
+                                                                                                            <b>Posted by: </b>
+                                                                                                            <span>{replies.postedby}</span>
+                                                                                                        </p>
+                                                                                                    </Col>
+                                                                                                </Row>
+                                                                                            </Col>
+                                                                                        </Row>
+                                                                                    )
+                                                                                } else {
+                                                                                    return(null)
+                                                                                }
+                                                                            } else {
+                                                                                return (
+                                                                                    <Row className="ViewForum-replyRow justify-content-center">
+                                                                                        <Col md={11} className="ViewForum-replyCol">
+                                                                                            <Row className="ViewForum-replyInnerCon">
+                                                                                                <p>[Deleted]</p>
+                                                                                            </Row>
+                                                                                            <Row className="ViewForum-replyInnerDetailsCon">
+                                                                                                <Col md={6} className="text-left">
+                                                                                                    <p>
+                                                                                                        <b>Date/Time Posted: </b>
+                                                                                                        <span>{replies.datetime}</span>
+                                                                                                    </p>
+                                                                                                </Col>
+                                                                                                <Col md={6} className="text-right">
+                                                                                                    <p>
+                                                                                                        <b>Posted by: </b>
+                                                                                                        <span>{replies.postedby}</span>
+                                                                                                    </p>
+                                                                                                </Col>
+                                                                                            </Row>
+                                                                                        </Col>
+                                                                                    </Row>
+                                                                                )
+                                                                            }
+                                                                        })}
+                                                                    </Col>
+                                                                </Row>
+                                                                <div className="border"></div>
+                                                            </div>
+                                                        );
+                                                    } else {
+                                                        return (      
+                                                        <div key={comments.id}>                                                                    
+                                                            <Row id="ViewForum-thirdRow">
+                                                                <Col md={12}>
+                                                                    <Row className="ViewForum-commentCon">
+                                                                        <p>[Deleted]</p>
+                                                                    </Row>
+                                                                    <Row className="ViewForum-commentDetailsCon">
+                                                                        <Col md={6} className="text-left">
+                                                                            <p><b>Date/Time Posted: </b><span>{comments.datetime}</span></p>
+                                                                        </Col>
+                                                                        <Col md={6} className="text-right">
+                                                                            <p><b>Posted by: </b><span>{comments.postedby}</span></p>
+                                                                        </Col>
+                                                                    </Row>
+                                                                    
+                                                                    {this.state.replies && this.state.replies.map((replies) => {
+                                                                        if (replies.deleted.toString() === "false") {
+                                                                            if(replies.commentId === comments.id){
+                                                                                return (
+                                                                                    <Row className="ViewForum-replyRow justify-content-center">
+                                                                                        <Col md={11} className="ViewForum-replyCol">
+                                                                                            <Row className="ViewForum-replyInnerCon">
+                                                                                                <p>{replies.reply}</p>
+                                                                                            </Row>
+                                                                                            <Row className="ViewForum-replyInnerDetailsCon">
+                                                                                                <Col md={6} className="text-left">
+                                                                                                    <p>
+                                                                                                        <b>Date/Time Posted: </b>
+                                                                                                        <span>{replies.datetime}</span>
+                                                                                                    </p>
+                                                                                                </Col>
+                                                                                                <Col md={6} className="text-right">
+                                                                                                    <p>
+                                                                                                        <b>Posted by: </b>
+                                                                                                        <span>{replies.postedby}</span>
+                                                                                                    </p>
+                                                                                                </Col>
+                                                                                            </Row>
+                                                                                        </Col>
+                                                                                    </Row>
+                                                                                )
+                                                                            } else {
+                                                                                return(null)
+                                                                            }
+                                                                        } else {
+                                                                            return (
+                                                                                <Row className="ViewForum-replyRow justify-content-center">
+                                                                                    <Col md={11} className="ViewForum-replyCol">
+                                                                                        <Row className="ViewForum-replyInnerCon">
+                                                                                            <p>[Deleted]</p>
+                                                                                        </Row>
+                                                                                        <Row className="ViewForum-replyInnerDetailsCon">
+                                                                                            <Col md={6} className="text-left">
+                                                                                                <p>
+                                                                                                    <b>Date/Time Posted: </b>
+                                                                                                    <span>{replies.datetime}</span>
+                                                                                                </p>
+                                                                                            </Col>
+                                                                                            <Col md={6} className="text-right">
+                                                                                                <p>
+                                                                                                    <b>Posted by: </b>
+                                                                                                    <span>{replies.postedby}</span>
+                                                                                                </p>
+                                                                                            </Col>
+                                                                                        </Row>
+                                                                                    </Col>
+                                                                                </Row>
+                                                                            )
+                                                                        }
+                                                                    })}
+                                                                </Col>
+                                                            </Row>
+                                                            <div className="border"></div>
+                                                        </div> 
+                                                        );
+                                                    }
+                                                })}
+                                            </Container>
+                                        </Col>
+
+                                    </Row>    
+                                </Container>                    
+
+                            <Footer />
+                        </Container>
+                    );
+                })}
             </div>
         )
     }

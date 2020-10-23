@@ -268,16 +268,16 @@ class ForumFlagged extends Component {
                                                     </thead>
                                                     <tbody id="Forum-tableBody">
                                                     {this.state.flagged &&
-                            this.state.flagged.map((flagged, index) => {
-                              return (
-                                <tr>
-                                  <td>{index + 1}</td>
-                                  <td>{flagged.questionscomment}</td>
-                                  <td>{flagged.reason}</td>
-                                  <td>{flagged.type}</td>
-                                  <td>{flagged.postedby}</td>
-                                  <td>{flagged.datetime}</td>
-                                  <td>{flagged.reportedby}</td>
+                                                        this.state.flagged.map((flagged, index) => {
+                                                        return (
+                                                            <tr>
+                                                            <td>{index + 1}</td>
+                                                            <td>{flagged.questionscomment}</td>
+                                                            <td>{flagged.reason}</td>
+                                                            <td>{flagged.type}</td>
+                                                            <td>{flagged.postedby}</td>
+                                                            <td>{flagged.datetime}</td>
+                                                            <td>{flagged.reportedby}</td>
                                                             <td><Button size="lg" id="ForumFlagged-removeBtn" onClick={this.handleRemoveModal.bind(this)}><FontAwesomeIcon size="lg" icon={faTimesCircle}/></Button></td>
                                                             <td><Button size="lg" id="ForumFlagged-keepBtn" onClick={this.handleKeepModal.bind(this)}><FontAwesomeIcon size="lg" icon={faCheckCircle}/></Button></td>
                                                         </tr>
