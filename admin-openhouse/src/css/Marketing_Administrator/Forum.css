@@ -251,3 +251,7 @@
     color: #434343;
     font-size: 80%;
 }
+
+.border {
+    border: 1px solid white;
+}

@@ -369,7 +369,7 @@ class GuidedTour extends Component {
                                                                                             <td>{guidedTour.startTime}</td>
                                                                                             <td>{guidedTour.endTime}</td>
                                                                                             <td>{guidedTour.venue}</td>
-                                                                                            <td><Button size="sm" id="GuidedTours-editBtn" onClick={this.handleEdit.bind(this)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><Button size="sm" id="GuidedTours-editBtn" onClick={(e) => this.editGuidedTour(e, guidedTour.id)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                             <td><Button size="sm" id="GuidedTours-deleteBtn" onClick={this.handleDelete.bind(this)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
                                                                                         </tr> : ''
                                                                                         }
@@ -574,10 +574,10 @@ class GuidedTour extends Component {
 
                             <Row className="justify-content-center">
                                 <Col md={6} className="text-right GuidedTours-deleteFooterCol">
-                                    <Button id="GuidedTours-deleteConfirmBtn" onClick={this.handleRemoveConfirm}>Confirm</Button>
+                                    <Button id="GuidedTours-deleteConfirmBtn">Confirm</Button>
                                 </Col>
                                 <Col md={6} className="text-left GuidedTours-deleteFooterCol">
-                                    <Button id="GuidedTours-deleteCancelBtn" onClick={this.handleRemoveCancel}>Cancel</Button>
+                                    <Button id="GuidedTours-deleteCancelBtn" onClick={this.handleDelete.bind(this)}>Cancel</Button>
                                 </Col>
                             </Row>
                         </Modal.Body>
