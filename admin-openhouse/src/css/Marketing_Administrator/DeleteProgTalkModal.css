@@ -1,0 +1,33 @@
+#deleteProgTalkModalTitle {
+    font-size: 95%;
+    color: #EA526F;
+}
+
+.deleteProgTalkModalCol {
+    padding-bottom: 4%;
+}
+
+#deleteProgTalkModalIcon {
+    width: 20%;
+}
+
+#deleteProgTalkModalText {
+    font-size: 90%;
+    color: #424242;
+}
+
+#confirmDeleteProgTalkModalBtn {
+    background: none;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #EA526F;
+    width: 40%;
+}
+
+#cancelDeleteProgTalkModalBtn {
+    background: #EA526F;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #ffffff;
+    width: 40%;
+}

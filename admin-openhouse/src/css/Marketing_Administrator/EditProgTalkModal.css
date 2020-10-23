@@ -1,0 +1,64 @@
+/*******************************************************/
+/* Edit Programme Talk Modal */
+#editProgTalkModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+#editProgTalkTable {
+    width: 100%;
+}
+
+.editProgTalkHeader {
+    color: #424242;
+}
+
+.editProgTalkData {
+    padding: 1% !important;
+    width: 20%;
+}
+
+.editProgTalkData_Form {
+    color: #434343;
+    resize: none;
+    font-size: 85% !important;
+}
+
+.editProgTalkData_Form:focus {
+    box-shadow: none !important;
+}
+
+.editProgTalkFormRow {
+    padding-bottom: 4%;
+}
+
+#editProgTalkFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+    width: 20%;
+}
+
+#editProgTalkFormBtn:focus {
+    box-shadow: none;
+}
+
+.editProgTalkFormLabel {
+    color: #424242;
+    font-weight: bold;
+}
+
+.editProgTalkFormSelect {
+    color: #434343;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    width: 90% !important;
+}
+
+.editProgTalkFormSelect:focus {
+    box-shadow: none !important;
+}
+
+.editProgTalkFormSelectOption {
+    color: #434343;
+}

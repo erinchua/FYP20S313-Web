@@ -12,6 +12,8 @@ import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
 import AddProgTalkModal from "../../../components/Marketing_Administrator/AddProgTalkModal";
+import EditProgTalkModal from "../../../components/Marketing_Administrator/EditProgTalkModal";
+import DeleteProgTalkModal from "../../../components/Marketing_Administrator/DeleteProgTalkModal";
 
 
 class ProgrammeTalkSchedule extends Component {
@@ -30,6 +32,8 @@ class ProgrammeTalkSchedule extends Component {
       venue: "",
       Link: "",
       addProgTalkModal: false,
+      editProgTalkModal: false,
+      deleteProgTalkModal: false,
     };
   }
 
@@ -75,20 +79,21 @@ class ProgrammeTalkSchedule extends Component {
     const userRef = db
     .collection("ProgrammeTalks")
     .where('date', '>=', "2021")
-      .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          progtalk.push(doc.data().date);
-        });
+    .get()
+    .then((snapshot) => {
+      snapshot.forEach((doc) => {
+        progtalk.push(doc.data().date);
+      });
 
-        console.log(progtalk);
-        
-        function onlyUnique(value, index, self) {
-          return self.indexOf(value) === index;
-        }
+      console.log(progtalk);
       
-        var unique = progtalk.filter(onlyUnique);
-        console.log(unique);
+      function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+      }
+    
+      var unique = progtalk.filter(onlyUnique);
+      console.log(unique);
+
       //day1
       const day1date = [];
       day1date.push(unique[0]);
@@ -112,13 +117,10 @@ class ProgrammeTalkSchedule extends Component {
             hasRecording: doc.data().hasRecording.toString(),
             Link : doc.data().Link,
             isLive: doc.data().isLive.toString(),
-          
           };
             progtalk.push(data);
         });
-        
         this.setState({ day1: progtalk });
-                        
       });
 
       //day 2
@@ -290,6 +292,34 @@ class ProgrammeTalkSchedule extends Component {
     }
   };
 
+  /* Edit Programme Talk Modal */
+  handleEditProgTalkModal = () => {
+    if (this.state.editProgTalkModal == false) {
+      this.setState({
+        editProgTalkModal: true,
+      });
+    }
+    else {
+      this.setState({
+        editProgTalkModal: false
+      });
+    }
+  };
+
+  /* Delete Programme Talk Modal */
+  handleDeleteProgTalkModal = () => {
+    if (this.state.deleteProgTalkModal == false) {
+      this.setState({
+        deleteProgTalkModal: true,
+      });
+    }
+    else {
+      this.setState({
+        deleteProgTalkModal: false
+      });
+    }
+  };
+
 
   render() {
     return (
@@ -374,16 +404,15 @@ class ProgrammeTalkSchedule extends Component {
                                         <td className="progTalkScheduleData_Time text-left">testtesttest</td>
                                         <td className="progTalkScheduleData_Venue text-left">testtesttesttest</td>
                                         <td className="progTalkScheduleData_Edit">
-                                          <Button id="editProgTalkScheduleBtn">
+                                          <Button id="editProgTalkScheduleBtn" onClick={this.handleEditProgTalkModal}>
                                             <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
                                           </Button>
                                         </td>
                                         <td className="progTalkScheduleData_Delete">
-                                          <Button id="deleteProgTalkScheduleBtn">
+                                          <Button id="deleteProgTalkScheduleBtn" onClick={this.handleDeleteProgTalkModal}>
                                             <FontAwesomeIcon size="lg" id="deleteProgTalkScheduleBtnIcon" icon={faTrashAlt} />
                                           </Button>
                                         </td>
-
                                       </tr>
                                     </tbody>
 
@@ -392,9 +421,45 @@ class ProgrammeTalkSchedule extends Component {
                               </Tab.Pane>
 
                               {/* Tab Pane 2 */}
-                              <Tab.Pane eventKey="day2" id="MAProgTalkScheduleTabPane_Day2">
-                                <h5>Profile Details</h5>
-                                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+                              <Tab.Pane eventKey="day2">
+                                <Col md="12" className="MAProgTalkScheduleTabpaneCol">
+                                  <Table responsive="sm" bordered id="MAProgTalkScheduleTable_Day2">
+                                    <thead>
+                                      <tr>
+                                        <th className="progTalkScheduleHeader_SNo">S/N</th>
+                                        <th className="progTalkScheduleHeader_ProgTalk">Programme Talk</th>
+                                        <th className="progTalkScheduleHeader_ProgTalkDetails">Programme Talk Details</th>
+                                        <th className="progTalkScheduleHeader_AwardingUni">Awarding University</th>
+                                        <th className="progTalkScheduleHeader_Time">Time</th>
+                                        <th className="progTalkScheduleHeader_Venue">Venue</th>
+                                        <th className="progTalkScheduleHeader_Edit">Edit</th>
+                                        <th className="progTalkScheduleHeader_Delete">Delete</th>
+                                      </tr>
+                                    </thead>
+
+                                    <tbody>
+                                      <tr>
+                                        <td className="progTalkScheduleData_SNo">1</td>
+                                        <td className="progTalkScheduleData_ProgTalk text-left">testtesttesttesttesttest</td>
+                                        <td className="progTalkScheduleData_ProgTalkDetails text-left">testtesttesttesttesttesttesttesttesttesttesttesttesttest</td>
+                                        <td className="progTalkScheduleData_AwardingUni">testtesttesttesttesttesttesttesttesttesttesttesttesttest</td>
+                                        <td className="progTalkScheduleData_Time text-left">testtesttest</td>
+                                        <td className="progTalkScheduleData_Venue text-left">testtesttesttest</td>
+                                        <td className="progTalkScheduleData_Edit">
+                                          <Button id="editProgTalkScheduleBtn" onClick={this.handleEditProgTalkModal}>
+                                            <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
+                                          </Button>
+                                        </td>
+                                        <td className="progTalkScheduleData_Delete">
+                                          <Button id="deleteProgTalkScheduleBtn" onClick={this.handleDeleteProgTalkModal}>
+                                            <FontAwesomeIcon size="lg" id="deleteProgTalkScheduleBtnIcon" icon={faTrashAlt} />
+                                          </Button>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+
+                                  </Table>
+                                </Col>
                               </Tab.Pane>
 
                             </Tab.Content>
@@ -427,6 +492,32 @@ class ProgrammeTalkSchedule extends Component {
           keyboard={false}
         >
           <AddProgTalkModal />
+        </Modal>
+
+        {/* Edit Programme Talk Modal */}
+        <Modal 
+          show={this.state.editProgTalkModal}
+          onHide={this.handleEditProgTalkModal}
+          aria-labelledby="editProgTalkModalTitle"
+          size="xl"
+          centered
+          backdrop="static"
+          keyboard={false}
+        >
+          <EditProgTalkModal />
+        </Modal>
+
+        {/* Delete Programme Talk Modal */}
+        <Modal 
+          show={this.state.deleteProgTalkModal}
+          onHide={this.handleDeleteProgTalkModal}
+          aria-labelledby="deleteProgTalkModalTitle"
+          size="md"
+          centered
+          backdrop="static"
+          keyboard={false}
+        >
+          <DeleteProgTalkModal handleConfirmDelete={this.handleDeleteProgTalkModal} handleCancelDelete={this.handleDeleteProgTalkModal} />
         </Modal>
 
 
