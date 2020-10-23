@@ -8,25 +8,40 @@ import NavBar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import SideNavBar from '../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faHourglassEnd, faHourglassStart, faPlus, faSchool, faTrash, faMapPin, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faHourglassEnd, faHourglassStart, faPlus, faSchool, faTrash, faMapPin, faCalendarAlt, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+
+const initialStates = {
+    dateError: "",
+    endTimeError: "",
+    startTimeError: "",
+    tourNameError: "",
+    venueError: "",
+}
 
 class GuidedTour extends Component {
+
+    state = initialStates;
+
     constructor() {
         super();
         this.state = {
+            id: "",
             date: "",
             endTime: "",
             startTime: "",
             tourName: "",
             venue: "",
             counter: "",
-            id: "",
+            //Below states are for the functions
             guidedTours: "",
             editGuidedTours: "",
+            deleteGuidedTours: "",
+            //Below states are for the modals
             addModal: false,
             editModal: false,
             deleteModal: false,
         };
+        this.resetForm = this.resetForm.bind(this);
     }
 
     authListener() {
@@ -103,23 +118,30 @@ class GuidedTour extends Component {
         });
     }
 
+    //Add tour when click on 'Submit' button in Add Modal - Integrated
     addGuidedTour = (e) => {
         e.preventDefault();
         const db = fire.firestore();
-        const userRef = db
-        .collection("GuidedTours")
-        .add({
-            date: this.state.date,
-            endTime: this.state.endTime,
-            startTime: this.state.startTime,
-            tourName: this.state.tourName,
-            venue: this.state.venue,
-        })
-        .then(function () {
-            window.location.reload();
-        });
+
+        const isValid = this.validate();
+        if (isValid) {
+            this.setState(initialStates);
+            const userRef = db
+            .collection("GuidedTours")
+            .add({
+                date: this.state.date,
+                endTime: this.state.endTime,
+                startTime: this.state.startTime,
+                tourName: this.state.tourName,
+                venue: this.state.venue,
+            })
+            .then(function () {
+                window.location.reload();
+            });
+        }
     };
 
+    //Delete tour when click on 'Confirm' button in Delete Modal - Integrated
     DeleteGuidedTour(e, guidedtourid) {
         const db = fire.firestore();
         const userRef = db
@@ -127,35 +149,43 @@ class GuidedTour extends Component {
         .doc(guidedtourid)
         .delete()
         .then(function () {
-            console.log("Deleted");
+            console.log("Deleted the tour");
             window.location.reload();
         });
     }
 
+    //Update tour when click on 'Save Changes' button in Edit Modal - Integrated
     update(e, guidedtourid) {
-        const tourName = document.getElementById(guidedtourid + "tourname").value
-        const startTime = document.getElementById(guidedtourid + "starttime").value
-        const endTime = document.getElementById(guidedtourid + "endtime").value
-        const venue = document.getElementById(guidedtourid + "venue").value
+        // const tourName = document.getElementById(guidedtourid + "tourname").value
+        // const startTime = document.getElementById(guidedtourid + "starttime").value
+        // const endTime = document.getElementById(guidedtourid + "endtime").value
+        // const venue = document.getElementById(guidedtourid + "venue").value
+        // const date = document.getElementById(guidedtourid + "date").value
 
+        //Update respective data by their ids for Edit Modal - Integrated.
         const db = fire.firestore();
-        if (tourName != null && startTime != null && endTime != null && venue != null) {
-        const userRef = db
+
+        const isValid = this.validate();
+        if (isValid) {
+            this.setState(initialStates);
+            const userRef = db
             .collection("GuidedTours")
             .doc(guidedtourid)
-            .update({
-                endTime: endTime,
-                startTime: startTime,
-                tourName: tourName,
-                venue: venue,
+            .set({
+                tourName: this.state.tourName,
+                startTime: this.state.startTime,
+                endTime: this.state.endTime,
+                date: this.state.date,
+                venue: this.state.venue
             })
             .then(function () {
-                alert("Updated");
+                console.log("Updated the tour");
                 window.location.reload();
             });
         }
     }
 
+    //Get respective data out by their ids for Edit Modal - Integrated.
     editGuidedTour(e, guidedtourid) {
         // document.getElementById(guidedtourid + "spantourname").removeAttribute("hidden");
         // document.getElementById(guidedtourid + "spanstarttime").removeAttribute("hidden");
@@ -171,7 +201,6 @@ class GuidedTour extends Component {
         //     texttohide[i].setAttribute("hidden", "");
         // }  
 
-        //Get respective data out by their ids for Edit Modal - Integrated.
         const db = fire.firestore();
         this.editModal = this.state.editModal;
 
@@ -179,6 +208,7 @@ class GuidedTour extends Component {
         .then((doc) => {
             const guidedTour = [];
             const data = {
+                id: doc.id,
                 date: doc.data().date,
                 endTime: doc.data().endTime,
                 startTime: doc.data().startTime,
@@ -186,7 +216,14 @@ class GuidedTour extends Component {
                 venue: doc.data().venue,
             };
             guidedTour.push(data);
-            this.setState({ editGuidedTours: guidedTour });
+            this.setState({ 
+                editGuidedTours: guidedTour,
+                date: doc.data().date,
+                endTime: doc.data().endTime,
+                startTime: doc.data().startTime,
+                tourName: doc.data().tourName,
+                venue: doc.data().venue,
+            });
         });
         
         if (this.editModal == false) {
@@ -201,6 +238,7 @@ class GuidedTour extends Component {
             
     }
 
+    /*//Don't need cancel function as we can just hide the modal if cancel
     CancelEdit(e, guidedtourid) {
         document.getElementById(guidedtourid + "spantourname").setAttribute("hidden", "");
         document.getElementById(guidedtourid + "spanstarttime").setAttribute("hidden", "");
@@ -215,7 +253,7 @@ class GuidedTour extends Component {
         for (var i = 0; i < texttohide.length; i++) {
             texttohide[i].removeAttribute("hidden", "");
         }
-    }
+    }*/
 
     //Add Modal
     handleAdd = () => {
@@ -228,6 +266,7 @@ class GuidedTour extends Component {
             this.setState({
                 addModal: false
             });
+            this.resetForm();
         }
     }
 
@@ -242,11 +281,12 @@ class GuidedTour extends Component {
             this.setState({
                 editModal: false
             });
+            this.resetForm();
         }
     }
 
     //Delete Modal
-    handleDelete = () => {
+    handleDelete(e, guidedTourId) {
         this.deleteModal = this.state.deleteModal;
         if (this.deleteModal == false) {
             this.setState({
@@ -254,9 +294,66 @@ class GuidedTour extends Component {
             });
         } else {
             this.setState({
-                deleteModal: false
+                deleteModal: false,
             });
         }
+
+        const db = fire.firestore();
+        db.collection("GuidedTours").doc(guidedTourId).get()
+        .then((doc) => {
+            const guidedTour = [];
+            const data = {
+                id: doc.id,
+                date: doc.data().date,
+                endTime: doc.data().endTime,
+                startTime: doc.data().startTime,
+                tourName: doc.data().tourName,
+                venue: doc.data().venue,
+            };
+            guidedTour.push(data);
+            this.setState({ deleteGuidedTours: guidedTour });
+        });
+    }
+
+    //Validations for the Forms in Modals
+    validate = () => {
+        let dateError = "";
+        let endTimeError = "";
+        let startTimeError = "";
+        let tourNameError = "";
+        let venueError = "";
+
+        if (!this.state.date) {
+            dateError = "Please enter a valid date. E.g. 21-Nov-2020";
+        }
+
+        if (!this.state.endTime) {
+            endTimeError = "Please enter a valid end time. E.g. 2:30PM";
+        }
+
+        if (!this.state.startTime) {
+            startTimeError = "Please enter a valid start time. E.g. 1:30PM";
+        }
+
+        if (!this.state.tourName) {
+            tourNameError = "Please enter a valid tour name. E.g. Campus Tour BLK A";
+        }
+
+        if (!this.state.venue) {
+            venueError = "Please enter a valid value. E.g. SIM HQ BLK A Atrium";
+        }
+
+        if (dateError || endTimeError || startTimeError || tourNameError || venueError) {
+            this.setState({dateError, endTimeError, startTimeError, tourNameError, venueError});
+            return false;
+        } 
+
+        return true;
+    }
+
+    resetForm = () => {
+        this.setState(initialStates);
+        this.setState({date: '', tourName: '', id: '', venue: '', startTime: '', endTime: ''})
     }
 
     render() {
@@ -332,7 +429,7 @@ class GuidedTour extends Component {
                                                                                             <td>{guidedTour.endTime}</td>
                                                                                             <td>{guidedTour.venue}</td>
                                                                                             <td><Button size="sm" id="GuidedTours-editBtn" onClick={(e) => this.editGuidedTour(e, guidedTour.id)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                            <td><Button size="sm" id="GuidedTours-deleteBtn" onClick={this.handleDelete.bind(this)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                                            <td><Button size="sm" id="GuidedTours-deleteBtn" onClick={(e) => this.handleDelete(e, guidedTour.id)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
                                                                                         </tr> : ''
                                                                                         }
                                                                                         </>
@@ -401,15 +498,15 @@ class GuidedTour extends Component {
                             <Modal.Title id="GuidedTours-modalTitle" className="w-100">Add Tour</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <Form novalidate onSubmit={this.addGuidedTour}>
+                            <Form noValidate onSubmit={this.addGuidedTour}>
                                 <Form.Group>
                                     <Form.Group as={Row} className="GuidedTours-formGroup">
                                         <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
                                             <FontAwesomeIcon size="lg" icon={faMapPin}/>
                                         </Form.Group> 
                                         <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="tourName" placeholder="Tour: Campus Tour BLK A" required value={this.state.tourName} onChange={this.updateInput} noValidate></Form.Control>
-                                            <div className="errorMessage"></div>
+                                            <Form.Control type="text" name="tourName" placeholder="Tour: e.g. Campus Tour BLK A" required value={this.state.tourName} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.tourNameError}</div>
                                         </Form.Group>
                                     </Form.Group>                     
                                 </Form.Group>
@@ -419,8 +516,8 @@ class GuidedTour extends Component {
                                             <FontAwesomeIcon size="lg" icon={faCalendarAlt}/>
                                         </Form.Group> 
                                         <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="date" placeholder="Date: 21-Nov-2020" required value={this.state.date} onChange={this.updateInput} noValidate></Form.Control>
-                                            <div className="errorMessage"></div>
+                                            <Form.Control type="text" name="date" placeholder="Date: e.g. 21-Nov-2020" required value={this.state.date} onChange={this.updateInput} noValidate></Form.Control>
+                                            <div className="errorMessage">{this.state.dateError}</div>
                                         </Form.Group>
                                     </Form.Group>                     
                                 </Form.Group>
@@ -430,8 +527,8 @@ class GuidedTour extends Component {
                                             <FontAwesomeIcon size="lg" icon={faHourglassStart}/>
                                         </Form.Group> 
                                         <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="startTime" placeholder="Start Time: 1.30PM" required value={this.state.startTime} onChange={this.updateInput} noValidate></Form.Control>
-                                            <div className="errorMessage"></div>
+                                            <Form.Control type="text" name="startTime" placeholder="Start Time: e.g. 1:30PM" required value={this.state.startTime} onChange={this.updateInput} noValidate></Form.Control>
+                                            <div className="errorMessage">{this.state.startTimeError}</div>
                                         </Form.Group>
                                     </Form.Group>                     
                                 </Form.Group>
@@ -441,8 +538,8 @@ class GuidedTour extends Component {
                                             <FontAwesomeIcon size="lg" icon={faHourglassEnd}/>
                                         </Form.Group> 
                                         <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="endTime" placeholder="End Time: 2.30PM" required value={this.state.endTime} onChange={this.updateInput} noValidate></Form.Control>
-                                            <div className="errorMessage"></div>
+                                            <Form.Control type="text" name="endTime" placeholder="End Time: e.g. 2:30PM" required value={this.state.endTime} onChange={this.updateInput} noValidate></Form.Control>
+                                            <div className="errorMessage">{this.state.endTimeError}</div>
                                         </Form.Group>
                                     </Form.Group>                     
                                 </Form.Group>
@@ -452,8 +549,8 @@ class GuidedTour extends Component {
                                             <FontAwesomeIcon size="lg" icon={faSchool}/>
                                         </Form.Group> 
                                         <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="venue" placeholder="Venue: SIM HQ BLK A Atrium" required value={this.state.venue} onChange={this.updateInput} noValidate></Form.Control>
-                                            <div className="errorMessage"></div>
+                                            <Form.Control type="text" name="venue" placeholder="Venue: e.g. SIM HQ BLK A Atrium" required value={this.state.venue} onChange={this.updateInput} noValidate></Form.Control>
+                                            <div className="errorMessage">{this.state.venueError}</div>
                                         </Form.Group>
                                     </Form.Group>                     
                                 </Form.Group>
@@ -472,122 +569,127 @@ class GuidedTour extends Component {
                 }
                 
                 {this.state.editModal == true ? 
-                    <Modal show={this.state.editModal} onHide={this.handleEdit} size="md" centered keyboard={false}>
+                    <Modal show={this.state.editModal} onHide={this.handleEdit} size="lg" centered keyboard={false}>
                         <Modal.Header closeButton className="justify-content-center">
                             <Modal.Title id="GuidedTours-modalTitle" className="w-100">Edit Tour</Modal.Title>
                         </Modal.Header>
-                        <Modal.Body>
-                            {this.state.editGuidedTours && this.state.editGuidedTours.map((editGuidedTour) => {
-                                return (
-                                    <Form novalidate>
-                                        <Form.Group>
-                                            <Form.Group as={Row} className="GuidedTours-formGroup">
-                                                <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
-                                                    <FontAwesomeIcon size="lg" icon={faMapPin}/>
-                                                </Form.Group> 
-                                                <Form.Group as={Col} md="7">
-                                                    <Form.Control type="text" placeholder="Tour: Campus Tour BLK A" required value={editGuidedTour.tourName} noValidate></Form.Control>
-                                                    <div className="errorMessage"></div>
-                                                </Form.Group>
-                                            </Form.Group>                     
-                                        </Form.Group>
-                                        <Form.Group>
-                                            <Form.Group as={Row} className="GuidedTours-formGroup">
-                                                <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
-                                                    <FontAwesomeIcon size="lg" icon={faCalendarAlt}/>
-                                                </Form.Group> 
-                                                <Form.Group as={Col} md="7">
-                                                    <Form.Control type="text" name="date" placeholder="Date: 21-Nov-2020" required value={editGuidedTour.date} noValidate></Form.Control>
-                                                    <div className="errorMessage"></div>
-                                                </Form.Group>
-                                            </Form.Group>                     
-                                        </Form.Group>
-                                        <Form.Group>
-                                            <Form.Group as={Row} className="GuidedTours-formGroup">
-                                                <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
-                                                    <FontAwesomeIcon size="lg" icon={faHourglassStart}/>
-                                                </Form.Group> 
-                                                <Form.Group as={Col} md="7">
-                                                    <Form.Control type="text" name="startTime" placeholder="Start Time: 1.30PM" required value={editGuidedTour.startTime} noValidate></Form.Control>
-                                                    <div className="errorMessage"></div>
-                                                </Form.Group>
-                                            </Form.Group>                     
-                                        </Form.Group>
-                                        <Form.Group>
-                                            <Form.Group as={Row} className="GuidedTours-formGroup">
-                                                <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
-                                                    <FontAwesomeIcon size="lg" icon={faHourglassEnd}/>
-                                                </Form.Group> 
-                                                <Form.Group as={Col} md="7">
-                                                    <Form.Control type="text" name="endTime" placeholder="End Time: 2.30PM" required value={editGuidedTour.endTime} noValidate></Form.Control>
-                                                    <div className="errorMessage"></div>
-                                                </Form.Group>
-                                            </Form.Group>                     
-                                        </Form.Group>
-                                        <Form.Group>
-                                            <Form.Group as={Row} className="GuidedTours-formGroup">
-                                                <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
-                                                    <FontAwesomeIcon size="lg" icon={faSchool}/>
-                                                </Form.Group> 
-                                                <Form.Group as={Col} md="7">
-                                                    <Form.Control type="text" name="venue" placeholder="Venue: SIM HQ BLK A Atrium" required value={editGuidedTour.venue} noValidate></Form.Control>
-                                                    <div className="errorMessage"></div>
-                                                </Form.Group>
-                                            </Form.Group>                     
-                                        </Form.Group>
-                                    </Form>
-                                )
-                            })}
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Container>
-                                <Row id="GuidedTours-editFooter">
-                                    <Col md={6} className="text-right GuidedTours-editFooterCol">
-                                        <Button id="GuidedTours-saveBtn" type="submit">Save</Button>
-                                    </Col>
-                                    <Col md={6} className="text-left GuidedTours-editFooterCol">
-                                        <Button id="GuidedTours-cancelBtn" onClick={this.handleEdit.bind(this)}>Cancel</Button>
-                                    </Col>
-                                </Row>
-                            </Container>
-                        </Modal.Footer>
+                        {this.state.editGuidedTours && this.state.editGuidedTours.map((editGuidedTour) => {
+                            return (
+                                <div>
+                                    <Modal.Body>
+                                        <Form noValidate>
+                                            <Form.Group>
+                                                <Form.Group as={Row} className="GuidedTours-formGroup">
+                                                    <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
+                                                        <FontAwesomeIcon size="lg" icon={faMapPin}/>
+                                                    </Form.Group> 
+                                                    <Form.Group as={Col} md="7">
+                                                        <Form.Control type="text" name="tourName" placeholder="Tour: e.g. Campus Tour BLK A" onChange={this.updateInput} required defaultValue={editGuidedTour.tourName} noValidate></Form.Control>
+                                                        <div className="errorMessage">{this.state.tourNameError}</div>
+                                                    </Form.Group>
+                                                </Form.Group>                     
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Form.Group as={Row} className="GuidedTours-formGroup">
+                                                    <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
+                                                        <FontAwesomeIcon size="lg" icon={faCalendarAlt}/>
+                                                    </Form.Group> 
+                                                    <Form.Group as={Col} md="7">
+                                                        <Form.Control type="text" name="date" placeholder="Date: e.g. 21-Nov-2020" onChange={this.updateInput} required defaultValue={editGuidedTour.date} noValidate></Form.Control>
+                                                        <div className="errorMessage">{this.state.dateError}</div>
+                                                    </Form.Group>
+                                                </Form.Group>                     
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Form.Group as={Row} className="GuidedTours-formGroup">
+                                                    <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
+                                                        <FontAwesomeIcon size="lg" icon={faHourglassStart}/>
+                                                    </Form.Group> 
+                                                    <Form.Group as={Col} md="7">
+                                                        <Form.Control type="text" name="startTime" placeholder="Start Time: e.g. 1:30PM" onChange={this.updateInput} required defaultValue={editGuidedTour.startTime} noValidate></Form.Control>
+                                                        <div className="errorMessage">{this.state.startTimeError}</div>
+                                                    </Form.Group>
+                                                </Form.Group>                     
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Form.Group as={Row} className="GuidedTours-formGroup">
+                                                    <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
+                                                        <FontAwesomeIcon size="lg" icon={faHourglassEnd}/>
+                                                    </Form.Group> 
+                                                    <Form.Group as={Col} md="7">
+                                                        <Form.Control type="text" name="endTime" placeholder="End Time: e.g. 2:30PM" onChange={this.updateInput} required defaultValue={editGuidedTour.endTime} noValidate></Form.Control>
+                                                        <div className="errorMessage">{this.state.endTimeError}</div>
+                                                    </Form.Group>
+                                                </Form.Group>                     
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Form.Group as={Row} className="GuidedTours-formGroup">
+                                                    <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
+                                                        <FontAwesomeIcon size="lg" icon={faSchool}/>
+                                                    </Form.Group> 
+                                                    <Form.Group as={Col} md="7">
+                                                        <Form.Control type="text" name="venue" placeholder="Venue: e.g. SIM HQ BLK A Atrium" onChange={this.updateInput} required defaultValue={editGuidedTour.venue} noValidate></Form.Control>
+                                                        <div className="errorMessage">{this.state.venueError}</div>
+                                                    </Form.Group>
+                                                </Form.Group>                     
+                                            </Form.Group>
+                                        </Form>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Container>
+                                            <Row id="GuidedTours-editFooter">
+                                                <Col md={6} className="text-right GuidedTours-editFooterCol">
+                                                    <Button id="GuidedTours-saveBtn" type="submit" onClick={(e) => {this.update(e, editGuidedTour.id)}}>Save Changes</Button>
+                                                </Col>
+                                                <Col md={6} className="text-left GuidedTours-editFooterCol">
+                                                    <Button id="GuidedTours-cancelBtn" onClick={this.handleEdit.bind(this)}>Cancel</Button>
+                                                </Col>
+                                            </Row>
+                                        </Container>
+                                    </Modal.Footer>
+                                </div>
+                            )
+                        })}
                     </Modal>: ''
                 }
 
                 {this.state.deleteModal == true ? 
-                    <Modal show={this.state.deleteModal} onHide={this.handleDelete} size="md" centered keyboard={false}>
+                    <Modal show={this.state.deleteModal} onHide={() => this.setState({deleteModal: false})} size="md" centered keyboard={false}>
                         <Modal.Header closeButton className="justify-content-center">
                             <Modal.Title id="GuidedTours-modalTitle" className="w-100">Delete Tour</Modal.Title>
                         </Modal.Header>
-                        <Modal.Body>
-                            <Row className="justify-content-center">
-                                <Col md={12} className="text-center GuidedTours-deleteFooterCol">
-                                    <FontAwesomeIcon size="3x" />
-                                </Col>
-                            </Row>
+                        {this.state.deleteGuidedTours && this.state.deleteGuidedTours.map((guidedTour) => {
+                            return (
+                                <Modal.Body>
+                                    <Row className="justify-content-center">
+                                        <Col md={12} className="text-center GuidedTours-deleteFooterCol">
+                                            <FontAwesomeIcon size="3x" icon={faExclamationCircle}/>
+                                        </Col>
+                                    </Row>
 
-                            <Row className="justify-content-center">
-                                <Col md={12} className="text-center GuidedTours-deleteFooterCol">
-                                    <h5 id="GuidedTours-removeText">Do you want to delete this post?</h5>
-                                </Col>
-                            </Row>
+                                    <Row className="justify-content-center">
+                                        <Col md={12} className="text-center GuidedTours-deleteFooterCol">
+                                            <h5 id="GuidedTours-deleteText">Do you want to delete this tour?</h5>
+                                        </Col>
+                                    </Row>
 
-                            <Row className="justify-content-center">
-                                <Col md={6} className="text-right GuidedTours-deleteFooterCol">
-                                    <Button id="GuidedTours-deleteConfirmBtn">Confirm</Button>
-                                </Col>
-                                <Col md={6} className="text-left GuidedTours-deleteFooterCol">
-                                    <Button id="GuidedTours-deleteCancelBtn" onClick={this.handleDelete.bind(this)}>Cancel</Button>
-                                </Col>
-                            </Row>
-                        </Modal.Body>
+                                    <Row className="justify-content-center">
+                                        <Col md={6} className="text-right GuidedTours-deleteFooterCol">
+                                            <Button id="GuidedTours-deleteConfirmBtn" onClick={(e) => {this.DeleteGuidedTour(e, guidedTour.id)}}>Confirm</Button>
+                                        </Col>
+                                        <Col md={6} className="text-left GuidedTours-deleteFooterCol">
+                                            <Button id="GuidedTours-deleteCancelBtn" onClick={() => this.setState({deleteModal: false})}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Modal.Body>
+                            )
+                        })}
                     </Modal>: ''
                 }
 
             </div>
 
                                                                                 
-
     //   <div className="home">
     //     <div>
     //       <table id="users" class="table table-bordered"> 
