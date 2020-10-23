@@ -18,7 +18,68 @@ class ForumFlagged extends Component {
             removeModal: false,
             keepModal: false,
         };
+        this.handleRemoveModal = this.handleRemoveModal.bind(this);
     }
+
+    authListener() {
+        fire.auth().onAuthStateChanged((user) => {
+          if (user) {
+            const db = fire.firestore();
+    
+            var getrole = db
+              .collection("Administrators")
+              .where("email", "==", user.email);
+            getrole.get().then((snapshot) => {
+              snapshot.forEach((doc) => {
+                if (doc.data().administratorType === "Marketing Administrator") {
+                  this.display();
+                } else {
+                  history.push("/Login");
+                }
+              });
+            });
+          } else {
+            history.push("/Login");
+          }
+        });
+      }
+      updateInput = (e) => {
+        this.setState({
+          [e.target.name]: e.target.value,
+        });
+      };
+    
+      componentDidMount() {
+        //this.authListener();
+        this.display();
+      }
+    
+      display() {
+        const db = fire.firestore();
+        var a = this;
+        var counter = 1;
+    
+        const questions = db
+          .collectionGroup("Reports")
+          .get()
+          .then((snapshot) => {
+            const flagged = [];
+            snapshot.forEach((doc) => {
+              const data = {
+                questionscomment: doc.data().postContent,
+                reason: doc.data().entry,
+                type: doc.data().postType,
+                postedby: doc.data().offender,
+                datetime: doc.data().dateTime,
+                reportedby: doc.data().reporter,
+                postid: doc.data().postId,
+              };
+              flagged.push(data);
+    
+              this.setState({ flagged: flagged });
+            });
+          });
+      }
 
     //Remove Post Modal
     handleRemoveModal = () => {
@@ -106,6 +167,69 @@ class ForumFlagged extends Component {
         }
     }
 
+    retrievepostdetails(postid, type) {
+        this.setState({
+          id: postid,
+          type: type,
+        });
+    
+        //this.handleRemoveModal.bind(this);
+      }
+    
+      removepost(postid, type) {
+        var reporttype = type;
+        if (reporttype == "Question") {
+          reporttype = "Questions";
+        } else {
+          reporttype = "Comments";
+        }
+    
+        const db = fire.firestore();
+        const userRef = db
+          .collectionGroup(reporttype.toString())
+          .get()
+          .then((snapshot) => {
+            snapshot.forEach((doc) => {
+              if (doc.data().id === postid.toString()) {
+                doc.ref
+                  .update({
+                    deleted: true,
+                  })
+                  .then(function () {
+                    alert("Updated");
+                  });
+              }
+            });
+          });
+    
+        //  userRef.update({ deleted: false });
+      }
+    
+      keeppost(postid, type) {
+        var reporttype = type;
+        if (reporttype == "Question") reporttype = "Questions";
+        else {
+          reporttype = "Comments";
+        }
+        const db = fire.firestore();
+        const userRef = db
+          .collectionGroup(reporttype.toString())
+          .get()
+          .then((snapshot) => {
+            snapshot.forEach((doc) => {
+              if (doc.data().id === postid.toString()) {
+                doc.ref
+                  .update({
+                    deleted: false,
+                  })
+                  .then(function () {
+                    alert("Updated");
+                  });
+              }
+            });
+          });
+      }
+
     render() {
         return (
             <div>
@@ -143,17 +267,22 @@ class ForumFlagged extends Component {
                                                         </tr>
                                                     </thead>
                                                     <tbody id="Forum-tableBody">
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>Nah I don't want</td>
-                                                            <td>This comment seems kind of rude.</td>
-                                                            <td>Comment</td>
-                                                            <td>Martin John</td>
-                                                            <td>21st November 2020, 8.35am</td>
-                                                            <td>0</td>
+                                                    {this.state.flagged &&
+                            this.state.flagged.map((flagged, index) => {
+                              return (
+                                <tr>
+                                  <td>{index + 1}</td>
+                                  <td>{flagged.questionscomment}</td>
+                                  <td>{flagged.reason}</td>
+                                  <td>{flagged.type}</td>
+                                  <td>{flagged.postedby}</td>
+                                  <td>{flagged.datetime}</td>
+                                  <td>{flagged.reportedby}</td>
                                                             <td><Button size="lg" id="ForumFlagged-removeBtn" onClick={this.handleRemoveModal.bind(this)}><FontAwesomeIcon size="lg" icon={faTimesCircle}/></Button></td>
                                                             <td><Button size="lg" id="ForumFlagged-keepBtn" onClick={this.handleKeepModal.bind(this)}><FontAwesomeIcon size="lg" icon={faCheckCircle}/></Button></td>
                                                         </tr>
+                                                        );
+                                                    })}
                                                     </tbody>
                                                 </Table>
                                             </Col>
