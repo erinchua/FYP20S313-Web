@@ -1,11 +1,11 @@
 import React from 'react';
-import { Navbar, Nav, Container, Modal, Form, FormGroup, FormCheck, Button, InputGroup, Col, Row, FormControl } from 'react-bootstrap';
+import { Modal, Form, Button, InputGroup, Col, FormControl } from 'react-bootstrap';
 
-import fire from "../../config/firebase";
-import history from "../../config/history";
-import firecreate from "../../config/firebasecreate";
+import fire from "../../../config/firebase";
+import history from "../../../config/history";
+import firecreate from "../../../config/firebasecreate";
 
-import "../../css/Marketing_Administrator/AddProgTalkModal.css";
+import "../../../css/Marketing_Administrator/AddProgTalkModal.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';
 

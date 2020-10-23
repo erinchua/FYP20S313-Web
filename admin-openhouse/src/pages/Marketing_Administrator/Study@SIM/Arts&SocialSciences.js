@@ -11,9 +11,9 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
-import AddProgTalkModal from "../../../components/Marketing_Administrator/AddProgTalkModal";
-import EditProgTalkModal from "../../../components/Marketing_Administrator/EditProgTalkModal";
-import DeleteProgTalkModal from "../../../components/Marketing_Administrator/DeleteProgTalkModal";
+import AddStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/AddStudySIMProgModal";
+import EditStudySIMProgModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/EditProgTalkModal";
+import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/DeleteProgTalkModal";
 
 
 class StudySIM_ArtsSocialSciences extends Component {
@@ -36,7 +36,7 @@ class StudySIM_ArtsSocialSciences extends Component {
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
+              //this.display();
             } else {
               history.push("/Login");
             }
@@ -199,7 +199,7 @@ class StudySIM_ArtsSocialSciences extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <AddProgTalkModal />
+          <AddStudySIMProgModal />
         </Modal>
 
         {/* Edit Programme Talk Modal */}

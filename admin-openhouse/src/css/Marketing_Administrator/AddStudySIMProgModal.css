@@ -1,0 +1,49 @@
+#addStudySIMProgModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.addStudySIMProgFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.addStudySIMProgForm_InnerRow {
+    padding-bottom: 3%;
+}
+
+#addStudySIMProgForm_ProgName {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#addStudySIMProgForm_ProgName:focus {
+    box-shadow: none;
+}
+
+#addStudySIMProgForm_LogoFile {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#addStudySIMProgForm_LogoFile:focus {
+    box-shadow: none !important;
+}
+
+.addStudySIMProgFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    border-radius: 0 !important;
+}
+
+.addStudySIMProgFormSelect {
+    box-shadow: none !important;
+}
+
+.addStudySIMProgFormSelectOption {
+    color: #434343 !important;
+} 

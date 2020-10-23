@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, Container, Modal, Form, FormGroup, FormCheck, Button, InputGroup, Col } from 'react-bootstrap';
+import { Modal, Form, Button, Col } from 'react-bootstrap';
 
 import fire from "../../config/firebase";
 import history from "../../config/history";
