@@ -1,0 +1,105 @@
+#editStudySIMProgModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+#editStudySIMProgModalBody {
+    height: 60% !important;
+    overflow-y: auto !important;
+}
+
+.editStudySIMProgFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.editStudySIMProgForm_InnerRow {
+    padding-bottom: 4%;
+}
+
+#editStudySIMProgForm_ProgName {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#editStudySIMProgForm_ProgName:focus {
+    box-shadow: none;
+}
+
+#editStudySIMProgForm_LogoFile {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#editStudySIMProgForm_LogoFile:focus {
+    box-shadow: none !important;
+}
+
+.editStudySIMProgFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    border-radius: 0 !important;
+}
+
+.editStudySIMProgFormSelect {
+    box-shadow: none !important;
+}
+
+.editStudySIMProgFormSelectOption {
+    color: #434343 !important;
+} 
+
+.editStudySIMProgForm_CheckBoxCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+}
+
+.editStudySIMProgFormLabel {
+    color: #424242;
+}
+
+.editStudySIMProgForm_CheckBox {
+    color: #434343;
+}
+
+.editStudySIMProgForm_InnerCol {
+    height: 80%;
+}
+
+.editStudySIMProgModal .editStudySIMProgForm_SubDisciplineCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 78vh;
+    overflow-x: hidden;
+}
+
+
+#saveChangesEditProgFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+    width: 40%;
+}
+
+#saveChangesEditProgFormBtn:focus {
+    box-shadow: none;
+}
+
+#cancelEditProgFormBtn {
+    background: none;
+    border: 1px solid #60c6d9;
+    color: #60c6d9;
+    border-radius: 6px;
+    width: 40%;
+}
+
+#cancelEditProgFormBtn:focus {
+    box-shadow: none;
+}

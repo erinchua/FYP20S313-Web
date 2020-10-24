@@ -1,0 +1,290 @@
+.MAProgTalkScheduleCon {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 0 auto;
+    padding: 0 !important;
+}
+
+.MAProgTalkScheduleContent {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+.MAProgTalkScheduleContentCon {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#MAProgTalkScheduleContentHeaderRow {
+    background: #88B7B5;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.MAProgTalkScheduleContentHeaderCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#MAProgTalkScheduleHeaderText {
+    color: #424242;
+}
+
+#addProgTalkBtn {
+    background: none;
+    color: #424242;
+    min-width: 20%;
+    border-radius: 6px;
+    border: 1px solid #424242;
+}
+
+#addProgTalkBtnIcon {
+    margin-right: 5%;
+}
+
+#addProgTalkBtnText {
+    margin-left: 5%;
+}
+
+#addProgTalkBtn:hover {
+    background: #424242;
+    color: #ffffff;
+    border-color: #424242;
+}
+
+#addProgTalkBtn:focus {
+    box-shadow: none;
+}
+
+/*******************************************************/
+/* Tabs Con Css*/
+.MAProgTalkScheduleContentTabRow {
+    margin: 0 !important;
+}
+
+.MAProgTalkScheduleContentTabCol {
+    padding: 0 !important;
+}
+
+.MAProgTalkScheduleTabConRow {
+    margin: 0 !important;
+    padding: 0;
+}
+
+.MAProgTalkScheduleTabConCol {
+    padding: 0 !important;
+}
+
+.MAProgTalkScheduleTabConInnerCol {
+    padding: 0 !important;
+}
+
+.MAProgTalkScheduleTab_NavItem {
+    background: #e4f2f0;
+}
+
+.MAProgTalkScheduleTab_Day {
+    color: #424242;
+    font-weight: bold;
+}
+
+.MAProgTalkScheduleTab_Day:focus {
+    color: #ffffff;
+    background: #62929E;
+    border-color: #62929E !important;
+}
+
+.MAProgTalkScheduleTab_Day:hover {
+    color: #ffffff;
+    background: #62929E;
+    border-color: #62929E !important;
+}
+
+.MAProgTalkScheduleTabNav .MAProgTalkScheduleTab_Day.active {
+    background: #62929E !important;
+    color: #ffffff !important;
+    border-color: #62929E !important;   
+}
+
+.MAProgTalkScheduleTabpaneCol {
+    padding: 0 !important;
+}
+
+/*******************************************************/
+/* Programme Talk Schedule Table - Day 1 */
+#MAProgTalkScheduleTable_Day1 {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+.progTalkScheduleHeader_SNo {
+    width: 3%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.progTalkScheduleHeader_ProgTalk {
+    width: 17%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.progTalkScheduleHeader_ProgTalkDetails {
+    width: 20%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.progTalkScheduleHeader_AwardingUni {
+    width: 15%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.progTalkScheduleHeader_StartTime {
+    width: 15%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.progTalkScheduleHeader_EndTime {
+    width: 15%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.progTalkScheduleHeader_Venue {
+    width: 15%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.progTalkScheduleHeader_Capacity {
+    width: 5%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.progTalkScheduleHeader_Edit {
+    width: 5%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.progTalkScheduleHeader_Delete {
+    width: 5%;
+    color: #424242;
+    font-size: 90%;
+}
+
+/******************* Table Data *******************/
+.progTalkScheduleData_SNo {
+    width: 3%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.progTalkScheduleData_ProgTalk {
+    width: 17%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.progTalkScheduleData_ProgTalkDetails {
+    width: 20%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.progTalkScheduleData_AwardingUni {
+    width: 15%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.progTalkScheduleData_StartTime {
+    width: 15%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.progTalkScheduleData_EndTime {
+    width: 15%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.progTalkScheduleData_Venue {
+    width: 15%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.progTalkScheduleData_Capacity {
+    width: 5%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.progTalkScheduleData_Edit {
+    width: 5%;
+    color: #434343;
+    font-size: 85%;
+}
+
+.progTalkScheduleData_Delete {
+    width: 5%;
+    color: #434343;
+    font-size: 85%;
+}
+
+#editProgTalkScheduleBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#editProgTalkScheduleBtn:focus {
+    box-shadow: none;
+}
+
+#editProgTalkScheduleBtnIcon {
+    color: #434343;
+}
+
+#deleteProgTalkScheduleBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#deleteProgTalkScheduleBtn:focus {
+    box-shadow: none;
+}
+
+#deleteProgTalkScheduleBtnIcon {
+    color: #434343;
+}
+
+/*******************************************************/
+/* Programme Talk Schedule Table - Day 2 */
+#MAProgTalkScheduleTable_Day2 {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}

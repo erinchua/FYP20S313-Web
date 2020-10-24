@@ -1,0 +1,113 @@
+#addLiveTalkModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.addLiveTalkFormRow {
+    padding-bottom: 4%;
+}
+
+.addLiveTalkFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.addLiveTalkFormColInputGrp {
+    width: 90% !important;
+}
+
+.addLiveTalkFormIconInputGrp {
+    background: transparent !important;
+    border: none !important;
+}
+
+#addLiveTalkForm_ProgTalkName {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#addLiveTalkForm_ProgTalkName:focus {
+    box-shadow: none;
+}
+
+#addLiveTalkForm_Venue {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#addLiveTalkForm_Venue:focus {
+    box-shadow: none;
+}
+
+.addLiveTalkFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    width: 90% !important;
+}
+
+.addLiveTalkFormSelect:focus {
+    box-shadow: none !important;
+}
+
+.addLiveTalkFormSelectOption {
+    color: #434343;
+}
+
+#addLiveTalkForm_LiveStreamLink {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#addLiveTalkForm_LiveStreamLink:focus {
+    box-shadow: none;
+}
+
+#addLiveTalkForm_ProgTalkDate {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#addLiveTalkForm_ProgTalkDate:focus {
+    box-shadow: none;
+}
+
+#addLiveTalkForm_ProgTalkStartTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#addLiveTalkForm_ProgTalkStartTime:focus {
+    box-shadow: none;
+}
+
+#addLiveTalkForm_ProgTalkEndTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#addLiveTalkForm_ProgTalkEndTime:focus {
+    box-shadow: none;
+}
+
+#addLiveTalkFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+    width: 20%;
+}
+
+#addLiveTalkFormBtn:focus {
+    box-shadow: none;
+}

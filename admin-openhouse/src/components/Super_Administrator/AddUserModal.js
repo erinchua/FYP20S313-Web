@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, Container, Modal, Form, FormGroup, FormCheck, Button, InputGroup, Col } from 'react-bootstrap';
+import { Modal, Form, Button, Col } from 'react-bootstrap';
 
 import fire from "../../config/firebase";
 import history from "../../config/history";
@@ -44,11 +44,7 @@ export default class AddUserModal extends React.Component {
     };
       
     addUser = (e) => {
-        if (validateForm(this.state.errors)) {
-            console.info('Valid User');
-        } else {
-            console.error('Invalid User');
-        }
+        console.log("Added admin")
 
         e.preventDefault();
         firecreate
@@ -66,7 +62,7 @@ export default class AddUserModal extends React.Component {
                     password: this.state.password,
                 })
                 .then(function () {
-                    alert("Added");
+                    // alert("Added");
                     window.location.reload();
                 });
 
@@ -172,54 +168,54 @@ export default class AddUserModal extends React.Component {
 
                         <Form.Row className="justify-content-center addAdminFormBtnRow">
                             <Col className="text-center">
-                                <Button type="submit" id="addAdminFormBtn">Submit</Button>
+                                <Button type="submit" id="addAdminFormBtn">Add Administrator</Button>
                             </Col>
                         </Form.Row>
 
                     </Form>
                 </Modal.Body>
                     
-                    {/* <Modal.Body>
-                        <p>
-                            <form onSubmit={this.addUser}>
-                    <input
-                    type="text"
-                    name="fullname"
-                    placeholder="Full name"
-                    onChange={this.updateInput}
-                    value={this.state.fullname}
-                    required
-                    />
-                    <input
-                    type="text"
-                    name="email"
-                    placeholder="Email"
-                    onChange={this.updateInput}
-                    value={this.state.email}
-                    required
-                    />
-                    <input
-                    type="text"
-                    name="administratorType"
-                    placeholder="Type of User"
-                    onChange={this.updateInput}
-                    value={this.state.administratorType}
-                    required
-                    />
-                    <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    onChange={this.updateInput}
-                    value={this.state.password}
-                    required
-                    />
-                    <button type="submit">Add User</button>
-                </form>
-                
-                
-                        </p>
-                    </Modal.Body> */}
+                {/* <Modal.Body>
+                    <p>
+                        <form onSubmit={this.addUser}>
+                <input
+                type="text"
+                name="fullname"
+                placeholder="Full name"
+                onChange={this.updateInput}
+                value={this.state.fullname}
+                required
+                />
+                <input
+                type="text"
+                name="email"
+                placeholder="Email"
+                onChange={this.updateInput}
+                value={this.state.email}
+                required
+                />
+                <input
+                type="text"
+                name="administratorType"
+                placeholder="Type of User"
+                onChange={this.updateInput}
+                value={this.state.administratorType}
+                required
+                />
+                <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                onChange={this.updateInput}
+                value={this.state.password}
+                required
+                />
+                <button type="submit">Add User</button>
+            </form>
+            
+            
+                    </p>
+                </Modal.Body> */}
             </div>
         )
     }

@@ -1,0 +1,117 @@
+#addProgTalkModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.addProgTalkFormRow {
+    padding-bottom: 4%;
+}
+
+.addProgTalkFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.addProgTalkFormColInputGrp {
+    width: 90% !important;
+}
+
+.addProgTalkFormIconInputGrp {
+    background: transparent !important;
+    border: none !important;
+}
+
+#addProgTalkForm_ProgTalkName {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#addProgTalkForm_ProgTalkName:focus {
+    box-shadow: none;
+}
+
+#addProgTalkForm_Venue {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#addProgTalkForm_Venue:focus {
+    box-shadow: none;
+}
+
+.addProgTalkFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    width: 90% !important;
+}
+
+.addProgTalkFormSelect:focus {
+    box-shadow: none !important;
+}
+
+.addProgTalkFormSelectOption {
+    color: #434343;
+}
+
+#addProgTalkForm_ProgTalkDate {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#addProgTalkForm_ProgTalkDate:focus {
+    box-shadow: none;
+}
+
+#addProgTalkForm_ProgTalkStartTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#addProgTalkForm_ProgTalkStartTime:focus {
+    box-shadow: none;
+}
+
+#addProgTalkForm_ProgTalkEndTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#addProgTalkForm_ProgTalkEndTime:focus {
+    box-shadow: none;
+}
+
+#addProgTalkForm_Capacity {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#addProgTalkForm_Capacity:focus {
+    box-shadow: none;
+}
+
+#addProgTalkForm_ProgTalkDetails {
+    resize: none;
+}
+
+#addProgTalkFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+    width: 20%;
+}
+
+#addProgTalkFormBtn:focus {
+    box-shadow: none;
+}

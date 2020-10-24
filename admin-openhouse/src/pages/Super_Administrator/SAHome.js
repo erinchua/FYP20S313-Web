@@ -23,11 +23,11 @@ class SAHome extends Component {
       email: "",
       fullname: "",
       password: "",
+      id: "",
       addUserModal: false,
       deleteAdminModal: false,
     };
     this.handleAddUserModal = this.handleAddUserModal.bind(this);
-    // this.handleDeleteModalSubmit = this.handleDeleteModalSubmit.bind(this);
   }
 
   authListener() {
@@ -70,7 +70,7 @@ class SAHome extends Component {
 
     const userRef = db
       .collection("Administrators")
-      .doc(this.state.userid)
+      .doc(this.state.id)
       .delete()
       .then(function () {
         // alert("Deleted");
@@ -116,8 +116,7 @@ class SAHome extends Component {
 
   /* Add User Modal */
   handleAddUserModal = () => {
-    this.addUserModal = this.state.addUserModal;
-    if (this.addUserModal == false) {
+    if (this.state.addUserModal == false) {
       this.setState({ 
         addUserModal: true 
       });
@@ -131,8 +130,7 @@ class SAHome extends Component {
 
   /* Delete Admin Modal */
   handleDeleteAdminModal = () => {
-    this.deleteAdminModal = this.state.deleteAdminModal;
-    if (this.deleteAdminModal == false) {
+    if (this.state.deleteAdminModal == false) {
       this.setState({
         deleteAdminModal: true
       });
@@ -150,7 +148,6 @@ class SAHome extends Component {
 
     const db = fire.firestore();
 
-    var searchvalue = document.getElementById("SAHomeSearchBar").value;
     if (searchvalue == "" || searchvalue == null) {
       
       const userRef = db
@@ -161,11 +158,11 @@ class SAHome extends Component {
           snapshot.forEach((doc) => {
             const data = {
               administratorType: doc.data().administratorType,
-            name: doc.data().name,
-            email: doc.data().email,
-            password: doc.data.password,
-            id: doc.id,
-            counter : counter,
+              name: doc.data().name,
+              email: doc.data().email,
+              password: doc.data.password,
+              id: doc.id,
+              counter : counter,
             };
             users.push(data);
             counter ++;
@@ -200,12 +197,13 @@ class SAHome extends Component {
         });
     }
   }
+
   retrieveuserdata(id){
-    this.setState({ userid: id }, () => {
-      this.handleDeleteAdminModal();
-    }); 
+    this.state.id = id
+    this.handleDeleteAdminModal();
   }
   
+
   render() {
     if(this.state.Login)
 
@@ -223,11 +221,11 @@ class SAHome extends Component {
                 <Col md="6" className="SAHomeSearchBarCol">
                   <InputGroup className="justify-content-center">
                     <Form inline className="SAHomeSearchInputForm">
-                      <FormControl id="SAHomeSearchBar" type="text" placeholder="Search" />
+                      <FormControl id="SAHomeSearchBar" type="text" placeholder="Search" onChange={this.search} />
 
                       <InputGroup.Prepend>
-                        <Button id="SAHomeSearchBarBtn">
-                          <FontAwesomeIcon size="lg" id="searchBtnIcon" onClick={this.search} icon={faSearch} />  
+                        <Button id="SAHomeSearchBarBtn" onClick={this.search}>
+                          <FontAwesomeIcon size="lg" id="searchBtnIcon" icon={faSearch} />  
                         </Button>
                       </InputGroup.Prepend>
                     </Form>
@@ -258,76 +256,21 @@ class SAHome extends Component {
                           <tbody>
                             <tr>
                               <td id="adminCheckboxData">
-                                <Form.Check type="checkbox" aria-label="admin checkbox" id="adminCheckbox"/>
+                                <Form.Check type="checkbox" aria-label="admin_checkbox" id="adminCheckbox"/>
                               </td>
 
                               <td id="serialNoData">{user.counter}</td>
                               <td id="adminNameData">{user.name}</td>
                               <td id="adminEmailData">{user.email}</td>
                               <td id="adminUserTypeData">{user.administratorType}</td>
-                              <td id="removeAdminData">
-                                {/* <Button id="removeAdminBtn" onClick={(e) => {
-                                  this.DeleteUser(e, user.id);
-                                }}>
-                                  <FontAwesomeIcon size="lg" id="removeAdminBtnIcon" icon={faTrashAlt} />  
-                                </Button> */}
-                                
-                                <Button id="removeAdminBtn" onClick={(e) => {
-                                  this.retrieveuserdata(user.id);
-                                }}>
+                              <td id="removeAdminData">                                
+                                <Button id="removeAdminBtn" onClick={ (e) => {this.retrieveuserdata(user.id);} }>
                                   <FontAwesomeIcon size="lg" id="removeAdminBtnIcon" icon={faTrashAlt} />  
                                 </Button>
                               </td>
                             </tr>
                           </tbody>
-                          
-                          {this.state.deleteAdminModal == true && 
-                            <Modal 
-                              show={this.state.deleteAdminModal}
-                              onHide={this.handleDeleteAdminModal}
-                              aria-labelledby="deleteAdminModalTitle"
-                              size="md"
-                              centered
-                              backdrop="static"
-                              keyboard={false}
-                            >
-                              <Modal.Header closeButton className="justify-content-center">
-                                <Modal.Title id="deleteAdminModalTitle">
-                                  Remove Administrator?
-                                </Modal.Title>
-                              </Modal.Header>
-                              
-                              <Modal.Body>
-                                <Row className="justify-content-center">
-                                  <Col size="12" className="text-center deleteAdminModalCol">
-                                    <img id="deleteAdminModalIcon" src={DeleteAdmin} />
-                                  </Col>
-                                </Row>
-                                
-                                <Row className="justify-content-center">
-                                  <Col size="12" className="text-center deleteAdminModalCol">
-                                    <h5 id="deleteAdminModalText">Are you sure you want to remove this administrator?</h5>
-                                  </Col>
-                                </Row>
-
-                                <Row className="justify-content-center">
-                                  <Col size="6" className="text-right deleteAdminModalCol">
-                                    {/* Add DeleteUser onclick function here */}
-                                    <Button id="confirmDeleteAdminModalBtn" onClick={ (e) => {this.DeleteUser()} } >
-                                      Confirm
-                                    </Button>
-                                  </Col>
-
-                                  <Col size="6" className="text-left deleteAdminModalCol">
-                                    <Button id="cancelDeleteAdminModalBtn" onClick={this.handleDeleteAdminModal}>Cancel</Button>
-                                  </Col>
-                                </Row>
-                              </Modal.Body>
-                            </Modal>
-                          }
-
-                        </>
-                        
+                        </>                        
                       );
                     })}
 
@@ -335,86 +278,9 @@ class SAHome extends Component {
 
                 </Col>
               </Row>
-
             </Container>
 
-            <Footer />
-
-            {/* <div className="SAHomeContent">
-              <table class="table table-bordered">
-                <tbody>
-                  <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Type of User</th>
-                  </tr>
-                  
-                  {this.state.users &&
-                    this.state.users.map((user) => {
-                      return (
-                        <tr>
-                          <td>{user.id} </td>
-
-                          <td>{user.name} </td>
-                          <td>{user.email} </td>
-                          <td>{user.administratorType} </td>
-                          <td>
-                            <button
-                              onClick={(e) => {
-                                this.DeleteUser(e, user.id);
-                              }}
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
-
-              <form onSubmit={this.addUser}>
-                <input
-                  type="text"
-                  name="fullname"
-                  placeholder="Full name"
-                  onChange={this.updateInput}
-                  value={this.state.fullname}
-                  required
-                />
-                <input
-                  type="text"
-                  name="email"
-                  placeholder="Email"
-                  onChange={this.updateInput}
-                  value={this.state.email}
-                  required
-                />
-                <input
-                  type="text"
-                  name="administratorType"
-                  placeholder="Type of User"
-                  onChange={this.updateInput}
-                  value={this.state.administratorType}
-                  required
-                />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  onChange={this.updateInput}
-                  value={this.state.password}
-                  required
-                />
-                <button type="submit">Add User</button>
-              </form>
-              <button onClick={this.changepasswordpage}>Change Password</button>
-              <button onClick={this.logout}>Logout</button>
-
-            </div> */}
-            
-            
+            <Footer />      
         </Container>
 
         {this.state.addUserModal == true ?
@@ -432,7 +298,47 @@ class SAHome extends Component {
           :''
         }
 
-        
+        {this.state.deleteAdminModal == true && 
+          <Modal 
+            show={this.state.deleteAdminModal}
+            onHide={this.handleDeleteAdminModal}
+            aria-labelledby="deleteAdminModalTitle"
+            size="md"
+            centered
+            backdrop="static"
+            keyboard={false}
+          >
+            <Modal.Header closeButton className="justify-content-center">
+              <Modal.Title id="deleteAdminModalTitle">
+                Remove Administrator
+              </Modal.Title>
+            </Modal.Header>
+            
+            <Modal.Body>
+              <Row className="justify-content-center">
+                <Col md="12" className="text-center deleteAdminModalCol">
+                  <img id="deleteAdminModalIcon" src={DeleteAdmin} />
+                </Col>
+              </Row>
+              
+              <Row className="justify-content-center">
+                <Col md="12" className="text-center deleteAdminModalCol">
+                  <h5 id="deleteAdminModalText">Are you sure you want to remove this administrator?</h5>
+                </Col>
+              </Row>
+
+              <Row className="justify-content-center">
+                <Col md="6" className="text-right deleteAdminModalCol">
+                  <Button id="confirmDeleteAdminModalBtn" onClick={ (e) => {this.DeleteUser(e, this.state.id)} }>Confirm</Button>
+                </Col>
+
+                <Col md="6" className="text-left deleteAdminModalCol">
+                  <Button id="cancelDeleteAdminModalBtn" onClick={this.handleDeleteAdminModal}>Cancel</Button>
+                </Col>
+              </Row>
+            </Modal.Body>
+          </Modal>
+        }
 
       </div>
     );

@@ -213,187 +213,138 @@ class Login extends Component {
 
     render() {
         return (
-        <div id="login-content-container">
-            <Tab.Container defaultActiveKey="marketingAdministrator">
-                <Row className="justify-content-center">
-                    <Col md={5}>
-                        <Nav fill className="login-tabContainer" variant="tabs" as="ul">
-                            <Nav.Item as="li">
-                                <Nav.Link eventKey="marketingAdministrator" onSelect={this.resetForm} className="login-tabHeading">Marketing Administrator</Nav.Link>
-                            </Nav.Item>
+            <div id="login-content-container">
+                <Tab.Container defaultActiveKey="marketingAdministrator">
+                    <Row className="justify-content-center">
+                        <Col md={5}>
+                            <Nav fill className="login-tabContainer" variant="tabs" as="ul">
+                                <Nav.Item as="li">
+                                    <Nav.Link eventKey="marketingAdministrator" onSelect={this.resetForm} className="login-tabHeading">Marketing Administrator</Nav.Link>
+                                </Nav.Item>
 
-                            <Nav.Item as="li">
-                                <Nav.Link eventKey="superAdministrator" onSelect={this.resetForm} className="login-tabHeading">Super Administrator</Nav.Link>
-                            </Nav.Item>
-                        </Nav>
+                                <Nav.Item as="li">
+                                    <Nav.Link eventKey="superAdministrator" onSelect={this.resetForm} className="login-tabHeading">Super Administrator</Nav.Link>
+                                </Nav.Item>
+                            </Nav>
 
-                        <Tab.Content id="login-tabContent">
-                            
-                            <Tab.Pane eventKey="marketingAdministrator">
-                                <Container>
-                                    <div id="simLogo-container">
-                                        <img src={simLogo} id="simLogo"/>
-                                    </div>
-                                    <Form id="login-form" noValidate onSubmit={this.login}>
-                                        <Form.Group>
-                                            <Form.Group as={Row} className="login-formGroup">
-                                                <Form.Group as={Col} md="1">
-                                                    <FontAwesomeIcon size="lg" icon={faAt} />
-                                                </Form.Group> 
-                                                <Form.Group as={Col} md="7">
-                                                    <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
-                                                    <div className="errorMessage">{this.state.marketingEmailError}</div>
-                                                </Form.Group>
-                                            </Form.Group>                     
-                                        </Form.Group>
-                                        <Form.Group>
-                                            <Form.Group as={Row} className="login-formGroup">
-                                                <Form.Group as={Col} md="1">
-                                                    <FontAwesomeIcon size="lg" icon={faLock} />
-                                                </Form.Group> 
-                                                <Form.Group as={Col} md="7">
-                                                    <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
-                                                    <div className="errorMessage">{this.state.marketingPasswordError}</div>
-                                                </Form.Group>
-                                            </Form.Group>  
-                                            <Form.Group as={Row} id="login-forgetPassword">
-                                                <Form.Group as={Col} md="3"></Form.Group>
-                                                <Form.Group as={Col} md="7">
-                                                    <div className="text-right">
-                                                        <Button variant="link" size="sm" onClick={this.handleForgetPasswordModal.bind(this)}>Forget Password?</Button>
-                                                    </div>   
-                                                </Form.Group> 
-                                            </Form.Group>                          
-                                        </Form.Group>
-                                        <Form.Group className="login-formGroup">
-                                            <Button onClick={(e) => {this.login(e, "marketing")}} type="submit" size="sm" id="login-button">Login</Button>
-                                        </Form.Group>
-                                    </Form>
-                                </Container>
-                            </Tab.Pane>
+                            <Tab.Content id="login-tabContent">
+                                
+                                <Tab.Pane eventKey="marketingAdministrator">
+                                    <Container>
+                                        <div id="simLogo-container">
+                                            <img src={simLogo} id="simLogo"/>
+                                        </div>
+                                        <Form id="login-form" noValidate onSubmit={this.login}>
+                                            <Form.Group>
+                                                <Form.Group as={Row} className="login-formGroup">
+                                                    <Form.Group as={Col} md="1">
+                                                        <FontAwesomeIcon size="lg" icon={faAt} />
+                                                    </Form.Group> 
+                                                    <Form.Group as={Col} md="7">
+                                                        <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
+                                                        <div className="errorMessage">{this.state.marketingEmailError}</div>
+                                                    </Form.Group>
+                                                </Form.Group>                     
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Form.Group as={Row} className="login-formGroup">
+                                                    <Form.Group as={Col} md="1">
+                                                        <FontAwesomeIcon size="lg" icon={faLock} />
+                                                    </Form.Group> 
+                                                    <Form.Group as={Col} md="7">
+                                                        <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
+                                                        <div className="errorMessage">{this.state.marketingPasswordError}</div>
+                                                    </Form.Group>
+                                                </Form.Group>  
+                                                <Form.Group as={Row} id="login-forgetPassword">
+                                                    <Form.Group as={Col} md="3"></Form.Group>
+                                                    <Form.Group as={Col} md="7">
+                                                        <div className="text-right">
+                                                            <Button variant="link" size="sm" onClick={this.handleForgetPasswordModal.bind(this)}>Forget Password?</Button>
+                                                        </div>   
+                                                    </Form.Group> 
+                                                </Form.Group>                          
+                                            </Form.Group>
+                                            <Form.Group className="login-formGroup">
+                                                <Button onClick={(e) => {this.login(e, "marketing")}} type="submit" size="sm" id="login-button">Login</Button>
+                                            </Form.Group>
+                                        </Form>
+                                    </Container>
+                                </Tab.Pane>
 
-                            <Tab.Pane eventKey="superAdministrator">
-                                <Container>
-                                    <div id="simLogo-container">
-                                        <img src={simLogo} id="simLogo"/>
-                                    </div>
-                                    <Form id="login-form" noValidate onSubmit={this.login}>
-                                        <Form.Group>
-                                            <Form.Group as={Row} className="login-formGroup">
-                                                <Form.Group as={Col} md="1">
-                                                    <FontAwesomeIcon size="lg" icon={faAt} />
-                                                </Form.Group> 
-                                                <Form.Group as={Col} md="7">
-                                                    <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
-                                                    <div className="errorMessage">{this.state.superEmailError}</div>
-                                                </Form.Group>
-                                            </Form.Group>                     
-                                        </Form.Group>
+                                <Tab.Pane eventKey="superAdministrator">
+                                    <Container>
+                                        <div id="simLogo-container">
+                                            <img src={simLogo} id="simLogo"/>
+                                        </div>
+                                        <Form id="login-form" noValidate onSubmit={this.login}>
+                                            <Form.Group>
+                                                <Form.Group as={Row} className="login-formGroup">
+                                                    <Form.Group as={Col} md="1">
+                                                        <FontAwesomeIcon size="lg" icon={faAt} />
+                                                    </Form.Group> 
+                                                    <Form.Group as={Col} md="7">
+                                                        <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
+                                                        <div className="errorMessage">{this.state.superEmailError}</div>
+                                                    </Form.Group>
+                                                </Form.Group>                     
+                                            </Form.Group>
 
-                                        <Form.Group>
-                                            <Form.Group as={Row} className="login-formGroup">
-                                                <Form.Group as={Col} md="1">
-                                                    <FontAwesomeIcon size="lg" icon={faLock} />
-                                                </Form.Group> 
-                                                <Form.Group as={Col} md="7">
-                                                    <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
-                                                    <div className="errorMessage">{this.state.superPasswordError}</div>
-                                                </Form.Group>
-                                            </Form.Group>  
-                                            <Form.Group as={Row} id="login-forgetPassword">
-                                                <Form.Group as={Col} md="3"></Form.Group>
-                                                <Form.Group as={Col} md="7">
-                                                    <div className="text-right">
-                                                        <Button variant="link" size="sm" onClick={this.handleForgetPasswordModal.bind(this)}>Forget Password?</Button>
-                                                    </div>   
-                                                </Form.Group> 
-                                            </Form.Group>                          
-                                        </Form.Group>
+                                            <Form.Group>
+                                                <Form.Group as={Row} className="login-formGroup">
+                                                    <Form.Group as={Col} md="1">
+                                                        <FontAwesomeIcon size="lg" icon={faLock} />
+                                                    </Form.Group> 
+                                                    <Form.Group as={Col} md="7">
+                                                        <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
+                                                        <div className="errorMessage">{this.state.superPasswordError}</div>
+                                                    </Form.Group>
+                                                </Form.Group>  
+                                                <Form.Group as={Row} id="login-forgetPassword">
+                                                    <Form.Group as={Col} md="3"></Form.Group>
+                                                    <Form.Group as={Col} md="7">
+                                                        <div className="text-right">
+                                                            <Button variant="link" size="sm" onClick={this.handleForgetPasswordModal.bind(this)}>Forget Password?</Button>
+                                                        </div>   
+                                                    </Form.Group> 
+                                                </Form.Group>                          
+                                            </Form.Group>
 
-                                        <Form.Group className="login-formGroup">
-                                            <Button onClick={(e) => {this.login(e, "super")}} type="submit" size="sm" id="login-button">Login</Button>
-                                        </Form.Group>
-                                    </Form>
-                                </Container>
-                            </Tab.Pane>
-                        </Tab.Content>
-                    </Col>
-                </Row>
-            </Tab.Container>
+                                            <Form.Group className="login-formGroup">
+                                                <Button onClick={(e) => {this.login(e, "super")}} type="submit" size="sm" id="login-button">Login</Button>
+                                            </Form.Group>
+                                        </Form>
+                                    </Container>
+                                </Tab.Pane>
+                            </Tab.Content>
+                        </Col>
+                    </Row>
+                </Tab.Container>
 
-            {this.state.forgetPasswordModal == true ?
-                <Modal
-                    show={this.state.forgetPasswordModal}
-                    onHide={this.handleForgetPasswordModal}
-                    size="lg"
-                    centered
-                    backdrop="static"
-                    keyboard={false}
-                >
-                    <ForgetPasswordModal />
-                </Modal>
-                :''
-            }
+                {this.state.forgetPasswordModal == true ?
+                    <Modal
+                        show={this.state.forgetPasswordModal}
+                        onHide={this.handleForgetPasswordModal}
+                        size="lg"
+                        centered
+                        backdrop="static"
+                        keyboard={false}
+                    >
+                        <ForgetPasswordModal />
+                    </Modal>
+                    :''
+                }
 
-            {this.state.showAlert == true ?
-                <Modal show={this.state.showAlert} onHide={() => [this.setState({showAlert: false}), this.resetForm()]} size="sm" centered backdrop="static" keyboard={false}>
-                    <Alert show={this.state.showAlert} onClose={() => [this.setState({showAlert: false}), this.resetForm()]} dismissible>
-                        <Alert.Heading>Error Occurred!</Alert.Heading>
-                        <p id="login-alertFail-data">Please enter the correct email and password.</p>
-                    </Alert>
-                </Modal> : ''
-            }
+                {this.state.showAlert == true ?
+                    <Modal show={this.state.showAlert} onHide={() => this.setState({showAlert: false})} size="sm" centered backdrop="static" keyboard={false}>
+                        <Alert show={this.state.showAlert} onClose={() => this.setState({showAlert: false})} dismissible>
+                            <Alert.Heading>Error Occurred!</Alert.Heading>
+                            <p id="login-alertFail-data">Please enter the correct email and password.</p>
+                        </Alert>
+                    </Modal> : ''
+                }
 
-            
-
-
-        </div>
-
-        /*<div className="App">
-            <form>
-            <div className="col-and-6">
-                <div class="form-group">
-                <label for="exampleInputEmaill">Email address</label>
-                <input
-                    value={this.state.email}
-                    onChange={this.handleChange}
-                    type="email"
-                    name="email"
-                    class="form-control"
-                    id="exampleInputEmaill"
-                    aria-describedby="emailHelp"
-                    placeholder="Enter email"
-                />
-                <small id="emailHelp" class="form-text text-muted">
-                    We'll never share your email with anyone else.
-                </small>
-                </div>
-                <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                    type="password"
-                    name="password"
-                    class="form-control"
-                    id="exampleInputPasswordl"
-                    placeholder="Password"
-                />
-                </div>
-                <button type="submit" onClick={this.login} class="btn btn-primary">
-                Login
-                </button>
             </div>
-            </form>
-            <button
-            type="submit"
-            class="btn btn-warning"
-            style={{ marginLeft: "25px" }}
-            onClick={this.reset}
-            >
-            Reset Password
-            </button>
-        </div>*/
         );
     }
 }
