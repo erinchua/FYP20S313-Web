@@ -19,7 +19,7 @@ class PastRecording extends Component {
       startTime: "",
       talkName: "",
       venue: "",
-      Link: "",
+      link: "",
     };
   }
 
@@ -101,7 +101,7 @@ class PastRecording extends Component {
                         capacityLimit: doc.data().capacityLimit,
                         noRegistered: doc.data().noRegistered,
                         hasRecording: doc.data().hasRecording.toString(),
-                        Link : doc.data().Link,
+                        link : doc.data().link,
                         isLive: doc.data().isLive.toString(),
                    };
                    pastrecording.push(data);
@@ -136,7 +136,7 @@ class PastRecording extends Component {
                           capacityLimit: doc.data().capacityLimit,
                           noRegistered: doc.data().noRegistered,
                           hasRecording: doc.data().hasRecording.toString(),
-                          Link : doc.data().Link,
+                          link : doc.data().link,
                           isLive: doc.data().isLive.toString(),
                        
                         };
@@ -193,7 +193,7 @@ class PastRecording extends Component {
           startTime: this.state.startTime,
           talkName: this.state.talkName,
           venue: this.state.venue,
-          Link: this.state.Link,
+          link: this.state.link,
           id: docid,
           })
           .then(function () {
@@ -221,10 +221,10 @@ class PastRecording extends Component {
     const startTime = document.getElementById(pastrecordingid + "starttime").value
     const endTime = document.getElementById(pastrecordingid + "endtime").value
     const venue = document.getElementById(pastrecordingid + "venue").value
-    const Link = document.getElementById(pastrecordingid + "link").value
+    const link = document.getElementById(pastrecordingid + "link").value
 
     const db = fire.firestore();
-    if (talkName != null && awardingUni != null && startTime != null && endTime != null && venue != null && Link != null) {
+    if (talkName != null && awardingUni != null && startTime != null && endTime != null && venue != null && link != null) {
       const userRef = db
         .collection("ProgrammeTalks")
         .doc(pastrecordingid)
@@ -234,7 +234,7 @@ class PastRecording extends Component {
             startTime: startTime,
             talkName: talkName,
             venue: venue,
-            Link: Link,
+            link: link,
         })
         .then(function () {
           alert("Updated");
@@ -394,18 +394,18 @@ class PastRecording extends Component {
                       </td>
                       <td>
                       <span class={day1.docid + "text"}>
-                      {day1.Link}
+                      {day1.link}
                         </span>
                           
                           <span id={day1.docid + "spanlink"} hidden>
                           <input
                             id={day1.docid + "link"}
-                            defaultValue={day1.Link}
+                            defaultValue={day1.link}
                             type="text"
                             name={day1.docid + "link"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={day1.Link}
+                            placeholder={day1.link}
                             required
                           />
                         </span>            
@@ -567,18 +567,18 @@ class PastRecording extends Component {
                       </td>
                       <td>
                       <span class={day2.docid + "text"}>
-                      {day2.Link}
+                      {day2.link}
                         </span>
                           
                           <span id={day2.docid + "spanlink"} hidden>
                           <input
                             id={day2.docid + "link"}
-                            defaultValue={day2.Link}
+                            defaultValue={day2.link}
                             type="text"
                             name={day2.docid + "link"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={day2.Link}
+                            placeholder={day2.link}
                             required
                           />
                         </span>            
@@ -708,10 +708,10 @@ class PastRecording extends Component {
           />
           <input
             type="text"
-            name="Link"
+            name="link"
             placeholder="Link"
             onChange={this.updateInput}
-            value={this.state.Link}
+            value={this.state.link}
             required
           />
           <button type="submit">Add Past Recording</button>
