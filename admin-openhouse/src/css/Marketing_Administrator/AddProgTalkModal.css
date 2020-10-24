@@ -11,8 +11,8 @@
     padding: 0 2% 0 2%;
 }
 
-.addProgTalkFormColInputGrp {
-    width: 90% !important;
+.addProgTalkForm_InnerRow {
+    padding-bottom: 4%;
 }
 
 .addProgTalkFormIconInputGrp {
@@ -46,7 +46,7 @@
     color: #434343 !important;
     border: none !important;
     border-bottom: 1px solid #c8c8c8 !important;
-    width: 90% !important;
+    border-radius: 0 !important;
 }
 
 .addProgTalkFormSelect:focus {
@@ -55,17 +55,6 @@
 
 .addProgTalkFormSelectOption {
     color: #434343;
-}
-
-#addProgTalkForm_ProgTalkDate {
-    border: none;
-    border-bottom: 1px solid #c8c8c8;
-    border-radius: 0;
-    color: #434343;
-}
-
-#addProgTalkForm_ProgTalkDate:focus {
-    box-shadow: none;
 }
 
 #addProgTalkForm_ProgTalkStartTime {
@@ -101,8 +90,27 @@
     box-shadow: none;
 }
 
+.addProgTalkForm_InnerCol {
+    height: 80%;
+}
+
+.addProgTalkModal .addProgTalkForm_DisciplineCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 10vh;
+    overflow-x: hidden;
+}
+
+.addProgTalkForm_CheckBox {
+    color: #434343;
+}
+
 #addProgTalkForm_ProgTalkDetails {
     resize: none;
+    border-radius: 6px;
+    color: #434343;
 }
 
 #addProgTalkFormBtn {

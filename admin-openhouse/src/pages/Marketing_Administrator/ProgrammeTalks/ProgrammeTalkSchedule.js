@@ -498,6 +498,7 @@ class ProgrammeTalkSchedule extends Component {
           centered
           backdrop="static"
           keyboard={false}
+          className="addProgTalkModal"
         >
           <AddProgTalkModal />
         </Modal>
@@ -511,6 +512,7 @@ class ProgrammeTalkSchedule extends Component {
           centered
           backdrop="static"
           keyboard={false}
+          className="editProgTalkModal"
         >
           <EditProgTalkModal handleSaveChanges={()=>{console.log("Edit Modal Saved")}} handleCancelEdit={this.handleEditProgTalkModal} />
         </Modal>
