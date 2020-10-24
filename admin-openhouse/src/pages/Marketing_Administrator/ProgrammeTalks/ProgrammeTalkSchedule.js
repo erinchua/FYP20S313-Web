@@ -30,7 +30,7 @@ class ProgrammeTalkSchedule extends Component {
       startTime: "",
       talkName: "",
       venue: "",
-      Link: "",
+      link: "",
       addProgTalkModal: false,
       editProgTalkModal: false,
       deleteProgTalkModal: false,
@@ -115,7 +115,7 @@ class ProgrammeTalkSchedule extends Component {
             capacityLimit: doc.data().capacityLimit,
             noRegistered: doc.data().noRegistered,
             hasRecording: doc.data().hasRecording.toString(),
-            Link : doc.data().Link,
+            link : doc.data().link,
             isLive: doc.data().isLive.toString(),
           };
             progtalk.push(data);
@@ -145,7 +145,7 @@ class ProgrammeTalkSchedule extends Component {
               capacityLimit: doc.data().capacityLimit,
               noRegistered: doc.data().noRegistered,
               hasRecording: doc.data().hasRecording.toString(),
-              Link : doc.data().Link,
+              link : doc.data().link,
               isLive: doc.data().isLive.toString(),
             };
             progtalk.push(data);
@@ -920,10 +920,10 @@ class ProgrammeTalkSchedule extends Component {
 
           <input
             type="text"
-            name="Link"
+            name="link"
             placeholder="Link"
             onChange={this.updateInput}
-            value={this.state.Link}
+            value={this.state.link}
             required
           />
           <button type="submit">Add Programme Talk</button>
