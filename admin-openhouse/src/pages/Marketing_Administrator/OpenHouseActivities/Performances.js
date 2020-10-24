@@ -8,35 +8,17 @@ import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faHourglassEnd, faHourglassStart, faPlus, faSchool, faTrash, faCalendarAlt, faExclamationCircle, faTheaterMasks } from '@fortawesome/free-solid-svg-icons';
-
-const initialStates = {
-    dateError: "",
-    endTimeError: "",
-    startTimeError: "",
-    performanceNameError: "",
-    venueError: "",
-}
+import { faEdit, faHourglassEnd, faHourglassStart, faPlus, faSchool, faTrash, faMapPin, faCalendarAlt, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
 class Performances extends Component {
-
-    state = initialStates;
-
     constructor() {
         super();
-            this.state = {
+        this.state = {
             date: "",
             endTime: "",
             startTime: "",
             performanceName: "",
             venue: "",
-            counter: "",
-            //Below states are for the functions
-            performance: "",
-            //Below states are for the modals
-            addModal: false,
-            editModal: false,
-            deleteModal: false,
         };
     }
 
@@ -73,158 +55,111 @@ class Performances extends Component {
     }
 
     display = () => {
-        // var getYear = new Date().getFullYear();
-        // console.log(getYear);
+        var getYear = new Date().getFullYear();
+        console.log(getYear);
     
-        // const db = fire.firestore();
-        // const performance = [];
-        // const userRef = db
-        // .collection("Performances")
-        // .get()
-        // .then((snapshot) => {
-        //     snapshot.forEach((doc) => {
-        //         performance.push(doc.data().date);
-        //     });
-        //     console.log(performance);
-        //     function onlyUnique(value, index, self) {
-        //         return self.indexOf(value) === index;
-        //     }
-        //     var unique = performance.filter(onlyUnique);
-        //     console.log(unique);
-
-        //     //day1
-        //     const day1date = [];
-        //     day1date.push(unique[0]);
-        //     this.setState({ day1date: day1date });
-        //     const day1 = db
-        //     .collection("Performances")
-        //     .where("date", "==", unique[0])
-        //     .get()
-        //     .then((snapshot) => {
-        //         const performance = [];
-        //         snapshot.forEach((doc) => {
-        //             const data = {
-        //                 docid : doc.id,
-        //                 id: doc.data().id,
-        //                 date: doc.data().date,
-        //                 endTime: doc.data().endTime,
-        //                 startTime: doc.data().startTime,
-        //                 performanceName: doc.data().performanceName,
-        //                 venue: doc.data().venue,
-        //             };
-        //             performance.push(data);
-        //         });
-        //         this.setState({ day1: performance });
-                                
-        //     });
-
-        //     //day 2
-        //     const day2date = [];
-        //     day2date.push(unique[1]);
-        //     this.setState({ day2date: day2date });
-        //     const day2 = db
-        //     .collection("Performances")
-        //     .where("date", "==", unique[1])
-        //     .get()
-        //     .then((snapshot) => {
-        //         const performance = [];
-        //         snapshot.forEach((doc) => {
-        //             const data = {
-        //                 docid : doc.id,
-        //                 id: doc.data().id,
-        //                 date: doc.data().date,
-        //                 endTime: doc.data().endTime,
-        //                 startTime: doc.data().startTime,
-        //                 performanceName: doc.data().performanceName,
-        //                 venue: doc.data().venue,
-        //             };
-        //             performance.push(data);
-        //         });
-        //         this.setState({ day2: performance });
-        //     });
-        // });
-
         const db = fire.firestore();
-        var day1_counter = 1;
-        var day2_counter = 1;
-
+        const performance = [];
         const userRef = db
-        .collection("Performances").orderBy("endTime", "asc")
+        .collection("Performances")
         .get()
         .then((snapshot) => {
-            const performance = [];
             snapshot.forEach((doc) => {
-                if (doc.data().date === "21-Nov-2020") {
-                    const data = {
-                        date: doc.data().date,
-                        endTime: doc.data().endTime,
-                        startTime: doc.data().startTime,
-                        performanceName: doc.data().performanceName,
-                        venue: doc.data().venue,
-                        id: doc.id,
-                        counter: day1_counter,
-                    };
-                    day1_counter++;
-                    performance.push(data);
-                } else {
-                    const data = {
-                        date: doc.data().date,
-                        endTime: doc.data().endTime,
-                        startTime: doc.data().startTime,
-                        performanceName: doc.data().performanceName,
-                        venue: doc.data().venue,
-                        id: doc.id,
-                        counter: day2_counter,
-                    };
-                    day2_counter++;
-                    performance.push(data);
-                }
+                performance.push(doc.data().date);
             });
-            
-            this.setState({ performance: performance });
+            console.log(performance);
+            function onlyUnique(value, index, self) {
+                return self.indexOf(value) === index;
+            }
+            var unique = performance.filter(onlyUnique);
+            console.log(unique);
+
+            //day1
+            /*const day1date = [];
+            day1date.push(unique[0]);
+            this.setState({ day1date: day1date });*/
+            const day1 = db
+            .collection("Performances")
+            .where("date", "==", unique[0])
+            .get()
+            .then((snapshot) => {
+                const performance = [];
+                snapshot.forEach((doc) => {
+                    const data = {
+                        docid : doc.id,
+                        id: doc.data().id,
+                        date: doc.data().date,
+                        endTime: doc.data().endTime,
+                        startTime: doc.data().startTime,
+                        performanceName: doc.data().performanceName,
+                        venue: doc.data().venue,
+                    };
+                    performance.push(data);
+                });
+                this.setState({ day1: performance });
+                                
+            });
+
+            //day 2
+            /*const day2date = [];
+            day2date.push(unique[1]);
+            this.setState({ day2date: day2date });*/
+            const day2 = db
+            .collection("Performances")
+            .where("date", "==", unique[1])
+            .get()
+            .then((snapshot) => {
+                const performance = [];
+                snapshot.forEach((doc) => {
+                    const data = {
+                        docid : doc.id,
+                        id: doc.data().id,
+                        date: doc.data().date,
+                        endTime: doc.data().endTime,
+                        startTime: doc.data().startTime,
+                        performanceName: doc.data().performanceName,
+                        venue: doc.data().venue,
+                    };
+                    performance.push(data);
+                });
+                this.setState({ day2: performance });
+            });
         });
     }
 
     addPerformance = (e) => {
         e.preventDefault();
         const db = fire.firestore();
-        
-        const isValid = this.validate();
-        if (isValid) {
-            this.setState(initialStates);
+        var lastdoc = db.collection("Performances").orderBy('id','desc')
+        .limit(1).get().then((snapshot) =>  {
+            snapshot.forEach((doc) => {
+                var docid= "";
+                var res = doc.data().id.substring(12);
+                var id = parseInt(res)
+                if (id.toString().length <= 1) {
+                    docid= "performance-00" + (id +1) 
+                } else if(id.toString().length <= 2) {
+                    docid= "performance-0" + (id +1) 
+                } else {
+                    docid="performance-0" + (id +1) 
+                }
 
-            var lastdoc = db.collection("Performances").orderBy('id', 'desc')
-            .limit(1).get().then((snapshot) =>  {
-                snapshot.forEach((doc) => {
-                    var docid= "";
-                    var res = doc.data().id.substring(15, 12);
-                    var id = parseInt(res)
-                    if (id.toString().length <= 1) {
-                        docid= "performance-00" + (id +1) 
-                    } else if(id.toString().length <= 2) {
-                        docid= "performance-0" + (id +1) 
-                    } else {
-                        docid="performance-0" + (id +1) 
-                    }
-
-                    const userRef = db
-                    .collection("Performances")
-                    .doc(docid)
-                    .set({
-                        date: this.state.date,
-                        endTime: this.state.endTime,
-                        startTime: this.state.startTime,
-                        performanceName: this.state.performanceName,
-                        venue: this.state.venue,
-                        id: docid,
-                    })
-                    .then(function() {
-                        window.location.reload();
-                    });
+                const userRef = db
+                .collection("Performances")
+                .doc(docid)
+                .set({
+                    date: this.state.date,
+                    endTime: this.state.endTime,
+                    startTime: this.state.startTime,
+                    performanceName: this.state.performanceName,
+                    venue: this.state.venue,
+                    id: docid,
                 })
+                .then(function() {
+                    window.location.reload();
+                });
             })
-        }
-
+        })
     };
 
     DeletePerformance(e, performanceid) {
@@ -299,61 +234,6 @@ class Performances extends Component {
         }
     }
 
-    //Add Modal
-    handleAdd = () => {
-        this.addModal = this.state.addModal;
-        if (this.addModal == false) {
-            this.setState({
-                addModal: true
-            });
-        } else {
-            this.setState({
-                addModal: false
-            });
-        }
-    }
-
-    //Validations for the Forms in Modals
-    validate = () => {
-        let dateError = "";
-        let endTimeError = "";
-        let startTimeError = "";
-        let tourNameError = "";
-        let venueError = "";
-
-        if (!this.state.date) {
-            dateError = "Please enter a valid date. E.g. 21-Nov-2020";
-        }
-
-        if (!this.state.endTime.includes(':')) {
-            endTimeError = "Please enter a valid end time. E.g. 2:30PM";
-        }
-
-        if (!this.state.startTime.includes(':')) {
-            startTimeError = "Please enter a valid start time. E.g. 1:30PM";
-        }
-
-        if (!this.state.tourName) {
-            tourNameError = "Please enter a valid tour name. E.g. Campus Tour BLK A";
-        }
-
-        if (!this.state.venue) {
-            venueError = "Please enter a valid value. E.g. SIM HQ BLK A Atrium";
-        }
-
-        if (dateError || endTimeError || startTimeError || tourNameError || venueError) {
-            this.setState({dateError, endTimeError, startTimeError, tourNameError, venueError});
-            return false;
-        } 
-
-        return true;
-    }
-
-    resetForm = () => {
-        this.setState(initialStates);
-        this.setState({date: '', performanceName: '', id: '', venue: '', startTime: '', endTime: ''})
-    }
-
     render() {
         return (
             <div>
@@ -373,7 +253,7 @@ class Performances extends Component {
                                                 <h4 id="Performances-title">Performances</h4>
                                             </Col>
                                             <Col md={6} className="text-right" id="Performances-firstRowCol">
-                                                <Button id="Performances-addBtn" onClick={this.handleAdd.bind(this)}><FontAwesomeIcon size="lg" icon={faPlus} /><span id="Performances-addBtnText">Add</span></Button>
+                                                <Button id="Performances-addBtn"><FontAwesomeIcon size="lg" icon={faPlus} /><span id="Performances-addBtnText">Add</span></Button>
                                             </Col>
                                         </Row>
 
@@ -416,22 +296,18 @@ class Performances extends Component {
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody className="Performances-tableBody">
-                                                                                {this.state.performance && this.state.performance.map((performance) => {
-                                                                                    if (performance.date == "21-Nov-2020") {
-                                                                                        return (
-                                                                                            <tr key={performance.id}>
-                                                                                                <td>{performance.counter}</td>
-                                                                                                <td>{performance.performanceName}</td>
-                                                                                                <td>{performance.startTime}</td>
-                                                                                                <td>{performance.endTime}</td>
-                                                                                                <td>{performance.venue}</td>
-                                                                                                <td><Button size="sm" id="Performances-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                                <td><Button size="sm" id="Performances-deleteBtn"><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
-                                                                                            </tr>
-                                                                                        ) 
-                                                                                    } else {
-                                                                                        return ('')
-                                                                                    }
+                                                                                {this.state.day1 && this.state.day1.map((day1, index) => {
+                                                                                    return (
+                                                                                        <tr>
+                                                                                            <td>{index + 1}</td>
+                                                                                            <td>{day1.performanceName}</td>
+                                                                                            <td>{day1.startTime}</td>
+                                                                                            <td>{day1.endTime}</td>
+                                                                                            <td>{day1.venue}</td>
+                                                                                            <td><Button size="sm" id="Performances-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><Button size="sm" id="Performances-deleteBtn"><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                                        </tr>
+                                                                                    )
                                                                                 })}
                                                                             </tbody>
                                                                         </Table>
@@ -454,22 +330,18 @@ class Performances extends Component {
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody className="Performances-tableBody">
-                                                                                {this.state.performance && this.state.performance.map((performance) => {
-                                                                                    if (performance.date == "22-Nov-2020") {
-                                                                                        return (
-                                                                                            <tr key={performance.id}>
-                                                                                                <td>{performance.counter}</td>
-                                                                                                <td>{performance.performanceName}</td>
-                                                                                                <td>{performance.startTime}</td>
-                                                                                                <td>{performance.endTime}</td>
-                                                                                                <td>{performance.venue}</td>
-                                                                                                <td><Button size="sm" id="Performances-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                                <td><Button size="sm" id="Performances-deleteBtn"><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
-                                                                                            </tr>
-                                                                                        ) 
-                                                                                    } else {
-                                                                                        return ('')
-                                                                                    }
+                                                                                {this.state.day2 && this.state.day2.map((day2, index) => {
+                                                                                    return (
+                                                                                        <tr>
+                                                                                            <td>{index + 1}</td>
+                                                                                            <td>{day2.performanceName}</td>
+                                                                                            <td>{day2.startTime}</td>
+                                                                                            <td>{day2.endTime}</td>
+                                                                                            <td>{day2.venue}</td>
+                                                                                            <td><Button size="sm" id="Performances-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><Button size="sm" id="Performances-deleteBtn"><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                                        </tr>
+                                                                                    )
                                                                                 })}
                                                                             </tbody>
                                                                         </Table>
@@ -489,87 +361,9 @@ class Performances extends Component {
 
                     <Footer />
                 </Container>
-
-                {/* Add Modal */}
-                {this.state.addModal == true ? 
-                    <Modal show={this.state.addModal} onHide={this.handleAdd} size="md" centered keyboard={false}>
-                        <Modal.Header closeButton className="justify-content-center">
-                            <Modal.Title id="Performances-modalTitle" className="w-100">Add Performance</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Form noValidate onSubmit={this.addGuidedTour}>
-                                <Form.Group>
-                                    <Form.Group as={Row} className="Performances-formGroup">
-                                        <Form.Group as={Col} md="1" className="Performances-formGroup">
-                                            <FontAwesomeIcon size="lg" icon={faTheaterMasks}/>
-                                        </Form.Group> 
-                                        <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="performanceName" placeholder="Performance: e.g. DreamWerkz" required value={this.state.performanceName} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage">{this.state.tourNameError}</div>
-                                        </Form.Group>
-                                    </Form.Group>                     
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Group as={Row} className="Performances-formGroup">
-                                        <Form.Group as={Col} md="1" className="Performances-formGroup">
-                                            <FontAwesomeIcon size="lg" icon={faCalendarAlt}/>
-                                        </Form.Group> 
-                                        <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="date" placeholder="Date: e.g. 21-Nov-2020" required value={this.state.date} onChange={this.updateInput} noValidate></Form.Control>
-                                            <div className="errorMessage">{this.state.dateError}</div>
-                                        </Form.Group>
-                                    </Form.Group>                     
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Group as={Row} className="Performances-formGroup">
-                                        <Form.Group as={Col} md="1" className="Performances-formGroup">
-                                            <FontAwesomeIcon size="lg" icon={faHourglassStart}/>
-                                        </Form.Group> 
-                                        <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="startTime" placeholder="Start Time: e.g. 1:30PM" required value={this.state.startTime} onChange={this.updateInput} noValidate></Form.Control>
-                                            <div className="errorMessage">{this.state.startTimeError}</div>
-                                        </Form.Group>
-                                    </Form.Group>                     
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Group as={Row} className="Performances-formGroup">
-                                        <Form.Group as={Col} md="1" className="Performances-formGroup">
-                                            <FontAwesomeIcon size="lg" icon={faHourglassEnd}/>
-                                        </Form.Group> 
-                                        <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="endTime" placeholder="End Time: e.g. 2:30PM" required value={this.state.endTime} onChange={this.updateInput} noValidate></Form.Control>
-                                            <div className="errorMessage">{this.state.endTimeError}</div>
-                                        </Form.Group>
-                                    </Form.Group>                     
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Group as={Row} className="Performances-formGroup">
-                                        <Form.Group as={Col} md="1" className="Performances-formGroup">
-                                            <FontAwesomeIcon size="lg" icon={faSchool}/>
-                                        </Form.Group> 
-                                        <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="venue" placeholder="Venue: e.g. SIM HQ BLK A Atrium" required value={this.state.venue} onChange={this.updateInput} noValidate></Form.Control>
-                                            <div className="errorMessage">{this.state.venueError}</div>
-                                        </Form.Group>
-                                    </Form.Group>                     
-                                </Form.Group>
-                            </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Container>
-                                <Row id="Performances-addFooter">
-                                    <Col md={12} className="Performances-addFooterCol">
-                                        <Button id="Performances-submitBtn" type="submit" onClick={this.addPerformance}>Submit</Button>
-                                    </Col>
-                                </Row>
-                            </Container>
-                        </Modal.Footer>
-                    </Modal>: ''
-                }
-                
-
-
             </div>
+
+
 
 
             // <div className="home">
