@@ -166,10 +166,10 @@ export default class SideNavBar extends React.Component {
                                                 <Accordion.Collapse eventKey="4">
                                                     <div>
                                                         <Nav.Link href="/Arts&SocialSciences" className="sideNavBar-inner-navLinks">Arts & Social Sciences</Nav.Link>
-                                                        <Nav.Link href="#" className="sideNavBar-inner-navLinks">Business</Nav.Link>
-                                                        <Nav.Link href="#" className="sideNavBar-inner-navLinks">IT & Computer Sciences</Nav.Link>
-                                                        <Nav.Link href="#" className="sideNavBar-inner-navLinks">Nursing</Nav.Link>
-                                                        <Nav.Link href="#" className="sideNavBar-inner-navLinks">Speciality</Nav.Link>
+                                                        <Nav.Link href="/Business" className="sideNavBar-inner-navLinks">Business</Nav.Link>
+                                                        <Nav.Link href="/IT&ComputerSciences" className="sideNavBar-inner-navLinks">IT & Computer Sciences</Nav.Link>
+                                                        <Nav.Link href="/Nursing" className="sideNavBar-inner-navLinks">Nursing</Nav.Link>
+                                                        <Nav.Link href="/Speciality" className="sideNavBar-inner-navLinks">Speciality</Nav.Link>
                                                     </div>
                                                 </Accordion.Collapse>
                                             </Accordion>
