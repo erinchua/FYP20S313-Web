@@ -36,6 +36,10 @@ import ForumFlagged from "./pages/Marketing_Administrator/Forum/ForumFlagged";
 import ForumSettings from "./pages/Marketing_Administrator/Forum/ForumSettings";
 import ViewForumQuestion from "./pages/Marketing_Administrator/Forum/ViewForumQuestion";
 import ArtsSocialSciences from "./pages/Marketing_Administrator/Study@SIM/Arts&SocialSciences";
+import Business from "./pages/Marketing_Administrator/Study@SIM/Business";
+import ITComputerSciences from "./pages/Marketing_Administrator/Study@SIM/IT&ComputerSciences";
+import Nursing from "./pages/Marketing_Administrator/Study@SIM/Nursing";
+import Speciality from "./pages/Marketing_Administrator/Study@SIM/Speciality";
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -78,6 +82,10 @@ ReactDOM.render(
       <Route path="/ForumSettings" component={ForumSettings} />
       <Route path="/ViewForumQuestion" component={ViewForumQuestion} />
       <Route path="/Arts&SocialSciences" component={ArtsSocialSciences} />
+      <Route path="/Business" component={Business} />
+      <Route path="/IT&ComputerSciences" component={ITComputerSciences} />
+      <Route path="/Nursing" component={Nursing} />
+      <Route path="/Speciality" component={Speciality} />
     </Switch>
   </Router>,
   document.getElementById("root")
