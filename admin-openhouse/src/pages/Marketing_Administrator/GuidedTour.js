@@ -126,18 +126,38 @@ class GuidedTour extends Component {
         const isValid = this.validate();
         if (isValid) {
             this.setState(initialStates);
-            const userRef = db
-            .collection("GuidedTours")
-            .add({
-                date: this.state.date,
-                endTime: this.state.endTime,
-                startTime: this.state.startTime,
-                tourName: this.state.tourName,
-                venue: this.state.venue,
+
+            var lastdoc = db.collection("GuidedTours").orderBy('id', 'desc')
+            .limit(1).get().then((snapshot) =>  {
+                snapshot.forEach((doc) => {
+                    var docid= "";
+                    var res = doc.data().id.substring(8, 5);
+                    var id = parseInt(res)
+                    if (id.toString().length <= 1) {
+                        docid= "tour-00" + (id + 1) 
+                    } else if(id.toString().length <= 2) {
+                        docid= "tour-0" + (id + 1) 
+                    } else {
+                        docid="tour-0" + (id + 1) 
+                    }
+                    const userRef = db
+                    .collection("GuidedTours")
+                    .doc(docid)
+                    .set({
+                        id: docid,
+                        date: this.state.date,
+                        endTime: this.state.endTime,
+                        startTime: this.state.startTime,
+                        tourName: this.state.tourName,
+                        venue: this.state.venue,
+                    })
+                    .then(function () {
+                        window.location.reload();
+                        console.log(userRef)
+                    });
+                })
             })
-            .then(function () {
-                window.location.reload();
-            });
+            
         }
     };
 
@@ -218,6 +238,7 @@ class GuidedTour extends Component {
             guidedTour.push(data);
             this.setState({ 
                 editGuidedTours: guidedTour,
+                id: doc.id,
                 date: doc.data().date,
                 endTime: doc.data().endTime,
                 startTime: doc.data().startTime,
@@ -327,11 +348,11 @@ class GuidedTour extends Component {
             dateError = "Please enter a valid date. E.g. 21-Nov-2020";
         }
 
-        if (!this.state.endTime) {
+        if (!this.state.endTime.includes(':')) {
             endTimeError = "Please enter a valid end time. E.g. 2:30PM";
         }
 
-        if (!this.state.startTime) {
+        if (!this.state.startTime.includes(':')) {
             startTimeError = "Please enter a valid start time. E.g. 1:30PM";
         }
 
@@ -419,21 +440,21 @@ class GuidedTour extends Component {
                                                                             </thead>
                                                                             <tbody className="GuidedTours-tableBody">
                                                                                 {this.state.guidedTours && this.state.guidedTours.map((guidedTour) => {
-                                                                                    return(
-                                                                                        <>
-                                                                                        {guidedTour.date == "21-Nov-2020" ? 
-                                                                                        <tr>
-                                                                                            <td>{guidedTour.counter}</td>
-                                                                                            <td>{guidedTour.tourName}</td>
-                                                                                            <td>{guidedTour.startTime}</td>
-                                                                                            <td>{guidedTour.endTime}</td>
-                                                                                            <td>{guidedTour.venue}</td>
-                                                                                            <td><Button size="sm" id="GuidedTours-editBtn" onClick={(e) => this.editGuidedTour(e, guidedTour.id)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                            <td><Button size="sm" id="GuidedTours-deleteBtn" onClick={(e) => this.handleDelete(e, guidedTour.id)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
-                                                                                        </tr> : ''
-                                                                                        }
-                                                                                        </>
-                                                                                    );
+                                                                                    if (guidedTour.date === "21-Nov-2020"){
+                                                                                        return (
+                                                                                            <tr key={guidedTour.id}>
+                                                                                                <td>{guidedTour.counter}</td>
+                                                                                                <td>{guidedTour.tourName}</td>
+                                                                                                <td>{guidedTour.startTime}</td>
+                                                                                                <td>{guidedTour.endTime}</td>
+                                                                                                <td>{guidedTour.venue}</td>
+                                                                                                <td><Button size="sm" id="GuidedTours-editBtn" onClick={(e) => this.editGuidedTour(e, guidedTour.id)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                <td><Button size="sm" id="GuidedTours-deleteBtn" onClick={(e) => this.handleDelete(e, guidedTour.id)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                                            </tr>
+                                                                                        )
+                                                                                    } else {
+                                                                                        return ('')
+                                                                                    }
                                                                                 })}
                                                                             </tbody>
                                                                         </Table>
@@ -457,21 +478,21 @@ class GuidedTour extends Component {
                                                                             </thead>
                                                                             <tbody className="GuidedTours-tableBody">
                                                                                 {this.state.guidedTours && this.state.guidedTours.map((guidedTour) => {
-                                                                                    return(
-                                                                                        <>
-                                                                                        {guidedTour.date == "22-Nov-2020" ? 
-                                                                                        <tr>
-                                                                                            <td>{guidedTour.counter}</td>
-                                                                                            <td>{guidedTour.tourName}</td>
-                                                                                            <td>{guidedTour.startTime}</td>
-                                                                                            <td>{guidedTour.endTime}</td>
-                                                                                            <td>{guidedTour.venue}</td>
-                                                                                            <td><Button size="sm" id="GuidedTours-editBtn" onClick={(e) => this.editGuidedTour(e, guidedTour.id)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                            <td><Button size="sm" id="GuidedTours-deleteBtn" onClick={this.handleDelete.bind(this)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
-                                                                                        </tr> : ''
-                                                                                        }
-                                                                                        </>
-                                                                                    );
+                                                                                    if (guidedTour.date === "22-Nov-2020"){
+                                                                                        return (
+                                                                                            <tr key={guidedTour.id}>
+                                                                                                <td>{guidedTour.counter}</td>
+                                                                                                <td>{guidedTour.tourName}</td>
+                                                                                                <td>{guidedTour.startTime}</td>
+                                                                                                <td>{guidedTour.endTime}</td>
+                                                                                                <td>{guidedTour.venue}</td>
+                                                                                                <td><Button size="sm" id="GuidedTours-editBtn" onClick={(e) => this.editGuidedTour(e, guidedTour.id)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                <td><Button size="sm" id="GuidedTours-deleteBtn" onClick={(e) => this.handleDelete(e, guidedTour.id)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                                            </tr>
+                                                                                        )
+                                                                                    } else {
+                                                                                        return ('')
+                                                                                    }
                                                                                 })}
                                                                             </tbody>
                                                                         </Table>
@@ -492,6 +513,7 @@ class GuidedTour extends Component {
                     <Footer />
                 </Container>
 
+                {/* Add Modal */}
                 {this.state.addModal == true ? 
                     <Modal show={this.state.addModal} onHide={this.handleAdd} size="md" centered keyboard={false}>
                         <Modal.Header closeButton className="justify-content-center">
@@ -568,6 +590,7 @@ class GuidedTour extends Component {
                     </Modal>: ''
                 }
                 
+                {/* Edit Modal */}
                 {this.state.editModal == true ? 
                     <Modal show={this.state.editModal} onHide={this.handleEdit} size="lg" centered keyboard={false}>
                         <Modal.Header closeButton className="justify-content-center">
@@ -575,7 +598,7 @@ class GuidedTour extends Component {
                         </Modal.Header>
                         {this.state.editGuidedTours && this.state.editGuidedTours.map((editGuidedTour) => {
                             return (
-                                <div>
+                                <div key={editGuidedTour.id}>
                                     <Modal.Body>
                                         <Form noValidate>
                                             <Form.Group>
@@ -653,35 +676,38 @@ class GuidedTour extends Component {
                     </Modal>: ''
                 }
 
+                {/* Delete Modal */}
                 {this.state.deleteModal == true ? 
                     <Modal show={this.state.deleteModal} onHide={() => this.setState({deleteModal: false})} size="md" centered keyboard={false}>
                         <Modal.Header closeButton className="justify-content-center">
                             <Modal.Title id="GuidedTours-modalTitle" className="w-100">Delete Tour</Modal.Title>
                         </Modal.Header>
-                        {this.state.deleteGuidedTours && this.state.deleteGuidedTours.map((guidedTour) => {
+                        {this.state.deleteGuidedTours && this.state.deleteGuidedTours.map((deleteGuidedTour) => {
                             return (
-                                <Modal.Body>
-                                    <Row className="justify-content-center">
-                                        <Col md={12} className="text-center GuidedTours-deleteFooterCol">
-                                            <FontAwesomeIcon size="3x" icon={faExclamationCircle}/>
-                                        </Col>
-                                    </Row>
+                                <div key={deleteGuidedTour.id}>
+                                    <Modal.Body>
+                                        <Row className="justify-content-center">
+                                            <Col md={12} className="text-center GuidedTours-deleteFooterCol">
+                                                <FontAwesomeIcon size="3x" icon={faExclamationCircle}/>
+                                            </Col>
+                                        </Row>
 
-                                    <Row className="justify-content-center">
-                                        <Col md={12} className="text-center GuidedTours-deleteFooterCol">
-                                            <h5 id="GuidedTours-deleteText">Do you want to delete this tour?</h5>
-                                        </Col>
-                                    </Row>
+                                        <Row className="justify-content-center">
+                                            <Col md={12} className="text-center GuidedTours-deleteFooterCol">
+                                                <h5 id="GuidedTours-deleteText">Do you want to delete this tour?</h5>
+                                            </Col>
+                                        </Row>
 
-                                    <Row className="justify-content-center">
-                                        <Col md={6} className="text-right GuidedTours-deleteFooterCol">
-                                            <Button id="GuidedTours-deleteConfirmBtn" onClick={(e) => {this.DeleteGuidedTour(e, guidedTour.id)}}>Confirm</Button>
-                                        </Col>
-                                        <Col md={6} className="text-left GuidedTours-deleteFooterCol">
-                                            <Button id="GuidedTours-deleteCancelBtn" onClick={() => this.setState({deleteModal: false})}>Cancel</Button>
-                                        </Col>
-                                    </Row>
-                                </Modal.Body>
+                                        <Row className="justify-content-center">
+                                            <Col md={6} className="text-right GuidedTours-deleteFooterCol">
+                                                <Button id="GuidedTours-deleteConfirmBtn" onClick={(e) => {this.DeleteGuidedTour(e, deleteGuidedTour.id)}}>Confirm</Button>
+                                            </Col>
+                                            <Col md={6} className="text-left GuidedTours-deleteFooterCol">
+                                                <Button id="GuidedTours-deleteCancelBtn" onClick={() => this.setState({deleteModal: false})}>Cancel</Button>
+                                            </Col>
+                                        </Row>
+                                    </Modal.Body>
+                                </div>
                             )
                         })}
                     </Modal>: ''
