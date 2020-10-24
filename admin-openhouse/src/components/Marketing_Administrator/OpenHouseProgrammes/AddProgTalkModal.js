@@ -185,16 +185,16 @@ export default class AddProgTalkModal extends React.Component {
 
                         {/* 3rd Row */}
                         <Form.Row className="justify-content-center addProgTalkFormRow">
-                            {/* Programme Talk Date */}
+                            {/* Capacity Limit */}
                             <Col md="6" className="addProgTalkFormCol text-center">
                                 <InputGroup className="addProgTalkFormColInputGrp">
                                     <InputGroup.Prepend>
                                         <InputGroup.Text className="addProgTalkFormIconInputGrp">
-                                            <FontAwesomeIcon size="lg" className="addProgTalkFormIcon" icon={faCalendarAlt} />
+                                            <FontAwesomeIcon size="lg" className="addProgTalkFormIcon" icon={faChair} />
                                         </InputGroup.Text>
                                     </InputGroup.Prepend>
                                     
-                                    <FormControl type="text" name="date" id="addProgTalkForm_ProgTalkDate" placeholder="Programme Talk Date*" required />
+                                    <FormControl type="text" name="endTime" id="addProgTalkForm_Capacity" placeholder="Capacity Limit*" required />
                                 </InputGroup>
                             </Col>
 
@@ -211,6 +211,19 @@ export default class AddProgTalkModal extends React.Component {
 
                         {/* 4th Row */}
                         <Form.Row className="justify-content-center addProgTalkFormRow">
+                            {/* Programme Talk Date */}
+                            <Col md="4" className="addProgTalkFormCol text-center">
+                                <InputGroup className="addProgTalkFormColInputGrp">
+                                    <InputGroup.Prepend>
+                                        <InputGroup.Text className="addProgTalkFormIconInputGrp">
+                                            <FontAwesomeIcon size="lg" className="addProgTalkFormIcon" icon={faCalendarAlt} />
+                                        </InputGroup.Text>
+                                    </InputGroup.Prepend>
+                                    
+                                    <FormControl type="text" name="date" id="addProgTalkForm_ProgTalkDate" placeholder="Programme Talk Date*" required />
+                                </InputGroup>
+                            </Col>
+
                             {/* Programme Talk Start Time */}
                             <Col md="4" className="addProgTalkFormCol text-center">
                                 <InputGroup className="addProgTalkFormColInputGrp">
@@ -237,18 +250,6 @@ export default class AddProgTalkModal extends React.Component {
                                 </InputGroup>
                             </Col>
 
-                            {/* Capacity Limit */}
-                            <Col md="4" className="addProgTalkFormCol text-center">
-                                <InputGroup className="addProgTalkFormColInputGrp">
-                                    <InputGroup.Prepend>
-                                        <InputGroup.Text className="addProgTalkFormIconInputGrp">
-                                            <FontAwesomeIcon size="lg" className="addProgTalkFormIcon" icon={faChair} />
-                                        </InputGroup.Text>
-                                    </InputGroup.Prepend>
-                                    
-                                    <FormControl type="text" name="endTime" id="addProgTalkForm_Capacity" placeholder="Capacity Limit*" required />
-                                </InputGroup>
-                            </Col>
                         </Form.Row>
 
                         {/* Programme Talk Details */}

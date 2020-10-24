@@ -70,8 +70,22 @@ export default class EditProgTalkModal extends React.Component {
                 <Modal.Body>
                     <Form noValidate id="editProgTalkForm"> {/* Need to add onSubmit later */}
                         <Form.Row className="justify-content-center" style={{paddingBottom: "2%"}}>
+                            {/* Date */}
+                            <Col md="3">
+                                <Form.Group>
+                                    <Form.Label className="editProgTalkFormLabel">Date</Form.Label>
+
+                                    <Form.Control as="select" name="date" defaultValue="chooseDate" className="editProgTalkFormSelect" required noValidate>
+                                        <option value="chooseDate" className="editProgTalkFormSelectOption">Choose an Openhouse Date</option>
+                                        
+                                        {/* To be retrieved from DB */}
+                                        <option value="day1" className="editProgTalkFormSelectOption">21 October 2020</option>
+                                    </Form.Control>
+                                </Form.Group>
+                            </Col>
+                            
                             {/* University */}
-                            <Col md="4">
+                            <Col md="3">
                                 <Form.Group>
                                     <Form.Label className="editProgTalkFormLabel">University</Form.Label>
 
@@ -85,7 +99,7 @@ export default class EditProgTalkModal extends React.Component {
                             </Col>
 
                             {/* Discipline */}
-                            <Col md="4">
+                            <Col md="3">
                                 <Form.Group>
                                     <Form.Label className="editProgTalkFormLabel">Discipline</Form.Label>
                                     
@@ -99,7 +113,7 @@ export default class EditProgTalkModal extends React.Component {
                             </Col>
 
                             {/* Sub Discipline */}
-                            <Col md="4">
+                            <Col md="3">
                                 <Form.Group>
                                     <Form.Label className="editProgTalkFormLabel">Sub-Discipline</Form.Label>
                                     
