@@ -19,54 +19,54 @@ import { faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd
 // }
 
 export default class AddStudySIMProgModal extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            awardingUni: "",
-            capacityLimit: "",
-            date: "",
-            endTime: "",
-            hasRecording: "",
-            isLive: "",
-            noRegistered: "",
-            startTime: "",
-            talkName: "",
-            venue: "",
-            Link: "",
-            id: "",
-        };
-    }
+    // constructor() {
+    //     super();
+    //     this.state = {
+    //         awardingUni: "",
+    //         capacityLimit: "",
+    //         date: "",
+    //         endTime: "",
+    //         hasRecording: "",
+    //         isLive: "",
+    //         noRegistered: "",
+    //         startTime: "",
+    //         talkName: "",
+    //         venue: "",
+    //         Link: "",
+    //         id: "",
+    //     };
+    // }
 
 
-    /* Add Add Programme Talk Modal Validations */
-    handleChange = (e) => {
-        e.preventDefault();
-        const { name, value } = e.target;
+    /* Add Programme Modal Validations */
+    // handleChange = (e) => {
+    //     e.preventDefault();
+    //     const { name, value } = e.target;
         
-        let errors = this.state.errors;
+    //     let errors = this.state.errors;
         
-        switch (name) {
-            case 'programmeTalkName': 
-                errors.programmeTalkName = value.length == 0
-                    ? 'Please enter a valid programme talk name!'
-                    : '';
-                break;
+    //     switch (name) {
+    //         case 'programmeTalkName': 
+    //             errors.programmeTalkName = value.length == 0
+    //                 ? 'Please enter a valid programme talk name!'
+    //                 : '';
+    //             break;
 
-            case 'email': 
-                errors.email = value.length < 1
-                    ? ''
-                    : 'Please enter a valid email!';
-                break;
+    //         case 'email': 
+    //             errors.email = value.length < 1
+    //                 ? ''
+    //                 : 'Please enter a valid email!';
+    //             break;
 
-            default:
-                break;
-        }
+    //         default:
+    //             break;
+    //     }
         
-        this.setState({errors, [e.target.name]: e.target.value}, ()=> {
-            console.log(errors)
-        })
+    //     this.setState({errors, [e.target.name]: e.target.value}, ()=> {
+    //         console.log(errors)
+    //     })
     
-    }
+    // }
 
 
     render(){
@@ -216,7 +216,7 @@ export default class AddStudySIMProgModal extends React.Component {
                 </Modal.Body>
 
                 <Modal.Footer className="justify-content-center">
-                    {/* Add Programme Submit Btn Row */}
+                    {/* Add Programme Submit Btn*/}
                     <Button type="submit" id="addStudySIMProgFormBtn">Submit</Button>
                 </Modal.Footer>
             </div>

@@ -9,11 +9,32 @@
 
 .editProgTalkHeader {
     color: #424242;
+    width: 20%;
+}
+
+.editProgTalkHeader_Time {
+    color: #424242;
+    width: 15%;
+}
+
+.editProgTalkHeader_Capacity {
+    color: #424242;
+    width: 10%;
 }
 
 .editProgTalkData {
     padding: 1% !important;
     width: 20%;
+}
+
+.editProgTalkData_Time {
+    padding: 1% !important;
+    width: 15%;
+}
+
+.editProgTalkData_Capacity {
+    padding: 1% !important;
+    width: 10%;
 }
 
 .editProgTalkData_Form {
@@ -28,17 +49,6 @@
 
 .editProgTalkFormRow {
     padding-bottom: 4%;
-}
-
-#editProgTalkFormBtn {
-    background: #60c6d9;
-    border-color: #60c6d9;
-    border-radius: 6px;
-    width: 20%;
-}
-
-#editProgTalkFormBtn:focus {
-    box-shadow: none;
 }
 
 .editProgTalkFormLabel {
@@ -59,4 +69,27 @@
 
 .editProgTalkFormSelectOption {
     color: #434343;
+}
+
+#saveChangesProgTalkFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+    width: 40%;
+}
+
+#saveChangesProgTalkFormBtn:focus {
+    box-shadow: none;
+}
+
+#cancelEditProgTalkFormBtn {
+    background: none;
+    border: 1px solid #60c6d9;
+    color: #60c6d9;
+    border-radius: 6px;
+    width: 40%;
+}
+
+#cancelEditProgTalkFormBtn:focus {
+    box-shadow: none;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Form, Button, Col, FormControl, Table } from 'react-bootstrap';
+import { Modal, Form, Button, Row, Col, FormControl, Table, Container } from 'react-bootstrap';
 
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
@@ -19,23 +19,13 @@ export default class EditProgTalkModal extends React.Component {
     constructor() {
         super();
         this.state = {
-            awardingUni: "",
-            capacityLimit: "",
-            date: "",
-            endTime: "",
-            hasRecording: "",
-            isLive: "",
-            noRegistered: "",
-            startTime: "",
-            talkName: "",
-            venue: "",
-            Link: "",
-            id: "",
+            handleSaveChanges: "",
+            handleCancelEdit: "",
         };
     }
 
 
-    /* Add Add Programme Talk Modal Validations */
+    /* Edit Programme Talk Modal Validations */
     // handleChange = (e) => {
     //     e.preventDefault();
     //     const { name, value } = e.target;
@@ -130,9 +120,10 @@ export default class EditProgTalkModal extends React.Component {
                                         <tr>
                                             <th className="editProgTalkHeader">Programme Talk</th>
                                             <th className="editProgTalkHeader">Programme Talk Details</th>
-                                            <th className="editProgTalkHeader">Start Time</th>
-                                            <th className="editProgTalkHeader">End Time</th>
+                                            <th className="editProgTalkHeader_Time">Start Time</th>
+                                            <th className="editProgTalkHeader_Time">End Time</th>
                                             <th className="editProgTalkHeader">Venue</th>
+                                            <th className="editProgTalkHeader_Capacity">Capacity Limit</th>
                                         </tr>
                                     </thead>
 
@@ -144,14 +135,17 @@ export default class EditProgTalkModal extends React.Component {
                                             <td className="editProgTalkData">
                                                 <FormControl as="textarea" rows="8" required noValidate className="editProgTalkData_Form" placeholder="Programme Talk Details" />
                                             </td>
-                                            <td className="editProgTalkData">
+                                            <td className="editProgTalkData_Time">
                                                 <FormControl as="textarea" rows="8" required noValidate className="editProgTalkData_Form" placeholder="Start Time" />
                                             </td>
-                                            <td className="editProgTalkData">
+                                            <td className="editProgTalkData_Time">
                                                 <FormControl as="textarea" rows="8" required noValidate className="editProgTalkData_Form" placeholder="End Time" />
                                             </td>
                                             <td className="editProgTalkData">
                                                 <FormControl as="textarea" rows="8" required noValidate className="editProgTalkData_Form" placeholder="Venue" />
+                                            </td>
+                                            <td className="editProgTalkData_Capacity">
+                                                <FormControl as="textarea" rows="8" required noValidate className="editProgTalkData_Form" placeholder="Capacity Limit" />
                                             </td>
                                         </tr>
                                     </tbody>
@@ -159,21 +153,24 @@ export default class EditProgTalkModal extends React.Component {
                                 </Table>
                             </Col>
                         </Form.Row>
-
-                        <Form.Row>
-
-                        </Form.Row>
-
-
-                        {/* Add Programme Talk Submit Btn Row */}
-                        <Form.Row className="justify-content-center editProgTalkFormRow">
-                            <Col className="text-center">
-                                <Button type="submit" id="editProgTalkFormBtn">Submit</Button>
-                            </Col>
-                        </Form.Row>
-
                     </Form>
                 </Modal.Body>
+
+                <Modal.Footer className="justify-content-center">
+                    {/* Edit Programme Talk Save Changes Btn */}
+                    <Container>
+                        <Row>
+                            <Col md="6" className="text-right">
+                                <Button id="saveChangesProgTalkFormBtn" onClick={this.props.handleSaveChanges}>Save Changes</Button>
+                            </Col>
+
+                            <Col md="6" className="text-left">
+                                <Button id="cancelEditProgTalkFormBtn" onClick={this.props.handleCancelEdit}>Cancel</Button>
+                            </Col>
+                        </Row>
+                    </Container>
+                </Modal.Footer>
+
             </div>
         )
     }

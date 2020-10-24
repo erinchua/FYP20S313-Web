@@ -1,117 +1,113 @@
-#addProgTalkModalTitle {
+#addLiveTalkModalTitle {
     color: #424242;
     text-align: center;
 }
 
-.addProgTalkFormRow {
+.addLiveTalkFormRow {
     padding-bottom: 4%;
 }
 
-.addProgTalkFormCol {
+.addLiveTalkFormCol {
     padding: 0 2% 0 2%;
 }
 
-.addProgTalkFormColInputGrp {
+.addLiveTalkFormColInputGrp {
     width: 90% !important;
 }
 
-.addProgTalkFormIconInputGrp {
+.addLiveTalkFormIconInputGrp {
     background: transparent !important;
     border: none !important;
 }
 
-#addProgTalkForm_ProgTalkName {
+#addLiveTalkForm_ProgTalkName {
     border: none;
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
 }
 
-#addProgTalkForm_ProgTalkName:focus {
+#addLiveTalkForm_ProgTalkName:focus {
     box-shadow: none;
 }
 
-#addProgTalkForm_Venue {
+#addLiveTalkForm_Venue {
     border: none;
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
 }
 
-#addProgTalkForm_Venue:focus {
+#addLiveTalkForm_Venue:focus {
     box-shadow: none;
 }
 
-.addProgTalkFormSelect {
+.addLiveTalkFormSelect {
     color: #434343 !important;
     border: none !important;
     border-bottom: 1px solid #c8c8c8 !important;
     width: 90% !important;
 }
 
-.addProgTalkFormSelect:focus {
+.addLiveTalkFormSelect:focus {
     box-shadow: none !important;
 }
 
-.addProgTalkFormSelectOption {
+.addLiveTalkFormSelectOption {
     color: #434343;
 }
 
-#addProgTalkForm_ProgTalkDate {
+#addLiveTalkForm_LiveStreamLink {
     border: none;
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
 }
 
-#addProgTalkForm_ProgTalkDate:focus {
+#addLiveTalkForm_LiveStreamLink:focus {
     box-shadow: none;
 }
 
-#addProgTalkForm_ProgTalkStartTime {
+#addLiveTalkForm_ProgTalkDate {
     border: none;
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
 }
 
-#addProgTalkForm_ProgTalkStartTime:focus {
+#addLiveTalkForm_ProgTalkDate:focus {
     box-shadow: none;
 }
 
-#addProgTalkForm_ProgTalkEndTime {
+#addLiveTalkForm_ProgTalkStartTime {
     border: none;
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
 }
 
-#addProgTalkForm_ProgTalkEndTime:focus {
+#addLiveTalkForm_ProgTalkStartTime:focus {
     box-shadow: none;
 }
 
-#addProgTalkForm_Capacity {
+#addLiveTalkForm_ProgTalkEndTime {
     border: none;
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
 }
 
-#addProgTalkForm_Capacity:focus {
+#addLiveTalkForm_ProgTalkEndTime:focus {
     box-shadow: none;
 }
 
-#addProgTalkForm_ProgTalkDetails {
-    resize: none;
-}
-
-#addProgTalkFormBtn {
+#addLiveTalkFormBtn {
     background: #60c6d9;
     border-color: #60c6d9;
     border-radius: 6px;
     width: 20%;
 }
 
-#addProgTalkFormBtn:focus {
+#addLiveTalkFormBtn:focus {
     box-shadow: none;
 }
