@@ -30,7 +30,7 @@ class LiveTalk extends Component {
       startTime: "",
       talkName: "",
       venue: "",
-      Link: "",
+      link: "",
       addLiveTalkModal: false,
       editLiveTalkModal: false,
       deleteLiveTalkModal: false,
@@ -113,7 +113,7 @@ class LiveTalk extends Component {
             capacityLimit: doc.data().capacityLimit,
             noRegistered: doc.data().noRegistered,
             hasRecording: doc.data().hasRecording.toString(),
-            Link : doc.data().Link,
+            link : doc.data().link,
             isLive: doc.data().isLive.toString(),
           };
           livetalk.push(data);
@@ -143,7 +143,7 @@ class LiveTalk extends Component {
             capacityLimit: doc.data().capacityLimit,
             noRegistered: doc.data().noRegistered,
             hasRecording: doc.data().hasRecording.toString(),
-            Link : doc.data().Link,
+            link : doc.data().link,
             isLive: doc.data().isLive.toString(),
           };
           livetalk.push(data);
@@ -193,7 +193,7 @@ class LiveTalk extends Component {
           startTime: this.state.startTime,
           talkName: this.state.talkName,
           venue: this.state.venue,
-          Link: this.state.Link,
+          link: this.state.link,
           id: docid,
         })
         .then(function () {
@@ -221,10 +221,10 @@ class LiveTalk extends Component {
     const startTime = document.getElementById(livetalkid + "starttime").value
     const endTime = document.getElementById(livetalkid + "endtime").value
     const venue = document.getElementById(livetalkid + "venue").value
-    const Link = document.getElementById(livetalkid + "link").value
+    const link = document.getElementById(livetalkid + "link").value
 
     const db = fire.firestore();
-    if (talkName != null && awardingUni != null && startTime != null && endTime != null && venue != null && Link != null) {
+    if (talkName != null && awardingUni != null && startTime != null && endTime != null && venue != null && link != null) {
       const userRef = db
       .collection("ProgrammeTalks")
       .doc(livetalkid)
@@ -234,7 +234,7 @@ class LiveTalk extends Component {
         startTime: startTime,
         talkName: talkName,
         venue: venue,
-        Link: Link,
+        link: link,
       })
       .then(function () {
         alert("Updated");
@@ -641,17 +641,17 @@ class LiveTalk extends Component {
                       </td>
                       <td>
                         <span class={day1.docid + "text"}>
-                          {day1.Link}
+                          {day1.link}
                         </span>
                         <span id={day1.docid + "spanlink"} hidden>
                           <input
                             id={day1.docid + "link"}
-                            defaultValue={day1.Link}
+                            defaultValue={day1.link}
                             type="text"
                             name={day1.docid + "link"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={day1.Link}
+                            placeholder={day1.link}
                             required
                           />
                         </span>            
