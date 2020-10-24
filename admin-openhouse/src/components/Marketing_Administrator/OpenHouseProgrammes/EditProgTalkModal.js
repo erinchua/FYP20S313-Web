@@ -1,11 +1,13 @@
 import React from 'react';
-import { Modal, Form, Button, Row, Col, FormControl, Table, Container } from 'react-bootstrap';
+import { Modal, Form, Button, InputGroup, Col, FormControl, Row, Container } from 'react-bootstrap';
 
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import firecreate from "../../../config/firebasecreate";
 
 import "../../../css/Marketing_Administrator/EditProgTalkModal.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd, faChair, faUniversity } from '@fortawesome/free-solid-svg-icons';
 
 // const validateForm = (errors) => {
 //   let valid = true;
@@ -21,6 +23,7 @@ export default class EditProgTalkModal extends React.Component {
         this.state = {
             handleSaveChanges: "",
             handleCancelEdit: "",
+            checkDiscipline: false,
         };
     }
 
@@ -67,106 +70,157 @@ export default class EditProgTalkModal extends React.Component {
                     </Modal.Title>
                 </Modal.Header>
 
-                <Modal.Body>
-                    <Form noValidate id="editProgTalkForm"> {/* Need to add onSubmit later */}
-                        <Form.Row className="justify-content-center" style={{paddingBottom: "2%"}}>
-                            {/* Date */}
-                            <Col md="3">
-                                <Form.Group>
-                                    <Form.Label className="editProgTalkFormLabel">Date</Form.Label>
+                <Modal.Body id="editProgTalkModalBody">
+                    <Form noValidate> {/* Need to add onSubmit later */}
+                        {/* Main Row */}
+                        <Form.Row className="justify-content-center">
+                            {/* Left Col */}
+                            <Col md="6" className="editProgTalkFormCol text-center">
+                                {/* Programme Name */}
+                                <Form.Row className="justify-content-center editProgTalkForm_InnerRow">
+                                    <Col md="10" className="text-center">
+                                        <InputGroup className="editProgTalkFormColInputGrp">
+                                            <InputGroup.Prepend>
+                                                <InputGroup.Text className="editProgTalkFormIconInputGrp">
+                                                    <FontAwesomeIcon size="lg" className="editProgTalkFormIcon" icon={faMicrophone} />
+                                                </InputGroup.Text>
+                                            </InputGroup.Prepend>
 
-                                    <Form.Control as="select" name="date" defaultValue="chooseDate" className="editProgTalkFormSelect" required noValidate>
-                                        <option value="chooseDate" className="editProgTalkFormSelectOption">Choose an Openhouse Date</option>
-                                        
-                                        {/* To be retrieved from DB */}
-                                        <option value="day1" className="editProgTalkFormSelectOption">21 October 2020</option>
-                                    </Form.Control>
-                                </Form.Group>
+                                            <FormControl type="text" name="talkName" id="editProgTalkForm_ProgTalkName" placeholder="Name of Programme Talk*" required />
+                                        </InputGroup>
+                                    </Col>
+                                </Form.Row>
+
+                                {/* Programme Talk Venue */}
+                                <Form.Row className="justify-content-center editProgTalkForm_InnerRow">
+                                    <Col md="10" className="text-center">
+                                        <InputGroup className="editProgTalkFormColInputGrp">
+                                            <InputGroup.Prepend>
+                                                <InputGroup.Text className="editProgTalkFormIconInputGrp">
+                                                    <FontAwesomeIcon size="lg" className="editProgTalkFormIcon" icon={faSchool} />
+                                                </InputGroup.Text>
+                                            </InputGroup.Prepend>
+
+                                            <FormControl type="text" name="venue" id="editProgTalkForm_Venue" placeholder="Venue*" required />
+                                        </InputGroup>
+                                    </Col>
+                                </Form.Row>
+
+                                {/* Capacity Limit */}
+                                <Form.Row className="justify-content-center editProgTalkForm_InnerRow">
+                                    <Col md="10" className="text-center">
+                                        <InputGroup className="editProgTalkFormColInputGrp">
+                                            <InputGroup.Prepend>
+                                                <InputGroup.Text className="editProgTalkFormIconInputGrp">
+                                                    <FontAwesomeIcon size="lg" className="editProgTalkFormIcon" icon={faChair} />
+                                                </InputGroup.Text>
+                                            </InputGroup.Prepend>
+                                            
+                                            <FormControl type="number" min="0" name="endTime" id="editProgTalkForm_Capacity" placeholder="Capacity Limit*" required />
+                                        </InputGroup>
+                                    </Col>
+                                </ Form.Row>
+
+                                {/* Start/End Time */}
+                                <Form.Row className="justify-content-center editProgTalkForm_InnerRow">
+                                    {/* Start Time */}
+                                    <Col md="5" className="text-center">
+                                        <InputGroup className="editProgTalkFormColInputGrp">
+                                            <InputGroup.Prepend>
+                                                <InputGroup.Text className="editProgTalkFormIconInputGrp">
+                                                    <FontAwesomeIcon size="lg" className="editProgTalkFormIcon" icon={faHourglassStart} />
+                                                </InputGroup.Text>
+                                            </InputGroup.Prepend>
+                                            
+                                            <FormControl type="text" name="startTime" id="editProgTalkForm_ProgTalkStartTime" placeholder="Start Time*" required />
+                                        </InputGroup>
+                                    </Col>
+
+                                    {/* End Time */}
+                                    <Col md="5" className="text-center">
+                                        <InputGroup className="editProgTalkFormColInputGrp">
+                                            <InputGroup.Prepend>
+                                                <InputGroup.Text className="editProgTalkFormIconInputGrp">
+                                                    <FontAwesomeIcon size="lg" className="editProgTalkFormIcon" icon={faHourglassEnd} />
+                                                </InputGroup.Text>
+                                            </InputGroup.Prepend>
+                                            
+                                            <FormControl type="text" name="endTime" id="editProgTalkForm_ProgTalkEndTime" placeholder="End Time*" required />
+                                        </InputGroup>
+                                    </Col>
+                                </Form.Row>
+                                
                             </Col>
-                            
-                            {/* University */}
-                            <Col md="3">
-                                <Form.Group>
-                                    <Form.Label className="editProgTalkFormLabel">University</Form.Label>
 
-                                    <Form.Control as="select" name="uniName" defaultValue="chooseUni" className="editProgTalkFormSelect" required noValidate>
-                                        <option value="chooseUni" className="editProgTalkFormSelectOption">Choose a University</option>
-                                        
-                                        {/* To be retrieved from DB */}
-                                        <option value="Grenoble" className="editProgTalkFormSelectOption">Grenoble Ecole de Management</option>
-                                    </Form.Control>
-                                </Form.Group>
-                            </Col>
+                            {/* Right Col */}
+                            <Col md="6" className="editProgTalkFormCol text-center">
+                                {/* Date */}
+                                <Form.Row className="justify-content-center editProgTalkForm_InnerRow">
+                                    <Col md="10" className="text-center">
+                                        <InputGroup className="editProgTalkFormColInputGrp">
+                                            <InputGroup.Prepend>
+                                                <InputGroup.Text className="editProgTalkFormIconInputGrp">
+                                                    <FontAwesomeIcon size="lg" className="editProgTalkFormIcon" icon={faCalendarAlt} />
+                                                </InputGroup.Text>
+                                            </InputGroup.Prepend>
+                                            
+                                            <Form.Control as="select" name="date" defaultValue="chooseDate" className="editProgTalkFormSelect" required noValidate>
+                                                <option value="chooseDate" className="editProgTalkFormSelectOption">Choose an Openhouse Date</option>
+                                                
+                                                {/* To be retrieved from DB */}
+                                                <option value="day1" className="editProgTalkFormSelectOption">21 October 2020</option>
+                                            </Form.Control>                                        
+                                        </InputGroup>
+                                    </Col>
+                                </Form.Row>
 
-                            {/* Discipline */}
-                            <Col md="3">
-                                <Form.Group>
-                                    <Form.Label className="editProgTalkFormLabel">Discipline</Form.Label>
-                                    
-                                    <Form.Control as="select" name="uniName" defaultValue="chooseUni" className="editProgTalkFormSelect" required noValidate>
-                                        <option value="chooseUni" className="editProgTalkFormSelectOption">Choose a Discipline</option>
-                                        
-                                        {/* To be retrieved from DB */}
-                                        <option value="ArtsSocialSciences" className="editProgTalkFormSelectOption">Arts & Social Sciences</option>
-                                    </Form.Control>
-                                </Form.Group>
-                            </Col>
+                                {/* University */}
+                                <Form.Row className="justify-content-center editProgTalkForm_InnerRow">
+                                    <Col md="10" className="text-center">
+                                        <InputGroup className="editProgTalkFormColInputGrp">
+                                            <InputGroup.Prepend>
+                                                <InputGroup.Text className="editProgTalkFormIconInputGrp">
+                                                    <FontAwesomeIcon size="lg" className="editProgTalkFormIcon" icon={faUniversity} />
+                                                </InputGroup.Text>
+                                            </InputGroup.Prepend>
 
-                            {/* Sub Discipline */}
-                            <Col md="3">
-                                <Form.Group>
-                                    <Form.Label className="editProgTalkFormLabel">Sub-Discipline</Form.Label>
-                                    
-                                    <Form.Control as="select" name="uniName" defaultValue="chooseUni" className="editProgTalkFormSelect" required noValidate>
-                                        <option value="chooseUni" className="editProgTalkFormSelectOption">Choose a Sub-Discipline</option>
-                                        
-                                        {/* To be retrieved from DB */}
-                                        <option value="Accounting" className="editProgTalkFormSelectOption">Accounting</option>
-                                    </Form.Control>
-                                </Form.Group>
+                                            <Form.Control as="select" name="uniName" defaultValue="chooseUni" className="editProgTalkFormSelect" required noValidate>
+                                                <option value="chooseUni" className="editProgTalkFormSelectOption">Choose a University</option>
+                                                
+                                                {/* To be retrieved from DB */}
+                                                <option value="Grenoble" className="editProgTalkFormSelectOption">Grenoble Ecole de Management</option>
+                                            </Form.Control>
+                                        </InputGroup>
+                                    </Col>
+                                </Form.Row>
+
+                                {/* Discipline Name */}
+                                <Form.Row className="justify-content-center editProgTalkForm_InnerRow">
+                                    <Col md="10" className="text-left editProgTalkForm_InnerCol">
+                                        <Form.Label>Choose Discipline(s):</Form.Label>                                     
+                                            
+                                        <Container className="editProgTalkForm_DisciplineCon">
+                                            {/* To be retrieved from db - row is generated dynamically */}
+                                            <Row>
+                                                <Col>
+                                                    <Form.Check name="discipline" checked={this.handleCheckDiscipline} value="ArtsSocialSciences" type="checkbox" label="Arts & SocialSciences" className="editProgTalkForm_CheckBox" />
+                                                </Col>
+                                            </Row>
+
+                                        </Container>                                        
+                                    </Col>
+                                </Form.Row>
+
                             </Col>
                         </Form.Row>
 
+                        {/* Programme Talk Details */}
                         <Form.Row className="justify-content-center editProgTalkFormRow">
-                            <Col md="12" className="text-center">
-                                <Table responsive="sm" bordered id="editProgTalkTable">
-                                    <thead>
-                                        <tr>
-                                            <th className="editProgTalkHeader">Programme Talk</th>
-                                            <th className="editProgTalkHeader">Programme Talk Details</th>
-                                            <th className="editProgTalkHeader_Time">Start Time</th>
-                                            <th className="editProgTalkHeader_Time">End Time</th>
-                                            <th className="editProgTalkHeader">Venue</th>
-                                            <th className="editProgTalkHeader_Capacity">Capacity Limit</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        <tr>
-                                            <td className="editProgTalkData">
-                                                <FormControl as="textarea" rows="8" required noValidate className="editProgTalkData_Form" placeholder="Programme Talk" />
-                                            </td>
-                                            <td className="editProgTalkData">
-                                                <FormControl as="textarea" rows="8" required noValidate className="editProgTalkData_Form" placeholder="Programme Talk Details" />
-                                            </td>
-                                            <td className="editProgTalkData_Time">
-                                                <FormControl as="textarea" rows="8" required noValidate className="editProgTalkData_Form" placeholder="Start Time" />
-                                            </td>
-                                            <td className="editProgTalkData_Time">
-                                                <FormControl as="textarea" rows="8" required noValidate className="editProgTalkData_Form" placeholder="End Time" />
-                                            </td>
-                                            <td className="editProgTalkData">
-                                                <FormControl as="textarea" rows="8" required noValidate className="editProgTalkData_Form" placeholder="Venue" />
-                                            </td>
-                                            <td className="editProgTalkData_Capacity">
-                                                <FormControl as="textarea" rows="8" required noValidate className="editProgTalkData_Form" placeholder="Capacity Limit" />
-                                            </td>
-                                        </tr>
-                                    </tbody>
-
-                                </Table>
+                            <Col md="11" className="editProgTalkFormCol">
+                                <FormControl as="textarea" rows="8" required noValidate id="editProgTalkForm_ProgTalkDetails" placeholder="Programme Talk Details" />
                             </Col>
                         </Form.Row>
+
                     </Form>
                 </Modal.Body>
 

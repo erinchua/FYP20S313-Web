@@ -2,65 +2,50 @@
     color: #424242;
     text-align: center;
 }
-
-#editProgTalkTable {
-    width: 100%;
-}
-
-.editProgTalkHeader {
-    color: #424242;
-    width: 20%;
-}
-
-.editProgTalkHeader_Time {
-    color: #424242;
-    width: 15%;
-}
-
-.editProgTalkHeader_Capacity {
-    color: #424242;
-    width: 10%;
-}
-
-.editProgTalkData {
-    padding: 1% !important;
-    width: 20%;
-}
-
-.editProgTalkData_Time {
-    padding: 1% !important;
-    width: 15%;
-}
-
-.editProgTalkData_Capacity {
-    padding: 1% !important;
-    width: 10%;
-}
-
-.editProgTalkData_Form {
-    color: #434343;
-    resize: none;
-    font-size: 85% !important;
-}
-
-.editProgTalkData_Form:focus {
-    box-shadow: none !important;
-}
-
 .editProgTalkFormRow {
     padding-bottom: 4%;
 }
 
-.editProgTalkFormLabel {
-    color: #424242;
-    font-weight: bold;
+.editProgTalkFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.editProgTalkForm_InnerRow {
+    padding-bottom: 4%;
+}
+
+.editProgTalkFormIconInputGrp {
+    background: transparent !important;
+    border: none !important;
+}
+
+#editProgTalkForm_ProgTalkName {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#editProgTalkForm_ProgTalkName:focus {
+    box-shadow: none;
+}
+
+#editProgTalkForm_Venue {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#editProgTalkForm_Venue:focus {
+    box-shadow: none;
 }
 
 .editProgTalkFormSelect {
-    color: #434343;
+    color: #434343 !important;
     border: none !important;
     border-bottom: 1px solid #c8c8c8 !important;
-    width: 90% !important;
+    border-radius: 0 !important;
 }
 
 .editProgTalkFormSelect:focus {
@@ -68,6 +53,62 @@
 }
 
 .editProgTalkFormSelectOption {
+    color: #434343;
+}
+
+#editProgTalkForm_ProgTalkStartTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#editProgTalkForm_ProgTalkStartTime:focus {
+    box-shadow: none;
+}
+
+#editProgTalkForm_ProgTalkEndTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#editProgTalkForm_ProgTalkEndTime:focus {
+    box-shadow: none;
+}
+
+#editProgTalkForm_Capacity {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+}
+
+#editProgTalkForm_Capacity:focus {
+    box-shadow: none;
+}
+
+.editProgTalkForm_InnerCol {
+    height: 80%;
+}
+
+.editProgTalkModal .editProgTalkForm_DisciplineCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 10vh;
+    overflow-x: hidden;
+}
+
+.editProgTalkForm_CheckBox {
+    color: #434343;
+}
+
+#editProgTalkForm_ProgTalkDetails {
+    resize: none;
+    border-radius: 6px;
     color: #434343;
 }
 
