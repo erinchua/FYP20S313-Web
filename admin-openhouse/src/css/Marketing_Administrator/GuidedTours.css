@@ -200,6 +200,17 @@
     color: #60c6d9;    
 }
 
+#GuidedTours-inputFields {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;    
+}
+
+#GuidedTours-inputFields:focus {
+    box-shadow: none;
+}
+
  /* -- Delete Modal -- */
 .GuidedTours-deleteFooterCol {
     padding-bottom: 4%;

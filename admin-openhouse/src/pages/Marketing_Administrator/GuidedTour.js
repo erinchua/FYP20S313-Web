@@ -112,8 +112,15 @@ class GuidedTour extends Component {
                     day2_counter++;
                     guidedTour.push(data);
                 }
+                this.setState({
+                    date: doc.data().date,
+                    endTime: doc.data().endTime,
+                    startTime: doc.data().startTime,
+                    tourName: doc.data().tourName,
+                    venue: doc.data().venue,
+                    id: doc.id,
+                })
             });
-            
             this.setState({ guidedTours: guidedTour });
         });
     }
@@ -238,12 +245,7 @@ class GuidedTour extends Component {
             guidedTour.push(data);
             this.setState({ 
                 editGuidedTours: guidedTour,
-                id: doc.id,
-                date: doc.data().date,
-                endTime: doc.data().endTime,
-                startTime: doc.data().startTime,
-                tourName: doc.data().tourName,
-                venue: doc.data().venue,
+
             });
         });
         
@@ -345,7 +347,7 @@ class GuidedTour extends Component {
         let venueError = "";
 
         if (!this.state.date) {
-            dateError = "Please enter a valid date. E.g. 21-Nov-2020";
+            dateError = "Please select a valid date.";
         }
 
         if (!this.state.endTime.includes(':')) {
@@ -527,7 +529,7 @@ class GuidedTour extends Component {
                                             <FontAwesomeIcon size="lg" icon={faMapPin}/>
                                         </Form.Group> 
                                         <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="tourName" placeholder="Tour: e.g. Campus Tour BLK A" required value={this.state.tourName} onChange={this.updateInput} noValidate></Form.Control>
+                                            <Form.Control id="GuidedTours-inputFields" type="text" name="tourName" placeholder="Tour: e.g. Campus Tour BLK A" required value={this.state.tourName} onChange={this.updateInput} noValidate></Form.Control>
                                                 <div className="errorMessage">{this.state.tourNameError}</div>
                                         </Form.Group>
                                     </Form.Group>                     
@@ -538,7 +540,11 @@ class GuidedTour extends Component {
                                             <FontAwesomeIcon size="lg" icon={faCalendarAlt}/>
                                         </Form.Group> 
                                         <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="date" placeholder="Date: e.g. 21-Nov-2020" required value={this.state.date} onChange={this.updateInput} noValidate></Form.Control>
+                                            <Form.Control id="GuidedTours-inputFields" name="date" as="select" required value={this.state.date} onChange={this.updateInput} noValidate>
+                                                <option value="">Choose an Openhouse Date</option>
+                                                <option value="21-Nov-2020">21-Nov-2020</option>
+                                                <option value="22-Nov-2020">22-Nov-2020</option>
+                                            </Form.Control>
                                             <div className="errorMessage">{this.state.dateError}</div>
                                         </Form.Group>
                                     </Form.Group>                     
@@ -549,7 +555,7 @@ class GuidedTour extends Component {
                                             <FontAwesomeIcon size="lg" icon={faHourglassStart}/>
                                         </Form.Group> 
                                         <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="startTime" placeholder="Start Time: e.g. 1:30PM" required value={this.state.startTime} onChange={this.updateInput} noValidate></Form.Control>
+                                            <Form.Control id="GuidedTours-inputFields" type="text" name="startTime" placeholder="Start Time: e.g. 1:30PM" required value={this.state.startTime} onChange={this.updateInput} noValidate></Form.Control>
                                             <div className="errorMessage">{this.state.startTimeError}</div>
                                         </Form.Group>
                                     </Form.Group>                     
@@ -560,7 +566,7 @@ class GuidedTour extends Component {
                                             <FontAwesomeIcon size="lg" icon={faHourglassEnd}/>
                                         </Form.Group> 
                                         <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="endTime" placeholder="End Time: e.g. 2:30PM" required value={this.state.endTime} onChange={this.updateInput} noValidate></Form.Control>
+                                            <Form.Control id="GuidedTours-inputFields" type="text" name="endTime" placeholder="End Time: e.g. 2:30PM" required value={this.state.endTime} onChange={this.updateInput} noValidate></Form.Control>
                                             <div className="errorMessage">{this.state.endTimeError}</div>
                                         </Form.Group>
                                     </Form.Group>                     
@@ -571,7 +577,7 @@ class GuidedTour extends Component {
                                             <FontAwesomeIcon size="lg" icon={faSchool}/>
                                         </Form.Group> 
                                         <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="venue" placeholder="Venue: e.g. SIM HQ BLK A Atrium" required value={this.state.venue} onChange={this.updateInput} noValidate></Form.Control>
+                                            <Form.Control id="GuidedTours-inputFields" type="text" name="venue" placeholder="Venue: e.g. SIM HQ BLK A Atrium" required value={this.state.venue} onChange={this.updateInput} noValidate></Form.Control>
                                             <div className="errorMessage">{this.state.venueError}</div>
                                         </Form.Group>
                                     </Form.Group>                     
@@ -607,7 +613,7 @@ class GuidedTour extends Component {
                                                         <FontAwesomeIcon size="lg" icon={faMapPin}/>
                                                     </Form.Group> 
                                                     <Form.Group as={Col} md="7">
-                                                        <Form.Control type="text" name="tourName" placeholder="Tour: e.g. Campus Tour BLK A" onChange={this.updateInput} required defaultValue={editGuidedTour.tourName} noValidate></Form.Control>
+                                                        <Form.Control id="GuidedTours-inputFields" type="text" name="tourName" placeholder="Tour: e.g. Campus Tour BLK A" onChange={this.updateInput} required defaultValue={editGuidedTour.tourName} noValidate></Form.Control>
                                                         <div className="errorMessage">{this.state.tourNameError}</div>
                                                     </Form.Group>
                                                 </Form.Group>                     
@@ -618,7 +624,11 @@ class GuidedTour extends Component {
                                                         <FontAwesomeIcon size="lg" icon={faCalendarAlt}/>
                                                     </Form.Group> 
                                                     <Form.Group as={Col} md="7">
-                                                        <Form.Control type="text" name="date" placeholder="Date: e.g. 21-Nov-2020" onChange={this.updateInput} required defaultValue={editGuidedTour.date} noValidate></Form.Control>
+                                                        <Form.Control id="GuidedTours-inputFields" as="select" name="date" onChange={this.updateInput} required defaultValue={editGuidedTour.date} noValidate>
+                                                            <option value="">Choose an Openhouse Date</option>
+                                                            <option value="21-Nov-2020">21-Nov-2020</option>
+                                                            <option value="22-Nov-2020">22-Nov-2020</option>
+                                                        </Form.Control>
                                                         <div className="errorMessage">{this.state.dateError}</div>
                                                     </Form.Group>
                                                 </Form.Group>                     
@@ -629,7 +639,7 @@ class GuidedTour extends Component {
                                                         <FontAwesomeIcon size="lg" icon={faHourglassStart}/>
                                                     </Form.Group> 
                                                     <Form.Group as={Col} md="7">
-                                                        <Form.Control type="text" name="startTime" placeholder="Start Time: e.g. 1:30PM" onChange={this.updateInput} required defaultValue={editGuidedTour.startTime} noValidate></Form.Control>
+                                                        <Form.Control id="GuidedTours-inputFields" type="text" name="startTime" placeholder="Start Time: e.g. 1:30PM" onChange={this.updateInput} required defaultValue={editGuidedTour.startTime} noValidate></Form.Control>
                                                         <div className="errorMessage">{this.state.startTimeError}</div>
                                                     </Form.Group>
                                                 </Form.Group>                     
@@ -640,7 +650,7 @@ class GuidedTour extends Component {
                                                         <FontAwesomeIcon size="lg" icon={faHourglassEnd}/>
                                                     </Form.Group> 
                                                     <Form.Group as={Col} md="7">
-                                                        <Form.Control type="text" name="endTime" placeholder="End Time: e.g. 2:30PM" onChange={this.updateInput} required defaultValue={editGuidedTour.endTime} noValidate></Form.Control>
+                                                        <Form.Control id="GuidedTours-inputFields" type="text" name="endTime" placeholder="End Time: e.g. 2:30PM" onChange={this.updateInput} required defaultValue={editGuidedTour.endTime} noValidate></Form.Control>
                                                         <div className="errorMessage">{this.state.endTimeError}</div>
                                                     </Form.Group>
                                                 </Form.Group>                     
@@ -651,7 +661,7 @@ class GuidedTour extends Component {
                                                         <FontAwesomeIcon size="lg" icon={faSchool}/>
                                                     </Form.Group> 
                                                     <Form.Group as={Col} md="7">
-                                                        <Form.Control type="text" name="venue" placeholder="Venue: e.g. SIM HQ BLK A Atrium" onChange={this.updateInput} required defaultValue={editGuidedTour.venue} noValidate></Form.Control>
+                                                        <Form.Control id="GuidedTours-inputFields" type="text" name="venue" placeholder="Venue: e.g. SIM HQ BLK A Atrium" onChange={this.updateInput} required defaultValue={editGuidedTour.venue} noValidate></Form.Control>
                                                         <div className="errorMessage">{this.state.venueError}</div>
                                                     </Form.Group>
                                                 </Form.Group>                     

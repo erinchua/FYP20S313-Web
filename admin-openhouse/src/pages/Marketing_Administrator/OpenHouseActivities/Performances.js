@@ -185,6 +185,7 @@ class Performances extends Component {
         });
     }
 
+    //Add performance when click on 'Submit' button in Add Modal - Integrated
     addPerformance = (e) => {
         e.preventDefault();
         const db = fire.firestore();
@@ -318,7 +319,7 @@ class Performances extends Component {
         let dateError = "";
         let endTimeError = "";
         let startTimeError = "";
-        let tourNameError = "";
+        let performanceNameError = "";
         let venueError = "";
 
         if (!this.state.date) {
@@ -333,16 +334,16 @@ class Performances extends Component {
             startTimeError = "Please enter a valid start time. E.g. 1:30PM";
         }
 
-        if (!this.state.tourName) {
-            tourNameError = "Please enter a valid tour name. E.g. Campus Tour BLK A";
+        if (!this.state.performanceName) {
+            performanceNameError = "Please enter a valid performance name. E.g. DreamWerkz";
         }
 
         if (!this.state.venue) {
             venueError = "Please enter a valid value. E.g. SIM HQ BLK A Atrium";
         }
 
-        if (dateError || endTimeError || startTimeError || tourNameError || venueError) {
-            this.setState({dateError, endTimeError, startTimeError, tourNameError, venueError});
+        if (dateError || endTimeError || startTimeError || performanceNameError || venueError) {
+            this.setState({dateError, endTimeError, startTimeError, performanceNameError, venueError});
             return false;
         } 
 
@@ -505,7 +506,7 @@ class Performances extends Component {
                                         </Form.Group> 
                                         <Form.Group as={Col} md="7">
                                             <Form.Control type="text" name="performanceName" placeholder="Performance: e.g. DreamWerkz" required value={this.state.performanceName} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage">{this.state.tourNameError}</div>
+                                                <div className="errorMessage">{this.state.performanceNameError}</div>
                                         </Form.Group>
                                     </Form.Group>                     
                                 </Form.Group>
