@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
-import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal, Tabs, Tab, Nav, NavItem } from 'react-bootstrap';
+import { Container, Row, Col, Button, Table, Modal, Tab, Nav } from 'react-bootstrap';
 
 import "../../../css/Marketing_Administrator/ProgrammeTalkSchedule.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -388,8 +388,10 @@ class ProgrammeTalkSchedule extends Component {
                                         <th className="progTalkScheduleHeader_ProgTalk">Programme Talk</th>
                                         <th className="progTalkScheduleHeader_ProgTalkDetails">Programme Talk Details</th>
                                         <th className="progTalkScheduleHeader_AwardingUni">Awarding University</th>
-                                        <th className="progTalkScheduleHeader_Time">Time</th>
+                                        <th className="progTalkScheduleHeader_StartTime">Start Time</th>
+                                        <th className="progTalkScheduleHeader_EndTime">End Time</th>
                                         <th className="progTalkScheduleHeader_Venue">Venue</th>
+                                        <th className="progTalkScheduleHeader_Capacity">Capacity Limit</th>
                                         <th className="progTalkScheduleHeader_Edit">Edit</th>
                                         <th className="progTalkScheduleHeader_Delete">Delete</th>
                                       </tr>
@@ -399,10 +401,12 @@ class ProgrammeTalkSchedule extends Component {
                                       <tr>
                                         <td className="progTalkScheduleData_SNo">1</td>
                                         <td className="progTalkScheduleData_ProgTalk text-left">testtesttesttesttesttest</td>
-                                        <td className="progTalkScheduleData_ProgTalkDetails text-left">testtesttesttesttesttesttesttesttesttesttesttesttesttest</td>
-                                        <td className="progTalkScheduleData_AwardingUni">testtesttesttesttesttesttesttesttesttesttesttesttesttest</td>
-                                        <td className="progTalkScheduleData_Time text-left">testtesttest</td>
+                                        <td className="progTalkScheduleData_ProgTalkDetails text-left">testtesttesttesttesttest testtesttesttesttest testtesttest</td>
+                                        <td className="progTalkScheduleData_AwardingUni">testtesttesttesttest testtesttesttesttesttest</td>
+                                        <td className="progTalkScheduleData_StartTime text-left">testtesttest</td>
+                                        <td className="progTalkScheduleData_EndTime text-left">testtesttest</td>
                                         <td className="progTalkScheduleData_Venue text-left">testtesttesttest</td>
+                                        <td className="progTalkScheduleData_Capacity text-center">12</td>
                                         <td className="progTalkScheduleData_Edit">
                                           <Button id="editProgTalkScheduleBtn" onClick={this.handleEditProgTalkModal}>
                                             <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
@@ -430,8 +434,10 @@ class ProgrammeTalkSchedule extends Component {
                                         <th className="progTalkScheduleHeader_ProgTalk">Programme Talk</th>
                                         <th className="progTalkScheduleHeader_ProgTalkDetails">Programme Talk Details</th>
                                         <th className="progTalkScheduleHeader_AwardingUni">Awarding University</th>
-                                        <th className="progTalkScheduleHeader_Time">Time</th>
+                                        <th className="progTalkScheduleHeader_StartTime">Start Time</th>
+                                        <th className="progTalkScheduleHeader_EndTime">End Time</th>
                                         <th className="progTalkScheduleHeader_Venue">Venue</th>
+                                        <th className="progTalkScheduleHeader_Capacity">Capacity Limit</th>
                                         <th className="progTalkScheduleHeader_Edit">Edit</th>
                                         <th className="progTalkScheduleHeader_Delete">Delete</th>
                                       </tr>
@@ -441,10 +447,12 @@ class ProgrammeTalkSchedule extends Component {
                                       <tr>
                                         <td className="progTalkScheduleData_SNo">1</td>
                                         <td className="progTalkScheduleData_ProgTalk text-left">testtesttesttesttesttest</td>
-                                        <td className="progTalkScheduleData_ProgTalkDetails text-left">testtesttesttesttesttesttesttesttesttesttesttesttesttest</td>
-                                        <td className="progTalkScheduleData_AwardingUni">testtesttesttesttesttesttesttesttesttesttesttesttesttest</td>
-                                        <td className="progTalkScheduleData_Time text-left">testtesttest</td>
+                                        <td className="progTalkScheduleData_ProgTalkDetails text-left">testtesttesttesttesttest testtesttesttesttest testtesttest</td>
+                                        <td className="progTalkScheduleData_AwardingUni">testtesttesttesttest testtesttesttesttesttest</td>
+                                        <td className="progTalkScheduleData_StartTime text-left">testtesttest</td>
+                                        <td className="progTalkScheduleData_EndTime text-left">testtesttest</td>
                                         <td className="progTalkScheduleData_Venue text-left">testtesttesttest</td>
+                                        <td className="progTalkScheduleData_Capacity text-center">12</td>
                                         <td className="progTalkScheduleData_Edit">
                                           <Button id="editProgTalkScheduleBtn" onClick={this.handleEditProgTalkModal}>
                                             <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
@@ -504,7 +512,7 @@ class ProgrammeTalkSchedule extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <EditProgTalkModal />
+          <EditProgTalkModal handleSaveChanges={()=>{console.log("Edit Modal Saved")}} handleCancelEdit={this.handleEditProgTalkModal} />
         </Modal>
 
         {/* Delete Programme Talk Modal */}

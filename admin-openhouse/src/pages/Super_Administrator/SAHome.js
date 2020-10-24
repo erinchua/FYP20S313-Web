@@ -316,23 +316,23 @@ class SAHome extends Component {
             
             <Modal.Body>
               <Row className="justify-content-center">
-                <Col size="12" className="text-center deleteAdminModalCol">
+                <Col md="12" className="text-center deleteAdminModalCol">
                   <img id="deleteAdminModalIcon" src={DeleteAdmin} />
                 </Col>
               </Row>
               
               <Row className="justify-content-center">
-                <Col size="12" className="text-center deleteAdminModalCol">
+                <Col md="12" className="text-center deleteAdminModalCol">
                   <h5 id="deleteAdminModalText">Are you sure you want to remove this administrator?</h5>
                 </Col>
               </Row>
 
               <Row className="justify-content-center">
-                <Col size="6" className="text-right deleteAdminModalCol">
+                <Col md="6" className="text-right deleteAdminModalCol">
                   <Button id="confirmDeleteAdminModalBtn" onClick={ (e) => {this.DeleteUser(e, this.state.id)} }>Confirm</Button>
                 </Col>
 
-                <Col size="6" className="text-left deleteAdminModalCol">
+                <Col md="6" className="text-left deleteAdminModalCol">
                   <Button id="cancelDeleteAdminModalBtn" onClick={this.handleDeleteAdminModal}>Cancel</Button>
                 </Col>
               </Row>
