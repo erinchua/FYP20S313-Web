@@ -132,34 +132,6 @@ export default class AddStudySIMProgModal extends React.Component {
                                     </Col>
                                 </Form.Row>
 
-                                {/* Mode of Study */}
-                                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
-                                    <Col md="9" className="text-center">
-                                        <InputGroup className="addStudySIMProgFormColInputGrp">                                       
-                                            <Form.Control as="select" name="MoSName" defaultValue="chooseMoS" className="addStudySIMProgFormSelect" required noValidate>
-                                                <option value="chooseMoS" className="addStudySIMProgFormSelectOption">Choose a Mode of Study</option>
-                                                
-                                                {/* To be retrieved from DB */}
-                                                <option value="fullTime" className="addStudySIMProgFormSelectOption">Full-Time</option>
-                                            </Form.Control>
-                                        </InputGroup>
-                                    </Col>
-                                </Form.Row>
-
-                                {/* Disciplines */}
-                                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
-                                    <Col md="9" className="text-center">
-                                        <InputGroup className="addStudySIMProgFormColInputGrp">                                       
-                                            <Form.Control as="select" name="disciplineName" defaultValue="chooseDiscipline" className="addStudySIMProgFormSelect" required noValidate>
-                                                <option value="chooseDiscipline" className="addStudySIMProgFormSelectOption">Choose a Discipline</option>
-                                                
-                                                {/* To be retrieved from DB */}
-                                                <option value="artsSocialSciences" className="addStudySIMProgFormSelectOption">Arts & Social Sciences</option>
-                                            </Form.Control>
-                                        </InputGroup>
-                                    </Col>
-                                </Form.Row>
-
                                 {/* Academic Level */}
                                 <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                                     <Col md="9" className="text-center">
@@ -174,12 +146,46 @@ export default class AddStudySIMProgModal extends React.Component {
                                     </Col>
                                 </Form.Row>
 
+                                {/* Mode of Study */}
+                                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
+                                    <Col md="9" className="text-left addStudySIMProgForm_InnerCol">
+                                        <Form.Label>Choose Mode of Study:</Form.Label>                                     
+                                            
+                                        <Container className="addStudySIMProgForm_MoSCon">
+                                            {/* To be retrieved from db - row is generated dynamically */}
+                                            <Row>
+                                                <Col>
+                                                    <Form.Check name="mosName" value="fullTime" type="checkbox" label="Full-Time" className="addStudySIMProgForm_CheckBox" />
+                                                </Col>
+                                            </Row>
+
+                                        </Container>                                        
+                                    </Col>
+                                </Form.Row>
+
+                                {/* Disciplines */}
+                                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
+                                    <Col md="9" className="text-left addStudySIMProgForm_InnerCol">
+                                        <Form.Label>Choose Discipline(s):</Form.Label>                                     
+                                            
+                                        <Container className="addStudySIMProgForm_DisciplineCon">
+                                            {/* To be retrieved from db - row is generated dynamically */}
+                                            <Row>
+                                                <Col>
+                                                    <Form.Check name="discipline" value="ArtsSocialSciences" type="checkbox" label="Arts & SocialSciences" className="addStudySIMProgForm_CheckBox" />
+                                                </Col>
+                                            </Row>
+
+                                        </Container>                                        
+                                    </Col>
+                                </Form.Row>
+
                                 {/* Entry Qualifications */}
                                 <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
-                                    <Col md="9" className="text-left">
+                                    <Col md="9" className="text-left addStudySIMProgForm_InnerCol">
                                         <Form.Label className="addStudySIMProgFormLabel">Choose Entry Qualification(s):</Form.Label>                        
                                         
-                                        <Container className="addStudySIMProgForm_CheckBoxCon">
+                                        <Container className="addStudySIMProgForm_EntryQualCon">
                                             {/* To be retrieved from db - row is generated dynamically */}
                                             <Row>
                                                 <Col>
@@ -191,6 +197,7 @@ export default class AddStudySIMProgModal extends React.Component {
                                     </Col>
                                 </Form.Row>
                             </Col>
+
 
                             {/* Right Col */}
                             <Col md="6" className="addStudySIMProgFormCol text-center">
