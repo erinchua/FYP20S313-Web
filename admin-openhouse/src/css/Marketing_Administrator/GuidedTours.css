@@ -49,7 +49,7 @@
     color: white;
 }
 
-#GuidedTours-addBtm:focus {
+#GuidedTours-addBtn:focus {
     box-shadow: none;
 }
 
@@ -184,6 +184,10 @@
     color: white;    
 }
 
+#GuidedTours-submitBtn:focus {
+    box-shadow: none;    
+}
+
 #GuidedTours-saveBtn {
     width: 40%;
     background: #60c6d9;
@@ -192,12 +196,20 @@
     color: white;    
 }
 
+#GuidedTours-saveBtn:focus {
+    box-shadow: none;    
+}
+
 #GuidedTours-cancelBtn {
     width: 40%;
     background: none;
     border: 1px solid #60c6d9;
     border-radius: 6px;
     color: #60c6d9;    
+}
+
+#GuidedTours-cancelBtn:focus {
+    box-shadow: none;    
 }
 
 #GuidedTours-inputFields {
@@ -229,10 +241,18 @@
     color: #EA526F
 }
 
+#GuidedTours-deleteConfirmBtn:focus {
+    box-shadow: none;    
+}
+
 #GuidedTours-deleteCancelBtn {
     width: 40%;
     background: #EA526F;
     border: 1px solid #EA526F;
     border-radius: 6px;
     color: white;
+}
+
+#GuidedTours-deleteCancelBtn:focus {
+    box-shadow: none;    
 }
