@@ -34,6 +34,7 @@ class GuidedTour extends Component {
             counter: "",
             //Below states are for the functions
             guidedTours: "",
+            dates: "",
             //Below states are for the modals
             addModal: false,
             editModal: false,
@@ -68,47 +69,43 @@ class GuidedTour extends Component {
         this.setState({
             [e.target.name]: e.target.value,
         });
-        console.log([e.target.name] + e.target.value)
     };
 
     componentDidMount() {
         this.authListener();
     }
 
-    //TBC!
     display() {
-        var getYear = new Date().getFullYear();
-        console.log(getYear);
-    
         const db = fire.firestore();
-        const guidedTour = [];
-        const userRef = db
-        .collection("GuidedTours")
+        var day1_counter = 1;
+        var day2_counter = 1;
+        const dates = []
+
+        //Retrieve Open House Dates from Openhouse Collection
+        const retrieveDate = db
+        .collection("Openhouse")
         .get()
         .then((snapshot) => {
             snapshot.forEach((doc) => {
-                guidedTour.push(doc.data().date);
+                const data = doc.get('day')
+                for (var i = 0; i < Object.keys(data).length; i++) {
+                    const retrieved = {
+                        date: data[Object.keys(data)[i]].date
+                    };
+                    dates.push(retrieved)
+                    
+                }
             });
-            console.log(guidedTour);
-            function onlyUnique(value, index, self) {
-                return self.indexOf(value) === index;
-            }
-            var unique = guidedTour.filter(onlyUnique);
-            console.log(unique);
+            this.setState({dates: dates})
+        })
 
-            //day1
-            /*const day1date = [];
-            day1date.push(unique[0]);
-            this.setState({ day1date: day1date });*/
-            const day1 = db
-            .collection("GuidedTours")
-            .where("date", "==", unique[0])
-            .orderBy("date")
-            .orderBy("endTime", "asc")
-            .get()
-            .then((snapshot) => {
-                const guidedTour = [];
-                snapshot.forEach((doc) => {
+        const userRef = db
+        .collection("GuidedTours").orderBy("endTime", "asc")
+        .get()
+        .then((snapshot) => {
+            const guidedTour = [];
+            snapshot.forEach((doc) => {
+                if (doc.data().date === dates[0]) {
                     const data = {
                         date: doc.data().date,
                         endTime: doc.data().endTime,
@@ -116,24 +113,11 @@ class GuidedTour extends Component {
                         tourName: doc.data().tourName,
                         venue: doc.data().venue,
                         id: doc.id,
-                        venue: doc.data().venue,
+                        counter: day1_counter,
                     };
+                    day1_counter++;
                     guidedTour.push(data);
-                });
-                this.setState({ day1: guidedTour });             
-            });
-
-            //day 2
-            /*const day2date = [];
-            day2date.push(unique[1]);
-            this.setState({ day2date: day2date });*/
-            const day2 = db
-            .collection("GuidedTours")
-            .where("date", "==", unique[1])
-            .get()
-            .then((snapshot) => {
-                const guidedTour = [];
-                snapshot.forEach((doc) => {
+                } else {
                     const data = {
                         date: doc.data().date,
                         endTime: doc.data().endTime,
@@ -141,52 +125,14 @@ class GuidedTour extends Component {
                         tourName: doc.data().tourName,
                         venue: doc.data().venue,
                         id: doc.id,
+                        counter: day2_counter,
                     };
+                    day2_counter++;
                     guidedTour.push(data);
-                });
-                this.setState({ day2: guidedTour });
+                }
             });
+            this.setState({ guidedTours: guidedTour });
         });
-
-
-        // const db = fire.firestore();
-        // var day1_counter = 1;
-        // var day2_counter = 1;
-
-        // const userRef = db
-        // .collection("GuidedTours").orderBy("endTime", "asc")
-        // .get()
-        // .then((snapshot) => {
-        //     const guidedTour = [];
-        //     snapshot.forEach((doc) => {
-        //         if (doc.data().date === "21-Nov-2020") {
-        //             const data = {
-        //                 date: doc.data().date,
-        //                 endTime: doc.data().endTime,
-        //                 startTime: doc.data().startTime,
-        //                 tourName: doc.data().tourName,
-        //                 venue: doc.data().venue,
-        //                 id: doc.id,
-        //                 counter: day1_counter,
-        //             };
-        //             day1_counter++;
-        //             guidedTour.push(data);
-        //         } else {
-        //             const data = {
-        //                 date: doc.data().date,
-        //                 endTime: doc.data().endTime,
-        //                 startTime: doc.data().startTime,
-        //                 tourName: doc.data().tourName,
-        //                 venue: doc.data().venue,
-        //                 id: doc.id,
-        //                 counter: day2_counter,
-        //             };
-        //             day2_counter++;
-        //             guidedTour.push(data);
-        //         }
-        //     });
-        //     this.setState({ day2: guidedTour });
-        // });
     }
 
     //Add tour when click on 'Submit' button in Add Modal - Integrated
@@ -492,10 +438,11 @@ class GuidedTour extends Component {
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody className="GuidedTours-tableBody">
-                                                                                {this.state.day1 && this.state.day1.map((day1, index) => {
+                                                                                {this.state.guidedTours && this.state.guidedTours.map((day1) => {
+                                                                                    if (day1.date == this.state.dates[0].date) {
                                                                                         return (
                                                                                             <tr key={day1.id}>
-                                                                                                <td>{index + 1}</td>
+                                                                                                <td>{day1.counter}</td>
                                                                                                 <td>{day1.tourName}</td>
                                                                                                 <td>{day1.startTime}</td>
                                                                                                 <td>{day1.endTime}</td>
@@ -504,7 +451,9 @@ class GuidedTour extends Component {
                                                                                                 <td><Button size="sm" id="GuidedTours-deleteBtn" onClick={(e) => this.handleDelete(e, day1.id)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
                                                                                             </tr>
                                                                                         )
-                                      
+                                                                                    } else {
+                                                                                        return ('')
+                                                                                    }
                                                                                 })}
                                                                             </tbody>
                                                                         </Table>
@@ -527,10 +476,11 @@ class GuidedTour extends Component {
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody className="GuidedTours-tableBody">
-                                                                                {this.state.day2 && this.state.day2.map((day2, index) => {
+                                                                                {this.state.guidedTours && this.state.guidedTours.map((day2) => {
+                                                                                    if (day2.date == this.state.dates[1].date) {
                                                                                         return (
                                                                                             <tr key={day2.id}>
-                                                                                                <td>{index + 1}</td>
+                                                                                                <td>{day2.counter}</td>
                                                                                                 <td>{day2.tourName}</td>
                                                                                                 <td>{day2.startTime}</td>
                                                                                                 <td>{day2.endTime}</td>
@@ -539,7 +489,9 @@ class GuidedTour extends Component {
                                                                                                 <td><Button size="sm" id="GuidedTours-deleteBtn" onClick={(e) => this.handleDelete(e, day2.id)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
                                                                                             </tr>
                                                                                         )
-                                                                                   
+                                                                                    } else {
+                                                                                        return ('')
+                                                                                    }
                                                                                 })}
                                                                             </tbody>
                                                                         </Table>
