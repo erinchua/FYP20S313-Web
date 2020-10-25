@@ -548,14 +548,16 @@ class GuidedTour extends Component {
                                         <Form.Group as={Col} md="1" className="GuidedTours-formGroup">
                                             <FontAwesomeIcon size="lg" icon={faCalendarAlt}/>
                                         </Form.Group> 
-                                        <Form.Group as={Col} md="7">
-                                            <Form.Control id="GuidedTours-inputFields" name="date" as="select" required value={this.state.date} onChange={this.updateInput} noValidate>
-                                                <option value="">Choose an Openhouse Date</option>
-                                                <option>{this.state.openHouseDates[0].date}</option>
-                                                <option>{this.state.openHouseDates[1].date}</option>
-                                            </Form.Control>
-                                            <div className="errorMessage">{this.state.dateError}</div>
-                                        </Form.Group>
+                                        {this.state.openHouseDates ? 
+                                             <Form.Group as={Col} md="7">
+                                                <Form.Control id="GuidedTours-inputFields" name="date" as="select" required value={this.state.date} onChange={this.updateInput} noValidate>
+                                                    <option value="">Choose an Openhouse Date</option>
+                                                    <option>{this.state.openHouseDates[0].date}</option>
+                                                    <option>{this.state.openHouseDates[1].date}</option>
+                                                </Form.Control>
+                                                <div className="errorMessage">{this.state.dateError}</div>
+                                            </Form.Group> : ''
+                                        }
                                     </Form.Group>                     
                                 </Form.Group>
                                 <Form.Group>

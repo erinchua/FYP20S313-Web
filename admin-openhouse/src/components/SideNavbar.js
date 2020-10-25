@@ -170,7 +170,7 @@ export default class SideNavBar extends React.Component {
                                                         <Nav.Link href="/Business" className="sideNavBar-inner-navLinks">Business</Nav.Link>
                                                         <Nav.Link href="/IT&ComputerSciences" className="sideNavBar-inner-navLinks">IT & Computer Sciences</Nav.Link>
                                                         <Nav.Link href="/Nursing" className="sideNavBar-inner-navLinks">Nursing</Nav.Link>
-                                                        <Nav.Link href="/Speciality" className="sideNavBar-inner-navLinks">Speciality</Nav.Link>
+                                                        <Nav.Link href="/Specialty" className="sideNavBar-inner-navLinks">Specialty</Nav.Link>
                                                     </div>
                                                 </Accordion.Collapse>
                                             </Accordion>
