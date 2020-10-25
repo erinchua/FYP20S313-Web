@@ -49,7 +49,7 @@
     color: white;
 }
 
-#Performances-addBtm:focus {
+#Performances-addBtn:focus {
     box-shadow: none;
 }
 
@@ -152,6 +152,7 @@
     font-size: 80%;
 }
 
+/* -- Add/Edit Modal -- */
 .Performances-formGroup {
     display: flex;
     justify-content: center;
@@ -183,6 +184,10 @@
     color: white;    
 }
 
+#Performances-submitBtn:focus {
+    box-shadow: none;    
+}
+
 #Performances-saveBtn {
     width: 40%;
     background: #60c6d9;
@@ -191,12 +196,31 @@
     color: white;    
 }
 
+#Performances-saveBtn:focus {
+    box-shadow: none;    
+}
+
 #Performances-cancelBtn {
     width: 40%;
     background: none;
     border: 1px solid #60c6d9;
     border-radius: 6px;
     color: #60c6d9;    
+}
+
+#Performances-cancelBtn:focus {
+    box-shadow: none;    
+}
+
+#Performances-inputFields {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;    
+}
+
+#Performances-inputFields:focus {
+    box-shadow: none;
 }
 
  /* -- Delete Modal -- */
@@ -217,10 +241,18 @@
     color: #EA526F
 }
 
+#Performances-deleteConfirmBtn:focus {
+    box-shadow: none;    
+}
+
 #Performances-deleteCancelBtn {
     width: 40%;
     background: #EA526F;
     border: 1px solid #EA526F;
     border-radius: 6px;
     color: white;
+}
+
+#Performances-deleteCancelBtn:focus {
+    box-shadow: none;    
 }
