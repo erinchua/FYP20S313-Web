@@ -48,6 +48,11 @@ class ProgrammeTalkSchedule extends Component {
       universityName: "",
       url: "",
       uniList: [],
+
+      // Discipline (Programme collection)
+      
+      disciplineList: [],
+
       checkDiscipline: false,
       addProgTalkModal: false,
       editProgTalkModal: false,
@@ -95,6 +100,7 @@ class ProgrammeTalkSchedule extends Component {
     const db = fire.firestore();
     const progtalk = [];
 
+    // Get Universities
     db.collection("Universities").get()
     .then((snapshot) => {
       const uni_list = [];
@@ -106,12 +112,25 @@ class ProgrammeTalkSchedule extends Component {
             universityName: doc.data().universityName,
             url: doc.data().url
           };
-            uni_list.push(data);
+          uni_list.push(data);
         });
-      console.log("Uni List: " + uni_list)
       this.setState({ uniList: uni_list });
-      
     });
+
+    // Get Disciplines
+    // db.collection("Programmes").get()
+    // .then((snapshot) => {
+    //   const discipline_list = [];
+    //     snapshot.forEach((doc) => {
+    //       const data = {
+    //         docid: doc.id,
+    //         progId: doc.data().id,
+    //         discipline: doc.data().discipline
+    //       };
+    //       discipline_list.push(data);
+    //     });
+    //   this.setState({ disciplineList: discipline_list });
+    // });
     
     const userRef = db
     .collection("ProgrammeTalks")
@@ -886,7 +905,7 @@ class ProgrammeTalkSchedule extends Component {
                             return (
                               <>
                                 {/* To be retrieved from DB */}
-                                <option value="Grenoble" className="editProgTalkFormSelectOption">Grenoble Ecole de Management</option>
+                                <option value={uni.universityName} className="editProgTalkFormSelectOption">{uni.universityName}</option>
                               </>
                             );
                           })}

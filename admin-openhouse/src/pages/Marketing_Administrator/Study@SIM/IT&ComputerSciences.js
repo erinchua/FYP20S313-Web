@@ -14,6 +14,8 @@ import SideNavBar from "../../../components/SideNavbar";
 import AddStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/AddStudySIMProgModal";
 import EditStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/EditStudySIMProgModal";
 import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/DeleteStudySIMProgModal";
+import ViewStudySIMProgDetailsModal from "../../../components/Marketing_Administrator/Study@SIM/ViewStudySIMProgDetailsModal";
+
 
 class StudySIM_ITComputerSciences extends Component {
   constructor() {
@@ -22,6 +24,7 @@ class StudySIM_ITComputerSciences extends Component {
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
+      viewStudySIMProgDetailsModal: false
     };
   }
 
@@ -134,6 +137,19 @@ class StudySIM_ITComputerSciences extends Component {
     }
   };
 
+  /* View Programme Details Modal */
+  handleViewStudySIMProgDetailsModal = () => {
+    if (this.state.viewStudySIMProgDetailsModal == false) {
+      this.setState({
+        viewStudySIMProgDetailsModal: true,
+      });
+    } else {
+      this.setState({
+        viewStudySIMProgDetailsModal: false,
+      });
+    }
+  };
+
 
   render() {
     return (
@@ -240,12 +256,11 @@ class StudySIM_ITComputerSciences extends Component {
                                       {index}
                                     </td>
                                     <td className="studySIMProgData_ProgName text-left">
-                                      <a className="studySIMProgData_ProgNameLink"
-                                        href={
+                                      <a className="studySIMProgData_ProgNameLink" onClick={this.handleViewStudySIMProgDetailsModal}>
+                                        {/* href={
                                           "/ArtsSocialScienceViewProgramme?id=" +
                                           ITComputerScience.docid
-                                        }
-                                      >
+                                        } */}
                                         {ITComputerScience.programmeName}
                                       </a>
                                     </td>
@@ -493,6 +508,19 @@ class StudySIM_ITComputerSciences extends Component {
             }}
             handleCancelDelete={this.handleDeleteStudySIMProgModal}
           />
+        </Modal>
+        
+        {/* View Programme Details Modal */}
+        <Modal
+          show={this.state.viewStudySIMProgDetailsModal}
+          onHide={this.handleViewStudySIMProgDetailsModal}
+          aria-labelledby="viewStudySIMProgDetailsModalTitle"
+          size="xl"
+          centered
+          backdrop="static"
+          keyboard={false}
+        >
+          <ViewStudySIMProgDetailsModal />
         </Modal>
       </div>
     );
