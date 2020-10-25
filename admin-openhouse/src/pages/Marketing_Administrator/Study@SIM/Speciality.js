@@ -25,7 +25,7 @@ import AddStudySIMProgModal from "../../../components/Marketing_Administrator/St
 import EditStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/EditStudySIMProgModal";
 import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/DeleteStudySIMProgModal";
 
-class StudySIM_Business extends Component {
+class StudySIM_Speciality extends Component {
   constructor() {
     super();
     this.state = {
@@ -64,19 +64,19 @@ class StudySIM_Business extends Component {
     const db = fire.firestore();
 
     const userRe1 = db.collection("Programmes").onSnapshot((snapshot) => {
-      const business = [];
+      const Specialty = [];
       snapshot.forEach((doc) => {
         const getdiscipline = doc.get("discipline");
         if (
-          getdiscipline.disciplineName1 === "Business" ||
-          getdiscipline.disciplineName2 === "Business"
+          getdiscipline.disciplineName1 === "Specialty" ||
+          getdiscipline.disciplineName2 === "Specialty"
         ) {
           function getKeyByValue(object, value) {
             return Object.keys(object).find((key) => object[key] === value);
           }
 
           var disciplinepath =
-            "discipline." + getKeyByValue(getdiscipline, "Business");
+            "discipline." + getKeyByValue(getdiscipline, "Specialty");
 
           const data = {
             docid: doc.id,
@@ -94,11 +94,11 @@ class StudySIM_Business extends Component {
             subDiscipline: doc.data().subDiscipline,
           };
 
-          business.push(data);
+          Specialty.push(data);
         }
       });
 
-      this.setState({ business: business });
+      this.setState({ Specialty: Specialty });
     });
   }
   /* Add Programme Talk Modal */
@@ -168,7 +168,7 @@ class StudySIM_Business extends Component {
                       className="text-left MAStudySIMContentHeaderCol"
                     >
                       <h4 className="MAStudySIMHeaderText">
-                        Programmes for Business
+                        Programmes for Specialty
                       </h4>
                     </Col>
 
@@ -235,8 +235,8 @@ class StudySIM_Business extends Component {
                             </th>
                           </tr>
                         </thead>
-                        {this.state.business &&
-                          this.state.business.map((business, index) => {
+                        {this.state.Specialty &&
+                          this.state.Specialty.map((Specialty, index) => {
                             index = index + 1;
                             return (
                               <tbody>
@@ -248,84 +248,84 @@ class StudySIM_Business extends Component {
                                     <a
                                       href={
                                         "/ArtsSocialScienceViewProgramme?id=" +
-                                        business.docid
+                                        Specialty.docid
                                       }
                                     >
-                                      {business.programmeName}
+                                      {Specialty.programmeName}
                                     </a>
                                   </td>
                                   <td className="studySIMProgData_AwardedBy text-left">
-                                    {business.awardBy}
+                                    {Specialty.awardBy}
                                   </td>
                                   <td className="studySIMProgData_LogoFile text-left">
-                                    {business.Logofile}
+                                    {Specialty.Logofile}
                                   </td>
                                   <td className="studySIMProgData_Category text-left">
-                                    {business.CategoryProgramme}
+                                    {Specialty.CategoryProgramme}
                                   </td>
                                   <td className="studySIMProgData_MoS text-left">
                                     <tr>
-                                      {business.ModeOfStudy.fullTime ===
+                                      {Specialty.ModeOfStudy.fullTime ===
                                         true && <span>Full-Time</span>}
                                     </tr>
                                     <tr>
-                                      {business.ModeOfStudy.partTime ===
+                                      {Specialty.ModeOfStudy.partTime ===
                                         true && <span>Part-Time</span>}
                                     </tr>
                                   </td>
                                   <td className="studySIMProgData_Discipline text-left">
-                                    <tr>{business.discipline1}</tr>
-                                    <tr>{business.discipline2}</tr>
+                                    <tr>{Specialty.discipline1}</tr>
+                                    <tr>{Specialty.discipline2}</tr>
                                   </td>
                                   <td className="studySIMProgData_AcademicLvl text-left">
-                                    {business.AcademicLevel}
+                                    {Specialty.AcademicLevel}
                                   </td>
                                   <td className="studySIMProgData_EntryQual text-left">
                                     <tr>
-                                      {business.Qualificaiton.aLevel ===
+                                      {Specialty.Qualificaiton.aLevel ===
                                         true && <span>"A" level</span>}
                                     </tr>
                                     <tr>
-                                      {business.Qualificaiton.degree ===
+                                      {Specialty.Qualificaiton.degree ===
                                         true && <span>Degree</span>}
                                     </tr>
                                     <tr>
-                                      {business.Qualificaiton.diploma ===
+                                      {Specialty.Qualificaiton.diploma ===
                                         true && <span>Diploma</span>}
                                     </tr>
                                     <tr>
-                                      {business.Qualificaiton.oLevel ===
+                                      {Specialty.Qualificaiton.oLevel ===
                                         true && <span>"O" Level</span>}
                                     </tr>
                                   </td>
                                   <td className="studySIMProgData_SubDiscipline text-left">
                                     <tr>
                                       {
-                                        business.subDiscipline
+                                        Specialty.subDiscipline
                                           .subDisciplineName1
                                       }
                                     </tr>
                                     <tr>
                                       {
-                                        business.subDiscipline
+                                        Specialty.subDiscipline
                                           .subDisciplineName2
                                       }
                                     </tr>
                                     <tr>
                                       {
-                                        business.subDiscipline
+                                        Specialty.subDiscipline
                                           .subDisciplineName3
                                       }
                                     </tr>
                                     <tr>
                                       {
-                                        business.subDiscipline
+                                        Specialty.subDiscipline
                                           .subDisciplineName4
                                       }
                                     </tr>
                                     <tr>
                                       {
-                                        business.subDiscipline
+                                        Specialty.subDiscipline
                                           .subDisciplineName5
                                       }
                                     </tr>
@@ -335,32 +335,37 @@ class StudySIM_Business extends Component {
                                       className="editStudySIMProgBtn"
                                       onClick={() => {
                                         this.setState({
-                                          programmeName: business.programmeName,
-                                          University: business.awardBy,
-                                          category: business.CategoryProgramme,
-                                          ModeOfStudy: business.ModeOfStudy,
-                                          discipline1: business.discipline1,
-                                          discipline2: business.discipline2,
-                                          acadamiclevel: business.AcademicLevel,
-                                          olevel: business.Qualificaiton.oLevel,
-                                          aLevel: business.Qualificaiton.aLevel,
-                                          degree: business.Qualificaiton.degree,
+                                          programmeName:
+                                            Specialty.programmeName,
+                                          University: Specialty.awardBy,
+                                          category: Specialty.CategoryProgramme,
+                                          ModeOfStudy: Specialty.ModeOfStudy,
+                                          discipline1: Specialty.discipline1,
+                                          discipline2: Specialty.discipline2,
+                                          acadamiclevel:
+                                            Specialty.AcademicLevel,
+                                          olevel:
+                                            Specialty.Qualificaiton.oLevel,
+                                          aLevel:
+                                            Specialty.Qualificaiton.aLevel,
+                                          degree:
+                                            Specialty.Qualificaiton.degree,
                                           diploma:
-                                            business.Qualificaiton.diploma,
+                                            Specialty.Qualificaiton.diploma,
                                           subdisciplne1:
-                                            business.subDiscipline
+                                            Specialty.subDiscipline
                                               .subDisciplineName1,
                                           subdisciplne2:
-                                            business.subDiscipline
+                                            Specialty.subDiscipline
                                               .subDisciplineName2,
                                           subdisciplne3:
-                                            business.subDiscipline
+                                            Specialty.subDiscipline
                                               .subDisciplineName3,
                                           subdisciplne4:
-                                            business.subDiscipline
+                                            Specialty.subDiscipline
                                               .subDisciplineName4,
                                           subdisciplne4:
-                                            business.subDiscipline
+                                            Specialty.subDiscipline
                                               .subDisciplineName4,
                                         });
                                         this.handleEditStudySIMProgModal();
@@ -378,7 +383,7 @@ class StudySIM_Business extends Component {
                                       className="deleteStudySIMProgBtn"
                                       onClick={() => {
                                         this.setState({
-                                          docid: business.docid,
+                                          docid: Specialty.docid,
                                         });
                                         this.handleDeleteStudySIMProgModal();
                                       }}
@@ -476,4 +481,4 @@ class StudySIM_Business extends Component {
     );
   }
 }
-export default StudySIM_Business;
+export default StudySIM_Speciality;
