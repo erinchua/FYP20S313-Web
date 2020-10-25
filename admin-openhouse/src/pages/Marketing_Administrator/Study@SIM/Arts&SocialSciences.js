@@ -1,17 +1,7 @@
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormControl,
-  InputGroup,
-  Table,
-  Modal,
-} from "react-bootstrap";
+import { Container, Row, Col, Button, Table, Modal } from "react-bootstrap";
 
 import "../../../css/Marketing_Administrator/Study@SIM.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -60,6 +50,7 @@ class StudySIM_ArtsSocialSciences extends Component {
   componentDidMount() {
     this.authListener();
   }
+  
   display() {
     const db = fire.firestore();
 
@@ -102,6 +93,7 @@ class StudySIM_ArtsSocialSciences extends Component {
       this.setState({ artsocialscience: artsocialscience });
     });
   }
+
   /* Add Programme Talk Modal */
   handleAddStudySIMProgModal = () => {
     if (this.state.addStudySIMProgModal == false) {
@@ -141,6 +133,7 @@ class StudySIM_ArtsSocialSciences extends Component {
       });
     }
   };
+
 
   render() {
     return (
@@ -247,7 +240,7 @@ class StudySIM_ArtsSocialSciences extends Component {
                                       {index}
                                     </td>
                                     <td className="studySIMProgData_ProgName text-left">
-                                      <a
+                                      <a className="studySIMProgData_ProgNameLink"
                                         href={
                                           "/ArtsSocialScienceViewProgramme?id=" +
                                           artsocialscience.docid
