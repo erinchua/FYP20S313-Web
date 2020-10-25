@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
-import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Button, Table, Modal } from 'react-bootstrap';
 
 import "../../../css/Marketing_Administrator/Study@SIM.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -114,7 +114,7 @@ class StudySIM_Speciality extends Component {
                     {/* Study@SIM Page Header row */}
                     <Row className="justify-content-center MAStudySIMContentHeaderRow">
                         <Col md="6" className="text-left MAStudySIMContentHeaderCol">
-                        <h4 className="MAStudySIMHeaderText">Programmes for Speciality</h4>
+                        <h4 className="MAStudySIMHeaderText">Programmes for Specialty</h4>
                         </Col>
 
                         <Col md="6" className="text-right MAStudySIMContentHeaderCol">
