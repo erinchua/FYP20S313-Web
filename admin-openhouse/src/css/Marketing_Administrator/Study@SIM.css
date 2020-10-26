@@ -158,7 +158,11 @@
 
 .studySIMProgData_ProgNameLink {
     text-decoration: underline;
-    color: #434343;
+    color: #434343 !important;
+}
+
+.studySIMProgData_ProgNameLink:hover {
+    color: #88B7B5 !important;
 }
 
 .studySIMProgData_AwardedBy {
