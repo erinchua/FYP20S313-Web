@@ -25,6 +25,7 @@
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
+    font-size: 85% !important;
 }
 
 #addProgTalkForm_ProgTalkName:focus {
@@ -36,6 +37,7 @@
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
+    font-size: 85% !important;
 }
 
 #addProgTalkForm_Venue:focus {
@@ -47,6 +49,7 @@
     border: none !important;
     border-bottom: 1px solid #c8c8c8 !important;
     border-radius: 0 !important;
+    font-size: 85% !important;
 }
 
 .addProgTalkFormSelect:focus {
@@ -55,6 +58,7 @@
 
 .addProgTalkFormSelectOption {
     color: #434343;
+    font-size: 85% !important;
 }
 
 #addProgTalkForm_ProgTalkStartTime {
@@ -62,6 +66,7 @@
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
+    font-size: 85% !important;
 }
 
 #addProgTalkForm_ProgTalkStartTime:focus {
@@ -73,6 +78,7 @@
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
+    font-size: 85% !important;
 }
 
 #addProgTalkForm_ProgTalkEndTime:focus {
@@ -84,6 +90,7 @@
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
+    font-size: 85% !important;
 }
 
 #addProgTalkForm_Capacity:focus {
@@ -101,6 +108,7 @@
     overflow-y: auto;
     max-height: 10vh;
     overflow-x: hidden;
+    font-size: 85% !important;
 }
 
 .addProgTalkForm_CheckBox {
@@ -111,6 +119,13 @@
     resize: none;
     border-radius: 6px;
     color: #434343;
+    font-size: 85%;
+}
+
+.addProgTalkFormLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
 }
 
 #addProgTalkFormBtn {
