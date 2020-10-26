@@ -99,9 +99,21 @@ class GenerateStudentRegisteration extends Component {
 
   generatePDF = () => {
     var doc = new jsPDF("landscape");
+    var monthNames = [
+        "January", "February", "March",
+        "April", "May", "June", "July",
+        "August", "September", "October",
+        "November", "December"
+      ];
+
     var today = new Date();
-    var newdat = "Date Printed : "+ today;
-    doc.text(30,30,newdat);
+    
+    var day = today.getDate();
+    var monthIndex = today.getMonth();
+    var year = today.getFullYear();
+    var date = day + ' ' + monthNames[monthIndex] + ' ' + year;
+    var newdat = "Date Requested : "+ date;
+    doc.text(107,68,newdat);
 
     doc.autoTable({
       html: "#students",
@@ -115,7 +127,7 @@ class GenerateStudentRegisteration extends Component {
     });
     doc.text("Report on Total Number of Registerations for Open House Mobile Application", 14, 15);
 
-    doc.save("table.pdf");
+    doc.save("StudentRegisteration.pdf");
   };
 
 
