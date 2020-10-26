@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useReducer } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import firecreate from "../../../config/firebasecreate";
@@ -32,6 +32,7 @@ class GenerateStudentRegisteration extends Component {
       id: "",
       suspendStudAcctModal: false,
       unsuspendStudAcctModal: false,
+      totalNumber: 0,
     };
   }
 
@@ -64,9 +65,21 @@ class GenerateStudentRegisteration extends Component {
     });
   };
 
-  componentDidMount() {
-    this.authListener();
-  }
+
+  componentDidMount=() =>{
+    fire.auth().onAuthStateChanged((user) => {
+        if (user) {
+          const db = fire.firestore();
+          var a  = this;
+                a.setState(() => ({
+                  useremail: user.email, })
+                )
+              }  else {
+        
+        }
+      });
+     
+}
 
   display() {
     const db = fire.firestore();
@@ -89,15 +102,40 @@ class GenerateStudentRegisteration extends Component {
             id: doc.id,
             counter : counter,
           };
-          counter++;
           users.push(data);
         });
-
+        this.setState({
+            totalNumber: 5
+        });
         this.setState({ users: users });
       });
   }
 
-  generatePDF = () => {
+  generateReport = () => {
+
+    const db = fire.firestore();
+    var counter = 0;
+    const total = db
+      .collection("Students")
+      .onSnapshot((snapshot) => {
+        snapshot.forEach((doc) => {
+            console.log(doc.id);
+          counter++;
+        });
+        this.setState(
+            {
+                totalNumber: counter
+            },
+            () => {
+              console.log(this.state.totalNumber);
+              this.generatePDF();
+            }
+          );
+        });
+      console.log(counter);
+
+    }
+generatePDF(){
     var doc = new jsPDF("landscape");
     var monthNames = [
         "January", "February", "March",
@@ -106,18 +144,35 @@ class GenerateStudentRegisteration extends Component {
         "November", "December"
       ];
 
-    var today = new Date();
-    
+    var today = new Date();    
     var day = today.getDate();
     var monthIndex = today.getMonth();
     var year = today.getFullYear();
     var date = day + ' ' + monthNames[monthIndex] + ' ' + year;
-    var newdat = "Date Requested : "+ date;
-    doc.text(200,20,newdat);
+    var newdat = "\nDate Requested : "+ date;
+    doc.setFontSize(14);   
+    doc.text(206,20,newdat);
+
+    var user = this.state.useremail;
+    var adminuser = "\nRequested by : " + user;
+    doc.setFontSize(14);   
+    doc.text(14,20,adminuser);
+
+    doc.line(14, 30, 283, 30);
+        
+
+    var totalNumber = "\nTotal Number : " + this.state.totalNumber;
+    doc.setFontSize(20);   
+    doc.text(14,34,totalNumber);
+
+    doc.line(14, 50, 283, 50);
+
+    doc.setFontSize(12);
+    doc.text(14,57,"List of People Registered");
 
     doc.autoTable({
       html: "#students",
-      startY: 30,
+      startY: 63,
       didParseCell: function (data) {
         var rows = data.table.body;
         if (data.row.index === 0) {
@@ -125,8 +180,10 @@ class GenerateStudentRegisteration extends Component {
         }
       },
     });
-    doc.text("Report on Total Number of Registerations for Open House Mobile Application", 14, 15);
 
+    doc.setFontSize(18); 
+    doc.text("Report on Total Number of Registerations for Open House Mobile Application", 35, 15);
+      
     doc.save("StudentRegisteration.pdf");
   };
 
@@ -134,7 +191,7 @@ class GenerateStudentRegisteration extends Component {
   render() {
     return (
       <div className="home">
-        <div>
+        <div>{/* Do not change the id below*/}
           <table id="students" class="table table-bordered">
             <tbody>
               <tr>
@@ -165,7 +222,7 @@ class GenerateStudentRegisteration extends Component {
             </tbody>
           </table>
         </div>
-        <button onClick={this.generatePDF}>Generate PDF</button>
+        <button onClick={this.generateReport}>Generate PDF</button>
       </div>
     );
   }
