@@ -259,17 +259,34 @@ export default class AddStudySIMProgModal extends React.Component {
                                     <Col md="9" className="text-left">
                                         <Form.Label className="addStudySIMProgFormLabel">Programme Structure</Form.Label>
 
-                                        <Form.Row className="justify-content-center">
-                                            <Col md="6" className="text-left">
+                                        {/* Coursework */}
+                                        <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
+                                            <Col md="6" className="text-left addStudySIMProgForm_InnerCol">
                                                 <Form.Label className="addStudySIMProgFormLabel">Coursework</Form.Label>
 
-                                                <FormControl as="textarea" rows="3" required noValidate className="addStudySIMProgForm_TextArea" placeholder="Coursework" />
+                                                <Container className="addStudySIMProgForm_StructureOverseasCon">
+                                                    {/* To be retrieved from db - row is generated dynamically */}
+                                                    <Row>
+                                                        <Col style={{paddingLeft: "10%"}}>
+                                                            <Form.Check name="coursework" value="True" type="radio" label="Yes" className="addStudySIMProgForm_CheckBox" />
+                                                        </Col>
+                                                    </Row>
+
+                                                </Container>
                                             </Col>
 
-                                            <Col md="6" className="text-left">
+                                            <Col md="6" className="text-left addStudySIMProgForm_InnerCol">
                                                 <Form.Label className="addStudySIMProgFormLabel">Examination</Form.Label>
 
-                                                <FormControl as="textarea" rows="3" required noValidate className="addStudySIMProgForm_TextArea" placeholder="Examination" />
+                                                <Container className="addStudySIMProgForm_StructureOverseasCon">
+                                                    {/* To be retrieved from db - row is generated dynamically */}
+                                                    <Row>
+                                                        <Col style={{paddingLeft: "10%"}}>
+                                                            <Form.Check name="examination" value="True" type="radio" label="Yes" className="addStudySIMProgForm_CheckBox" />
+                                                        </Col>
+                                                    </Row>
+
+                                                </Container>
                                             </Col>
                                         </Form.Row>
                                     </Col>
@@ -285,16 +302,34 @@ export default class AddStudySIMProgModal extends React.Component {
                                         <Form.Label className="addStudySIMProgFormLabel">Overseas Opportunity</Form.Label>
 
                                         <Form.Row className="justify-content-center">
-                                            <Col md="6" className="text-left">
+                                            {/* Exchange */}
+                                            <Col md="6" className="text-left addStudySIMProgForm_InnerCol">
                                                 <Form.Label className="addStudySIMProgFormLabel">Exchange</Form.Label>
 
-                                                <FormControl as="textarea" rows="3" required noValidate className="addStudySIMProgForm_TextArea" placeholder="Exchange" />
+                                                <Container className="addStudySIMProgForm_StructureOverseasCon">
+                                                    {/* To be retrieved from db - row is generated dynamically */}
+                                                    <Row>
+                                                        <Col style={{paddingLeft: "10%"}}>
+                                                            <Form.Check name="exchange" value="True" type="radio" label="Yes" className="addStudySIMProgForm_CheckBox" />
+                                                        </Col>
+                                                    </Row>
+
+                                                </Container>
                                             </Col>
 
-                                            <Col md="6" className="text-left">
+                                            {/* Transfer */}
+                                            <Col md="6" className="text-left editStudySIMProgForm_InnerCol">
                                                 <Form.Label className="addStudySIMProgFormLabel">Transfer</Form.Label>
 
-                                                <FormControl as="textarea" rows="3" required noValidate className="addStudySIMProgForm_TextArea" placeholder="Transfer" />
+                                                <Container className="addStudySIMProgForm_StructureOverseasCon">
+                                                    {/* To be retrieved from db - row is generated dynamically */}
+                                                    <Row>
+                                                        <Col style={{paddingLeft: "8%"}}>
+                                                            <Form.Check name="transfer" value="True" type="radio" label="Yes" className="addStudySIMProgForm_CheckBox" />
+                                                        </Col>
+                                                    </Row>
+
+                                                </Container>
                                             </Col>
                                         </Form.Row>
                                     </Col>

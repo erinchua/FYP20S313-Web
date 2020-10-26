@@ -112,6 +112,16 @@
     font-size: 85% !important;
 }
 
+.addStudySIMProgModal .addStudySIMProgForm_StructureOverseasCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 10vh;
+    overflow-x: hidden;
+    font-size: 85% !important;
+}
+
 #addStudySIMProgFormBtn {
     background: #60c6d9;
     border-color: #60c6d9;
