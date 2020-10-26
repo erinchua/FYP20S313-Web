@@ -118,6 +118,10 @@
     box-shadow: none;
 }
 
+#OpenHouse-descriptionData {
+    text-transform: capitalize;
+}
+
 .errorMessage {
     color: red;
     font-size: 85%;

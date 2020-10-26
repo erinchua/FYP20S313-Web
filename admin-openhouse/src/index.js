@@ -41,6 +41,7 @@ import ITComputerSciences from "./pages/Marketing_Administrator/Study@SIM/IT&Com
 import Nursing from "./pages/Marketing_Administrator/Study@SIM/Nursing";
 import Specialty from "./pages/Marketing_Administrator/Study@SIM/Specialty";
 import ContactInformation from "./pages/Marketing_Administrator/Useful_Info/ContactInformation";
+import GenerateStudentRegisteration from "./pages/Marketing_Administrator/GenerateReport/GenerateStudentRegisteration";
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -88,6 +89,8 @@ ReactDOM.render(
       <Route path="/Nursing" component={Nursing} />
       <Route path="/Specialty" component={Specialty} />
       <Route path="/ContactInformation" component={ContactInformation} />
+      <Route path="/GenerateStudentRegisteration" component={GenerateStudentRegisteration} />
+      
     </Switch>
   </Router>,
   document.getElementById("root")

@@ -14,7 +14,8 @@ import { faCalendarAlt, faCalendarDay, faEdit, faHourglassEnd, faHourglassStart,
 const initialStates = {
     dateError: "",
     startTimeError: "",
-    EndTimeError: "",
+    endTimeError: "",
+    descriptionError: "",
 }
 
 class Openhouse extends Component {
@@ -29,6 +30,7 @@ class Openhouse extends Component {
             startTime: "",
             endTime: "",
             docid: "",
+            description: "",
             //Below states are for functions
             users: "",
             //Below states are for modals
@@ -106,6 +108,7 @@ class Openhouse extends Component {
                     date: daydata[Object.keys(daydata)[i]].date,
                     startTime: daydata[Object.keys(daydata)[i]].startTime,
                     endTime: daydata[Object.keys(daydata)[i]].endTime,
+                    description: daydata[Object.keys(daydata)[i]].description,
                     docid: doc.id,
                 };
                 users.push(data);
@@ -158,25 +161,57 @@ class Openhouse extends Component {
         // })
         // .then(() => this.onAuthSuccess(e, openhouseid, day));
 
-        //Update respective data by their ids for Edit Modal - TBC
+        //Update respective data by their ids and day number for Edit Modal - Integrated
         const db = fire.firestore();
+        db.collection("Openhouse").doc(openhouseid).get()
+        .then((doc) => {
+            const daydata = doc.get('day');
 
-        const isValid = this.validate();
-        if (isValid) {
-            this.setState(initialStates);
-            
-            const userRef = db
-            .collection("Openhouse")
-            .doc(openhouseid)
-            .set({
-                day: day,
-                docid: openhouseid,
-                date: this.state.date,
-                startTime: this.state.startTime,
-                endTime: this.state.endTime,
-            })
-            .then(() => this.onAuthSuccess(e, openhouseid, day));
-        }
+            //Checked if day is 1
+            if (day == Object.keys(daydata).length - 1) {
+                for (var i = 0; i < Object.keys(daydata).length - 1; i++){
+                    const isValid = this.validate();
+                    if (isValid) {
+                        this.setState(initialStates);
+                        
+                        const userRef = db
+                        .collection("Openhouse")
+                        .doc(openhouseid)
+                        .update({
+                            "day.1.date": this.state.date,
+                            "day.1.startTime": this.state.startTime,
+                            "day.1.endTime": this.state.endTime,
+                            "day1.description": this.state.description,
+                        })
+                        .then(() => this.onAuthSuccess(e, openhouseid, day));
+                        
+                    }
+                }
+            }
+
+            //Checked if day is 2
+            if (day == Object.keys(daydata).length) {
+                for (var i = 1; i < Object.keys(daydata).length; i++){
+                    const isValid = this.validate();
+                    if (isValid) {
+                        this.setState(initialStates);
+                        
+                        const userRef = db
+                        .collection("Openhouse")
+                        .doc(openhouseid)
+                        .update({
+                            "day.2.date": this.state.date,
+                            "day.2.startTime": this.state.startTime,
+                            "day.2.endTime": this.state.endTime,
+                            "day.2.description": this.state.description,
+                        })
+                        .then(() => this.onAuthSuccess(e, openhouseid, day));
+                        
+                    }
+                }
+            }
+        });
+
     }
 
     onAuthSuccess = (e, openhouseid, day) => {
@@ -185,7 +220,7 @@ class Openhouse extends Component {
         //this.cancel(e, openhouseid, day);
     };
 
-    //Get respective data out by ids and the day number for Edit Modal - TBC
+    //Get respective data out by ids and the day number for Edit Modal - Integrated
     edit(e, openhouseid, day) {
         // document.getElementById(day + "editbutton").setAttribute("hidden", "");
         // document.getElementById(day + "updatebutton").removeAttribute("hidden");
@@ -212,15 +247,32 @@ class Openhouse extends Component {
             const db = fire.firestore();
             db.collection("Openhouse").doc(openhouseid).get()
             .then((doc) => {
-                const daydata = doc.get("day");
-                for (var i = 0; i < Object.keys(daydata).length; i++) {
-                    this.setState({
-                        day: day,
-                        date: daydata[Object.keys(daydata)[i]].date,
-                        startTime: daydata[Object.keys(daydata)[i]].startTime,
-                        endTime: daydata[Object.keys(daydata)[i]].endTime,
-                        docid: doc.id,
-                    });
+                const daydata = doc.get('day');
+
+                if (day == Object.keys(daydata).length - 1) {
+                    for (var i = 0; i < Object.keys(daydata).length - 1; i++){
+                        this.setState({
+                            day: day,
+                            date: daydata[Object.keys(daydata)[i]].date,
+                            startTime: daydata[Object.keys(daydata)[i]].startTime,
+                            endTime: daydata[Object.keys(daydata)[i]].endTime,
+                            description: daydata[Object.keys(daydata)[i]].description,
+                            docid: doc.id,
+                        });
+                    }
+                }
+
+                if (day == Object.keys(daydata).length) {
+                    for (var i = 1; i < Object.keys(daydata).length; i++){
+                        this.setState({
+                            day: day,
+                            date: daydata[Object.keys(daydata)[i]].date,
+                            startTime: daydata[Object.keys(daydata)[i]].startTime,
+                            endTime: daydata[Object.keys(daydata)[i]].endTime,
+                            description: daydata[Object.keys(daydata)[i]].description,
+                            docid: doc.id,
+                        });
+                    }
                 }
             });
         } else {
@@ -254,6 +306,7 @@ class Openhouse extends Component {
         let dateError = "";
         let startTimeError = "";
         let endTimeError = "";
+        let descriptionError = "";
 
         if (!this.state.date) {
             dateError = "Please enter a valid date. E.g. 21-Nov-2020";
@@ -267,8 +320,12 @@ class Openhouse extends Component {
             endTimeError = "Please enter a valid end time. E.g. 2:30PM";
         }
 
-        if (dateError || startTimeError || endTimeError) {
-            this.setState({dateError, startTimeError, endTimeError});
+        if (!this.state.description) {
+            descriptionError = "Please enter a valid description. E.g. Open House Day 1";
+        }
+
+        if (dateError || startTimeError || endTimeError || descriptionError) {
+            this.setState({dateError, startTimeError, endTimeError, descriptionError});
             return false;
         } 
 
@@ -292,7 +349,7 @@ class Openhouse extends Component {
 
     resetForm = () => {
         this.setState(initialStates);
-        this.setState({date: '', starttime: '', endtime: ''})
+        this.setState({date: '', starttime: '', endtime: '', description: ''})
     }
 
     render() {
@@ -331,12 +388,12 @@ class Openhouse extends Component {
                                                     <tbody id="OpenHouse-tableBody">
                                                         {this.state.users && this.state.users.map((user) => {
                                                             return(
-                                                                <tr key={user.id}>
+                                                                <tr>
                                                                     <td>{user.date}</td>
                                                                     <td>{user.day}</td>
                                                                     <td>{user.startTime}</td>
                                                                     <td>{user.endTime}</td>
-                                                                    <td>{user.docid}</td>
+                                                                    <td id="OpenHouse-descriptionData">{user.description}</td>
                                                                     <td><Button size="sm" id="OpenHouse-editBtn" onClick={(e) => {this.edit(e, user.docid, user.day)}}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                 </tr>
                                                             );
@@ -368,7 +425,7 @@ class Openhouse extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faCalendarAlt} />
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="OpenHouse-inputFields" type="text" name="date" placeholder="Date" required defaultValue={user.date} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <Form.Control id="OpenHouse-inputFields" type="text" name="date" placeholder="Date: e.g. 21-Nov-2020" required defaultValue={user.date} onChange={this.updateInput} noValidate></Form.Control>
                                                                 <div className="errorMessage">{this.state.dateError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
@@ -379,7 +436,7 @@ class Openhouse extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faCalendarDay} />
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control readOnly id="OpenHouse-inputFields" type="text" name="day" placeholder="Day" required defaultValue={user.day} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <Form.Control readOnly id="OpenHouse-inputFields" type="text" name="day" placeholder="Day" required defaultValue={user.day} noValidate></Form.Control>
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
@@ -389,7 +446,7 @@ class Openhouse extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faHourglassStart}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="OpenHouse-inputFields" type="text" name="startTime" placeholder="Start Time" required defaultValue={user.startTime} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <Form.Control id="OpenHouse-inputFields" type="text" name="startTime" placeholder="Start Time: e.g. 9:00AM" required defaultValue={user.startTime} onChange={this.updateInput} noValidate></Form.Control>
                                                             <div className="errorMessage">{this.state.startTimeError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
@@ -400,7 +457,7 @@ class Openhouse extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faHourglassEnd}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="OpenHouse-inputFields" type="text" name="endtime" placeholder="End Time" required defaultValue={user.endTime} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <Form.Control id="OpenHouse-inputFields" type="text" name="endTime" placeholder="End Time: e.g. 6:00PM" required defaultValue={user.endTime} onChange={this.updateInput} noValidate></Form.Control>
                                                             <div className="errorMessage">{this.state.endTimeError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
@@ -411,7 +468,8 @@ class Openhouse extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faKeyboard}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control readOnly id="OpenHouse-inputFields" type="text" name="description" placeholder="Description" required defaultValue={user.docid} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <Form.Control id="OpenHouse-inputFields" type="text" name="description" placeholder="Description" required defaultValue={user.description} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage">{this.state.descriptionError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
