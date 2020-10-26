@@ -39,7 +39,7 @@ import ArtsSocialSciences from "./pages/Marketing_Administrator/Study@SIM/Arts&S
 import Business from "./pages/Marketing_Administrator/Study@SIM/Business";
 import ITComputerSciences from "./pages/Marketing_Administrator/Study@SIM/IT&ComputerSciences";
 import Nursing from "./pages/Marketing_Administrator/Study@SIM/Nursing";
-import Speciality from "./pages/Marketing_Administrator/Study@SIM/Speciality";
+import Specialty from "./pages/Marketing_Administrator/Study@SIM/Specialty";
 import ContactInformation from "./pages/Marketing_Administrator/Useful_Info/ContactInformation";
 
 import './css/index.css';
@@ -86,7 +86,7 @@ ReactDOM.render(
       <Route path="/Business" component={Business} />
       <Route path="/IT&ComputerSciences" component={ITComputerSciences} />
       <Route path="/Nursing" component={Nursing} />
-      <Route path="/Speciality" component={Speciality} />
+      <Route path="/Specialty" component={Specialty} />
       <Route path="/ContactInformation" component={ContactInformation} />
     </Switch>
   </Router>,
