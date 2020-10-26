@@ -1,17 +1,7 @@
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormControl,
-  InputGroup,
-  Table,
-  Modal,
-} from "react-bootstrap";
+import { Container, Row, Col, Button, Table, Modal } from "react-bootstrap";
 
 import "../../../css/Marketing_Administrator/Study@SIM.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,6 +14,8 @@ import SideNavBar from "../../../components/SideNavbar";
 import AddStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/AddStudySIMProgModal";
 import EditStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/EditStudySIMProgModal";
 import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/DeleteStudySIMProgModal";
+import ViewStudySIMProgDetailsModal from "../../../components/Marketing_Administrator/Study@SIM/ViewStudySIMProgDetailsModal";
+
 
 class StudySIM_Speciality extends Component {
   constructor() {
@@ -32,6 +24,7 @@ class StudySIM_Speciality extends Component {
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
+      viewStudySIMProgDetailsModal: false
     };
   }
 
@@ -60,6 +53,7 @@ class StudySIM_Speciality extends Component {
   componentDidMount() {
     this.authListener();
   }
+  
   display() {
     const db = fire.firestore();
 
@@ -101,6 +95,7 @@ class StudySIM_Speciality extends Component {
       this.setState({ Specialty: Specialty });
     });
   }
+
   /* Add Programme Talk Modal */
   handleAddStudySIMProgModal = () => {
     if (this.state.addStudySIMProgModal == false) {
@@ -140,6 +135,20 @@ class StudySIM_Speciality extends Component {
       });
     }
   };
+
+  /* View Programme Details Modal */
+  handleViewStudySIMProgDetailsModal = () => {
+    if (this.state.viewStudySIMProgDetailsModal == false) {
+      this.setState({
+        viewStudySIMProgDetailsModal: true,
+      });
+    } else {
+      this.setState({
+        viewStudySIMProgDetailsModal: false,
+      });
+    }
+  };
+
 
   render() {
     return (
@@ -245,12 +254,11 @@ class StudySIM_Speciality extends Component {
                                     {index}
                                   </td>
                                   <td className="studySIMProgData_ProgName text-left">
-                                    <a
-                                      href={
+                                    <a className="studySIMProgData_ProgNameLink" onClick={this.handleViewStudySIMProgDetailsModal}>
+                                      {/* href={
                                         "/ArtsSocialScienceViewProgramme?id=" +
-                                        Specialty.docid
-                                      }
-                                    >
+                                         Specialty.docid
+                                      } */}
                                       {Specialty.programmeName}
                                     </a>
                                   </td>
@@ -476,6 +484,20 @@ class StudySIM_Speciality extends Component {
             }}
             handleCancelDelete={this.handleDeleteStudySIMProgModal}
           />
+        </Modal>
+
+        
+        {/* View Programme Details Modal */}
+        <Modal
+          show={this.state.viewStudySIMProgDetailsModal}
+          onHide={this.handleViewStudySIMProgDetailsModal}
+          aria-labelledby="viewStudySIMProgDetailsModalTitle"
+          size="xl"
+          centered
+          backdrop="static"
+          keyboard={false}
+        >
+          <ViewStudySIMProgDetailsModal />
         </Modal>
       </div>
     );

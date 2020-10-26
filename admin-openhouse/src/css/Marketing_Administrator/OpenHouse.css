@@ -24,6 +24,17 @@
     margin: 0 !important;
 }
 
+#OpenHouse-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#OpenHouse-title {
+    color: #424242;
+}
+
 #OpenHouse-secondRow {
     margin: 0 !important;
 }
@@ -47,6 +58,10 @@
     background: none;
     color: #434343;
     border: none;
+}
+
+#OpenHouse-editBtn:focus {
+    box-shadow: none;
 }
 
 .OpenHouse-formGroup {
@@ -75,12 +90,32 @@
     color: white;    
 }
 
+#OpenHouse-saveBtn:focus {
+    box-shadow: none;   
+}
+
 #OpenHouse-cancelBtn {
     width: 40%;
     background: none;
     border: 1px solid #60c6d9;
     border-radius: 6px;
     color: #60c6d9;
+}
+
+#OpenHouse-cancelBtn:focus {
+    box-shadow: none;   
+}
+
+#OpenHouse-inputFields {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;    
+    font-size: 85%;
+}
+
+#OpenHouse-inputFields:focus {
+    box-shadow: none;
 }
 
 .errorMessage {
