@@ -210,7 +210,7 @@ export default class EditStudySIMProgModal extends React.Component {
 
                     {/* Programme Details Section */}
                     <Modal.Header>
-                        <Modal.Title id="edittudySIMProgModalTitle" className="w-100">
+                        <Modal.Title id="editStudySIMProgModalTitle" className="w-100">
                             Programme Details
                         </Modal.Title>
                     </Modal.Header>
@@ -243,17 +243,36 @@ export default class EditStudySIMProgModal extends React.Component {
                                     <Col md="9" className="text-left">
                                         <Form.Label className="editStudySIMProgFormLabel">Programme Structure</Form.Label>
 
-                                        <Form.Row className="justify-content-center">
-                                            <Col md="6" className="text-left">
+                                        
+                                        <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                                            {/* Coursework */}
+                                            <Col md="6" className="text-left editStudySIMProgForm_InnerCol">
                                                 <Form.Label className="editStudySIMProgFormLabel">Coursework</Form.Label>
 
-                                                <FormControl as="textarea" rows="3" required noValidate className="editStudySIMProgForm_TextArea" placeholder="Coursework" />
+                                                <Container className="editStudySIMProgForm_StructureOverseasCon">
+                                                    {/* To be retrieved from db - row is generated dynamically */}
+                                                    <Row>
+                                                        <Col style={{paddingLeft: "10%"}}>
+                                                            <Form.Check name="coursework" value="True" type="radio" label="Yes" className="editStudySIMProgForm_CheckBox" />
+                                                        </Col>
+                                                    </Row>
+
+                                                </Container>
                                             </Col>
 
-                                            <Col md="6" className="text-left">
+                                            {/* Examination */}
+                                            <Col md="6" className="text-left editStudySIMProgForm_InnerCol">
                                                 <Form.Label className="editStudySIMProgFormLabel">Examination</Form.Label>
 
-                                                <FormControl as="textarea" rows="3" required noValidate className="editStudySIMProgForm_TextArea" placeholder="Examination" />
+                                                <Container className="editStudySIMProgForm_StructureOverseasCon">
+                                                    {/* To be retrieved from db - row is generated dynamically */}
+                                                    <Row>
+                                                        <Col style={{paddingLeft: "10%"}}>
+                                                            <Form.Check name="examination" value="True" type="radio" label="Yes" className="editStudySIMProgForm_CheckBox" />
+                                                        </Col>
+                                                    </Row>
+
+                                                </Container>
                                             </Col>
                                         </Form.Row>
                                     </Col>
@@ -269,16 +288,34 @@ export default class EditStudySIMProgModal extends React.Component {
                                         <Form.Label className="editStudySIMProgFormLabel">Overseas Opportunity</Form.Label>
 
                                         <Form.Row className="justify-content-center">
-                                            <Col md="6" className="text-left">
+                                            {/* Exchange */}
+                                            <Col md="6" className="text-left editStudySIMProgForm_InnerCol">
                                                 <Form.Label className="editStudySIMProgFormLabel">Exchange</Form.Label>
 
-                                                <FormControl as="textarea" rows="3" required noValidate className="editStudySIMProgForm_TextArea" placeholder="Exchange" />
+                                                <Container className="editStudySIMProgForm_StructureOverseasCon">
+                                                    {/* To be retrieved from db - row is generated dynamically */}
+                                                    <Row>
+                                                        <Col style={{paddingLeft: "10%"}}>
+                                                            <Form.Check name="exchange" value="True" type="radio" label="Yes" className="editStudySIMProgForm_CheckBox" />
+                                                        </Col>
+                                                    </Row>
+
+                                                </Container>
                                             </Col>
 
-                                            <Col md="6" className="text-left">
+                                            {/* Transfer */}
+                                            <Col md="6" className="text-left editStudySIMProgForm_InnerCol">
                                                 <Form.Label className="editStudySIMProgFormLabel">Transfer</Form.Label>
 
-                                                <FormControl as="textarea" rows="3" required noValidate className="editStudySIMProgForm_TextArea" placeholder="Transfer" />
+                                                <Container className="editStudySIMProgForm_StructureOverseasCon">
+                                                    {/* To be retrieved from db - row is generated dynamically */}
+                                                    <Row>
+                                                        <Col style={{paddingLeft: "8%"}}>
+                                                            <Form.Check name="transfer" value="True" type="radio" label="Yes" className="editStudySIMProgForm_CheckBox" />
+                                                        </Col>
+                                                    </Row>
+
+                                                </Container>
                                             </Col>
                                         </Form.Row>
                                     </Col>
