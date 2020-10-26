@@ -113,11 +113,11 @@ class GenerateStudentRegisteration extends Component {
     var year = today.getFullYear();
     var date = day + ' ' + monthNames[monthIndex] + ' ' + year;
     var newdat = "Date Requested : "+ date;
-    doc.text(107,68,newdat);
+    doc.text(200,20,newdat);
 
     doc.autoTable({
       html: "#students",
-      startY: 20,
+      startY: 30,
       didParseCell: function (data) {
         var rows = data.table.body;
         if (data.row.index === 0) {
