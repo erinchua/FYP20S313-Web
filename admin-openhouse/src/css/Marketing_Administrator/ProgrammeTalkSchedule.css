@@ -130,7 +130,7 @@
 }
 
 .progTalkScheduleHeader_ProgTalk {
-    width: 17%;
+    width: 10%;
     color: #424242;
     font-size: 90%;
 }
@@ -142,7 +142,7 @@
 }
 
 .progTalkScheduleHeader_AwardingUni {
-    width: 15%;
+    width: 12%;
     color: #424242;
     font-size: 90%;
 }
@@ -171,6 +171,12 @@
     font-size: 90%;
 }
 
+.progTalkScheduleHeader_Discipline {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+}
+
 .progTalkScheduleHeader_Edit {
     width: 5%;
     color: #424242;
@@ -192,7 +198,7 @@
 }
 
 .progTalkScheduleData_ProgTalk {
-    width: 17%;
+    width: 10%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
@@ -203,11 +209,10 @@
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
-    word-break: break-all;
 }
 
 .progTalkScheduleData_AwardingUni {
-    width: 15%;
+    width: 12%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
@@ -236,6 +241,13 @@
 
 .progTalkScheduleData_Capacity {
     width: 5%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.progTalkScheduleData_Discipline {
+    width: 10%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;

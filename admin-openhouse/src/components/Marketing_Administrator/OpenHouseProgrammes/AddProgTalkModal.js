@@ -257,7 +257,7 @@ export default class AddProgTalkModal extends React.Component {
                                 {/* Discipline Name */}
                                 <Form.Row className="justify-content-center addProgTalkForm_InnerRow">
                                     <Col md="10" className="text-left addProgTalkForm_InnerCol">
-                                        <Form.Label>Choose Discipline(s):</Form.Label>                                     
+                                        <Form.Label className="addProgTalkFormLabel">Choose Discipline(s):</Form.Label>                                     
                                             
                                         <Container className="addProgTalkForm_DisciplineCon">
                                             {/* To be retrieved from db - row is generated dynamically */}
@@ -277,6 +277,8 @@ export default class AddProgTalkModal extends React.Component {
                         {/* Programme Talk Details */}
                         <Form.Row className="justify-content-center addProgTalkFormRow">
                             <Col md="11" className="addProgTalkFormCol">
+                                <Form.Label className="addProgTalkFormLabel">Programme Talk Details</Form.Label>
+
                                 <FormControl as="textarea" rows="8" required noValidate id="addProgTalkForm_ProgTalkDetails" placeholder="Programme Talk Details" />
                             </Col>
                         </Form.Row>
