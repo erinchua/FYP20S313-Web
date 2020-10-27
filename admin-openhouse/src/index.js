@@ -42,7 +42,8 @@ import Nursing from "./pages/Marketing_Administrator/Study@SIM/Nursing";
 import Specialty from "./pages/Marketing_Administrator/Study@SIM/Specialty";
 import ContactInformation from "./pages/Marketing_Administrator/Useful_Info/ContactInformation";
 import GenerateStudentRegisteration from "./pages/Marketing_Administrator/GenerateReport/GenerateStudentRegisteration";
-import StudentLifeBrochure from "./pages/Marketing_Administrator/StudentLifeBrochure";
+import StudentLifeBrochure from "./pages/Marketing_Administrator/Brochure/StudentLifeBrochure";
+import StudySIMBrochure from "./pages/Marketing_Administrator/Brochure/StudySIMBrochure";
 
 
 import './css/index.css';
@@ -93,6 +94,7 @@ ReactDOM.render(
       <Route path="/ContactInformation" component={ContactInformation} />
       <Route path="/GenerateStudentRegisteration" component={GenerateStudentRegisteration} />
       <Route path="/StudentLifeBrochure" component={StudentLifeBrochure} />
+      <Route path="/StudySIMBrochure" component={StudySIMBrochure} />
 
     </Switch>
   </Router>,

@@ -224,6 +224,10 @@
     box-shadow: none;
 }
 
+#GamesActivities-gameBoothNameData {
+    text-transform: capitalize;
+}
+
  /* -- Delete Modal -- */
 .GamesActivities-deleteFooterCol {
     padding-bottom: 4%;

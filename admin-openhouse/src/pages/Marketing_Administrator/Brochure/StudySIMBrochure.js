@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import fire from "../../config/firebase";
-import history from "../../config/history";
+import fire from "../../../config/firebase";
+import history from "../../../config/history";
 
 //import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
 
-class StudentLifeBrochure extends Component {
+class StudySIMBrochure extends Component {
   constructor() {
     super();
     this.state = {
@@ -52,47 +52,28 @@ class StudentLifeBrochure extends Component {
   display() {
     const db = fire.firestore();
     var counter = 1;
-    //Display of Scholarship Brochures
+    //Display of Prospectus Brochures
     const userRef = db
       .collection("Brochures")
-      .doc("study-001")
       .onSnapshot((snapshot) => {
-        const scholarshipbrochures = [];
+        const prospectbrochures = [];
+        snapshot.forEach((doc) => {
           const data = {
-            brochureUrl: snapshot.data().brochureUrl,
-            description: snapshot.data().description,
-            imageUrl: snapshot.data().imageUrl,
-            university: snapshot.data().university,
-            id: snapshot.id,
+            brochureUrl: doc.data().brochureUrl,
+            description: doc.data().description,
+            imageUrl: doc.data().imageUrl,
+            university: doc.data().university,
+            id: doc.id,
             counter: counter,
           };
           counter++;
-          scholarshipbrochures.push(data);
-        
+          prospectbrochures.push(data);
+        });
 
-        this.setState({ scholarshipbrochures: scholarshipbrochures });
+        this.setState({ prospectbrochures: prospectbrochures });
       });
 
-      //Display of Bursary Brochures
-    const userRef1 = db
-    .collection("Brochures")
-    .doc("study-002")
-    .onSnapshot((snapshot) => {
-      const bursarybrochures = [];
-        const data = {
-          brochureUrl: snapshot.data().brochureUrl,
-          description: snapshot.data().description,
-          imageUrl: snapshot.data().imageUrl,
-          university: snapshot.data().university,
-          id: snapshot.id,
-          counter: counter,
-        };
-        counter++;
-        bursarybrochures.push(data);
       
-
-      this.setState({ bursarybrochures: bursarybrochures });
-    });
   }
   handleFileUpload = (files) => {
     this.setState({
@@ -174,37 +155,37 @@ if (this.state.files !== undefined) {
   render() {
     return (
       <div className="home">
-          <h2>Student Life@SIM Brochures</h2>
+          <h2>Study@SIM Brochures</h2>
         <div>
           <table id="users" class="table table-bordered"> 
             <tbody>
-                <h4>SIM GE Scholarship</h4>
+                <h4>Prospectus</h4>
               <tr>
                 <th scope="col">Brochure File</th>
                 <th scope="col">Edit</th>
               </tr>
-              {this.state.scholarshipbrochures &&
-                this.state.scholarshipbrochures.map((scholarshipbrochures) => {
+              {this.state.prospectbrochures &&
+                this.state.prospectbrochures.map((prospectbrochures) => {
                   return (
                     <tr>
                       <td>
-                      <span class={scholarshipbrochures.id + "text"}>
-                      {scholarshipbrochures.brochureUrl}
+                      <span class={prospectbrochures.id + "text"}>
+                      {prospectbrochures.brochureUrl}
                         </span>
-                          <span id={scholarshipbrochures.id + "spanbrochurefile"} hidden>
+                          <span id={prospectbrochures.id + "spanbrochurefile"} hidden>
                           <input
-                            id={scholarshipbrochures.id + "brochurefile"}
-                            defaultValue={scholarshipbrochures.brochureUrl}
+                            id={prospectbrochures.id + "brochurefile"}
+                            defaultValue={prospectbrochures.brochureUrl}
                             type="text"
-                            name={scholarshipbrochures.id + "brochurefile"}
+                            name={prospectbrochures.id + "brochurefile"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={scholarshipbrochures.brochureUrl}
+                            placeholder={prospectbrochures.brochureUrl}
                             required
                             disabled={"disabled"}
                           />
                         </span>
-                       <span id= {scholarshipbrochures.id+ "upload" } hidden ><input
+                       <span id= {prospectbrochures.id+ "upload" } hidden ><input
             type="file"
             onChange={(e) => {
               this.handleFileUpload(e.target.files);
@@ -219,28 +200,28 @@ if (this.state.files !== undefined) {
                       </td>
                       <td>
                         <button
-                          id={scholarshipbrochures.id + "editbutton"}
+                          id={prospectbrochures.id + "editbutton"}
                           onClick={(e) => {
-                            this.editBrochure(e, scholarshipbrochures.id);
+                            this.editBrochure(e, prospectbrochures.id);
                           }}
                         >
                           Edit
                         </button>
 
                         <button
-                          id={scholarshipbrochures.id + "updatebutton"}
+                          id={prospectbrochures.id + "updatebutton"}
                           hidden
                           onClick={(e) => {
-                            this.handleSave(scholarshipbrochures.id);
+                            this.handleSave(prospectbrochures.id);
                           }}
                         >
                           Update
                         </button>
                         <button
                           hidden
-                          id={scholarshipbrochures.id + "cancelbutton"}
+                          id={prospectbrochures.id + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, scholarshipbrochures.id);
+                            this.CancelEdit(e, prospectbrochures.id);
                           }}
                         >
                           Cancel
@@ -250,77 +231,7 @@ if (this.state.files !== undefined) {
                   );
             })}
 
-                <h4>SIM GE Bursary</h4>
-              <tr>
-                <th scope="col">Brochure File</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.bursarybrochures &&
-                this.state.bursarybrochures.map((bursarybrochures) => {
-                  return (
-                    <tr>
-                      <td>
-                      <span class={bursarybrochures.id + "text"}>
-                      {bursarybrochures.brochureUrl}
-                        </span>
-                          <span id={bursarybrochures.id + "spanbrochurefile"} hidden>
-                          <input
-                            id={bursarybrochures.id + "brochurefile"}
-                            defaultValue={bursarybrochures.brochureUrl}
-                            type="text"
-                            name={bursarybrochures.id + "brochurefile"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={bursarybrochures.brochureUrl}
-                            required
-                            disabled={"disabled"}
-                          />
-                        </span>
-                       <span id= {bursarybrochures.id+ "upload" } hidden ><input
-            type="file"
-            onChange={(e) => {
-              this.handleFileUpload(e.target.files);
-            }}
-          />
-         
-       {this.state.progress}
-       <div>
-         <progress value={this.state.progress} max="100" />
-       </div>
-       </span> 
-                      </td>
-                      <td>
-                        <button
-                          id={bursarybrochures.id + "editbutton"}
-                          onClick={(e) => {
-                            this.editBrochure(e, bursarybrochures.id);
-                          }}
-                        >
-                          Edit
-                        </button>
-
-                        <button
-                          id={bursarybrochures.id + "updatebutton"}
-                          hidden
-                          onClick={(e) => {
-                            this.handleSave(bursarybrochures.id);
-                          }}
-                        >
-                          Update
-                        </button>
-                        <button
-                          hidden
-                          id={bursarybrochures.id + "cancelbutton"}
-                          onClick={(e) => {
-                            this.CancelEdit(e, bursarybrochures.id);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                    </tr>
-                  );
-            })}
+                
             </tbody>
           </table>
         </div>
@@ -328,4 +239,4 @@ if (this.state.files !== undefined) {
     );
   }
 }
-export default StudentLifeBrochure;
+export default StudySIMBrochure;
