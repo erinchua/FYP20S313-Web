@@ -23,7 +23,7 @@ class GameActivities extends Component {
             //Below states are for the functions
             openHouseDates: "",
             gamesActivities: "",
-            sort: "",
+            sortBoothNo: "",
             //Below states are for the modals
             addModal: false,
             editModal: false,
@@ -155,25 +155,27 @@ class GameActivities extends Component {
             this.setState({openHouseDates: dates})
         })
 
-        // const ordering = db.collection("GamesActivities")
-        // .get()
-        // .then((snapshot) => {
-        //     snapshot.forEach((doc) => {
-        //         const data = {
-        //             boothNumber: doc.data().boothNumber
-        //         };
-        //         orders.push(data);
-        //     });
-        //     for (var i = 0; i < Object.keys(orders).length; i++) {
-        //         var data = orders[i].boothNumber;
-        //         var res = parseInt(data)
-        //         array.push(res)
-        //         var order = array[i].toString();
-        //         this.setState ({sort: order})
-        //         console.log(this.state.sort)
-        //     }
-            
-        // });
+        const ordering = db.collection("GamesActivities")
+        .get()
+        .then((snapshot) => {
+            snapshot.forEach((doc) => {
+                const data = {
+                    boothNumber: doc.data().boothNumber
+                };
+                orders.push(data);
+            });
+            for (var i = 0; i < Object.keys(orders).length; i++) {
+                var data = orders[i].boothNumber;
+                array.push(data)
+                var collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
+                const order = {
+                    boothNumber: array.sort(collator.compare)
+                }
+                sort.push(order);
+                
+            }
+            this.setState ({sortBoothNo: sort})            
+        });
         
         const userRef = db
         .collection("GamesActivities").orderBy("boothNumber", "asc")
@@ -376,21 +378,28 @@ class GameActivities extends Component {
                                                                             </thead>
                                                                             <tbody className="GamesActivities-tableBody">
                                                                                 {this.state.gamesActivities && this.state.gamesActivities.map((day1) => {
+                                                                                    let i = 0;
                                                                                     if (day1.date === this.state.openHouseDates[0].date) {
-                                                                                        return (
-                                                                                            <tr>
-                                                                                                <td>{day1.boothNumber}</td>
-                                                                                                <td>{day1.gameBoothName}</td>
-                                                                                                <td>{day1.startTime}</td>
-                                                                                                <td>{day1.venue}</td>
-                                                                                                <td>{day1.pointsAward}</td>
-                                                                                                <td><Button size="sm" id="GamesActivities-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                                <td><Button size="sm" id="GamesActivities-deleteBtn"><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
-                                                                                            </tr>
-                                                                                        )
+                                                                                        if (day1.boothNumber == this.state.sortBoothNo[i].boothNumber[i]) {
+                                                                                            i++;
+                                                                                            console.log(i)
+                                                                                            return (
+                                                                                                <tr>
+                                                                                                    <td>{day1.boothNumber}</td>
+                                                                                                    <td>{day1.gameBoothName}</td>
+                                                                                                    <td>{day1.startTime}</td>
+                                                                                                    <td>{day1.venue}</td>
+                                                                                                    <td>{day1.pointsAward}</td>
+                                                                                                    <td><Button size="sm" id="GamesActivities-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                    <td><Button size="sm" id="GamesActivities-deleteBtn"><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                                                </tr>
+                                                                                            )
+
+                                                                                        }
                                                                                     } else {
                                                                                         return ('')
                                                                                     }
+                                                                                    
                                                                                 })}
                                                                             </tbody>
                                                                         </Table>
@@ -738,4 +747,5 @@ class GameActivities extends Component {
         );
     }
 }
+
 export default GameActivities;

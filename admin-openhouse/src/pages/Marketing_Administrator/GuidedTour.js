@@ -84,8 +84,7 @@ class GuidedTour extends Component {
         //Retrieve Open House Dates from Openhouse Collection
         const retrieveDate = db
         .collection("Openhouse")
-        .get()
-        .then((snapshot) => {
+        .onSnapshot((snapshot) => {
             snapshot.forEach((doc) => {
                 const data = doc.get('day')
                 for (var i = 0; i < Object.keys(data).length; i++) {
@@ -100,8 +99,7 @@ class GuidedTour extends Component {
 
         const userRef = db
         .collection("GuidedTours").orderBy("endTime", "asc")
-        .get()
-        .then((snapshot) => {
+        .onSnapshot((snapshot) => {
             const guidedTour = [];
             snapshot.forEach((doc) => {
                 if (doc.data().date === dates[0].date) {
@@ -192,6 +190,7 @@ class GuidedTour extends Component {
 
     //Update tour when click on 'Save Changes' button in Edit Modal - Integrated
     update(e, guidedtourid) {
+        var a = this
         // const tourName = document.getElementById(guidedtourid + "tourname").value
         // const startTime = document.getElementById(guidedtourid + "starttime").value
         // const endTime = document.getElementById(guidedtourid + "endtime").value
@@ -216,8 +215,9 @@ class GuidedTour extends Component {
                 venue: this.state.venue
             })
             .then(function () {
+                a.handleEdit();
                 console.log("Updated the tour");
-                window.location.reload();
+                //window.location.reload();
             });
         }
     }
@@ -490,6 +490,7 @@ class GuidedTour extends Component {
                                                                             <tbody className="GuidedTours-tableBody">
                                                                                 {this.state.guidedTours && this.state.guidedTours.map((day2) => {
                                                                                     if (day2.date === this.state.openHouseDates[1].date) {
+
                                                                                         return (
                                                                                             <tr key={day2.id}>
                                                                                                 <td>{day2.counter}</td>
