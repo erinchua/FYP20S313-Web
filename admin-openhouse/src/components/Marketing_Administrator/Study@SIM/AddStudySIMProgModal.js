@@ -101,9 +101,7 @@ export default class AddStudySIMProgModal extends React.Component {
                                 {/* Logo File */}
                                 <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                                     <Col md="9" className="text-left">
-                                        <InputGroup className="addStudySIMProgFormColInputGrp">
-                                            <Form.File name="logoFile" id="addStudySIMProgForm_LogoFile" label={this.state.fileLabel} onChange={console.log("set state of filename here")} custom required />
-                                        </InputGroup>
+                                        <Form.File name="logoFile" className="addStudySIMProgForm_LogoFile" label={this.state.fileLabel} onChange={console.log("set state of filename here")} custom required />
                                     </Col>
                                 </Form.Row>
 

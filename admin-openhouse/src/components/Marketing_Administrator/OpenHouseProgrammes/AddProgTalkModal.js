@@ -19,75 +19,6 @@ import { faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd
 // }
 
 export default class AddProgTalkModal extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            awardingUni: "",
-            capacityLimit: "",
-            date: "",
-            endTime: "",
-            hasRecording: "",
-            isLive: "",
-            noRegistered: "",
-            startTime: "",
-            talkName: "",
-            venue: "",
-            Link: "",
-            id: "",
-            checkDiscipline: false,
-        };
-    }
-
-    addProgrammeTalks = (e) => { 
-        e.preventDefault();
-        var recordingvalue = document.getElementById("recordingvalue");
-        var livestatus = document.getElementById("livestatus");
-        recordingvalue = recordingvalue.options[recordingvalue.selectedIndex].value;
-        livestatus = livestatus.options[livestatus.selectedIndex].value;
-        recordingvalue = (recordingvalue === "true");
-        livestatus = (livestatus === "true");
-    
-        const db = fire.firestore();
-          var lastdoc = db.collection("ProgrammeTalks").orderBy('id','desc')
-          .limit(1).get().then((snapshot) =>  {
-            snapshot.forEach((doc) => {
-            var docid= "";
-            var res = doc.data().id.substring(5, 10);
-            var id = parseInt(res)
-            if(id.toString().length <= 1){
-                docid= "talk-00" + (id +1) 
-            }
-            else if(id.toString().length <= 2){
-                docid= "talk-0" + (id +1) 
-            }
-            else{
-                docid="talk-0" + (id +1) 
-            }
-            const userRef = db
-            .collection("ProgrammeTalks")
-            .doc(docid)
-            .set({
-                awardingUni: this.state.awardingUni,
-                capacityLimit: this.state.capacityLimit,
-                date: this.state.date,
-                endTime: this.state.endTime,
-                hasRecording: recordingvalue,
-                isLive: livestatus,
-                noRegistered: this.state.noRegistered,
-                startTime: this.state.startTime,
-                talkName: this.state.talkName,
-                venue: this.state.venue,
-                Link: this.state.Link,
-                id: docid,
-                })
-                .then(function () {
-                    window.location.reload();
-                });
-            })
-        })
-    };
-
-
     /* Add Add Programme Talk Modal Validations */
     // handleChange = (e) => {
     //     e.preventDefault();
@@ -120,7 +51,7 @@ export default class AddProgTalkModal extends React.Component {
 
 
     render(){
-        const {errors} = this.state;
+        //const {errors} = this.state;
 
         return (
             <div>
@@ -176,7 +107,7 @@ export default class AddProgTalkModal extends React.Component {
                                                 </InputGroup.Text>
                                             </InputGroup.Prepend>
                                             
-                                            <FormControl type="number" min="0" name="endTime" id="addProgTalkForm_Capacity" placeholder="Capacity Limit*" required />
+                                            <FormControl type="number" min="0" name="capacityLimit" id="addProgTalkForm_Capacity" placeholder="Capacity Limit*" required />
                                         </InputGroup>
                                     </Col>
                                 </ Form.Row>

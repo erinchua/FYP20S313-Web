@@ -85,18 +85,6 @@
     box-shadow: none;
 }
 
-#addLiveTalkForm_Capacity {
-    border: none;
-    border-bottom: 1px solid #c8c8c8;
-    border-radius: 0;
-    color: #434343;
-    font-size: 85% !important;
-}
-
-#addLiveTalkForm_Capacity:focus {
-    box-shadow: none;
-}
-
 .addLiveTalkForm_InnerCol {
     height: 80%;
 }
