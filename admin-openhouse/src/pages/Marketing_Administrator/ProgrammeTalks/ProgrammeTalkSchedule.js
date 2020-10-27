@@ -49,8 +49,9 @@ class ProgrammeTalkSchedule extends Component {
       url: "",
       uniList: [],
 
-      // Discipline (Programme collection)
-      
+      // Discipline collection
+      disciplineId: "",
+      disciplineName: "",
       disciplineList: [],
 
       checkDiscipline: false,
@@ -100,37 +101,37 @@ class ProgrammeTalkSchedule extends Component {
     const db = fire.firestore();
     const progtalk = [];
 
-    // Get Universities
+    // Get All Universities
     db.collection("Universities").get()
     .then((snapshot) => {
       const uni_list = [];
-        snapshot.forEach((doc) => {
-          const data = {
-            docid: doc.id,
-            uniId: doc.data().id,
-            logo: doc.data().logo,
-            universityName: doc.data().universityName,
-            url: doc.data().url
-          };
-          uni_list.push(data);
-        });
+      snapshot.forEach((doc) => {
+        const data = {
+          docid: doc.id,
+          uniId: doc.data().id,
+          logo: doc.data().logo,
+          universityName: doc.data().universityName,
+          url: doc.data().url
+        };
+        uni_list.push(data);
+      });
       this.setState({ uniList: uni_list });
     });
 
-    // Get Disciplines
-    // db.collection("Programmes").get()
-    // .then((snapshot) => {
-    //   const discipline_list = [];
-    //     snapshot.forEach((doc) => {
-    //       const data = {
-    //         docid: doc.id,
-    //         progId: doc.data().id,
-    //         discipline: doc.data().discipline
-    //       };
-    //       discipline_list.push(data);
-    //     });
-    //   this.setState({ disciplineList: discipline_list });
-    // });
+    // Get All Disciplines
+    db.collection("Disciplines").get()
+    .then((snapshot) => {
+      const discipline_list = [];
+      snapshot.forEach((doc) => {
+        const data = {
+          docid: doc.id,
+          disciplineId: doc.data().id,
+          disciplineName: doc.data().name
+        };
+        discipline_list.push(data);
+      });
+      this.setState({ disciplineList: discipline_list });
+    });
     
     const userRef = db
     .collection("ProgrammeTalks")
@@ -172,6 +173,7 @@ class ProgrammeTalkSchedule extends Component {
             hasRecording: doc.data().hasRecording.toString(),
             link: doc.data().link,
             isLive: doc.data().isLive.toString(),
+            progTalkDetails: doc.data().details
           };
             progtalk.push(data);
         });
@@ -204,6 +206,7 @@ class ProgrammeTalkSchedule extends Component {
               hasRecording: doc.data().hasRecording.toString(),
               link : doc.data().link,
               isLive: doc.data().isLive.toString(),
+              progTalkDetails: doc.data().details,
             };
             progtalk.push(data);
           });
@@ -256,6 +259,8 @@ class ProgrammeTalkSchedule extends Component {
             venue: this.state.venue,
             link: this.state.link,
             id: docid,
+            progTalkDetails: this.state.details,
+
           })
           .then(function () {
             window.location.reload();
@@ -330,6 +335,7 @@ class ProgrammeTalkSchedule extends Component {
       talkName: this.state.talkName,
       venue: this.state.venue,
       link: this.state.link,
+      progTalkDetails: this.state.details
     });
 
   }
@@ -478,6 +484,7 @@ class ProgrammeTalkSchedule extends Component {
                                         <th className="progTalkScheduleHeader_EndTime">End Time</th>
                                         <th className="progTalkScheduleHeader_Venue">Venue</th>
                                         <th className="progTalkScheduleHeader_Capacity">Capacity Limit</th>
+                                        <th className="progTalkScheduleHeader_Discipline">Discipline(s)</th>
                                         <th className="progTalkScheduleHeader_Edit">Edit</th>
                                         <th className="progTalkScheduleHeader_Delete">Delete</th>
                                       </tr>
@@ -490,12 +497,13 @@ class ProgrammeTalkSchedule extends Component {
                                             <tr key={day1.id}>
                                               <td className="progTalkScheduleData_SNo">1</td>
                                               <td className="progTalkScheduleData_ProgTalk text-left">{day1.talkName}</td>
-                                              <td className="progTalkScheduleData_ProgTalkDetails text-left">testtesttesttesttesttest testtesttesttesttest testtesttest</td>
+                                              <td className="progTalkScheduleData_ProgTalkDetails text-left">{day1.progTalkDetails}</td>
                                               <td className="progTalkScheduleData_AwardingUni">{day1.awardingUni}</td>
                                               <td className="progTalkScheduleData_StartTime text-left">{day1.startTime}</td>
                                               <td className="progTalkScheduleData_EndTime text-left">{day1.endTime}</td>
                                               <td className="progTalkScheduleData_Venue text-left">{day1.venue}</td>
                                               <td className="progTalkScheduleData_Capacity text-center">{day1.capacityLimit}</td>
+                                              <td className="progTalkScheduleData_Discipline text-center">{day1.disciplineName}</td>
                                               <td className="progTalkScheduleData_Edit">
                                                 <Button id="editProgTalkScheduleBtn" onClick={()=>this.handleEditProgTalkModal(day1)}>
                                                   <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
@@ -530,6 +538,7 @@ class ProgrammeTalkSchedule extends Component {
                                         <th className="progTalkScheduleHeader_EndTime">End Time</th>
                                         <th className="progTalkScheduleHeader_Venue">Venue</th>
                                         <th className="progTalkScheduleHeader_Capacity">Capacity Limit</th>
+                                        <th className="progTalkScheduleHeader_Discipline">Discipline(s)</th>
                                         <th className="progTalkScheduleHeader_Edit">Edit</th>
                                         <th className="progTalkScheduleHeader_Delete">Delete</th>
                                       </tr>
@@ -542,12 +551,13 @@ class ProgrammeTalkSchedule extends Component {
                                             <tr key={day2.id}>
                                               <td className="progTalkScheduleData_SNo">1</td>
                                               <td className="progTalkScheduleData_ProgTalk text-left">{day2.talkName}</td>
-                                              <td className="progTalkScheduleData_ProgTalkDetails text-left">testtesttesttesttesttest testtesttesttesttest testtesttest</td>
+                                              <td className="progTalkScheduleData_ProgTalkDetails text-left">{day2.progTalkDetails}</td>
                                               <td className="progTalkScheduleData_AwardingUni">{day2.awardingUni}</td>
                                               <td className="progTalkScheduleData_StartTime text-left">{day2.startTime}</td>
                                               <td className="progTalkScheduleData_EndTime text-left">{day2.endTime}</td>
                                               <td className="progTalkScheduleData_Venue text-left">{day2.venue}</td>
                                               <td className="progTalkScheduleData_Capacity text-center">{day2.capacityLimit}</td>
+                                              <td className="progTalkScheduleData_Discipline text-center">{day2.disciplineName}</td>
                                               <td className="progTalkScheduleData_Edit">
                                                 <Button id="editProgTalkScheduleBtn" onClick={()=>this.handleEditProgTalkModal(day2)}>
                                                   <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
@@ -701,7 +711,9 @@ class ProgrammeTalkSchedule extends Component {
                           <option value="chooseDate" className="addProgTalkFormSelectOption">Choose an Openhouse Date</option>
                           
                           {/* To be retrieved from DB */}
-                          <option value="day1" className="addProgTalkFormSelectOption">21 October 2020</option>
+                          <option value={this.state.day1Date} className="addProgTalkFormSelectOption">{this.state.day1Date}</option>
+                          <option value={this.state.day2Date} className="addProgTalkFormSelectOption">{this.state.day2Date}</option>
+
                         </Form.Control>                                        
                       </InputGroup>
                     </Col>
@@ -721,7 +733,14 @@ class ProgrammeTalkSchedule extends Component {
                           <option value="chooseUni" className="addProgTalkFormSelectOption">Choose a University</option>
                           
                           {/* To be retrieved from DB */}
-                          <option value="Grenoble" className="addProgTalkFormSelectOption">Grenoble Ecole de Management</option>
+                          {this.state.uniList && this.state.uniList.map((uni) => {
+                            return (
+                              <>
+                                <option value={uni.universityName} className="addProgTalkFormSelectOption">{uni.universityName}</option>
+                              </>
+                            );
+                          })}
+
                         </Form.Control>
                       </InputGroup>
                     </Col>
@@ -730,15 +749,21 @@ class ProgrammeTalkSchedule extends Component {
                   {/* Discipline Name */}
                   <Form.Row className="justify-content-center addProgTalkForm_InnerRow">
                     <Col md="10" className="text-left addProgTalkForm_InnerCol">
-                      <Form.Label>Choose Discipline(s):</Form.Label>                                     
+                      <Form.Label className="addProgTalkFormLabel">Choose Discipline(s):</Form.Label>                                     
                           
                       <Container className="addProgTalkForm_DisciplineCon">
                         {/* To be retrieved from db - row is generated dynamically */}
-                        <Row>
-                          <Col>
-                            <Form.Check name="discipline" checked={this.checkDiscipline} value="ArtsSocialSciences" type="checkbox" label="Arts & SocialSciences" className="addProgTalkForm_CheckBox" />
-                          </Col>
-                        </Row>
+                        {this.state.disciplineList && this.state.disciplineList.map((discipline) => {
+                          return (
+                            <>
+                              <Row>
+                                <Col>
+                                  <Form.Check name="discipline" checked={this.checkDiscipline} value={discipline.disciplineName} type="checkbox" label={discipline.disciplineName} className="addProgTalkForm_CheckBox" />
+                                </Col>
+                              </Row>
+                            </>
+                          );
+                        })}
 
                       </Container>                                        
                     </Col>
@@ -750,6 +775,8 @@ class ProgrammeTalkSchedule extends Component {
               {/* Programme Talk Details */}
               <Form.Row className="justify-content-center addProgTalkFormRow">
                 <Col md="11" className="addProgTalkFormCol">
+                  <Form.Label className="addProgTalkFormLabel">Programme Talk Details</Form.Label>
+                  
                   <FormControl as="textarea" rows="8" required noValidate id="addProgTalkForm_ProgTalkDetails" placeholder="Programme Talk Details" />
                 </Col>
               </Form.Row>
@@ -921,11 +948,17 @@ class ProgrammeTalkSchedule extends Component {
                           
                       <Container className="editProgTalkForm_DisciplineCon">
                         {/* To be retrieved from db - row is generated dynamically */}
-                        <Row>
-                          <Col>
-                            <Form.Check name="discipline" checked={this.state.checkDiscipline} value="ArtsSocialSciences" type="checkbox" label="Arts & SocialSciences" className="editProgTalkForm_CheckBox" />
-                          </Col>
-                        </Row>
+                        {this.state.disciplineList && this.state.disciplineList.map((discipline) => {
+                          return (
+                            <>
+                              <Row>
+                                <Col>
+                                  <Form.Check name="discipline" checked={this.state.checkDiscipline} value={discipline.disciplineName} type="checkbox" label={discipline.disciplineName} className="editProgTalkForm_CheckBox" />
+                                </Col>
+                              </Row>
+                            </>
+                          );
+                        })}
 
                       </Container>                                        
                     </Col>
@@ -937,6 +970,8 @@ class ProgrammeTalkSchedule extends Component {
               {/* Programme Talk Details */}
               <Form.Row className="justify-content-center editProgTalkFormRow">
                 <Col md="11" className="editProgTalkFormCol">
+                  <Form.Label className="editProgTalkFormLabel">Programme Talk Details</Form.Label>
+
                   <FormControl as="textarea" rows="8" defaultValue={this.state.progTalkDetails} required noValidate id="editProgTalkForm_ProgTalkDetails" placeholder="Programme Talk Details" />
                 </Col>
               </Form.Row>
