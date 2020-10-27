@@ -32,6 +32,10 @@ class PastRecording extends Component {
       talkName: "",
       venue: "",
       link: "",
+
+      addPastRecModal: false,
+      editPastRecModal: false,
+      editPastRecording: false
     };
   }
 
@@ -40,8 +44,8 @@ class PastRecording extends Component {
       if (user) {
         const db = fire.firestore();
         var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
+        .collection("Administrators")
+        .where("email", "==", user.email);
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
@@ -279,11 +283,240 @@ class PastRecording extends Component {
   //   }
   // }
 
+  /* Add Past Rec Modal */
+  handleAddPastRecModal = () => {
+    if (this.state.addPastRecModal == false) {
+      this.setState({
+        addPastRecModal: true,
+      });
+    }
+    else {
+      this.setState({
+        addPastRecModal: false
+      });
+    }
+  };
+
+  /* Edit Past Rec Modal */
+  handleEditPastRecModal = (day) => {
+    if (this.state.editPastRecModal == false) {
+      this.setState({
+        editPastRecModal: true,
+        awardingUni: day.awardingUni,
+        capacityLimit: day.capacityLimit,
+        date: day.date,
+        endTime: day.endTime,
+        hasRecording: day.hasRecording,
+        isLive: day.isLive,
+        noRegistered: day.noRegistered,
+        startTime: day.startTime,
+        talkName: day.talkName,
+        venue: day.venue,
+        link: day.link,
+        progTalkDetails: day.progTalkDetails,
+        discipline: day.discipline
+      })
+    }
+    else {
+      this.setState({
+        editPastRecModal: false
+      });
+    }
+  };
+
+  /* Delete Past Rec Modal */
+  handleDeletePastRecModal = () => {
+    if (this.state.deletePastRecModal == false) {
+      this.setState({
+        deletePastRecModal: true,
+      });
+    }
+    else {
+      this.setState({
+        deletePastRecModal: false
+      });
+    }
+  };
+
 
   render() {
     return (
       <div>
-        
+        <Container fluid className="MAPastRecCon">
+          <NavBar isMA={true} />
+
+          <Container fluid className="MAPastRecContent">
+            <Row>
+              {/* SideNavBar Col */}
+              <Col md="2" style={{paddingRight:"0"}} className="sideNavBarCol">
+                <SideNavBar />
+              </Col>
+
+              {/* Contents Col */}
+              <Col md="10" style={{paddingLeft:"0"}}>
+                <Container fluid className="MAPastRecContentCon">
+                  {/* Programme Talks Schedule Page Header row */}
+                  <Row id="MAPastRecContentHeaderRow" className="justify-content-center">
+                    <Col md="6" className="text-left MAPastRecContentHeaderCol">
+                      <h4 id="MAPastRecHeaderText">Programme Talks Schedule</h4>
+                    </Col>
+
+                    <Col md="6" className="text-right MAPastRecContentHeaderCol">
+                      <Button id="addPastRecBtn" onClick={this.handleAddProgTalkModal}>
+                        <FontAwesomeIcon size="lg" id="addPastRecBtnIcon" icon={faPlus} />
+                        <span id="addPastRecBtnText">Add</span>
+                      </Button>
+                    </Col>
+                  </Row>
+
+                  {/* Tabs row */}
+                  <Row className="MAPastRecContentTabRow">
+                    <Col md="12" className="MAPastRecContentTabCol">
+
+                      <Tab.Container defaultActiveKey="day1">
+                        <Row className="MAPastRecTabConRow">
+                          <Col md="12" className="MAPastRecTabConCol">
+                            <Nav defaultActiveKey="day1" className="MAPastRecTabNav" variant="tabs">
+                              <Col md="6" className="MAPastRecTabConInnerCol text-center">
+                                <Nav.Item className="MAPastRecTab_NavItem">
+                                  <Nav.Link eventKey="day1" className="MAPastRecTab_Day">{this.state.day1Date}</Nav.Link>
+                                </Nav.Item>
+                              </Col>  
+
+                              <Col md="6" className="MAPastRecTabConInnerCol text-center">
+                                <Nav.Item className="MAPastRecTab_NavItem">
+                                  <Nav.Link eventKey="day2" className="MAPastRecTab_Day">{this.state.day2Date}</Nav.Link>
+                                </Nav.Item>
+                              </Col>
+                            </Nav>
+                          </Col>
+
+                        </Row>
+
+                        <Row className="MAPastRecTabConRow justify-content-center">
+                          <Col md="12" className="MAPastRecTabConCol text-center">
+                            <Tab.Content id="MAPastRecTabPane_Day1">
+                              {/* Tab Pane 1 */}
+                              <Tab.Pane eventKey="day1">
+                                <Col md="12" className="MAPastRecTabpaneCol">
+                                  <Table responsive="sm" bordered id="MAPastRecTable_Day1">
+                                    <thead>
+                                      <tr>
+                                        <th className="pastRecHeader_SNo">S/N</th>
+                                        <th className="pastRecHeader_ProgTalk">Programme Talk</th>
+                                        <th className="pastRecHeader_AwardingUni">Awarding University</th>
+                                        <th className="pastRecHeader_StartTime">Start Time</th>
+                                        <th className="pastRecHeader_EndTime">End Time</th>
+                                        <th className="pastRecHeader_Venue">Venue</th>
+                                        <th className="pastRecHeader_File">File</th>
+                                        <th className="pastRecHeader_Discipline">Discipline(s)</th>
+                                        <th className="pastRecHeader_Edit">Edit</th>
+                                        <th className="pastRecHeader_Delete">Delete</th>
+                                      </tr>
+                                    </thead>
+
+                                    {this.state.day1 && this.state.day1.map((day1) => {
+                                      return (
+                                        <>
+                                          <tbody>
+                                            <tr key={day1.id}>
+                                              <td className="pastRecData_SNo">{day1.day1_counter}</td>
+                                              <td className="pastRecData_ProgTalk text-left">{day1.talkName}</td>
+                                              <td className="pastRecData_AwardingUni">{day1.awardingUni}</td>
+                                              <td className="pastRecData_StartTime text-left">{day1.startTime}</td>
+                                              <td className="pastRecData_EndTime text-left">{day1.endTime}</td>
+                                              <td className="pastRecData_Venue text-left">{day1.venue}</td>
+                                              <td className="pastRecData_File text-center">{day1.file}</td>
+                                              <td className="pastRecData_Discipline text-center">{day1.discipline}</td>
+                                              <td className="pastRecData_Edit">
+                                                <Button id="editPastRecBtn" onClick={()=>this.handleEditPastRecModal(day1)}>
+                                                  <FontAwesomeIcon size="lg" id="editPastRecBtnIcon" icon={faEdit} />
+                                                </Button>
+                                              </td>
+                                              <td className="pastRecData_Delete">
+                                                <Button id="deletePastRecBtn" onClick={this.handleDeletePastRecModal}>
+                                                  <FontAwesomeIcon size="lg" id="deletePastRecBtnIcon" icon={faTrashAlt} />
+                                                </Button>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </>
+                                      );
+                                    })}
+
+                                  </Table>
+                                </Col>
+                              </Tab.Pane>
+
+                              {/* Tab Pane 2 */}
+                              <Tab.Pane eventKey="day2">
+                                <Col md="12" className="MAPastRecTabpaneCol">
+                                  <Table responsive="sm" bordered id="MAPastRecTable_Day2">
+                                    <thead>
+                                      <tr>
+                                        <th className="pastRecHeader_SNo">S/N</th>
+                                        <th className="pastRecHeader_ProgTalk">Programme Talk</th>
+                                        <th className="pastRecHeader_AwardingUni">Awarding University</th>
+                                        <th className="pastRecHeader_StartTime">Start Time</th>
+                                        <th className="pastRecHeader_EndTime">End Time</th>
+                                        <th className="pastRecHeader_Venue">Venue</th>
+                                        <th className="pastRecHeader_File">File</th>
+                                        <th className="pastRecData_Discipline">Discipline(s)</th>
+                                        <th className="pastRecData_Edit">Edit</th>
+                                        <th className="pastRecData_Delete">Delete</th>
+                                      </tr>
+                                    </thead>
+
+                                    {this.state.day2 && this.state.day2.map((day2) => {
+                                      return (
+                                        <>
+                                          <tbody>
+                                            <tr key={day2.id}>
+                                              <td className="pastRecData_SNo">{day2.day2_counter}</td>
+                                              <td className="pastRecData_ProgTalk text-left">{day2.talkName}</td>
+                                              <td className="pastRecData_AwardingUni">{day2.awardingUni}</td>
+                                              <td className="pastRecData_StartTime text-left">{day2.startTime}</td>
+                                              <td className="pastRecData_EndTime text-left">{day2.endTime}</td>
+                                              <td className="pastRecData_Venue text-left">{day2.venue}</td>
+                                              <td className="pastRecData_File text-center">{day2.file}</td>
+                                              <td className="pastRecData_Discipline text-center">{day2.discipline}</td>
+                                              <td className="pastRecData_Edit">
+                                                <Button id="editPastRecBtn" onClick={()=>this.handleEditPastRecModal(day2)}>
+                                                  <FontAwesomeIcon size="lg" id="editPastRecBtnIcon" icon={faEdit} />
+                                                </Button>
+                                              </td>
+                                              <td className="pastRecData_Delete">
+                                                <Button id="deletePastRecScheduleBtn" onClick={this.handleDeletePastRecModal}>
+                                                  <FontAwesomeIcon size="lg" id="deletePastRecBtnIcon" icon={faTrashAlt} />
+                                                </Button>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </>
+                                      );
+                                    })}
+
+                                  </Table>
+                                </Col>
+                              </Tab.Pane>
+
+                            </Tab.Content>
+                            
+                          </Col>
+                        </Row>
+                      </Tab.Container>
+
+                    </Col>
+                  </Row>
+
+                </Container>
+              </Col>
+
+            </Row>
+          </Container>
+
+          <Footer />
+        </Container>
 
 
 
