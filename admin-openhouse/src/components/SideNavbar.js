@@ -24,7 +24,7 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 const renderProgrammeTalks = (props) => (
     <Tooltip id="button-tooltip" {...props}>
         <Nav.Link href="/ProgrammeTalkSchedule" className="sideNavBar-navLinks">Schedule</Nav.Link>
-        <Nav.Link href="/LiveTalk" className="sideNavBar-navLinks">Live Streams</Nav.Link>
+        <Nav.Link href="/LiveTalk" className="sideNavBar-navLinks">Live Talks</Nav.Link>
         <Nav.Link href="/PastRecording" className="sideNavBar-navLinks">Past Recordings</Nav.Link>
     </Tooltip>
 );
