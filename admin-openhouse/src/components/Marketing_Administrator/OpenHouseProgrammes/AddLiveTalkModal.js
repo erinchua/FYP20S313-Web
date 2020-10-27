@@ -7,7 +7,7 @@ import firecreate from "../../../config/firebasecreate";
 
 import "../../../css/Marketing_Administrator/AddLiveTalkModal.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone, faSchool, faLink, faCalendarAlt, faHourglassStart, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone, faSchool, faUniversity, faCalendarAlt, faHourglassStart, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';
 
 
 // const validateForm = (errors) => {
@@ -58,137 +58,144 @@ export default class AddLiveTalkModal extends React.Component {
             <div>
                 <Modal.Header closeButton className="justify-content-center">
                     <Modal.Title id="addLiveTalkModalTitle" className="w-100">
-                        Add Live Talk
+                    Add Live Talk
                     </Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body id="addLiveTalkModalBody">
-                    <Form noValidate> {/* Need to add onSubmit later */}
-                        {/* 1st Row */}
-                        <Form.Row className="justify-content-center addLiveTalkFormRow">
-                            {/* Programme Talk Name */}
-                            <Col md="6" className="addLiveTalkFormCol text-center">
+                    <Form noValidate> {/* onSubmit={this.addLiveTalk} */}
+                    {/* Main Row */}
+                    <Form.Row className="justify-content-center">
+                        {/* Left Col */}
+                        <Col md="6" className="addLiveTalkFormCol text-center">
+                            {/* Live Talk Name */}
+                            <Form.Row className="justify-content-center addLiveTalkForm_InnerRow">
+                                <Col md="10" className="text-center">
                                 <InputGroup className="addLiveTalkFormColInputGrp">
                                     <InputGroup.Prepend>
-                                        <InputGroup.Text className="addLiveTalkFormIconInputGrp">
-                                            <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faMicrophone} />
-                                        </InputGroup.Text>
+                                    <InputGroup.Text className="addLiveTalkFormIconInputGrp">
+                                        <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faMicrophone} />
+                                    </InputGroup.Text>
                                     </InputGroup.Prepend>
 
-                                    <FormControl type="text" name="talkName" id="addLiveTalkForm_ProgTalkName" placeholder="Name of Programme Talk*" required />
+                                    <FormControl type="text" name="talkName" id="addLiveTalkForm_ProgTalkName" placeholder="Name of Live Talk*" required />
                                 </InputGroup>
-                            </Col>
+                                </Col>
+                            </Form.Row>
 
-                            {/* Uni Name */}
-                            <Col md="6" className="addLiveTalkFormCol text-center">
-                                <Form.Control as="select" name="uniName" defaultValue="chooseUni" className="addLiveTalkFormSelect" required noValidate>
-                                    <option value="chooseUni" className="addLiveTalkFormSelectOption">Choose a University</option>
+                            {/* Live Talk Venue */}
+                            <Form.Row className="justify-content-center addLiveTalkForm_InnerRow">
+                                <Col md="10" className="text-center">
+                                    <InputGroup className="addLiveTalkFormColInputGrp">
+                                        <InputGroup.Prepend>
+                                            <InputGroup.Text className="addLiveTalkFormIconInputGrp">
+                                                <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faSchool} />
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+
+                                        <FormControl type="text" name="venue" id="addLiveTalkForm_Venue" placeholder="Venue*" required />
+                                    </InputGroup>
+                                </Col>
+                            </Form.Row>
+
+                            {/* Start/End Time */}
+                            <Form.Row className="justify-content-center addLiveTalkForm_InnerRow">
+                                {/* Start Time */}
+                                <Col md="5" className="text-center">
+                                    <InputGroup className="addLiveTalkFormColInputGrp">
+                                        <InputGroup.Prepend>
+                                            <InputGroup.Text className="addLiveTalkFormIconInputGrp">
+                                                <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faHourglassStart} />
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
                                     
-                                    {/* To be retrieved from DB */}
-                                    <option value="Grenoble" className="addLiveTalkFormSelectOption">Grenoble Ecole de Management</option>
-                                </Form.Control>
-                            </Col>
-                        </Form.Row>
+                                        <FormControl type="text" name="startTime" id="addLiveTalkForm_ProgTalkStartTime" placeholder="Start Time*" required />
+                                    </InputGroup>
+                                </Col>
 
-                        {/* 2nd Row */}
-                        <Form.Row className="justify-content-center addLiveTalkFormRow">
-                            {/* Programme Talk Venue */}
-                            <Col md="6" className="addLiveTalkFormCol text-center">
-                                <InputGroup className="addLiveTalkFormColInputGrp">
-                                    <InputGroup.Prepend>
-                                        <InputGroup.Text className="addLiveTalkFormIconInputGrp">
-                                            <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faSchool} />
-                                        </InputGroup.Text>
-                                    </InputGroup.Prepend>
+                                {/* End Time */}
+                                <Col md="5" className="text-center">
+                                    <InputGroup className="addLiveTalkFormColInputGrp">
+                                        <InputGroup.Prepend>
+                                            <InputGroup.Text className="addLiveTalkFormIconInputGrp">
+                                                <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faHourglassEnd} />
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        
+                                        <FormControl type="text" name="endTime" id="addLiveTalkForm_ProgTalkEndTime" placeholder="End Time*" required />
+                                    </InputGroup>
+                                </Col>
+                            </Form.Row>
+                        </Col>
 
-                                    <FormControl type="text" name="venue" id="addLiveTalkForm_Venue" placeholder="Venue*" required />
-                                </InputGroup>
-                            </Col>
-
-                            {/* Discipline Name */}
-                            <Col md="6" className="addLiveTalkFormCol text-center">
-                                <Form.Control as="select" name="disciplineName" defaultValue="chooseDiscipline" className="addLiveTalkFormSelect" required noValidate>
-                                    <option value="chooseDiscipline" className="addLiveTalkFormSelectOption">Choose a Discipline</option>
+                        {/* Right Col */}
+                        <Col md="6" className="addLiveTalkFormCol text-center">
+                            {/* Date */}
+                            <Form.Row className="justify-content-center addLiveTalkForm_InnerRow">
+                                <Col md="10" className="text-center">
+                                    <InputGroup className="addLiveTalkFormColInputGrp">
+                                        <InputGroup.Prepend>
+                                            <InputGroup.Text className="addLiveTalkFormIconInputGrp">
+                                                <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faCalendarAlt} />
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
                                     
-                                    {/* To be retrieved from DB */}
-                                    <option value="ArtsSocialSciences" className="addLiveTalkFormSelectOption">Arts & Social Sciences</option>
-                                </Form.Control>
-                            </Col>
-                        </Form.Row>
+                                        <Form.Control as="select" name="date" defaultValue="chooseDate" className="addLiveTalkFormSelect" required noValidate>
+                                            <option value="chooseDate" className="addLiveTalkFormSelectOption">Choose an Openhouse Date</option>
+                                            
+                                            {/* To be retrieved from DB */}
+                                            <option value={this.state.day1Date} className="addLiveTalkFormSelectOption">{this.state.day1Date}</option>
+                                            <option value={this.state.day2Date} className="addLiveTalkFormSelectOption">{this.state.day2Date}</option>
 
-                        {/* 3rd Row */}
-                        <Form.Row className="justify-content-center addLiveTalkFormRow">
-                            {/* Live Stream Link */}
-                            <Col md="6" className="addLiveTalkFormCol text-center">
-                                <InputGroup className="addLiveTalkFormColInputGrp">
-                                    <InputGroup.Prepend>
-                                        <InputGroup.Text className="addLiveTalkFormIconInputGrp">
-                                            <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faLink} />
-                                        </InputGroup.Text>
-                                    </InputGroup.Prepend>
-                                    
-                                    <FormControl type="text" name="date" id="addLiveTalkForm_LiveStreamLink" placeholder="Live Stream Link*" required />
-                                </InputGroup>
-                            </Col>
+                                        </Form.Control>                                        
+                                    </InputGroup>
+                                </Col>
+                            </Form.Row>
 
-                            {/* Sub-Disciplines Name */}
-                            <Col md="6" className="addLiveTalkFormCol text-center">
-                                <Form.Control as="select" name="subDisciplineName" defaultValue="chooseSubDiscipline" className="addLiveTalkFormSelect" required noValidate>
-                                    <option value="chooseSubDiscipline" className="addLiveTalkFormSelectOption">Choose a Sub-Discipline</option>
+                            {/* University */}
+                            <Form.Row className="justify-content-center addLiveTalkForm_InnerRow">
+                                <Col md="10" className="text-center">
+                                    <InputGroup className="addLiveTalkFormColInputGrp">
+                                        <InputGroup.Prepend>
+                                            <InputGroup.Text className="addLiveTalkFormIconInputGrp">
+                                                <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faUniversity} />
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
 
-                                    {/* To be retrieved from DB */}
-                                    <option value="Accounting" className="addLiveTalkFormSelectOption">Accounting</option>
-                                </Form.Control>
-                            </Col>
-                        </Form.Row>
+                                        <Form.Control as="select" name="uniName" defaultValue="chooseUni" className="addLiveTalkFormSelect" required noValidate>
+                                            <option value="chooseUni" className="addLiveTalkFormSelectOption">Choose a University</option>
+                                            
+                                            {/* To be retrieved from DB */}
+                                            {this.state.uniList && this.state.uniList.map((uni) => {
+                                                return (
+                                                <>
+                                                    <option value={uni.universityName} className="addLiveTalkFormSelectOption">{uni.universityName}</option>
+                                                </>
+                                                );
+                                            })}
 
-                        {/* 4th Row */}
-                        <Form.Row className="justify-content-center addLiveTalkFormRow">
-                            {/* Programme Talk Date */}
-                            <Col md="4" className="addLiveTalkFormCol text-center">
-                                <InputGroup className="addLiveTalkFormColInputGrp">
-                                    <InputGroup.Prepend>
-                                        <InputGroup.Text className="addLiveTalkFormIconInputGrp">
-                                            <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faCalendarAlt} />
-                                        </InputGroup.Text>
-                                    </InputGroup.Prepend>
-                                    
-                                    <FormControl type="text" name="date" id="addLiveTalkForm_ProgTalkDate" placeholder="Programme Talk Date*" required />
-                                </InputGroup>
-                            </Col>
+                                        </Form.Control>
+                                    </InputGroup>
+                                </Col>
+                            </Form.Row>
 
-                            {/* Programme Talk Start Time */}
-                            <Col md="4" className="addLiveTalkFormCol text-center">
-                                <InputGroup className="addLiveTalkFormColInputGrp">
-                                    <InputGroup.Prepend>
-                                        <InputGroup.Text className="addLiveTalkFormIconInputGrp">
-                                            <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faHourglassStart} />
-                                        </InputGroup.Text>
-                                    </InputGroup.Prepend>
-                                    
-                                    <FormControl type="text" name="startTime" id="addLiveTalkForm_ProgTalkStartTime" placeholder="Programme Talk Start Time*" required />
-                                </InputGroup>
-                            </Col>
+                            {/* Link */}
+                            <Form.Row className="justify-content-center addLiveTalkForm_InnerRow">
+                                <Col md="10" className="text-left addLiveTalkForm_InnerCol">
+                                    <Form.Label className="addLiveTalkFormLabel">Live Talk URL</Form.Label>                                     
+                                        
+                                    <FormControl as="textarea" rows="4" required noValidate id="addLiveTalkForm_LiveTalkURL" placeholder="Live Talk URL*" />                                       
+                                </Col>
+                            </Form.Row>
 
-                            {/* Programme Talk End Time */}
-                            <Col md="4" className="addLiveTalkFormCol text-center">
-                                <InputGroup className="addLiveTalkFormColInputGrp">
-                                    <InputGroup.Prepend>
-                                        <InputGroup.Text className="addLiveTalkFormIconInputGrp">
-                                            <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faHourglassEnd} />
-                                        </InputGroup.Text>
-                                    </InputGroup.Prepend>
-                                    
-                                    <FormControl type="text" name="endTime" id="addLiveTalkForm_ProgTalkEndTime" placeholder="Programme Talk End Time*" required />
-                                </InputGroup>
-                            </Col>
-                        </Form.Row>
+                        </Col>
+                    </Form.Row>
 
                     </Form>
                 </Modal.Body>
 
                 <Modal.Footer className="justify-content-center">
-                     {/* Add Live Talk Submit Btn*/}
+                    {/* Add Live Talk Submit Btn*/}
                     <Button type="submit" id="addLiveTalkFormBtn">Submit</Button>
                 </Modal.Footer>
             </div>

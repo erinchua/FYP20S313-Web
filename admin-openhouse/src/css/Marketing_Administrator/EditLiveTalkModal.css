@@ -1,26 +1,26 @@
-#addLiveTalkModalTitle {
+#editLiveTalkModalTitle {
     color: #424242;
     text-align: center;
 }
 
-.addLiveTalkFormRow {
+.editLiveTalkFormRow {
     padding-bottom: 4%;
 }
 
-.addLiveTalkFormCol {
+.editLiveTalkFormCol {
     padding: 0 2% 0 2%;
 }
 
-.addLiveTalkForm_InnerRow {
+.editLiveTalkForm_InnerRow {
     padding-bottom: 4%;
 }
 
-.addLiveTalkFormIconInputGrp {
+.editLiveTalkFormIconInputGrp {
     background: transparent !important;
     border: none !important;
 }
 
-#addLiveTalkForm_ProgTalkName {
+#editLiveTalkForm_ProgTalkName {
     border: none;
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
@@ -28,11 +28,11 @@
     font-size: 85% !important;
 }
 
-#addLiveTalkForm_ProgTalkName:focus {
+#editLiveTalkForm_ProgTalkName:focus {
     box-shadow: none;
 }
 
-#addLiveTalkForm_Venue {
+#editLiveTalkForm_Venue {
     border: none;
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
@@ -40,11 +40,11 @@
     font-size: 85% !important;
 }
 
-#addLiveTalkForm_Venue:focus {
+#editLiveTalkForm_Venue:focus {
     box-shadow: none;
 }
 
-.addLiveTalkFormSelect {
+.editLiveTalkFormSelect {
     color: #434343 !important;
     border: none !important;
     border-bottom: 1px solid #c8c8c8 !important;
@@ -52,16 +52,16 @@
     font-size: 85% !important;
 }
 
-.addLiveTalkFormSelect:focus {
+.editLiveTalkFormSelect:focus {
     box-shadow: none !important;
 }
 
-.addLiveTalkFormSelectOption {
+.editLiveTalkFormSelectOption {
     color: #434343;
     font-size: 85% !important;
 }
 
-#addLiveTalkForm_ProgTalkStartTime {
+#editLiveTalkForm_ProgTalkStartTime {
     border: none;
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
@@ -69,11 +69,11 @@
     font-size: 85% !important;
 }
 
-#addLiveTalkForm_ProgTalkStartTime:focus {
+#editLiveTalkForm_ProgTalkStartTime:focus {
     box-shadow: none;
 }
 
-#addLiveTalkForm_ProgTalkEndTime {
+#editLiveTalkForm_ProgTalkEndTime {
     border: none;
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
@@ -81,11 +81,11 @@
     font-size: 85% !important;
 }
 
-#addLiveTalkForm_ProgTalkEndTime:focus {
+#editLiveTalkForm_ProgTalkEndTime:focus {
     box-shadow: none;
 }
 
-#addLiveTalkForm_Capacity {
+#editLiveTalkForm_Capacity {
     border: none;
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
@@ -93,34 +93,47 @@
     font-size: 85% !important;
 }
 
-#addLiveTalkForm_Capacity:focus {
+#editLiveTalkForm_Capacity:focus {
     box-shadow: none;
 }
 
-.addLiveTalkForm_InnerCol {
+.editLiveTalkForm_InnerCol {
     height: 80%;
 }
 
-#addLiveTalkForm_LiveTalkURL {
+#editLiveTalkForm_LiveTalkURL {
     resize: none;
     border-radius: 6px;
     color: #434343;
     font-size: 85%;
 }
 
-.addLiveTalkFormLabel {
+.editLiveTalkFormLabel {
     color: #424242;
     font-size: 90% !important;
     font-weight: bold;
 }
 
-#addLiveTalkFormBtn {
+
+#saveChangesLiveTalkFormBtn {
     background: #60c6d9;
     border-color: #60c6d9;
     border-radius: 6px;
-    width: 20%;
+    width: 40%;
 }
 
-#addLiveTalkFormBtn:focus {
+#saveChangesLiveTalkFormBtn:focus {
+    box-shadow: none;
+}
+
+#cancelEditLiveTalkFormBtn {
+    background: none;
+    border: 1px solid #60c6d9;
+    color: #60c6d9;
+    border-radius: 6px;
+    width: 40%;
+}
+
+#cancelEditLiveTalkFormBtn:focus {
     box-shadow: none;
 }
