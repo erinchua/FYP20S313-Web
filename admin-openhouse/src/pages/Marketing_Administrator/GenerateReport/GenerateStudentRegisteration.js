@@ -104,9 +104,6 @@ class GenerateStudentRegisteration extends Component {
           };
           users.push(data);
         });
-        this.setState({
-            totalNumber: 5
-        });
         this.setState({ users: users });
       });
   }
@@ -196,26 +193,16 @@ generatePDF(){
             <tbody>
               <tr>
               <th scope="col">S/N</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
                 <th scope="col">Email</th>
-                <th scope="col">Contact Number</th>
-                <th scope="col">D.O.B</th>
-                <th scope="col">Highest Qualification</th>
-                <th scope="col">Nationality</th>
+                <th scope="col">Date</th>
               </tr>
               {this.state.users &&
                 this.state.users.map((user) => {
                   return (
                     <tr>
                       <td>{user.counter}</td>
-                      <td>{user.firstName} </td>
-                      <td>{user.lastName} </td>
                       <td>{user.email} </td>
-                      <td>{user.contactNo} </td>
-                      <td>{user.dob} </td>
                       <td>{user.highestQualification} </td>
-                      <td>{user.nationality} </td>
                     </tr>
                   );
                 })}
