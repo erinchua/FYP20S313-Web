@@ -52,25 +52,47 @@ class StudentLifeBrochure extends Component {
   display() {
     const db = fire.firestore();
     var counter = 1;
+    //Display of Scholarship Brochures
     const userRef = db
       .collection("Brochures")
+      .doc("study-001")
       .onSnapshot((snapshot) => {
-        const brochures = [];
-        snapshot.forEach((doc) => {
+        const scholarshipbrochures = [];
           const data = {
-            brochureUrl: doc.data().brochureUrl,
-            description: doc.data().description,
-            imageUrl: doc.data().imageUrl,
-            university: doc.data().university,
-            id: doc.id,
+            brochureUrl: snapshot.data().brochureUrl,
+            description: snapshot.data().description,
+            imageUrl: snapshot.data().imageUrl,
+            university: snapshot.data().university,
+            id: snapshot.id,
             counter: counter,
           };
           counter++;
-          brochures.push(data);
-        });
+          scholarshipbrochures.push(data);
+        
 
-        this.setState({ brochures: brochures });
+        this.setState({ scholarshipbrochures: scholarshipbrochures });
       });
+
+      //Display of Bursary Brochures
+    const userRef1 = db
+    .collection("Brochures")
+    .doc("study-002")
+    .onSnapshot((snapshot) => {
+      const bursarybrochures = [];
+        const data = {
+          brochureUrl: snapshot.data().brochureUrl,
+          description: snapshot.data().description,
+          imageUrl: snapshot.data().imageUrl,
+          university: snapshot.data().university,
+          id: snapshot.id,
+          counter: counter,
+        };
+        counter++;
+        bursarybrochures.push(data);
+      
+
+      this.setState({ bursarybrochures: bursarybrochures });
+    });
   }
   handleFileUpload = (files) => {
     this.setState({
@@ -161,29 +183,28 @@ if (this.state.files !== undefined) {
                 <th scope="col">Brochure File</th>
                 <th scope="col">Edit</th>
               </tr>
-              {this.state.brochures &&
-                this.state.brochures.map((brochures) => {
-                    if(brochures.description === "Scholarship-FAQ"){
+              {this.state.scholarshipbrochures &&
+                this.state.scholarshipbrochures.map((scholarshipbrochures) => {
                   return (
                     <tr>
                       <td>
-                      <span class={brochures.id + "text"}>
-                      {brochures.brochureUrl}
+                      <span class={scholarshipbrochures.id + "text"}>
+                      {scholarshipbrochures.brochureUrl}
                         </span>
-                          <span id={brochures.id + "spanbrochurefile"} hidden>
+                          <span id={scholarshipbrochures.id + "spanbrochurefile"} hidden>
                           <input
-                            id={brochures.id + "brochurefile"}
-                            defaultValue={brochures.brochureUrl}
+                            id={scholarshipbrochures.id + "brochurefile"}
+                            defaultValue={scholarshipbrochures.brochureUrl}
                             type="text"
-                            name={brochures.id + "brochurefile"}
+                            name={scholarshipbrochures.id + "brochurefile"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={brochures.brochureUrl}
+                            placeholder={scholarshipbrochures.brochureUrl}
                             required
                             disabled={"disabled"}
                           />
                         </span>
-                       <span id= {brochures.id+ "upload" } hidden ><input
+                       <span id= {scholarshipbrochures.id+ "upload" } hidden ><input
             type="file"
             onChange={(e) => {
               this.handleFileUpload(e.target.files);
@@ -198,28 +219,28 @@ if (this.state.files !== undefined) {
                       </td>
                       <td>
                         <button
-                          id={brochures.id + "editbutton"}
+                          id={scholarshipbrochures.id + "editbutton"}
                           onClick={(e) => {
-                            this.editBrochure(e, brochures.id);
+                            this.editBrochure(e, scholarshipbrochures.id);
                           }}
                         >
                           Edit
                         </button>
 
                         <button
-                          id={brochures.id + "updatebutton"}
+                          id={scholarshipbrochures.id + "updatebutton"}
                           hidden
                           onClick={(e) => {
-                            this.handleSave(brochures.id);
+                            this.handleSave(scholarshipbrochures.id);
                           }}
                         >
                           Update
                         </button>
                         <button
                           hidden
-                          id={brochures.id + "cancelbutton"}
+                          id={scholarshipbrochures.id + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, brochures.id);
+                            this.CancelEdit(e, scholarshipbrochures.id);
                           }}
                         >
                           Cancel
@@ -227,36 +248,35 @@ if (this.state.files !== undefined) {
                       </td>
                     </tr>
                   );
-            }})}
+            })}
 
                 <h4>SIM GE Bursary</h4>
               <tr>
                 <th scope="col">Brochure File</th>
                 <th scope="col">Edit</th>
               </tr>
-              {this.state.brochures &&
-                this.state.brochures.map((brochures) => {
-                    if(brochures.description === "Bursary-FAQ"){
+              {this.state.bursarybrochures &&
+                this.state.bursarybrochures.map((bursarybrochures) => {
                   return (
                     <tr>
                       <td>
-                      <span class={brochures.id + "text"}>
-                      {brochures.brochureUrl}
+                      <span class={bursarybrochures.id + "text"}>
+                      {bursarybrochures.brochureUrl}
                         </span>
-                          <span id={brochures.id + "spanbrochurefile"} hidden>
+                          <span id={bursarybrochures.id + "spanbrochurefile"} hidden>
                           <input
-                            id={brochures.id + "brochurefile"}
-                            defaultValue={brochures.brochureUrl}
+                            id={bursarybrochures.id + "brochurefile"}
+                            defaultValue={bursarybrochures.brochureUrl}
                             type="text"
-                            name={brochures.id + "brochurefile"}
+                            name={bursarybrochures.id + "brochurefile"}
                             class="form-control"
                             aria-describedby="emailHelp"
-                            placeholder={brochures.brochureUrl}
+                            placeholder={bursarybrochures.brochureUrl}
                             required
                             disabled={"disabled"}
                           />
                         </span>
-                       <span id= {brochures.id+ "upload" } hidden ><input
+                       <span id= {bursarybrochures.id+ "upload" } hidden ><input
             type="file"
             onChange={(e) => {
               this.handleFileUpload(e.target.files);
@@ -271,28 +291,28 @@ if (this.state.files !== undefined) {
                       </td>
                       <td>
                         <button
-                          id={brochures.id + "editbutton"}
+                          id={bursarybrochures.id + "editbutton"}
                           onClick={(e) => {
-                            this.editBrochure(e, brochures.id);
+                            this.editBrochure(e, bursarybrochures.id);
                           }}
                         >
                           Edit
                         </button>
 
                         <button
-                          id={brochures.id + "updatebutton"}
+                          id={bursarybrochures.id + "updatebutton"}
                           hidden
                           onClick={(e) => {
-                            this.handleSave(brochures.id);
+                            this.handleSave(bursarybrochures.id);
                           }}
                         >
                           Update
                         </button>
                         <button
                           hidden
-                          id={brochures.id + "cancelbutton"}
+                          id={bursarybrochures.id + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, brochures.id);
+                            this.CancelEdit(e, bursarybrochures.id);
                           }}
                         >
                           Cancel
@@ -300,7 +320,7 @@ if (this.state.files !== undefined) {
                       </td>
                     </tr>
                   );
-            }})}
+            })}
             </tbody>
           </table>
         </div>
