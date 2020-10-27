@@ -44,6 +44,7 @@ import ContactInformation from "./pages/Marketing_Administrator/Useful_Info/Cont
 import GenerateStudentRegisteration from "./pages/Marketing_Administrator/GenerateReport/GenerateStudentRegisteration";
 import StudentLifeBrochure from "./pages/Marketing_Administrator/StudentLifeBrochure";
 
+
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 

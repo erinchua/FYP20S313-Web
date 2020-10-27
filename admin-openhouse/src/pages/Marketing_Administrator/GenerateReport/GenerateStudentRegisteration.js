@@ -2,17 +2,7 @@ import React, { Component, useReducer } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import firecreate from "../../../config/firebasecreate";
-import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
 
-import "../../../css/Marketing_Administrator/StudentAccounts.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faBan, faUserCheck } from '@fortawesome/free-solid-svg-icons';
-import SuspendStud from '../../../img/Marketing_Administrator/ban-solid.svg';
-import UnsuspendStud from '../../../img/Marketing_Administrator/user-check-solid.svg';
-
-import NavBar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import SideNavBar from '../../../components/SideNavbar';
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
@@ -33,6 +23,8 @@ class GenerateStudentRegisteration extends Component {
       suspendStudAcctModal: false,
       unsuspendStudAcctModal: false,
       totalNumber: 0,
+      dateRegistered: "",
+      useremail:"",
     };
   }
 
@@ -44,6 +36,7 @@ class GenerateStudentRegisteration extends Component {
         var getrole = db
           .collection("Administrators")
           .where("email", "==", user.email);
+          this.state.useremail=user.email;
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
@@ -66,50 +59,44 @@ class GenerateStudentRegisteration extends Component {
   };
 
 
-  componentDidMount=() =>{
-    fire.auth().onAuthStateChanged((user) => {
-        if (user) {
-          const db = fire.firestore();
-          var a  = this;
-                a.setState(() => ({
-                  useremail: user.email, })
-                )
-              }  else {
-        
-        }
-      });
-     
+  componentDidMount=() =>{ 
+    this.authListener()
 }
 
-  display() {
-    const db = fire.firestore();
-    var counter = 1;
-    db
-      .collection("Students")
-      .get()
-      .then((snapshot) => {
-        const users = [];
-        snapshot.forEach((doc) => {
-          const data = {
-            firstName: doc.data().firstName,
-            lastName: doc.data().lastName,
-            email: doc.data().email,
-            contactNo: doc.data().contactNo,
-            dob: doc.data().dob,
-            highestQualification: doc.data().highestQualification,
-            nationality: doc.data().nationality,
-            isSuspendedFromForum: doc.data().isSuspendedFromForum,
-            id: doc.id,
-            counter : counter,
-          };
-          users.push(data);
-        });
-        this.setState({ users: users });
+display() {
+  const db = fire.firestore();
+  var counter = 1;
+  const userRef = db
+    .collection("Students")
+    .get()
+    .then((snapshot) => {
+      const users = [];
+      snapshot.forEach((doc) => {
+        const data = {
+          firstName: doc.data().firstName,
+          lastName: doc.data().lastName,
+          email: doc.data().email,
+          contactNo: doc.data().contactNo,
+          dob: doc.data().dob,
+          highestQualification: doc.data().highestQualification,
+          nationality: doc.data().nationality,
+          isSuspendedFromForum: doc.data().isSuspendedFromForum,
+          dateRegistered: doc.data().dateRegistered,
+          id: doc.id,
+          counter : counter,
+        };
+        counter++;
+        users.push(data);
+        console.log(data)
       });
-  }
+
+      this.setState({ users: users });
+    });
+}
+
+
 
   generateReport = () => {
-
     const db = fire.firestore();
     var counter = 0;
     const total = db
@@ -192,7 +179,7 @@ generatePDF(){
           <table id="students" class="table table-bordered">
             <tbody>
               <tr>
-              <th scope="col">S/N</th>
+                <th scope="col">S/N</th>
                 <th scope="col">Email</th>
                 <th scope="col">Date</th>
               </tr>
@@ -202,7 +189,7 @@ generatePDF(){
                     <tr>
                       <td>{user.counter}</td>
                       <td>{user.email} </td>
-                      <td>{user.highestQualification} </td>
+                      <td>{user.dateRegistered} </td>
                     </tr>
                   );
                 })}
