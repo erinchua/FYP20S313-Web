@@ -1,19 +1,23 @@
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
-import { Container, Row, Col, Button, Table, Modal, Tab, Nav } from 'react-bootstrap';
+import { Container, Row, Col, Button, Table, Modal, Tab, Nav, Form, InputGroup, FormControl } from 'react-bootstrap';
 
 import "../../../css/Marketing_Administrator/ProgrammeTalkLiveTalk.css";
+import "../../../css/Marketing_Administrator/AddLiveTalkModal.css";
+import "../../../css/Marketing_Administrator/EditLiveTalkModal.css";
+import "../../../css/Marketing_Administrator/DeleteLiveTalkModal.css";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMicrophone, faSchool, faUniversity, faCalendarAlt, faHourglassStart, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
 import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
 import AddLiveTalkModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/AddLiveTalkModal";
-import EditLiveTalkModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/EditProgTalkModal";
-import DeleteLiveTalkModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/DeleteProgTalkModal";
+import EditLiveTalkModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/EditLiveTalkModal";
+import DeleteLiveTalkModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/DeleteLiveTalkModal";
 
 
 class LiveTalk extends Component {
@@ -31,6 +35,18 @@ class LiveTalk extends Component {
       talkName: "",
       venue: "",
       link: "",
+      id: "",
+      progTalkDetails: "",
+      day1: [],
+      day2: [],
+      day1Date: "",
+      day2Date: "",
+
+      // University collection
+      uniId: "",
+      universityName: "",
+      uniList: [],
+
       addLiveTalkModal: false,
       editLiveTalkModal: false,
       deleteLiveTalkModal: false,
@@ -75,6 +91,23 @@ class LiveTalk extends Component {
     
     const db = fire.firestore();
     const livetalk = [];
+
+    // Get All Universities
+    db.collection("Universities").get()
+    .then((snapshot) => {
+      const uni_list = [];
+      snapshot.forEach((doc) => {
+        const data = {
+          docid: doc.id,
+          uniId: doc.data().id,
+          universityName: doc.data().universityName,
+        };
+        uni_list.push(data);
+      });
+      this.setState({ uniList: uni_list });
+    });
+
+
     const userRef = db
     .collection("ProgrammeTalks")
     .get()
@@ -94,7 +127,9 @@ class LiveTalk extends Component {
       //day1
       const day1date = [];
       day1date.push(unique[0]);
-      this.setState({ day1date: day1date });
+      this.setState({ day1: day1date });
+      var day1_counter = 1;
+
       const day1  = db
       .collection("ProgrammeTalks").where("date", "==", unique[0])
       .where("isLive", "==", true)
@@ -105,26 +140,32 @@ class LiveTalk extends Component {
           const data = {
             docid : doc.id,
             id: doc.data().id,
-            talkName:doc.data().talkName,
-            awardingUni : doc.data().awardingUni,
-            startTime:  doc.data().startTime,     
+            talkName: doc.data().talkName,
+            awardingUni: doc.data().awardingUni,
+            startTime: doc.data().startTime,     
             endTime: doc.data().endTime,
             venue: doc.data().venue,
             capacityLimit: doc.data().capacityLimit,
             noRegistered: doc.data().noRegistered,
             hasRecording: doc.data().hasRecording.toString(),
-            link : doc.data().link,
+            link: doc.data().link,
             isLive: doc.data().isLive.toString(),
+            date: doc.data().date,
+            day1_counter: day1_counter
           };
+          day1_counter++
           livetalk.push(data);
         });
-        this.setState({ day1: livetalk });                    
+        this.setState({ day1: livetalk });     
+        this.setState({ day1Date: livetalk[0].date})               
       });
 
       //day 2
       const day2date = [];
       day2date.push(unique[1]);
-      this.setState({ day2date: day2date });
+      this.setState({ day2: day2date });
+      var day2_counter = 1
+
       const day2  = db
       .collection("ProgrammeTalks").where("date", "==", unique[1])
       .where("isLive", "==", true)
@@ -145,23 +186,26 @@ class LiveTalk extends Component {
             hasRecording: doc.data().hasRecording.toString(),
             link : doc.data().link,
             isLive: doc.data().isLive.toString(),
+            date: doc.data().date,
+            day2_counter: day2_counter
           };
+          day2_counter++
           livetalk.push(data);
         });
-        this.setState({ day2: livetalk });
-          
-        });
+        this.setState({ day2: livetalk });   
+        this.setState({ day2Date: livetalk[0].date})  
       });
+    });
   }
 
   addLiveTalks = (e) => {
     e.preventDefault();
-    var recordingvalue = document.getElementById("recordingvalue");
-    var livestatus = document.getElementById("livestatus");
-    recordingvalue = recordingvalue.options[recordingvalue.selectedIndex].value;
-    livestatus = livestatus.options[livestatus.selectedIndex].value;
-    recordingvalue = (recordingvalue === "true");
-    livestatus = (livestatus === "true");
+    // var recordingvalue = document.getElementById("recordingvalue");
+    // var livestatus = document.getElementById("livestatus");
+    // recordingvalue = recordingvalue.options[recordingvalue.selectedIndex].value;
+    // livestatus = livestatus.options[livestatus.selectedIndex].value;
+    // recordingvalue = (recordingvalue === "true");
+    // livestatus = (livestatus === "true");
 
     const db = fire.firestore();
     var lastdoc = db.collection("ProgrammeTalks").orderBy('id','desc')
@@ -187,8 +231,8 @@ class LiveTalk extends Component {
           capacityLimit: this.state.capacityLimit,
           date: this.state.date,
           endTime: this.state.endTime,
-          hasRecording: recordingvalue,
-          isLive: livestatus,
+          hasRecording: this.state.hasRecording,
+          isLive: this.state.livestatus,
           noRegistered: this.state.noRegistered,
           startTime: this.state.startTime,
           talkName: this.state.talkName,
@@ -261,23 +305,23 @@ class LiveTalk extends Component {
     }  
   }
 
-  CancelEdit(e, livetalkid) {
-    document.getElementById(livetalkid + "spantalkname").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "spanawarduni").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "spanstarttime").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "spanendtime").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "spanvenue").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "spanlink").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "editbutton").removeAttribute("hidden");
-    document.getElementById(livetalkid + "updatebutton").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "cancelbutton").setAttribute("hidden", "");
-    var texttohide = document.getElementsByClassName(
-      livetalkid + "text"
-    );
-    for (var i = 0; i < texttohide.length; i++) {
-      texttohide[i].removeAttribute("hidden", "");
-    }
-  }
+  // CancelEdit(e, livetalkid) {
+  //   document.getElementById(livetalkid + "spantalkname").setAttribute("hidden", "");
+  //   document.getElementById(livetalkid + "spanawarduni").setAttribute("hidden", "");
+  //   document.getElementById(livetalkid + "spanstarttime").setAttribute("hidden", "");
+  //   document.getElementById(livetalkid + "spanendtime").setAttribute("hidden", "");
+  //   document.getElementById(livetalkid + "spanvenue").setAttribute("hidden", "");
+  //   document.getElementById(livetalkid + "spanlink").setAttribute("hidden", "");
+  //   document.getElementById(livetalkid + "editbutton").removeAttribute("hidden");
+  //   document.getElementById(livetalkid + "updatebutton").setAttribute("hidden", "");
+  //   document.getElementById(livetalkid + "cancelbutton").setAttribute("hidden", "");
+  //   var texttohide = document.getElementsByClassName(
+  //     livetalkid + "text"
+  //   );
+  //   for (var i = 0; i < texttohide.length; i++) {
+  //     texttohide[i].removeAttribute("hidden", "");
+  //   }
+  // }
 
   /* Add Live Talk Modal */
   handleAddLiveTalkModal = () => {
@@ -294,32 +338,44 @@ class LiveTalk extends Component {
   };
 
   /* Edit Live Talk Modal */
-  // handleEditLiveTalkModal = () => {
-  //   if (this.state.editLiveTalkModal == false) {
-  //     this.setState({
-  //       editLiveTalkModal: true,
-  //     });
-  //   }
-  //   else {
-  //     this.setState({
-  //       editLiveTalkModal: false
-  //     });
-  //   }
-  // };
+  handleEditLiveTalkModal = (day) => {
+    if (this.state.editLiveTalkModal == false) {
+      this.setState({
+        editLiveTalkModal: true,
+        awardingUni: day.awardingUni,
+        capacityLimit: day.capacityLimit,
+        date: day.date,
+        endTime: day.endTime,
+        hasRecording: day.hasRecording,
+        isLive: day.isLive,
+        noRegistered: day.noRegistered,
+        startTime: day.startTime,
+        talkName: day.talkName,
+        venue: day.venue,
+        link: day.link,
+        progTalkDetails: day.progTalkDetails
+      });
+    }
+    else {
+      this.setState({
+        editLiveTalkModal: false
+      });
+    }
+  };
 
   /* Delete Live Talk Modal */
-  // handleDeleteLiveTalkModal = () => {
-  //   if (this.state.deleteLiveTalkModal == false) {
-  //     this.setState({
-  //       deleteLiveTalkModal: true,
-  //     });
-  //   }
-  //   else {
-  //     this.setState({
-  //       deleteLiveTalkModal: false
-  //     });
-  //   }
-  // };
+  handleDeleteLiveTalkModal = () => {
+    if (this.state.deleteLiveTalkModal == false) {
+      this.setState({
+        deleteLiveTalkModal: true,
+      });
+    }
+    else {
+      this.setState({
+        deleteLiveTalkModal: false
+      });
+    }
+  };
 
 
   render() {
@@ -362,13 +418,13 @@ class LiveTalk extends Component {
                             <Nav defaultActiveKey="day1" className="MAProgLiveTalkTabNav" variant="tabs">
                               <Col md="6" className="MAProgLiveTalkTabConInnerCol text-center">
                                 <Nav.Item className="MAProgLiveTalkTab_NavItem">
-                                  <Nav.Link eventKey="day1" className="MAProgLiveTalkTab_Day">Day 1</Nav.Link>
+                                  <Nav.Link eventKey="day1" className="MAProgLiveTalkTab_Day">{this.state.day1Date}</Nav.Link>
                                 </Nav.Item>
                               </Col>
 
                               <Col md="6" className="MAProgLiveTalkTabConInnerCol text-center">
                                 <Nav.Item className="MAProgLiveTalkTab_NavItem">
-                                  <Nav.Link eventKey="day2" className="MAProgLiveTalkTab_Day">Day 2</Nav.Link>
+                                  <Nav.Link eventKey="day2" className="MAProgLiveTalkTab_Day">{this.state.day2Date}</Nav.Link>
                                 </Nav.Item>
                               </Col>
                             </Nav>
@@ -397,27 +453,33 @@ class LiveTalk extends Component {
                                       </tr>
                                     </thead>
 
-                                    <tbody>
-                                      <tr>
-                                        <td className="progLiveTalkData_SNo">1</td>
-                                        <td className="progLiveTalkData_ProgTalk text-left">testtesttesttesttesttest</td>
-                                        <td className="progLiveTalkData_AwardingUni">testtesttest of test</td>
-                                        <td className="progLiveTalkData_StartTime text-left">testtesttest</td>
-                                        <td className="progLiveTalkData_EndTime text-left">testtesttest</td>
-                                        <td className="progLiveTalkData_Venue text-left">testtesttesttest testtest test</td>
-                                        <td className="progLiveTalkData_Link text-left">testtesttest</td>
-                                        <td className="progLiveTalkData_Edit">
-                                          <Button id="editProgLiveTalkBtn" onClick={this.handleEditLiveTalkModal}>
-                                            <FontAwesomeIcon size="lg" id="editProgLiveTalkBtnIcon" icon={faEdit} />
-                                          </Button>
-                                        </td>
-                                        <td className="progLiveTalkData_Delete">
-                                          <Button id="deleteProgLiveTalkBtn" onClick={this.handleDeleteLiveTalkModal}>
-                                            <FontAwesomeIcon size="lg" id="deleteProgLiveTalkBtnIcon" icon={faTrashAlt} />
-                                          </Button>
-                                        </td>
-                                      </tr>
-                                    </tbody>
+                                    {this.state.day1 && this.state.day1.map((day1) => {
+                                      return (
+                                        <>
+                                          <tbody>
+                                            <tr key={day1.id}>
+                                              <td className="progLiveTalkData_SNo">{day1.day1_counter}</td>
+                                              <td className="progLiveTalkData_ProgTalk text-left">{day1.talkName}</td>
+                                              <td className="progLiveTalkData_AwardingUni">{day1.awardingUni}</td>
+                                              <td className="progLiveTalkData_StartTime text-left">{day1.startTime}</td>
+                                              <td className="progLiveTalkData_EndTime text-left">{day1.endTime}</td>
+                                              <td className="progLiveTalkData_Venue text-left">{day1.venue}</td>
+                                              <td className="progLiveTalkData_Link text-left">{day1.link}</td>
+                                              <td className="progLiveTalkData_Edit">
+                                                <Button id="editProgLiveTalkBtn" onClick={()=>this.handleEditLiveTalkModal(day1)}>
+                                                  <FontAwesomeIcon size="lg" id="editProgLiveTalkBtnIcon" icon={faEdit} />
+                                                </Button>
+                                              </td>
+                                              <td className="progLiveTalkData_Delete">
+                                                <Button id="deleteProgLiveTalkBtn" onClick={this.handleDeleteLiveTalkModal}>
+                                                  <FontAwesomeIcon size="lg" id="deleteProgLiveTalkBtnIcon" icon={faTrashAlt} />
+                                                </Button>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </>
+                                      );
+                                    })}
 
                                   </Table>
                                 </Col>
@@ -441,27 +503,33 @@ class LiveTalk extends Component {
                                       </tr>
                                     </thead>
 
-                                    <tbody>
-                                      <tr>
-                                        <td className="progLiveTalkData_SNo">1</td>
-                                        <td className="progLiveTalkData_ProgTalk text-left">testtesttesttesttesttest</td>
-                                        <td className="progLiveTalkData_AwardingUni">testtesttest of test</td>
-                                        <td className="progLiveTalkData_StartTime text-left">testtesttest</td>
-                                        <td className="progLiveTalkData_EndTime text-left">testtesttest</td>
-                                        <td className="progLiveTalkData_Venue text-left">testtesttesttest testtest test</td>
-                                        <td className="progLiveTalkData_Link text-left">testtesttest</td>
-                                        <td className="progLiveTalkData_Edit">
-                                          <Button id="editProgLiveTalkBtn" onClick={this.handleEditLiveTalkModal}>
-                                            <FontAwesomeIcon size="lg" id="editProgLiveTalkBtnIcon" icon={faEdit} />
-                                          </Button>
-                                        </td>
-                                        <td className="progLiveTalkData_Delete">
-                                          <Button id="deleteProgLiveTalkBtn" onClick={this.handleDeleteLiveTalkModal}>
-                                            <FontAwesomeIcon size="lg" id="deleteProgLiveTalkBtnIcon" icon={faTrashAlt} />
-                                          </Button>
-                                        </td>
-                                      </tr>
-                                    </tbody>
+                                    {this.state.day2 && this.state.day2.map((day2) => {
+                                      return (
+                                        <>
+                                          <tbody>
+                                            <tr key={day2.id}>
+                                              <td className="progLiveTalkData_SNo">{day2.day2_counter}</td>
+                                              <td className="progLiveTalkData_ProgTalk text-left">{day2.talkName}</td>
+                                              <td className="progLiveTalkData_AwardingUni">{day2.awardingUni}</td>
+                                              <td className="progLiveTalkData_StartTime text-left">{day2.startTime}</td>
+                                              <td className="progLiveTalkData_EndTime text-left">{day2.endTime}</td>
+                                              <td className="progLiveTalkData_Venue text-left">{day2.venue}</td>
+                                              <td className="progLiveTalkData_Link text-left">{day2.link}</td>
+                                              <td className="progLiveTalkData_Edit">
+                                                <Button id="editProgLiveTalkBtn" onClick={()=>this.handleEditLiveTalkModal(day2)}>
+                                                  <FontAwesomeIcon size="lg" id="editProgLiveTalkBtnIcon" icon={faEdit} />
+                                                </Button>
+                                              </td>
+                                              <td className="progLiveTalkData_Delete">
+                                                <Button id="deleteProgLiveTalkBtn" onClick={this.handleDeleteLiveTalkModal}>
+                                                  <FontAwesomeIcon size="lg" id="deleteProgLiveTalkBtnIcon" icon={faTrashAlt} />
+                                                </Button>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </>
+                                      );
+                                    })}
 
                                   </Table>
                                 </Col>
@@ -491,29 +559,322 @@ class LiveTalk extends Component {
           show={this.state.addLiveTalkModal}
           onHide={this.handleAddLiveTalkModal}
           aria-labelledby="addLiveTalkModalTitle"
-          size="xl"
+          size="lg"
           centered
           backdrop="static"
           keyboard={false}
         >
-          <AddLiveTalkModal />
+          <Modal.Header closeButton className="justify-content-center">
+            <Modal.Title id="addLiveTalkModalTitle" className="w-100">
+              Add Live Talk
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body id="addLiveTalkModalBody">
+            <Form noValidate> {/* onSubmit={this.addLiveTalk} */}
+              {/* Main Row */}
+              <Form.Row className="justify-content-center">
+                {/* Left Col */}
+                <Col md="6" className="addLiveTalkFormCol text-center">
+                  {/* Live Talk Name */}
+                  <Form.Row className="justify-content-center addLiveTalkForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="addLiveTalkFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="addLiveTalkFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faMicrophone} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+
+                        <FormControl type="text" name="talkName" id="addLiveTalkForm_ProgTalkName" placeholder="Name of Live Talk*" required />
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* Live Talk Venue */}
+                  <Form.Row className="justify-content-center addLiveTalkForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="addLiveTalkFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="addLiveTalkFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faSchool} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+
+                        <FormControl type="text" name="venue" id="addLiveTalkForm_Venue" placeholder="Venue*" required />
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* Start/End Time */}
+                  <Form.Row className="justify-content-center addLiveTalkForm_InnerRow">
+                    {/* Start Time */}
+                    <Col md="5" className="text-center">
+                      <InputGroup className="addLiveTalkFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="addLiveTalkFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faHourglassStart} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        
+                        <FormControl type="text" name="startTime" id="addLiveTalkForm_ProgTalkStartTime" placeholder="Start Time*" required />
+                      </InputGroup>
+                    </Col>
+
+                    {/* End Time */}
+                    <Col md="5" className="text-center">
+                      <InputGroup className="addLiveTalkFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="addLiveTalkFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faHourglassEnd} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        
+                        <FormControl type="text" name="endTime" id="addLiveTalkForm_ProgTalkEndTime" placeholder="End Time*" required />
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+                </Col>
+
+                {/* Right Col */}
+                <Col md="6" className="addLiveTalkFormCol text-center">
+                  {/* Date */}
+                  <Form.Row className="justify-content-center addLiveTalkForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="addLiveTalkFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="addLiveTalkFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faCalendarAlt} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        
+                        <Form.Control as="select" name="date" defaultValue="chooseDate" className="addLiveTalkFormSelect" required noValidate>
+                          <option value="chooseDate" className="addLiveTalkFormSelectOption">Choose an Openhouse Date</option>
+                          
+                          {/* To be retrieved from DB */}
+                          <option value={this.state.day1Date} className="addLiveTalkFormSelectOption">{this.state.day1Date}</option>
+                          <option value={this.state.day2Date} className="addLiveTalkFormSelectOption">{this.state.day2Date}</option>
+
+                        </Form.Control>                                        
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* University */}
+                  <Form.Row className="justify-content-center addLiveTalkForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="addLiveTalkFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="addLiveTalkFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="addLiveTalkFormIcon" icon={faUniversity} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+
+                        <Form.Control as="select" name="uniName" defaultValue="chooseUni" className="addLiveTalkFormSelect" required noValidate>
+                          <option value="chooseUni" className="addLiveTalkFormSelectOption">Choose a University</option>
+                          
+                          {/* To be retrieved from DB */}
+                          {this.state.uniList && this.state.uniList.map((uni) => {
+                            return (
+                              <>
+                                <option value={uni.universityName} className="addLiveTalkFormSelectOption">{uni.universityName}</option>
+                              </>
+                            );
+                          })}
+
+                        </Form.Control>
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* Link */}
+                  <Form.Row className="justify-content-center addLiveTalkForm_InnerRow">
+                    <Col md="10" className="text-left addLiveTalkForm_InnerCol">
+                      <Form.Label className="addLiveTalkFormLabel">Live Talk URL</Form.Label>                                     
+                          
+                      <FormControl as="textarea" rows="4" required noValidate id="addLiveTalkForm_LiveTalkURL" placeholder="Live Talk URL*" />                                       
+                    </Col>
+                  </Form.Row>
+
+                </Col>
+              </Form.Row>
+
+            </Form>
+          </Modal.Body>
+
+          <Modal.Footer className="justify-content-center">
+            {/* Add Live Talk Submit Btn*/}
+            <Button type="submit" id="addLiveTalkFormBtn">Submit</Button>
+          </Modal.Footer>
         </Modal>
 
+
         {/* Edit Live Talk Modal */}
-        {/* <Modal 
+        <Modal 
           show={this.state.editLiveTalkModal}
           onHide={this.handleEditLiveTalkModal}
           aria-labelledby="editLiveTalkModalTitle"
-          size="xl"
+          size="lg"
           centered
           backdrop="static"
           keyboard={false}
         >
-          <EditLiveTalkModal handleSaveChanges={()=>{console.log("Edit Modal Saved")}} handleCancelEdit={this.handleEditLiveTalkModal} />
-        </Modal> */}
+          <Modal.Header closeButton className="justify-content-center">
+            <Modal.Title id="editLiveTalkModalTitle" className="w-100">
+              Edit Live Talk
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body id="editLiveTalkModalBody">
+            <Form noValidate> {/* onSubmit={this.editLiveTalk} */}
+              {/* Main Row */}
+              <Form.Row className="justify-content-center">
+                {/* Left Col */}
+                <Col md="6" className="editLiveTalkFormCol text-center">
+                  {/* Live Talk Name */}
+                  <Form.Row className="justify-content-center editLiveTalkForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="editLiveTalkFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="editLiveTalkFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="editLiveTalkFormIcon" icon={faMicrophone} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+
+                        <FormControl type="text" defaultValue={this.state.talkName} name="talkName" id="editLiveTalkForm_ProgTalkName" placeholder="Name of Live Talk*" required />
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* Live Talk Venue */}
+                  <Form.Row className="justify-content-center editLiveTalkForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="editLiveTalkFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="editLiveTalkFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="editLiveTalkFormIcon" icon={faSchool} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+
+                        <FormControl type="text" defaultValue={this.state.venue} name="venue" id="editLiveTalkForm_Venue" placeholder="Venue*" required />
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* Start/End Time */}
+                  <Form.Row className="justify-content-center editLiveTalkForm_InnerRow">
+                    {/* Start Time */}
+                    <Col md="5" className="text-center">
+                      <InputGroup className="editLiveTalkFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="editLiveTalkFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="editLiveTalkFormIcon" icon={faHourglassStart} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+                    
+                        <FormControl type="text" defaultValue={this.state.startTime} name="startTime" id="editLiveTalkForm_ProgTalkStartTime" placeholder="Start Time*" required />
+                      </InputGroup>
+                    </Col>
+
+                    {/* End Time */}
+                    <Col md="5" className="text-center">
+                      <InputGroup className="editLiveTalkFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="editLiveTalkFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="editLiveTalkFormIcon" icon={faHourglassEnd} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+                          
+                        <FormControl type="text" defaultValue={this.state.endTime} name="endTime" id="editLiveTalkForm_ProgTalkEndTime" placeholder="End Time*" required />
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+                </Col>
+
+                {/* Right Col */}
+                <Col md="6" className="editLiveTalkFormCol text-center">
+                  {/* Date */}
+                  <Form.Row className="justify-content-center editLiveTalkForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="editLiveTalkFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="editLiveTalkFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="editLiveTalkFormIcon" icon={faCalendarAlt} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+                    
+                        <Form.Control as="select" name="date" defaultValue={this.state.date} className="editLiveTalkFormSelect" required noValidate>
+                          <option value="chooseDate" className="editLiveTalkFormSelectOption">Choose an Openhouse Date</option>
+                          
+                          {/* To be retrieved from DB */}
+                          <option value={this.state.day1Date} className="editLiveTalkFormSelectOption">{this.state.day1Date}</option>
+                          <option value={this.state.day2Date} className="editLiveTalkFormSelectOption">{this.state.day2Date}</option>
+
+                        </Form.Control>                                        
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* University */}
+                  <Form.Row className="justify-content-center editLiveTalkForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="editLiveTalkFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="editLiveTalkFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="editLiveTalkFormIcon" icon={faUniversity} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+
+                        <Form.Control as="select" name="uniName" defaultValue={this.state.awardingUni} className="editLiveTalkFormSelect" required noValidate>
+                          <option value="chooseUni" className="editLiveTalkFormSelectOption">Choose a University</option>
+                          
+                          {/* To be retrieved from DB */}
+                          {this.state.uniList && this.state.uniList.map((uni) => {
+                            return (
+                            <>
+                              <option value={uni.universityName} className="editLiveTalkFormSelectOption">{uni.universityName}</option>
+                            </>
+                            );
+                          })}
+
+                        </Form.Control>
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* Link */}
+                  <Form.Row className="justify-content-center editLiveTalkForm_InnerRow">
+                    <Col md="10" className="text-left editLiveTalkForm_InnerCol">
+                      <Form.Label className="editLiveTalkFormLabel">Live Talk URL</Form.Label>                                     
+                          
+                      <FormControl as="textarea" rows="4" defaultValue={this.state.link} required noValidate id="editLiveTalkForm_LiveTalkURL" placeholder="Live Talk URL*" />                                       
+                    </Col>
+                  </Form.Row>
+
+                </Col>
+              </Form.Row>
+
+            </Form>
+          </Modal.Body>
+
+          <Modal.Footer className="justify-content-center">
+            {/* Edit Live Talk Save Changes Btn */}
+            <Container>
+              <Row>
+                <Col md="6" className="text-right">
+                  <Button id="saveChangesLiveTalkFormBtn">Save Changes</Button>
+                </Col>
+
+                <Col md="6" className="text-left">
+                  <Button id="cancelEditLiveTalkFormBtn" onClick={this.handleEditLiveTalkModal}>Cancel</Button>
+                </Col>
+              </Row>
+            </Container>
+          </Modal.Footer>
+        </Modal>
 
         {/* Delete Live Talk Modal */}
-        {/* <Modal 
+        <Modal 
           show={this.state.deleteLiveTalkModal}
           onHide={this.handleDeleteLiveTalkModal}
           aria-labelledby="deleteLiveTalkModalTitle"
@@ -523,10 +884,7 @@ class LiveTalk extends Component {
           keyboard={false}
         >
           <DeleteLiveTalkModal handleConfirmDelete={ (e) => {this.DeleteProgrammeTalk(e, this.state.id)} } handleCancelDelete={this.handleDeleteLiveTalkModal} />
-        </Modal> */}
-
-
-
+        </Modal>
 
 
         {/* day1 */}

@@ -11,28 +11,31 @@ import SideNavBar from '../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faCalendarDay, faEdit, faHourglassEnd, faHourglassStart, faKeyboard } from '@fortawesome/free-solid-svg-icons';
 
-const initialState = {
+const initialStates = {
     dateError: "",
-    dayError: "",
     startTimeError: "",
-    EndTimeError: "",
-    descriptionError: ""
+    endTimeError: "",
+    descriptionError: "",
 }
 
 class Openhouse extends Component {
 
-    state = initialState;
+    state = initialStates;
 
     constructor() {
         super();
         this.state = {
             day: "",
             date: "",
-            startdate: "",
-            enddate: "",
+            startTime: "",
+            endTime: "",
+            docid: "",
+            description: "",
+            //Below states are for functions
+            users: "",
+            //Below states are for modals
             editModal: false,
         };
-        // this.handleSave = this.handleSave.bind(this);
     }
 
     authListener() {
@@ -103,8 +106,9 @@ class Openhouse extends Component {
                 const data = {
                     day: Object.keys(doc.data().day)[i],
                     date: daydata[Object.keys(daydata)[i]].date,
-                    starttime: daydata[Object.keys(daydata)[i]].startTime,
-                    endtime: daydata[Object.keys(daydata)[i]].endTime,
+                    startTime: daydata[Object.keys(daydata)[i]].startTime,
+                    endTime: daydata[Object.keys(daydata)[i]].endTime,
+                    description: daydata[Object.keys(daydata)[i]].description,
                     docid: doc.id,
                 };
                 users.push(data);
@@ -128,52 +132,158 @@ class Openhouse extends Component {
         });
     }
 
+    updateInput = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+    };
+
     update(e, openhouseid, day) {
-        var dateinput = document.getElementById(day + "date").value;
-        var starttimeinput = document.getElementById(day + "starttime").value;
-        var endttimeinput = document.getElementById(day + "endtime").value;
+        // var dateinput = document.getElementById(day + "date").value;
+        // var starttimeinput = document.getElementById(day + "starttime").value;
+        // var endttimeinput = document.getElementById(day + "endtime").value;
 
-        const updatedate = "day." + day + ".date";
-        const updatestarttime = "day." + day + ".startTime";
-        const updateendtime = "day." + day + ".endTime";
+        // const updatedate = "day." + day + ".date";
+        // const updatestarttime = "day." + day + ".startTime";
+        // const updateendtime = "day." + day + ".endTime";
 
-        console.log(updatedate);
+        // console.log(updatedate);
+
+        // const db = fire.firestore();
+
+        // const userRef = db
+        // .collection("Openhouse")
+        // .doc(openhouseid)
+        // .update({
+        //     [updatedate]: dateinput,
+        //     [updatestarttime]: starttimeinput,
+        //     [updateendtime]:endttimeinput,
+        // })
+        // .then(() => this.onAuthSuccess(e, openhouseid, day));
+
+        //Update respective data by their ids and day number for Edit Modal - Integrated
         const db = fire.firestore();
+        db.collection("Openhouse").doc(openhouseid).get()
+        .then((doc) => {
+            const daydata = doc.get('day');
 
-        const userRef = db
-        .collection("Openhouse")
-        .doc(openhouseid)
-        .update({
-            [updatedate]: dateinput,
-            [updatestarttime]: starttimeinput,
-            [updateendtime]:endttimeinput,
-        })
-        .then(() => this.onAuthSuccess(e, openhouseid, day));
+            //Checked if day is 1
+            if (day == Object.keys(daydata).length - 1) {
+                for (var i = 0; i < Object.keys(daydata).length - 1; i++){
+                    const isValid = this.validate();
+                    if (isValid) {
+                        this.setState(initialStates);
+                        
+                        const userRef = db
+                        .collection("Openhouse")
+                        .doc(openhouseid)
+                        .update({
+                            "day.1.date": this.state.date,
+                            "day.1.startTime": this.state.startTime,
+                            "day.1.endTime": this.state.endTime,
+                            "day1.description": this.state.description,
+                        })
+                        .then(() => this.onAuthSuccess(e, openhouseid, day));
+                        
+                    }
+                }
+            }
+
+            //Checked if day is 2
+            if (day == Object.keys(daydata).length) {
+                for (var i = 1; i < Object.keys(daydata).length; i++){
+                    const isValid = this.validate();
+                    if (isValid) {
+                        this.setState(initialStates);
+                        
+                        const userRef = db
+                        .collection("Openhouse")
+                        .doc(openhouseid)
+                        .update({
+                            "day.2.date": this.state.date,
+                            "day.2.startTime": this.state.startTime,
+                            "day.2.endTime": this.state.endTime,
+                            "day.2.description": this.state.description,
+                        })
+                        .then(() => this.onAuthSuccess(e, openhouseid, day));
+                        
+                    }
+                }
+            }
+        });
+
     }
 
     onAuthSuccess = (e, openhouseid, day) => {
-        alert("Updated");
+        console.log("Updated the information");
         window.location.reload();
-        this.cancel(e, openhouseid, day);
+        //this.cancel(e, openhouseid, day);
     };
 
+    //Get respective data out by ids and the day number for Edit Modal - Integrated
     edit(e, openhouseid, day) {
-        document.getElementById(day + "editbutton").setAttribute("hidden", "");
-        document.getElementById(day + "updatebutton").removeAttribute("hidden");
-        document.getElementById(day + "cancelbutton").removeAttribute("hidden");
+        // document.getElementById(day + "editbutton").setAttribute("hidden", "");
+        // document.getElementById(day + "updatebutton").removeAttribute("hidden");
+        // document.getElementById(day + "cancelbutton").removeAttribute("hidden");
 
-        var inputtoshow = document.getElementsByClassName(
-            openhouseid + day + "input"
-        );
-        var texttohide = document.getElementsByClassName(
-            openhouseid + day + "text"
-        );
-        for (var i = 0; i < inputtoshow.length; i++) {
-            inputtoshow[i].removeAttribute("hidden");
-            texttohide[i].setAttribute("hidden", "");
+        // var inputtoshow = document.getElementsByClassName(
+        //     openhouseid + day + "input"
+        // );
+        // var texttohide = document.getElementsByClassName(
+        //     openhouseid + day + "text"
+        // );
+        // for (var i = 0; i < inputtoshow.length; i++) {
+        //     inputtoshow[i].removeAttribute("hidden");
+        //     texttohide[i].setAttribute("hidden", "");
+        // }
+
+        this.editModal = this.state.editModal;
+        if (this.editModal == false) {
+            this.setState({
+                editModal: true,
+            });
+            this.state.docid = openhouseid;
+            this.state.day = day;
+            const db = fire.firestore();
+            db.collection("Openhouse").doc(openhouseid).get()
+            .then((doc) => {
+                const daydata = doc.get('day');
+
+                if (day == Object.keys(daydata).length - 1) {
+                    for (var i = 0; i < Object.keys(daydata).length - 1; i++){
+                        this.setState({
+                            day: day,
+                            date: daydata[Object.keys(daydata)[i]].date,
+                            startTime: daydata[Object.keys(daydata)[i]].startTime,
+                            endTime: daydata[Object.keys(daydata)[i]].endTime,
+                            description: daydata[Object.keys(daydata)[i]].description,
+                            docid: doc.id,
+                        });
+                    }
+                }
+
+                if (day == Object.keys(daydata).length) {
+                    for (var i = 1; i < Object.keys(daydata).length; i++){
+                        this.setState({
+                            day: day,
+                            date: daydata[Object.keys(daydata)[i]].date,
+                            startTime: daydata[Object.keys(daydata)[i]].startTime,
+                            endTime: daydata[Object.keys(daydata)[i]].endTime,
+                            description: daydata[Object.keys(daydata)[i]].description,
+                            docid: doc.id,
+                        });
+                    }
+                }
+            });
+        } else {
+            this.setState({
+                editModal: false
+            });
+            this.resetForm();
         }
     }
 
+    /*//Don't need cancel function as we can just hide the modal if cancel
     cancel = (e, openhouseid, day) => {
         document.getElementById(day + "editbutton").removeAttribute("hidden");
         document.getElementById(day + "updatebutton").setAttribute("hidden", "");
@@ -189,34 +299,38 @@ class Openhouse extends Component {
 
             texttohide[i].removeAttribute("hidden");
         }
-    };
+    };*/
 
-    // //Validate Edit Modal
-    // validate = () => {
-    //     let dateError = "";
-    //     let dayError = "";
-    //     let startTimeError = "";
-    //     let endTimeError = "";
-    //     let descriptionError = "";
+    //Validate Edit Modal
+    validate = () => {
+        let dateError = "";
+        let startTimeError = "";
+        let endTimeError = "";
+        let descriptionError = "";
 
-    //     if (!this.state.date) {
-    //         dateError = "Please enter a date!";
-    //     }
+        if (!this.state.date) {
+            dateError = "Please enter a valid date. E.g. 21-Nov-2020";
+        }
 
-    //     if (!this.state.day) {
-    //         dayError = "Please enter a day!";
-    //     }
+        if (!this.state.startTime.includes(':')) {
+            startTimeError = "Please enter a valid start time. E.g. 1:30PM";
+        }
 
-    //     //Start time, End Time, Description
+        if (!this.state.endTime.includes(':')) {
+            endTimeError = "Please enter a valid end time. E.g. 2:30PM";
+        }
 
+        if (!this.state.description) {
+            descriptionError = "Please enter a valid description. E.g. Open House Day 1";
+        }
 
-    //     if (dateError || dayError) {
-    //         this.setState({dateError, dayError});
-    //         return false;
-    //     } 
+        if (dateError || startTimeError || endTimeError || descriptionError) {
+            this.setState({dateError, startTimeError, endTimeError, descriptionError});
+            return false;
+        } 
 
-    //     return true;
-    // }
+        return true;
+    }
 
     //Edit Modal
     handleEdit = () => {
@@ -229,17 +343,14 @@ class Openhouse extends Component {
             this.setState({
                 editModal: false
             });
+            this.resetForm();
         }
     }
 
-    // handleSave = () => {
-    //     const isValid = this.validate();
-
-    //     this.setState(initialState);
-    //     if (isValid) {
-    //         this.setState(initialState);
-    //     }
-    // }
+    resetForm = () => {
+        this.setState(initialStates);
+        this.setState({date: '', starttime: '', endtime: '', description: ''})
+    }
 
     render() {
         return (
@@ -255,7 +366,11 @@ class Openhouse extends Component {
 
                                 <Col md={10} style={{paddingLeft: 0}}>
                                     <Container fluid id="OpenHouse-topContentContainer">
-                                        <Row id="OpenHouse-firstRow"></Row>
+                                        <Row id="OpenHouse-firstRow">
+                                            <Col md={12} className="text-left" id="OpenHouse-firstRowCol">
+                                                <h4 id="OpenHouse-title">Open House Dates</h4>
+                                            </Col>
+                                        </Row>
 
                                         <Row id="OpenHouse-secondRow">
                                             <Col md={12} className="text-center" id="OpenHouse-secondRowCol">
@@ -276,10 +391,10 @@ class Openhouse extends Component {
                                                                 <tr>
                                                                     <td>{user.date}</td>
                                                                     <td>{user.day}</td>
-                                                                    <td>{user.starttime}</td>
-                                                                    <td>{user.endtime}</td>
-                                                                    <td>{user.docid}</td>
-                                                                    <td><Button size="sm" id="OpenHouse-editBtn" onClick={this.handleEdit.bind(this)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                    <td>{user.startTime}</td>
+                                                                    <td>{user.endTime}</td>
+                                                                    <td id="OpenHouse-descriptionData">{user.description}</td>
+                                                                    <td><Button size="sm" id="OpenHouse-editBtn" onClick={(e) => {this.edit(e, user.docid, user.day)}}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                 </tr>
                                                             );
                                                         })}
@@ -296,79 +411,88 @@ class Openhouse extends Component {
                 </Container>
 
                 {this.state.editModal == true ? 
-                    <Modal show={this.state.editModal} onHide={this.handleEdit} size="lg" centered keyboard={false}>
+                    <Modal show={this.state.editModal} onHide={this.handleEdit} size="md" centered keyboard={false}>
                         <Modal.Header closeButton></Modal.Header>
-                        <Modal.Body>
-                            <Form novalidate>
-                                <Form.Group>
-                                    <Form.Group as={Row} className="OpenHouse-formGroup">
-                                        <Form.Group as={Col} md="1">
-                                            <FontAwesomeIcon size="lg" icon={faCalendarAlt} />
-                                        </Form.Group> 
-                                        <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="date" placeholder="Date" required value="" noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
-                                        </Form.Group>
-                                    </Form.Group>                     
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Group as={Row} className="OpenHouse-formGroup">
-                                        <Form.Group as={Col} md="1">
-                                            <FontAwesomeIcon size="lg" icon={faCalendarDay} />
-                                        </Form.Group> 
-                                        <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="day" placeholder="Day" required value="" noValidate></Form.Control>
-                                            <div className="errorMessage"></div>
-                                        </Form.Group>
-                                    </Form.Group>                     
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Group as={Row} className="OpenHouse-formGroup">
-                                        <Form.Group as={Col} md="1">
-                                            <FontAwesomeIcon size="lg" icon={faHourglassStart}/>
-                                        </Form.Group> 
-                                        <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="starttime" placeholder="Start Time" required value="" noValidate></Form.Control>
-                                            <div className="errorMessage"></div>
-                                        </Form.Group>
-                                    </Form.Group>                     
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Group as={Row} className="OpenHouse-formGroup">
-                                        <Form.Group as={Col} md="1">
-                                            <FontAwesomeIcon size="lg" icon={faHourglassEnd}/>
-                                        </Form.Group> 
-                                        <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="endtime" placeholder="End Time" required value="" noValidate></Form.Control>
-                                            <div className="errorMessage"></div>
-                                        </Form.Group>
-                                    </Form.Group>                     
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Group as={Row} className="OpenHouse-formGroup">
-                                        <Form.Group as={Col} md="1">
-                                            <FontAwesomeIcon size="lg" icon={faKeyboard}/>
-                                        </Form.Group> 
-                                        <Form.Group as={Col} md="7">
-                                            <Form.Control type="text" name="description" placeholder="Description" required value="" noValidate></Form.Control>
-                                            <div className="errorMessage"></div>
-                                        </Form.Group>
-                                    </Form.Group>                     
-                                </Form.Group>
-                            </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Container>
-                                <Row id="OpenHouse-editFooter">
-                                    <Col md={6} className="OpenHouse-editCol">
-                                        <Button id="OpenHouse-saveBtn" type="submit">Save</Button>
-                                    </Col>
-                                    <Col md={6} className="OpenHouse-editCol">
-                                        <Button id="OpenHouse-cancelBtn">Cancel</Button>
-                                    </Col>
-                                </Row>
-                            </Container>
-                        </Modal.Footer>
+                        {this.state.users && this.state.users.map((user) => {
+                            if (user.docid === this.state.docid && user.day === this.state.day) {
+                                return (
+                                    <div>
+                                        <Modal.Body>
+                                            <Form noValidate>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="OpenHouse-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faCalendarAlt} />
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="OpenHouse-inputFields" type="text" name="date" placeholder="Date: e.g. 21-Nov-2020" required defaultValue={user.date} onChange={this.updateInput} noValidate></Form.Control>
+                                                                <div className="errorMessage">{this.state.dateError}</div>
+                                                        </Form.Group>
+                                                    </Form.Group>                     
+                                                </Form.Group>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="OpenHouse-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faCalendarDay} />
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control readOnly id="OpenHouse-inputFields" type="text" name="day" placeholder="Day" required defaultValue={user.day} noValidate></Form.Control>
+                                                        </Form.Group>
+                                                    </Form.Group>                     
+                                                </Form.Group>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="OpenHouse-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faHourglassStart}/>
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="OpenHouse-inputFields" type="text" name="startTime" placeholder="Start Time: e.g. 9:00AM" required defaultValue={user.startTime} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage">{this.state.startTimeError}</div>
+                                                        </Form.Group>
+                                                    </Form.Group>                     
+                                                </Form.Group>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="OpenHouse-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faHourglassEnd}/>
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="OpenHouse-inputFields" type="text" name="endTime" placeholder="End Time: e.g. 6:00PM" required defaultValue={user.endTime} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage">{this.state.endTimeError}</div>
+                                                        </Form.Group>
+                                                    </Form.Group>                     
+                                                </Form.Group>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="OpenHouse-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faKeyboard}/>
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="OpenHouse-inputFields" type="text" name="description" placeholder="Description" required defaultValue={user.description} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage">{this.state.descriptionError}</div>
+                                                        </Form.Group>
+                                                    </Form.Group>                     
+                                                </Form.Group>
+                                            </Form>
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                            <Container>
+                                                <Row id="OpenHouse-editFooter">
+                                                    <Col md={6} className="OpenHouse-editCol">
+                                                        <Button id="OpenHouse-saveBtn" type="submit" onClick={(e) => this.update(e, user.docid, user.day)}>Save</Button>
+                                                    </Col>
+                                                    <Col md={6} className="OpenHouse-editCol">
+                                                        <Button id="OpenHouse-cancelBtn" onClick={this.handleEdit}>Cancel</Button>
+                                                    </Col>
+                                                </Row>
+                                            </Container>
+                                        </Modal.Footer>
+                                    </div>
+                                )
+                            } else {
+                                return ('')
+                            }
+                        })}
                     </Modal>: ''
                 }
 

@@ -36,6 +36,15 @@ import ForumFlagged from "./pages/Marketing_Administrator/Forum/ForumFlagged";
 import ForumSettings from "./pages/Marketing_Administrator/Forum/ForumSettings";
 import ViewForumQuestion from "./pages/Marketing_Administrator/Forum/ViewForumQuestion";
 import ArtsSocialSciences from "./pages/Marketing_Administrator/Study@SIM/Arts&SocialSciences";
+import Business from "./pages/Marketing_Administrator/Study@SIM/Business";
+import ITComputerSciences from "./pages/Marketing_Administrator/Study@SIM/IT&ComputerSciences";
+import Nursing from "./pages/Marketing_Administrator/Study@SIM/Nursing";
+import Specialty from "./pages/Marketing_Administrator/Study@SIM/Specialty";
+import ContactInformation from "./pages/Marketing_Administrator/Useful_Info/ContactInformation";
+import GenerateStudentRegisteration from "./pages/Marketing_Administrator/GenerateReport/GenerateStudentRegisteration";
+import StudentLifeBrochure from "./pages/Marketing_Administrator/Brochure/StudentLifeBrochure";
+import StudySIMBrochure from "./pages/Marketing_Administrator/Brochure/StudySIMBrochure";
+
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -78,6 +87,15 @@ ReactDOM.render(
       <Route path="/ForumSettings" component={ForumSettings} />
       <Route path="/ViewForumQuestion" component={ViewForumQuestion} />
       <Route path="/Arts&SocialSciences" component={ArtsSocialSciences} />
+      <Route path="/Business" component={Business} />
+      <Route path="/IT&ComputerSciences" component={ITComputerSciences} />
+      <Route path="/Nursing" component={Nursing} />
+      <Route path="/Specialty" component={Specialty} />
+      <Route path="/ContactInformation" component={ContactInformation} />
+      <Route path="/GenerateStudentRegisteration" component={GenerateStudentRegisteration} />
+      <Route path="/StudentLifeBrochure" component={StudentLifeBrochure} />
+      <Route path="/StudySIMBrochure" component={StudySIMBrochure} />
+
     </Switch>
   </Router>,
   document.getElementById("root")

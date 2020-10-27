@@ -67,8 +67,8 @@ export default class EditStudySIMProgModal extends React.Component {
                     </Modal.Title>
                 </Modal.Header>
 
-                <Modal.Body id="editStudySIMProgModalBody">
-                    <Form noValidate> {/* Need to add onSubmit later */}
+                <Form noValidate> {/* Need to add onSubmit later */}
+                    <Modal.Body id="editStudySIMProgModalBody">
                         {/* Main Row */}
                         <Form.Row className="justify-content-center editStudySIMProgFormRow">
                             {/* Left Col */}
@@ -119,34 +119,6 @@ export default class EditStudySIMProgModal extends React.Component {
                                     </Col>
                                 </Form.Row>
 
-                                {/* Mode of Study */}
-                                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
-                                    <Col md="9" className="text-center">
-                                        <InputGroup className="editStudySIMProgFormColInputGrp">                                       
-                                            <Form.Control as="select" name="MoSName" defaultValue="chooseMoS" className="editStudySIMProgFormSelect" required noValidate>
-                                                <option value="chooseMoS" className="editStudySIMProgFormSelectOption">Choose a Mode of Study</option>
-                                                
-                                                {/* To be retrieved from DB */}
-                                                <option value="fullTime" className="editStudySIMProgFormSelectOption">Full-Time</option>
-                                            </Form.Control>
-                                        </InputGroup>
-                                    </Col>
-                                </Form.Row>
-
-                                {/* Disciplines */}
-                                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
-                                    <Col md="9" className="text-center">
-                                        <InputGroup className="editStudySIMProgFormColInputGrp">                                       
-                                            <Form.Control as="select" name="disciplineName" defaultValue="chooseDiscipline" className="editStudySIMProgFormSelect" required noValidate>
-                                                <option value="chooseDiscipline" className="editStudySIMProgFormSelectOption">Choose a Discipline</option>
-                                                
-                                                {/* To be retrieved from DB */}
-                                                <option value="artsSocialSciences" className="editStudySIMProgFormSelectOption">Arts & Social Sciences</option>
-                                            </Form.Control>
-                                        </InputGroup>
-                                    </Col>
-                                </Form.Row>
-
                                 {/* Academic Level */}
                                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
                                     <Col md="9" className="text-center">
@@ -161,12 +133,46 @@ export default class EditStudySIMProgModal extends React.Component {
                                     </Col>
                                 </Form.Row>
 
+                                {/* Mode of Study */}
+                                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                                    <Col md="9" className="text-left editStudySIMProgForm_InnerCol">
+                                        <Form.Label className="editStudySIMProgFormLabel">Choose Mode of Study:</Form.Label>                                     
+                                            
+                                        <Container className="editStudySIMProgForm_MoSCon">
+                                            {/* To be retrieved from db - row is generated dynamically */}
+                                            <Row>
+                                                <Col>
+                                                    <Form.Check name="mosName" value="fullTime" type="checkbox" label="Full-Time" className="editStudySIMProgForm_CheckBox" />
+                                                </Col>
+                                            </Row>
+
+                                        </Container>                                        
+                                    </Col>
+                                </Form.Row>
+
+                                {/* Disciplines */}
+                                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                                    <Col md="9" className="text-left editStudySIMProgForm_InnerCol">
+                                        <Form.Label className="editStudySIMProgFormLabel">Choose Discipline(s):</Form.Label>                                     
+                                            
+                                        <Container className="editStudySIMProgForm_DisciplineCon">
+                                            {/* To be retrieved from db - row is generated dynamically */}
+                                            <Row>
+                                                <Col>
+                                                    <Form.Check name="discipline" value="ArtsSocialSciences" type="checkbox" label="Arts & SocialSciences" className="editStudySIMProgForm_CheckBox" />
+                                                </Col>
+                                            </Row>
+
+                                        </Container>                                        
+                                    </Col>
+                                </Form.Row>
+
                                 {/* Entry Qualifications */}
                                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
-                                    <Col md="9" className="text-left">
+                                    <Col md="9" className="text-left editStudySIMProgForm_InnerCol">
                                         <Form.Label className="editStudySIMProgFormLabel">Choose Entry Qualification(s):</Form.Label>                        
                                         
-                                        <Container className="editStudySIMProgForm_CheckBoxCon">
+                                        <Container className="editStudySIMProgForm_EntryQualCon">
                                             {/* To be retrieved from db - row is generated dynamically */}
                                             <Row>
                                                 <Col>
@@ -184,7 +190,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                 {/* Sub Disciplines */}
                                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
                                     <Col md="9" className="text-left editStudySIMProgForm_InnerCol">
-                                        <Form.Label>Choose Sub-Discipline(s):</Form.Label>                        
+                                        <Form.Label className="editStudySIMProgFormLabel">Choose Sub-Discipline(s):</Form.Label>                        
                                         
                                         <Container className="editStudySIMProgForm_SubDisciplineCon">
                                             {/* To be retrieved from db - row is generated dynamically */}
@@ -193,14 +199,151 @@ export default class EditStudySIMProgModal extends React.Component {
                                                     <Form.Check name="subDiscipline" value="Accounting" type="checkbox" label="Accounting" className="editStudySIMProgForm_CheckBox" />
                                                 </Col>
                                             </Row>
+
                                         </Container>
                                     </Col>
                                 </Form.Row>
                             </Col>
                         </Form.Row>
 
-                    </Form>
-                </Modal.Body>
+                    </Modal.Body>
+
+                    {/* Programme Details Section */}
+                    <Modal.Header>
+                        <Modal.Title id="editStudySIMProgModalTitle" className="w-100">
+                            Programme Details
+                        </Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        {/* Main Row */}
+                        <Form.Row className="justify-content-center editStudySIMProgFormRow">
+                            {/* Left Col */}
+                            <Col md="6" className="editStudySIMProgFormCol text-center">
+                                {/* About Programme */}
+                                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                                    <Col md="9" className="text-left">
+                                        <Form.Label className="editStudySIMProgFormLabel">About Programme</Form.Label>
+
+                                        <FormControl as="textarea" rows="6" required noValidate className="editStudySIMProgForm_TextArea" placeholder="About Programme" />
+                                    </Col>
+                                </Form.Row>
+
+                                {/* Application Period */}
+                                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                                    <Col md="9" className="text-left">
+                                        <Form.Label className="editStudySIMProgFormLabel">Application Period</Form.Label>
+
+                                        <FormControl as="textarea" rows="6" required noValidate className="editStudySIMProgForm_TextArea" placeholder="Application Period" />
+                                    </Col>
+                                </Form.Row>
+
+                                {/* Programme Structure */}
+                                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                                    <Col md="9" className="text-left">
+                                        <Form.Label className="editStudySIMProgFormLabel">Programme Structure</Form.Label>
+
+                                        
+                                        <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                                            {/* Coursework */}
+                                            <Col md="6" className="text-left editStudySIMProgForm_InnerCol">
+                                                <Form.Label className="editStudySIMProgFormLabel">Coursework</Form.Label>
+
+                                                <Container className="editStudySIMProgForm_StructureOverseasCon">
+                                                    {/* To be retrieved from db - row is generated dynamically */}
+                                                    <Row>
+                                                        <Col style={{paddingLeft: "10%"}}>
+                                                            <Form.Check name="coursework" value="True" type="radio" label="Yes" className="editStudySIMProgForm_CheckBox" />
+                                                        </Col>
+                                                    </Row>
+
+                                                </Container>
+                                            </Col>
+
+                                            {/* Examination */}
+                                            <Col md="6" className="text-left editStudySIMProgForm_InnerCol">
+                                                <Form.Label className="editStudySIMProgFormLabel">Examination</Form.Label>
+
+                                                <Container className="editStudySIMProgForm_StructureOverseasCon">
+                                                    {/* To be retrieved from db - row is generated dynamically */}
+                                                    <Row>
+                                                        <Col style={{paddingLeft: "10%"}}>
+                                                            <Form.Check name="examination" value="True" type="radio" label="Yes" className="editStudySIMProgForm_CheckBox" />
+                                                        </Col>
+                                                    </Row>
+
+                                                </Container>
+                                            </Col>
+                                        </Form.Row>
+                                    </Col>
+                                </Form.Row>
+
+                            </Col>
+
+                            {/* Right Col */}
+                            <Col md="6" className="editStudySIMProgFormCol text-center">
+                                {/* Overseas Opportunity */}
+                                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                                    <Col md="9" className="text-left">
+                                        <Form.Label className="editStudySIMProgFormLabel">Overseas Opportunity</Form.Label>
+
+                                        <Form.Row className="justify-content-center">
+                                            {/* Exchange */}
+                                            <Col md="6" className="text-left editStudySIMProgForm_InnerCol">
+                                                <Form.Label className="editStudySIMProgFormLabel">Exchange</Form.Label>
+
+                                                <Container className="editStudySIMProgForm_StructureOverseasCon">
+                                                    {/* To be retrieved from db - row is generated dynamically */}
+                                                    <Row>
+                                                        <Col style={{paddingLeft: "10%"}}>
+                                                            <Form.Check name="exchange" value="True" type="radio" label="Yes" className="editStudySIMProgForm_CheckBox" />
+                                                        </Col>
+                                                    </Row>
+
+                                                </Container>
+                                            </Col>
+
+                                            {/* Transfer */}
+                                            <Col md="6" className="text-left editStudySIMProgForm_InnerCol">
+                                                <Form.Label className="editStudySIMProgFormLabel">Transfer</Form.Label>
+
+                                                <Container className="editStudySIMProgForm_StructureOverseasCon">
+                                                    {/* To be retrieved from db - row is generated dynamically */}
+                                                    <Row>
+                                                        <Col style={{paddingLeft: "8%"}}>
+                                                            <Form.Check name="transfer" value="True" type="radio" label="Yes" className="editStudySIMProgForm_CheckBox" />
+                                                        </Col>
+                                                    </Row>
+
+                                                </Container>
+                                            </Col>
+                                        </Form.Row>
+                                    </Col>
+                                </Form.Row>
+
+                                {/* Intake Month(s) */}
+                                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                                    <Col md="9" className="text-left">
+                                        <Form.Label className="editStudySIMProgFormLabel">Intake Month(s)</Form.Label>
+
+                                        <FormControl as="textarea" rows="4" required noValidate className="editStudySIMProgForm_TextArea" placeholder="Intake Month(s)" />
+                                    </Col>
+                                </Form.Row>
+
+                                {/* Duration */}
+                                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                                    <Col md="9" className="text-left">
+                                        <Form.Label className="editStudySIMProgFormLabel">Duration</Form.Label>
+
+                                        <FormControl as="textarea" rows="4" required noValidate className="editStudySIMProgForm_TextArea" placeholder="Duration" />
+                                    </Col>
+                                </Form.Row>
+
+                            </Col>
+                        </Form.Row>
+                    </Modal.Body>
+
+                </Form>
 
                 <Modal.Footer className="justify-content-center">
                     {/* Edit Programme Talk Save Changes Btn */}

@@ -17,7 +17,7 @@ import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator
 import ViewStudySIMProgDetailsModal from "../../../components/Marketing_Administrator/Study@SIM/ViewStudySIMProgDetailsModal";
 
 
-class StudySIM_ArtsSocialSciences extends Component {
+class StudySIM_ITComputerSciences extends Component {
   constructor() {
     super();
     this.state = {
@@ -58,12 +58,12 @@ class StudySIM_ArtsSocialSciences extends Component {
     const db = fire.firestore();
 
     const userRe1 = db.collection("Programmes").onSnapshot((snapshot) => {
-      const artsocialscience = [];
+      const ITComputerScience = [];
       snapshot.forEach((doc) => {
         const getdiscipline = doc.get("discipline");
         if (
-          getdiscipline.disciplineName1 === "Arts & Social Sciences" ||
-          getdiscipline.disciplineName2 === "Arts & Social Sciences"
+          getdiscipline.disciplineName1 === "IT & Computer Science" ||
+          getdiscipline.disciplineName2 === "IT & Computer Science"
         ) {
           function getKeyByValue(object, value) {
             return Object.keys(object).find((key) => object[key] === value);
@@ -71,7 +71,7 @@ class StudySIM_ArtsSocialSciences extends Component {
 
           var disciplinepath =
             "discipline." +
-            getKeyByValue(getdiscipline, "Arts & Social Sciences");
+            getKeyByValue(getdiscipline, "IT & Computer Science");
 
           const data = {
             docid: doc.id,
@@ -89,11 +89,11 @@ class StudySIM_ArtsSocialSciences extends Component {
             subDiscipline: doc.data().subDiscipline,
           };
 
-          artsocialscience.push(data);
+          ITComputerScience.push(data);
         }
       });
 
-      this.setState({ artsocialscience: artsocialscience });
+      this.setState({ ITComputerScience: ITComputerScience });
     });
   }
 
@@ -178,7 +178,7 @@ class StudySIM_ArtsSocialSciences extends Component {
                       className="text-left MAStudySIMContentHeaderCol"
                     >
                       <h4 className="MAStudySIMHeaderText">
-                        Programmes for Arts & Social Sciences
+                        Programmes for IT & Computer Science
                       </h4>
                     </Col>
 
@@ -245,9 +245,9 @@ class StudySIM_ArtsSocialSciences extends Component {
                             </th>
                           </tr>
                         </thead>
-                        {this.state.artsocialscience &&
-                          this.state.artsocialscience.map(
-                            (artsocialscience, index) => {
+                        {this.state.ITComputerScience &&
+                          this.state.ITComputerScience.map(
+                            (ITComputerScience, index) => {
                               index = index + 1;
                               return (
                                 <tbody>
@@ -256,65 +256,65 @@ class StudySIM_ArtsSocialSciences extends Component {
                                       {index}
                                     </td>
                                     <td className="studySIMProgData_ProgName text-left">
-                                      <a className="studySIMProgData_ProgNameLink" onClick={this.handleViewStudySIMProgDetailsModal}> 
-                                        {/*href={
+                                      <a className="studySIMProgData_ProgNameLink" onClick={this.handleViewStudySIMProgDetailsModal}>
+                                        {/* href={
                                           "/ArtsSocialScienceViewProgramme?id=" +
-                                          artsocialscience.docid
+                                          ITComputerScience.docid
                                         } */}
-                                        {artsocialscience.programmeName}
+                                        {ITComputerScience.programmeName}
                                       </a>
                                     </td>
                                     <td className="studySIMProgData_AwardedBy text-left">
-                                      {artsocialscience.awardBy}
+                                      {ITComputerScience.awardBy}
                                     </td>
                                     <td className="studySIMProgData_LogoFile text-left">
-                                      {artsocialscience.Logofile}
+                                      {ITComputerScience.Logofile}
                                     </td>
                                     <td className="studySIMProgData_Category text-left">
-                                      {artsocialscience.CategoryProgramme}
+                                      {ITComputerScience.CategoryProgramme}
                                     </td>
                                     <td className="studySIMProgData_MoS text-left">
                                       <tr>
-                                        {artsocialscience.ModeOfStudy
+                                        {ITComputerScience.ModeOfStudy
                                           .fullTime === true && (
                                           <span>Full-Time</span>
                                         )}
                                       </tr>
                                       <tr>
-                                        {artsocialscience.ModeOfStudy
+                                        {ITComputerScience.ModeOfStudy
                                           .partTime === true && (
                                           <span>Part-Time</span>
                                         )}
                                       </tr>
                                     </td>
                                     <td className="studySIMProgData_Discipline text-left">
-                                      <tr>{artsocialscience.discipline1}</tr>
-                                      <tr>{artsocialscience.discipline2}</tr>
+                                      <tr>{ITComputerScience.discipline1}</tr>
+                                      <tr>{ITComputerScience.discipline2}</tr>
                                     </td>
                                     <td className="studySIMProgData_AcademicLvl text-left">
-                                      {artsocialscience.AcademicLevel}
+                                      {ITComputerScience.AcademicLevel}
                                     </td>
                                     <td className="studySIMProgData_EntryQual text-left">
                                       <tr>
-                                        {artsocialscience.Qualificaiton
+                                        {ITComputerScience.Qualificaiton
                                           .aLevel === true && (
                                           <span>"A" level</span>
                                         )}
                                       </tr>
                                       <tr>
-                                        {artsocialscience.Qualificaiton
+                                        {ITComputerScience.Qualificaiton
                                           .degree === true && (
                                           <span>Degree</span>
                                         )}
                                       </tr>
                                       <tr>
-                                        {artsocialscience.Qualificaiton
+                                        {ITComputerScience.Qualificaiton
                                           .diploma === true && (
                                           <span>Diploma</span>
                                         )}
                                       </tr>
                                       <tr>
-                                        {artsocialscience.Qualificaiton
+                                        {ITComputerScience.Qualificaiton
                                           .oLevel === true && (
                                           <span>"O" Level</span>
                                         )}
@@ -323,31 +323,31 @@ class StudySIM_ArtsSocialSciences extends Component {
                                     <td className="studySIMProgData_SubDiscipline text-left">
                                       <tr>
                                         {
-                                          artsocialscience.subDiscipline
+                                          ITComputerScience.subDiscipline
                                             .subDisciplineName1
                                         }
                                       </tr>
                                       <tr>
                                         {
-                                          artsocialscience.subDiscipline
+                                          ITComputerScience.subDiscipline
                                             .subDisciplineName2
                                         }
                                       </tr>
                                       <tr>
                                         {
-                                          artsocialscience.subDiscipline
+                                          ITComputerScience.subDiscipline
                                             .subDisciplineName3
                                         }
                                       </tr>
                                       <tr>
                                         {
-                                          artsocialscience.subDiscipline
+                                          ITComputerScience.subDiscipline
                                             .subDisciplineName4
                                         }
                                       </tr>
                                       <tr>
                                         {
-                                          artsocialscience.subDiscipline
+                                          ITComputerScience.subDiscipline
                                             .subDisciplineName5
                                         }
                                       </tr>
@@ -358,45 +358,45 @@ class StudySIM_ArtsSocialSciences extends Component {
                                         onClick={() => {
                                           this.setState({
                                             programmeName:
-                                              artsocialscience.programmeName,
+                                              ITComputerScience.programmeName,
                                             University:
-                                              artsocialscience.awardBy,
+                                              ITComputerScience.awardBy,
                                             category:
-                                              artsocialscience.CategoryProgramme,
+                                              ITComputerScience.CategoryProgramme,
                                             ModeOfStudy:
-                                              artsocialscience.ModeOfStudy,
+                                              ITComputerScience.ModeOfStudy,
                                             discipline1:
-                                              artsocialscience.discipline1,
+                                              ITComputerScience.discipline1,
                                             discipline2:
-                                              artsocialscience.discipline2,
+                                              ITComputerScience.discipline2,
                                             acadamiclevel:
-                                              artsocialscience.AcademicLevel,
+                                              ITComputerScience.AcademicLevel,
                                             olevel:
-                                              artsocialscience.Qualificaiton
+                                              ITComputerScience.Qualificaiton
                                                 .oLevel,
                                             aLevel:
-                                              artsocialscience.Qualificaiton
+                                              ITComputerScience.Qualificaiton
                                                 .aLevel,
                                             degree:
-                                              artsocialscience.Qualificaiton
+                                              ITComputerScience.Qualificaiton
                                                 .degree,
                                             diploma:
-                                              artsocialscience.Qualificaiton
+                                              ITComputerScience.Qualificaiton
                                                 .diploma,
                                             subdisciplne1:
-                                              artsocialscience.subDiscipline
+                                              ITComputerScience.subDiscipline
                                                 .subDisciplineName1,
                                             subdisciplne2:
-                                              artsocialscience.subDiscipline
+                                              ITComputerScience.subDiscipline
                                                 .subDisciplineName2,
                                             subdisciplne3:
-                                              artsocialscience.subDiscipline
+                                              ITComputerScience.subDiscipline
                                                 .subDisciplineName3,
                                             subdisciplne4:
-                                              artsocialscience.subDiscipline
+                                              ITComputerScience.subDiscipline
                                                 .subDisciplineName4,
                                             subdisciplne4:
-                                              artsocialscience.subDiscipline
+                                              ITComputerScience.subDiscipline
                                                 .subDisciplineName4,
                                           });
                                           this.handleEditStudySIMProgModal();
@@ -414,7 +414,7 @@ class StudySIM_ArtsSocialSciences extends Component {
                                         className="deleteStudySIMProgBtn"
                                         onClick={() => {
                                           this.setState({
-                                            docid: artsocialscience.docid,
+                                            docid: ITComputerScience.docid,
                                           });
                                           this.handleDeleteStudySIMProgModal();
                                         }}
@@ -491,7 +491,7 @@ class StudySIM_ArtsSocialSciences extends Component {
           />
         </Modal>
 
-        {/* Delete Programme Modal */}
+        {/* Delete Programme Talk Modal */}
         <Modal
           show={this.state.deleteStudySIMProgModal}
           onHide={this.handleDeleteStudySIMProgModal}
@@ -509,7 +509,7 @@ class StudySIM_ArtsSocialSciences extends Component {
             handleCancelDelete={this.handleDeleteStudySIMProgModal}
           />
         </Modal>
-
+        
         {/* View Programme Details Modal */}
         <Modal
           show={this.state.viewStudySIMProgDetailsModal}
@@ -526,4 +526,4 @@ class StudySIM_ArtsSocialSciences extends Component {
     );
   }
 }
-export default StudySIM_ArtsSocialSciences;
+export default StudySIM_ITComputerSciences;

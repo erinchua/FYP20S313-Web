@@ -1,4 +1,4 @@
-.GuidedTours-container {
+.GamesActivities-container {
     min-height: 100vh;
     overflow-y: auto;
     flex: 1 0 auto;
@@ -6,36 +6,36 @@
     padding: 0 !important;
 }
 
-.GuidedTours-content {
+.GamesActivities-content {
     background-color: #ffffff;
     min-height: 84vh;
     padding: 0 !important;
 }
 
-#GuidedTours-topContentContainer {
+#GamesActivities-topContentContainer {
     background-color: #ffffff;
     min-height: 84vh;
     padding: 0 !important;
 }
 
-#GuidedTours-firstRow {
+#GamesActivities-firstRow {
     background-color: #88B7B5;
     height: 13vh;
     margin: 0 !important;
 }
 
-#GuidedTours-firstRowCol {
+#GamesActivities-firstRowCol {
     height: 100%;
     width: 100%;
     padding-top: 2%;
     padding-bottom: 2%;
 }
 
-#GuidedTours-title {
+#GamesActivities-title {
     color: #424242;
 }
 
-#GuidedTours-addBtn {
+#GamesActivities-addBtn {
     background: none;
     border: 1px solid #424242;
     color: #424242;
@@ -43,107 +43,107 @@
     border-radius: 6px;
 }
 
-#GuidedTours-addBtn:hover {
+#GamesActivities-addBtn:hover {
     background: #424242;
     border-color: #424242;
     color: white;
 }
 
-#GuidedTours-addBtn:focus {
+#GamesActivities-addBtn:focus {
     box-shadow: none;
 }
 
-#GuidedTours-addBtnText {
+#GamesActivities-addBtnText {
     margin-left: 10%;
 }
 
-#GuidedTours-secondRow {
+#GamesActivities-secondRow {
     margin: 0 !important;
 }
 
-#GuidedTours-secondRowCol {
+#GamesActivities-secondRowCol {
     padding: 0 !important;
 }
 
-.GuidedTours-secondInnerRow {
+.GamesActivities-secondInnerRow {
     margin: 0 !important;
 }
 
-.GuidedTours-secondInnerCol {
+.GamesActivities-secondInnerCol {
     padding: 0 !important;
 }
 
-.GuidedTours-navItemCon {
+.GamesActivities-navItemCon {
     padding: 0 !important;
 }
 
-.GuidedTours-navItems {
+.GamesActivities-navItems {
     background-color: #e4f2f0;
 }
 
-.GuidedTours-navLinks {
+.GamesActivities-navLinks {
     color: #424242;
     font-weight: bold;
 }
 
-.GuidedTours-navLinks:hover {
+.GamesActivities-navLinks:hover {
     background-color: #62929E;
     color: white;
     border-color: #62929E !important;
 }
 
-.GuidedTours-navLinks:focus {
+.GamesActivities-navLinks:focus {
     background-color: #62929E;
     color: white;
     border-color: #62929E !important;
 }
 
-.GuidedTours-nav .GuidedTours-navLinks.active {
+.GamesActivities-nav .GamesActivities-navLinks.active {
     background-color: #62929E !important;
     color: white !important;
     border-color: #62929E !important;
 }
 
 /* -- Day 1 and 2 Content -- */
-.GuidedTours-tableColCon {
+.GamesActivities-tableColCon {
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
 
 
-.GuidedTours-tableCon {
+.GamesActivities-tableCon {
     width: 100%;
     margin-bottom: 0;
     max-width: 100%;
 }
 
-.GuidedTours-tableHeader {
+.GamesActivities-tableHeader {
     color: #424242;
     font-size: 90%;
 }
 
-.GuidedTours-tableBody {
+.GamesActivities-tableBody {
     color: #434343;
     font-size: 85%;
 }
 
-#GuidedTours-editBtn {
+#GamesActivities-editBtn {
     background: none;
     border: none;
     color: #434343;
 }
 
-#GuidedTours-editBtn:focus {
+#GamesActivities-editBtn:focus {
     box-shadow: none;
 }
 
-#GuidedTours-deleteBtn {
+#GamesActivities-deleteBtn {
     background: none;
     border: none;
     color: #434343;
 }
 
-#GuidedTours-deleteBtn:focus {
+#GamesActivities-deleteBtn:focus {
     box-shadow: none;
 }
 
@@ -153,30 +153,30 @@
 }
 
 /* -- Add/Edit Modal -- */
-.GuidedTours-formGroup {
+.GamesActivities-formGroup {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#GuidedTours-modalTitle {
+#GamesActivities-modalTitle {
     color: #424242;
     text-align: center;
 }
 
-#GuidedTours-addfooter, #GuidedTours-editFooter {
+#GamesActivities-addfooter, #GamesActivities-editFooter {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.GuidedTours-addFooterCol, .GuidedTours-editFooterCol{
+.GamesActivities-addFooterCol, .GamesActivities-editFooterCol{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#GuidedTours-submitBtn {
+#GamesActivities-submitBtn {
     width: 40%;
     background: #60c6d9;
     border: 1px solid #60c6d9;
@@ -184,11 +184,11 @@
     color: white;    
 }
 
-#GuidedTours-submitBtn:focus {
+#GamesActivities-submitBtn:focus {
     box-shadow: none;    
 }
 
-#GuidedTours-saveBtn {
+#GamesActivities-saveBtn {
     width: 40%;
     background: #60c6d9;
     border: 1px solid #60c6d9;
@@ -196,11 +196,11 @@
     color: white;    
 }
 
-#GuidedTours-saveBtn:focus {
+#GamesActivities-saveBtn:focus {
     box-shadow: none;    
 }
 
-#GuidedTours-cancelBtn {
+#GamesActivities-cancelBtn {
     width: 40%;
     background: none;
     border: 1px solid #60c6d9;
@@ -208,11 +208,11 @@
     color: #60c6d9;    
 }
 
-#GuidedTours-cancelBtn:focus {
+#GamesActivities-cancelBtn:focus {
     box-shadow: none;    
 }
 
-#GuidedTours-inputFields {
+#GamesActivities-inputFields {
     border: none;
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
@@ -220,21 +220,21 @@
     font-size: 85%;
 }
 
-#GuidedTours-inputFields:focus {
+#GamesActivities-inputFields:focus {
     box-shadow: none;
 }
 
  /* -- Delete Modal -- */
-.GuidedTours-deleteFooterCol {
+.GamesActivities-deleteFooterCol {
     padding-bottom: 4%;
 }
 
-#GuidedTours-deleteText {
+#GamesActivities-deleteText {
     font-size: 95%;
     color: #424242;
 }
 
-#GuidedTours-deleteConfirmBtn {
+#GamesActivities-deleteConfirmBtn {
     width: 40%;
     background: none;
     border: 1px solid #EA526F;
@@ -242,11 +242,11 @@
     color: #EA526F
 }
 
-#GuidedTours-deleteConfirmBtn:focus {
+#GamesActivities-deleteConfirmBtn:focus {
     box-shadow: none;    
 }
 
-#GuidedTours-deleteCancelBtn {
+#GamesActivities-deleteCancelBtn {
     width: 40%;
     background: #EA526F;
     border: 1px solid #EA526F;
@@ -254,6 +254,6 @@
     color: white;
 }
 
-#GuidedTours-deleteCancelBtn:focus {
+#GamesActivities-deleteCancelBtn:focus {
     box-shadow: none;    
 }

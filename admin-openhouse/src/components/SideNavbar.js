@@ -24,7 +24,7 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 const renderProgrammeTalks = (props) => (
     <Tooltip id="button-tooltip" {...props}>
         <Nav.Link href="/ProgrammeTalkSchedule" className="sideNavBar-navLinks">Schedule</Nav.Link>
-        <Nav.Link href="/LiveTalk" className="sideNavBar-navLinks">Live Streams</Nav.Link>
+        <Nav.Link href="/LiveTalk" className="sideNavBar-navLinks">Live Talks</Nav.Link>
         <Nav.Link href="/PastRecording" className="sideNavBar-navLinks">Past Recordings</Nav.Link>
     </Tooltip>
 );
@@ -110,6 +110,7 @@ export default class SideNavBar extends React.Component {
                             <div className="border"></div>
                             <Nav.Item className="sideNavBar-navItems">
                                 <Nav.Link href="/Openhouse" className="sideNavBar-navLinks">Open House Dates</Nav.Link>
+                                <Nav.Link href="/" className="sideNavBar-navLinks">Attendance Taking Scanner</Nav.Link>
                             </Nav.Item>
                             <div className="border"></div>
                             <Nav.Item className="sideNavBar-navItems">
@@ -166,10 +167,10 @@ export default class SideNavBar extends React.Component {
                                                 <Accordion.Collapse eventKey="4">
                                                     <div>
                                                         <Nav.Link href="/Arts&SocialSciences" className="sideNavBar-inner-navLinks">Arts & Social Sciences</Nav.Link>
-                                                        <Nav.Link href="#" className="sideNavBar-inner-navLinks">Business</Nav.Link>
-                                                        <Nav.Link href="#" className="sideNavBar-inner-navLinks">IT & Computer Sciences</Nav.Link>
-                                                        <Nav.Link href="#" className="sideNavBar-inner-navLinks">Nursing</Nav.Link>
-                                                        <Nav.Link href="#" className="sideNavBar-inner-navLinks">Speciality</Nav.Link>
+                                                        <Nav.Link href="/Business" className="sideNavBar-inner-navLinks">Business</Nav.Link>
+                                                        <Nav.Link href="/IT&ComputerSciences" className="sideNavBar-inner-navLinks">IT & Computer Sciences</Nav.Link>
+                                                        <Nav.Link href="/Nursing" className="sideNavBar-inner-navLinks">Nursing</Nav.Link>
+                                                        <Nav.Link href="/Specialty" className="sideNavBar-inner-navLinks">Specialty</Nav.Link>
                                                     </div>
                                                 </Accordion.Collapse>
                                             </Accordion>

@@ -21,6 +21,7 @@
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
+    font-size: 85%;
 }
 
 #editStudySIMProgForm_ProgName:focus {
@@ -32,6 +33,7 @@
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
+    font-size: 85%;
 }
 
 #editStudySIMProgForm_LogoFile:focus {
@@ -43,24 +45,22 @@
     border: none !important;
     border-bottom: 1px solid #c8c8c8 !important;
     border-radius: 0 !important;
+    font-size: 85% !important;
 }
 
-.editStudySIMProgFormSelect {
+.editStudySIMProgFormSelect:focus {
     box-shadow: none !important;
 }
 
 .editStudySIMProgFormSelectOption {
     color: #434343 !important;
+    font-size: 85% !important;
 } 
-
-.editStudySIMProgForm_CheckBoxCon {
-    background: #dff0ef;
-    padding: 2%;
-    border-radius: 6px;
-}
 
 .editStudySIMProgFormLabel {
     color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
 }
 
 .editStudySIMProgForm_CheckBox {
@@ -71,15 +71,55 @@
     height: 80%;
 }
 
+.editStudySIMProgModal .editStudySIMProgForm_MoSCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 10vh;
+    overflow-x: hidden;
+    font-size: 85% !important;
+}
+
+.editStudySIMProgModal .editStudySIMProgForm_EntryQualCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 10vh;
+    overflow-x: hidden;
+    font-size: 85% !important;
+}
+
+.editStudySIMProgModal .editStudySIMProgForm_DisciplineCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 10vh;
+    overflow-x: hidden;
+    font-size: 85% !important;
+}
+
 .editStudySIMProgModal .editStudySIMProgForm_SubDisciplineCon {
     background: #dff0ef;
     padding: 2%;
     border-radius: 6px;
     overflow-y: auto;
-    max-height: 78vh;
+    max-height: 90vh;
     overflow-x: hidden;
+    font-size: 85% !important;
 }
 
+.editStudySIMProgModal .editStudySIMProgForm_StructureOverseasCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 10vh;
+    overflow-x: hidden;
+    font-size: 85% !important;
+}
 
 #saveChangesEditProgFormBtn {
     background: #60c6d9;
@@ -102,4 +142,11 @@
 
 #cancelEditProgFormBtn:focus {
     box-shadow: none;
+}
+
+.editStudySIMProgForm_TextArea {
+    resize: none !important;
+    border-radius: 6px !important;
+    color: #434343 !important;
+    font-size: 85% !important;
 }

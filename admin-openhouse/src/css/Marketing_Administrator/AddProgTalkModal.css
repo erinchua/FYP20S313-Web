@@ -11,8 +11,8 @@
     padding: 0 2% 0 2%;
 }
 
-.addProgTalkFormColInputGrp {
-    width: 90% !important;
+.addProgTalkForm_InnerRow {
+    padding-bottom: 4%;
 }
 
 .addProgTalkFormIconInputGrp {
@@ -25,6 +25,7 @@
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
+    font-size: 85% !important;
 }
 
 #addProgTalkForm_ProgTalkName:focus {
@@ -36,6 +37,7 @@
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
+    font-size: 85% !important;
 }
 
 #addProgTalkForm_Venue:focus {
@@ -46,7 +48,8 @@
     color: #434343 !important;
     border: none !important;
     border-bottom: 1px solid #c8c8c8 !important;
-    width: 90% !important;
+    border-radius: 0 !important;
+    font-size: 85% !important;
 }
 
 .addProgTalkFormSelect:focus {
@@ -55,17 +58,7 @@
 
 .addProgTalkFormSelectOption {
     color: #434343;
-}
-
-#addProgTalkForm_ProgTalkDate {
-    border: none;
-    border-bottom: 1px solid #c8c8c8;
-    border-radius: 0;
-    color: #434343;
-}
-
-#addProgTalkForm_ProgTalkDate:focus {
-    box-shadow: none;
+    font-size: 85% !important;
 }
 
 #addProgTalkForm_ProgTalkStartTime {
@@ -73,6 +66,7 @@
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
+    font-size: 85% !important;
 }
 
 #addProgTalkForm_ProgTalkStartTime:focus {
@@ -84,6 +78,7 @@
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
+    font-size: 85% !important;
 }
 
 #addProgTalkForm_ProgTalkEndTime:focus {
@@ -95,14 +90,42 @@
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
     color: #434343;
+    font-size: 85% !important;
 }
 
 #addProgTalkForm_Capacity:focus {
     box-shadow: none;
 }
 
+.addProgTalkForm_InnerCol {
+    height: 80%;
+}
+
+.addProgTalkModal .addProgTalkForm_DisciplineCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 10vh;
+    overflow-x: hidden;
+    font-size: 85% !important;
+}
+
+.addProgTalkForm_CheckBox {
+    color: #434343;
+}
+
 #addProgTalkForm_ProgTalkDetails {
     resize: none;
+    border-radius: 6px;
+    color: #434343;
+    font-size: 85%;
+}
+
+.addProgTalkFormLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
 }
 
 #addProgTalkFormBtn {

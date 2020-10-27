@@ -1,9 +1,21 @@
-import { faOldRepublic } from "@fortawesome/free-brands-svg-icons";
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
+import { Container, Row, Col, Button, Table, Modal, Tab, Nav, Form, FormControl, InputGroup } from 'react-bootstrap';
 
-//import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
+import "../../../css/Marketing_Administrator/ProgrammeTalkPastRec.css";
+import "../../../css/Marketing_Administrator/AddPastRecModal.css";
+import "../../../css/Marketing_Administrator/EditPastRecModal.css";
+import "../../../css/Marketing_Administrator/DeletePastRecModal.css";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd, faChair, faUniversity } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+
+import NavBar from '../../../components/Navbar';
+import Footer from '../../../components/Footer';
+import SideNavBar from '../../../components/SideNavbar';
+
 
 class PastRecording extends Component {
   constructor() {
@@ -44,6 +56,7 @@ class PastRecording extends Component {
       }
     });
   }
+
   updateInput = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -58,131 +71,118 @@ class PastRecording extends Component {
     var getYear = new Date().getFullYear();
     console.log(getYear);
     
-              const db = fire.firestore();
-              const pastrecording = [];
-              const userRef = db
-              .collection("ProgrammeTalks")
-               .get()
-                .then((snapshot) => {
-                  
-                  snapshot.forEach((doc) => {
-                    
-                    pastrecording.push(doc.data().date);
-                  
-                  });
-          
-                  console.log(pastrecording);
-                  
-                  function onlyUnique(value, index, self) {
-                    return self.indexOf(value) === index;
-                  }
-               
-                 var unique = pastrecording.filter(onlyUnique);
-                  console.log(unique);
-               //day1
-               const day1date = [];
-               day1date.push(unique[0]);
-               this.setState({ day1date: day1date });
-                const day1  = db
-                .collection("ProgrammeTalks").where("date", "==", unique[0])
-                .where("hasRecording", "==", true)
-                  .get()
-                  .then((snapshot) => {
-                    const pastrecording = [];
-                    snapshot.forEach((doc) => {
-                      const data = {
-                        docid : doc.id,
-                        id: doc.data().id,
-                        talkName:doc.data().talkName,
-                        awardingUni : doc.data().awardingUni,
-                        startTime:  doc.data().startTime,     
-                        endTime: doc.data().endTime,
-                        venue: doc.data().venue,
-                        capacityLimit: doc.data().capacityLimit,
-                        noRegistered: doc.data().noRegistered,
-                        hasRecording: doc.data().hasRecording.toString(),
-                        link : doc.data().link,
-                        isLive: doc.data().isLive.toString(),
-                   };
-                   pastrecording.push(data);
-                   
-                    
-                    });
-   
-                 
-                    
-                    this.setState({ day1: pastrecording });
-                                    
-                  });
-                  //day 2
-                  const day2date = [];
-                  day2date.push(unique[1]);
-                  this.setState({ day2date: day2date });
-                  const day2  = db
-                  .collection("ProgrammeTalks").where("date", "==", unique[1])
-                  .where("hasRecording", "==", true)
-                    .get()
-                    .then((snapshot) => {
-                      const pastrecording = [];
-                      snapshot.forEach((doc) => {
-                        const data = {
-                          docid : doc.id,
-                          id: doc.data().id,
-                          talkName:doc.data().talkName,
-                          awardingUni : doc.data().awardingUni,
-                          startTime:  doc.data().startTime,     
-                          endTime: doc.data().endTime,
-                          venue: doc.data().venue,
-                          capacityLimit: doc.data().capacityLimit,
-                          noRegistered: doc.data().noRegistered,
-                          hasRecording: doc.data().hasRecording.toString(),
-                          link : doc.data().link,
-                          isLive: doc.data().isLive.toString(),
-                       
-                        };
-                        pastrecording.push(data);
-                    
-                      
-                      });
-                      this.setState({ day2: pastrecording });
-                    
-                    });
+    const db = fire.firestore();
+    const pastrecording = [];
+    const userRef = db
+    .collection("ProgrammeTalks")
+    .get()
+    .then((snapshot) => {
+      snapshot.forEach((doc) => {
+        pastrecording.push(doc.data().date);
+      });
+      console.log(pastrecording);
+      
+      function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+      }
+      
+      var unique = pastrecording.filter(onlyUnique);
+      console.log(unique);
 
-                });
-  
-  
-               
-            }
+      //day1
+      const day1date = [];
+      day1date.push(unique[0]);
+      this.setState({ day1date: day1date });
+
+      const day1  = db
+      .collection("ProgrammeTalks").where("date", "==", unique[0])
+      .where("hasRecording", "==", true)
+      .get()
+      .then((snapshot) => {
+        const pastrecording = [];
+        snapshot.forEach((doc) => {
+          const data = {
+            docid : doc.id,
+            id: doc.data().id,
+            talkName:doc.data().talkName,
+            awardingUni : doc.data().awardingUni,
+            startTime:  doc.data().startTime,     
+            endTime: doc.data().endTime,
+            venue: doc.data().venue,
+            capacityLimit: doc.data().capacityLimit,
+            noRegistered: doc.data().noRegistered,
+            hasRecording: doc.data().hasRecording.toString(),
+            link : doc.data().link,
+            isLive: doc.data().isLive.toString(),
+          };
+          pastrecording.push(data);  
+        });
+        this.setState({ day1: pastrecording });
+      });
+                  
+      //day 2
+      const day2date = [];
+      day2date.push(unique[1]);
+      this.setState({ day2date: day2date });
+      const day2  = db
+      .collection("ProgrammeTalks").where("date", "==", unique[1])
+      .where("hasRecording", "==", true)
+      .get()
+      .then((snapshot) => {
+        const pastrecording = [];
+        snapshot.forEach((doc) => {
+          const data = {
+            docid : doc.id,
+            id: doc.data().id,
+            talkName:doc.data().talkName,
+            awardingUni : doc.data().awardingUni,
+            startTime:  doc.data().startTime,     
+            endTime: doc.data().endTime,
+            venue: doc.data().venue,
+            capacityLimit: doc.data().capacityLimit,
+            noRegistered: doc.data().noRegistered,
+            hasRecording: doc.data().hasRecording.toString(),
+            link : doc.data().link,
+            isLive: doc.data().isLive.toString(),
+          
+          };
+          pastrecording.push(data);
+        });
+        this.setState({ day2: pastrecording });
+      });
+    });    
+  }
 
   addPastRecording = (e) => {
     e.preventDefault();
     var recordingvalue = document.getElementById("recordingvalue");
     var livestatus = document.getElementById("livestatus");
-     recordingvalue = recordingvalue.options[recordingvalue.selectedIndex].value;
-     livestatus = livestatus.options[livestatus.selectedIndex].value;
+    recordingvalue = recordingvalue.options[recordingvalue.selectedIndex].value;
+    livestatus = livestatus.options[livestatus.selectedIndex].value;
     recordingvalue = (recordingvalue === "true");
-   livestatus = (livestatus === "true");
+    livestatus = (livestatus === "true");
 
     const db = fire.firestore();
-      var lastdoc = db.collection("ProgrammeTalks").orderBy('id','desc')
-      .limit(1).get().then((snapshot) =>  {
-        snapshot.forEach((doc) => {
-  var docid= "";
-          var res = doc.data().id.substring(5, 10);
+    var lastdoc = db.collection("ProgrammeTalks").orderBy('id','desc')
+    .limit(1).get().then((snapshot) =>  {
+      snapshot.forEach((doc) => {
+        var docid= "";
+        var res = doc.data().id.substring(5, 10);
         var id = parseInt(res)
         if(id.toString().length <= 1){
           docid= "talk-00" + (id +1) 
-          }
-          else if(id.toString().length <= 2){
-            docid= "talk-0" + (id +1) 
-            }
-          else{
-            docid="talk-0" + (id +1) 
-          }
-          const userRef = db
-          .collection("ProgrammeTalks")
-          .doc(docid)
-          .set({
+        }
+        else if(id.toString().length <= 2){
+          docid= "talk-0" + (id +1) 
+        }
+        else{
+          docid="talk-0" + (id +1) 
+        }
+
+        const userRef = db
+        .collection("ProgrammeTalks")
+        .doc(docid)
+        .set({
           awardingUni: this.state.awardingUni,
           capacityLimit: this.state.capacityLimit,
           date: this.state.date,
@@ -195,24 +195,24 @@ class PastRecording extends Component {
           venue: this.state.venue,
           link: this.state.link,
           id: docid,
-          })
-          .then(function () {
-            window.location.reload();
-          });
         })
+        .then(function () {
+          window.location.reload();
+        });
       })
+    })
   };
 
   DeletePastRecording(e, pastrecordingid) {
     const db = fire.firestore();
     const userRef = db
-      .collection("ProgrammeTalks")
-      .doc(pastrecordingid)
-      .delete()
-      .then(function () {
-        alert("Deleted");
-        window.location.reload();
-      });
+    .collection("ProgrammeTalks")
+    .doc(pastrecordingid)
+    .delete()
+    .then(function () {
+      alert("Deleted");
+      window.location.reload();
+    });
   }
 
   update(e, pastrecordingid) {
@@ -226,20 +226,20 @@ class PastRecording extends Component {
     const db = fire.firestore();
     if (talkName != null && awardingUni != null && startTime != null && endTime != null && venue != null && link != null) {
       const userRef = db
-        .collection("ProgrammeTalks")
-        .doc(pastrecordingid)
-        .update({
-            awardingUni: awardingUni,
-            endTime: endTime,
-            startTime: startTime,
-            talkName: talkName,
-            venue: venue,
-            link: link,
-        })
-        .then(function () {
-          alert("Updated");
-          window.location.reload();
-        });
+      .collection("ProgrammeTalks")
+      .doc(pastrecordingid)
+      .update({
+        awardingUni: awardingUni,
+        endTime: endTime,
+        startTime: startTime,
+        talkName: talkName,
+        venue: venue,
+        link: link,
+      })
+      .then(function () {
+        alert("Updated");
+        window.location.reload();
+      });
     }
   }
 
@@ -254,41 +254,46 @@ class PastRecording extends Component {
     document.getElementById(pastrecordingid + "updatebutton").removeAttribute("hidden");
     document.getElementById(pastrecordingid + "cancelbutton").removeAttribute("hidden");
     var texttohide = document.getElementsByClassName(
-        pastrecordingid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }  
-}
+      pastrecordingid + "text"
+    );
+    for (var i = 0; i < texttohide.length; i++) {
+      texttohide[i].setAttribute("hidden", "");
+    }  
+  }
 
-  CancelEdit(e, pastrecordingid) {
-    document.getElementById(pastrecordingid + "spantalkname").setAttribute("hidden", "");
-    document.getElementById(pastrecordingid + "spanawarduni").setAttribute("hidden", "");
-    document.getElementById(pastrecordingid + "spanstarttime").setAttribute("hidden", "");
-    document.getElementById(pastrecordingid + "spanendtime").setAttribute("hidden", "");
-    document.getElementById(pastrecordingid + "spanvenue").setAttribute("hidden", "");
-    document.getElementById(pastrecordingid + "spanlink").setAttribute("hidden", "");
-    document.getElementById(pastrecordingid + "editbutton").removeAttribute("hidden");
-    document.getElementById(pastrecordingid + "updatebutton").setAttribute("hidden", "");
-    document.getElementById(pastrecordingid + "cancelbutton").setAttribute("hidden", "");
-    var texttohide = document.getElementsByClassName(
-        pastrecordingid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].removeAttribute("hidden", "");
-      }
-}
+  // CancelEdit(e, pastrecordingid) {
+  //   document.getElementById(pastrecordingid + "spantalkname").setAttribute("hidden", "");
+  //   document.getElementById(pastrecordingid + "spanawarduni").setAttribute("hidden", "");
+  //   document.getElementById(pastrecordingid + "spanstarttime").setAttribute("hidden", "");
+  //   document.getElementById(pastrecordingid + "spanendtime").setAttribute("hidden", "");
+  //   document.getElementById(pastrecordingid + "spanvenue").setAttribute("hidden", "");
+  //   document.getElementById(pastrecordingid + "spanlink").setAttribute("hidden", "");
+  //   document.getElementById(pastrecordingid + "editbutton").removeAttribute("hidden");
+  //   document.getElementById(pastrecordingid + "updatebutton").setAttribute("hidden", "");
+  //   document.getElementById(pastrecordingid + "cancelbutton").setAttribute("hidden", "");
+  //   var texttohide = document.getElementsByClassName(
+  //     pastrecordingid + "text"
+  //   );
+  //   for (var i = 0; i < texttohide.length; i++) {
+  //     texttohide[i].removeAttribute("hidden", "");
+  //   }
+  // }
+
 
   render() {
     return (
-      <div className="home">
+      <div>
+        
+
+
+
+
         {/* day1 */}
-        <div>
-        {this.state.day1date &&
-                this.state.day1date.map((day1) => {
-                  return (
-                    <p>{day1}</p>
-                  )})}
+        {/* <div>
+        {this.state.day1date && this.state.day1date.map((day1) => {
+          return (
+            <p>{day1}</p>
+          )})}
           <table id="users" class="table table-bordered"> 
             <tbody>
               <tr>
@@ -397,54 +402,33 @@ class PastRecording extends Component {
                       {day1.link}
                         </span>
                           
-                          <span id={day1.docid + "spanlink"} hidden>
-                          <input
-                            id={day1.docid + "link"}
-                            defaultValue={day1.link}
-                            type="text"
-                            name={day1.docid + "link"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={day1.link}
-                            required
-                          />
+                        <span id={day1.docid + "spanlink"} hidden>
+                        <input
+                          id={day1.docid + "link"}
+                          defaultValue={day1.link}
+                          type="text"
+                          name={day1.docid + "link"}
+                          class="form-control"
+                          aria-describedby="emailHelp"
+                          placeholder={day1.link}
+                          required
+                        />
                         </span>            
                       </td>
                       <td>
-                        <button
-                          id={day1.docid + "editbutton"}
-                          onClick={(e) => {
-                            this.editPastRecording(e, day1.docid);
-                          }}
-                        >
+                        <button id={day1.docid + "editbutton"}onClick={(e) => {this.editPastRecording(e, day1.docid); }}>
                           Edit
                         </button>
 
-                        <button
-                          id={day1.docid + "updatebutton"}
-                          hidden
-                          onClick={(e) => {
-                            this.update(e, day1.docid);
-                          }}
-                        >
+                        <button id={day1.docid + "updatebutton"} hidden onClick={(e) => {this.update(e, day1.docid);}}>
                           Update
                         </button>
-                        <button
-                          hidden
-                          id={day1.docid + "cancelbutton"}
-                          onClick={(e) => {
-                            this.CancelEdit(e, day1.docid);
-                          }}
-                        >
+                        <button hidden id={day1.docid + "cancelbutton"} onClick={(e) => {this.CancelEdit(e, day1.docid);}}>
                           Cancel
                         </button>
                       </td>
                       <td>
-                        <button
-                          onClick={(e) => {
-                            this.DeletePastRecording(e, day1.docid);
-                          }}
-                        >
+                        <button onClick={(e) => {this.DeletePastRecording(e, day1.docid);}}>
                           Delete
                         </button>
                       </td>
@@ -454,13 +438,13 @@ class PastRecording extends Component {
             </tbody>
           </table>
         </div>
-        <div>
-          {/* day2 */}
-        {this.state.day2date &&
-                this.state.day2date.map((day2) => {
-                  return (
-                    <p>{day2}</p>
-                  )})}
+        <div> */}
+        
+        {/* day2 */}
+        {/* {this.state.day2date && this.state.day2date.map((day2) => {
+          return (
+            <p>{day2}</p>
+          )})}
           <table id="users" class="table table-bordered"> 
             <tbody>
               <tr>
@@ -685,19 +669,17 @@ class PastRecording extends Component {
             required
           />
           <select id = "recordingvalue" required>
-
-<option disabled selected value></option>
-<option value="true">true</option>
-<option value="false">false</option>
-
-</select>
-
-<select id = "livestatus" required>
-<option disabled selected value></option>
+            <option disabled selected value></option>
             <option value="true">true</option>
             <option value="false">false</option>
-        
           </select>
+
+          <select id = "livestatus" required>
+            <option disabled selected value></option>
+            <option value="true">true</option>
+            <option value="false">false</option>
+          </select>
+
           <input
             type="text"
             name="noRegistered"
@@ -715,7 +697,7 @@ class PastRecording extends Component {
             required
           />
           <button type="submit">Add Past Recording</button>
-        </form>
+        </form> */}
       </div>
     );
   }
