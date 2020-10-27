@@ -6,11 +6,11 @@ import { Container, Row, Col, Button, Table, Modal, Tab, Nav, Form, FormControl,
 import "../../../css/Marketing_Administrator/ProgrammeTalkSchedule.css";
 import "../../../css/Marketing_Administrator/AddProgTalkModal.css";
 import "../../../css/Marketing_Administrator/EditProgTalkModal.css";
+import "../../../css/Marketing_Administrator/DeleteProgTalkModal.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd, faChair, faUniversity } from '@fortawesome/free-solid-svg-icons';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
-
 
 import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
@@ -37,6 +37,7 @@ class ProgrammeTalkSchedule extends Component {
       link: "",
       id: "",
       progTalkDetails: "",
+      discipline: "",
       day1: [],
       day2: [],
       day1Date: "",
@@ -44,9 +45,7 @@ class ProgrammeTalkSchedule extends Component {
 
       // University collection
       uniId: "",
-      logo: "",
       universityName: "",
-      url: "",
       uniList: [],
 
       // Discipline collection
@@ -109,9 +108,7 @@ class ProgrammeTalkSchedule extends Component {
         const data = {
           docid: doc.id,
           uniId: doc.data().id,
-          logo: doc.data().logo,
           universityName: doc.data().universityName,
-          url: doc.data().url
         };
         uni_list.push(data);
       });
@@ -153,6 +150,8 @@ class ProgrammeTalkSchedule extends Component {
       const day1date = [];
       day1date.push(unique[0]);
       this.setState({ day1date: day1date });
+      var day1_counter = 1;
+
       const day1  = db
       .collection("ProgrammeTalks").where("date", "==", unique[0])
       .get()
@@ -173,8 +172,11 @@ class ProgrammeTalkSchedule extends Component {
             hasRecording: doc.data().hasRecording.toString(),
             link: doc.data().link,
             isLive: doc.data().isLive.toString(),
-            progTalkDetails: doc.data().details
+            progTalkDetails: doc.data().details,
+            discipline: doc.data().discipline,
+            day1_counter : day1_counter,
           };
+            day1_counter++;
             progtalk.push(data);
         });
         this.setState({ day1: progtalk });
@@ -185,6 +187,7 @@ class ProgrammeTalkSchedule extends Component {
       const day2date = [];
       day2date.push(unique[1]);
       this.setState({ day2: day2date });
+      var day2_counter = 1
 
       const day2  = db
       .collection("ProgrammeTalks").where("date", "==", unique[1])
@@ -207,12 +210,16 @@ class ProgrammeTalkSchedule extends Component {
               link : doc.data().link,
               isLive: doc.data().isLive.toString(),
               progTalkDetails: doc.data().details,
+              discipline: doc.data().discipline,
+              day2_counter: day2_counter,
             };
+            day2_counter++;
             progtalk.push(data);
+            console.log("Prog Talk array:" + progtalk)
           });
           this.setState({ day2: progtalk });   
           this.setState({ day2Date: progtalk[0].date})
-    
+          
         });
 
       });  
@@ -335,7 +342,8 @@ class ProgrammeTalkSchedule extends Component {
       talkName: this.state.talkName,
       venue: this.state.venue,
       link: this.state.link,
-      progTalkDetails: this.state.details
+      progTalkDetails: this.state.details,
+      discipline: this.state.discipline
     });
 
   }
@@ -388,7 +396,8 @@ class ProgrammeTalkSchedule extends Component {
         talkName: day.talkName,
         venue: day.venue,
         link: day.link,
-        progTalkDetails: day.progTalkDetails
+        progTalkDetails: day.progTalkDetails,
+        discipline: day.discipline
       })
     }
     else {
@@ -495,7 +504,7 @@ class ProgrammeTalkSchedule extends Component {
                                         <>
                                           <tbody>
                                             <tr key={day1.id}>
-                                              <td className="progTalkScheduleData_SNo">1</td>
+                                              <td className="progTalkScheduleData_SNo">{day1.day1_counter}</td>
                                               <td className="progTalkScheduleData_ProgTalk text-left">{day1.talkName}</td>
                                               <td className="progTalkScheduleData_ProgTalkDetails text-left">{day1.progTalkDetails}</td>
                                               <td className="progTalkScheduleData_AwardingUni">{day1.awardingUni}</td>
@@ -503,7 +512,7 @@ class ProgrammeTalkSchedule extends Component {
                                               <td className="progTalkScheduleData_EndTime text-left">{day1.endTime}</td>
                                               <td className="progTalkScheduleData_Venue text-left">{day1.venue}</td>
                                               <td className="progTalkScheduleData_Capacity text-center">{day1.capacityLimit}</td>
-                                              <td className="progTalkScheduleData_Discipline text-center">{day1.disciplineName}</td>
+                                              <td className="progTalkScheduleData_Discipline text-center">{day1.discipline}</td>
                                               <td className="progTalkScheduleData_Edit">
                                                 <Button id="editProgTalkScheduleBtn" onClick={()=>this.handleEditProgTalkModal(day1)}>
                                                   <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
@@ -549,7 +558,7 @@ class ProgrammeTalkSchedule extends Component {
                                         <>
                                           <tbody>
                                             <tr key={day2.id}>
-                                              <td className="progTalkScheduleData_SNo">1</td>
+                                              <td className="progTalkScheduleData_SNo">{day2.day2_counter}</td>
                                               <td className="progTalkScheduleData_ProgTalk text-left">{day2.talkName}</td>
                                               <td className="progTalkScheduleData_ProgTalkDetails text-left">{day2.progTalkDetails}</td>
                                               <td className="progTalkScheduleData_AwardingUni">{day2.awardingUni}</td>
@@ -557,7 +566,7 @@ class ProgrammeTalkSchedule extends Component {
                                               <td className="progTalkScheduleData_EndTime text-left">{day2.endTime}</td>
                                               <td className="progTalkScheduleData_Venue text-left">{day2.venue}</td>
                                               <td className="progTalkScheduleData_Capacity text-center">{day2.capacityLimit}</td>
-                                              <td className="progTalkScheduleData_Discipline text-center">{day2.disciplineName}</td>
+                                              <td className="progTalkScheduleData_Discipline text-center">{day2.discipline}</td>
                                               <td className="progTalkScheduleData_Edit">
                                                 <Button id="editProgTalkScheduleBtn" onClick={()=>this.handleEditProgTalkModal(day2)}>
                                                   <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
