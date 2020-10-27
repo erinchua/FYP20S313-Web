@@ -1,0 +1,289 @@
+.MAPastRecCon {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 0 auto;
+    padding: 0 !important;
+}
+
+.MAPastRecContent {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+.MAPastRecContentCon {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#MAPastRecContentHeaderRow {
+    background: #88B7B5;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.MAPastRecContentHeaderCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#MAPastRecHeaderText {
+    color: #424242;
+}
+
+#addPastRecBtn {
+    background: none;
+    color: #424242;
+    min-width: 20%;
+    border-radius: 6px;
+    border: 1px solid #424242;
+}
+
+#addPastRecBtnIcon {
+    margin-right: 5%;
+}
+
+#addPastRecBtnText {
+    margin-left: 5%;
+}
+
+#addPastRecBtn:hover {
+    background: #424242;
+    color: #ffffff;
+    border-color: #424242;
+}
+
+#addPastRecBtn:focus {
+    box-shadow: none;
+}
+
+/*******************************************************/
+/* Tabs Con Css*/
+.MAPastRecContentTabRow {
+    margin: 0 !important;
+}
+
+.MAPastRecContentTabCol {
+    padding: 0 !important;
+}
+
+.MAPastRecTabConRow {
+    margin: 0 !important;
+    padding: 0;
+}
+
+.MAPastRecTabConCol {
+    padding: 0 !important;
+}
+
+.MAPastRecTabConInnerCol {
+    padding: 0 !important;
+}
+
+.MAPastRecTab_NavItem {
+    background: #e4f2f0;
+}
+
+.MAPastRecTab_Day {
+    color: #424242;
+    font-weight: bold;
+}
+
+.MAPastRecTab_Day:focus {
+    color: #ffffff;
+    background: #62929E;
+    border-color: #62929E !important;
+}
+
+.MAPastRecTab_Day:hover {
+    color: #ffffff;
+    background: #62929E;
+    border-color: #62929E !important;
+}
+
+.MAPastRecTabNav .MAPastRecTab_Day.active {
+    background: #62929E !important;
+    color: #ffffff !important;
+    border-color: #62929E !important;   
+}
+
+.MAPastRecTabpaneCol {
+    padding: 0 !important;
+}
+
+/*******************************************************/
+/* Past Rec Table - Day 1 */
+#MAPastRecTable_Day1 {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+.pastRecHeader_SNo {
+    width: 3%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.pastRecHeader_ProgTalk {
+    width: 15%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.pastRecHeader_AwardingUni {
+    width: 12%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.pastRecHeader_StartTime {
+    width: 15%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.pastRecHeader_EndTime {
+    width: 15%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.pastRecHeader_Venue {
+    width: 15%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.pastRecHeader_File {
+    width: 20%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.pastRecHeader_Discipline {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+}
+
+.pastRecHeader_Edit {
+    width: 5%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.pastRecHeader_Delete {
+    width: 5%;
+    color: #424242;
+    font-size: 90%;
+}
+
+/******************* Table Data *******************/
+.pastRecData_SNo {
+    width: 3%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.pastRecData_ProgTalk {
+    width: 15%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.pastRecData_AwardingUni {
+    width: 12%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.pastRecData_StartTime {
+    width: 15%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.pastRecData_EndTime {
+    width: 15%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.pastRecData_Venue {
+    width: 15%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.pastRecData_File {
+    width: 20%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.pastRecData_Discipline {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.pastRecData_Edit {
+    width: 5%;
+    color: #434343;
+    font-size: 85%;
+}
+
+.pastRecData_Delete {
+    width: 5%;
+    color: #434343;
+    font-size: 85%;
+}
+
+#editPastRecBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#editPastRecBtn:focus {
+    box-shadow: none;
+}
+
+#editPastRecBtnIcon {
+    color: #434343;
+}
+
+#deletePastRecBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#deletePastRecBtn:focus {
+    box-shadow: none;
+}
+
+#deletePastRecBtnIcon {
+    color: #434343;
+}
+
+/*******************************************************/
+/* Past Rec Table - Day 2 */
+#MAPastRecTable_Day2 {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
