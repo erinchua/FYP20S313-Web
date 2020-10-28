@@ -21,9 +21,14 @@ const superInitialState = {
     superPasswordError: "",
 }
 
+const crewInitialState = {
+    crewEmailError: "",
+    crewPasswordError: "",
+}
+
 class Login extends Component {
 
-    state = {marketingInitialState, superInitialState};
+    state = {marketingInitialState, superInitialState, crewInitialState};
   
     constructor() {
         super();
@@ -54,7 +59,7 @@ class Login extends Component {
                 .where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
                     if (snapshot.empty) {
-                        alert("no such users");
+                        alert("No such user!");
                     } else {
                         snapshot.forEach((doc) => {
                             if (doc.data().administratorType === "Marketing Administrator") {
@@ -84,12 +89,42 @@ class Login extends Component {
                 .where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
                     if (snapshot.empty) {
-                        alert("no such users");
+                        alert("No such user!");
                     } else {
                         snapshot.forEach((doc) => {
                             if (doc.data().administratorType === "Super Administrator") {
                                 this.setState({ user: "Super Administrator" });
                                 history.push("/SAHome");
+                                window.location.reload();
+                            }  else {
+                                history.push("/Login");
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
+            } else {
+                this.setState({ user: null });
+            }
+        });
+    }
+
+    crewauthListener() {
+        fire.auth().onAuthStateChanged((user) => {
+            if (user) {
+                const db = fire.firestore();
+
+                var getrole = db
+                .collection("Crews")
+                .where("email", "==", user.email);
+                getrole.get().then((snapshot) => {
+                    if (snapshot.empty) {
+                        alert("No such user!");
+                    } else {
+                        snapshot.forEach((doc) => {
+                            if (doc.data().administratorType === "Crew") {
+                                this.setState({ user: "Crew" });
+                                history.push("/AttendanceMarkingScanner");
                                 window.location.reload();
                             }  else {
                                 history.push("/Login");
@@ -144,10 +179,31 @@ class Login extends Component {
         return true;
     }
 
+    validateCrew = () => {
+        let crewEmailError = "";
+        let crewPasswordError = "";
+
+        if (!this.state.email.includes('@')) {
+            crewEmailError = "Please enter valid email!";
+        }
+
+        if (!this.state.password) {
+            crewPasswordError = "Please enter valid password!";
+        }
+
+        if (crewEmailError || crewPasswordError) {
+            this.setState({crewEmailError, crewPasswordError});
+            return false;
+        }
+
+        return true;
+    }
+
     resetForm () {
         this.setState({email: '', password: ''});
         this.setState(marketingInitialState);
         this.setState(superInitialState);
+        this.setState(crewInitialState);
     }
 
     login(e, accounttype) {
@@ -155,16 +211,25 @@ class Login extends Component {
 
         const isMarketingValid = this.validateMarketing();
         const isSuperValid = this.validateSuper();
+        const isCrewValid = this.validateCrew();
 
         if (accounttype === "marketing") {
             this.setState(superInitialState);
+            this.setState(crewInitialState);
             if (isMarketingValid) {
                 this.setState(marketingInitialState);
             }
         } else if (accounttype === "super") {
             this.setState(marketingInitialState);
+            this.setState(crewInitialState);
             if (isSuperValid) {
                 this.setState(superInitialState);
+            }
+        } else if (accounttype === "crew") {
+            this.setState(marketingInitialState);
+            this.setState(superInitialState);
+            if(isCrewValid) {
+                this.setState(crewInitialState);
             }
         }
 
@@ -174,9 +239,10 @@ class Login extends Component {
         .then((u) => {
             if (accounttype === "marketing") {
                 this.marketingauthListener();
-            }
-            else if(accounttype === "super") {
+            } else if (accounttype === "super") {
                 this.superauthListener();
+            } else if (accounttype === "crew") {
+                this.crewauthListener();
             }
         })
         .catch((error) => {
@@ -216,7 +282,7 @@ class Login extends Component {
             <div id="login-content-container">
                 <Tab.Container defaultActiveKey="marketingAdministrator">
                     <Row className="justify-content-center">
-                        <Col md={5}>
+                        <Col md={7}>
                             <Nav fill className="login-tabContainer" variant="tabs" as="ul">
                                 <Nav.Item as="li">
                                     <Nav.Link eventKey="marketingAdministrator" onSelect={this.resetForm} className="login-tabHeading">Marketing Administrator</Nav.Link>
@@ -224,6 +290,10 @@ class Login extends Component {
 
                                 <Nav.Item as="li">
                                     <Nav.Link eventKey="superAdministrator" onSelect={this.resetForm} className="login-tabHeading">Super Administrator</Nav.Link>
+                                </Nav.Item>
+
+                                <Nav.Item as="li">
+                                    <Nav.Link eventKey="eventCrew" onSelect={this.resetForm} className="login-tabHeading">Event Crew</Nav.Link>
                                 </Nav.Item>
                             </Nav>
 
@@ -309,9 +379,46 @@ class Login extends Component {
                                                     </Form.Group> 
                                                 </Form.Group>                          
                                             </Form.Group>
-
                                             <Form.Group className="login-formGroup">
                                                 <Button onClick={(e) => {this.login(e, "super")}} type="submit" size="sm" id="login-button">Login</Button>
+                                            </Form.Group>
+                                        </Form>
+                                    </Container>
+                                </Tab.Pane>
+
+
+                                <Tab.Pane eventKey="eventCrew">
+                                    <Container>
+                                        <div id="simLogo-container">
+                                            <img src={simLogo} id="simLogo"/>
+                                        </div>
+                                        <Form id="login-form" noValidate onSubmit={this.login}>
+                                            <Form.Group>
+                                                <Form.Group as={Row} className="login-formGroup">
+                                                    <Form.Group as={Col} md="1">
+                                                        <FontAwesomeIcon size="lg" icon={faAt} />
+                                                    </Form.Group> 
+                                                    <Form.Group as={Col} md="7">
+                                                        <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
+                                                        <div className="errorMessage">{this.state.crewEmailError}</div>
+                                                    </Form.Group>
+                                                </Form.Group>                     
+                                            </Form.Group>
+
+                                            <Form.Group>
+                                                <Form.Group as={Row} className="login-formGroup">
+                                                    <Form.Group as={Col} md="1">
+                                                        <FontAwesomeIcon size="lg" icon={faLock} />
+                                                    </Form.Group> 
+                                                    <Form.Group as={Col} md="7">
+                                                        <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
+                                                        <div className="errorMessage">{this.state.crewPasswordError}</div>
+                                                    </Form.Group>
+                                                </Form.Group>                            
+                                            </Form.Group>
+
+                                            <Form.Group className="login-formGroup">
+                                                <Button onClick={(e) => {this.login(e, "crew")}} type="submit" size="sm" id="login-button">Login</Button>
                                             </Form.Group>
                                         </Form>
                                     </Container>

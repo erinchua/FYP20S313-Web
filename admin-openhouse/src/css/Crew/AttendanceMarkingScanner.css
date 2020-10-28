@@ -1,0 +1,45 @@
+.AttendanceMarking-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.AttendanceMarking-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#AttendanceMarking-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#AttendanceMarking-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#AttendanceMarking-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#AttendanceMarking-title {
+    color: #424242;
+}
+
+#AttendanceMarking-secondRow {
+    margin: 0 !important;
+}
+
+#AttendanceMarking-secondRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
