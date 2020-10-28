@@ -490,7 +490,9 @@ class PastRecording extends Component {
                                             <td className="pastRecData_StartTime text-left">{day1.startTime}</td>
                                             <td className="pastRecData_EndTime text-left">{day1.endTime}</td>
                                             <td className="pastRecData_Venue text-left">{day1.venue}</td>
-                                            <td className="pastRecData_File text-left">{day1.link}</td>
+                                            <td className="pastRecData_File text-left">
+                                              <a href={day1.link} className="pastRecData_FileLink">{day1.link}</a>
+                                            </td>
                                             <td className="pastRecData_Discipline text-center">{day1.discipline}</td>
                                             <td className="pastRecData_Edit">
                                               <Button id="editPastRecBtn" onClick={()=>this.handleEditPastRecModal(day1)}>
@@ -541,7 +543,9 @@ class PastRecording extends Component {
                                             <td className="pastRecData_StartTime text-left">{day2.startTime}</td>
                                             <td className="pastRecData_EndTime text-left">{day2.endTime}</td>
                                             <td className="pastRecData_Venue text-left">{day2.venue}</td>
-                                            <td className="pastRecData_File text-left">{day2.link}</td>
+                                            <td className="pastRecData_File text-left">
+                                              <a href={day2.link} className="pastRecData_FileLink">{day2.link}</a>
+                                            </td>
                                             <td className="pastRecData_Discipline text-center">{day2.discipline}</td>
                                             <td className="pastRecData_Edit">
                                               <Button id="editPastRecBtn" onClick={()=>this.handleEditPastRecModal(day2)}>

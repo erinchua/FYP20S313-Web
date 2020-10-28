@@ -228,6 +228,10 @@
     word-break: break-all;
 }
 
+.progLiveTalkData_LinkHref:Hover {
+    color: #88B7B5 !important;
+}
+
 .progLiveTalkData_Edit {
     width: 5%;
     color: #434343;
