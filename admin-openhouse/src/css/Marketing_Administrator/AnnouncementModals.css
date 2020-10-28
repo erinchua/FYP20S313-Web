@@ -1,0 +1,210 @@
+/**********************************************************************************************/
+/* Add Announcement Modal Css */
+/**********************************************************************************************/
+#addAnnouncementModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.addAnnouncementFormRow {
+    padding-bottom: 4%;
+}
+
+.addAnnouncementFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.addAnnouncementForm_Textarea {
+    resize: none;
+    border-radius: 6px;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+.addAnnouncementFormLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
+}
+
+#addAnnouncementFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+    width: 20%;
+}
+
+#addAnnouncementFormBtn:focus {
+    box-shadow: none;
+}
+
+/*********** Schedule DateTime ***********/
+.scheduleAnnouncementSwitch {
+    margin-left: 3%;
+}
+
+.addAnnouncementFormIconInputGrp {
+    background: transparent !important;
+    border: none !important;
+}
+
+.addAnnouncementFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    border-radius: 0 !important;
+    font-size: 85% !important;
+}
+
+.addAnnouncementFormSelect:focus {
+    box-shadow: none !important;
+}
+
+.addAnnouncementFormSelectOption {
+    color: #434343;
+    font-size: 85% !important;
+}
+
+.addAnnouncementInnerDateTimeCol_Icon {
+    width: 10% !important;
+}
+
+.addAnnouncementInnerTimeCol_HrMin {
+    width: 29% !important;
+}
+
+.addAnnouncementInnerTime_Text {
+    color: #424242;
+}
+
+.scheduleAnnouncementSwitch .custom-control-input:checked~.custom-control-label::before {
+    background: #60c6d9 !important;
+    border-color: #60c6d9;
+}
+
+/**********************************************************************************************/
+/* Edit Announcement Modal Css */
+/**********************************************************************************************/
+#editAnnouncementModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.editAnnouncementFormRow {
+    padding-bottom: 4%;
+}
+
+.editAnnouncementFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.editAnnouncementForm_Textarea {
+    resize: none;
+    border-radius: 6px;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+.editAnnouncementFormLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
+}
+
+#saveChangesAnnouncementFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+}
+
+#saveChangesAnnouncementFormBtn:focus {
+    box-shadow: none;
+}
+
+#cancelEditAnnouncementFormBtn {
+    background: none;
+    border: 1px solid #60c6d9;
+    color: #60c6d9;
+    border-radius: 6px;
+}
+
+#cancelEditAnnouncementFormBtn:focus {
+    box-shadow: none;
+}
+
+/*********** Schedule DateTime ***********/
+.editAnnouncementFormIconInputGrp {
+    background: transparent !important;
+    border: none !important;
+}
+
+.editAnnouncementFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    border-radius: 0 !important;
+    font-size: 85% !important;
+}
+
+.editAnnouncementFormSelect:focus {
+    box-shadow: none !important;
+}
+
+.editAnnouncementFormSelectOption {
+    color: #434343;
+    font-size: 85% !important;
+}
+
+.editAnnouncementInnerDateTimeCol_Icon {
+    width: 10% !important;
+}
+
+.editAnnouncementInnerTimeCol_HrMin {
+    width: 29% !important;
+}
+
+.editAnnouncementInnerTime_Text {
+    color: #424242;
+}
+
+
+/**********************************************************************************************/
+/* Delete Announcement Modal Css */
+/**********************************************************************************************/
+#deleteAnnouncementModalTitle {
+    font-size: 95%;
+    color: #EA526F;
+}
+
+.deleteAnnouncementModalCol {
+    padding-bottom: 4%;
+}
+
+#deleteAnnouncementModalText {
+    font-size: 90%;
+    color: #424242;
+}
+
+#confirmDeleteAnnouncementModalBtn {
+    background: none;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #EA526F;
+    width: 40%;
+}
+
+#confirmDeleteAnnouncementModalBtn:focus {
+    box-shadow: none;
+}
+
+#cancelDeleteAnnouncementModalBtn {
+    background: #EA526F;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #ffffff;
+    width: 40%;
+}
+
+#cancelDeleteAnnouncementModalBtn:focus {
+    box-shadow: none;
+}
