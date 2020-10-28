@@ -13,7 +13,7 @@ class GettingToSIMHQ extends Component {
       modeOfTransport: "",
       busNo: "",
       nearestMRT: "",
-      URL: "",
+      url: "",
       progress: "",
     };
   }
@@ -56,13 +56,13 @@ display() {
 
     //Map Image File
     const image = db
-      .collection("CampusLocation").doc("mapImage")
+      .collection("CampusLocation").doc("map")
       .get()
       .then((snapshot) => {
         const maparray = [];
         const image = snapshot.data();
         const data = {
-          URL: image.URL ,
+          url: image.url ,
           
         };
         maparray.push(data); 

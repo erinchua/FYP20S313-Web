@@ -44,9 +44,7 @@ class StudySIMBrochure extends Component {
   };
 
   componentDidMount() {
-    
     this.authListener();
- 
   }
 
   display() {
@@ -55,9 +53,12 @@ class StudySIMBrochure extends Component {
     //Display of Prospectus Brochures
     const userRef = db
       .collection("Brochures")
+      .where("id", ">=", "prospect-")
+      .where("id", "<=", "prospect-" + "\uf8ff")
       .onSnapshot((snapshot) => {
         const prospectbrochures = [];
         snapshot.forEach((doc) => {
+          console.log(doc.data());
           const data = {
             brochureUrl: doc.data().brochureUrl,
             description: doc.data().description,
@@ -72,95 +73,109 @@ class StudySIMBrochure extends Component {
 
         this.setState({ prospectbrochures: prospectbrochures });
       });
-
-      
   }
   handleFileUpload = (files) => {
     this.setState({
       files: files,
     });
-  
   };
-  
 
   editBrochure(e, brochureid) {
     document.getElementById(brochureid + "upload").removeAttribute("hidden");
-    document.getElementById(brochureid + "spanbrochurefile").removeAttribute("hidden");
-    document.getElementById(brochureid + "editbutton").setAttribute("hidden", "");
-    document.getElementById(brochureid + "updatebutton").removeAttribute("hidden");
-    document.getElementById(brochureid + "cancelbutton").removeAttribute("hidden");
-    var texttohide = document.getElementsByClassName(
-        brochureid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }  
-}
+    document
+      .getElementById(brochureid + "spanbrochurefile")
+      .removeAttribute("hidden");
+    document
+      .getElementById(brochureid + "spanimagefile")
+      .removeAttribute("hidden");
+    document
+      .getElementById(brochureid + "editbutton")
+      .setAttribute("hidden", "");
+    document
+      .getElementById(brochureid + "updatebutton")
+      .removeAttribute("hidden");
+    document
+      .getElementById(brochureid + "cancelbutton")
+      .removeAttribute("hidden");
+    var texttohide = document.getElementsByClassName(brochureid + "text");
+    for (var i = 0; i < texttohide.length; i++) {
+      texttohide[i].setAttribute("hidden", "");
+    }
+  }
 
   CancelEdit(e, brochureid) {
     document.getElementById(brochureid + "upload").setAttribute("hidden", "");
-    document.getElementById(brochureid + "spanbrochurefile").setAttribute("hidden", "");
-    document.getElementById(brochureid + "editbutton").removeAttribute("hidden");
-    document.getElementById(brochureid + "updatebutton").setAttribute("hidden", "");
-    document.getElementById(brochureid + "cancelbutton").setAttribute("hidden", "");
-    var texttohide = document.getElementsByClassName(
-        brochureid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].removeAttribute("hidden", "");
-      }
-}
-
-
-handleSave = (brochureid) => {
-  const parentthis = this;
-  const db = fire.firestore();
-
-console.log(this.state.files);
-
-if (this.state.files !== undefined) {
-    const foldername = "/Brochures/StudentLife";
-    const storageRef = fire.storage().ref(foldername);
-    const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
-    fileRef.on("state_changed", function (snapshot) {
-      fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-
-        const userRef = db
-        .collection("Brochures")
-        .doc(brochureid)
-        .update({
-            brochureUrl: downloadURL, 
-        })
-        .then(function () {
-          alert("Updated");
-          window.location.reload();
-        });
-
-      });
-      const progress = Math.round(
-        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-      );
-      if (progress != "100") {
-        parentthis.setState({ progress: progress });
-      } else {
-        parentthis.setState({ progress: "Uploaded!" });
-      }
-    });
-    console.log();
-  } else {
-    alert("No Files Selected");
+    document
+      .getElementById(brochureid + "spanbrochurefile")
+      .setAttribute("hidden", "");
+    document
+      .getElementById(brochureid + "spanimagefile")
+      .setAttribute("hidden", "");
+    document
+      .getElementById(brochureid + "editbutton")
+      .removeAttribute("hidden");
+    document
+      .getElementById(brochureid + "updatebutton")
+      .setAttribute("hidden", "");
+    document
+      .getElementById(brochureid + "cancelbutton")
+      .setAttribute("hidden", "");
+    var texttohide = document.getElementsByClassName(brochureid + "text");
+    for (var i = 0; i < texttohide.length; i++) {
+      texttohide[i].removeAttribute("hidden", "");
+    }
   }
-};
+
+  handleSave = (brochureid) => {
+    const parentthis = this;
+    const db = fire.firestore();
+
+    console.log(this.state.files);
+
+    if (this.state.files !== undefined) {
+      const foldername = "/Brochures/Prospectus";
+      const storageRef = fire.storage().ref(foldername);
+      const fileRef = storageRef
+        .child(this.state.files[0].name)
+        .put(this.state.files[0]);
+      fileRef.on("state_changed", function (snapshot) {
+        fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+          const userRef = db
+            .collection("Brochures")
+            .doc(brochureid)
+            .update({
+              brochureUrl: downloadURL,
+            })
+            .then(function () {
+              alert("Updated");
+              window.location.reload();
+            });
+        });
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        if (progress != "100") {
+          parentthis.setState({ progress: progress });
+        } else {
+          parentthis.setState({ progress: "Uploaded!" });
+        }
+      });
+      console.log();
+    } else {
+      alert("No Files Selected");
+    }
+  };
 
   render() {
     return (
       <div className="home">
-          <h2>Study@SIM Brochures</h2>
+        <h2>Study@SIM Brochures</h2>
         <div>
-          <table id="users" class="table table-bordered"> 
+          <table id="users" class="table table-bordered">
             <tbody>
-                <h4>Prospectus</h4>
+              <h4>Prospectus</h4>
               <tr>
+                <th scope="col">Brochure Cover Image</th>
                 <th scope="col">Brochure File</th>
                 <th scope="col">Edit</th>
               </tr>
@@ -169,10 +184,47 @@ if (this.state.files !== undefined) {
                   return (
                     <tr>
                       <td>
-                      <span class={prospectbrochures.id + "text"}>
-                      {prospectbrochures.brochureUrl}
+                        <span class={prospectbrochures.id + "text"}>
+                          {prospectbrochures.imageUrl}
                         </span>
-                          <span id={prospectbrochures.id + "spanbrochurefile"} hidden>
+                        <span
+                          id={prospectbrochures.id + "spanimagefile"}
+                          hidden
+                        >
+                          <input
+                            id={prospectbrochures.id + "imagefile"}
+                            defaultValue={prospectbrochures.imageUrl}
+                            type="text"
+                            name={prospectbrochures.id + "imagefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={prospectbrochures.imageUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={prospectbrochures.id + "upload"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <span class={prospectbrochures.id + "text"}>
+                          {prospectbrochures.brochureUrl}
+                        </span>
+                        <span
+                          id={prospectbrochures.id + "spanbrochurefile"}
+                          hidden
+                        >
                           <input
                             id={prospectbrochures.id + "brochurefile"}
                             defaultValue={prospectbrochures.brochureUrl}
@@ -185,18 +237,19 @@ if (this.state.files !== undefined) {
                             disabled={"disabled"}
                           />
                         </span>
-                       <span id= {prospectbrochures.id+ "upload" } hidden ><input
-            type="file"
-            onChange={(e) => {
-              this.handleFileUpload(e.target.files);
-            }}
-          />
-         
-       {this.state.progress}
-       <div>
-         <progress value={this.state.progress} max="100" />
-       </div>
-       </span> 
+                        <span id={prospectbrochures.id + "upload"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
                       </td>
                       <td>
                         <button
@@ -229,9 +282,7 @@ if (this.state.files !== undefined) {
                       </td>
                     </tr>
                   );
-            })}
-
-                
+                })}
             </tbody>
           </table>
         </div>
