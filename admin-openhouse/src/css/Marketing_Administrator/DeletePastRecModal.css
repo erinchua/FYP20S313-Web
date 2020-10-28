@@ -1,0 +1,37 @@
+#deletePastRecModalTitle {
+    font-size: 95%;
+    color: #EA526F;
+}
+
+.deletePastRecModalCol {
+    padding-bottom: 4%;
+}
+
+#deletePastRecModalText {
+    font-size: 90%;
+    color: #424242;
+}
+
+#confirmDeletePastRecModalBtn {
+    background: none;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #EA526F;
+    width: 40%;
+}
+
+#confirmDeletePastRecModalBtn:focus {
+    box-shadow: none;
+}
+
+#cancelDeletePastRecModalBtn {
+    background: #EA526F;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #ffffff;
+    width: 40%;
+}
+
+#cancelDeletePastRecModalBtn:focus {
+    box-shadow: none;
+}

@@ -85,9 +85,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                 {/* Logo File */}
                                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
                                     <Col md="9" className="text-left">
-                                        <InputGroup className="editStudySIMProgFormColInputGrp">
-                                            <Form.File name="logoFile" id="editStudySIMProgForm_LogoFile" label="Logo File*" custom required />
-                                        </InputGroup>
+                                        <Form.File name="logoFile" className="editStudySIMProgForm_LogoFile" label="Logo File*" custom required />
                                     </Col>
                                 </Form.Row>
 

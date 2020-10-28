@@ -215,14 +215,11 @@ class ProgrammeTalkSchedule extends Component {
             };
             day2_counter++;
             progtalk.push(data);
-            console.log("Prog Talk array:" + progtalk)
           });
           this.setState({ day2: progtalk });   
           this.setState({ day2Date: progtalk[0].date})
-          
         });
-
-      });  
+    });  
   }
 
   addProgrammeTalks = (e) => { 
@@ -235,45 +232,45 @@ class ProgrammeTalkSchedule extends Component {
     // livestatus = (livestatus === "true");
 
     const db = fire.firestore();
-      var lastdoc = db.collection("ProgrammeTalks").orderBy('id','asc')
-      .limit(1).get().then((snapshot) =>  {
-        snapshot.forEach((doc) => {
-        var docid= "";
-        var res = doc.data().id.substring(5, 10);
-        var id = parseInt(res)
-        if(id.toString().length <= 1){
-          docid= "talk-00" + (id +1) 
+    var lastdoc = db.collection("ProgrammeTalks").orderBy('id','asc')
+    .limit(1).get().then((snapshot) =>  {
+      snapshot.forEach((doc) => {
+      var docid= "";
+      var res = doc.data().id.substring(5, 10);
+      var id = parseInt(res)
+      if(id.toString().length <= 1){
+        docid= "talk-00" + (id +1) 
+        }
+        else if(id.toString().length <= 2){
+          docid= "talk-0" + (id +1) 
           }
-          else if(id.toString().length <= 2){
-            docid= "talk-0" + (id +1) 
-            }
-          else{
-            docid="talk-0" + (id +1) 
-          }
-          db
-          .collection("ProgrammeTalks")
-          .doc(docid)
-          .set({
-            awardingUni: this.state.awardingUni,
-            capacityLimit: this.state.capacityLimit,
-            date: this.state.date,
-            endTime: this.state.endTime,
-            hasRecording: this.state.hasRecording,
-            isLive: this.state.isLive,
-            noRegistered: this.state.noRegistered,
-            startTime: this.state.startTime,
-            talkName: this.state.talkName,
-            venue: this.state.venue,
-            link: this.state.link,
-            id: docid,
-            progTalkDetails: this.state.details,
+        else{
+          docid="talk-0" + (id +1) 
+        }
+        db
+        .collection("ProgrammeTalks")
+        .doc(docid)
+        .set({
+          awardingUni: this.state.awardingUni,
+          capacityLimit: this.state.capacityLimit,
+          date: this.state.date,
+          endTime: this.state.endTime,
+          hasRecording: this.state.hasRecording,
+          isLive: this.state.isLive,
+          noRegistered: this.state.noRegistered,
+          startTime: this.state.startTime,
+          talkName: this.state.talkName,
+          venue: this.state.venue,
+          link: this.state.link,
+          id: docid,
+          progTalkDetails: this.state.details,
 
-          })
-          .then(function () {
-            window.location.reload();
-          });
         })
+        .then(function () {
+          window.location.reload();
+        });
       })
+    })
   };
 
   DeleteProgrammeTalk(e, progtalkid) {
@@ -498,36 +495,36 @@ class ProgrammeTalkSchedule extends Component {
                                         <th className="progTalkScheduleHeader_Delete">Delete</th>
                                       </tr>
                                     </thead>
+              
+                                    <tbody>
+                                      {this.state.day1 && this.state.day1.map((day1) => {
+                                        return (
+                                          <tr key={day1.docid}>
+                                            <td className="progTalkScheduleData_SNo">{day1.day1_counter}</td>
+                                            <td className="progTalkScheduleData_ProgTalk text-left">{day1.talkName}</td>
+                                            <td className="progTalkScheduleData_ProgTalkDetails text-left">{day1.progTalkDetails}</td>
+                                            <td className="progTalkScheduleData_AwardingUni">{day1.awardingUni}</td>
+                                            <td className="progTalkScheduleData_StartTime text-left">{day1.startTime}</td>
+                                            <td className="progTalkScheduleData_EndTime text-left">{day1.endTime}</td>
+                                            <td className="progTalkScheduleData_Venue text-left">{day1.venue}</td>
+                                            <td className="progTalkScheduleData_Capacity text-center">{day1.capacityLimit}</td>
+                                            <td className="progTalkScheduleData_Discipline text-center">{day1.discipline}</td>
+                                            <td className="progTalkScheduleData_Edit">
+                                              <Button id="editProgTalkScheduleBtn" onClick={()=>this.handleEditProgTalkModal(day1)}>
+                                                <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
+                                              </Button>
+                                            </td>
+                                            <td className="progTalkScheduleData_Delete">
+                                              <Button id="deleteProgTalkScheduleBtn" onClick={this.handleDeleteProgTalkModal}>
+                                                <FontAwesomeIcon size="lg" id="deleteProgTalkScheduleBtnIcon" icon={faTrashAlt} />
+                                              </Button>
+                                            </td>
+                                          </tr>
+                                        );
+                                      })}
 
-                                    {this.state.day1 && this.state.day1.map((day1) => {
-                                      return (
-                                        <>
-                                          <tbody>
-                                            <tr key={day1.id}>
-                                              <td className="progTalkScheduleData_SNo">{day1.day1_counter}</td>
-                                              <td className="progTalkScheduleData_ProgTalk text-left">{day1.talkName}</td>
-                                              <td className="progTalkScheduleData_ProgTalkDetails text-left">{day1.progTalkDetails}</td>
-                                              <td className="progTalkScheduleData_AwardingUni">{day1.awardingUni}</td>
-                                              <td className="progTalkScheduleData_StartTime text-left">{day1.startTime}</td>
-                                              <td className="progTalkScheduleData_EndTime text-left">{day1.endTime}</td>
-                                              <td className="progTalkScheduleData_Venue text-left">{day1.venue}</td>
-                                              <td className="progTalkScheduleData_Capacity text-center">{day1.capacityLimit}</td>
-                                              <td className="progTalkScheduleData_Discipline text-center">{day1.discipline}</td>
-                                              <td className="progTalkScheduleData_Edit">
-                                                <Button id="editProgTalkScheduleBtn" onClick={()=>this.handleEditProgTalkModal(day1)}>
-                                                  <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
-                                                </Button>
-                                              </td>
-                                              <td className="progTalkScheduleData_Delete">
-                                                <Button id="deleteProgTalkScheduleBtn" onClick={this.handleDeleteProgTalkModal}>
-                                                  <FontAwesomeIcon size="lg" id="deleteProgTalkScheduleBtnIcon" icon={faTrashAlt} />
-                                                </Button>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </>
-                                      );
-                                    })}
+                                    </tbody>
+                                        
 
                                   </Table>
                                 </Col>
@@ -552,36 +549,34 @@ class ProgrammeTalkSchedule extends Component {
                                         <th className="progTalkScheduleHeader_Delete">Delete</th>
                                       </tr>
                                     </thead>
-
-                                    {this.state.day2 && this.state.day2.map((day2) => {
-                                      return (
-                                        <>
-                                          <tbody>
-                                            <tr key={day2.id}>
-                                              <td className="progTalkScheduleData_SNo">{day2.day2_counter}</td>
-                                              <td className="progTalkScheduleData_ProgTalk text-left">{day2.talkName}</td>
-                                              <td className="progTalkScheduleData_ProgTalkDetails text-left">{day2.progTalkDetails}</td>
-                                              <td className="progTalkScheduleData_AwardingUni">{day2.awardingUni}</td>
-                                              <td className="progTalkScheduleData_StartTime text-left">{day2.startTime}</td>
-                                              <td className="progTalkScheduleData_EndTime text-left">{day2.endTime}</td>
-                                              <td className="progTalkScheduleData_Venue text-left">{day2.venue}</td>
-                                              <td className="progTalkScheduleData_Capacity text-center">{day2.capacityLimit}</td>
-                                              <td className="progTalkScheduleData_Discipline text-center">{day2.discipline}</td>
-                                              <td className="progTalkScheduleData_Edit">
-                                                <Button id="editProgTalkScheduleBtn" onClick={()=>this.handleEditProgTalkModal(day2)}>
-                                                  <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
-                                                </Button>
-                                              </td>
-                                              <td className="progTalkScheduleData_Delete">
-                                                <Button id="deleteProgTalkScheduleBtn" onClick={this.handleDeleteProgTalkModal}>
-                                                  <FontAwesomeIcon size="lg" id="deleteProgTalkScheduleBtnIcon" icon={faTrashAlt} />
-                                                </Button>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </>
-                                      );
-                                    })}
+                                    
+                                    <tbody>
+                                      {this.state.day2 && this.state.day2.map((day2) => {
+                                        return (
+                                          <tr key={day2.docid}>
+                                            <td className="progTalkScheduleData_SNo">{day2.day2_counter}</td>
+                                            <td className="progTalkScheduleData_ProgTalk text-left">{day2.talkName}</td>
+                                            <td className="progTalkScheduleData_ProgTalkDetails text-left">{day2.progTalkDetails}</td>
+                                            <td className="progTalkScheduleData_AwardingUni">{day2.awardingUni}</td>
+                                            <td className="progTalkScheduleData_StartTime text-left">{day2.startTime}</td>
+                                            <td className="progTalkScheduleData_EndTime text-left">{day2.endTime}</td>
+                                            <td className="progTalkScheduleData_Venue text-left">{day2.venue}</td>
+                                            <td className="progTalkScheduleData_Capacity text-center">{day2.capacityLimit}</td>
+                                            <td className="progTalkScheduleData_Discipline text-center">{day2.discipline}</td>
+                                            <td className="progTalkScheduleData_Edit">
+                                              <Button id="editProgTalkScheduleBtn" onClick={()=>this.handleEditProgTalkModal(day2)}>
+                                                <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
+                                              </Button>
+                                            </td>
+                                            <td className="progTalkScheduleData_Delete">
+                                              <Button id="deleteProgTalkScheduleBtn" onClick={this.handleDeleteProgTalkModal}>
+                                                <FontAwesomeIcon size="lg" id="deleteProgTalkScheduleBtnIcon" icon={faTrashAlt} />
+                                              </Button>
+                                            </td>
+                                          </tr>
+                                        );
+                                      })}
+                                    </tbody>
 
                                   </Table>
                                 </Col>
@@ -765,7 +760,7 @@ class ProgrammeTalkSchedule extends Component {
                         {this.state.disciplineList && this.state.disciplineList.map((discipline) => {
                           return (
                             <>
-                              <Row>
+                              <Row key={discipline.disciplineId}>
                                 <Col>
                                   <Form.Check name="discipline" checked={this.checkDiscipline} value={discipline.disciplineName} type="checkbox" label={discipline.disciplineName} className="addProgTalkForm_CheckBox" />
                                 </Col>
@@ -953,14 +948,14 @@ class ProgrammeTalkSchedule extends Component {
                   {/* Discipline Name */}
                   <Form.Row className="justify-content-center editProgTalkForm_InnerRow">
                     <Col md="10" className="text-left editProgTalkForm_InnerCol">
-                      <Form.Label>Choose Discipline(s):</Form.Label>                                     
+                      <Form.Label className="editProgTalkFormLabel">Choose Discipline(s):</Form.Label>                                     
                           
                       <Container className="editProgTalkForm_DisciplineCon">
                         {/* To be retrieved from db - row is generated dynamically */}
                         {this.state.disciplineList && this.state.disciplineList.map((discipline) => {
                           return (
                             <>
-                              <Row>
+                              <Row key={discipline.disciplineId}>
                                 <Col>
                                   <Form.Check name="discipline" checked={this.state.checkDiscipline} value={discipline.disciplineName} type="checkbox" label={discipline.disciplineName} className="editProgTalkForm_CheckBox" />
                                 </Col>

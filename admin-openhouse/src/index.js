@@ -44,7 +44,7 @@ import ContactInformation from "./pages/Marketing_Administrator/Useful_Info/Cont
 import GenerateStudentRegisteration from "./pages/Marketing_Administrator/GenerateReport/GenerateStudentRegisteration";
 import StudentLifeBrochure from "./pages/Marketing_Administrator/Brochure/StudentLifeBrochure";
 import StudySIMBrochure from "./pages/Marketing_Administrator/Brochure/StudySIMBrochure";
-
+import AttendanceMarkingScanner from "./pages/Crew/AttendanceMarkingScanner";
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -55,6 +55,9 @@ ReactDOM.render(
       <Route exact path="/" component={App} />
       <Route path="/Login" component={Login} />
       <Route path="/ResetPassword" component={ResetPassword} />
+
+      {/* Routes for Crew */}
+      <Route path="/AttendanceMarkingScanner" component={AttendanceMarkingScanner} />
 
       {/* Routes for Super Admin */}
       <Route path="/SAHome" component={SAHome} />
