@@ -1,0 +1,259 @@
+.Prizes-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.Prizes-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#Prizes-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#Prizes-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#Prizes-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#Prizes-title {
+    color: #424242;
+}
+
+#Prizes-addBtn {
+    background: none;
+    border: 1px solid #424242;
+    color: #424242;
+    min-width: 20%;
+    border-radius: 6px;
+}
+
+#Prizes-addBtn:hover {
+    background: #424242;
+    border-color: #424242;
+    color: white;
+}
+
+#Prizes-addBtn:focus {
+    box-shadow: none;
+}
+
+#Prizes-addBtnText {
+    margin-left: 10%;
+}
+
+#Prizes-secondRow {
+    margin: 0 !important;
+}
+
+#Prizes-secondRowCol {
+    padding: 0 !important;
+}
+
+.Prizes-secondInnerRow {
+    margin: 0 !important;
+}
+
+.Prizes-secondInnerCol {
+    padding: 0 !important;
+}
+
+.Prizes-navItemCon {
+    padding: 0 !important;
+}
+
+.Prizes-navItems {
+    background-color: #e4f2f0;
+}
+
+.Prizes-navLinks {
+    color: #424242;
+    font-weight: bold;
+}
+
+.Prizes-navLinks:hover {
+    background-color: #62929E;
+    color: white;
+    border-color: #62929E !important;
+}
+
+.Prizes-navLinks:focus {
+    background-color: #62929E;
+    color: white;
+    border-color: #62929E !important;
+}
+
+.Prizes-nav .Prizes-navLinks.active {
+    background-color: #62929E !important;
+    color: white !important;
+    border-color: #62929E !important;
+}
+
+/* -- Day 1 and 2 Content -- */
+.Prizes-tableColCon {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+
+.Prizes-tableCon {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+.Prizes-tableHeader {
+    color: #424242;
+    font-size: 90%;
+}
+
+.Prizes-tableBody {
+    color: #434343;
+    font-size: 85%;
+}
+
+#Prizes-editBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#Prizes-editBtn:focus {
+    box-shadow: none;
+}
+
+#Prizes-deleteBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#Prizes-deleteBtn:focus {
+    box-shadow: none;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 80%;
+}
+
+/* -- Add/Edit Modal -- */
+.Prizes-formGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Prizes-modalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+#Prizes-addfooter, #Prizes-editFooter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Prizes-addFooterCol, .Prizes-editFooterCol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Prizes-submitBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#Prizes-submitBtn:focus {
+    box-shadow: none;    
+}
+
+#Prizes-saveBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#Prizes-saveBtn:focus {
+    box-shadow: none;    
+}
+
+#Prizes-cancelBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: #60c6d9;    
+}
+
+#Prizes-cancelBtn:focus {
+    box-shadow: none;    
+}
+
+#Prizes-inputFields {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;    
+    font-size: 85%;
+}
+
+#Prizes-inputFields:focus {
+    box-shadow: none;
+}
+
+ /* -- Delete Modal -- */
+.Prizes-deleteFooterCol {
+    padding-bottom: 4%;
+}
+
+#Prizes-deleteText {
+    font-size: 95%;
+    color: #424242;
+}
+
+#Prizes-deleteConfirmBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #EA526F
+}
+
+#Prizes-deleteConfirmBtn:focus {
+    box-shadow: none;    
+}
+
+#Prizes-deleteCancelBtn {
+    width: 40%;
+    background: #EA526F;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: white;
+}
+
+#Prizes-deleteCancelBtn:focus {
+    box-shadow: none;    
+}
