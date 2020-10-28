@@ -453,34 +453,33 @@ class LiveTalk extends Component {
                                       </tr>
                                     </thead>
 
-                                    {this.state.day1 && this.state.day1.map((day1) => {
-                                      return (
-                                        <>
-                                          <tbody>
-                                            <tr key={day1.id}>
-                                              <td className="progLiveTalkData_SNo">{day1.day1_counter}</td>
-                                              <td className="progLiveTalkData_ProgTalk text-left">{day1.talkName}</td>
-                                              <td className="progLiveTalkData_AwardingUni">{day1.awardingUni}</td>
-                                              <td className="progLiveTalkData_StartTime text-left">{day1.startTime}</td>
-                                              <td className="progLiveTalkData_EndTime text-left">{day1.endTime}</td>
-                                              <td className="progLiveTalkData_Venue text-left">{day1.venue}</td>
-                                              <td className="progLiveTalkData_Link text-left">{day1.link}</td>
-                                              <td className="progLiveTalkData_Edit">
-                                                <Button id="editProgLiveTalkBtn" onClick={()=>this.handleEditLiveTalkModal(day1)}>
-                                                  <FontAwesomeIcon size="lg" id="editProgLiveTalkBtnIcon" icon={faEdit} />
-                                                </Button>
-                                              </td>
-                                              <td className="progLiveTalkData_Delete">
-                                                <Button id="deleteProgLiveTalkBtn" onClick={this.handleDeleteLiveTalkModal}>
-                                                  <FontAwesomeIcon size="lg" id="deleteProgLiveTalkBtnIcon" icon={faTrashAlt} />
-                                                </Button>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </>
-                                      );
-                                    })}
+                                    <tbody>
+                                      {this.state.day1 && this.state.day1.map((day1) => {
+                                        return (
+                                          <tr key={day1.id}>
+                                            <td className="progLiveTalkData_SNo">{day1.day1_counter}</td>
+                                            <td className="progLiveTalkData_ProgTalk text-left">{day1.talkName}</td>
+                                            <td className="progLiveTalkData_AwardingUni">{day1.awardingUni}</td>
+                                            <td className="progLiveTalkData_StartTime text-left">{day1.startTime}</td>
+                                            <td className="progLiveTalkData_EndTime text-left">{day1.endTime}</td>
+                                            <td className="progLiveTalkData_Venue text-left">{day1.venue}</td>
+                                            <td className="progLiveTalkData_Link text-left">{day1.link}</td>
+                                            <td className="progLiveTalkData_Edit">
+                                              <Button id="editProgLiveTalkBtn" onClick={()=>this.handleEditLiveTalkModal(day1)}>
+                                                <FontAwesomeIcon size="lg" id="editProgLiveTalkBtnIcon" icon={faEdit} />
+                                              </Button>
+                                            </td>
+                                            <td className="progLiveTalkData_Delete">
+                                              <Button id="deleteProgLiveTalkBtn" onClick={this.handleDeleteLiveTalkModal}>
+                                                <FontAwesomeIcon size="lg" id="deleteProgLiveTalkBtnIcon" icon={faTrashAlt} />
+                                              </Button>
+                                            </td>
+                                          </tr>
+                                          );
+                                        })}
 
+                                    </tbody>
+                                      
                                   </Table>
                                 </Col>
                               </Tab.Pane>
@@ -883,7 +882,7 @@ class LiveTalk extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <DeleteLiveTalkModal handleConfirmDelete={ (e) => {this.DeleteProgrammeTalk(e, this.state.id)} } handleCancelDelete={this.handleDeleteLiveTalkModal} />
+          <DeleteLiveTalkModal handleConfirmDelete={ (e) => {this.DeleteLiveTalk(e, this.state.id)} } handleCancelDelete={this.handleDeleteLiveTalkModal} />
         </Modal>
 
 

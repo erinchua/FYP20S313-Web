@@ -1,0 +1,138 @@
+#addPastRecModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.addPastRecFormRow {
+    padding-bottom: 4%;
+}
+
+.addPastRecFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.addPastRecForm_InnerRow {
+    padding-bottom: 4%;
+}
+
+.addPastRecFormIconInputGrp {
+    background: transparent !important;
+    border: none !important;
+}
+
+#addPastRecForm_ProgTalkName {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addPastRecForm_ProgTalkName:focus {
+    box-shadow: none;
+}
+
+#addPastRecForm_Venue {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addPastRecForm_Venue:focus {
+    box-shadow: none;
+}
+
+.addPastRecFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    border-radius: 0 !important;
+    font-size: 85% !important;
+}
+
+.addPastRecFormSelect:focus {
+    box-shadow: none !important;
+}
+
+.addPastRecFormSelectOption {
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addPastRecForm_ProgTalkStartTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addPastRecForm_ProgTalkStartTime:focus {
+    box-shadow: none;
+}
+
+#addPastRecForm_ProgTalkEndTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addPastRecForm_ProgTalkEndTime:focus {
+    box-shadow: none;
+}
+
+.addPastRecForm_RecFile .custom-file-input {
+    border: 1px solid #c8c8c8;
+    border-radius: 6px;
+    font-size: 85% !important;
+    color: #434343;
+}
+
+.addPastRecForm_RecFile .custom-file-label {
+    color: #434343;
+    overflow: hidden;
+    font-size: 90% !important;
+}
+
+.addPastRecForm_RecFile:focus {
+    box-shadow: none;
+}
+
+.addPastRecForm_InnerCol {
+    height: 80%;
+}
+
+.addPastRecModal .addPastRecForm_DisciplineCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 10vh;
+    overflow-x: hidden;
+    font-size: 85% !important;
+}
+
+.addPastRecForm_CheckBox {
+    color: #434343;
+}
+
+.addPastRecFormLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
+}
+
+#addPastRecFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+    width: 20%;
+}
+
+#addPastRecFormBtn:focus {
+    box-shadow: none;
+}
