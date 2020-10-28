@@ -70,6 +70,10 @@
     padding-right: 5%;
 }
 
+#login-button:focus {
+    box-shadow: none;
+}
+
 .errorMessage {
     color: red;
     font-size: 85%;
