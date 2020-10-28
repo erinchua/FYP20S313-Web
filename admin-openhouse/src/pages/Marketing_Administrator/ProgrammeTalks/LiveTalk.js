@@ -463,7 +463,9 @@ class LiveTalk extends Component {
                                             <td className="progLiveTalkData_StartTime text-left">{day1.startTime}</td>
                                             <td className="progLiveTalkData_EndTime text-left">{day1.endTime}</td>
                                             <td className="progLiveTalkData_Venue text-left">{day1.venue}</td>
-                                            <td className="progLiveTalkData_Link text-left">{day1.link}</td>
+                                            <td className="progLiveTalkData_Link text-left">
+                                                <a href={day1.link} className="progLiveTalkData_LinkHref">{day1.link}</a>
+                                              </td>
                                             <td className="progLiveTalkData_Edit">
                                               <Button id="editProgLiveTalkBtn" onClick={()=>this.handleEditLiveTalkModal(day1)}>
                                                 <FontAwesomeIcon size="lg" id="editProgLiveTalkBtnIcon" icon={faEdit} />
@@ -513,7 +515,9 @@ class LiveTalk extends Component {
                                               <td className="progLiveTalkData_StartTime text-left">{day2.startTime}</td>
                                               <td className="progLiveTalkData_EndTime text-left">{day2.endTime}</td>
                                               <td className="progLiveTalkData_Venue text-left">{day2.venue}</td>
-                                              <td className="progLiveTalkData_Link text-left">{day2.link}</td>
+                                              <td className="progLiveTalkData_Link text-left">
+                                                <a href={day2.link} className="progLiveTalkData_LinkHref">{day2.link}</a>
+                                              </td>
                                               <td className="progLiveTalkData_Edit">
                                                 <Button id="editProgLiveTalkBtn" onClick={()=>this.handleEditLiveTalkModal(day2)}>
                                                   <FontAwesomeIcon size="lg" id="editProgLiveTalkBtnIcon" icon={faEdit} />

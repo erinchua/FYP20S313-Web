@@ -273,8 +273,8 @@ class StudentAccounts extends Component {
                           <tr>
                             <th id="studAcctHeader_Checkbox"></th>
                             <th id="studAcctHeader_SNo">S/N</th>
-                            <th id="studAcctHeader_FirstName"> First Name</th>
-                            <th id="studAcctHeader_LastName"> Last Name</th>
+                            <th id="studAcctHeader_FirstName">First Name</th>
+                            <th id="studAcctHeader_LastName">Last Name</th>
                             <th id="studAcctHeader_Email">Email</th>
                             <th id="studAcctHeader_ContactNo">Contact No.</th>
                             <th id="studAcctHeader_DOB">D.O.B</th>
