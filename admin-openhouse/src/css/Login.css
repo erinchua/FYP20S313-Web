@@ -8,8 +8,8 @@
 }
 
 .login-tabContainer li {
-    background-color: #E4F2F0;
-    min-width: 50%;
+    background-color: #b5cfd8;
+    min-width: 33%;
 }
 
 .login-tabHeading {
@@ -20,6 +20,18 @@
 
 .login-tabHeading:hover {
     color: #424242;
+    border-color: #b5cfd8 !important;
+}
+
+.login-tabHeading:focus {
+    color: #424242;
+    border-color:  #b5cfd8 !important;
+}
+
+.login-tabContainer .login-tabHeading.active {
+    background-color: #7393a7 !important;
+    color: white !important;
+    border-color: #7393a7 !important;
 }
 
 #login-tabContent {
@@ -48,7 +60,7 @@
 }
 
 #login-forgetPassword {
-    margin-top: -8%;
+    margin-top: -5%;
 }
 
 #login-button {
