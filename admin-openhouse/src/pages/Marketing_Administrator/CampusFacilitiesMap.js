@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import fire from "../../config/firebase";
 import history from "../../config/history";
-import { Container, Row, Col, Button, Table, Modal, Tab, Nav, Form, InputGroup, FormControl } from 'react-bootstrap';
+import { Container, Row, Col, Button, Table, Modal, Form, InputGroup, FormControl } from 'react-bootstrap';
 
 import "../../css/Marketing_Administrator/CampusFacilitiesMap.css";
-// import "../../css/Marketing_Administrator/EditCampusFacilModal.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding, faEdit } from '@fortawesome/free-regular-svg-icons';
