@@ -44,6 +44,22 @@
     padding-right: 0 !important;
 }
 
+#OpenHouse-thirdRow {
+    margin: 0 !important;
+}
+
+#OpenHouse-thirdRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#OpenHouse-thirdRowColHeading {
+    height: 100%;
+    width: 100%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
 #OpenHouse-tableHeader {
     color: #424242;
     font-size: 90%;
@@ -122,7 +138,33 @@
     text-transform: capitalize;
 }
 
+#OpenHouse-thirdTableHeading {
+    width: 11.5%;
+}
+
 .errorMessage {
     color: red;
     font-size: 85%;
+}
+
+#border {
+    border: 0.5px solid #e8e8e8;
+    margin: 2% 0% 1% 0%;
+}
+
+.OpenHouse-imgFile .custom-file-input {
+    border: 1px solid #c8c8c8;
+    border-radius: 6px;
+    font-size: 85% !important;
+    color: #434343;
+}
+
+.OpenHouse-imgFile .custom-file-label {
+    color: #434343;
+    overflow: hidden;
+    font-size: 90% !important;
+}
+
+.OpenHouse-imgFile:focus {
+    box-shadow: none;
 }

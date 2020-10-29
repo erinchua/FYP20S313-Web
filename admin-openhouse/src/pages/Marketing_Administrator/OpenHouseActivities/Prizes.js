@@ -200,7 +200,7 @@ class Prizes extends Component {
             const day = doc.get('day');
             for (var i = 0; i < Object.keys(day).length; i++) {
                 const venueData = {
-                    id: doc.id,
+                    id: doc.data().id,
                     date: day[Object.keys(day)[i]].date,
                     venue: day[Object.keys(day)[i]].venue,
                     day: Object.keys(doc.data().day)[i],
@@ -213,7 +213,7 @@ class Prizes extends Component {
         //Get Prizes
         db.collection("Prizes").get().then((snapshot) => {
             snapshot.forEach((doc) => {
-                if (doc.data().hasOwnProperty('id')) {
+                if (doc.data().hasOwnProperty('prizeName')) {
                     const data = {
                         id: doc.id,
                         prizeName: doc.data().prizeName,
@@ -397,7 +397,7 @@ class Prizes extends Component {
                             day: venueDay,
                             date: daydata[Object.keys(daydata)[i]].date,
                             venue: daydata[Object.keys(daydata)[i]].venue,
-                            id: doc.id,
+                            id: venueId,
                         });
                     }
                 }
@@ -408,7 +408,7 @@ class Prizes extends Component {
                             day: venueDay,
                             date: daydata[Object.keys(daydata)[i]].date,
                             venue: daydata[Object.keys(daydata)[i]].venue,
-                            id: doc.id
+                            id: venueId,
                         });
                     }
                 }
@@ -702,7 +702,7 @@ class Prizes extends Component {
                                                                             <tbody className="Prizes-tableBody">
                                                                                 {this.state.venues && this.state.venues.map((venue) => {
                                                                                     return (
-                                                                                        <tr>
+                                                                                        <tr key={venue.id}>
                                                                                             <td>{venue.date}</td>
                                                                                             <td>{venue.venue}</td>
                                                                                             <td><Button size="sm" id="Prizes-editBtn" onClick={(e) => {this.editVenue(e, venue.id, venue.day)}}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
