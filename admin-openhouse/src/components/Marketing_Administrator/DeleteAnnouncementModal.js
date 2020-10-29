@@ -5,6 +5,8 @@ import fire from "../../config/firebase";
 import history from "../../config/history";
 import firecreate from "../../config/firebasecreate";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import "../../css/Marketing_Administrator/AnnouncementModals.css";
 
 export default class DeleteAnnouncementModal extends React.Component {
@@ -25,7 +27,13 @@ export default class DeleteAnnouncementModal extends React.Component {
                     </Modal.Title>
                 </Modal.Header>
                 
-                <Modal.Body>                    
+                <Modal.Body>      
+                    <Row className="justify-content-center">
+                        <Col md="12" className="text-center deleteAnnouncementModalCol">
+                            <FontAwesomeIcon size="3x" icon={faExclamationCircle}/>
+                        </Col>
+                    </Row>      
+
                     <Row className="justify-content-center">
                         <Col md="12" className="text-center deleteAnnouncementModalCol">
                             <h5 id="deleteAnnouncementModalText">Are you sure you want to remove this announcement?</h5>
