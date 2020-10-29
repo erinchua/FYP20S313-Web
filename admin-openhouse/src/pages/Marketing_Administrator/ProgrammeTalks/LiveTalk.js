@@ -4,9 +4,7 @@ import history from "../../../config/history";
 import { Container, Row, Col, Button, Table, Modal, Tab, Nav, Form, InputGroup, FormControl } from 'react-bootstrap';
 
 import "../../../css/Marketing_Administrator/ProgrammeTalkLiveTalk.css";
-import "../../../css/Marketing_Administrator/AddLiveTalkModal.css";
-import "../../../css/Marketing_Administrator/EditLiveTalkModal.css";
-import "../../../css/Marketing_Administrator/DeleteLiveTalkModal.css";
+import "../../../css/Marketing_Administrator/LiveTalkModals.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMicrophone, faSchool, faUniversity, faCalendarAlt, faHourglassStart, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';

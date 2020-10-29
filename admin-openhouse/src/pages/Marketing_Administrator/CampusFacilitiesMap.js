@@ -286,8 +286,8 @@ class CampusFacilitiesMap extends Component {
                               <tr key={facility.id}>
                                 <td id="campusFacilData_Block" className="text-center">{facility.blockName}</td>
                                 <td id="campusFacilData_FacilName" className="text-left">{facility.facilityName}</td>
-                                <td id="campusFacilHeader_Location" className="text-left">{facility.location}</td>
-                                <td id="campusFacilHeader_Edit" className="text-center">
+                                <td id="campusFacilData_Location" className="text-left">{facility.location}</td>
+                                <td id="campusFacilData_Edit" className="text-center">
                                   <Button id="editCampusFacilBtn" onClick={() => {this.handleEditCampusFacilModal(facility)}}>
                                     <FontAwesomeIcon size="lg" id="editCampusFacilBtnIcon" icon={faEdit} />
                                   </Button>

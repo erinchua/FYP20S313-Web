@@ -5,41 +5,42 @@
 
 #viewStudySIMProgDetailsModalBody {
     overflow-y: auto !important;
-    width: 100%;
+    width: 100% !important;
     min-height: 50vh !important;
     max-height: 70vh !important;
+    padding: 1%;
 }
 
 #viewStudySIMProgDetailsHeader_AboutProg {
-    width: 20%;
+    width: 16%;
     color: #424242;
     font-size: 90%;
     word-wrap: break-word;
 }
 
 #viewStudySIMProgDetailsHeader_ApplicationPeriod {
-    width: 20%;
+    width: 16%;
     color: #424242;
     font-size: 90%;
     word-wrap: break-word;
 }
 
 #viewStudySIMProgDetailsHeader_ProgStructure {
-    width: 20%;
+    width: 10%;
     color: #424242;
     font-size: 90%;
     word-wrap: break-word;
 }
 
 #viewStudySIMProgDetailsHeader_OverseasOpp {
-    width: 20%;
+    width: 10%;
     color: #424242;
     font-size: 90%;
     word-wrap: break-word;
 }
 
 #viewStudySIMProgDetailsHeader_IntakeMonth {
-    width: 20%;
+    width: 16%;
     color: #424242;
     font-size: 90%;
     word-wrap: break-word;
@@ -53,28 +54,28 @@
 }
 
 #viewStudySIMProgDetailsHeader_Coursework {
-    width: 10%;
+    width: 5%;
     color: #424242;
     font-size: 90%;
     word-wrap: break-word;
 }
 
 #viewStudySIMProgDetailsHeader_Examination {
-    width: 10%;
+    width: 5%;
     color: #424242;
     font-size: 90%;
     word-wrap: break-word;
 }
 
 #viewStudySIMProgDetailsHeader_Exchange {
-    width: 10%;
+    width: 5%;
     color: #424242;
     font-size: 90%;
     word-wrap: break-word;
 }
 
 #viewStudySIMProgDetailsHeader_Transfer {
-    width: 10%;
+    width: 5%;
     color: #424242;
     font-size: 90%;
     word-wrap: break-word;
@@ -82,21 +83,21 @@
 
 /*********************** Table Data ***********************/
 #viewStudySIMProgDetailsData_AboutProg {
-    width: 20%;
+    width: 16%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
 }
 
 #viewStudySIMProgDetailsData_ApplicationPeriod {
-    width: 20%;
+    width: 16%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
 }
 
 #viewStudySIMProgDetailsData_IntakeMonth {
-    width: 20%;
+    width: 16%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
@@ -110,28 +111,28 @@
 }
 
 #viewStudySIMProgDetailsData_Coursework {
-    width: 10%;
+    width: 5%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
 }
 
 #viewStudySIMProgDetailsData_Examination {
-    width: 10%;
+    width: 5%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
 }
 
 #viewStudySIMProgDetailsData_Exchange {
-    width: 10%;
+    width: 5%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
 }
 
 #viewStudySIMProgDetailsData_Transfer {
-    width: 10%;
+    width: 5%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
