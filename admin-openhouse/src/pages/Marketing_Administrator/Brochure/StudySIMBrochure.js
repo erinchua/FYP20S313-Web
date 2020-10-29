@@ -97,15 +97,50 @@ class StudySIMBrochure extends Component {
         this.setState({ unibrochures: unibrochures });
       });
   }
-  handleFileUpload = (files) => {
+  handleImageFileUpload = (imagefiles) => {
     this.setState({
-      files: files,
+      imagefiles: imagefiles,
     });
+    console.log(imagefiles)
   };
 
-  editBrochure(e, brochureid) {
+  handleBrochureFileUpload = (brochurefiles) => {
+    this.setState({
+      brochurefiles: brochurefiles,
+    });
+    console.log(brochurefiles)
+  };
+
+  update(brochureid) {
+    const description = document.getElementById(brochureid + "description").value
+
+    const db = fire.firestore();
+    if (description != null) {
+      const userRef = db
+      .collection("Brochures")
+      .doc(brochureid)
+      .update({
+        description: description,
+      })
+      .then(function () {
+        alert("Updated");
+        window.location.reload();
+      });
+    }
+  }
+
+  editBrochure(e, brochureid, description) {
+
+  var patt = new RegExp("Prospectus");
+
+
     document.getElementById(brochureid + "upload").removeAttribute("hidden");
     document.getElementById(brochureid + "upload1").removeAttribute("hidden");
+    if(patt.test(description)=== false){
+    document
+      .getElementById(brochureid + "spandescription")
+      .removeAttribute("hidden");
+    }
     document
       .getElementById(brochureid + "spanbrochurefile")
       .removeAttribute("hidden");
@@ -127,9 +162,15 @@ class StudySIMBrochure extends Component {
     }
   }
 
-  CancelEdit(e, brochureid) {
+  CancelEdit(e, brochureid,description) {
+    var patt = new RegExp("Prospectus");
     document.getElementById(brochureid + "upload").setAttribute("hidden", "");
     document.getElementById(brochureid + "upload1").setAttribute("hidden", "");
+    if(patt.test(description)=== false){
+    document
+      .getElementById(brochureid + "spandescription")
+      .setAttribute("hidden", "");
+    }
     document
       .getElementById(brochureid + "spanbrochurefile")
       .setAttribute("hidden", "");
@@ -151,18 +192,20 @@ class StudySIMBrochure extends Component {
     }
   }
 
-  handleSave = (brochureid) => {
+  
+
+  handleProspectSavePDF = (brochureid) => {
     const parentthis = this;
     const db = fire.firestore();
 
     console.log(this.state.files);
 
-    if (this.state.files !== undefined) {
+    if (this.state.brochurefiles !== undefined) {
       const foldername = "/Brochures/Prospectus";
       const storageRef = fire.storage().ref(foldername);
       const fileRef = storageRef
-        .child(this.state.files[0].name)
-        .put(this.state.files[0]);
+        .child(this.state.brochurefiles[0].name)
+        .put(this.state.brochurefiles[0]);
       fileRef.on("state_changed", function (snapshot) {
         fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
           const userRef = db
@@ -186,10 +229,213 @@ class StudySIMBrochure extends Component {
         }
       });
       console.log();
-    } else {
-      alert("No Files Selected");
-    }
+    } 
   };
+
+  handleProspectSaveImage = (brochureid) => {
+    const parentthis = this;
+    const db = fire.firestore();
+
+    console.log(this.state.files);
+
+    if (this.state.imagefiles !== undefined) {
+      const foldername = "/Brochures/Prospectus";
+      const storageRef = fire.storage().ref(foldername);
+      const fileRef = storageRef
+        .child(this.state.imagefiles[0].name)
+        .put(this.state.imagefiles[0]);
+      fileRef.on("state_changed", function (snapshot) {
+        fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+          const userRef = db
+            .collection("Brochures")
+            .doc(brochureid)
+            .update({
+              imageUrl: downloadURL,
+            })
+            .then(function () {
+              alert("Updated");
+              window.location.reload();
+            });
+        });
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        if (progress != "100") {
+          parentthis.setState({ progress: progress });
+        } else {
+          parentthis.setState({ progress: "Uploaded!" });
+        }
+      });
+      console.log();
+    } 
+  };
+
+  handleUniSavePDF = (brochureid, university) => {
+    console.log(brochureid)
+    console.log(university)
+    var path= "";
+    if(university==="La Trobe University"){
+      path = "/Brochures/Programmes/LaTrobe"
+
+    }
+    if(university==="RMIT University"){
+      path = "/Brochures/Programmes/RMIT"
+
+    }
+    if(university==="Singapore Institute of Management"){
+      path = "/Brochures/Programmes/SIM"
+
+    }
+    if(university==="University of Stirling"){
+      path = "/Brochures/Programmes/Stirling"
+
+    }
+    if(university==="University of Buffalo"){
+      path = "/Brochures/Programmes/Buffalo"
+
+    }
+    if(university==="University of Birmingham"){
+      path = "/Brochures/Programmes/Birmingham"
+
+    }
+    if(university==="University of London"){
+      path = "/Brochures/Programmes/UOL"
+
+    }
+    if(university==="University of Wollongong"){
+      path = "/Brochures/Programmes/Wollongong"
+
+    }
+    if(university==="University of Sydney"){
+      path = "/Brochures/Programmes/Sydney"
+
+    }
+    if(university==="University of Warwick"){
+      path = "/Brochures/Programmes/Warwick"
+
+    }
+    console.log(path)
+    const parentthis = this;
+    const db = fire.firestore();
+
+    console.log(this.state.files);
+
+    if (this.state.brochurefiles !== undefined) {
+      
+      const storageRef = fire.storage().ref(path);
+      const fileRef = storageRef
+        .child(this.state.brochurefiles[0].name)
+        .put(this.state.brochurefiles[0]);
+      fileRef.on("state_changed", function (snapshot) {
+        fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+          const userRef = db
+            .collection("Brochures")
+            .doc(brochureid)
+            .update({
+              brochureUrl: downloadURL,
+            })
+            .then(function () {
+              alert("Updated");
+              window.location.reload();
+            });
+        });
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        if (progress != "100") {
+          parentthis.setState({ progress: progress });
+        } else {
+          parentthis.setState({ progress: "Uploaded!" });
+        }
+      });
+      console.log();
+    } 
+  };
+
+  handleUniSaveImage = (brochureid, university) => {
+    console.log(brochureid)
+    console.log(university)
+    var path= "";
+    if(university==="La Trobe University"){
+      path = "/Brochures/Programmes/LaTrobe"
+
+    }
+    if(university==="RMIT University"){
+      path = "/Brochures/Programmes/RMIT"
+
+    }
+    if(university==="Singapore Institute of Management"){
+      path = "/Brochures/Programmes/SIM"
+
+    }
+    if(university==="University of Stirling"){
+      path = "/Brochures/Programmes/Stirling"
+
+    }
+    if(university==="University of Buffalo"){
+      path = "/Brochures/Programmes/Buffalo"
+
+    }
+    if(university==="University of Birmingham"){
+      path = "/Brochures/Programmes/Birmingham"
+
+    }
+    if(university==="University of London"){
+      path = "/Brochures/Programmes/UOL"
+
+    }
+    if(university==="University of Wollongong"){
+      path = "/Brochures/Programmes/Wollongong"
+
+    }
+    if(university==="University of Sydney"){
+      path = "/Brochures/Programmes/Sydney"
+
+    }
+    if(university==="University of Warwick"){
+      path = "/Brochures/Programmes/Warwick"
+
+    }
+    console.log(path)
+    const parentthis = this;
+    const db = fire.firestore();
+
+    console.log(this.state.files);
+
+    if (this.state.imagefiles !== undefined) {
+     // const foldername = "/Brochures/Prospectus";
+      const storageRef = fire.storage().ref(path);
+      const fileRef = storageRef
+        .child(this.state.imagefiles[0].name)
+        .put(this.state.imagefiles[0]);
+      fileRef.on("state_changed", function (snapshot) {
+        fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+
+       
+          const userRef = db
+            .collection("Brochures")
+            .doc(brochureid)
+            .update({
+              imageUrl: downloadURL,
+            })
+            .then(function () {
+              alert("Updated");
+              window.location.reload();
+            });
+        });
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        if (progress != "100") {
+          parentthis.setState({ progress: progress });
+        } else {
+          parentthis.setState({ progress: "Uploaded!" });
+        }
+      });
+      console.log();
+    } 
+  };
+  
 
   render() {
     return (
@@ -232,7 +478,7 @@ class StudySIMBrochure extends Component {
                           <input
                             type="file"
                             onChange={(e) => {
-                              this.handleFileUpload(e.target.files);
+                              this.handleImageFileUpload(e.target.files);
                             }}
                           />
 
@@ -266,7 +512,7 @@ class StudySIMBrochure extends Component {
                           <input
                             type="file"
                             onChange={(e) => {
-                              this.handleFileUpload(e.target.files);
+                              this.handleBrochureFileUpload(e.target.files);
                             }}
                           />
 
@@ -280,7 +526,7 @@ class StudySIMBrochure extends Component {
                         <button
                           id={prospectbrochures.id + "editbutton"}
                           onClick={(e) => {
-                            this.editBrochure(e, prospectbrochures.id);
+                            this.editBrochure(e, prospectbrochures.id, prospectbrochures.description);
                           }}
                         >
                           Edit
@@ -290,7 +536,8 @@ class StudySIMBrochure extends Component {
                           id={prospectbrochures.id + "updatebutton"}
                           hidden
                           onClick={(e) => {
-                            this.handleSave(prospectbrochures.id);
+                            this.handleProspectSavePDF(prospectbrochures.id);
+                            this.handleProspectSaveImage(prospectbrochures.id);
                           }}
                         >
                           Update
@@ -299,7 +546,7 @@ class StudySIMBrochure extends Component {
                           hidden
                           id={prospectbrochures.id + "cancelbutton"}
                           onClick={(e) => {
-                            this.CancelEdit(e, prospectbrochures.id);
+                            this.CancelEdit(e, prospectbrochures.id,prospectbrochures.description);
                           }}
                         >
                           Cancel
@@ -308,6 +555,1365 @@ class StudySIMBrochure extends Component {
                     </tr>
                   );
                 })}
+            <br/>
+            <h4>La Trobe University</h4>
+              <tr>
+                <th scope="col">Brochure Description</th>
+                <th scope="col">Brochure Cover Image</th>
+                <th scope="col">Brochure File</th>
+                <th scope="col">Edit</th>
+              </tr>
+              {this.state.unibrochures &&
+                this.state.unibrochures.map((unibrochures) => {
+                  if(unibrochures.university === "La Trobe University")
+                  return (
+                    <tr>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.description}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spandescription"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "description"}
+                            defaultValue={unibrochures.description}
+                            type="text"
+                            name={unibrochures.id + "description"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.description}
+                            required
+                          />
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.imageUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanimagefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "imagefile"}
+                            defaultValue={unibrochures.imageUrl}
+                            type="text"
+                            name={unibrochures.id + "imagefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.imageUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleImageFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.brochureUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanbrochurefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "brochurefile"}
+                            defaultValue={unibrochures.brochureUrl}
+                            type="text"
+                            name={unibrochures.id + "brochurefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.brochureUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload1"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleBrochureFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          id={unibrochures.id + "editbutton"}
+                          onClick={(e) => {
+                            this.editBrochure(e, unibrochures.id, unibrochures.description);
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          id={unibrochures.id + "updatebutton"}
+                          hidden
+                          onClick={(e) => {
+                            this.update(unibrochures.id);
+                            this.handleUniSavePDF(unibrochures.id,unibrochures.university );
+                            this.handleUniSaveImage(unibrochures.id,unibrochures.university);
+                          }}
+                        >
+                          Update
+                        </button>
+                        <button
+                          hidden
+                          id={unibrochures.id + "cancelbutton"}
+                          onClick={(e) => {
+                            this.CancelEdit(e, unibrochures.id,unibrochures.description);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+
+                <br/>
+            <h4>RMIT University</h4>
+              <tr>
+                <th scope="col">Brochure Description</th>
+                <th scope="col">Brochure Cover Image</th>
+                <th scope="col">Brochure File</th>
+                <th scope="col">Edit</th>
+              </tr>
+              {this.state.unibrochures &&
+                this.state.unibrochures.map((unibrochures) => {
+                  if(unibrochures.university === "RMIT University")
+                  return (
+                    <tr>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.description}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spandescription"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "description"}
+                            defaultValue={unibrochures.description}
+                            type="text"
+                            name={unibrochures.id + "description"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.description}
+                            required
+                          />
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.imageUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanimagefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "imagefile"}
+                            defaultValue={unibrochures.imageUrl}
+                            type="text"
+                            name={unibrochures.id + "imagefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.imageUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleImageFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.brochureUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanbrochurefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "brochurefile"}
+                            defaultValue={unibrochures.brochureUrl}
+                            type="text"
+                            name={unibrochures.id + "brochurefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.brochureUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload1"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleBrochureFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          id={unibrochures.id + "editbutton"}
+                          onClick={(e) => {
+                            this.editBrochure(e, unibrochures.id, unibrochures.description);
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          id={unibrochures.id + "updatebutton"}
+                          hidden
+                          onClick={(e) => {
+                            this.update(unibrochures.id);
+                            this.handleUniSavePDF(unibrochures.id,unibrochures.university );
+                            this.handleUniSaveImage(unibrochures.id,unibrochures.university);
+                          }}
+                        >
+                          Update
+                        </button>
+                        <button
+                          hidden
+                          id={unibrochures.id + "cancelbutton"}
+                          onClick={(e) => {
+                           this.CancelEdit(e, unibrochures.id,unibrochures.description);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+
+                <br/>
+            <h4>Singapore Institute of Management</h4>
+              <tr>
+                <th scope="col">Brochure Description</th>
+                <th scope="col">Brochure Cover Image</th>
+                <th scope="col">Brochure File</th>
+                <th scope="col">Edit</th>
+              </tr>
+              {this.state.unibrochures &&
+                this.state.unibrochures.map((unibrochures) => {
+                  if(unibrochures.university === "Singapore Institute of Management")
+                  return (
+                    <tr>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.description}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spandescription"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "description"}
+                            defaultValue={unibrochures.description}
+                            type="text"
+                            name={unibrochures.id + "description"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.description}
+                            required
+                          />
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.imageUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanimagefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "imagefile"}
+                            defaultValue={unibrochures.imageUrl}
+                            type="text"
+                            name={unibrochures.id + "imagefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.imageUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleImageFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.brochureUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanbrochurefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "brochurefile"}
+                            defaultValue={unibrochures.brochureUrl}
+                            type="text"
+                            name={unibrochures.id + "brochurefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.brochureUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload1"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleBrochureFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          id={unibrochures.id + "editbutton"}
+                          onClick={(e) => {
+                            this.editBrochure(e, unibrochures.id, unibrochures.description);
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          id={unibrochures.id + "updatebutton"}
+                          hidden
+                          onClick={(e) => {
+                            this.update(unibrochures.id);
+                            this.handleUniSavePDF(unibrochures.id,unibrochures.university );
+                            this.handleUniSaveImage(unibrochures.id,unibrochures.university);
+                          }}
+                        >
+                          Update
+                        </button>
+                        <button
+                          hidden
+                          id={unibrochures.id + "cancelbutton"}
+                          onClick={(e) => {
+                           this.CancelEdit(e, unibrochures.id,unibrochures.description);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })} 
+
+                <br/>
+            <h4>University of Stirling</h4>
+              <tr>
+                <th scope="col">Brochure Description</th>
+                <th scope="col">Brochure Cover Image</th>
+                <th scope="col">Brochure File</th>
+                <th scope="col">Edit</th>
+              </tr>
+              {this.state.unibrochures &&
+                this.state.unibrochures.map((unibrochures) => {
+                  if(unibrochures.university === "University of Stirling")
+                  return (
+                    <tr>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.description}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spandescription"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "description"}
+                            defaultValue={unibrochures.description}
+                            type="text"
+                            name={unibrochures.id + "description"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.description}
+                            required
+                          />
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.imageUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanimagefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "imagefile"}
+                            defaultValue={unibrochures.imageUrl}
+                            type="text"
+                            name={unibrochures.id + "imagefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.imageUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleImageFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.brochureUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanbrochurefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "brochurefile"}
+                            defaultValue={unibrochures.brochureUrl}
+                            type="text"
+                            name={unibrochures.id + "brochurefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.brochureUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload1"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleBrochureFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          id={unibrochures.id + "editbutton"}
+                          onClick={(e) => {
+                            this.editBrochure(e, unibrochures.id, unibrochures.description);
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          id={unibrochures.id + "updatebutton"}
+                          hidden
+                          onClick={(e) => {
+                            this.update(unibrochures.id);
+                            this.handleUniSavePDF(unibrochures.id,unibrochures.university );
+                            this.handleUniSaveImage(unibrochures.id,unibrochures.university);
+                          }}
+                        >
+                          Update
+                        </button>
+                        <button
+                          hidden
+                          id={unibrochures.id + "cancelbutton"}
+                          onClick={(e) => {
+                           this.CancelEdit(e, unibrochures.id,unibrochures.description);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+
+                <br/>
+            <h4>University of Buffalo</h4>
+              <tr>
+                <th scope="col">Brochure Description</th>
+                <th scope="col">Brochure Cover Image</th>
+                <th scope="col">Brochure File</th>
+                <th scope="col">Edit</th>
+              </tr>
+              {this.state.unibrochures &&
+                this.state.unibrochures.map((unibrochures) => {
+                  if(unibrochures.university === "University of Buffalo")
+                  return (
+                    <tr>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.description}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spandescription"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "description"}
+                            defaultValue={unibrochures.description}
+                            type="text"
+                            name={unibrochures.id + "description"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.description}
+                            required
+                          />
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.imageUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanimagefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "imagefile"}
+                            defaultValue={unibrochures.imageUrl}
+                            type="text"
+                            name={unibrochures.id + "imagefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.imageUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleImageFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.brochureUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanbrochurefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "brochurefile"}
+                            defaultValue={unibrochures.brochureUrl}
+                            type="text"
+                            name={unibrochures.id + "brochurefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.brochureUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload1"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleBrochureFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          id={unibrochures.id + "editbutton"}
+                          onClick={(e) => {
+                            this.editBrochure(e, unibrochures.id, unibrochures.description);
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          id={unibrochures.id + "updatebutton"}
+                          hidden
+                          onClick={(e) => {
+                            this.update(unibrochures.id);
+                            this.handleUniSavePDF(unibrochures.id,unibrochures.university );
+                            this.handleUniSaveImage(unibrochures.id,unibrochures.university);
+                          }}
+                        >
+                          Update
+                        </button>
+                        <button
+                          hidden
+                          id={unibrochures.id + "cancelbutton"}
+                          onClick={(e) => {
+                           this.CancelEdit(e, unibrochures.id,unibrochures.description);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })} 
+
+                <br/>
+            <h4>University of Birmingham</h4>
+              <tr>
+                <th scope="col">Brochure Description</th>
+                <th scope="col">Brochure Cover Image</th>
+                <th scope="col">Brochure File</th>
+                <th scope="col">Edit</th>
+              </tr>
+              {this.state.unibrochures &&
+                this.state.unibrochures.map((unibrochures) => {
+                  if(unibrochures.university === "University of Birmingham")
+                  return (
+                    <tr>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.description}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spandescription"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "description"}
+                            defaultValue={unibrochures.description}
+                            type="text"
+                            name={unibrochures.id + "description"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.description}
+                            required
+                          />
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.imageUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanimagefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "imagefile"}
+                            defaultValue={unibrochures.imageUrl}
+                            type="text"
+                            name={unibrochures.id + "imagefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.imageUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleImageFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.brochureUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanbrochurefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "brochurefile"}
+                            defaultValue={unibrochures.brochureUrl}
+                            type="text"
+                            name={unibrochures.id + "brochurefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.brochureUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload1"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleBrochureFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          id={unibrochures.id + "editbutton"}
+                          onClick={(e) => {
+                            this.editBrochure(e, unibrochures.id, unibrochures.description);
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          id={unibrochures.id + "updatebutton"}
+                          hidden
+                          onClick={(e) => {
+                            this.update(unibrochures.id);
+                            this.handleUniSavePDF(unibrochures.id,unibrochures.university );
+                            this.handleUniSaveImage(unibrochures.id,unibrochures.university);
+                          }}
+                        >
+                          Update
+                        </button>
+                        <button
+                          hidden
+                          id={unibrochures.id + "cancelbutton"}
+                          onClick={(e) => {
+                           this.CancelEdit(e, unibrochures.id,unibrochures.description);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}  
+
+                <br/>
+            <h4>University of London</h4>
+              <tr>
+                <th scope="col">Brochure Description</th>
+                <th scope="col">Brochure Cover Image</th>
+                <th scope="col">Brochure File</th>
+                <th scope="col">Edit</th>
+              </tr>
+              {this.state.unibrochures &&
+                this.state.unibrochures.map((unibrochures) => {
+                  if(unibrochures.university === "University of London")
+                  return (
+                    <tr>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.description}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spandescription"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "description"}
+                            defaultValue={unibrochures.description}
+                            type="text"
+                            name={unibrochures.id + "description"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.description}
+                            required
+                          />
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.imageUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanimagefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "imagefile"}
+                            defaultValue={unibrochures.imageUrl}
+                            type="text"
+                            name={unibrochures.id + "imagefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.imageUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleImageFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.brochureUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanbrochurefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "brochurefile"}
+                            defaultValue={unibrochures.brochureUrl}
+                            type="text"
+                            name={unibrochures.id + "brochurefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.brochureUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload1"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleBrochureFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          id={unibrochures.id + "editbutton"}
+                          onClick={(e) => {
+                            this.editBrochure(e, unibrochures.id, unibrochures.description);
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          id={unibrochures.id + "updatebutton"}
+                          hidden
+                          onClick={(e) => {
+                            this.update(unibrochures.id);
+                            this.handleUniSavePDF(unibrochures.id,unibrochures.university );
+                            this.handleUniSaveImage(unibrochures.id,unibrochures.university);
+                          }}
+                        >
+                          Update
+                        </button>
+                        <button
+                          hidden
+                          id={unibrochures.id + "cancelbutton"}
+                          onClick={(e) => {
+                           this.CancelEdit(e, unibrochures.id,unibrochures.description);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })} 
+
+                <br/>
+            <h4>University of Wollongong</h4>
+              <tr>
+                <th scope="col">Brochure Description</th>
+                <th scope="col">Brochure Cover Image</th>
+                <th scope="col">Brochure File</th>
+                <th scope="col">Edit</th>
+              </tr>
+              {this.state.unibrochures &&
+                this.state.unibrochures.map((unibrochures) => {
+                  if(unibrochures.university === "University of Wollongong")
+                  return (
+                    <tr>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.description}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spandescription"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "description"}
+                            defaultValue={unibrochures.description}
+                            type="text"
+                            name={unibrochures.id + "description"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.description}
+                            required
+                          />
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.imageUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanimagefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "imagefile"}
+                            defaultValue={unibrochures.imageUrl}
+                            type="text"
+                            name={unibrochures.id + "imagefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.imageUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleImageFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.brochureUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanbrochurefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "brochurefile"}
+                            defaultValue={unibrochures.brochureUrl}
+                            type="text"
+                            name={unibrochures.id + "brochurefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.brochureUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload1"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleBrochureFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          id={unibrochures.id + "editbutton"}
+                          onClick={(e) => {
+                            this.editBrochure(e, unibrochures.id, unibrochures.description);
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          id={unibrochures.id + "updatebutton"}
+                          hidden
+                          onClick={(e) => {
+                            this.update(unibrochures.id);
+                            this.handleUniSavePDF(unibrochures.id,unibrochures.university );
+                            this.handleUniSaveImage(unibrochures.id,unibrochures.university);
+                          }}
+                        >
+                          Update
+                        </button>
+                        <button
+                          hidden
+                          id={unibrochures.id + "cancelbutton"}
+                          onClick={(e) => {
+                           this.CancelEdit(e, unibrochures.id,unibrochures.description);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })} 
+
+                <br/>
+            <h4>University of Sydney</h4>
+              <tr>
+                <th scope="col">Brochure Description</th>
+                <th scope="col">Brochure Cover Image</th>
+                <th scope="col">Brochure File</th>
+                <th scope="col">Edit</th>
+              </tr>
+              {this.state.unibrochures &&
+                this.state.unibrochures.map((unibrochures) => {
+                  if(unibrochures.university === "University of Sydney")
+                  return (
+                    <tr>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.description}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spandescription"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "description"}
+                            defaultValue={unibrochures.description}
+                            type="text"
+                            name={unibrochures.id + "description"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.description}
+                            required
+                          />
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.imageUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanimagefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "imagefile"}
+                            defaultValue={unibrochures.imageUrl}
+                            type="text"
+                            name={unibrochures.id + "imagefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.imageUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleImageFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.brochureUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanbrochurefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "brochurefile"}
+                            defaultValue={unibrochures.brochureUrl}
+                            type="text"
+                            name={unibrochures.id + "brochurefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.brochureUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload1"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleBrochureFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          id={unibrochures.id + "editbutton"}
+                          onClick={(e) => {
+                            this.editBrochure(e, unibrochures.id, unibrochures.description);
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          id={unibrochures.id + "updatebutton"}
+                          hidden
+                          onClick={(e) => {
+                            this.update(unibrochures.id);
+                            this.handleUniSavePDF(unibrochures.id,unibrochures.university );
+                            this.handleUniSaveImage(unibrochures.id,unibrochures.university);
+                          }}
+                        >
+                          Update
+                        </button>
+                        <button
+                          hidden
+                          id={unibrochures.id + "cancelbutton"}
+                          onClick={(e) => {
+                           this.CancelEdit(e, unibrochures.id,unibrochures.description);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })} 
+
+                 <br/>
+            <h4>University of Warwick</h4>
+              <tr>
+                <th scope="col">Brochure Description</th>
+                <th scope="col">Brochure Cover Image</th>
+                <th scope="col">Brochure File</th>
+                <th scope="col">Edit</th>
+              </tr>
+              {this.state.unibrochures &&
+                this.state.unibrochures.map((unibrochures) => {
+                  if(unibrochures.university === "University of Warwick")
+                  return (
+                    <tr>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.description}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spandescription"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "description"}
+                            defaultValue={unibrochures.description}
+                            type="text"
+                            name={unibrochures.id + "description"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.description}
+                            required
+                          />
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.imageUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanimagefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "imagefile"}
+                            defaultValue={unibrochures.imageUrl}
+                            type="text"
+                            name={unibrochures.id + "imagefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.imageUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleImageFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <span class={unibrochures.id + "text"}>
+                          {unibrochures.brochureUrl}
+                        </span>
+                        <span
+                          id={unibrochures.id + "spanbrochurefile"}
+                          hidden
+                        >
+                          <input
+                            id={unibrochures.id + "brochurefile"}
+                            defaultValue={unibrochures.brochureUrl}
+                            type="text"
+                            name={unibrochures.id + "brochurefile"}
+                            class="form-control"
+                            aria-describedby="emailHelp"
+                            placeholder={unibrochures.brochureUrl}
+                            required
+                            disabled={"disabled"}
+                          />
+                        </span>
+                        <span id={unibrochures.id + "upload1"} hidden>
+                          <input
+                            type="file"
+                            onChange={(e) => {
+                              this.handleBrochureFileUpload(e.target.files);
+                            }}
+                          />
+
+                          {this.state.progress}
+                          <div>
+                            <progress value={this.state.progress} max="100" />
+                          </div>
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          id={unibrochures.id + "editbutton"}
+                          onClick={(e) => {
+                            this.editBrochure(e, unibrochures.id, unibrochures.description);
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          id={unibrochures.id + "updatebutton"}
+                          hidden
+                          onClick={(e) => {
+                            this.update(unibrochures.id);
+                            this.handleUniSavePDF(unibrochures.id,unibrochures.university );
+                            this.handleUniSaveImage(unibrochures.id,unibrochures.university);
+                          }}
+                        >
+                          Update
+                        </button>
+                        <button
+                          hidden
+                          id={unibrochures.id + "cancelbutton"}
+                          onClick={(e) => {
+                           this.CancelEdit(e, unibrochures.id,unibrochures.description);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}       
             </tbody>
           </table>
         </div>
