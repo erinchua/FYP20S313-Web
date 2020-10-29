@@ -21,35 +21,38 @@
 #MAHome-firstRow {
     background-color: #88B7B5;
     height: 13vh;
-    margin-right: 0;
+    margin: 0 !important;
 }
 
 #MAHome-secondRow {
-    max-height: 10%;
-    margin-right: 0;
-    margin-bottom: 2%;
+    margin: 0 !important;
+    margin-bottom: 1% !important;
 }
 
 #MAHome-thirdRow {
     display: flex;
     justify-content: space-around;
-    margin-right: 0;
+    margin: 0 !important;
     padding: 0 !important;
 }
 
 .MAHome-thirdInnerRow {
-    margin-right: 0;
+    margin: 0 !important;
     padding: 10% 0;
 }
 
 #MAHome-fourthRow {
-    margin-right: 0;
+    margin: 0 !important;
 }
 
 #MAHome-refreshBtn {
     background: none;
     color: black;
     border: none;
+}
+
+#MAHome-refreshBtn {
+    box-shadow: none;
 }
 
 #MAHome-secondRowCol1 {
