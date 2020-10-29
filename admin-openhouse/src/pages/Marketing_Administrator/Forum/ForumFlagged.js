@@ -244,22 +244,6 @@ class ForumFlagged extends Component {
 
     console.log(postid);
     const db = fire.firestore();
-    const userRef = db
-      .collectionGroup(reporttype)
-      .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          if (doc.data().id.toString() === postid.toString()) {
-            doc.ref
-              .update({
-                deleted: false,
-              })
-              .then(function () {
-                alert("Updated");
-              });
-          }
-        });
-      });
     const isHandled = db
       .collectionGroup("Reports")
       .get()
