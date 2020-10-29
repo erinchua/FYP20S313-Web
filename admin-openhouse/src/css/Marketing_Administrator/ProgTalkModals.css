@@ -1,0 +1,339 @@
+/**********************************************************************************************/
+/* Add Prog Talk Modal Css */
+/**********************************************************************************************/
+#addProgTalkModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.addProgTalkFormRow {
+    padding-bottom: 4%;
+}
+
+.addProgTalkFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.addProgTalkForm_InnerRow {
+    padding-bottom: 4%;
+}
+
+.addProgTalkFormIconInputGrp {
+    background: transparent !important;
+    border: none !important;
+}
+
+#addProgTalkForm_ProgTalkName {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addProgTalkForm_ProgTalkName:focus {
+    box-shadow: none;
+}
+
+#addProgTalkForm_Venue {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addProgTalkForm_Venue:focus {
+    box-shadow: none;
+}
+
+.addProgTalkFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    border-radius: 0 !important;
+    font-size: 85% !important;
+}
+
+.addProgTalkFormSelect:focus {
+    box-shadow: none !important;
+}
+
+.addProgTalkFormSelectOption {
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addProgTalkForm_ProgTalkStartTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addProgTalkForm_ProgTalkStartTime:focus {
+    box-shadow: none;
+}
+
+#addProgTalkForm_ProgTalkEndTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addProgTalkForm_ProgTalkEndTime:focus {
+    box-shadow: none;
+}
+
+#addProgTalkForm_Capacity {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addProgTalkForm_Capacity:focus {
+    box-shadow: none;
+}
+
+.addProgTalkForm_InnerCol {
+    height: 80%;
+}
+
+.addProgTalkModal .addProgTalkForm_DisciplineCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 10vh;
+    overflow-x: hidden;
+    font-size: 85% !important;
+}
+
+.addProgTalkForm_CheckBox {
+    color: #434343;
+}
+
+#addProgTalkForm_ProgTalkDetails {
+    resize: none;
+    border-radius: 6px;
+    color: #434343;
+    font-size: 85%;
+}
+
+.addProgTalkFormLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
+}
+
+#addProgTalkFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+    width: 20%;
+}
+
+#addProgTalkFormBtn:focus {
+    box-shadow: none;
+}
+
+/**********************************************************************************************/
+/* Edit Prog Talk Modal Css */
+/**********************************************************************************************/
+#editProgTalkModalTitle {
+    color: #424242;
+    text-align: center;
+}
+.editProgTalkFormRow {
+    padding-bottom: 4%;
+}
+
+.editProgTalkFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.editProgTalkForm_InnerRow {
+    padding-bottom: 4%;
+}
+
+.editProgTalkFormIconInputGrp {
+    background: transparent !important;
+    border: none !important;
+}
+
+#editProgTalkForm_ProgTalkName {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#editProgTalkForm_ProgTalkName:focus {
+    box-shadow: none;
+}
+
+#editProgTalkForm_Venue {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#editProgTalkForm_Venue:focus {
+    box-shadow: none;
+}
+
+.editProgTalkFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    border-radius: 0 !important;
+    font-size: 85% !important;
+}
+
+.editProgTalkFormSelect:focus {
+    box-shadow: none !important;
+}
+
+.editProgTalkFormSelectOption {
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#editProgTalkForm_ProgTalkStartTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#editProgTalkForm_ProgTalkStartTime:focus {
+    box-shadow: none;
+}
+
+#editProgTalkForm_ProgTalkEndTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#editProgTalkForm_ProgTalkEndTime:focus {
+    box-shadow: none;
+}
+
+#editProgTalkForm_Capacity {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#editProgTalkForm_Capacity:focus {
+    box-shadow: none;
+}
+
+.editProgTalkForm_InnerCol {
+    height: 80%;
+}
+
+.editProgTalkModal .editProgTalkForm_DisciplineCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 10vh;
+    overflow-x: hidden;
+    font-size: 85% !important;
+}
+
+.editProgTalkForm_CheckBox {
+    color: #434343;
+}
+
+#editProgTalkForm_ProgTalkDetails {
+    resize: none;
+    border-radius: 6px;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+.editProgTalkFormLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
+}
+
+#saveChangesProgTalkFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+    width: 40%;
+}
+
+#saveChangesProgTalkFormBtn:focus {
+    box-shadow: none;
+}
+
+#cancelEditProgTalkFormBtn {
+    background: none;
+    border: 1px solid #60c6d9;
+    color: #60c6d9;
+    border-radius: 6px;
+    width: 40%;
+}
+
+#cancelEditProgTalkFormBtn:focus {
+    box-shadow: none;
+}
+
+/**********************************************************************************************/
+/* Delete Prog Talk Modal Css */
+/**********************************************************************************************/
+#deleteProgTalkModalTitle {
+    font-size: 95%;
+    color: #EA526F;
+}
+
+.deleteProgTalkModalCol {
+    padding-bottom: 4%;
+}
+
+#deleteProgTalkModalText {
+    font-size: 90%;
+    color: #424242;
+}
+
+#confirmDeleteProgTalkModalBtn {
+    background: none;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #EA526F;
+    width: 40%;
+}
+
+#confirmDeleteProgTalkModalBtn:focus {
+    box-shadow: none;
+}
+
+#cancelDeleteProgTalkModalBtn {
+    background: #EA526F;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #ffffff;
+    width: 40%;
+}
+
+#cancelDeleteProgTalkModalBtn:focus {
+    box-shadow: none;
+}

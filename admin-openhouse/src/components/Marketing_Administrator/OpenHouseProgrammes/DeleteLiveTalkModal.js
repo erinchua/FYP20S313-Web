@@ -5,7 +5,7 @@ import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import firecreate from "../../../config/firebasecreate";
 
-import "../../../css/Marketing_Administrator/DeleteLiveTalkModal.css";
+import "../../../css/Marketing_Administrator/LiveTalkModals.css";
 
 export default class DeleteLiveTalkModal extends React.Component {
     constructor() {

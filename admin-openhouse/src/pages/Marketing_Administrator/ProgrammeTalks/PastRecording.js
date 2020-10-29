@@ -4,9 +4,7 @@ import history from "../../../config/history";
 import { Container, Row, Col, Button, Table, Modal, Tab, Nav, Form, FormControl, InputGroup } from 'react-bootstrap';
 
 import "../../../css/Marketing_Administrator/ProgrammeTalkPastRec.css";
-import "../../../css/Marketing_Administrator/AddPastRecModal.css";
-import "../../../css/Marketing_Administrator/EditPastRecModal.css";
-import "../../../css/Marketing_Administrator/DeletePastRecModal.css";
+import "../../../css/Marketing_Administrator/PastRecModals.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd, faChair, faUniversity } from '@fortawesome/free-solid-svg-icons';
