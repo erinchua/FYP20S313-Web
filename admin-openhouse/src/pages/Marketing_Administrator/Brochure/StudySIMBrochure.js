@@ -73,6 +73,29 @@ class StudySIMBrochure extends Component {
 
         this.setState({ prospectbrochures: prospectbrochures });
       });
+
+  //Display of University Brochures
+      const userRef1 = db
+      .collection("Brochures")
+      .where("university", ">", "")
+      .onSnapshot((snapshot) => {
+        const unibrochures = [];
+        snapshot.forEach((doc) => {
+          console.log(doc.data());
+          const data = {
+            brochureUrl: doc.data().brochureUrl,
+            description: doc.data().description,
+            imageUrl: doc.data().imageUrl,
+            university: doc.data().university,
+            id: doc.id,
+            counter: counter,
+          };
+          counter++;
+          unibrochures.push(data);
+        });
+
+        this.setState({ unibrochures: unibrochures });
+      });
   }
   handleFileUpload = (files) => {
     this.setState({
@@ -82,6 +105,7 @@ class StudySIMBrochure extends Component {
 
   editBrochure(e, brochureid) {
     document.getElementById(brochureid + "upload").removeAttribute("hidden");
+    document.getElementById(brochureid + "upload1").removeAttribute("hidden");
     document
       .getElementById(brochureid + "spanbrochurefile")
       .removeAttribute("hidden");
@@ -105,6 +129,7 @@ class StudySIMBrochure extends Component {
 
   CancelEdit(e, brochureid) {
     document.getElementById(brochureid + "upload").setAttribute("hidden", "");
+    document.getElementById(brochureid + "upload1").setAttribute("hidden", "");
     document
       .getElementById(brochureid + "spanbrochurefile")
       .setAttribute("hidden", "");
@@ -237,7 +262,7 @@ class StudySIMBrochure extends Component {
                             disabled={"disabled"}
                           />
                         </span>
-                        <span id={prospectbrochures.id + "upload"} hidden>
+                        <span id={prospectbrochures.id + "upload1"} hidden>
                           <input
                             type="file"
                             onChange={(e) => {
