@@ -5,7 +5,7 @@ import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import firecreate from "../../../config/firebasecreate";
 
-import "../../../css/Marketing_Administrator/DeletePastRecModal.css";
+import "../../../css/Marketing_Administrator/PastRecModals.css";
 
 export default class DeletePastRecModal extends React.Component {
     constructor() {

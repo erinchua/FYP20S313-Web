@@ -5,7 +5,7 @@ import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import firecreate from "../../../config/firebasecreate";
 
-import "../../../css/Marketing_Administrator/DeleteProgTalkModal.css";
+import "../../../css/Marketing_Administrator/ProgTalkModals.css";
 
 export default class DeleteProgTalkModal extends React.Component {
     constructor() {

@@ -5,7 +5,7 @@ import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import firecreate from "../../../config/firebasecreate";
 
-import "../../../css/Marketing_Administrator/EditLiveTalkModal.css";
+import "../../../css/Marketing_Administrator/LiveTalkModals.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faSchool, faUniversity, faCalendarAlt, faHourglassStart, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';
 

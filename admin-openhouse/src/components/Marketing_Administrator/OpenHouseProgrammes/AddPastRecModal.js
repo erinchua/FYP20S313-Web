@@ -5,7 +5,7 @@ import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import firecreate from "../../../config/firebasecreate";
 
-import "../../../css/Marketing_Administrator/AddPastRecModal.css";
+import "../../../css/Marketing_Administrator/PastRecModals.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd, faChair, faUniversity } from '@fortawesome/free-solid-svg-icons';
 

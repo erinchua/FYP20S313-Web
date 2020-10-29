@@ -4,9 +4,7 @@ import history from "../../../config/history";
 import { Container, Row, Col, Button, Table, Modal, Tab, Nav, Form, FormControl, InputGroup } from 'react-bootstrap';
 
 import "../../../css/Marketing_Administrator/ProgrammeTalkSchedule.css";
-import "../../../css/Marketing_Administrator/AddProgTalkModal.css";
-import "../../../css/Marketing_Administrator/EditProgTalkModal.css";
-import "../../../css/Marketing_Administrator/DeleteProgTalkModal.css";
+import "../../../css/Marketing_Administrator/ProgTalkModals.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd, faChair, faUniversity } from '@fortawesome/free-solid-svg-icons';
@@ -37,7 +35,7 @@ class ProgrammeTalkSchedule extends Component {
       link: "",
       id: "",
       progTalkDetails: "",
-      discipline: "",
+      discipline: [],
       day1: [],
       day2: [],
       day1Date: "",
@@ -264,6 +262,7 @@ class ProgrammeTalkSchedule extends Component {
           link: this.state.link,
           id: docid,
           progTalkDetails: this.state.details,
+          discipline: this.state.discipline,
 
         })
         .then(function () {
@@ -362,6 +361,12 @@ class ProgrammeTalkSchedule extends Component {
   //     texttohide[i].removeAttribute("hidden", "");
   //   }
   // }
+
+  handleSaveChanges = () => {
+    console.log(this.state.venue);
+    console.log(this.state.discipline);
+
+  }
 
   /* Add Programme Talk Modal */
   handleAddProgTalkModal = () => {
@@ -814,7 +819,7 @@ class ProgrammeTalkSchedule extends Component {
           </Modal.Header>
 
           <Modal.Body id="editProgTalkModalBody">
-            <Form noValidate> {/* Need to add onSubmit later */}
+            <Form noValidate onSubmit={()=>{this.editProgTalk(this.state.id)}}>
               {/* Main Row */}
               <Form.Row className="justify-content-center">
                 {/* Left Col */}
@@ -829,7 +834,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" name="talkName" defaultValue={this.state.talkName} id="editProgTalkForm_ProgTalkName" placeholder="Name of Programme Talk*" required />
+                        <FormControl type="text" name="talkName" defaultValue={this.state.talkName} onChange={this.updateInput} id="editProgTalkForm_ProgTalkName" placeholder="Name of Programme Talk*" required />
                       </InputGroup>
                     </Col>
                   </Form.Row>
@@ -844,7 +849,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" name="venue" defaultValue={this.state.venue} id="editProgTalkForm_Venue" placeholder="Venue*" required />
+                        <FormControl type="text" name="venue" defaultValue={this.state.venue} onChange={this.updateInput} id="editProgTalkForm_Venue" placeholder="Venue*" required />
                       </InputGroup>
                     </Col>
                   </Form.Row>
@@ -859,7 +864,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="number" min="0" name="endTime" defaultValue={this.state.capacityLimit} id="editProgTalkForm_Capacity" placeholder="Capacity Limit*" required />
+                        <FormControl type="number" min="0" name="endTime" defaultValue={this.state.capacityLimit} onChange={this.updateInput} id="editProgTalkForm_Capacity" placeholder="Capacity Limit*" required />
                       </InputGroup>
                     </Col>
                   </ Form.Row>
@@ -875,7 +880,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="startTime" defaultValue={this.state.startTime} id="editProgTalkForm_ProgTalkStartTime" placeholder="Start Time*" required />
+                        <FormControl type="text" name="startTime" defaultValue={this.state.startTime} onChange={this.updateInput} id="editProgTalkForm_ProgTalkStartTime" placeholder="Start Time*" required />
                       </InputGroup>
                     </Col>
 
@@ -888,7 +893,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="endTime" defaultValue={this.state.endTime} id="editProgTalkForm_ProgTalkEndTime" placeholder="End Time*" required />
+                        <FormControl type="text" name="endTime" defaultValue={this.state.endTime} onChange={this.updateInput} id="editProgTalkForm_ProgTalkEndTime" placeholder="End Time*" required />
                       </InputGroup>
                     </Col>
                   </Form.Row>
@@ -907,7 +912,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <Form.Control as="select" name="date" defaultValue={this.state.date} className="editProgTalkFormSelect" required noValidate>
+                        <Form.Control as="select" name="date" defaultValue={this.state.date} onChange={this.updateInput} className="editProgTalkFormSelect" required noValidate>
                           <option value="chooseDate" className="editProgTalkFormSelectOption">Choose an Openhouse Date</option>
                           
                           {/* To be retrieved from DB */}
@@ -929,7 +934,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <Form.Control as="select" name="uniName" defaultValue={this.state.awardingUni} className="editProgTalkFormSelect" required noValidate>
+                        <Form.Control as="select" name="uniName" defaultValue={this.state.awardingUni} onChange={this.updateInput} className="editProgTalkFormSelect" required noValidate>
                           <option value="chooseUni" className="editProgTalkFormSelectOption">Choose a University</option>
                           
                           {this.state.uniList && this.state.uniList.map((uni) => {
@@ -957,7 +962,7 @@ class ProgrammeTalkSchedule extends Component {
                             <>
                               <Row key={discipline.disciplineId}>
                                 <Col>
-                                  <Form.Check name="discipline" checked={this.state.checkDiscipline} value={discipline.disciplineName} type="checkbox" label={discipline.disciplineName} className="editProgTalkForm_CheckBox" />
+                                  <Form.Check name="discipline" value={discipline.disciplineName} onChange={this.updateInput} defaultChecked={this.state.discipline.indexOf(discipline.disciplineName) > -1} type="checkbox" label={discipline.disciplineName} className="editProgTalkForm_CheckBox" />
                                 </Col>
                               </Row>
                             </>
@@ -976,7 +981,7 @@ class ProgrammeTalkSchedule extends Component {
                 <Col md="11" className="editProgTalkFormCol">
                   <Form.Label className="editProgTalkFormLabel">Programme Talk Details</Form.Label>
 
-                  <FormControl as="textarea" rows="8" defaultValue={this.state.progTalkDetails} required noValidate id="editProgTalkForm_ProgTalkDetails" placeholder="Programme Talk Details" />
+                  <FormControl as="textarea" rows="8" defaultValue={this.state.progTalkDetails} onChange={this.updateInput} required noValidate id="editProgTalkForm_ProgTalkDetails" placeholder="Programme Talk Details" />
                 </Col>
               </Form.Row>
             </Form>
@@ -991,7 +996,7 @@ class ProgrammeTalkSchedule extends Component {
                 </Col>
 
                 <Col md="6" className="text-left">
-                  <Button id="cancelEditProgTalkFormBtn" onClick={this.handleCancelEdit}>Cancel</Button>
+                  <Button id="cancelEditProgTalkFormBtn" onClick={this.handleEditProgTalkModal}>Cancel</Button>
                 </Col>
               </Row>
             </Container>
