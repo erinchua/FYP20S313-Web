@@ -16,7 +16,6 @@ import EditStudySIMProgModal from "../../../components/Marketing_Administrator/S
 import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/DeleteStudySIMProgModal";
 import ViewStudySIMProgDetailsModal from "../../../components/Marketing_Administrator/Study@SIM/ViewStudySIMProgDetailsModal";
 
-
 class StudySIM_Business extends Component {
   constructor() {
     super();
@@ -24,7 +23,7 @@ class StudySIM_Business extends Component {
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
-      viewStudySIMProgDetailsModal: false
+      viewStudySIMProgDetailsModal: false,
     };
   }
 
@@ -35,7 +34,7 @@ class StudySIM_Business extends Component {
         var getrole = db
           .collection("Administrators")
           .where("email", "==", user.email);
-        getrole.get().then((snapshot) => {
+        getrole.onSnapshot((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
               this.display();
@@ -76,7 +75,7 @@ class StudySIM_Business extends Component {
             docid: doc.id,
             programmeName: doc.data().programmeTitle,
             awardBy: doc.data().awardedBy,
-            Logofile: doc.data().Logofile,
+            Logofile: doc.data().logoFile,
             CategoryProgramme: doc.data().category,
             ModeOfStudy: doc.data().modeOfStudy,
             discipline1: doc.data().discipline.disciplineName1,
@@ -86,6 +85,13 @@ class StudySIM_Business extends Component {
             Qualificaiton: doc.data().entryQualifications,
 
             subDiscipline: doc.data().subDiscipline,
+
+            aboutprogramme: doc.data().programmeOverview,
+            applicationperiod: doc.data().applicationPeriod,
+            programmestructure: doc.data().programmeStructure,
+            overseaopportunity: doc.data().overseaOpportunity,
+            intakemonths: doc.data().intakeMonths,
+            duration: doc.data().duration,
           };
 
           business.push(data);
@@ -149,7 +155,6 @@ class StudySIM_Business extends Component {
     }
   };
 
-  
   render() {
     return (
       <div>
@@ -254,7 +259,47 @@ class StudySIM_Business extends Component {
                                     {index}
                                   </td>
                                   <td className="studySIMProgData_ProgName text-left">
-                                    <a className="studySIMProgData_ProgNameLink" onClick={this.handleViewStudySIMProgDetailsModal}>
+                                    <a
+                                      className="studySIMProgData_ProgNameLink"
+                                      onClick={() => {
+                                        this.setState({
+                                          aboutprogramme1:
+                                            business.aboutprogramme
+                                              .aboutProgramme1,
+                                          aboutprogramme2:
+                                            business.aboutprogramme
+                                              .aboutProgramme2,
+                                          aboutprogramme3:
+                                            business.aboutprogramme
+                                              .aboutProgramme3,
+                                          applicationperiod1:
+                                            business.applicationperiod.period1,
+                                          applicationperiod2:
+                                            business.applicationperiod.period2,
+                                          programmestructurecoursework:
+                                            business.programmestructure
+                                              .coursework,
+                                          programmestructureexamination:
+                                            business.programmestructure
+                                              .examination,
+                                          overseaopportunityexchange:
+                                            business.overseaopportunity
+                                              .exchange,
+                                          overseaopportunitytransfer:
+                                            business.overseaopportunity
+                                              .transfer,
+                                          intakemonthsfulltime:
+                                            business.intakemonths.fullTime,
+                                          intakemonthsparttime:
+                                            business.intakemonths.partTime,
+                                          durationfulltime:
+                                            business.duration.fullTime,
+                                          durationparttime:
+                                            business.duration.partTime,
+                                        });
+                                        this.handleViewStudySIMProgDetailsModal();
+                                      }}
+                                    >
                                       {/* href={
                                         "/ArtsSocialScienceViewProgramme?id=" +
                                         business.docid
@@ -370,6 +415,41 @@ class StudySIM_Business extends Component {
                                           subdisciplne4:
                                             business.subDiscipline
                                               .subDisciplineName4,
+                                          //details
+                                          aboutprogramme1:
+                                            business.aboutprogramme
+                                              .aboutProgramme1,
+                                          aboutprogramme2:
+                                            business.aboutprogramme
+                                              .aboutProgramme2,
+                                          aboutprogramme3:
+                                            business.aboutprogramme
+                                              .aboutProgramme3,
+                                          applicationperiod1:
+                                            business.applicationperiod.period1,
+                                          applicationperiod2:
+                                            business.applicationperiod.period2,
+                                          programmestructurecoursework:
+                                            business.programmestructure
+                                              .coursework,
+                                          programmestructureexamination:
+                                            business.programmestructure
+                                              .examination,
+                                          overseaopportunityexchange:
+                                            business.overseaopportunity
+                                              .exchange,
+                                          overseaopportunitytransfer:
+                                            business.overseaopportunity
+                                              .transfer,
+                                          intakemonthsfulltime:
+                                            business.intakemonths.fullTime,
+                                          intakemonthsparttime:
+                                            business.intakemonths.partTime,
+                                          durationfulltime:
+                                            business.duration.fullTime,
+                                          durationparttime:
+                                            business.duration.partTime,
+                                          docid: business.docid,
                                         });
                                         this.handleEditStudySIMProgModal();
                                       }}
@@ -455,6 +535,25 @@ class StudySIM_Business extends Component {
             subdisciplne3={this.state.subdisciplne3}
             subdisciplne4={this.state.subdisciplne4}
             subdisciplne5={this.state.subdisciplne5}
+            //details
+            aboutprogramme1={this.state.aboutprogramme1}
+            aboutprogramme2={this.state.aboutprogramme2}
+            aboutprogramme3={this.state.aboutprogramme3}
+            applicationperiod1={this.state.applicationperiod1}
+            applicationperiod2={this.state.applicationperiod2}
+            programmestructurecoursework={
+              this.state.programmestructurecoursework
+            }
+            programmestructureexamination={
+              this.state.programmestructureexamination
+            }
+            overseaopportunityexchange={this.state.overseaopportunityexchange}
+            overseaopportunitytransfer={this.state.overseaopportunitytransfer}
+            intakemonthsfulltime={this.state.intakemonthsfulltime}
+            intakemonthsparttime={this.state.intakemonthsparttime}
+            durationfulltime={this.state.durationfulltime}
+            durationparttime={this.state.durationparttime}
+            docid={this.state.docid}
             handleSaveChanges={() => {
               console.log("Edit Modal Saved");
             }}
@@ -480,7 +579,7 @@ class StudySIM_Business extends Component {
             handleCancelDelete={this.handleDeleteStudySIMProgModal}
           />
         </Modal>
-        
+
         {/* View Programme Details Modal */}
         <Modal
           show={this.state.viewStudySIMProgDetailsModal}
@@ -491,7 +590,25 @@ class StudySIM_Business extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <ViewStudySIMProgDetailsModal />
+          <ViewStudySIMProgDetailsModal
+            aboutprogramme1={this.state.aboutprogramme1}
+            aboutprogramme2={this.state.aboutprogramme2}
+            aboutprogramme3={this.state.aboutprogramme3}
+            applicationperiod1={this.state.applicationperiod1}
+            applicationperiod2={this.state.applicationperiod2}
+            programmestructurecoursework={
+              this.state.programmestructurecoursework
+            }
+            programmestructureexamination={
+              this.state.programmestructureexamination
+            }
+            overseaopportunityexchange={this.state.overseaopportunityexchange}
+            overseaopportunitytransfer={this.state.overseaopportunitytransfer}
+            intakemonthsfulltime={this.state.intakemonthsfulltime}
+            intakemonthsparttime={this.state.intakemonthsparttime}
+            durationfulltime={this.state.durationfulltime}
+            durationparttime={this.state.durationparttime}
+          />
         </Modal>
       </div>
     );

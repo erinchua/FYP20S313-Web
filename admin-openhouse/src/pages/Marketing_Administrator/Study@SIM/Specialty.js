@@ -16,7 +16,6 @@ import EditStudySIMProgModal from "../../../components/Marketing_Administrator/S
 import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/DeleteStudySIMProgModal";
 import ViewStudySIMProgDetailsModal from "../../../components/Marketing_Administrator/Study@SIM/ViewStudySIMProgDetailsModal";
 
-
 class StudySIM_Speciality extends Component {
   constructor() {
     super();
@@ -24,7 +23,7 @@ class StudySIM_Speciality extends Component {
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
-      viewStudySIMProgDetailsModal: false
+      viewStudySIMProgDetailsModal: false,
     };
   }
 
@@ -53,7 +52,7 @@ class StudySIM_Speciality extends Component {
   componentDidMount() {
     this.authListener();
   }
-  
+
   display() {
     const db = fire.firestore();
 
@@ -76,7 +75,7 @@ class StudySIM_Speciality extends Component {
             docid: doc.id,
             programmeName: doc.data().programmeTitle,
             awardBy: doc.data().awardedBy,
-            Logofile: doc.data().Logofile,
+            Logofile: doc.data().logoFile,
             CategoryProgramme: doc.data().category,
             ModeOfStudy: doc.data().modeOfStudy,
             discipline1: doc.data().discipline.disciplineName1,
@@ -86,6 +85,13 @@ class StudySIM_Speciality extends Component {
             Qualificaiton: doc.data().entryQualifications,
 
             subDiscipline: doc.data().subDiscipline,
+
+            aboutprogramme: doc.data().programmeOverview,
+            applicationperiod: doc.data().applicationPeriod,
+            programmestructure: doc.data().programmeStructure,
+            overseaopportunity: doc.data().overseaOpportunity,
+            intakemonths: doc.data().intakeMonths,
+            duration: doc.data().duration,
           };
 
           Specialty.push(data);
@@ -148,7 +154,6 @@ class StudySIM_Speciality extends Component {
       });
     }
   };
-
 
   render() {
     return (
@@ -254,10 +259,50 @@ class StudySIM_Speciality extends Component {
                                     {index}
                                   </td>
                                   <td className="studySIMProgData_ProgName text-left">
-                                    <a className="studySIMProgData_ProgNameLink" onClick={this.handleViewStudySIMProgDetailsModal}>
+                                    <a
+                                      className="studySIMProgData_ProgNameLink"
+                                      onClick={() => {
+                                        this.setState({
+                                          aboutprogramme1:
+                                            Specialty.aboutprogramme
+                                              .aboutProgramme1,
+                                          aboutprogramme2:
+                                            Specialty.aboutprogramme
+                                              .aboutProgramme2,
+                                          aboutprogramme3:
+                                            Specialty.aboutprogramme
+                                              .aboutProgramme3,
+                                          applicationperiod1:
+                                            Specialty.applicationperiod.period1,
+                                          applicationperiod2:
+                                            Specialty.applicationperiod.period2,
+                                          programmestructurecoursework:
+                                            Specialty.programmestructure
+                                              .coursework,
+                                          programmestructureexamination:
+                                            Specialty.programmestructure
+                                              .examination,
+                                          overseaopportunityexchange:
+                                            Specialty.overseaopportunity
+                                              .exchange,
+                                          overseaopportunitytransfer:
+                                            Specialty.overseaopportunity
+                                              .transfer,
+                                          intakemonthsfulltime:
+                                            Specialty.intakemonths.fullTime,
+                                          intakemonthsparttime:
+                                            Specialty.intakemonths.partTime,
+                                          durationfulltime:
+                                            Specialty.duration.fullTime,
+                                          durationparttime:
+                                            Specialty.duration.partTime,
+                                        });
+                                        this.handleViewStudySIMProgDetailsModal();
+                                      }}
+                                    >
                                       {/* href={
                                         "/ArtsSocialScienceViewProgramme?id=" +
-                                         Specialty.docid
+                                        Specialty.docid
                                       } */}
                                       {Specialty.programmeName}
                                     </a>
@@ -372,9 +417,44 @@ class StudySIM_Speciality extends Component {
                                           subdisciplne4:
                                             Specialty.subDiscipline
                                               .subDisciplineName4,
-                                          subdisciplne4:
+                                          subdisciplne5:
                                             Specialty.subDiscipline
-                                              .subDisciplineName4,
+                                              .subDisciplineName5,
+                                          //details
+                                          aboutprogramme1:
+                                            Specialty.aboutprogramme
+                                              .aboutProgramme1,
+                                          aboutprogramme2:
+                                            Specialty.aboutprogramme
+                                              .aboutProgramme2,
+                                          aboutprogramme3:
+                                            Specialty.aboutprogramme
+                                              .aboutProgramme3,
+                                          applicationperiod1:
+                                            Specialty.applicationperiod.period1,
+                                          applicationperiod2:
+                                            Specialty.applicationperiod.period2,
+                                          programmestructurecoursework:
+                                            Specialty.programmestructure
+                                              .coursework,
+                                          programmestructureexamination:
+                                            Specialty.programmestructure
+                                              .examination,
+                                          overseaopportunityexchange:
+                                            Specialty.overseaopportunity
+                                              .exchange,
+                                          overseaopportunitytransfer:
+                                            Specialty.overseaopportunity
+                                              .transfer,
+                                          intakemonthsfulltime:
+                                            Specialty.intakemonths.fullTime,
+                                          intakemonthsparttime:
+                                            Specialty.intakemonths.partTime,
+                                          durationfulltime:
+                                            Specialty.duration.fullTime,
+                                          durationparttime:
+                                            Specialty.duration.partTime,
+                                          docid: Specialty.docid,
                                         });
                                         this.handleEditStudySIMProgModal();
                                       }}
@@ -444,6 +524,7 @@ class StudySIM_Speciality extends Component {
           className="editStudySIMProgModal"
         >
           <EditStudySIMProgModal
+            docid={this.state.docid}
             programmeName={this.state.programmeName}
             University={this.state.University}
             category={this.state.category}
@@ -460,6 +541,24 @@ class StudySIM_Speciality extends Component {
             subdisciplne3={this.state.subdisciplne3}
             subdisciplne4={this.state.subdisciplne4}
             subdisciplne5={this.state.subdisciplne5}
+            //details
+            aboutprogramme1={this.state.aboutprogramme1}
+            aboutprogramme2={this.state.aboutprogramme2}
+            aboutprogramme3={this.state.aboutprogramme3}
+            applicationperiod1={this.state.applicationperiod1}
+            applicationperiod2={this.state.applicationperiod2}
+            programmestructurecoursework={
+              this.state.programmestructurecoursework
+            }
+            programmestructureexamination={
+              this.state.programmestructureexamination
+            }
+            overseaopportunityexchange={this.state.overseaopportunityexchange}
+            overseaopportunitytransfer={this.state.overseaopportunitytransfer}
+            intakemonthsfulltime={this.state.intakemonthsfulltime}
+            intakemonthsparttime={this.state.intakemonthsparttime}
+            durationfulltime={this.state.durationfulltime}
+            durationparttime={this.state.durationparttime}
             handleSaveChanges={() => {
               console.log("Edit Modal Saved");
             }}
@@ -486,7 +585,6 @@ class StudySIM_Speciality extends Component {
           />
         </Modal>
 
-        
         {/* View Programme Details Modal */}
         <Modal
           show={this.state.viewStudySIMProgDetailsModal}
@@ -497,7 +595,25 @@ class StudySIM_Speciality extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <ViewStudySIMProgDetailsModal />
+          <ViewStudySIMProgDetailsModal
+            aboutprogramme1={this.state.aboutprogramme1}
+            aboutprogramme2={this.state.aboutprogramme2}
+            aboutprogramme3={this.state.aboutprogramme3}
+            applicationperiod1={this.state.applicationperiod1}
+            applicationperiod2={this.state.applicationperiod2}
+            programmestructurecoursework={
+              this.state.programmestructurecoursework
+            }
+            programmestructureexamination={
+              this.state.programmestructureexamination
+            }
+            overseaopportunityexchange={this.state.overseaopportunityexchange}
+            overseaopportunitytransfer={this.state.overseaopportunitytransfer}
+            intakemonthsfulltime={this.state.intakemonthsfulltime}
+            intakemonthsparttime={this.state.intakemonthsparttime}
+            durationfulltime={this.state.durationfulltime}
+            durationparttime={this.state.durationparttime}
+          />
         </Modal>
       </div>
     );
