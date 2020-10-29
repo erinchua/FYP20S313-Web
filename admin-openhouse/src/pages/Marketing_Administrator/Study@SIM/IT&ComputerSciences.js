@@ -16,7 +16,6 @@ import EditStudySIMProgModal from "../../../components/Marketing_Administrator/S
 import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/DeleteStudySIMProgModal";
 import ViewStudySIMProgDetailsModal from "../../../components/Marketing_Administrator/Study@SIM/ViewStudySIMProgDetailsModal";
 
-
 class StudySIM_ITComputerSciences extends Component {
   constructor() {
     super();
@@ -24,7 +23,7 @@ class StudySIM_ITComputerSciences extends Component {
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
-      viewStudySIMProgDetailsModal: false
+      viewStudySIMProgDetailsModal: false,
     };
   }
 
@@ -53,7 +52,7 @@ class StudySIM_ITComputerSciences extends Component {
   componentDidMount() {
     this.authListener();
   }
-  
+
   display() {
     const db = fire.firestore();
 
@@ -77,7 +76,7 @@ class StudySIM_ITComputerSciences extends Component {
             docid: doc.id,
             programmeName: doc.data().programmeTitle,
             awardBy: doc.data().awardedBy,
-            Logofile: doc.data().Logofile,
+            Logofile: doc.data().logoFile,
             CategoryProgramme: doc.data().category,
             ModeOfStudy: doc.data().modeOfStudy,
             discipline1: doc.data().discipline.disciplineName1,
@@ -87,6 +86,13 @@ class StudySIM_ITComputerSciences extends Component {
             Qualificaiton: doc.data().entryQualifications,
 
             subDiscipline: doc.data().subDiscipline,
+
+            aboutprogramme: doc.data().programmeOverview,
+            applicationperiod: doc.data().applicationPeriod,
+            programmestructure: doc.data().programmeStructure,
+            overseaopportunity: doc.data().overseaOpportunity,
+            intakemonths: doc.data().intakeMonths,
+            duration: doc.data().duration,
           };
 
           ITComputerScience.push(data);
@@ -149,7 +155,6 @@ class StudySIM_ITComputerSciences extends Component {
       });
     }
   };
-
 
   render() {
     return (
@@ -256,11 +261,57 @@ class StudySIM_ITComputerSciences extends Component {
                                       {index}
                                     </td>
                                     <td className="studySIMProgData_ProgName text-left">
-                                      <a className="studySIMProgData_ProgNameLink" onClick={this.handleViewStudySIMProgDetailsModal}>
+                                      <a
+                                        className="studySIMProgData_ProgNameLink"
+                                        onClick={() => {
+                                          this.setState({
+                                            aboutprogramme1:
+                                              ITComputerScience.aboutprogramme
+                                                .aboutProgramme1,
+                                            aboutprogramme2:
+                                              ITComputerScience.aboutprogramme
+                                                .aboutProgramme2,
+                                            aboutprogramme3:
+                                              ITComputerScience.aboutprogramme
+                                                .aboutProgramme3,
+                                            applicationperiod1:
+                                              ITComputerScience
+                                                .applicationperiod.period1,
+                                            applicationperiod2:
+                                              ITComputerScience
+                                                .applicationperiod.period2,
+                                            programmestructurecoursework:
+                                              ITComputerScience
+                                                .programmestructure.coursework,
+                                            programmestructureexamination:
+                                              ITComputerScience
+                                                .programmestructure.examination,
+                                            overseaopportunityexchange:
+                                              ITComputerScience
+                                                .overseaopportunity.exchange,
+                                            overseaopportunitytransfer:
+                                              ITComputerScience
+                                                .overseaopportunity.transfer,
+                                            intakemonthsfulltime:
+                                              ITComputerScience.intakemonths
+                                                .fullTime,
+                                            intakemonthsparttime:
+                                              ITComputerScience.intakemonths
+                                                .partTime,
+                                            durationfulltime:
+                                              ITComputerScience.duration
+                                                .fullTime,
+                                            durationparttime:
+                                              ITComputerScience.duration
+                                                .partTime,
+                                          });
+                                          this.handleViewStudySIMProgDetailsModal();
+                                        }}
+                                      >
                                         {/* href={
-                                          "/ArtsSocialScienceViewProgramme?id=" +
-                                          ITComputerScience.docid
-                                        } */}
+                                        "/ArtsSocialScienceViewProgramme?id=" +
+                                        ITComputerScience.docid
+                                      } */}
                                         {ITComputerScience.programmeName}
                                       </a>
                                     </td>
@@ -398,6 +449,47 @@ class StudySIM_ITComputerSciences extends Component {
                                             subdisciplne4:
                                               ITComputerScience.subDiscipline
                                                 .subDisciplineName4,
+                                            //details
+                                            aboutprogramme1:
+                                              ITComputerScience.aboutprogramme
+                                                .aboutProgramme1,
+                                            aboutprogramme2:
+                                              ITComputerScience.aboutprogramme
+                                                .aboutProgramme2,
+                                            aboutprogramme3:
+                                              ITComputerScience.aboutprogramme
+                                                .aboutProgramme3,
+                                            applicationperiod1:
+                                              ITComputerScience
+                                                .applicationperiod.period1,
+                                            applicationperiod2:
+                                              ITComputerScience
+                                                .applicationperiod.period2,
+                                            programmestructurecoursework:
+                                              ITComputerScience
+                                                .programmestructure.coursework,
+                                            programmestructureexamination:
+                                              ITComputerScience
+                                                .programmestructure.examination,
+                                            overseaopportunityexchange:
+                                              ITComputerScience
+                                                .overseaopportunity.exchange,
+                                            overseaopportunitytransfer:
+                                              ITComputerScience
+                                                .overseaopportunity.transfer,
+                                            intakemonthsfulltime:
+                                              ITComputerScience.intakemonths
+                                                .fullTime,
+                                            intakemonthsparttime:
+                                              ITComputerScience.intakemonths
+                                                .partTime,
+                                            durationfulltime:
+                                              ITComputerScience.duration
+                                                .fullTime,
+                                            durationparttime:
+                                              ITComputerScience.duration
+                                                .partTime,
+                                            docid: ITComputerScience.docid,
                                           });
                                           this.handleEditStudySIMProgModal();
                                         }}
@@ -484,6 +576,25 @@ class StudySIM_ITComputerSciences extends Component {
             subdisciplne3={this.state.subdisciplne3}
             subdisciplne4={this.state.subdisciplne4}
             subdisciplne5={this.state.subdisciplne5}
+            //details
+            aboutprogramme1={this.state.aboutprogramme1}
+            aboutprogramme2={this.state.aboutprogramme2}
+            aboutprogramme3={this.state.aboutprogramme3}
+            applicationperiod1={this.state.applicationperiod1}
+            applicationperiod2={this.state.applicationperiod2}
+            programmestructurecoursework={
+              this.state.programmestructurecoursework
+            }
+            programmestructureexamination={
+              this.state.programmestructureexamination
+            }
+            overseaopportunityexchange={this.state.overseaopportunityexchange}
+            overseaopportunitytransfer={this.state.overseaopportunitytransfer}
+            intakemonthsfulltime={this.state.intakemonthsfulltime}
+            intakemonthsparttime={this.state.intakemonthsparttime}
+            durationfulltime={this.state.durationfulltime}
+            durationparttime={this.state.durationparttime}
+            docid={this.state.docid}
             handleSaveChanges={() => {
               console.log("Edit Modal Saved");
             }}
@@ -509,7 +620,7 @@ class StudySIM_ITComputerSciences extends Component {
             handleCancelDelete={this.handleDeleteStudySIMProgModal}
           />
         </Modal>
-        
+
         {/* View Programme Details Modal */}
         <Modal
           show={this.state.viewStudySIMProgDetailsModal}
@@ -520,7 +631,25 @@ class StudySIM_ITComputerSciences extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <ViewStudySIMProgDetailsModal />
+          <ViewStudySIMProgDetailsModal
+            aboutprogramme1={this.state.aboutprogramme1}
+            aboutprogramme2={this.state.aboutprogramme2}
+            aboutprogramme3={this.state.aboutprogramme3}
+            applicationperiod1={this.state.applicationperiod1}
+            applicationperiod2={this.state.applicationperiod2}
+            programmestructurecoursework={
+              this.state.programmestructurecoursework
+            }
+            programmestructureexamination={
+              this.state.programmestructureexamination
+            }
+            overseaopportunityexchange={this.state.overseaopportunityexchange}
+            overseaopportunitytransfer={this.state.overseaopportunitytransfer}
+            intakemonthsfulltime={this.state.intakemonthsfulltime}
+            intakemonthsparttime={this.state.intakemonthsparttime}
+            durationfulltime={this.state.durationfulltime}
+            durationparttime={this.state.durationparttime}
+          />
         </Modal>
       </div>
     );
