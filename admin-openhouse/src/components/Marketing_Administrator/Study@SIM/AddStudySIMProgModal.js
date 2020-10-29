@@ -137,7 +137,8 @@ export default class EditStudySIMProgModal extends React.Component {
           subDiscipline: uniquesubDiscipline,
         });
       });
-  }
+    }
+
   /* Edit Programme Modal Validations */
   // handleChange = (e) => {
   //     e.preventDefault();
@@ -167,6 +168,7 @@ export default class EditStudySIMProgModal extends React.Component {
   //     })
 
   // }
+
   DisciplinehandleChange(event) {
     //console.log(event.target.checked);
     var x = document.getElementsByClassName("DisciplineCheckboxes");
@@ -223,6 +225,7 @@ export default class EditStudySIMProgModal extends React.Component {
       );
     }
   }
+
   SubDisciplinehandleChange(event) {
     var x = document.getElementsByClassName("subDisciplineCheckboxes");
     if (event.target.checked) {
@@ -342,6 +345,7 @@ export default class EditStudySIMProgModal extends React.Component {
       });
     }
   };
+
   test() {
     var a = this;
     const db = fire.firestore();
@@ -464,6 +468,7 @@ export default class EditStudySIMProgModal extends React.Component {
     console.log(
       "programmestructureexaminati: " + this.state.programmestructureexamination
     );
+
     const parentthis = this;
     const db = fire.firestore();
     if (this.state.files !== undefined) {
@@ -600,35 +605,38 @@ export default class EditStudySIMProgModal extends React.Component {
       });
     }
   }
+
   handleFileUpload = (files) => {
     this.setState({
       files: files,
     });
   };
+
+
   render() {
     return (
       <div>
         <Modal.Header closeButton className="justify-content-center">
-          <Modal.Title id="editStudySIMProgModalTitle" className="w-100">
+          <Modal.Title id="addStudySIMProgModalTitle" className="w-100">
             Add Programme
           </Modal.Title>
         </Modal.Header>
 
         <Form noValidate>
           {/* Need to add onSubmit later */}
-          <Modal.Body id="editStudySIMProgModalBody">
+          <Modal.Body id="addStudySIMProgModalBody">
             {/* Main Row */}
-            <Form.Row className="justify-content-center editStudySIMProgFormRow">
+            <Form.Row className="justify-content-center addStudySIMProgFormRow">
               {/* Left Col */}
-              <Col md="6" className="editStudySIMProgFormCol text-center">
+              <Col md="6" className="addStudySIMProgFormCol text-center">
                 {/* Programme Name */}
-                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-center">
-                    <InputGroup className="editStudySIMProgFormColInputGrp">
+                    <InputGroup className="addStudySIMProgFormColInputGrp">
                       <FormControl
                         type="text"
                         name="programme"
-                        id="editStudySIMProgForm_ProgName"
+                        id="addStudySIMProgForm_ProgName"
                         placeholder="Name of Programme*"
                         onChange={this.handleChange}
                         required
@@ -638,13 +646,13 @@ export default class EditStudySIMProgModal extends React.Component {
                 </Form.Row>
 
                 {/* Logo File */}
-                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
-                    <InputGroup className="editStudySIMProgFormColInputGrp">
+                    <InputGroup className="addStudySIMProgFormColInputGrp">
                       <FormControl
                         type="file"
                         name="logoFile"
-                        id="editStudySIMProgForm_LogoFile"
+                        id="addStudySIMProgForm_LogoFile"
                         label="Logo File*"
                         custom
                         required
@@ -657,14 +665,14 @@ export default class EditStudySIMProgModal extends React.Component {
                 </Form.Row>
 
                 {/* University */}
-                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-center">
-                    <InputGroup className="editStudySIMProgFormColInputGrp">
+                    <InputGroup className="addStudySIMProgFormColInputGrp">
                       <Form.Control
                         as="select"
                         name="university"
                         defaultValue=""
-                        className="editStudySIMProgFormSelect"
+                        className="addStudySIMProgFormSelect"
                         required
                         noValidate
                         placeholder="Choose a University"
@@ -672,7 +680,7 @@ export default class EditStudySIMProgModal extends React.Component {
                       >
                         <option
                           value=""
-                          className="editStudySIMProgFormSelectOption"
+                          className="addStudySIMProgFormSelectOption"
                           disabled={true}
                         >
                           Choose a University
@@ -684,7 +692,7 @@ export default class EditStudySIMProgModal extends React.Component {
                             return (
                               <option
                                 value={University}
-                                className="editStudySIMProgFormSelectOption"
+                                className="addStudySIMProgFormSelectOption"
                               >
                                 {University}
                               </option>
@@ -696,14 +704,14 @@ export default class EditStudySIMProgModal extends React.Component {
                 </Form.Row>
 
                 {/* Category */}
-                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-center">
-                    <InputGroup className="editStudySIMProgFormColInputGrp">
+                    <InputGroup className="addStudySIMProgFormColInputGrp">
                       <Form.Control
                         as="select"
                         name="category"
                         defaultValue=""
-                        className="editStudySIMProgFormSelect"
+                        className="addStudySIMProgFormSelect"
                         required
                         noValidate
                         placeholder="Choose a Category"
@@ -711,7 +719,7 @@ export default class EditStudySIMProgModal extends React.Component {
                       >
                         <option
                           value=""
-                          className="editStudySIMProgFormSelectOption"
+                          className="addStudySIMProgFormSelectOption"
                           disabled={true}
                         >
                           Choose a Category
@@ -723,7 +731,7 @@ export default class EditStudySIMProgModal extends React.Component {
                             return (
                               <option
                                 value={Category}
-                                className="editStudySIMProgFormSelectOption"
+                                className="addStudySIMProgFormSelectOption"
                               >
                                 {Category}
                               </option>
@@ -735,21 +743,21 @@ export default class EditStudySIMProgModal extends React.Component {
                 </Form.Row>
 
                 {/* Academic Level */}
-                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-center">
-                    <InputGroup className="editStudySIMProgFormColInputGrp">
+                    <InputGroup className="addStudySIMProgFormColInputGrp">
                       <Form.Control
                         as="select"
                         name="acadamiclevel"
                         defaultValue=""
-                        className="editStudySIMProgFormSelect"
+                        className="addStudySIMProgFormSelect"
                         required
                         noValidate
                         onChange={this.handleChange}
                       >
                         <option
                           value=""
-                          className="editStudySIMProgFormSelectOption"
+                          className="addStudySIMProgFormSelectOption"
                           disabled={true}
                         >
                           Choose an Academic Level
@@ -763,7 +771,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                 return (
                                   <option
                                     value={AcademicLevel}
-                                    className="editStudySIMProgFormSelectOption"
+                                    className="addStudySIMProgFormSelectOption"
                                     selected
                                   >
                                     {AcademicLevel}
@@ -773,7 +781,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                 return (
                                   <option
                                     value={AcademicLevel}
-                                    className="editStudySIMProgFormSelectOption"
+                                    className="addStudySIMProgFormSelectOption"
                                   >
                                     {AcademicLevel}
                                   </option>
@@ -787,14 +795,14 @@ export default class EditStudySIMProgModal extends React.Component {
                 </Form.Row>
 
                 {/* Mode of Study */}
-                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col
                     md="9"
-                    className="text-left editStudySIMProgForm_InnerCol"
+                    className="text-left addStudySIMProgForm_InnerCol"
                   >
-                    <Form.Label>Choose Mode of Study:</Form.Label>
+                    <Form.Label className="addStudySIMProgFormLabel">Choose Mode of Study:</Form.Label>
 
-                    <Container className="editStudySIMProgForm_MoSCon">
+                    <Container className="addStudySIMProgForm_MoSCon">
                       {/* To be retrieved from db - row is generated dynamically */}
                       <Form.Group controlId="exampleForm.ControlInput1">
                         {this.state.Modeofstudy &&
@@ -810,7 +818,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                         value={Modeofstudy}
                                         type="checkbox"
                                         label="Full-Time"
-                                        className="editStudySIMProgForm_CheckBox"
+                                        className="addStudySIMProgForm_CheckBox"
                                         onChange={this.handleChange}
                                       />
                                     </Col>
@@ -827,7 +835,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                         value={Modeofstudy}
                                         type="checkbox"
                                         label="Part-Time"
-                                        className="editStudySIMProgForm_CheckBox"
+                                        className="addStudySIMProgForm_CheckBox"
                                         onChange={this.handleChange}
                                       />
                                     </Col>
@@ -842,14 +850,14 @@ export default class EditStudySIMProgModal extends React.Component {
                 </Form.Row>
 
                 {/* Disciplines */}
-                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col
                     md="9"
-                    className="text-left editStudySIMProgForm_InnerCol"
+                    className="text-left addStudySIMProgForm_InnerCol"
                   >
-                    <Form.Label>Choose Discipline(s):</Form.Label>
+                    <Form.Label className="addStudySIMProgFormLabel">Choose Discipline(s):</Form.Label>
 
-                    <Container className="editStudySIMProgForm_DisciplineCon">
+                    <Container className="addStudySIMProgForm_DisciplineCon">
                       {/* To be retrieved from db - row is generated dynamically */}
                       <Form.Group controlId="exampleForm.ControlInput1">
                         {this.state.Discipline &&
@@ -864,7 +872,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                       value={Discipline}
                                       type="checkbox"
                                       label={Discipline}
-                                      className="editStudySIMProgForm_CheckBox DisciplineCheckboxes"
+                                      className="addStudySIMProgForm_CheckBox DisciplineCheckboxes"
                                       onChange={this.DisciplinehandleChange}
                                       disabled={this.state[Discipline]}
                                     />
@@ -879,13 +887,13 @@ export default class EditStudySIMProgModal extends React.Component {
                 </Form.Row>
 
                 {/* Entry Qualifications */}
-                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">
+                    <Form.Label className="addStudySIMProgFormLabel">
                       Choose Entry Qualification(s):
                     </Form.Label>
 
-                    <Container className="editStudySIMProgForm_CheckBoxCon">
+                    <Container className="addStudySIMProgForm_EntryQualCon">
                       {/* To be retrieved from db - row is generated dynamically */}
                       {this.state.entryQual &&
                         this.state.entryQual.map((entryQual) => {
@@ -899,7 +907,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                       value={entryQual}
                                       type="checkbox"
                                       label="'A' Level"
-                                      className="editStudySIMProgForm_CheckBox"
+                                      className="addStudySIMProgForm_CheckBox"
                                       onChange={this.handleChange}
                                     />
                                   </Col>
@@ -915,7 +923,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                       value={entryQual}
                                       type="checkbox"
                                       label="Degree"
-                                      className="editStudySIMProgForm_CheckBox"
+                                      className="addStudySIMProgForm_CheckBox"
                                       onChange={this.handleChange}
                                     />
                                   </Col>
@@ -931,7 +939,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                       value={entryQual}
                                       type="checkbox"
                                       label="Diploma"
-                                      className="editStudySIMProgForm_CheckBox"
+                                      className="addStudySIMProgForm_CheckBox"
                                       onChange={this.handleChange}
                                     />
                                   </Col>
@@ -947,7 +955,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                       value={entryQual}
                                       type="checkbox"
                                       label="'O' Level"
-                                      className="editStudySIMProgForm_CheckBox"
+                                      className="addStudySIMProgForm_CheckBox"
                                       onChange={this.handleChange}
                                     />
                                   </Col>
@@ -962,7 +970,7 @@ export default class EditStudySIMProgModal extends React.Component {
               </Col>
 
               {/* Right Col */}
-              <Col md="6" className="editStudySIMProgFormCol text-center">
+              <Col md="6" className="addStudySIMProgFormCol text-center">
                 {/* Sub Disciplines */}
                 <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col
@@ -986,7 +994,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                   value={subDiscipline}
                                   type="checkbox"
                                   label={subDiscipline}
-                                  className="editStudySIMProgForm_CheckBox subDisciplineCheckboxes"
+                                  className="addStudySIMProgForm_CheckBox subDisciplineCheckboxes"
                                   onChange={this.SubDisciplinehandleChange}
                                   disabled={this.state["sub" + subDiscipline]}
                                 />
@@ -1000,21 +1008,23 @@ export default class EditStudySIMProgModal extends React.Component {
               </Col>
             </Form.Row>
           </Modal.Body>
+
           {/* Programme Details Section */}
           <Modal.Header>
-            <Modal.Title id="editStudySIMProgModalTitle" className="w-100">
+            <Modal.Title id="addStudySIMProgModalTitle" className="w-100">
               Programme Details
             </Modal.Title>
           </Modal.Header>
+
           <Modal.Body>
             {/* Main Row */}
-            <Form.Row className="justify-content-center editStudySIMProgFormRow">
+            <Form.Row className="justify-content-center addStudySIMProgFormRow">
               {/* Left Col */}
-              <Col md="6" className="editStudySIMProgFormCol text-center">
+              <Col md="6" className="addStudySIMProgFormCol text-center">
                 {/* About Programme */}
-                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">
+                    <Form.Label className="addStudySIMProgFormLabel">
                       About Programme 1
                     </Form.Label>
 
@@ -1024,13 +1034,13 @@ export default class EditStudySIMProgModal extends React.Component {
                       rows="4"
                       required
                       noValidate
-                      className="editStudySIMProgForm_TextArea"
+                      className="addStudySIMProgForm_TextArea"
                       placeholder="About Programme"
                       onChange={this.handleChange}
                     />
                   </Col>
                   <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">
+                    <Form.Label className="addStudySIMProgFormLabel">
                       About Programme 2
                     </Form.Label>
 
@@ -1040,13 +1050,13 @@ export default class EditStudySIMProgModal extends React.Component {
                       required
                       noValidate
                       name="aboutprogramme2"
-                      className="editStudySIMProgForm_TextArea"
+                      className="addStudySIMProgForm_TextArea"
                       placeholder="About Programme"
                       onChange={this.handleChange}
                     />
                   </Col>
                   <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">
+                    <Form.Label className="addStudySIMProgFormLabel">
                       About Programme 3
                     </Form.Label>
 
@@ -1056,7 +1066,7 @@ export default class EditStudySIMProgModal extends React.Component {
                       required
                       noValidate
                       name="aboutprogramme3"
-                      className="editStudySIMProgForm_TextArea"
+                      className="addStudySIMProgForm_TextArea"
                       placeholder="About Programme"
                       onChange={this.handleChange}
                     />
@@ -1064,9 +1074,9 @@ export default class EditStudySIMProgModal extends React.Component {
                 </Form.Row>
 
                 {/* Application Period */}
-                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">
+                    <Form.Label className="addStudySIMProgFormLabel">
                       Application Period 1
                     </Form.Label>
 
@@ -1076,13 +1086,13 @@ export default class EditStudySIMProgModal extends React.Component {
                       required
                       noValidate
                       name="applicationperiod1"
-                      className="editStudySIMProgForm_TextArea"
+                      className="addStudySIMProgForm_TextArea"
                       placeholder="Application Period"
                       onChange={this.handleChange}
                     />
                   </Col>
                   <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">
+                    <Form.Label className="addStudySIMProgFormLabel">
                       Application Period 2
                     </Form.Label>
 
@@ -1092,7 +1102,7 @@ export default class EditStudySIMProgModal extends React.Component {
                       required
                       noValidate
                       name="applicationperiod2"
-                      className="editStudySIMProgForm_TextArea"
+                      className="addStudySIMProgForm_TextArea"
                       placeholder="Application Period"
                       onChange={this.handleChange}
                     />
@@ -1100,23 +1110,23 @@ export default class EditStudySIMProgModal extends React.Component {
                 </Form.Row>
 
                 {/* Programme Structure */}
-                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">
+                    <Form.Label className="addStudySIMProgFormLabel">
                       Programme Structure
                     </Form.Label>
 
-                    <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                    <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                       {/* Coursework */}
                       <Col
                         md="6"
-                        className="text-left editStudySIMProgForm_InnerCol"
+                        className="text-left addStudySIMProgForm_InnerCol"
                       >
-                        <Form.Label className="editStudySIMProgFormLabel">
+                        <Form.Label className="addStudySIMProgFormLabel">
                           Coursework
                         </Form.Label>
 
-                        <Container className="editStudySIMProgForm_StructureOverseasCon">
+                        <Container className="addStudySIMProgForm_StructureOverseasCon">
                           {/* To be retrieved from db - row is generated dynamically */}
                           <Row>
                             <Col style={{ paddingLeft: "10%" }}>
@@ -1125,7 +1135,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                 value="Coursework"
                                 type="checkbox"
                                 label="Yes"
-                                className="editStudySIMProgForm_CheckBox"
+                                className="addStudySIMProgForm_CheckBox"
                                 onChange={this.handleChange}
                               />
                             </Col>
@@ -1136,13 +1146,13 @@ export default class EditStudySIMProgModal extends React.Component {
                       {/* Examination */}
                       <Col
                         md="6"
-                        className="text-left editStudySIMProgForm_InnerCol"
+                        className="text-left addStudySIMProgForm_InnerCol"
                       >
-                        <Form.Label className="editStudySIMProgFormLabel">
+                        <Form.Label className="addStudySIMProgFormLabel">
                           Examination
                         </Form.Label>
 
-                        <Container className="editStudySIMProgForm_StructureOverseasCon">
+                        <Container className="addStudySIMProgForm_StructureOverseasCon">
                           {/* To be retrieved from db - row is generated dynamically */}
                           <Row>
                             <Col style={{ paddingLeft: "10%" }}>
@@ -1151,7 +1161,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                 value="Examination"
                                 type="checkbox"
                                 label="Yes"
-                                className="editStudySIMProgForm_CheckBox"
+                                className="addStudySIMProgForm_CheckBox"
                                 onChange={this.handleChange}
                               />
                             </Col>
@@ -1164,11 +1174,11 @@ export default class EditStudySIMProgModal extends React.Component {
               </Col>
 
               {/* Right Col */}
-              <Col md="6" className="editStudySIMProgFormCol text-center">
+              <Col md="6" className="addStudySIMProgFormCol text-center">
                 {/* Overseas Opportunity */}
-                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">
+                    <Form.Label className="addStudySIMProgFormLabel">
                       Overseas Opportunity
                     </Form.Label>
 
@@ -1176,13 +1186,13 @@ export default class EditStudySIMProgModal extends React.Component {
                       {/* Exchange */}
                       <Col
                         md="6"
-                        className="text-left editStudySIMProgForm_InnerCol"
+                        className="text-left addStudySIMProgForm_InnerCol"
                       >
-                        <Form.Label className="editStudySIMProgFormLabel">
+                        <Form.Label className="addStudySIMProgFormLabel">
                           Exchange
                         </Form.Label>
 
-                        <Container className="editStudySIMProgForm_StructureOverseasCon">
+                        <Container className="addStudySIMProgForm_StructureOverseasCon">
                           {/* To be retrieved from db - row is generated dynamically */}
                           <Row>
                             <Col style={{ paddingLeft: "10%" }}>
@@ -1191,7 +1201,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                 value="Exchange"
                                 type="checkbox"
                                 label="Yes"
-                                className="editStudySIMProgForm_CheckBox"
+                                className="addStudySIMProgForm_CheckBox"
                                 onChange={this.handleChange}
                               />
                             </Col>
@@ -1202,13 +1212,13 @@ export default class EditStudySIMProgModal extends React.Component {
                       {/* Transfer */}
                       <Col
                         md="6"
-                        className="text-left editStudySIMProgForm_InnerCol"
+                        className="text-left addStudySIMProgForm_InnerCol"
                       >
-                        <Form.Label className="editStudySIMProgFormLabel">
+                        <Form.Label className="addStudySIMProgFormLabel">
                           Transfer
                         </Form.Label>
 
-                        <Container className="editStudySIMProgForm_StructureOverseasCon">
+                        <Container className="addStudySIMProgForm_StructureOverseasCon">
                           {/* To be retrieved from db - row is generated dynamically */}
                           <Row>
                             <Col style={{ paddingLeft: "8%" }}>
@@ -1217,7 +1227,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                 value="Transfer"
                                 type="checkbox"
                                 label="Yes"
-                                className="editStudySIMProgForm_CheckBox"
+                                className="addStudySIMProgForm_CheckBox"
                                 onChange={this.handleChange}
                               />
                             </Col>
@@ -1229,9 +1239,9 @@ export default class EditStudySIMProgModal extends React.Component {
                 </Form.Row>
 
                 {/* Intake Month(s) */}
-                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">
+                    <Form.Label className="addStudySIMProgFormLabel">
                       Full-Time Intake Month(s)
                     </Form.Label>
 
@@ -1241,13 +1251,13 @@ export default class EditStudySIMProgModal extends React.Component {
                       required
                       noValidate
                       name="intakemonthsfulltime"
-                      className="editStudySIMProgForm_TextArea"
+                      className="addStudySIMProgForm_TextArea"
                       placeholder="Intake Month(s)"
                       onChange={this.handleChange}
                     />
                   </Col>
                   <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">
+                    <Form.Label className="addStudySIMProgFormLabel">
                       Part-Time Intake Month(s)
                     </Form.Label>
 
@@ -1257,7 +1267,7 @@ export default class EditStudySIMProgModal extends React.Component {
                       required
                       noValidate
                       name="intakemonthsparttime"
-                      className="editStudySIMProgForm_TextArea"
+                      className="addStudySIMProgForm_TextArea"
                       placeholder="Intake Month(s)"
                       onChange={this.handleChange}
                     />
@@ -1265,9 +1275,9 @@ export default class EditStudySIMProgModal extends React.Component {
                 </Form.Row>
 
                 {/* Duration */}
-                <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
+                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">
+                    <Form.Label className="addStudySIMProgFormLabel">
                       Full-Time Duration
                     </Form.Label>
 
@@ -1277,14 +1287,14 @@ export default class EditStudySIMProgModal extends React.Component {
                       required
                       noValidate
                       name="durationfulltime"
-                      className="editStudySIMProgForm_TextArea"
+                      className="addStudySIMProgForm_TextArea"
                       placeholder="Duration"
                       onChange={this.handleChange}
                     />
                   </Col>
 
                   <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">
+                    <Form.Label className="addStudySIMProgFormLabel">
                       Part-Time Duration
                     </Form.Label>
 
@@ -1294,7 +1304,7 @@ export default class EditStudySIMProgModal extends React.Component {
                       required
                       noValidate
                       name="durationparttime"
-                      className="editStudySIMProgForm_TextArea"
+                      className="addStudySIMProgForm_TextArea"
                       placeholder="Duration"
                       onChange={this.handleChange}
                     />
@@ -1306,33 +1316,8 @@ export default class EditStudySIMProgModal extends React.Component {
         </Form>
 
         <Modal.Footer className="justify-content-center">
-          {/* Edit Programme Talk Save Changes Btn */}
-          <Container>
-            <Row>
-              <Col md="6" className="text-right">
-                {/*  <Button
-                  id="saveChangesEditProgFormBtn"
-                  onClick={this.props.handleSaveChanges}
-                >
-                  Save Changes
-              </Button>*/}
-              </Col>
-              <Button
-                id="saveChangesEditProgFormBtn"
-                onClick={() => this.test()}
-              >
-                Save Changes
-              </Button>
-              <Col md="6" className="text-left">
-                <Button
-                  id="cancelEditProgFormBtn"
-                  onClick={this.props.handleCancelEdit}
-                >
-                  Cancel
-                </Button>
-              </Col>
-            </Row>
-          </Container>
+          {/* Add Programme Submit Btn*/}
+          <Button type="submit" id="addStudySIMProgFormBtn" onClick={() => this.test()}>Submit</Button>
         </Modal.Footer>
       </div>
     );

@@ -986,7 +986,7 @@ export default class EditStudySIMProgModal extends React.Component {
                     md="9"
                     className="text-left editStudySIMProgForm_InnerCol"
                   >
-                    <Form.Label>Choose Mode of Study:</Form.Label>
+                    <Form.Label className="editStudySIMProgFormLabel">Choose Mode of Study:</Form.Label>
 
                     <Container className="editStudySIMProgForm_MoSCon">
                       {/* To be retrieved from db - row is generated dynamically */}
@@ -1024,7 +1024,7 @@ export default class EditStudySIMProgModal extends React.Component {
                     md="9"
                     className="text-left editStudySIMProgForm_InnerCol"
                   >
-                    <Form.Label>Choose Discipline(s):</Form.Label>
+                    <Form.Label className="editStudySIMProgFormLabel">Choose Discipline(s):</Form.Label>
 
                     <Container className="editStudySIMProgForm_DisciplineCon">
                       {/* To be retrieved from db - row is generated dynamically */}
@@ -1063,7 +1063,7 @@ export default class EditStudySIMProgModal extends React.Component {
                       Choose Entry Qualification(s):
                     </Form.Label>
 
-                    <Container className="editStudySIMProgForm_CheckBoxCon">
+                    <Container className="editStudySIMProgForm_EntryQualCon">
                       {/* To be retrieved from db - row is generated dynamically */}
                       {this.state.entryqualification &&
                         this.state.entryqualification.map(
@@ -1189,7 +1189,7 @@ export default class EditStudySIMProgModal extends React.Component {
                     md="9"
                     className="text-left editStudySIMProgForm_InnerCol"
                   >
-                    <Form.Label>Choose Sub-Discipline(s):</Form.Label>
+                    <Form.Label className="editStudySIMProgFormLabel">Choose Sub-Discipline(s):</Form.Label>
 
                     <Container className="editStudySIMProgForm_SubDisciplineCon">
                       {/* To be retrieved from db - row is generated dynamically */}
@@ -1552,22 +1552,17 @@ export default class EditStudySIMProgModal extends React.Component {
           <Container>
             <Row>
               <Col md="6" className="text-right">
-                {/*  <Button
+                <Button
                   id="saveChangesEditProgFormBtn"
-                  onClick={this.props.handleSaveChanges}
+                  onClick={() => {
+                    this.props.handleCancelEdit();
+                    this.test();
+                  }}
                 >
                   Save Changes
-              </Button>*/}
+                </Button>
               </Col>
-              <Button
-                id="saveChangesEditProgFormBtn"
-                onClick={() => {
-                  this.props.handleCancelEdit();
-                  this.test();
-                }}
-              >
-                Save Changes
-              </Button>
+              
               <Col md="6" className="text-left">
                 <Button
                   id="cancelEditProgFormBtn"
