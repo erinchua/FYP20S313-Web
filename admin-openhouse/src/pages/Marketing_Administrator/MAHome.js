@@ -27,12 +27,12 @@ class MAHome extends Component {
                     <NavBar isMA={true} />
 
                         <Container fluid className="MAHome-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
-                            <Row style={{ marginRight: 0 }}>
-                                <Col md={2}>
+                            <Row>
+                                <Col md={2} style={{paddingRight: 0}}>
                                     <SideNavBar />
                                 </Col>
 
-                                <Col md={10} id="MAHome-topContentContainer">
+                                <Col md={10} style={{paddingLeft: 0}}>
                                     <Container fluid id="MAHome-topContentContainer">
                                         <Row id="MAHome-firstRow"></Row>
                                         <Row id="MAHome-secondRow">

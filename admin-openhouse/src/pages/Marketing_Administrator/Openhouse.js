@@ -181,7 +181,7 @@ class Openhouse extends Component {
                             "day.1.date": this.state.date,
                             "day.1.startTime": this.state.startTime,
                             "day.1.endTime": this.state.endTime,
-                            "day1.description": this.state.description,
+                            "day.1.description": this.state.description,
                         })
                         .then(() => this.onAuthSuccess(e, openhouseid, day));
                         
@@ -411,7 +411,7 @@ class Openhouse extends Component {
                 </Container>
 
                 {this.state.editModal == true ? 
-                    <Modal show={this.state.editModal} onHide={this.handleEdit} size="md" centered keyboard={false}>
+                    <Modal show={this.state.editModal} onHide={this.handleEdit} size="lg" centered keyboard={false}>
                         <Modal.Header closeButton></Modal.Header>
                         {this.state.users && this.state.users.map((user) => {
                             if (user.docid === this.state.docid && user.day === this.state.day) {
@@ -479,7 +479,7 @@ class Openhouse extends Component {
                                             <Container>
                                                 <Row id="OpenHouse-editFooter">
                                                     <Col md={6} className="OpenHouse-editCol">
-                                                        <Button id="OpenHouse-saveBtn" type="submit" onClick={(e) => this.update(e, user.docid, user.day)}>Save</Button>
+                                                        <Button id="OpenHouse-saveBtn" type="submit" onClick={(e) => this.update(e, user.docid, user.day)}>Save Changes</Button>
                                                     </Col>
                                                     <Col md={6} className="OpenHouse-editCol">
                                                         <Button id="OpenHouse-cancelBtn" onClick={this.handleEdit}>Cancel</Button>
