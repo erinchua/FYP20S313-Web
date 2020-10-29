@@ -1,0 +1,81 @@
+.GettingToSimHq-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.GettingToSimHq-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#GettingToSimHq-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#GettingToSimHq-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#GettingToSimHq-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#GettingToSimHq-title {
+    color: #424242;
+}
+
+#GettingToSimHq-secondRow {
+    margin: 0 !important;
+}
+
+#GettingToSimHq-secondRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#GettingToSimHq-thirdRow {
+    margin: 0 !important;
+}
+
+#GettingToSimHq-thirdRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#GettingToSimHq-thirdRowColHeading {
+    height: 100%;
+    width: 100%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+#GettingToSimHq-tableHeader {
+    color: #424242;
+    font-size: 90%;
+}
+
+#GettingToSimHq-tableBody {
+    color: #434343;
+    font-size: 85%;
+}
+
+#GettingToSimHq-editBtn {
+    background: none;
+    color: #434343;
+    border: none;
+}
+
+#GettingToSimHq-editBtn:focus {
+    box-shadow: none;
+}

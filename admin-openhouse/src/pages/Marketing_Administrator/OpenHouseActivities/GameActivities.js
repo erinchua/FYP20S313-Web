@@ -231,12 +231,10 @@ class GameActivities extends Component {
                         docid = "activity-0" + (id + 1) 
                     }
                     console.log(docid)
-                    const userRef = db
-                    .collection("GamesActivities")
-                    .doc(docid)
+                    db.collection("GamesActivities").doc(docid)
                     .set({
                         date: this.state.date,
-                        pointsAward: this.state.pointsAward,
+                        pointsAward: +this.state.pointsAward,
                         startTime: this.state.startTime,
                         gameBoothName: this.state.gameBoothName,
                         venue: this.state.venue,
@@ -254,11 +252,8 @@ class GameActivities extends Component {
     //Delete game/activity when click on 'Confirm' button in Delete Modal - Integrated
     DeleteGameActivities(e, gamesActivitiesId) {
         const db = fire.firestore();
-        const userRef = db
-        .collection("GamesActivities")
-        .doc(gamesActivitiesId)
-        .delete()
-        .then(function () {
+        db.collection("GamesActivities").doc(gamesActivitiesId).delete()
+        .then(function() {
             console.log("Deleted the Game/Activity");
             window.location.reload();
         });
@@ -302,7 +297,7 @@ class GameActivities extends Component {
                 boothNumber: this.state.boothNumber,
                 date: this.state.date,
                 venue: this.state.venue,
-                pointsAward: this.state.pointsAward,
+                pointsAward: +this.state.pointsAward,
             })
             .then(function () {
                 console.log("Updated the Game/Activity");
@@ -336,12 +331,16 @@ class GameActivities extends Component {
             const db = fire.firestore();
             db.collection("GamesActivities").doc(gamesActivitiesId).get()
             .then((doc) => {
+
+                var pointsAward = doc.data().pointsAward;
+                var stringPointsAward = pointsAward.toString();
+
                 this.setState({
                     startTime: doc.data().startTime,
                     boothNumber: doc.data().boothNumber,
                     gameBoothName: doc.data().gameBoothName,
                     venue: doc.data().venue,
-                    pointsAward: doc.data().pointsAward,
+                    pointsAward: stringPointsAward,
                     date: doc.data().date,
                 });
             });
