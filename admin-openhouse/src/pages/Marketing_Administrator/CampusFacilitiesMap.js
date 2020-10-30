@@ -313,7 +313,7 @@ class CampusFacilitiesMap extends Component {
         </Container>
 
 
-        {/* Edit Live Talk Modal */}
+        {/* Edit Campus Facilities Modal */}
         <Modal 
           show={this.state.editCampusFacilModal}
           onHide={this.handleEditCampusFacilModal}

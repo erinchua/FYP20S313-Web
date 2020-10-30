@@ -180,15 +180,8 @@ class AdmissionApplication extends Component {
                 <Container fluid className="admissionAppContentCon">
                   {/* Admission & Application Page Header row */}
                   <Row id="admissionAppContentHeaderRow" className="justify-content-center">
-                    <Col md="6" className="text-left admissionAppContentHeaderCol">
+                    <Col md="12" className="text-left admissionAppContentHeaderCol">
                       <h4 id="admissionAppHeaderText">Admission & Application</h4>
-                    </Col>
-
-                    <Col md="6" className="text-right admissionAppContentHeaderCol">
-                      <Button id="addAdmissionAppBtn" onClick={this.handleAddAdmissionAppModal}>
-                        <FontAwesomeIcon size="lg" id="addAdmissionAppBtnIcon" icon={faPlus} />
-                        <span id="addAdmissionAppBtnText">Add</span>
-                      </Button>
                     </Col>
                   </Row>
 
@@ -225,7 +218,7 @@ class AdmissionApplication extends Component {
                                   <Table responsive="sm" bordered id="admissionAppTable_Steps">
                                     <thead>
                                       <tr>
-                                        <th className="admissionAppHeader_SNo">S/N</th>
+                                        <th className="admissionAppHeader_Step">Step</th>
                                         <th className="admissionAppHeader_ProgTalk">Programme Talk</th>
                                         <th className="admissionAppHeader_ProgTalkDetails">Programme Talk Details</th>
                                         <th className="admissionAppHeader_AwardingUni">Awarding University</th>
@@ -292,21 +285,21 @@ class AdmissionApplication extends Component {
                                         <tr>
                                             <td className="admissionAppData_SNo text-center"></td>
                                             <td className="admissionAppData_ProgTalk text-left"></td>
-                                            <td className="progTalkScheduleData_ProgTalkDetails text-left"></td>
-                                            <td className="progTalkScheduleData_AwardingUni text-center"></td>
-                                            <td className="progTalkScheduleData_StartTime text-left"></td>
-                                            <td className="progTalkScheduleData_EndTime text-left"></td>
-                                            <td className="progTalkScheduleData_Venue text-left"></td>
-                                            <td className="progTalkScheduleData_Capacity text-center"></td>
-                                            <td className="progTalkScheduleData_Discipline text-center"></td>
-                                            <td className="progTalkScheduleData_Edit text-center">
-                                                <Button id="editProgTalkScheduleBtn" onClick={()=>this.handleEditAdmissionAppModal()}>
-                                                    <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
+                                            <td className="admissionAppData_ProgTalkDetails text-left"></td>
+                                            <td className="admissionAppData_AwardingUni text-center"></td>
+                                            <td className="admissionAppData_StartTime text-left"></td>
+                                            <td className="admissionAppData_EndTime text-left"></td>
+                                            <td className="admissionAppData_Venue text-left"></td>
+                                            <td className="admissionAppData_Capacity text-center"></td>
+                                            <td className="admissionAppData_Discipline text-center"></td>
+                                            <td className="admissionAppData_Edit text-center">
+                                                <Button id="editAdmissionAppBtn" onClick={()=>this.handleEditAdmissionAppModal()}>
+                                                    <FontAwesomeIcon size="lg" id="editAdmissionAppBtnIcon" icon={faEdit} />
                                                 </Button>
                                             </td>
-                                            <td className="progTalkScheduleData_Delete text-center">
-                                                <Button id="deleteProgTalkScheduleBtn" onClick={(e) => this.handleDeleteAdmissionAppModal()}>
-                                                    <FontAwesomeIcon size="lg" id="deleteProgTalkScheduleBtnIcon" icon={faTrashAlt} />
+                                            <td className="admissionAppData_Delete text-center">
+                                                <Button id="deleteAdmissionAppBtn" onClick={(e) => this.handleDeleteAdmissionAppModal()}>
+                                                    <FontAwesomeIcon size="lg" id="deleteAdmissionAppBtnIcon" icon={faTrashAlt} />
                                                 </Button>
                                             </td>
                                         </tr>
@@ -333,8 +326,6 @@ class AdmissionApplication extends Component {
 
           <Footer />
         </Container>
-
-
 
       </div>
     );

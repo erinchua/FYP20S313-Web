@@ -10,7 +10,6 @@ import Login from "./pages/Login";
 import SAHome from "./pages/Super_Administrator/SAHome";
 import ResetPassword from "./pages/Marketing_Administrator/ResetPassword";
 import StudentAccounts from "./pages/Marketing_Administrator/StudentAccounts";
-import ChangePassword from "./components/ChangePassword";
 import CampusFacilitiesMap from "./pages/Marketing_Administrator/CampusFacilitiesMap";
 import Openhouse from "./pages/Marketing_Administrator/Openhouse";
 import GettingToSIMHQ from "./pages/Marketing_Administrator/GettingToSIMHQ";
@@ -65,7 +64,6 @@ ReactDOM.render(
 
       {/* Routes for Marketing Admin */}
       <Route path="/StudentAccounts" component={StudentAccounts} />
-      {/* <Route path="/ChangePassword" component={ChangePassword} /> */}
       <Route path="/CampusFacilitiesMap" component={CampusFacilitiesMap} />
       <Route path="/Openhouse" component={Openhouse} />
       <Route path="/GettingToSIMHQ" component={GettingToSIMHQ} />

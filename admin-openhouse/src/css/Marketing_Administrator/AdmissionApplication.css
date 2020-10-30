@@ -35,32 +35,6 @@
     color: #424242;
 }
 
-#addAdmissionAppBtn {
-    background: none;
-    color: #424242;
-    min-width: 20%;
-    border-radius: 6px;
-    border: 1px solid #424242;
-}
-
-#addAdmissionAppBtnIcon {
-    margin-right: 5%;
-}
-
-#addAdmissionAppBtnText {
-    margin-left: 5%;
-}
-
-#addAdmissionAppBtn:hover {
-    background: #424242;
-    color: #ffffff;
-    border-color: #424242;
-}
-
-#addAdmissionAppBtn:focus {
-    box-shadow: none;
-}
-
 /*******************************************************/
 /* Tabs Con Css*/
 .admissionAppContentTabRow {
