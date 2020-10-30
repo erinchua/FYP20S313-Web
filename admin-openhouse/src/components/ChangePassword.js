@@ -141,7 +141,6 @@ export default class ChangePasswordModal extends React.Component {
         // alert("check your fields");
       }
     }
-    this.resetForm();
   };
 
   //Validations for the Forms in Modals

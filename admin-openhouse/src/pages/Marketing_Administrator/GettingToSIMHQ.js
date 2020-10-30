@@ -11,6 +11,35 @@ import SideNavBar from '../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
+export function sortFunction(a, b) {
+    const aSplit = a.busNo;
+    const bSplit = b.busNo;
+    let aSplitNumberAlpha = aSplit.match(/[a-zA-Z]+|\d+/ig)
+    let bSplitNumberAlpha = bSplit.match(/[a-zA-Z]+|\d+/ig)  
+
+    if (+aSplitNumberAlpha[0] > +bSplitNumberAlpha[0]) {
+        return 1;
+    }
+    
+    if (+aSplitNumberAlpha[0] < +bSplitNumberAlpha[0]) {
+        return -1;
+    }
+
+    if (+aSplitNumberAlpha[0] == +bSplitNumberAlpha[0]) {
+        console.log(aSplitNumberAlpha[0])
+        // if (aSplitNumberAlpha[1].match(/[^A-Za-z]/) || bSplitNumberAlpha[1].match(/[^A-Za-z]/)){
+        //     if(aSplitNumberAlpha[1] < bSplitNumberAlpha[1]) {
+        //         return -1;
+        //     }
+
+        //     if (aSplitNumberAlpha[1] > bSplitNumberAlpha[1]) {
+        //         return 1;
+        //     }
+        // }
+    }
+    
+}
+
 class GettingToSIMHQ extends Component {
     constructor() {
         super();
@@ -24,6 +53,9 @@ class GettingToSIMHQ extends Component {
             modeOfTransport: "",
             busNo: "",
             nearestMRT: "",
+            oppSimBusDescription: "",
+            simBusDescription: "",
+            mrtDescription: "",
             url: "",
             progress: "",
             //Below states are for functions
@@ -108,27 +140,33 @@ class GettingToSIMHQ extends Component {
         .then((snapshot) => {
             const busarray = [];
             const oppSimHq = [];
-            const simHq = []
-            const oppSim = snapshot.get('oppSimHq');
+            const simHq = [];
+
+            const oppSim = snapshot.data().oppSimHq.buses;
             for (var i = 0; i < Object.keys(oppSim).length; i++) {
-                const data = {
-                    oppSimHq: oppSim[Object.keys(oppSim)[i]]
+                const oppSimData = {
+                    busNo: oppSim[Object.keys(oppSim)[i]]
                 };
-                oppSimHq.push(data)
+                oppSimHq.push(oppSimData);
             }
 
-            const sim = snapshot.get('simHq');
+            const sim = snapshot.data().simHq.buses;
             for (var i = 0; i < Object.keys(sim).length; i++) {
-                const data = {
-                    simHq: sim[Object.keys(sim)[i]]
-                };
-                simHq.push(data)
+                simHq.push(sim[Object.keys(sim)[i]])
             }
+
             const data = {
                 busId: snapshot.id,
+                oppSimBusDescription: snapshot.data().oppSimHq.description,
+                simBusDescription: snapshot.data().simHq.description,
             };
             busarray.push(data);
-            this.setState(() => ({ busArray: busarray, busOppSimArray: oppSimHq, busSimArray: simHq }));
+
+            this.setState(() => ({ 
+                busArray: busarray, 
+                busOppSimArray: oppSimHq.sort(sortFunction).join(", "), 
+                busSimArray: simHq 
+            }));
         });
 
         //mrt
@@ -485,7 +523,7 @@ class GettingToSIMHQ extends Component {
                                                     <thead id="GettingToSimHq-tableHeader">
                                                         <tr>
                                                             <th>Image</th>
-                                                            <th id="GettingToSimHq-tableHeading">Edit</th>
+                                                            <th id="GettingToSimHq-editHeading">Edit</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="GettingToSimHq-tableBody">
@@ -510,9 +548,9 @@ class GettingToSIMHQ extends Component {
                                                 <Table responsive="sm" bordered id="GettingToSimHq-tableContainer">
                                                     <thead id="GettingToSimHq-tableHeader">
                                                         <tr>
-                                                            <th id="GettingToSimHq-tableHeading">S/N</th>
+                                                            <th id="GettingToSimHq-SNoHeading">S/N</th>
                                                             <th>Information</th>
-                                                            <th id="GettingToSimHq-tableHeading">Edit</th>
+                                                            <th id="GettingToSimHq-editHeading">Edit</th>
                                                         </tr>
                                                     </thead>
                                                     {this.state.carArray && this.state.carArray.map((carArr, index) => {
@@ -542,30 +580,27 @@ class GettingToSIMHQ extends Component {
                                                 <Table responsive="sm" bordered id="GettingToSimHq-tableContainer">
                                                     <thead id="GettingToSimHq-tableHeader">
                                                         <tr>
-                                                            <th id="GettingToSimHq-tableHeading">S/N</th>
+                                                            <th id="GettingToSimHq-SNoHeading">S/N</th>
                                                             <th>Location</th>
                                                             <th>Bus Number</th>
-                                                            <th id="GettingToSimHq-tableHeading">Edit</th>
+                                                            <th id="GettingToSimHq-editHeading">Edit</th>
                                                         </tr>
                                                     </thead>
                                                     {this.state.busArray && this.state.busArray.map((busArr, index) => {
-                                                        return (
-                                                            <tbody id="GettingToSimHq-tableBody">
+                                                        return(
+                                                            <tbody id="GettingToSimHq-tableBody" key={busArr.busId}>
                                                                 <tr>
                                                                     <td>{index + 1}</td>
-                                                                    <td>SIM HQ <br/>12091 <br/>Clementi Rd</td>
-                                                                    {this.state.busOppSimArray && this.state.busOppSimArray.map((oppSimHq) => {
-                                                                        return (
-                                                                            <td>{oppSimHq.oppSimHq}</td>
-                                                                        )
-                                                                    })}
+                                                                    <td id="GettingToSimHq-busLocation">{busArr.simBusDescription}</td>
+                                                                    <td></td>
                                                                     <td><Button size="sm" id="GettingToSimHq-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                 </tr>
-                                                                
                                                                 <tr>
                                                                     <td>{index + 2}</td>
-                                                                    <td>Opp SIM HQ <br/>12099 <br/>Clementi Rd</td>
-                                                                    <td>{busArr.simHq}</td>
+                                                                    <td id="GettingToSimHq-busLocation">{busArr.oppSimBusDescription}</td>
+                                                                    {this.state.busOppSimArray ?
+                                                                        <td>{this.state.busOppSimArray}</td> : ''
+                                                                    }
                                                                     <td><Button size="sm" id="GettingToSimHq-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                 </tr>
                                                             </tbody>
@@ -587,24 +622,24 @@ class GettingToSIMHQ extends Component {
                                                 <Table responsive="sm" bordered id="GettingToSimHq-tableContainer">
                                                     <thead id="GettingToSimHq-tableHeader">
                                                         <tr>
-                                                            <th id="GettingToSimHq-tableHeading">S/N</th>
+                                                            <th id="GettingToSimHq-SNoHeading">S/N</th>
                                                             <th>MRT Line</th>
                                                             <th>Nearest MRT</th>
-                                                            <th id="GettingToSimHq-tableHeading">Edit</th>
+                                                            <th id="GettingToSimHq-editHeading">Edit</th>
                                                         </tr>
                                                     </thead>
                                                     {this.state.mrtArray && this.state.mrtArray.map((mrtArr, index) => {
                                                         return (
-                                                            <tbody id="GettingToSimHq-tableBody">
+                                                            <tbody id="GettingToSimHq-tableBody" key={mrtArr.mrtId}>
                                                                 <tr>
                                                                     <td>{index + 1}</td>
-                                                                    <td>Downtown Line</td>
+                                                                    <td id="GettingToSimHq-mrtLocation">Downtown Line</td>
                                                                     <td></td>
                                                                     <td><Button size="sm" id="GettingToSimHq-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>{index + 2}</td>
-                                                                    <td>East West Line</td>
+                                                                    <td id="GettingToSimHq-mrtLocation">East West Line</td>
                                                                     <td></td>
                                                                     <td><Button size="sm" id="GettingToSimHq-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                 </tr>
@@ -627,9 +662,9 @@ class GettingToSIMHQ extends Component {
                                                 <Table responsive="sm" bordered id="GettingToSimHq-tableContainer">
                                                     <thead id="GettingToSimHq-tableHeader">
                                                         <tr>
-                                                            <th id="GettingToSimHq-tableHeading">S/N</th>
+                                                            <th id="GettingToSimHq-SNoHeading">S/N</th>
                                                             <th>Information</th>
-                                                            <th id="GettingToSimHq-tableHeading">Edit</th>
+                                                            <th id="GettingToSimHq-editHeading">Edit</th>
                                                         </tr>
                                                     </thead>
                                                     {this.state.carParkArray && this.state.carParkArray.map((carPark, index) => {

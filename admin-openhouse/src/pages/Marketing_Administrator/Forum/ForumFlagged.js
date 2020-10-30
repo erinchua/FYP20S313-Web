@@ -56,8 +56,7 @@ class ForumFlagged extends Component {
   };
 
   componentDidMount() {
-    //this.authListener();
-    this.display();
+    this.authListener();
   }
 
   display() {
