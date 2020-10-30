@@ -21,8 +21,32 @@ class MAHome extends Component {
           numbers: 223,
         };
       }
+
+      authListener() {
+        fire.auth().onAuthStateChanged((user) => {
+          if (user) {
+            const db = fire.firestore();
+    
+            var getrole = db
+              .collection("Administrators")
+              .where("email", "==", user.email);
+            getrole.get().then((snapshot) => {
+              snapshot.forEach((doc) => {
+                if (doc.data().administratorType === "Marketing Administrator") {
+                  this.display();
+                } else {
+                  history.push("/Login");
+                }
+              });
+            });
+          } else {
+            history.push("/Login");
+          }
+        });
+      }
+
       componentDidMount() {
-        this.display();
+        this.authListener();
       }
       display() {
         const db = fire.firestore();
