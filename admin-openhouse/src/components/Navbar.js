@@ -30,7 +30,7 @@ export default class NavBar extends React.Component {
                   }  else {
             
             }
-          });
+        });
          
     }
 
@@ -76,7 +76,7 @@ export default class NavBar extends React.Component {
                                     
                                     <Nav.Item id="navDropdownCon">
                                         <NavDropdown id="navDropdown" alignRight>
-                                            <NavDropdown.Item className="navDropdownItem" href="/ChangePassword">
+                                            <NavDropdown.Item className="navDropdownItem"> {/* onClick */}
                                                 <FontAwesomeIcon className="dropdownNavIcon" icon={faLock} /> Change Password
                                             </NavDropdown.Item>
 
