@@ -7,7 +7,7 @@ import firecreate from "../../../config/firebasecreate";
 
 import "../../../css/Marketing_Administrator/PastRecModals.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd, faChair, faUniversity } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd, faUniversity } from '@fortawesome/free-solid-svg-icons';
 
 
 // const validateForm = (errors) => {
