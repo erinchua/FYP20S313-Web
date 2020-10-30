@@ -53,7 +53,7 @@ class ForumSettings extends Component {
     
         const userRe1 = db
         .collection("Openhouse")
-        .doc("openhouse-001")
+        .doc("openhouse")
         .onSnapshot((snapshot) => {
             if (snapshot.data().disableForum === false) {
                 this.setState({
