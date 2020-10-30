@@ -60,8 +60,12 @@
     padding-bottom: 1%;
 }
 
-#GettingToSimHq-tableHeading {
+#GettingToSimHq-editHeading, #GettingToSimHq-SNoHeading {
     width: 15%;
+}
+
+#GettingToSimHq-busLocation, #GettingToSimHq-mrtLocation {
+    width: 35%;
 }
 
 #GettingToSimHq-tableHeader {
