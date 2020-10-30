@@ -610,7 +610,7 @@ class Openhouse extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faCalendarAlt} />
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="OpenHouse-inputFields" type="text" name="date" placeholder="Date: e.g. 21-Nov-2020" required defaultValue={user.date} onChange={this.fileUpload} noValidate></Form.Control>
+                                                            <Form.Control id="OpenHouse-inputFields" type="text" name="date" placeholder="Date: e.g. 21-Nov-2020" required defaultValue={user.date} onChange={this.updateInput} noValidate></Form.Control>
                                                                 <div className="errorMessage">{this.state.dateError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
