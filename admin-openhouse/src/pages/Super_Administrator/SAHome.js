@@ -129,11 +129,12 @@ class SAHome extends Component {
   };
 
   /* Delete Admin Modal */
-  handleDeleteAdminModal = () => {
+  handleDeleteAdminModal = (id) => {
     if (this.state.deleteAdminModal == false) {
       this.setState({
         deleteAdminModal: true
       });
+      this.state.id = id;
     }
     else {
       this.setState({
@@ -197,11 +198,6 @@ class SAHome extends Component {
         });
     }
   }
-
-  retrieveuserdata(id){
-    this.state.id = id
-    this.handleDeleteAdminModal();
-  }
   
 
   render() {
@@ -264,7 +260,7 @@ class SAHome extends Component {
                             <td id="adminEmailData">{user.email}</td>
                             <td id="adminUserTypeData">{user.administratorType}</td>
                             <td id="removeAdminData">                                
-                              <Button id="removeAdminBtn" onClick={ (e) => {this.retrieveuserdata(user.id);} }>
+                              <Button id="removeAdminBtn" onClick={ (e) => {this.handleDeleteAdminModal(user.id);} }>
                                 <FontAwesomeIcon size="lg" id="removeAdminBtnIcon" icon={faTrashAlt} />  
                               </Button>
                             </td>

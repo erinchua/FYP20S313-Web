@@ -5,6 +5,8 @@ import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import firecreate from "../../../config/firebasecreate";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import "../../../css/Marketing_Administrator/DeleteStudySIMProgModal.css";
 
 export default class DeleteStudySIMProgModal extends React.Component {
@@ -16,6 +18,7 @@ export default class DeleteStudySIMProgModal extends React.Component {
       handleCancelDelete: "",
     };
   }
+
   delete() {
     var a = this;
     const db = fire.firestore();
@@ -29,6 +32,8 @@ export default class DeleteStudySIMProgModal extends React.Component {
         alert("Deleted");
       });
   }
+
+  
   render() {
     return (
       <div>
@@ -39,6 +44,12 @@ export default class DeleteStudySIMProgModal extends React.Component {
         </Modal.Header>
 
         <Modal.Body>
+          <Row className="justify-content-center">
+            <Col md="12" className="text-center deleteStudySIMProgModalCol">
+              <FontAwesomeIcon size="3x" icon={faExclamationCircle}/>
+            </Col>
+          </Row>     
+
           <Row className="justify-content-center">
             <Col md="12" className="text-center deleteStudySIMProgModalCol">
               <h5 id="deleteStudySIMProgModalText">
