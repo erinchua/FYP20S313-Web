@@ -44,7 +44,7 @@
     padding-right: 0 !important;
 }
 
-#GettingToSimHq-thirdRow {
+#GettingToSimHq-titleRow {
     margin: 0 !important;
 }
 
@@ -53,11 +53,15 @@
     padding-right: 0 !important;
 }
 
-#GettingToSimHq-thirdRowColHeading {
+#GettingToSimHq-titleRowCol {
     height: 100%;
     width: 100%;
     padding-top: 1%;
     padding-bottom: 1%;
+}
+
+#GettingToSimHq-tableHeading {
+    width: 15%;
 }
 
 #GettingToSimHq-tableHeader {
@@ -78,4 +82,14 @@
 
 #GettingToSimHq-editBtn:focus {
     box-shadow: none;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 85%;
+}
+
+#border {
+    border: 0.5px solid #e8e8e8;
+    margin: 2% 0% 1% 0%;
 }

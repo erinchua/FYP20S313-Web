@@ -9,8 +9,8 @@ const firebaseConfig = {
     storageBucket: "fyp20s3-13.appspot.com",
     messagingSenderId: "671429853263",
     appId: "1:671429853263:web:71fb4fbeb23a4f74da6a3a"
-  };
-  // Initialize Firebase
-  const fire = firebase.initializeApp(firebaseConfig);
+};
+// Initialize Firebase
+const fire = firebase.initializeApp(firebaseConfig);
 
-  export default fire;
+export default fire;
