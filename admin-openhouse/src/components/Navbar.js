@@ -8,6 +8,8 @@ import WebAppLogo from "../img/WebAppLogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
+import ChangePasswordModal from "../components/ChangePassword";
+
 
 export default class NavBar extends React.Component {
     constructor() {
@@ -15,7 +17,9 @@ export default class NavBar extends React.Component {
         this.logout = this.logout.bind(this);
         this.state = {
             useremail: null,
-            isMA: false
+            isMA: false,
+
+            handleChangePasswordModal: false
         }
     }
 
@@ -38,6 +42,21 @@ export default class NavBar extends React.Component {
         fire.auth().signOut();
         history.push("/Login");
       }
+
+    /* Change Password Modal */
+    handleChangePasswordModal = () => {
+        if (this.state.changePasswordModal == false) {
+            this.setState({
+                changePasswordModal: true,
+            });
+        }
+        else {
+            this.setState({
+                changePasswordModal: false
+            });
+            //this.resetForm();
+        }
+    };
 
     render(){
         return (
@@ -63,6 +82,7 @@ export default class NavBar extends React.Component {
 
                     </Container>
                     :(
+                        <>
                         <Container fluid className="navbarCon">    
                             <Navbar id="navbar" sticky="top">
                                 <Navbar.Brand href="/MAHome" id="webAppLogoNav">
@@ -76,7 +96,7 @@ export default class NavBar extends React.Component {
                                     
                                     <Nav.Item id="navDropdownCon">
                                         <NavDropdown id="navDropdown" alignRight>
-                                            <NavDropdown.Item className="navDropdownItem"> {/* onClick */}
+                                            <NavDropdown.Item className="navDropdownItem" onClick={this.handleChangePasswordModal}>
                                                 <FontAwesomeIcon className="dropdownNavIcon" icon={faLock} /> Change Password
                                             </NavDropdown.Item>
 
@@ -90,6 +110,10 @@ export default class NavBar extends React.Component {
                             </Navbar>
 
                         </Container>
+
+                        
+                        <ChangePasswordModal showModal={this.state.changePasswordModal} hideModal={this.handleChangePasswordModal} cancelBtn={this.handleChangePasswordModal} />
+                        </>
                     )
                 }
             </div>
