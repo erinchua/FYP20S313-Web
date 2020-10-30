@@ -45,6 +45,7 @@ import GenerateStudentRegisteration from "./pages/Marketing_Administrator/Genera
 import StudentLifeBrochure from "./pages/Marketing_Administrator/Brochure/StudentLifeBrochure";
 import StudySIMBrochure from "./pages/Marketing_Administrator/Brochure/StudySIMBrochure";
 import AttendanceMarkingScanner from "./pages/Crew/AttendanceMarkingScanner";
+import AdmissionApplication from "./pages/Marketing_Administrator/Useful_Info/AdmissionApplication";
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -98,7 +99,8 @@ ReactDOM.render(
       <Route path="/GenerateStudentRegisteration" component={GenerateStudentRegisteration} />
       <Route path="/StudentLifeBrochure" component={StudentLifeBrochure} />
       <Route path="/StudySIMBrochure" component={StudySIMBrochure} />
-
+      <Route path="/AdmissionApplication" component={AdmissionApplication} />
+      
     </Switch>
   </Router>,
   document.getElementById("root")
