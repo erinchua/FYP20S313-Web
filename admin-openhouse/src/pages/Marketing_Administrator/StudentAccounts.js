@@ -273,8 +273,8 @@ class StudentAccounts extends Component {
                           <tr>
                             <th id="studAcctHeader_Checkbox"></th>
                             <th id="studAcctHeader_SNo">S/N</th>
-                            <th id="studAcctHeader_FirstName"> First Name</th>
-                            <th id="studAcctHeader_LastName"> Last Name</th>
+                            <th id="studAcctHeader_FirstName">First Name</th>
+                            <th id="studAcctHeader_LastName">Last Name</th>
                             <th id="studAcctHeader_Email">Email</th>
                             <th id="studAcctHeader_ContactNo">Contact No.</th>
                             <th id="studAcctHeader_DOB">D.O.B</th>
@@ -283,39 +283,36 @@ class StudentAccounts extends Component {
                             <th id="studAcctHeader_SuspendStud">Suspend From Forum</th>
                           </tr>
                         </thead>
+                          
+                        <tbody>
+                          {this.state.users && this.state.users.map((user) => {
+                            return (
+                              <tr key={user.id}>
+                                <td id="studAcctData_Checkbox">
+                                  <Form.Check type="checkbox" aria-label="studAcctCheckbox" id="studAcctCheckbox"/>
+                                </td>
+                                <td id="studAcctData_SNo">{user.counter}</td>
+                                <td id="studAcctData_FirstName">{user.firstName}</td>
+                                <td id="studAcctData_LastName">{user.lastName}</td>
+                                <td id="studAcctData_Email">{user.email}</td>
+                                <td id="studAcctData_ContactNo">{user.contactNo}</td>
+                                <td id="studAcctData_DOB">{user.dob}</td>
+                                <td id="studAcctData_HighestQual">{user.highestQualification}</td>
+                                <td id="studAcctData_Nationality">{user.nationality}</td>
+                                <td id="studAcctData_SuspendStud">
+                                  <Button id="unsuspendStudBtn" onClick={(e) => {this.retrieveuserdata_suspend(user.id, user.isSuspendedFromForum);} } >
+                                    {user.isSuspendedFromForum ?
+                                      <FontAwesomeIcon size="lg" id="suspendStudBtnIcon" icon={faUserCheck} />
+                                      :
+                                      <FontAwesomeIcon size="lg" id="unsuspendStudBtnIcon" icon={faBan} /> 
+                                    }
+                                  </Button>
+                                </td>
+                              </tr>
+                            );
+                          })}
 
-                        {this.state.users && this.state.users.map((user) => {
-                          return (
-                            <>
-                              <tbody>
-                                <tr>
-                                  <td id="studAcctData_Checkbox">
-                                    <Form.Check type="checkbox" aria-label="studAcctCheckbox" id="studAcctCheckbox"/>
-                                  </td>
-                                  <td id="studAcctData_SNo">{user.counter}</td>
-                                  <td id="studAcctData_FirstName">{user.firstName}</td>
-                                  <td id="studAcctData_LastName">{user.lastName}</td>
-                                  <td id="studAcctData_Email">{user.email}</td>
-                                  <td id="studAcctData_ContactNo">{user.contactNo}</td>
-                                  <td id="studAcctData_DOB">{user.dob}</td>
-                                  <td id="studAcctData_HighestQual">{user.highestQualification}</td>
-                                  <td id="studAcctData_Nationality">{user.nationality}</td>
-                                  <td id="studAcctData_SuspendStud">
-                                    <Button id="unsuspendStudBtn" onClick={(e) => {this.retrieveuserdata_suspend(user.id, user.isSuspendedFromForum);} } >
-                                      {user.isSuspendedFromForum ?
-                                        <FontAwesomeIcon size="lg" id="suspendStudBtnIcon" icon={faUserCheck} />
-                                        :
-                                        <FontAwesomeIcon size="lg" id="unsuspendStudBtnIcon" icon={faBan} /> 
-                                      }
-                                    </Button>
-
-                                  </td>
-                                </tr>
-                              </tbody>
-
-                            </> 
-                          );
-                        })}
+                        </tbody>
 
                       </Table>
                     </ Col>

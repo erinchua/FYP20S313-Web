@@ -10,7 +10,6 @@ import Login from "./pages/Login";
 import SAHome from "./pages/Super_Administrator/SAHome";
 import ResetPassword from "./pages/Marketing_Administrator/ResetPassword";
 import StudentAccounts from "./pages/Marketing_Administrator/StudentAccounts";
-import ChangePassword from "./pages/Marketing_Administrator/ChangePassword";
 import CampusFacilitiesMap from "./pages/Marketing_Administrator/CampusFacilitiesMap";
 import Openhouse from "./pages/Marketing_Administrator/Openhouse";
 import GettingToSIMHQ from "./pages/Marketing_Administrator/GettingToSIMHQ";
@@ -44,7 +43,8 @@ import ContactInformation from "./pages/Marketing_Administrator/Useful_Info/Cont
 import GenerateStudentRegisteration from "./pages/Marketing_Administrator/GenerateReport/GenerateStudentRegisteration";
 import StudentLifeBrochure from "./pages/Marketing_Administrator/Brochure/StudentLifeBrochure";
 import StudySIMBrochure from "./pages/Marketing_Administrator/Brochure/StudySIMBrochure";
-
+import AttendanceMarkingScanner from "./pages/Crew/AttendanceMarkingScanner";
+import AdmissionApplication from "./pages/Marketing_Administrator/Useful_Info/AdmissionApplication";
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -56,12 +56,14 @@ ReactDOM.render(
       <Route path="/Login" component={Login} />
       <Route path="/ResetPassword" component={ResetPassword} />
 
+      {/* Routes for Crew */}
+      <Route path="/AttendanceMarkingScanner" component={AttendanceMarkingScanner} />
+
       {/* Routes for Super Admin */}
       <Route path="/SAHome" component={SAHome} />
 
       {/* Routes for Marketing Admin */}
       <Route path="/StudentAccounts" component={StudentAccounts} />
-      <Route path="/ChangePassword" component={ChangePassword} />
       <Route path="/CampusFacilitiesMap" component={CampusFacilitiesMap} />
       <Route path="/Openhouse" component={Openhouse} />
       <Route path="/GettingToSIMHQ" component={GettingToSIMHQ} />
@@ -95,7 +97,8 @@ ReactDOM.render(
       <Route path="/GenerateStudentRegisteration" component={GenerateStudentRegisteration} />
       <Route path="/StudentLifeBrochure" component={StudentLifeBrochure} />
       <Route path="/StudySIMBrochure" component={StudySIMBrochure} />
-
+      <Route path="/AdmissionApplication" component={AdmissionApplication} />
+      
     </Switch>
   </Router>,
   document.getElementById("root")

@@ -109,7 +109,7 @@ export default class SideNavBar extends React.Component {
                             </Nav.Item>
                             <div className="border"></div>
                             <Nav.Item className="sideNavBar-navItems">
-                                <Nav.Link href="/Openhouse" className="sideNavBar-navLinks">Open House Dates</Nav.Link>
+                                <Nav.Link href="/Openhouse" className="sideNavBar-navLinks">Open House Details</Nav.Link>
                                 <Nav.Link href="/" className="sideNavBar-navLinks">Attendance Taking Scanner</Nav.Link>
                             </Nav.Item>
                             <div className="border"></div>
@@ -154,8 +154,8 @@ export default class SideNavBar extends React.Component {
                                                 <ContextAwareToggle eventKey="3">Useful Info</ContextAwareToggle>
                                                 <Accordion.Collapse eventKey="3">
                                                     <div>
-                                                        <Nav.Link href="#" className="sideNavBar-inner-navLinks">Admission & Application</Nav.Link>
-                                                        <Nav.Link href="#" className="sideNavBar-inner-navLinks">Contact Information</Nav.Link>
+                                                        <Nav.Link href="/AdmissionApplication" className="sideNavBar-inner-navLinks">Admission & Application</Nav.Link>
+                                                        <Nav.Link href="/ContactInformation" className="sideNavBar-inner-navLinks">Contact Information</Nav.Link>
                                                         <Nav.Link href="/OpenHouseFeedback" className="sideNavBar-inner-navLinks">Open House Feedback Form</Nav.Link>
                                                         <Nav.Link href="/CommonFAQs" className="sideNavBar-inner-navLinks">Common FAQs</Nav.Link>
                                                     </div>

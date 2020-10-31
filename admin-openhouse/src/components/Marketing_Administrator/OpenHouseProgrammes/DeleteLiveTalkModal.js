@@ -5,7 +5,9 @@ import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import firecreate from "../../../config/firebasecreate";
 
-import "../../../css/Marketing_Administrator/DeleteLiveTalkModal.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import "../../../css/Marketing_Administrator/LiveTalkModals.css";
 
 export default class DeleteLiveTalkModal extends React.Component {
     constructor() {
@@ -25,7 +27,13 @@ export default class DeleteLiveTalkModal extends React.Component {
                     </Modal.Title>
                 </Modal.Header>
                 
-                <Modal.Body>                    
+                <Modal.Body>                 
+                    <Row className="justify-content-center">
+                        <Col md="12" className="text-center deleteLiveTalkModalCol">
+                            <FontAwesomeIcon size="3x" icon={faExclamationCircle}/>
+                        </Col>
+                    </Row>    
+
                     <Row className="justify-content-center">
                         <Col md="12" className="text-center deleteLiveTalkModalCol">
                             <h5 id="deleteLiveTalkModalText">Are you sure you want to remove this live talk?</h5>

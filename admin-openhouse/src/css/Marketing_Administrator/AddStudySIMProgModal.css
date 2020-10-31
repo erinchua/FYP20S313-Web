@@ -29,16 +29,21 @@
     box-shadow: none;
 }
 
- #addStudySIMProgForm_LogoFile {
-    border: none;
-    border-bottom: 1px solid #c8c8c8;
-    border-radius: 0;
+.addStudySIMProgForm_LogoFile .custom-file-input {
+    border: 1px solid #c8c8c8;
+    border-radius: 6px;
+    font-size: 85% !important;
     color: #434343;
-    font-size: 85%;
 }
 
-#addStudySIMProgForm_LogoFile:focus {
-    box-shadow: none !important;
+.addStudySIMProgForm_LogoFile .custom-file-label {
+    color: #434343;
+    overflow: hidden;
+    font-size: 90% !important;
+}
+
+.addStudySIMProgForm_LogoFile:focus {
+    box-shadow: none;
 }
 
 .addStudySIMProgFormSelect {

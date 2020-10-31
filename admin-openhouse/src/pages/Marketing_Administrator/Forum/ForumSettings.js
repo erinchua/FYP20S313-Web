@@ -53,7 +53,7 @@ class ForumSettings extends Component {
     
         const userRe1 = db
         .collection("Openhouse")
-        .doc("openhouse-001")
+        .doc("openhouse")
         .onSnapshot((snapshot) => {
             if (snapshot.data().disableForum === false) {
                 this.setState({
@@ -110,7 +110,7 @@ class ForumSettings extends Component {
         if (this.text === "Enable") {
             const db = fire.firestore();
 
-            const userRef = db.collection("Openhouse").doc("openhouse-001");
+            const userRef = db.collection("Openhouse").doc("openhouse");
     
             userRef.update({
                 disableForum: false,
@@ -119,7 +119,7 @@ class ForumSettings extends Component {
         } else {
             const db = fire.firestore();
     
-            const userRef = db.collection("Openhouse").doc("openhouse-001");
+            const userRef = db.collection("Openhouse").doc("openhouse");
     
             userRef.update({
                 disableForum: true,

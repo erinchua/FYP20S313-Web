@@ -1,0 +1,191 @@
+.campusFacilCon {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 0 auto;
+    padding: 0 !important;
+}
+
+.campusFacilContent {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+.campusFacilContentCon {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#campusFacilContentHeaderRow {
+    background: #88B7B5;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.campusFacilContentHeaderCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#campusFacilHeaderText {
+    color: #424242;
+}
+
+/**********************************************/
+/**************** Table Header ****************/
+#campusFacilTable {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+#campusFacilHeader_Block {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+#campusFacilHeader_FacilName {
+    width: 40%;
+    color: #424242;
+    font-size: 90%;
+}
+
+#campusFacilHeader_Location {
+    width: 40%;
+    color: #424242;
+    font-size: 90%;
+}
+
+#campusFacilHeader_Edit {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+/**************** Table Data ****************/
+#campusFacilData_Block {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+#campusFacilData_FacilName {
+    width: 40%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+#campusFacilData_Location {
+    width: 40%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+#campusFacilData_Edit {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+}
+
+#editCampusFacilBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#editCampusFacilBtnIcon {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#editCampusFacilBtn:focus {
+    box-shadow: none;
+}
+
+/**********************************************************************************************/
+/* Edit Campus Facilities Modal Css */
+/**********************************************************************************************/
+#editCampusFacilModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.editCampusFacilFormRow {
+    padding-bottom: 4%;
+}
+
+.editCampusFacilFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.editCampusFacilFormIconInputGrp {
+    background: transparent !important;
+    border: none !important;
+}
+
+.editCampusFacilFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    border-radius: 0 !important;
+    font-size: 85% !important;
+}
+
+.editCampusFacilFormSelect:focus {
+    box-shadow: none !important;
+}
+
+.editCampusFacilFormSelectOption {
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#editCampusFacilForm_FacilName {
+    resize: none;
+    border-radius: 6px;
+    color: #434343;
+    font-size: 85%;
+}
+
+#editCampusFacilForm_FacilLocation {
+    resize: none;
+    border-radius: 6px;
+    color: #434343;
+    font-size: 85%;
+}
+
+.editCampusFacilFormLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
+}
+
+#saveChangesCampusFacilFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+}
+
+#saveChangesCampusFacilFormBtn:focus {
+    box-shadow: none;
+}
+
+#cancelEditCampusFacilFormBtn {
+    background: none;
+    border: 1px solid #60c6d9;
+    color: #60c6d9;
+    border-radius: 6px;
+}
+
+#cancelEditCampusFacilFormBtn:focus {
+    box-shadow: none;
+}

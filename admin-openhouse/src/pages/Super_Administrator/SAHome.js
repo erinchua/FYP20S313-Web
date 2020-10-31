@@ -129,11 +129,12 @@ class SAHome extends Component {
   };
 
   /* Delete Admin Modal */
-  handleDeleteAdminModal = () => {
+  handleDeleteAdminModal = (id) => {
     if (this.state.deleteAdminModal == false) {
       this.setState({
         deleteAdminModal: true
       });
+      this.state.id = id;
     }
     else {
       this.setState({
@@ -197,11 +198,6 @@ class SAHome extends Component {
         });
     }
   }
-
-  retrieveuserdata(id){
-    this.state.id = id
-    this.handleDeleteAdminModal();
-  }
   
 
   render() {
@@ -250,29 +246,28 @@ class SAHome extends Component {
                       </tr>
                     </thead>
 
-                    {this.state.users && this.state.users.map((user) => {
-                      return (
-                        <>
-                          <tbody>
-                            <tr>
-                              <td id="adminCheckboxData">
-                                <Form.Check type="checkbox" aria-label="admin_checkbox" id="adminCheckbox"/>
-                              </td>
+                    
+                    <tbody>
+                      {this.state.users && this.state.users.map((user) => {
+                        return (
+                          <tr key={user.id}>
+                            <td id="adminCheckboxData">
+                              <Form.Check type="checkbox" aria-label="admin_checkbox" id="adminCheckbox"/>
+                            </td>
 
-                              <td id="serialNoData">{user.counter}</td>
-                              <td id="adminNameData">{user.name}</td>
-                              <td id="adminEmailData">{user.email}</td>
-                              <td id="adminUserTypeData">{user.administratorType}</td>
-                              <td id="removeAdminData">                                
-                                <Button id="removeAdminBtn" onClick={ (e) => {this.retrieveuserdata(user.id);} }>
-                                  <FontAwesomeIcon size="lg" id="removeAdminBtnIcon" icon={faTrashAlt} />  
-                                </Button>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </>                        
-                      );
-                    })}
+                            <td id="serialNoData">{user.counter}</td>
+                            <td id="adminNameData">{user.name}</td>
+                            <td id="adminEmailData">{user.email}</td>
+                            <td id="adminUserTypeData">{user.administratorType}</td>
+                            <td id="removeAdminData">                                
+                              <Button id="removeAdminBtn" onClick={ (e) => {this.handleDeleteAdminModal(user.id);} }>
+                                <FontAwesomeIcon size="lg" id="removeAdminBtnIcon" icon={faTrashAlt} />  
+                              </Button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>                    
 
                   </Table>
 

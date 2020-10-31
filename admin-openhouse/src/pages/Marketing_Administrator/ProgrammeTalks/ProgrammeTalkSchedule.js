@@ -4,9 +4,7 @@ import history from "../../../config/history";
 import { Container, Row, Col, Button, Table, Modal, Tab, Nav, Form, FormControl, InputGroup } from 'react-bootstrap';
 
 import "../../../css/Marketing_Administrator/ProgrammeTalkSchedule.css";
-import "../../../css/Marketing_Administrator/AddProgTalkModal.css";
-import "../../../css/Marketing_Administrator/EditProgTalkModal.css";
-import "../../../css/Marketing_Administrator/DeleteProgTalkModal.css";
+import "../../../css/Marketing_Administrator/ProgTalkModals.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd, faChair, faUniversity } from '@fortawesome/free-solid-svg-icons';
@@ -20,7 +18,22 @@ import EditProgTalkModal from "../../../components/Marketing_Administrator/OpenH
 import DeleteProgTalkModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/DeleteProgTalkModal";
 
 
+const initialStates = {
+  progTalkError: "",
+  venueError: "",
+  capacityLimitError: "",
+  startTimeError: "",
+  endTimeError: "",
+  dateError: "",
+  universityError: "",
+  disciplineError: "",
+  progTalkDetailsError: "",
+}
+
 class ProgrammeTalkSchedule extends Component {
+
+  state = initialStates;
+
   constructor() {
     super();
     this.state = {
@@ -36,8 +49,8 @@ class ProgrammeTalkSchedule extends Component {
       venue: "",
       link: "",
       id: "",
-      progTalkDetails: "",
-      discipline: "",
+      details: "",
+      discipline: [],
       day1: [],
       day2: [],
       day1Date: "",
@@ -58,6 +71,7 @@ class ProgrammeTalkSchedule extends Component {
       editProgTalkModal: false,
       deleteProgTalkModal: false,
     };
+    this.resetForm = this.resetForm.bind(this);
   }
 
   authListener() {
@@ -172,7 +186,7 @@ class ProgrammeTalkSchedule extends Component {
             hasRecording: doc.data().hasRecording.toString(),
             link: doc.data().link,
             isLive: doc.data().isLive.toString(),
-            progTalkDetails: doc.data().details,
+            details: doc.data().details,
             discipline: doc.data().discipline,
             day1_counter : day1_counter,
           };
@@ -209,23 +223,20 @@ class ProgrammeTalkSchedule extends Component {
               hasRecording: doc.data().hasRecording.toString(),
               link : doc.data().link,
               isLive: doc.data().isLive.toString(),
-              progTalkDetails: doc.data().details,
+              details: doc.data().details,
               discipline: doc.data().discipline,
               day2_counter: day2_counter,
             };
             day2_counter++;
             progtalk.push(data);
-            console.log("Prog Talk array:" + progtalk)
           });
           this.setState({ day2: progtalk });   
           this.setState({ day2Date: progtalk[0].date})
-          
         });
-
-      });  
+    });  
   }
 
-  addProgrammeTalks = (e) => { 
+  addProgrammeTalk = (e) => { 
     e.preventDefault();
     // var recordingvalue = document.getElementById("recordingvalue");
     // var livestatus = document.getElementById("livestatus");
@@ -233,47 +244,57 @@ class ProgrammeTalkSchedule extends Component {
     // livestatus = livestatus.options[livestatus.selectedIndex].value;
     // recordingvalue = (recordingvalue === "true");
     // livestatus = (livestatus === "true");
+    console.log(this.state.discipline)
+    console.log(this.state)
 
-    const db = fire.firestore();
-      var lastdoc = db.collection("ProgrammeTalks").orderBy('id','asc')
-      .limit(1).get().then((snapshot) =>  {
-        snapshot.forEach((doc) => {
-        var docid= "";
-        var res = doc.data().id.substring(5, 10);
-        var id = parseInt(res)
-        if(id.toString().length <= 1){
-          docid= "talk-00" + (id +1) 
-          }
-          else if(id.toString().length <= 2){
-            docid= "talk-0" + (id +1) 
+    const isValid = this.validate();
+    if (isValid) {
+        this.setState(initialStates);
+        
+        const db = fire.firestore();
+        var lastdoc = db.collection("ProgrammeTalks").orderBy('id','desc')
+        .limit(1).get().then((snapshot) =>  {
+          snapshot.forEach((doc) => {
+            var docid= "";
+            var res = doc.data().id.substring(8, 5);
+            console.log("res: " + res)
+
+            var id = parseInt(res)
+            if(id.toString().length <= 1){
+              docid= "talk-00" + (id +1) 
             }
-          else{
-            docid="talk-0" + (id +1) 
-          }
-          db
-          .collection("ProgrammeTalks")
-          .doc(docid)
-          .set({
-            awardingUni: this.state.awardingUni,
-            capacityLimit: this.state.capacityLimit,
-            date: this.state.date,
-            endTime: this.state.endTime,
-            hasRecording: this.state.hasRecording,
-            isLive: this.state.isLive,
-            noRegistered: this.state.noRegistered,
-            startTime: this.state.startTime,
-            talkName: this.state.talkName,
-            venue: this.state.venue,
-            link: this.state.link,
-            id: docid,
-            progTalkDetails: this.state.details,
+            else if(id.toString().length <= 2){
+              docid= "talk-0" + (id +1) 
+              }
+            else{
+              docid="talk-0" + (id +1) 
+            }
+            db
+            .collection("ProgrammeTalks")
+            .doc(docid)
+            .set({
+              awardingUni: this.state.awardingUni,
+              capacityLimit: this.state.capacityLimit,
+              date: this.state.date,
+              endTime: this.state.endTime,
+              hasRecording: this.state.hasRecording,
+              isLive: this.state.isLive,
+              noRegistered: this.state.noRegistered,
+              startTime: this.state.startTime,
+              talkName: this.state.talkName,
+              venue: this.state.venue,
+              link: this.state.link,
+              id: docid,
+              details: this.state.details,
+              discipline: this.state.discipline,
 
+            })
+            .then(function () {
+              window.location.reload();
+            });
           })
-          .then(function () {
-            window.location.reload();
-          });
         })
-      })
+      }
   };
 
   DeleteProgrammeTalk(e, progtalkid) {
@@ -289,14 +310,27 @@ class ProgrammeTalkSchedule extends Component {
   }
 
   update(e, progtalkid) {
-    const talkName = document.getElementById(progtalkid + "talkname").value
-    const awardingUni = document.getElementById(progtalkid + "awarduni").value
-    const startTime = document.getElementById(progtalkid + "starttime").value
-    const endTime = document.getElementById(progtalkid + "endtime").value
-    const venue = document.getElementById(progtalkid + "venue").value
+    // const talkName = document.getElementById(progtalkid + "talkname").value
+    // const awardingUni = document.getElementById(progtalkid + "awarduni").value
+    // const startTime = document.getElementById(progtalkid + "starttime").value
+    // const endTime = document.getElementById(progtalkid + "endtime").value
+    // const venue = document.getElementById(progtalkid + "venue").value
+
+    const talkName = this.state.talkName;
+    const awardingUni = this.state.awardingUni;
+    const startTime = this.state.startTime;
+    const endTime = this.state.endTime;
+    const venue = this.state.endTime;
+    const capacityLimit = this.state.capacityLimit;
+    const date = this.state.date;
+    const details = this.state.details;
+    const discipline = this.state.discipline;
 
     const db = fire.firestore();
-    if (talkName != null && awardingUni != null && startTime != null && endTime != null && venue != null) {
+    const isValid = this.validate();
+    if (isValid) {
+    // if (talkName !== null && awardingUni !== null && startTime !== null && endTime !== null && venue !== null
+    //   && capacityLimit !== null && date !== null && details !== null && discipline !== null) {
       const userRef = db
         .collection("ProgrammeTalks")
         .doc(progtalkid)
@@ -306,11 +340,16 @@ class ProgrammeTalkSchedule extends Component {
             startTime: startTime,
             talkName: talkName,
             venue: venue,
+            capacityLimit: capacityLimit,
+            date: date,
+            details: details,
+            discipline: discipline
         })
         .then(function () {
           // alert("Updated");
           window.location.reload();
-        });
+        }
+      );
     }
   }
 
@@ -342,8 +381,9 @@ class ProgrammeTalkSchedule extends Component {
       talkName: this.state.talkName,
       venue: this.state.venue,
       link: this.state.link,
-      progTalkDetails: this.state.details,
-      discipline: this.state.discipline
+      details: this.state.details,
+      discipline: this.state.discipline,
+      handleEditProgTalkModal: false
     });
 
   }
@@ -366,17 +406,52 @@ class ProgrammeTalkSchedule extends Component {
   //   }
   // }
 
+  /* Checkbox - Discipline */
+  handleCheckbox = (event) => {
+    let disciplineArray = this.state.discipline;
+    if (disciplineArray.includes(event.target.value)) {
+      disciplineArray = disciplineArray.filter(discipline => discipline !== event.target.value)
+    } else {
+      disciplineArray.push(event.target.value)
+    }
+    this.setState({discipline: disciplineArray});
+  }
+
+  handleSaveChanges = () => {
+    // console.log(this.state.venue);
+    // console.log(this.state.discipline);
+    this.setState({
+      awardingUni: this.state.awardingUni,
+      capacityLimit: this.state.capacityLimit,
+      date: this.state.date,
+      endTime: this.state.endTime,
+      hasRecording: this.state.hasRecording,
+      isLive: this.state.isLive,
+      noRegistered: this.state.noRegistered,
+      startTime: this.state.startTime,
+      talkName: this.state.talkName,
+      venue: this.state.venue,
+      link: this.state.link,
+      details: this.state.details,
+      discipline: this.state.discipline,
+      handleEditProgTalkModal: false
+    });
+
+  }
+
   /* Add Programme Talk Modal */
   handleAddProgTalkModal = () => {
     if (this.state.addProgTalkModal == false) {
       this.setState({
         addProgTalkModal: true,
+        discipline: []
       });
     }
     else {
       this.setState({
         addProgTalkModal: false
       });
+      this.resetForm();
     }
   };
 
@@ -396,7 +471,7 @@ class ProgrammeTalkSchedule extends Component {
         talkName: day.talkName,
         venue: day.venue,
         link: day.link,
-        progTalkDetails: day.progTalkDetails,
+        details: day.details,
         discipline: day.discipline
       })
     }
@@ -408,11 +483,12 @@ class ProgrammeTalkSchedule extends Component {
   };
 
   /* Delete Programme Talk Modal */
-  handleDeleteProgTalkModal = () => {
+  handleDeleteProgTalkModal(id) {
     if (this.state.deleteProgTalkModal == false) {
       this.setState({
         deleteProgTalkModal: true,
       });
+      this.state.id = id;
     }
     else {
       this.setState({
@@ -420,6 +496,87 @@ class ProgrammeTalkSchedule extends Component {
       });
     }
   };
+
+
+  //Validations for the Forms in Modals
+  validate = () => {
+    let progTalkError = "";
+    let venueError = "";
+    let capacityLimitError = "";
+    let startTimeError = "";
+    let endTimeError = "";
+    let dateError = "";
+    let universityError = "";
+    let disciplineError = ""
+    let progTalkDetailsError = "";
+
+    const validCapacityLimit = RegExp(/^[0-9]+$/);
+
+    if ( !(this.state.talkName && this.state.talkName.length >= 4) ) {
+      progTalkError = "Please enter a valid programme talk name!";
+    } 
+
+    if (! (this.state.venue && this.state.venue.length >= 3) ) {
+      venueError = "Please enter a valid value. E.g. SIM HQ BLK A Atrium!";
+    }
+
+    if (! (this.state.capacityLimit && validCapacityLimit.test(this.state.capacityLimit)) ) {
+      capacityLimitError = "Please enter a valid capacity limit!";
+    }
+
+    if ( !(this.state.startTime.includes(':') && (this.state.startTime.includes("AM") || this.state.startTime.includes("PM"))) ) {
+      startTimeError = "Please enter a valid start time. E.g. 1:30PM";
+    }
+
+    if ( !(this.state.endTime.includes(':') && (this.state.endTime.includes("AM") || this.state.endTime.includes("PM"))) ) {
+        endTimeError = "Please enter a valid end time. E.g. 2:30PM";
+    }
+
+    if (!this.state.date) {
+      dateError = "Please select a valid date!";
+    }
+
+    if (!this.state.awardingUni) {
+      universityError = "Please select a valid university!";
+    }
+
+    // Have issue - TBC !(this.state.discipline.defaultChecked)
+    if (!(this.state.discipline)) {
+      disciplineError = "Please select at least 1 discipline!";
+    }
+
+    if ( !(this.state.details && this.state.details.length >= 2) ) {
+      progTalkDetailsError = "Please enter valid programme talk details!";
+    }
+
+    if (progTalkError || venueError || capacityLimitError || startTimeError || endTimeError || dateError 
+      || universityError || disciplineError || progTalkDetailsError) {
+        this.setState({
+          progTalkError, venueError, capacityLimitError, startTimeError, endTimeError, dateError, universityError,
+          disciplineError, progTalkDetailsError
+        });
+        return false;
+    } 
+
+    return true;
+  }
+
+  //Reset Forms
+  resetForm = () => {
+    this.setState(initialStates);
+    this.setState({
+      id: '', 
+      talkName: '', 
+      venue: '', 
+      capacityLimit: '', 
+      startTime: '', 
+      endTime: '', 
+      date: '', 
+      awardingUni: '',
+      discipline: [],
+      details: ''
+    })
+  }
 
 
   render() {
@@ -498,36 +655,36 @@ class ProgrammeTalkSchedule extends Component {
                                         <th className="progTalkScheduleHeader_Delete">Delete</th>
                                       </tr>
                                     </thead>
+              
+                                    <tbody>
+                                      {this.state.day1 && this.state.day1.map((day1) => {
+                                        return (
+                                          <tr key={day1.docid}>
+                                            <td className="progTalkScheduleData_SNo">{day1.day1_counter}</td>
+                                            <td className="progTalkScheduleData_ProgTalk text-left">{day1.talkName}</td>
+                                            <td className="progTalkScheduleData_ProgTalkDetails text-left">{day1.details}</td>
+                                            <td className="progTalkScheduleData_AwardingUni">{day1.awardingUni}</td>
+                                            <td className="progTalkScheduleData_StartTime text-left">{day1.startTime}</td>
+                                            <td className="progTalkScheduleData_EndTime text-left">{day1.endTime}</td>
+                                            <td className="progTalkScheduleData_Venue text-left">{day1.venue}</td>
+                                            <td className="progTalkScheduleData_Capacity text-center">{day1.capacityLimit}</td>
+                                            <td className="progTalkScheduleData_Discipline text-center">{day1.discipline}</td>
+                                            <td className="progTalkScheduleData_Edit text-center">
+                                              <Button id="editProgTalkScheduleBtn" onClick={()=>this.handleEditProgTalkModal(day1)}>
+                                                <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
+                                              </Button>
+                                            </td>
+                                            <td className="progTalkScheduleData_Delete text-center">
+                                              <Button id="deleteProgTalkScheduleBtn" onClick={(e) => this.handleDeleteProgTalkModal(day1.id)}>
+                                                <FontAwesomeIcon size="lg" id="deleteProgTalkScheduleBtnIcon" icon={faTrashAlt} />
+                                              </Button>
+                                            </td>
+                                          </tr>
+                                        );
+                                      })}
 
-                                    {this.state.day1 && this.state.day1.map((day1) => {
-                                      return (
-                                        <>
-                                          <tbody>
-                                            <tr key={day1.id}>
-                                              <td className="progTalkScheduleData_SNo">{day1.day1_counter}</td>
-                                              <td className="progTalkScheduleData_ProgTalk text-left">{day1.talkName}</td>
-                                              <td className="progTalkScheduleData_ProgTalkDetails text-left">{day1.progTalkDetails}</td>
-                                              <td className="progTalkScheduleData_AwardingUni">{day1.awardingUni}</td>
-                                              <td className="progTalkScheduleData_StartTime text-left">{day1.startTime}</td>
-                                              <td className="progTalkScheduleData_EndTime text-left">{day1.endTime}</td>
-                                              <td className="progTalkScheduleData_Venue text-left">{day1.venue}</td>
-                                              <td className="progTalkScheduleData_Capacity text-center">{day1.capacityLimit}</td>
-                                              <td className="progTalkScheduleData_Discipline text-center">{day1.discipline}</td>
-                                              <td className="progTalkScheduleData_Edit">
-                                                <Button id="editProgTalkScheduleBtn" onClick={()=>this.handleEditProgTalkModal(day1)}>
-                                                  <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
-                                                </Button>
-                                              </td>
-                                              <td className="progTalkScheduleData_Delete">
-                                                <Button id="deleteProgTalkScheduleBtn" onClick={this.handleDeleteProgTalkModal}>
-                                                  <FontAwesomeIcon size="lg" id="deleteProgTalkScheduleBtnIcon" icon={faTrashAlt} />
-                                                </Button>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </>
-                                      );
-                                    })}
+                                    </tbody>
+                                        
 
                                   </Table>
                                 </Col>
@@ -552,36 +709,34 @@ class ProgrammeTalkSchedule extends Component {
                                         <th className="progTalkScheduleHeader_Delete">Delete</th>
                                       </tr>
                                     </thead>
-
-                                    {this.state.day2 && this.state.day2.map((day2) => {
-                                      return (
-                                        <>
-                                          <tbody>
-                                            <tr key={day2.id}>
-                                              <td className="progTalkScheduleData_SNo">{day2.day2_counter}</td>
-                                              <td className="progTalkScheduleData_ProgTalk text-left">{day2.talkName}</td>
-                                              <td className="progTalkScheduleData_ProgTalkDetails text-left">{day2.progTalkDetails}</td>
-                                              <td className="progTalkScheduleData_AwardingUni">{day2.awardingUni}</td>
-                                              <td className="progTalkScheduleData_StartTime text-left">{day2.startTime}</td>
-                                              <td className="progTalkScheduleData_EndTime text-left">{day2.endTime}</td>
-                                              <td className="progTalkScheduleData_Venue text-left">{day2.venue}</td>
-                                              <td className="progTalkScheduleData_Capacity text-center">{day2.capacityLimit}</td>
-                                              <td className="progTalkScheduleData_Discipline text-center">{day2.discipline}</td>
-                                              <td className="progTalkScheduleData_Edit">
-                                                <Button id="editProgTalkScheduleBtn" onClick={()=>this.handleEditProgTalkModal(day2)}>
-                                                  <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
-                                                </Button>
-                                              </td>
-                                              <td className="progTalkScheduleData_Delete">
-                                                <Button id="deleteProgTalkScheduleBtn" onClick={this.handleDeleteProgTalkModal}>
-                                                  <FontAwesomeIcon size="lg" id="deleteProgTalkScheduleBtnIcon" icon={faTrashAlt} />
-                                                </Button>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </>
-                                      );
-                                    })}
+                                    
+                                    <tbody>
+                                      {this.state.day2 && this.state.day2.map((day2) => {
+                                        return (
+                                          <tr key={day2.docid}>
+                                            <td className="progTalkScheduleData_SNo text-center">{day2.day2_counter}</td>
+                                            <td className="progTalkScheduleData_ProgTalk text-left">{day2.talkName}</td>
+                                            <td className="progTalkScheduleData_ProgTalkDetails text-left">{day2.details}</td>
+                                            <td className="progTalkScheduleData_AwardingUni text-center">{day2.awardingUni}</td>
+                                            <td className="progTalkScheduleData_StartTime text-left">{day2.startTime}</td>
+                                            <td className="progTalkScheduleData_EndTime text-left">{day2.endTime}</td>
+                                            <td className="progTalkScheduleData_Venue text-left">{day2.venue}</td>
+                                            <td className="progTalkScheduleData_Capacity text-center">{day2.capacityLimit}</td>
+                                            <td className="progTalkScheduleData_Discipline text-center">{day2.discipline}</td>
+                                            <td className="progTalkScheduleData_Edit text-center">
+                                              <Button id="editProgTalkScheduleBtn" onClick={()=>this.handleEditProgTalkModal(day2)}>
+                                                <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
+                                              </Button>
+                                            </td>
+                                            <td className="progTalkScheduleData_Delete text-center">
+                                              <Button id="deleteProgTalkScheduleBtn" onClick={(e) => this.handleDeleteProgTalkModal(day2.id)}>
+                                                <FontAwesomeIcon size="lg" id="deleteProgTalkScheduleBtnIcon" icon={faTrashAlt} />
+                                              </Button>
+                                            </td>
+                                          </tr>
+                                        );
+                                      })}
+                                    </tbody>
 
                                   </Table>
                                 </Col>
@@ -624,7 +779,7 @@ class ProgrammeTalkSchedule extends Component {
           </Modal.Header>
 
           <Modal.Body id="addProgTalkModalBody">
-            <Form noValidate onSubmit={this.addProgrammeTalks}>
+            <Form noValidate onSubmit={this.addProgrammeTalk}>
               {/* Main Row */}
               <Form.Row className="justify-content-center">
                 {/* Left Col */}
@@ -639,8 +794,10 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" name="talkName" id="addProgTalkForm_ProgTalkName" placeholder="Name of Programme Talk*" required />
+                        <FormControl type="text" name="talkName" onChange={this.updateInput} id="addProgTalkForm_ProgTalkName" placeholder="Name of Programme Talk*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.progTalkError}</div>
                     </Col>
                   </Form.Row>
 
@@ -654,8 +811,10 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" name="venue" id="addProgTalkForm_Venue" placeholder="Venue*" required />
+                        <FormControl type="text" name="venue" onChange={this.updateInput} id="addProgTalkForm_Venue" placeholder="Venue*" required />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.venueError}</div>
                     </Col>
                   </Form.Row>
 
@@ -669,8 +828,10 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="number" min="0" name="endTime" id="addProgTalkForm_Capacity" placeholder="Capacity Limit*" required />
+                        <FormControl type="number" min="0" name="capacityLimit" onChange={this.updateInput} id="addProgTalkForm_Capacity" placeholder="Capacity Limit*" required />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.capacityLimitError}</div>
                     </Col>
                   </ Form.Row>
 
@@ -685,8 +846,10 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="startTime" id="addProgTalkForm_ProgTalkStartTime" placeholder="Start Time*" required />
+                        <FormControl type="text" name="startTime" onChange={this.updateInput} id="addProgTalkForm_ProgTalkStartTime" placeholder="Start Time*" required />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.startTimeError}</div>
                     </Col>
 
                     {/* End Time */}
@@ -698,8 +861,10 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="endTime" id="addProgTalkForm_ProgTalkEndTime" placeholder="End Time*" required />
+                        <FormControl type="text" name="endTime" onChange={this.updateInput} id="addProgTalkForm_ProgTalkEndTime" placeholder="End Time*" required />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.endTimeError}</div>
                     </Col>
                   </Form.Row>
                 </Col>
@@ -716,15 +881,14 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <Form.Control as="select" name="date" defaultValue="chooseDate" className="addProgTalkFormSelect" required noValidate>
-                          <option value="chooseDate" className="addProgTalkFormSelectOption">Choose an Openhouse Date</option>
-                          
-                          {/* To be retrieved from DB */}
+                        <Form.Control as="select" name="date" onChange={this.updateInput} defaultValue="" className="addProgTalkFormSelect" required noValidate>
+                          <option value="" className="addProgTalkFormSelectOption">Choose an Openhouse Date</option>
                           <option value={this.state.day1Date} className="addProgTalkFormSelectOption">{this.state.day1Date}</option>
                           <option value={this.state.day2Date} className="addProgTalkFormSelectOption">{this.state.day2Date}</option>
-
                         </Form.Control>                                        
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.dateError}</div>
                     </Col>
                   </Form.Row>
 
@@ -738,8 +902,8 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <Form.Control as="select" name="uniName" defaultValue="chooseUni" className="addProgTalkFormSelect" required noValidate>
-                          <option value="chooseUni" className="addProgTalkFormSelectOption">Choose a University</option>
+                        <Form.Control as="select" name="awardingUni" onChange={this.updateInput} defaultValue="" className="addProgTalkFormSelect" required noValidate>
+                          <option value="" className="addProgTalkFormSelectOption">Choose a University</option>
                           
                           {/* To be retrieved from DB */}
                           {this.state.uniList && this.state.uniList.map((uni) => {
@@ -752,6 +916,8 @@ class ProgrammeTalkSchedule extends Component {
 
                         </Form.Control>
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.universityError}</div>
                     </Col>
                   </Form.Row>
 
@@ -765,16 +931,18 @@ class ProgrammeTalkSchedule extends Component {
                         {this.state.disciplineList && this.state.disciplineList.map((discipline) => {
                           return (
                             <>
-                              <Row>
+                              <Row key={discipline.disciplineId}>
                                 <Col>
-                                  <Form.Check name="discipline" checked={this.checkDiscipline} value={discipline.disciplineName} type="checkbox" label={discipline.disciplineName} className="addProgTalkForm_CheckBox" />
+                                  <Form.Check name="discipline" value={discipline.disciplineName} onChange={this.handleCheckbox} type="checkbox" label={discipline.disciplineName} className="addProgTalkForm_CheckBox" />
                                 </Col>
                               </Row>
                             </>
                           );
                         })}
 
-                      </Container>                                        
+                      </Container>     
+
+                      <div className="errorMessage text-left">{this.state.disciplineError}</div>                                   
                     </Col>
                   </Form.Row>
 
@@ -785,8 +953,9 @@ class ProgrammeTalkSchedule extends Component {
               <Form.Row className="justify-content-center addProgTalkFormRow">
                 <Col md="11" className="addProgTalkFormCol">
                   <Form.Label className="addProgTalkFormLabel">Programme Talk Details</Form.Label>
+                  <FormControl as="textarea" rows="8" name="details" onChange={this.updateInput} required noValidate id="addProgTalkForm_ProgTalkDetails" placeholder="Programme Talk Details" />
                   
-                  <FormControl as="textarea" rows="8" required noValidate id="addProgTalkForm_ProgTalkDetails" placeholder="Programme Talk Details" />
+                  <div className="errorMessage text-left">{this.state.progTalkDetailsError}</div>
                 </Col>
               </Form.Row>
 
@@ -795,7 +964,7 @@ class ProgrammeTalkSchedule extends Component {
 
           <Modal.Footer className="justify-content-center">
             {/* Add Programme Talk Submit Btn*/}
-            <Button type="submit" id="addProgTalkFormBtn">Submit</Button>
+            <Button type="submit" id="addProgTalkFormBtn" onClick={this.addProgrammeTalk}>Submit</Button>
           </Modal.Footer>
         </Modal>
 
@@ -819,7 +988,7 @@ class ProgrammeTalkSchedule extends Component {
           </Modal.Header>
 
           <Modal.Body id="editProgTalkModalBody">
-            <Form noValidate> {/* Need to add onSubmit later */}
+            <Form noValidate onSubmit={()=>{this.editProgTalk()}}>
               {/* Main Row */}
               <Form.Row className="justify-content-center">
                 {/* Left Col */}
@@ -834,8 +1003,10 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" name="talkName" defaultValue={this.state.talkName} id="editProgTalkForm_ProgTalkName" placeholder="Name of Programme Talk*" required />
+                        <FormControl type="text" name="talkName" defaultValue={this.state.talkName} onChange={this.updateInput} id="editProgTalkForm_ProgTalkName" placeholder="Name of Programme Talk*" required />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.progTalkError}</div>
                     </Col>
                   </Form.Row>
 
@@ -849,8 +1020,10 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" name="venue" defaultValue={this.state.venue} id="editProgTalkForm_Venue" placeholder="Venue*" required />
+                        <FormControl type="text" name="venue" defaultValue={this.state.venue} onChange={this.updateInput} id="editProgTalkForm_Venue" placeholder="Venue*" required />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.venueError}</div>
                     </Col>
                   </Form.Row>
 
@@ -864,8 +1037,10 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="number" min="0" name="endTime" defaultValue={this.state.capacityLimit} id="editProgTalkForm_Capacity" placeholder="Capacity Limit*" required />
+                        <FormControl type="number" min="0" name="endTime" defaultValue={this.state.capacityLimit} onChange={this.updateInput} id="editProgTalkForm_Capacity" placeholder="Capacity Limit*" required />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.capacityLimitError}</div>
                     </Col>
                   </ Form.Row>
 
@@ -880,8 +1055,10 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="startTime" defaultValue={this.state.startTime} id="editProgTalkForm_ProgTalkStartTime" placeholder="Start Time*" required />
+                        <FormControl type="text" name="startTime" defaultValue={this.state.startTime} onChange={this.updateInput} id="editProgTalkForm_ProgTalkStartTime" placeholder="Start Time*" required />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.startTimeError}</div>
                     </Col>
 
                     {/* End Time */}
@@ -893,8 +1070,10 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="endTime" defaultValue={this.state.endTime} id="editProgTalkForm_ProgTalkEndTime" placeholder="End Time*" required />
+                        <FormControl type="text" name="endTime" defaultValue={this.state.endTime} onChange={this.updateInput} id="editProgTalkForm_ProgTalkEndTime" placeholder="End Time*" required />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.endTimeError}</div>
                     </Col>
                   </Form.Row>
                     
@@ -912,15 +1091,16 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <Form.Control as="select" name="date" defaultValue={this.state.date} className="editProgTalkFormSelect" required noValidate>
-                          <option value="chooseDate" className="editProgTalkFormSelectOption">Choose an Openhouse Date</option>
+                        <Form.Control as="select" name="date" defaultValue={this.state.date} onChange={this.updateInput} className="editProgTalkFormSelect" required noValidate>
+                          <option value="" className="editProgTalkFormSelectOption">Choose an Openhouse Date</option>
                           
                           {/* To be retrieved from DB */}
                           <option value={this.state.day1Date} className="editProgTalkFormSelectOption">{this.state.day1Date}</option>
                           <option value={this.state.day2Date} className="editProgTalkFormSelectOption">{this.state.day2Date}</option>
-
-                        </Form.Control>                                        
+                        </Form.Control>     
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.dateError}</div>
                     </Col>
                   </Form.Row>
 
@@ -934,8 +1114,8 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <Form.Control as="select" name="uniName" defaultValue={this.state.awardingUni} className="editProgTalkFormSelect" required noValidate>
-                          <option value="chooseUni" className="editProgTalkFormSelectOption">Choose a University</option>
+                        <Form.Control as="select" name="uniName" defaultValue={this.state.awardingUni} onChange={this.updateInput} className="editProgTalkFormSelect" required noValidate>
+                          <option value="" className="editProgTalkFormSelectOption">Choose a University</option>
                           
                           {this.state.uniList && this.state.uniList.map((uni) => {
                             return (
@@ -947,29 +1127,33 @@ class ProgrammeTalkSchedule extends Component {
                           })}
                         </Form.Control>
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.universityError}</div>
                     </Col>
                   </Form.Row>
 
                   {/* Discipline Name */}
                   <Form.Row className="justify-content-center editProgTalkForm_InnerRow">
                     <Col md="10" className="text-left editProgTalkForm_InnerCol">
-                      <Form.Label>Choose Discipline(s):</Form.Label>                                     
+                      <Form.Label className="editProgTalkFormLabel">Choose Discipline(s):</Form.Label>                                     
                           
                       <Container className="editProgTalkForm_DisciplineCon">
                         {/* To be retrieved from db - row is generated dynamically */}
                         {this.state.disciplineList && this.state.disciplineList.map((discipline) => {
                           return (
                             <>
-                              <Row>
+                              <Row key={discipline.disciplineId}>
                                 <Col>
-                                  <Form.Check name="discipline" checked={this.state.checkDiscipline} value={discipline.disciplineName} type="checkbox" label={discipline.disciplineName} className="editProgTalkForm_CheckBox" />
+                                  <Form.Check name="discipline" value={discipline.disciplineName} onChange={this.updateInput} defaultChecked={this.state.discipline.indexOf(discipline.disciplineName) > -1} type="checkbox" label={discipline.disciplineName} className="editProgTalkForm_CheckBox" />
                                 </Col>
                               </Row>
                             </>
                           );
                         })}
 
-                      </Container>                                        
+                      </Container>    
+
+                      <div className="errorMessage text-left">{this.state.disciplineError}</div>                                    
                     </Col>
                   </Form.Row>
 
@@ -980,8 +1164,9 @@ class ProgrammeTalkSchedule extends Component {
               <Form.Row className="justify-content-center editProgTalkFormRow">
                 <Col md="11" className="editProgTalkFormCol">
                   <Form.Label className="editProgTalkFormLabel">Programme Talk Details</Form.Label>
-
-                  <FormControl as="textarea" rows="8" defaultValue={this.state.progTalkDetails} required noValidate id="editProgTalkForm_ProgTalkDetails" placeholder="Programme Talk Details" />
+                  <FormControl as="textarea" rows="8" defaultValue={this.state.details} onChange={this.updateInput} required noValidate id="editProgTalkForm_ProgTalkDetails" placeholder="Programme Talk Details" />
+                
+                  <div className="errorMessage text-left">{this.state.progTalkDetailsError}</div>
                 </Col>
               </Form.Row>
             </Form>
@@ -992,11 +1177,11 @@ class ProgrammeTalkSchedule extends Component {
             <Container>
               <Row>
                 <Col md="6" className="text-right">
-                  <Button id="saveChangesProgTalkFormBtn" onClick={this.handleSaveChanges}>Save Changes</Button>
+                  <Button id="saveChangesProgTalkFormBtn" onClick={(e) => {this.update(e, this.state.id)}}>Save Changes</Button>
                 </Col>
 
                 <Col md="6" className="text-left">
-                  <Button id="cancelEditProgTalkFormBtn" onClick={this.handleCancelEdit}>Cancel</Button>
+                  <Button id="cancelEditProgTalkFormBtn" onClick={this.handleEditProgTalkModal}>Cancel</Button>
                 </Col>
               </Row>
             </Container>

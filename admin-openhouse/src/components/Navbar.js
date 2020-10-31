@@ -8,29 +8,42 @@ import WebAppLogo from "../img/WebAppLogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
+import ChangePasswordModal from "../components/ChangePassword";
+
+
+const initialStates = {
+    emailError: "",
+    currentPwdError: "",
+    newPwdError: "",
+    confirmNewPwdError: ""
+}
 
 export default class NavBar extends React.Component {
+    state = initialStates;
+
     constructor() {
         super();
         this.logout = this.logout.bind(this);
         this.state = {
             useremail: null,
-            isMA: false
+            isMA: false,
+
+            handleChangePasswordModal: false,
         }
     }
 
     componentDidMount=() =>{
         fire.auth().onAuthStateChanged((user) => {
             if (user) {
-              const db = fire.firestore();
-              var a  = this;
-                    a.setState(() => ({
-                      useremail: user.email, })
-                    )
-                  }  else {
-            
+                const db = fire.firestore();
+                var a  = this;
+                a.setState(() => ({
+                    useremail: user.email, })
+                )
+            }  else {
+        
             }
-          });
+        });
          
     }
 
@@ -38,6 +51,23 @@ export default class NavBar extends React.Component {
         fire.auth().signOut();
         history.push("/Login");
       }
+
+    /* Change Password Modal */
+    handleChangePasswordModal = () => {
+        if (this.state.changePasswordModal == false) {
+            this.setState({
+                changePasswordModal: true,
+            });
+        }
+        else {
+            this.setState({
+                changePasswordModal: false
+            });
+            //this.resetForm();
+        }
+    };
+
+
 
     render(){
         return (
@@ -63,20 +93,20 @@ export default class NavBar extends React.Component {
 
                     </Container>
                     :(
-                        <Container fluid className="navbarCon">    
-                            <Navbar id="navbar" sticky="top">
-                                <Navbar.Brand href="/MAHome" id="webAppLogoNav">
-                                    <img src={WebAppLogo} id="webAppLogo" />
-                                </Navbar.Brand>
-                                
-                                <Nav id="navContent" className="justify-content-end">
-                                    <Nav.Item>
-                                        <Nav.Link id="MAEmail" className="text-center">{this.state.useremail}</Nav.Link>
-                                    </Nav.Item>
+                        <>
+                            <Container fluid className="navbarCon">    
+                                <Navbar id="navbar" sticky="top">
+                                    <Navbar.Brand href="/MAHome" id="webAppLogoNav">
+                                        <img src={WebAppLogo} id="webAppLogo" />
+                                    </Navbar.Brand>
                                     
-                                    <Nav.Item id="navDropdownCon">
+                                    <Nav id="navContent" className="justify-content-end">
+                                        <Nav.Item>
+                                            <Nav.Link id="MAEmail" className="text-center">{this.state.useremail}</Nav.Link>
+                                        </Nav.Item>
+                                        
                                         <NavDropdown id="navDropdown" alignRight>
-                                            <NavDropdown.Item className="navDropdownItem" href="/ChangePassword">
+                                            <NavDropdown.Item className="navDropdownItem" onClick={this.handleChangePasswordModal}>
                                                 <FontAwesomeIcon className="dropdownNavIcon" icon={faLock} /> Change Password
                                             </NavDropdown.Item>
 
@@ -84,12 +114,13 @@ export default class NavBar extends React.Component {
                                                 <FontAwesomeIcon className="dropdownNavIcon" icon={faSignOutAlt} />Logout
                                             </NavDropdown.Item>
                                         </NavDropdown>
-                                    </Nav.Item>
-                                    
-                                </Nav>
-                            </Navbar>
-
-                        </Container>
+                                        
+                                    </Nav>
+                                </Navbar>
+                            </Container>
+                            
+                            <ChangePasswordModal showModal={this.state.changePasswordModal} hideModal={this.handleChangePasswordModal} cancelBtn={this.handleChangePasswordModal} />
+                        </>
                     )
                 }
             </div>

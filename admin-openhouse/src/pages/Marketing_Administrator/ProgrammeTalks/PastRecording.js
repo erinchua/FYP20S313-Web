@@ -4,9 +4,7 @@ import history from "../../../config/history";
 import { Container, Row, Col, Button, Table, Modal, Tab, Nav, Form, FormControl, InputGroup } from 'react-bootstrap';
 
 import "../../../css/Marketing_Administrator/ProgrammeTalkPastRec.css";
-import "../../../css/Marketing_Administrator/AddPastRecModal.css";
-import "../../../css/Marketing_Administrator/EditPastRecModal.css";
-import "../../../css/Marketing_Administrator/DeletePastRecModal.css";
+import "../../../css/Marketing_Administrator/PastRecModals.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd, faChair, faUniversity } from '@fortawesome/free-solid-svg-icons';
@@ -15,6 +13,9 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
+import AddPastRecModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/AddPastRecModal";
+import EditPastRecModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/EditPastRecModal";
+import DeletePastRecModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/DeletePastRecModal";
 
 
 class PastRecording extends Component {
@@ -32,10 +33,30 @@ class PastRecording extends Component {
       talkName: "",
       venue: "",
       link: "",
+      progTalkDetails: "",
+      discipline: "",
+      day1: [],
+      day2: [],
+      day1Date: "",
+      day2Date: "",
+
+      // University collection
+      uniId: "",
+      universityName: "",
+      uniList: [],
+
+      // Discipline collection
+      disciplineId: "",
+      disciplineName: "",
+      disciplineList: [],
+
+      // File Upload
+      fileLabel: "Recording File*",
+      fileName: "",
 
       addPastRecModal: false,
       editPastRecModal: false,
-      editPastRecording: false
+      deletePastRecModal: false
     };
   }
 
@@ -77,6 +98,37 @@ class PastRecording extends Component {
     
     const db = fire.firestore();
     const pastrecording = [];
+
+    // Get All Universities
+    db.collection("Universities").get()
+    .then((snapshot) => {
+      const uni_list = [];
+      snapshot.forEach((doc) => {
+        const data = {
+          docid: doc.id,
+          uniId: doc.data().id,
+          universityName: doc.data().universityName,
+        };
+        uni_list.push(data);
+      });
+      this.setState({ uniList: uni_list });
+    });
+
+    // Get All Disciplines
+    db.collection("Disciplines").get()
+    .then((snapshot) => {
+      const discipline_list = [];
+      snapshot.forEach((doc) => {
+        const data = {
+          docid: doc.id,
+          disciplineId: doc.data().id,
+          disciplineName: doc.data().name
+        };
+        discipline_list.push(data);
+      });
+      this.setState({ disciplineList: discipline_list });
+    });
+
     const userRef = db
     .collection("ProgrammeTalks")
     .get()
@@ -97,6 +149,7 @@ class PastRecording extends Component {
       const day1date = [];
       day1date.push(unique[0]);
       this.setState({ day1date: day1date });
+      var day1_counter = 1;
 
       const day1  = db
       .collection("ProgrammeTalks").where("date", "==", unique[0])
@@ -118,16 +171,23 @@ class PastRecording extends Component {
             hasRecording: doc.data().hasRecording.toString(),
             link : doc.data().link,
             isLive: doc.data().isLive.toString(),
+            date: doc.data().date,
+            discipline: doc.data().discipline,
+            day1_counter: day1_counter, 
           };
+          day1_counter++;
           pastrecording.push(data);  
         });
         this.setState({ day1: pastrecording });
+        this.setState({ day1Date: pastrecording[0].date})
       });
                   
       //day 2
       const day2date = [];
       day2date.push(unique[1]);
       this.setState({ day2date: day2date });
+      var day2_counter = 1;
+
       const day2  = db
       .collection("ProgrammeTalks").where("date", "==", unique[1])
       .where("hasRecording", "==", true)
@@ -139,20 +199,24 @@ class PastRecording extends Component {
             docid : doc.id,
             id: doc.data().id,
             talkName:doc.data().talkName,
-            awardingUni : doc.data().awardingUni,
+            awardingUni: doc.data().awardingUni,
             startTime:  doc.data().startTime,     
             endTime: doc.data().endTime,
             venue: doc.data().venue,
             capacityLimit: doc.data().capacityLimit,
             noRegistered: doc.data().noRegistered,
             hasRecording: doc.data().hasRecording.toString(),
-            link : doc.data().link,
+            link: doc.data().link,
             isLive: doc.data().isLive.toString(),
-          
+            date: doc.data().date,
+            discipline: doc.data().discipline,
+            day2_counter: day2_counter,
           };
+          day2_counter++;
           pastrecording.push(data);
         });
         this.setState({ day2: pastrecording });
+        this.setState({ day2Date: pastrecording[0].date})
       });
     });    
   }
@@ -303,7 +367,6 @@ class PastRecording extends Component {
       this.setState({
         editPastRecModal: true,
         awardingUni: day.awardingUni,
-        capacityLimit: day.capacityLimit,
         date: day.date,
         endTime: day.endTime,
         hasRecording: day.hasRecording,
@@ -355,14 +418,14 @@ class PastRecording extends Component {
               {/* Contents Col */}
               <Col md="10" style={{paddingLeft:"0"}}>
                 <Container fluid className="MAPastRecContentCon">
-                  {/* Programme Talks Schedule Page Header row */}
+                  {/* Past Recordings Page Header row */}
                   <Row id="MAPastRecContentHeaderRow" className="justify-content-center">
                     <Col md="6" className="text-left MAPastRecContentHeaderCol">
-                      <h4 id="MAPastRecHeaderText">Programme Talks Schedule</h4>
+                      <h4 id="MAPastRecHeaderText">Past Recordings</h4>
                     </Col>
 
                     <Col md="6" className="text-right MAPastRecContentHeaderCol">
-                      <Button id="addPastRecBtn" onClick={this.handleAddProgTalkModal}>
+                      <Button id="addPastRecBtn" onClick={this.handleAddPastRecModal}>
                         <FontAwesomeIcon size="lg" id="addPastRecBtnIcon" icon={faPlus} />
                         <span id="addPastRecBtnText">Add</span>
                       </Button>
@@ -415,35 +478,36 @@ class PastRecording extends Component {
                                       </tr>
                                     </thead>
 
-                                    {this.state.day1 && this.state.day1.map((day1) => {
-                                      return (
-                                        <>
-                                          <tbody>
-                                            <tr key={day1.id}>
-                                              <td className="pastRecData_SNo">{day1.day1_counter}</td>
-                                              <td className="pastRecData_ProgTalk text-left">{day1.talkName}</td>
-                                              <td className="pastRecData_AwardingUni">{day1.awardingUni}</td>
-                                              <td className="pastRecData_StartTime text-left">{day1.startTime}</td>
-                                              <td className="pastRecData_EndTime text-left">{day1.endTime}</td>
-                                              <td className="pastRecData_Venue text-left">{day1.venue}</td>
-                                              <td className="pastRecData_File text-center">{day1.file}</td>
-                                              <td className="pastRecData_Discipline text-center">{day1.discipline}</td>
-                                              <td className="pastRecData_Edit">
-                                                <Button id="editPastRecBtn" onClick={()=>this.handleEditPastRecModal(day1)}>
-                                                  <FontAwesomeIcon size="lg" id="editPastRecBtnIcon" icon={faEdit} />
-                                                </Button>
-                                              </td>
-                                              <td className="pastRecData_Delete">
-                                                <Button id="deletePastRecBtn" onClick={this.handleDeletePastRecModal}>
-                                                  <FontAwesomeIcon size="lg" id="deletePastRecBtnIcon" icon={faTrashAlt} />
-                                                </Button>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </>
-                                      );
-                                    })}
+                                    <tbody>
+                                      {this.state.day1 && this.state.day1.map((day1) => {
+                                        return (
+                                          <tr key={day1.docid}>
+                                            <td className="pastRecData_SNo text-center">{day1.day1_counter}</td>
+                                            <td className="pastRecData_ProgTalk text-left">{day1.talkName}</td>
+                                            <td className="pastRecData_AwardingUni text-center">{day1.awardingUni}</td>
+                                            <td className="pastRecData_StartTime text-left">{day1.startTime}</td>
+                                            <td className="pastRecData_EndTime text-left">{day1.endTime}</td>
+                                            <td className="pastRecData_Venue text-left">{day1.venue}</td>
+                                            <td className="pastRecData_File text-left">
+                                              <a href={day1.link} className="pastRecData_FileLink">{day1.link}</a>
+                                            </td>
+                                            <td className="pastRecData_Discipline text-center">{day1.discipline}</td>
+                                            <td className="pastRecData_Edit text-center">
+                                              <Button id="editPastRecBtn" onClick={()=>this.handleEditPastRecModal(day1)}>
+                                                <FontAwesomeIcon size="lg" id="editPastRecBtnIcon" icon={faEdit} />
+                                              </Button>
+                                            </td>
+                                            <td className="pastRecData_Delete text-center">
+                                              <Button id="deletePastRecBtn" onClick={this.handleDeletePastRecModal}>
+                                                <FontAwesomeIcon size="lg" id="deletePastRecBtnIcon" icon={faTrashAlt} />
+                                              </Button>
+                                            </td>
+                                          </tr>
+                                        );
+                                      })}
 
+                                    </tbody>
+                                      
                                   </Table>
                                 </Col>
                               </Tab.Pane>
@@ -467,35 +531,36 @@ class PastRecording extends Component {
                                       </tr>
                                     </thead>
 
-                                    {this.state.day2 && this.state.day2.map((day2) => {
-                                      return (
-                                        <>
-                                          <tbody>
-                                            <tr key={day2.id}>
-                                              <td className="pastRecData_SNo">{day2.day2_counter}</td>
-                                              <td className="pastRecData_ProgTalk text-left">{day2.talkName}</td>
-                                              <td className="pastRecData_AwardingUni">{day2.awardingUni}</td>
-                                              <td className="pastRecData_StartTime text-left">{day2.startTime}</td>
-                                              <td className="pastRecData_EndTime text-left">{day2.endTime}</td>
-                                              <td className="pastRecData_Venue text-left">{day2.venue}</td>
-                                              <td className="pastRecData_File text-center">{day2.file}</td>
-                                              <td className="pastRecData_Discipline text-center">{day2.discipline}</td>
-                                              <td className="pastRecData_Edit">
-                                                <Button id="editPastRecBtn" onClick={()=>this.handleEditPastRecModal(day2)}>
-                                                  <FontAwesomeIcon size="lg" id="editPastRecBtnIcon" icon={faEdit} />
-                                                </Button>
-                                              </td>
-                                              <td className="pastRecData_Delete">
-                                                <Button id="deletePastRecScheduleBtn" onClick={this.handleDeletePastRecModal}>
-                                                  <FontAwesomeIcon size="lg" id="deletePastRecBtnIcon" icon={faTrashAlt} />
-                                                </Button>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </>
-                                      );
-                                    })}
+                                    <tbody>
+                                      {this.state.day2 && this.state.day2.map((day2) => {
+                                        return (
+                                          <tr key={day2.docid}>
+                                            <td className="pastRecData_SNo text-center">{day2.day2_counter}</td>
+                                            <td className="pastRecData_ProgTalk text-left">{day2.talkName}</td>
+                                            <td className="pastRecData_AwardingUni text-center">{day2.awardingUni}</td>
+                                            <td className="pastRecData_StartTime text-left">{day2.startTime}</td>
+                                            <td className="pastRecData_EndTime text-left">{day2.endTime}</td>
+                                            <td className="pastRecData_Venue text-left">{day2.venue}</td>
+                                            <td className="pastRecData_File text-left">
+                                              <a href={day2.link} className="pastRecData_FileLink">{day2.link}</a>
+                                            </td>
+                                            <td className="pastRecData_Discipline text-center">{day2.discipline}</td>
+                                            <td className="pastRecData_Edit text-center">
+                                              <Button id="editPastRecBtn" onClick={()=>this.handleEditPastRecModal(day2)}>
+                                                <FontAwesomeIcon size="lg" id="editPastRecBtnIcon" icon={faEdit} />
+                                              </Button>
+                                            </td>
+                                            <td className="pastRecData_Delete text-center">
+                                              <Button id="deletePastRecBtn" onClick={this.handleDeletePastRecModal}>
+                                                <FontAwesomeIcon size="lg" id="deletePastRecBtnIcon" icon={faTrashAlt} />
+                                              </Button>
+                                            </td>
+                                          </tr>
+                                        );
+                                      })}
 
+                                    </tbody>
+                                      
                                   </Table>
                                 </Col>
                               </Tab.Pane>
@@ -518,6 +583,386 @@ class PastRecording extends Component {
           <Footer />
         </Container>
 
+        
+        {/* Add Past Rec Modal */}
+        <Modal 
+          show={this.state.addPastRecModal}
+          onHide={this.handleAddPastRecModal}
+          aria-labelledby="addPastRecModalTitle"
+          size="lg"
+          centered
+          backdrop="static"
+          keyboard={false}
+          className="addPastRecModal"
+        >
+          <Modal.Header closeButton className="justify-content-center">
+            <Modal.Title id="addPastRecModalTitle" className="w-100">
+              Add Recording
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body id="addPastRecModalBody">
+            <Form noValidate> {/* Need to add onSubmit later */}
+              {/* Main Row */}
+              <Form.Row className="justify-content-center">
+                {/* Left Col */}
+                <Col md="6" className="addPastRecCol text-center">
+                  {/* Programme Name */}
+                  <Form.Row className="justify-content-center addPastRecForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="addPastRecFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="addPastRecFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="addPastRecFormIcon" icon={faMicrophone} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+
+                        <FormControl type="text" name="talkName" id="addPastRecForm_ProgTalkName" placeholder="Name of Recording*" required />
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* Programme Talk Venue */}
+                  <Form.Row className="justify-content-center addPastRecForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="addPastRecFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="addPastRecFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="addPastRecFormIcon" icon={faSchool} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+
+                        <FormControl type="text" name="venue" id="addPastRecForm_Venue" placeholder="Venue*" required />
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* File */}
+                  <Form.Row className="justify-content-center addPastRecForm_InnerRow">
+                    <Col md="10" className="text-left">
+                      <Form.File name="link" className="addPastRecForm_RecFile" label={this.state.fileLabel} onChange={console.log("set state of filename here")} custom required />
+                    </Col>
+                  </Form.Row>
+
+                  {/* Start/End Time */}
+                  <Form.Row className="justify-content-center addPastRecForm_InnerRow">
+                    {/* Start Time */}
+                    <Col md="5" className="text-center">
+                      <InputGroup className="addPastRecFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="addPastRecFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="addPastRecFormIcon" icon={faHourglassStart} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        
+                        <FormControl type="text" name="startTime" id="addPastRecForm_ProgTalkStartTime" placeholder="Start Time*" required />
+                      </InputGroup>
+                    </Col>
+
+                    {/* End Time */}
+                    <Col md="5" className="text-center">
+                      <InputGroup className="addPastRecFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="addPastRecFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="addPastRecFormIcon" icon={faHourglassEnd} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        
+                        <FormControl type="text" name="endTime" id="addPastRecForm_ProgTalkEndTime" placeholder="End Time*" required />
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+                  
+                </Col>
+
+                {/* Right Col */}
+                <Col md="6" className="addPastRecFormCol text-center">
+                  {/* Date */}
+                  <Form.Row className="justify-content-center addPastRecForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="addPastRecFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="addPastRecFormIconInputGrp">
+                              <FontAwesomeIcon size="lg" className="addPastRecFormIcon" icon={faCalendarAlt} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        
+                        <Form.Control as="select" name="date" defaultValue="chooseDate" className="addPastRecFormSelect" required noValidate>
+                            <option value="chooseDate" className="addPastRecFormSelectOption">Choose an Openhouse Date</option>
+                            
+                            {/* To be retrieved from DB */}
+                            <option value={this.state.day1Date} className="addPastRecFormSelectOption">{this.state.day1Date}</option>
+                            <option value={this.state.day2Date} className="addPastRecFormSelectOption">{this.state.day2Date}</option>
+
+                        </Form.Control>                                        
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* University */}
+                  <Form.Row className="justify-content-center addPastRecForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="addPastRecFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="addPastRecFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="addPastRecFormIcon" icon={faUniversity} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+
+                        <Form.Control as="select" name="uniName" defaultValue="chooseUni" className="addPastRecFormSelect" required noValidate>
+                          <option value="chooseUni" className="addPastRecFormSelectOption">Choose a University</option>
+                          
+                          {/* To be retrieved from DB */}
+                          {this.state.uniList && this.state.uniList.map((uni) => {
+                            return (
+                              <>
+                                <option value={uni.universityName} className="addPastRecFormSelectOption">{uni.universityName}</option>
+                              </>
+                            );
+                          })}
+
+                        </Form.Control>
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* Discipline Name */}
+                  <Form.Row className="justify-content-center addPastRecForm_InnerRow">
+                      <Col md="10" className="text-left addPastRecForm_InnerCol">
+                        <Form.Label className="addPastRecFormLabel">Choose Discipline(s):</Form.Label>                                     
+                            
+                        <Container className="addPastRecForm_DisciplineCon">
+                          {/* To be retrieved from db - row is generated dynamically */}
+                          {this.state.disciplineList && this.state.disciplineList.map((discipline) => {
+                            return (
+                              <>
+                                <Row key={discipline.disciplineId}>
+                                  <Col>
+                                    <Form.Check name="discipline" checked={this.checkDiscipline} value={discipline.disciplineName} type="checkbox" label={discipline.disciplineName} className="addPastRecForm_CheckBox" />
+                                  </Col>
+                                </Row>
+                              </>
+                            );
+                          })}
+
+                        </Container>                                        
+                      </Col>
+                    </Form.Row>
+
+                </Col>
+              </Form.Row>
+
+            </Form>
+          </Modal.Body>
+
+          <Modal.Footer className="justify-content-center">
+            {/* Add Past Rec Submit Btn*/}
+            <Button type="submit" id="addPastRecFormBtn">Submit</Button>
+          </Modal.Footer>
+          
+        </Modal>
+
+
+        {/* Edit Past Rec Modal */}
+        <Modal 
+          show={this.state.editPastRecModal}
+          onHide={this.handleEditPastRecModal}
+          aria-labelledby="editPastRecModalTitle"
+          size="lg"
+          centered
+          backdrop="static"
+          keyboard={false}
+          className="editPastRecModal"
+        >
+          <Modal.Header closeButton className="justify-content-center">
+            <Modal.Title id="editPastRecModalTitle" className="w-100">
+              Edit Recording
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body id="editPastRecModalBody">
+            <Form noValidate> {/* Need to add onSubmit later */}
+              {/* Main Row */}
+              <Form.Row className="justify-content-center">
+                {/* Left Col */}
+                <Col md="6" className="editPastRecCol text-center">
+                  {/* Programme Name */}
+                  <Form.Row className="justify-content-center editPastRecForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="editPastRecFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="editPastRecFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="editPastRecFormIcon" icon={faMicrophone} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+
+                        <FormControl type="text" name="talkName" defaultValue={this.state.talkName} id="editPastRecForm_ProgTalkName" placeholder="Name of Recording*" required />
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* Programme Talk Venue */}
+                  <Form.Row className="justify-content-center editPastRecForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="editPastRecFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="editPastRecFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="editPastRecFormIcon" icon={faSchool} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+
+                        <FormControl type="text" name="venue" defaultValue={this.state.venue} id="editPastRecForm_Venue" placeholder="Venue*" required />
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* File */}
+                  <Form.Row className="justify-content-center editPastRecForm_InnerRow">
+                    <Col md="10" className="text-left">
+                        <Form.File name="link" className="editPastRecForm_RecFile" label={this.state.link} onChange={console.log("set state of filename here")} custom required />
+                    </Col>
+                  </Form.Row>
+
+                  {/* Start/End Time */}
+                  <Form.Row className="justify-content-center editPastRecForm_InnerRow">
+                    {/* Start Time */}
+                    <Col md="5" className="text-center">
+                      <InputGroup className="editPastRecFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="editPastRecFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="editPastRecFormIcon" icon={faHourglassStart} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        
+                        <FormControl type="text" name="startTime" defaultValue={this.state.startTime} id="editPastRecForm_ProgTalkStartTime" placeholder="Start Time*" required />
+                      </InputGroup>
+                    </Col>
+
+                    {/* End Time */}
+                    <Col md="5" className="text-center">
+                      <InputGroup className="editPastRecFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="editPastRecFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="editPastRecFormIcon" icon={faHourglassEnd} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        
+                        <FormControl type="text" name="endTime" defaultValue={this.state.endTime} id="editPastRecForm_ProgTalkEndTime" placeholder="End Time*" required />
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+                    
+                </Col>
+
+                {/* Right Col */}
+                <Col md="6" className="editPastRecFormCol text-center">
+                  {/* Date */}
+                  <Form.Row className="justify-content-center editPastRecForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="editPastRecFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="editPastRecFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="editPastRecFormIcon" icon={faCalendarAlt} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        
+                        <Form.Control as="select" name="date" defaultValue={this.state.date} className="editPastRecFormSelect" required noValidate>
+                          <option value="chooseDate" className="editPastRecFormSelectOption">Choose an Openhouse Date</option>
+                          
+                          {/* To be retrieved from DB */}
+                          <option value={this.state.day1Date} className="editPastRecFormSelectOption">{this.state.day1Date}</option>
+                          <option value={this.state.day2Date} className="editPastRecFormSelectOption">{this.state.day2Date}</option>
+
+                        </Form.Control>                                        
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* University */}
+                  <Form.Row className="justify-content-center editPastRecForm_InnerRow">
+                    <Col md="10" className="text-center">
+                      <InputGroup className="editPastRecFormColInputGrp">
+                        <InputGroup.Prepend>
+                          <InputGroup.Text className="editPastRecFormIconInputGrp">
+                            <FontAwesomeIcon size="lg" className="editPastRecFormIcon" icon={faUniversity} />
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+
+                        <Form.Control as="select" name="uniName" defaultValue={this.state.awardingUni} className="editPastRecFormSelect" required noValidate>
+                          <option value="chooseUni" className="editPastRecFormSelectOption">Choose a University</option>
+                          
+                          {/* To be retrieved from DB */}
+                          {this.state.uniList && this.state.uniList.map((uni) => {
+                            return (
+                              <>
+                                <option value={uni.universityName} className="editPastRecFormSelectOption">{uni.universityName}</option>
+                              </>
+                            );
+                          })}
+
+                        </Form.Control>
+                      </InputGroup>
+                    </Col>
+                  </Form.Row>
+
+                  {/* Discipline Name */}
+                  <Form.Row className="justify-content-center editPastRecForm_InnerRow">
+                    <Col md="10" className="text-left editPastRecForm_InnerCol">
+                      <Form.Label className="editPastRecFormLabel">Choose Discipline(s):</Form.Label>                                     
+                          
+                      <Container className="editPastRecForm_DisciplineCon">
+                        {/* To be retrieved from db - row is generated dynamically */}
+                        {this.state.disciplineList && this.state.disciplineList.map((discipline) => {
+                          return (
+                            <>
+                              <Row key={discipline.disciplineId}>
+                                <Col>
+                                  <Form.Check name="discipline" checked={this.checkDiscipline} value={discipline.disciplineName} type="checkbox" label={discipline.disciplineName} className="editPastRecForm_CheckBox" />
+                                </Col>
+                              </Row>
+                            </>
+                          );
+                        })}
+
+                      </Container>                                        
+                    </Col>
+                  </Form.Row>
+
+                </Col>
+              </Form.Row>
+
+            </Form>
+          </Modal.Body>
+
+          <Modal.Footer className="justify-content-center">
+            {/* Edit Past Rec Save Changes Btn */}
+            <Container>
+              <Row>
+                <Col md="6" className="text-right">
+                  <Button id="saveChangesPastRecFormBtn" onClick={this.handleSaveChanges}>Save Changes</Button>
+                </Col>
+
+                <Col md="6" className="text-left">
+                  <Button id="cancelEditPastRecFormBtn" onClick={this.handleEditPastRecModal}>Cancel</Button>
+                </Col>
+              </Row>
+            </Container>
+          </Modal.Footer>
+        </Modal>
+
+
+        {/* Delete Past Rec Modal */}
+        <Modal 
+          show={this.state.deletePastRecModal}
+          onHide={this.handleDeletePastRecModal}
+          aria-labelledby="deletePastRecModalTitle"
+          size="md"
+          centered
+          backdrop="static"
+          keyboard={false}
+        >
+          <DeletePastRecModal handleConfirmDelete={ (e) => {this.DeletePastRecording(e, this.state.id)} } handleCancelDelete={this.handleDeletePastRecModal} />
+        </Modal>
 
 
 

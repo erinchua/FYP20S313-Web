@@ -1,0 +1,250 @@
+.contactInfoCon {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 0 auto;
+    padding: 0 !important;
+}
+
+.contactInfoContent {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+.contactInfoContentCon {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#contactInfoContentHeaderRow {
+    background: #88B7B5;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.contactInfoContentHeaderCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#contactInfoScheduleHeaderText {
+    color: #424242;
+}
+
+/*******************************************************/
+/* Tabs Con Css*/
+.contactInfoContentTabRow {
+    margin: 0 !important;
+}
+
+.contactInfoContentTabCol {
+    padding: 0 !important;
+}
+
+.contactInfoTabConRow {
+    margin: 0 !important;
+    padding: 0;
+}
+
+.contactInfoTabConCol {
+    padding: 0 !important;
+}
+
+.contactInfoTabConInnerCol {
+    padding: 0 !important;
+}
+
+.contactInfoTab_NavItem {
+    background: #e4f2f0;
+}
+
+.contactInfoTab_NavLink {
+    color: #424242;
+    font-weight: bold;
+}
+
+.contactInfoTab_NavLink:focus {
+    color: #ffffff;
+    background: #62929E;
+    border-color: #62929E !important;
+}
+
+.contactInfoTab_NavLink:hover {
+    color: #ffffff;
+    background: #62929E;
+    border-color: #62929E !important;
+}
+
+.contactInfoTabNav .contactInfoTab_NavLink.active {
+    background: #62929E !important;
+    color: #ffffff !important;
+    border-color: #62929E !important;   
+}
+
+.contactInfoTabpaneCol {
+    padding: 0 !important;
+}
+
+/*******************************************************/
+/* Contact Info Table - General Enquiries */
+#contactInfoTable_General {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+.contactInfoHeader_SNo {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.contactInfoHeader_Type {
+    width: 30%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.contactInfoHeader_Info {
+    width: 50%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.contactInfoHeader_Edit {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+/******************* Table Data *******************/
+.contactInfoData_SNo {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+    font-weight: bold;
+    word-wrap: break-word;
+}
+
+.contactInfoData_Type {
+    width: 30%;
+    color: #434343;
+    font-size: 85%;
+    font-weight: bold;
+    word-wrap: break-word;
+}
+
+.contactInfoData_OperatingHrInfo {
+    width: 50%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+    padding: 0 !important;
+}
+
+.contactInfoData_Info {
+    width: 50%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.contactInfoData_Edit {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.editContactInfoBtn {
+    background: none !important;
+    border: none !important;
+    color: #434343 !important;
+}
+
+.editContactInfoBtn:focus {
+    box-shadow: none !important;
+}
+
+.editContactInfoBtnIcon {
+    color: #434343;
+}
+
+.contactInfoDataInfo_InnerRow {
+    width: 100%;
+    border: none !important;
+}
+
+/*******************************************************/
+/* Contact Info Table - Student Services Enquiries */
+#contactInfoTable_StudentServices {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+/*******************************************************/
+/* Contact Info Table - Programme Enquiries */
+#contactInfoTable_Programme {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+/**********************************************************************************************/
+/* Edit Contact Info Modal Css */
+/**********************************************************************************************/
+#editContactInfoModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.editContactInfoFormRow {
+    padding-bottom: 4%;
+}
+
+.editContactInfoFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.editContactInfoFormIconInputGrp {
+    background: transparent !important;
+    border: none !important;
+}
+
+.editContactInfoForm_OperatingHours {
+    border-radius: 6px;
+    color: #434343;
+    font-size: 85%;
+}
+
+.editContactInfoFormLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
+}
+
+#saveChangesContactInfoFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+}
+
+#saveChangesContactInfoFormBtn:focus {
+    box-shadow: none;
+}
+
+#cancelEditContactInfoFormBtn {
+    background: none;
+    border: 1px solid #60c6d9;
+    color: #60c6d9;
+    border-radius: 6px;
+}
+
+#cancelEditContactInfoFormBtn:focus {
+    box-shadow: none;
+}

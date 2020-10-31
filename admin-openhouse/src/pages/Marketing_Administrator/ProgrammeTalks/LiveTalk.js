@@ -4,9 +4,7 @@ import history from "../../../config/history";
 import { Container, Row, Col, Button, Table, Modal, Tab, Nav, Form, InputGroup, FormControl } from 'react-bootstrap';
 
 import "../../../css/Marketing_Administrator/ProgrammeTalkLiveTalk.css";
-import "../../../css/Marketing_Administrator/AddLiveTalkModal.css";
-import "../../../css/Marketing_Administrator/EditLiveTalkModal.css";
-import "../../../css/Marketing_Administrator/DeleteLiveTalkModal.css";
+import "../../../css/Marketing_Administrator/LiveTalkModals.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMicrophone, faSchool, faUniversity, faCalendarAlt, faHourglassStart, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';
@@ -453,34 +451,35 @@ class LiveTalk extends Component {
                                       </tr>
                                     </thead>
 
-                                    {this.state.day1 && this.state.day1.map((day1) => {
-                                      return (
-                                        <>
-                                          <tbody>
-                                            <tr key={day1.id}>
-                                              <td className="progLiveTalkData_SNo">{day1.day1_counter}</td>
-                                              <td className="progLiveTalkData_ProgTalk text-left">{day1.talkName}</td>
-                                              <td className="progLiveTalkData_AwardingUni">{day1.awardingUni}</td>
-                                              <td className="progLiveTalkData_StartTime text-left">{day1.startTime}</td>
-                                              <td className="progLiveTalkData_EndTime text-left">{day1.endTime}</td>
-                                              <td className="progLiveTalkData_Venue text-left">{day1.venue}</td>
-                                              <td className="progLiveTalkData_Link text-left">{day1.link}</td>
-                                              <td className="progLiveTalkData_Edit">
-                                                <Button id="editProgLiveTalkBtn" onClick={()=>this.handleEditLiveTalkModal(day1)}>
-                                                  <FontAwesomeIcon size="lg" id="editProgLiveTalkBtnIcon" icon={faEdit} />
-                                                </Button>
+                                    <tbody>
+                                      {this.state.day1 && this.state.day1.map((day1) => {
+                                        return (
+                                          <tr key={day1.id}>
+                                            <td className="progLiveTalkData_SNo text-center">{day1.day1_counter}</td>
+                                            <td className="progLiveTalkData_ProgTalk text-left">{day1.talkName}</td>
+                                            <td className="progLiveTalkData_AwardingUni text-center">{day1.awardingUni}</td>
+                                            <td className="progLiveTalkData_StartTime text-left">{day1.startTime}</td>
+                                            <td className="progLiveTalkData_EndTime text-left">{day1.endTime}</td>
+                                            <td className="progLiveTalkData_Venue text-left">{day1.venue}</td>
+                                            <td className="progLiveTalkData_Link text-left">
+                                                <a href={day1.link} className="progLiveTalkData_LinkHref">{day1.link}</a>
                                               </td>
-                                              <td className="progLiveTalkData_Delete">
-                                                <Button id="deleteProgLiveTalkBtn" onClick={this.handleDeleteLiveTalkModal}>
-                                                  <FontAwesomeIcon size="lg" id="deleteProgLiveTalkBtnIcon" icon={faTrashAlt} />
-                                                </Button>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </>
-                                      );
-                                    })}
+                                            <td className="progLiveTalkData_Edit text-center">
+                                              <Button id="editProgLiveTalkBtn" onClick={()=>this.handleEditLiveTalkModal(day1)}>
+                                                <FontAwesomeIcon size="lg" id="editProgLiveTalkBtnIcon" icon={faEdit} />
+                                              </Button>
+                                            </td>
+                                            <td className="progLiveTalkData_Delete text-center">
+                                              <Button id="deleteProgLiveTalkBtn" onClick={this.handleDeleteLiveTalkModal}>
+                                                <FontAwesomeIcon size="lg" id="deleteProgLiveTalkBtnIcon" icon={faTrashAlt} />
+                                              </Button>
+                                            </td>
+                                          </tr>
+                                          );
+                                        })}
 
+                                    </tbody>
+                                      
                                   </Table>
                                 </Col>
                               </Tab.Pane>
@@ -508,19 +507,21 @@ class LiveTalk extends Component {
                                         <>
                                           <tbody>
                                             <tr key={day2.id}>
-                                              <td className="progLiveTalkData_SNo">{day2.day2_counter}</td>
+                                              <td className="progLiveTalkData_SNo text-center">{day2.day2_counter}</td>
                                               <td className="progLiveTalkData_ProgTalk text-left">{day2.talkName}</td>
-                                              <td className="progLiveTalkData_AwardingUni">{day2.awardingUni}</td>
+                                              <td className="progLiveTalkData_AwardingUni text-center">{day2.awardingUni}</td>
                                               <td className="progLiveTalkData_StartTime text-left">{day2.startTime}</td>
                                               <td className="progLiveTalkData_EndTime text-left">{day2.endTime}</td>
                                               <td className="progLiveTalkData_Venue text-left">{day2.venue}</td>
-                                              <td className="progLiveTalkData_Link text-left">{day2.link}</td>
-                                              <td className="progLiveTalkData_Edit">
+                                              <td className="progLiveTalkData_Link text-left">
+                                                <a href={day2.link} className="progLiveTalkData_LinkHref">{day2.link}</a>
+                                              </td>
+                                              <td className="progLiveTalkData_Edit text-center">
                                                 <Button id="editProgLiveTalkBtn" onClick={()=>this.handleEditLiveTalkModal(day2)}>
                                                   <FontAwesomeIcon size="lg" id="editProgLiveTalkBtnIcon" icon={faEdit} />
                                                 </Button>
                                               </td>
-                                              <td className="progLiveTalkData_Delete">
+                                              <td className="progLiveTalkData_Delete text-center">
                                                 <Button id="deleteProgLiveTalkBtn" onClick={this.handleDeleteLiveTalkModal}>
                                                   <FontAwesomeIcon size="lg" id="deleteProgLiveTalkBtnIcon" icon={faTrashAlt} />
                                                 </Button>
@@ -883,7 +884,7 @@ class LiveTalk extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <DeleteLiveTalkModal handleConfirmDelete={ (e) => {this.DeleteProgrammeTalk(e, this.state.id)} } handleCancelDelete={this.handleDeleteLiveTalkModal} />
+          <DeleteLiveTalkModal handleConfirmDelete={ (e) => {this.DeleteLiveTalk(e, this.state.id)} } handleCancelDelete={this.handleDeleteLiveTalkModal} />
         </Modal>
 
 

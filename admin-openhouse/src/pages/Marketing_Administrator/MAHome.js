@@ -11,14 +11,64 @@ import Chart from 'react-google-charts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSyncAlt, faMobileAlt, faSchool, faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons';
 
-const data = [
-    ["Label", "Total Number of Participants", { role: "style" }],
-    ["Total number of registered prospective students for the open house mobile application", 400, "color: #deecfc"],
-    ["Total number of prospective student actual turn-ups for open house programme talks", 350, "color: #b9ceeb"],
-    ["Total number of registrations for open house programme talks (through mobile application)", 380, "color: #87a8d0"],
-];
+
 
 class MAHome extends Component {
+    constructor() {
+        super();
+        // this.logout = this.logout.bind(this);
+        this.state = {
+          numbers: 223,
+        };
+      }
+
+      authListener() {
+        fire.auth().onAuthStateChanged((user) => {
+          if (user) {
+            const db = fire.firestore();
+    
+            var getrole = db
+              .collection("Administrators")
+              .where("email", "==", user.email);
+            getrole.get().then((snapshot) => {
+              snapshot.forEach((doc) => {
+                if (doc.data().administratorType === "Marketing Administrator") {
+                  this.display();
+                } else {
+                  history.push("/Login");
+                }
+              });
+            });
+          } else {
+            history.push("/Login");
+          }
+        });
+      }
+
+      componentDidMount() {
+        this.authListener();
+      }
+      display() {
+        const db = fire.firestore();
+        var counter = 1;
+        const registeredstudentsquery = db
+          .collection("Students")
+          .onSnapshot((snapshot) => {
+            console.log(snapshot.size);
+            this.setState({ registeredstudents: snapshot.size });
+          });
+    
+        const programtalkquery = db
+          .collection("ProgrammeTalks")
+          .onSnapshot((snapshot) => {
+            var counter = 0;
+            snapshot.forEach((doc) => {
+              counter = counter + doc.data().noRegistered;
+            });
+            console.log(counter);
+            this.setState({ programtalkregisterd: counter });
+          });
+      }
 
     render() {
         return (
@@ -27,12 +77,12 @@ class MAHome extends Component {
                     <NavBar isMA={true} />
 
                         <Container fluid className="MAHome-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
-                            <Row style={{ marginRight: 0 }}>
-                                <Col md={2}>
+                            <Row>
+                                <Col md={2} style={{paddingRight: 0}}>
                                     <SideNavBar />
                                 </Col>
 
-                                <Col md={10} id="MAHome-topContentContainer">
+                                <Col md={10} style={{paddingLeft: 0}}>
                                     <Container fluid id="MAHome-topContentContainer">
                                         <Row id="MAHome-firstRow"></Row>
                                         <Row id="MAHome-secondRow">
@@ -51,7 +101,7 @@ class MAHome extends Component {
                                                         <FontAwesomeIcon size="3x" icon={faMobileAlt}/>
                                                     </Col>
                                                     <Col md={6} className="MAHome-thirdInnerCol2">
-                                                        <h3>400</h3>
+                                                        <h3>{this.state.registeredstudents}</h3>
                                                     </Col>
                                                 </Row>
                                             </Col>
@@ -71,7 +121,7 @@ class MAHome extends Component {
                                                         <FontAwesomeIcon size="3x" icon={faChalkboardTeacher}/>
                                                     </Col>
                                                     <Col md={6} className="MAHome-thirdInnerCol2">
-                                                        <h3>380</h3>
+                                                        <h3>{this.state.programtalkregisterd}</h3>
                                                     </Col>
                                                 </Row>
                                             </Col>
@@ -79,7 +129,12 @@ class MAHome extends Component {
 
                                         <Row id="MAHome-fourthRow">
                                             <Col md={12}>
-                                                <Chart id="MAHome-fourthChart" height="45vh" chartType="BarChart" data={data} options={{legend: "none", vAxis: {textStyle: {fontSize: 8.5}}}}/>
+                                                <Chart id="MAHome-fourthChart" height="45vh" chartType="BarChart" data={[
+    ["Label", "Total Number of Participants", { role: "style" }],
+    ["Total number of registered prospective students for the open house mobile application", this.state.registeredstudents, "color: #deecfc"],
+    ["Total number of prospective student actual turn-ups for open house programme talks", 350, "color: #b9ceeb"],
+    ["Total number of registrations for open house programme talks (through mobile application)", this.state.programtalkregisterd, "color: #87a8d0"],
+]} options={{legend: "none", vAxis: {textStyle: {fontSize: 8.5}}}}/>
                                             </Col>
                                         </Row>
                                     </Container>

@@ -16,7 +16,6 @@ import EditStudySIMProgModal from "../../../components/Marketing_Administrator/S
 import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/DeleteStudySIMProgModal";
 import ViewStudySIMProgDetailsModal from "../../../components/Marketing_Administrator/Study@SIM/ViewStudySIMProgDetailsModal";
 
-
 class StudySIM_Nursing extends Component {
   constructor() {
     super();
@@ -24,7 +23,7 @@ class StudySIM_Nursing extends Component {
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
-      viewStudySIMProgDetailsModal: false
+      viewStudySIMProgDetailsModal: false,
     };
   }
 
@@ -53,6 +52,7 @@ class StudySIM_Nursing extends Component {
   componentDidMount() {
     this.authListener();
   }
+
   display() {
     const db = fire.firestore();
 
@@ -75,7 +75,7 @@ class StudySIM_Nursing extends Component {
             docid: doc.id,
             programmeName: doc.data().programmeTitle,
             awardBy: doc.data().awardedBy,
-            Logofile: doc.data().Logofile,
+            Logofile: doc.data().logoFile,
             CategoryProgramme: doc.data().category,
             ModeOfStudy: doc.data().modeOfStudy,
             discipline1: doc.data().discipline.disciplineName1,
@@ -85,6 +85,13 @@ class StudySIM_Nursing extends Component {
             Qualificaiton: doc.data().entryQualifications,
 
             subDiscipline: doc.data().subDiscipline,
+
+            aboutprogramme: doc.data().programmeOverview,
+            applicationperiod: doc.data().applicationPeriod,
+            programmestructure: doc.data().programmeStructure,
+            overseaopportunity: doc.data().overseaOpportunity,
+            intakemonths: doc.data().intakeMonths,
+            duration: doc.data().duration,
           };
 
           nursing.push(data);
@@ -94,6 +101,7 @@ class StudySIM_Nursing extends Component {
       this.setState({ nursing: nursing });
     });
   }
+
   /* Add Programme Talk Modal */
   handleAddStudySIMProgModal = () => {
     if (this.state.addStudySIMProgModal == false) {
@@ -146,7 +154,6 @@ class StudySIM_Nursing extends Component {
       });
     }
   };
-
 
   render() {
     return (
@@ -252,7 +259,46 @@ class StudySIM_Nursing extends Component {
                                     {index}
                                   </td>
                                   <td className="studySIMProgData_ProgName text-left">
-                                    <a className="studySIMProgData_ProgNameLink" onClick={this.handleViewStudySIMProgDetailsModal}>
+                                    <a
+                                      className="studySIMProgData_ProgNameLink"
+                                      onClick={() => {
+                                        this.setState({
+                                          programmeName: nursing.programmeName,
+                                          aboutprogramme1:
+                                            nursing.aboutprogramme
+                                              .aboutProgramme1,
+                                          aboutprogramme2:
+                                            nursing.aboutprogramme
+                                              .aboutProgramme2,
+                                          aboutprogramme3:
+                                            nursing.aboutprogramme
+                                              .aboutProgramme3,
+                                          applicationperiod1:
+                                            nursing.applicationperiod.period1,
+                                          applicationperiod2:
+                                            nursing.applicationperiod.period2,
+                                          programmestructurecoursework:
+                                            nursing.programmestructure
+                                              .coursework,
+                                          programmestructureexamination:
+                                            nursing.programmestructure
+                                              .examination,
+                                          overseaopportunityexchange:
+                                            nursing.overseaopportunity.exchange,
+                                          overseaopportunitytransfer:
+                                            nursing.overseaopportunity.transfer,
+                                          intakemonthsfulltime:
+                                            nursing.intakemonths.fullTime,
+                                          intakemonthsparttime:
+                                            nursing.intakemonths.partTime,
+                                          durationfulltime:
+                                            nursing.duration.fullTime,
+                                          durationparttime:
+                                            nursing.duration.partTime,
+                                        });
+                                        this.handleViewStudySIMProgDetailsModal();
+                                      }}
+                                    >
                                       {/* href={
                                         "/ArtsSocialScienceViewProgramme?id=" +
                                         nursing.docid
@@ -353,6 +399,39 @@ class StudySIM_Nursing extends Component {
                                           subdisciplne4:
                                             nursing.subDiscipline
                                               .subDisciplineName4,
+                                          //details
+                                          aboutprogramme1:
+                                            nursing.aboutprogramme
+                                              .aboutProgramme1,
+                                          aboutprogramme2:
+                                            nursing.aboutprogramme
+                                              .aboutProgramme2,
+                                          aboutprogramme3:
+                                            nursing.aboutprogramme
+                                              .aboutProgramme3,
+                                          applicationperiod1:
+                                            nursing.applicationperiod.period1,
+                                          applicationperiod2:
+                                            nursing.applicationperiod.period2,
+                                          programmestructurecoursework:
+                                            nursing.programmestructure
+                                              .coursework,
+                                          programmestructureexamination:
+                                            nursing.programmestructure
+                                              .examination,
+                                          overseaopportunityexchange:
+                                            nursing.overseaopportunity.exchange,
+                                          overseaopportunitytransfer:
+                                            nursing.overseaopportunity.transfer,
+                                          intakemonthsfulltime:
+                                            nursing.intakemonths.fullTime,
+                                          intakemonthsparttime:
+                                            nursing.intakemonths.partTime,
+                                          durationfulltime:
+                                            nursing.duration.fullTime,
+                                          durationparttime:
+                                            nursing.duration.partTime,
+                                          docid: nursing.docid,
                                         });
                                         this.handleEditStudySIMProgModal();
                                       }}
@@ -438,6 +517,25 @@ class StudySIM_Nursing extends Component {
             subdisciplne3={this.state.subdisciplne3}
             subdisciplne4={this.state.subdisciplne4}
             subdisciplne5={this.state.subdisciplne5}
+            //details
+            aboutprogramme1={this.state.aboutprogramme1}
+            aboutprogramme2={this.state.aboutprogramme2}
+            aboutprogramme3={this.state.aboutprogramme3}
+            applicationperiod1={this.state.applicationperiod1}
+            applicationperiod2={this.state.applicationperiod2}
+            programmestructurecoursework={
+              this.state.programmestructurecoursework
+            }
+            programmestructureexamination={
+              this.state.programmestructureexamination
+            }
+            overseaopportunityexchange={this.state.overseaopportunityexchange}
+            overseaopportunitytransfer={this.state.overseaopportunitytransfer}
+            intakemonthsfulltime={this.state.intakemonthsfulltime}
+            intakemonthsparttime={this.state.intakemonthsparttime}
+            durationfulltime={this.state.durationfulltime}
+            durationparttime={this.state.durationparttime}
+            docid={this.state.docid}
             handleSaveChanges={() => {
               console.log("Edit Modal Saved");
             }}
@@ -463,7 +561,7 @@ class StudySIM_Nursing extends Component {
             handleCancelDelete={this.handleDeleteStudySIMProgModal}
           />
         </Modal>
-        
+
         {/* View Programme Details Modal */}
         <Modal
           show={this.state.viewStudySIMProgDetailsModal}
@@ -474,7 +572,26 @@ class StudySIM_Nursing extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <ViewStudySIMProgDetailsModal />
+          <ViewStudySIMProgDetailsModal
+          programmeName={this.state.programmeName}
+            aboutprogramme1={this.state.aboutprogramme1}
+            aboutprogramme2={this.state.aboutprogramme2}
+            aboutprogramme3={this.state.aboutprogramme3}
+            applicationperiod1={this.state.applicationperiod1}
+            applicationperiod2={this.state.applicationperiod2}
+            programmestructurecoursework={
+              this.state.programmestructurecoursework
+            }
+            programmestructureexamination={
+              this.state.programmestructureexamination
+            }
+            overseaopportunityexchange={this.state.overseaopportunityexchange}
+            overseaopportunitytransfer={this.state.overseaopportunitytransfer}
+            intakemonthsfulltime={this.state.intakemonthsfulltime}
+            intakemonthsparttime={this.state.intakemonthsparttime}
+            durationfulltime={this.state.durationfulltime}
+            durationparttime={this.state.durationparttime}
+          />
         </Modal>
       </div>
     );

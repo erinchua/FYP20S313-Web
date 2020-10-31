@@ -1,0 +1,308 @@
+/**********************************************************************************************/
+/* Add Live Talk Modal Css */
+/**********************************************************************************************/
+#addLiveTalkModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.addLiveTalkFormRow {
+    padding-bottom: 4%;
+}
+
+.addLiveTalkFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.addLiveTalkForm_InnerRow {
+    padding-bottom: 4%;
+}
+
+.addLiveTalkFormIconInputGrp {
+    background: transparent !important;
+    border: none !important;
+}
+
+#addLiveTalkForm_ProgTalkName {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addLiveTalkForm_ProgTalkName:focus {
+    box-shadow: none;
+}
+
+#addLiveTalkForm_Venue {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addLiveTalkForm_Venue:focus {
+    box-shadow: none;
+}
+
+.addLiveTalkFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    border-radius: 0 !important;
+    font-size: 85% !important;
+}
+
+.addLiveTalkFormSelect:focus {
+    box-shadow: none !important;
+}
+
+.addLiveTalkFormSelectOption {
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addLiveTalkForm_ProgTalkStartTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addLiveTalkForm_ProgTalkStartTime:focus {
+    box-shadow: none;
+}
+
+#addLiveTalkForm_ProgTalkEndTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#addLiveTalkForm_ProgTalkEndTime:focus {
+    box-shadow: none;
+}
+
+.addLiveTalkForm_InnerCol {
+    height: 80%;
+}
+
+#addLiveTalkForm_LiveTalkURL {
+    resize: none;
+    border-radius: 6px;
+    color: #434343;
+    font-size: 85%;
+}
+
+.addLiveTalkFormLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
+}
+
+#addLiveTalkFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+    width: 20%;
+}
+
+#addLiveTalkFormBtn:focus {
+    box-shadow: none;
+}
+
+/**********************************************************************************************/
+/* Edit Live Talk Modal Css */
+/**********************************************************************************************/
+#editLiveTalkModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.editLiveTalkFormRow {
+    padding-bottom: 4%;
+}
+
+.editLiveTalkFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.editLiveTalkForm_InnerRow {
+    padding-bottom: 4%;
+}
+
+.editLiveTalkFormIconInputGrp {
+    background: transparent !important;
+    border: none !important;
+}
+
+#editLiveTalkForm_ProgTalkName {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#editLiveTalkForm_ProgTalkName:focus {
+    box-shadow: none;
+}
+
+#editLiveTalkForm_Venue {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#editLiveTalkForm_Venue:focus {
+    box-shadow: none;
+}
+
+.editLiveTalkFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    border-radius: 0 !important;
+    font-size: 85% !important;
+}
+
+.editLiveTalkFormSelect:focus {
+    box-shadow: none !important;
+}
+
+.editLiveTalkFormSelectOption {
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#editLiveTalkForm_ProgTalkStartTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#editLiveTalkForm_ProgTalkStartTime:focus {
+    box-shadow: none;
+}
+
+#editLiveTalkForm_ProgTalkEndTime {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#editLiveTalkForm_ProgTalkEndTime:focus {
+    box-shadow: none;
+}
+
+#editLiveTalkForm_Capacity {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+#editLiveTalkForm_Capacity:focus {
+    box-shadow: none;
+}
+
+.editLiveTalkForm_InnerCol {
+    height: 80%;
+}
+
+#editLiveTalkForm_LiveTalkURL {
+    resize: none;
+    border-radius: 6px;
+    color: #434343;
+    font-size: 85%;
+}
+
+.editLiveTalkFormLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
+}
+
+#saveChangesLiveTalkFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+    width: 40%;
+}
+
+#saveChangesLiveTalkFormBtn:focus {
+    box-shadow: none;
+}
+
+#cancelEditLiveTalkFormBtn {
+    background: none;
+    border: 1px solid #60c6d9;
+    color: #60c6d9;
+    border-radius: 6px;
+    width: 40%;
+}
+
+#cancelEditLiveTalkFormBtn:focus {
+    box-shadow: none;
+}
+
+/**********************************************************************************************/
+/* Delete Live Talk Modal Css */
+/**********************************************************************************************/
+#deleteLiveTalkModalTitle {
+    font-size: 95%;
+    color: #EA526F;
+}
+
+.deleteLiveTalkModalCol {
+    padding-bottom: 4%;
+}
+
+#deleteLiveTalkModalText {
+    font-size: 90%;
+    color: #424242;
+}
+
+#confirmDeleteLiveTalkModalBtn {
+    background: none;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #EA526F;
+    width: 40%;
+}
+
+#confirmDeleteLiveTalkModalBtn:focus {
+    box-shadow: none;
+}
+
+#cancelDeleteLiveTalkModalBtn {
+    background: #EA526F;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #ffffff;
+    width: 40%;
+}
+
+#cancelDeleteLiveTalkModalBtn:focus {
+    box-shadow: none;
+}
+
+/**********************************************************************************************/
+/* Modal Validation Css */
+/**********************************************************************************************/
+.errorMessage {
+    color: red;
+    font-size: 80%;
+}
