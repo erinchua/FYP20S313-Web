@@ -608,7 +608,7 @@ class GettingToSIMHQ extends Component {
         const db = fire.firestore();
 
         if (this.state.files !== undefined) {
-            const foldername = "Map";
+            const foldername = "CampusLocation";
             const file = this.state.files[0];
             const storageRef = fire.storage().ref(foldername);
             const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
@@ -683,10 +683,12 @@ class GettingToSIMHQ extends Component {
         }
     }
 
-    handleBusEditModal = () => {
+    handleBusEditModal = (busDescription) => {
         if (this.state.busEditModal == false) {
             this.setState({
                 busEditModal: true,
+                simBusDescription: busDescription,
+                oppSimBusDescription: busDescription,
             });
         }
         else {
@@ -696,10 +698,12 @@ class GettingToSIMHQ extends Component {
         }
     }
 
-    handleMrtEditModal = () => {
+    handleMrtEditModal = (mrtDescription) => {
         if (this.state.mrtEditModal == false) {
             this.setState({
                 mrtEditModal: true,
+                downTownDescription: mrtDescription,
+                eastWestDescription: mrtDescription,
             });
         }
         else {
@@ -868,7 +872,7 @@ class GettingToSIMHQ extends Component {
                                                                                             {this.state.busSimArray ?
                                                                                                 <td>{this.state.busSimArray}</td> : ''
                                                                                             }
-                                                                                            <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={() => this.handleBusEditModal(busArr)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={() => this.handleBusEditModal(busArr.simBusDescription)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <td>{index + 2}</td>
@@ -876,7 +880,7 @@ class GettingToSIMHQ extends Component {
                                                                                             {this.state.busOppSimArray ?
                                                                                                 <td>{this.state.busOppSimArray}</td> : ''
                                                                                             }
-                                                                                            <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={() => this.handleBusEditModal(busArr)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={() => this.handleBusEditModal(busArr.oppSimBusDescription)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                         </tr>
                                                                                     </tbody>
                                                                                 )
@@ -906,7 +910,7 @@ class GettingToSIMHQ extends Component {
                                                                                             {this.state.mrtDownTownArray ? 
                                                                                                 <td>{this.state.mrtDownTownArray}</td> : ''
                                                                                             }
-                                                                                            <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={this.handleMrtEditModal}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={() => this.handleMrtEditModal(mrtArr.downTownDescription)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <td>{index + 2}</td>
@@ -914,7 +918,7 @@ class GettingToSIMHQ extends Component {
                                                                                             {this.state.mrtEastWestArray ? 
                                                                                                 <td>{this.state.mrtEastWestArray}</td> : ''
                                                                                             }
-                                                                                            <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={this.handleMrtEditModal}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={() => this.handleMrtEditModal(mrtArr.eastWestDescription)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                         </tr>
                                                                                     </tbody>
                                                                                 )
@@ -1060,30 +1064,63 @@ class GettingToSIMHQ extends Component {
                         </Modal.Header>
                         <div>
                             <Modal.Body>
-                                <Form noValidate>
-                                    <Form.Group>
-                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
-                                            <Form.Group as={Col} md="1">
-                                                <FontAwesomeIcon size="lg" icon={faLocationArrow}/>
-                                            </Form.Group> 
-                                            <Form.Group as={Col} md="7">
-                                                <Form.Control id="GettingToSimHq-inputFields" type="text" name="busDescription" placeholder="Location" required defaultValue="" onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
-                                            </Form.Group>
-                                        </Form.Group>                     
-                                    </Form.Group>
-                                    <Form.Group>
-                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
-                                            <Form.Group as={Col} md="1">
-                                                <FontAwesomeIcon size="lg" icon={faBus}/>
-                                            </Form.Group> 
-                                            <Form.Group as={Col} md="7">
-                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="busNo" placeholder="Bus Numbers" required defaultValue="" onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
-                                            </Form.Group>
-                                        </Form.Group>                     
-                                    </Form.Group>
-                                </Form>
+                                {this.state.busArray && this.state.busArray.map((busArr) => {
+                                    if(busArr.simBusDescription === this.state.simBusDescription) {
+                                        return (
+                                            <Form noValidate key={busArr.busId}>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faLocationArrow}/>
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="GettingToSimHq-inputFields" type="text" name="busDescription" placeholder="Location" required defaultValue={this.state.simBusDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage"></div>
+                                                        </Form.Group>
+                                                    </Form.Group>                     
+                                                </Form.Group>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faBus}/>
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="busNo" placeholder="Bus Numbers" required defaultValue={this.state.busSimArray} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage"></div>
+                                                        </Form.Group>
+                                                    </Form.Group>                     
+                                                </Form.Group>
+                                            </Form>
+                                        )
+                                    } else {
+                                        return (
+                                            <Form noValidate key={busArr.busId}>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faLocationArrow}/>
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="GettingToSimHq-inputFields" type="text" name="busDescription" placeholder="Location" required defaultValue={this.state.oppSimBusDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage"></div>
+                                                        </Form.Group>
+                                                    </Form.Group>                     
+                                                </Form.Group>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faBus}/>
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="busNo" placeholder="Bus Numbers" required defaultValue={this.state.busOppSimArray} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage"></div>
+                                                        </Form.Group>
+                                                    </Form.Group>                     
+                                                </Form.Group>
+                                            </Form>
+                                        )
+                                    }
+                                })}
                             </Modal.Body>
                             <Modal.Footer>
                                 <Container>
@@ -1109,30 +1146,63 @@ class GettingToSIMHQ extends Component {
                         </Modal.Header>
                         <div>
                             <Modal.Body>
-                                <Form noValidate>
-                                    <Form.Group>
-                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
-                                            <Form.Group as={Col} md="1">
-                                                <FontAwesomeIcon size="lg" icon={faLocationArrow}/>
-                                            </Form.Group> 
-                                            <Form.Group as={Col} md="7">
-                                                <Form.Control id="GettingToSimHq-inputFields" type="text" name="mrtDescription" placeholder="MRT Line" required defaultValue="" onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
-                                            </Form.Group>
-                                        </Form.Group>                     
-                                    </Form.Group>
-                                    <Form.Group>
-                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
-                                            <Form.Group as={Col} md="1">
-                                                <FontAwesomeIcon size="lg" icon={faTrain}/>
-                                            </Form.Group> 
-                                            <Form.Group as={Col} md="7">
-                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="mrtStation" placeholder="MRT Station Names" required defaultValue="" onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
-                                            </Form.Group>
-                                        </Form.Group>                     
-                                    </Form.Group>
-                                </Form>
+                                {this.state.mrtArray && this.state.mrtArray.map((mrtArr) => {
+                                    if (mrtArr.downTownDescription === this.state.downTownDescription) {
+                                        return (
+                                            <Form noValidate key={mrtArr.mrtId}>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faLocationArrow}/>
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="GettingToSimHq-inputFields" type="text" name="mrtDescription" placeholder="MRT Line" required defaultValue={this.state.downTownDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage"></div>
+                                                        </Form.Group>
+                                                    </Form.Group>                     
+                                                </Form.Group>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faTrain}/>
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="mrtStation" placeholder="MRT Station Names" required defaultValue={this.state.mrtDownTownArray} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage"></div>
+                                                        </Form.Group>
+                                                    </Form.Group>                     
+                                                </Form.Group>
+                                            </Form>
+                                        )
+                                    } else {
+                                        return (
+                                            <Form noValidate key={mrtArr.mrtId}>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faLocationArrow}/>
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="GettingToSimHq-inputFields" type="text" name="mrtDescription" placeholder="MRT Line" required defaultValue={this.state.eastWestDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage"></div>
+                                                        </Form.Group>
+                                                    </Form.Group>                     
+                                                </Form.Group>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faTrain}/>
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="mrtStation" placeholder="MRT Station Names" required defaultValue={this.state.mrtEastWestArray} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage"></div>
+                                                        </Form.Group>
+                                                    </Form.Group>                     
+                                                </Form.Group>
+                                            </Form>
+                                        )
+                                    }
+                                })}
                             </Modal.Body>
                             <Modal.Footer>
                                 <Container>
