@@ -669,12 +669,12 @@ class ProgrammeTalkSchedule extends Component {
                                             <td className="progTalkScheduleData_Venue text-left">{day1.venue}</td>
                                             <td className="progTalkScheduleData_Capacity text-center">{day1.capacityLimit}</td>
                                             <td className="progTalkScheduleData_Discipline text-center">{day1.discipline}</td>
-                                            <td className="progTalkScheduleData_Edit">
+                                            <td className="progTalkScheduleData_Edit text-center">
                                               <Button id="editProgTalkScheduleBtn" onClick={()=>this.handleEditProgTalkModal(day1)}>
                                                 <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
                                               </Button>
                                             </td>
-                                            <td className="progTalkScheduleData_Delete">
+                                            <td className="progTalkScheduleData_Delete text-center">
                                               <Button id="deleteProgTalkScheduleBtn" onClick={(e) => this.handleDeleteProgTalkModal(day1.id)}>
                                                 <FontAwesomeIcon size="lg" id="deleteProgTalkScheduleBtnIcon" icon={faTrashAlt} />
                                               </Button>
@@ -714,21 +714,21 @@ class ProgrammeTalkSchedule extends Component {
                                       {this.state.day2 && this.state.day2.map((day2) => {
                                         return (
                                           <tr key={day2.docid}>
-                                            <td className="progTalkScheduleData_SNo">{day2.day2_counter}</td>
+                                            <td className="progTalkScheduleData_SNo text-center">{day2.day2_counter}</td>
                                             <td className="progTalkScheduleData_ProgTalk text-left">{day2.talkName}</td>
                                             <td className="progTalkScheduleData_ProgTalkDetails text-left">{day2.details}</td>
-                                            <td className="progTalkScheduleData_AwardingUni">{day2.awardingUni}</td>
+                                            <td className="progTalkScheduleData_AwardingUni text-center">{day2.awardingUni}</td>
                                             <td className="progTalkScheduleData_StartTime text-left">{day2.startTime}</td>
                                             <td className="progTalkScheduleData_EndTime text-left">{day2.endTime}</td>
                                             <td className="progTalkScheduleData_Venue text-left">{day2.venue}</td>
                                             <td className="progTalkScheduleData_Capacity text-center">{day2.capacityLimit}</td>
                                             <td className="progTalkScheduleData_Discipline text-center">{day2.discipline}</td>
-                                            <td className="progTalkScheduleData_Edit">
+                                            <td className="progTalkScheduleData_Edit text-center">
                                               <Button id="editProgTalkScheduleBtn" onClick={()=>this.handleEditProgTalkModal(day2)}>
                                                 <FontAwesomeIcon size="lg" id="editProgTalkScheduleBtnIcon" icon={faEdit} />
                                               </Button>
                                             </td>
-                                            <td className="progTalkScheduleData_Delete">
+                                            <td className="progTalkScheduleData_Delete text-center">
                                               <Button id="deleteProgTalkScheduleBtn" onClick={(e) => this.handleDeleteProgTalkModal(day2.id)}>
                                                 <FontAwesomeIcon size="lg" id="deleteProgTalkScheduleBtnIcon" icon={faTrashAlt} />
                                               </Button>

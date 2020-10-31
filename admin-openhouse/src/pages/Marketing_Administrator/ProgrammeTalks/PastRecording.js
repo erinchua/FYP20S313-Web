@@ -482,9 +482,9 @@ class PastRecording extends Component {
                                       {this.state.day1 && this.state.day1.map((day1) => {
                                         return (
                                           <tr key={day1.docid}>
-                                            <td className="pastRecData_SNo">{day1.day1_counter}</td>
+                                            <td className="pastRecData_SNo text-center">{day1.day1_counter}</td>
                                             <td className="pastRecData_ProgTalk text-left">{day1.talkName}</td>
-                                            <td className="pastRecData_AwardingUni">{day1.awardingUni}</td>
+                                            <td className="pastRecData_AwardingUni text-center">{day1.awardingUni}</td>
                                             <td className="pastRecData_StartTime text-left">{day1.startTime}</td>
                                             <td className="pastRecData_EndTime text-left">{day1.endTime}</td>
                                             <td className="pastRecData_Venue text-left">{day1.venue}</td>
@@ -492,12 +492,12 @@ class PastRecording extends Component {
                                               <a href={day1.link} className="pastRecData_FileLink">{day1.link}</a>
                                             </td>
                                             <td className="pastRecData_Discipline text-center">{day1.discipline}</td>
-                                            <td className="pastRecData_Edit">
+                                            <td className="pastRecData_Edit text-center">
                                               <Button id="editPastRecBtn" onClick={()=>this.handleEditPastRecModal(day1)}>
                                                 <FontAwesomeIcon size="lg" id="editPastRecBtnIcon" icon={faEdit} />
                                               </Button>
                                             </td>
-                                            <td className="pastRecData_Delete">
+                                            <td className="pastRecData_Delete text-center">
                                               <Button id="deletePastRecBtn" onClick={this.handleDeletePastRecModal}>
                                                 <FontAwesomeIcon size="lg" id="deletePastRecBtnIcon" icon={faTrashAlt} />
                                               </Button>
@@ -535,9 +535,9 @@ class PastRecording extends Component {
                                       {this.state.day2 && this.state.day2.map((day2) => {
                                         return (
                                           <tr key={day2.docid}>
-                                            <td className="pastRecData_SNo">{day2.day2_counter}</td>
+                                            <td className="pastRecData_SNo text-center">{day2.day2_counter}</td>
                                             <td className="pastRecData_ProgTalk text-left">{day2.talkName}</td>
-                                            <td className="pastRecData_AwardingUni">{day2.awardingUni}</td>
+                                            <td className="pastRecData_AwardingUni text-center">{day2.awardingUni}</td>
                                             <td className="pastRecData_StartTime text-left">{day2.startTime}</td>
                                             <td className="pastRecData_EndTime text-left">{day2.endTime}</td>
                                             <td className="pastRecData_Venue text-left">{day2.venue}</td>
@@ -545,12 +545,12 @@ class PastRecording extends Component {
                                               <a href={day2.link} className="pastRecData_FileLink">{day2.link}</a>
                                             </td>
                                             <td className="pastRecData_Discipline text-center">{day2.discipline}</td>
-                                            <td className="pastRecData_Edit">
+                                            <td className="pastRecData_Edit text-center">
                                               <Button id="editPastRecBtn" onClick={()=>this.handleEditPastRecModal(day2)}>
                                                 <FontAwesomeIcon size="lg" id="editPastRecBtnIcon" icon={faEdit} />
                                               </Button>
                                             </td>
-                                            <td className="pastRecData_Delete">
+                                            <td className="pastRecData_Delete text-center">
                                               <Button id="deletePastRecBtn" onClick={this.handleDeletePastRecModal}>
                                                 <FontAwesomeIcon size="lg" id="deletePastRecBtnIcon" icon={faTrashAlt} />
                                               </Button>
