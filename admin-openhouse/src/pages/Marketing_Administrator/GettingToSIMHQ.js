@@ -1,4 +1,4 @@
-import { Container, Row, Col, Table, Button, Modal, Form } from 'react-bootstrap';
+import { Container, Row, Col, Table, Button, Modal, Form, Tab, Nav } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../../config/firebase";
 import history from "../../config/history";
@@ -9,11 +9,12 @@ import NavBar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import SideNavBar from '../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faBus, faCar, faEdit, faFileImage, faLocationArrow, faParking, faTrain } from '@fortawesome/free-solid-svg-icons';
 
+//Sort Bus Numbers
 export function sortFunction(a, b) {
-    const aSplit = a.busNo;
-    const bSplit = b.busNo;
+    const aSplit = a;
+    const bSplit = b;
     let aSplitNumberAlpha = aSplit.match(/[a-zA-Z]+|\d+/ig)
     let bSplitNumberAlpha = bSplit.match(/[a-zA-Z]+|\d+/ig)  
 
@@ -26,45 +27,66 @@ export function sortFunction(a, b) {
     }
 
     if (+aSplitNumberAlpha[0] == +bSplitNumberAlpha[0]) {
-        console.log(aSplitNumberAlpha[0])
-        // if (aSplitNumberAlpha[1].match(/[^A-Za-z]/) || bSplitNumberAlpha[1].match(/[^A-Za-z]/)){
-        //     if(aSplitNumberAlpha[1] < bSplitNumberAlpha[1]) {
-        //         return -1;
-        //     }
-
-        //     if (aSplitNumberAlpha[1] > bSplitNumberAlpha[1]) {
-        //         return 1;
-        //     }
-        // }
+        if (aSplitNumberAlpha[1] == '' && bSplitNumberAlpha[1] != '') {
+            return 1;
+        }
+        if (bSplitNumberAlpha[1] == '' && aSplitNumberAlpha[1] != '') {
+            return -1;
+        }
     }
-    
+    return 0;
+}
+
+//Sort MRT Lines
+export function sortAlphabet(a, b) {
+    const aSplit = a;
+    const bSplit = b;
+    let aSplitAlpha = aSplit.match(/[A-Z][a-z]+/g)
+    let bSplitAlpha = bSplit.match(/[A-Z][a-z]+/g)
+
+    if (aSplitAlpha[0] < bSplitAlpha[0]) {
+        return -1;
+    }
+
+    if (aSplitAlpha[0] > bSplitAlpha[0]) {
+        return 1;
+    }
+
+    return 0;
 }
 
 class GettingToSIMHQ extends Component {
+
     constructor() {
         super();
         this.state = {
+            //Below states are for Map 
+            mapId: "",
+            mapUrl: "",
+            mapArray: "",
+            //Below states are for Car 
             carId: "",
-            busId: "",
-            mrtId: "",
-            carParkId: "",
             carDescription: "",
-            carParkingDescription: "",
-            modeOfTransport: "",
-            busNo: "",
-            nearestMRT: "",
+            carArray: "",
+            //Below states are for Bus 
+            busId: "",
             oppSimBusDescription: "",
             simBusDescription: "",
-            mrtDescription: "",
-            url: "",
-            progress: "",
-            //Below states are for functions
-            mapArray: "",
-            carArray: "",
             busArray: "",
             busOppSimArray: "",
             busSimArray: "",
+            busNo: "",
+            //Below states are for MRT 
+            mrtId: "",
+            downTownDescription: "",
+            eastWestDescription: "",
             mrtArray: "",
+            mrtDownTownArray: "",
+            mrtEastWestArray: "",
+            nearestMRT: "",
+            //Below states are for Car Park Info
+            carParkId: "",
+            carParkingDescription: "",
             carParkArray: "",
             //Below states are for modals
             mapEditModal: false,
@@ -72,6 +94,9 @@ class GettingToSIMHQ extends Component {
             busEditModal: false,
             mrtEditModal: false,
             carParkEditModal: false,
+            //
+            modeOfTransport: "",
+            progress: "",
         };
     }
 
@@ -110,6 +135,109 @@ class GettingToSIMHQ extends Component {
     display() {
         const db = fire.firestore();
 
+        db.collection("CampusLocation").get()
+        .then((snapshot) => {
+            snapshot.forEach((doc) => {
+
+                //Bus
+                if (doc.id === "bus") {
+                    const busarray = [];
+                    const oppSimHq = [];
+                    const simHq = [];
+
+                    const oppSim = doc.data().oppSimHq.buses;
+                    for (var i = 0; i < Object.keys(oppSim).length; i++) {
+                        oppSimHq.push(oppSim[Object.keys(oppSim)[i]]);
+                    }
+
+                    const sim = doc.data().simHq.buses;
+                    for (var i = 0; i < Object.keys(sim).length; i++) {
+                        simHq.push(sim[Object.keys(sim)[i]]);
+                    }
+
+                    const data = {
+                        busId: doc.id,
+                        oppSimBusDescription: doc.data().oppSimHq.description,
+                        simBusDescription: doc.data().simHq.description,
+                    };
+                    busarray.push(data);
+
+                    this.setState(() => ({ 
+                        busArray: busarray, 
+                        busOppSimArray: oppSimHq.sort(sortFunction).join(", "), 
+                        busSimArray: simHq.sort(sortFunction).join(", "),
+                    }));
+                }
+
+                //Car and Car Park Info
+                if (doc.id === "car") {
+                    const cararray = [];
+                    const carparkarray = [];
+
+                    const carData = {
+                        carDescription: doc.data().carDescription,
+                        carId: doc.id,
+                    };
+                    cararray.push(carData);
+
+                    const carParkData = {
+                        carParkingDescription: doc.data().carParkingDescription,
+                        carParkId: doc.id,
+                    };
+                    carparkarray.push(carParkData);
+
+                    this.setState({ 
+                        carArray: cararray,
+                        carParkArray: carparkarray
+                    });
+                }
+
+                //MRT
+                if (doc.id === "mrt") {
+                    const mrtarray = [];
+                    const downTownLine = [];
+                    const eastWestLine = [];
+
+                    const downTown = doc.data().downtownLine.stations;
+                    for (var i = 0; i < Object.keys(downTown).length; i++) {
+                        downTownLine.push(downTown[Object.keys(downTown)[i]]);
+                    }
+
+                    const eastWest = doc.data().eastwestLine.stations;
+                    for (var i = 0; i < Object.keys(eastWest).length; i++) {
+                        eastWestLine.push(eastWest[Object.keys(eastWest)[i]]);
+                    }
+
+                    const data = {
+                        mrtId: doc.id,
+                        downTownDescription: doc.data().downtownLine.description,
+                        eastWestDescription: doc.data().eastwestLine.description,
+                    };
+                    mrtarray.push(data);
+
+                    this.setState(() => ({ 
+                        mrtArray: mrtarray, 
+                        mrtDownTownArray: downTownLine.sort(sortAlphabet).join(", "), 
+                        mrtEastWestArray: eastWestLine.sort(sortAlphabet).join(", ")
+                    }));
+                }
+
+                //Map Image File
+                if (doc.id === "map") {
+                    const maparray = [];
+                    const data = {
+                        mapId: doc.id,
+                        url: doc.data().url,
+                    };
+                    maparray.push(data);
+                    this.setState({ mapArray: maparray });
+                }
+
+            });
+        });;
+
+        /* //Below queries are not needed, just have to query once and use if statement to differentiate.
+
         //Map Image File
         const image = db.collection("CampusLocation").doc("map").get()
         .then((snapshot) => {
@@ -136,7 +264,7 @@ class GettingToSIMHQ extends Component {
         });
 
         //bus
-        const bust = db.collection("CampusLocation").doc("bus").get()
+        const bus = db.collection("CampusLocation").doc("bus").get()
         .then((snapshot) => {
             const busarray = [];
             const oppSimHq = [];
@@ -144,15 +272,12 @@ class GettingToSIMHQ extends Component {
 
             const oppSim = snapshot.data().oppSimHq.buses;
             for (var i = 0; i < Object.keys(oppSim).length; i++) {
-                const oppSimData = {
-                    busNo: oppSim[Object.keys(oppSim)[i]]
-                };
-                oppSimHq.push(oppSimData);
+                oppSimHq.push(oppSim[Object.keys(oppSim)[i]]);
             }
 
             const sim = snapshot.data().simHq.buses;
             for (var i = 0; i < Object.keys(sim).length; i++) {
-                simHq.push(sim[Object.keys(sim)[i]])
+                simHq.push(sim[Object.keys(sim)[i]]);
             }
 
             const data = {
@@ -165,7 +290,7 @@ class GettingToSIMHQ extends Component {
             this.setState(() => ({ 
                 busArray: busarray, 
                 busOppSimArray: oppSimHq.sort(sortFunction).join(", "), 
-                busSimArray: simHq 
+                busSimArray: simHq.sort(sortFunction).join(", "),
             }));
         });
 
@@ -173,13 +298,31 @@ class GettingToSIMHQ extends Component {
         const mrt = db.collection("CampusLocation").doc("mrt").get()
         .then((snapshot) => {
             const mrtarray = [];
+            const downTownLine = [];
+            const eastWestLine = [];
+
+            const downTown = snapshot.data().downtownLine.stations;
+            for (var i = 0; i < Object.keys(downTown).length; i++) {
+                downTownLine.push(downTown[Object.keys(downTown)[i]]);
+            }
+
+            const eastWest = snapshot.data().eastwestLine.stations;
+            for (var i = 0; i < Object.keys(eastWest).length; i++) {
+                eastWestLine.push(eastWest[Object.keys(eastWest)[i]]);
+            }
+
             const data = {
                 mrtId: snapshot.id,
-                downtownLine: snapshot.data().downtownLine,
-                eastwestLine: snapshot.data().eastwestLine,
+                downTownDescription: snapshot.data().downtownLine.description,
+                eastWestDescription: snapshot.data().eastwestLine.description,
             };
             mrtarray.push(data);
-            this.setState(() => ({ mrtArray: mrtarray }));
+
+            this.setState(() => ({ 
+                mrtArray: mrtarray, 
+                mrtDownTownArray: downTownLine.sort(sortAlphabet).join(", "), 
+                mrtEastWestArray: eastWestLine.sort(sortAlphabet).join(", ")
+            }));
         });
 
         //carpark
@@ -193,7 +336,7 @@ class GettingToSIMHQ extends Component {
             };
             carparkarray.push(data);
             this.setState({ carParkArray: carparkarray });
-        });
+        }); */
     }
 
     carupdate = (e, locationid) => {
@@ -497,6 +640,75 @@ class GettingToSIMHQ extends Component {
         }
     };
 
+    handleMapEditModal = () => {
+        if (this.state.mapEditModal == false) {
+            this.setState({
+                mapEditModal: true,
+            })
+        }
+        else {
+            this.setState({
+                mapEditModal: false
+            });
+        }
+    }
+
+    handleCarEditModal = (car) => {
+        if (this.state.carEditModal == false) {
+            this.setState({
+                carEditModal: true,
+                carId: car.id,
+                carDescription: car.carDescription, 
+            });
+        }
+        else {
+            this.setState({
+                carEditModal: false
+            });
+        }
+    }
+
+    handleCarParkEditModal = (carPark) => {
+        if (this.state.carParkEditModal == false) {
+            this.setState({
+                carParkEditModal: true,
+                carParkId: carPark.id,
+                carParkingDescription: carPark.carParkingDescription, 
+            });
+        }
+        else {
+            this.setState({
+                carParkEditModal: false
+            });
+        }
+    }
+
+    handleBusEditModal = () => {
+        if (this.state.busEditModal == false) {
+            this.setState({
+                busEditModal: true,
+            });
+        }
+        else {
+            this.setState({
+                busEditModal: false
+            });
+        }
+    }
+
+    handleMrtEditModal = () => {
+        if (this.state.mrtEditModal == false) {
+            this.setState({
+                mrtEditModal: true,
+            });
+        }
+        else {
+            this.setState({
+                mrtEditModal: false
+            });
+        }
+    }
+
     render() {
         return (
             <div>
@@ -518,167 +730,203 @@ class GettingToSIMHQ extends Component {
                                         </Row>
 
                                         <Row id="GettingToSimHq-secondRow">
-                                            <Col md={12} className="text-center" id="GettingToSimHq-secondRowCol">
-                                                <Table responsive="sm" bordered id="GettingToSimHq-tableContainer">
-                                                    <thead id="GettingToSimHq-tableHeader">
-                                                        <tr>
-                                                            <th>Image</th>
-                                                            <th id="GettingToSimHq-editHeading">Edit</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="GettingToSimHq-tableBody">
-                                                        <tr>
-                                                            <td className="text-left">Getting To SIM HQ Map Image</td>
-                                                            <td><Button size="sm" id="GettingToSimHq-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </Table>
-                                            </Col>
-                                        </Row> 
+                                            <Col md={12} id="GettingToSimHq-secondRowCol">
+                                                <Tab.Container defaultActiveKey="map">
+                                                    <Row className="GettingToSimHq-secondInnerRow">
+                                                        <Col md={12} className="GettingToSimHq-secondInnerCol">
+                                                            <Nav defaultActiveKey="day1" className="GettingToSimHq-nav" variant="tabs">
+                                                                <Col md={3} className="text-center GettingToSimHq-navItemCon">
+                                                                    <Nav.Item className="GettingToSimHq-navItems">
+                                                                        <Nav.Link eventKey="map" className="GettingToSimHq-navLinks">Campus Map</Nav.Link>
+                                                                    </Nav.Item>
+                                                                </Col>
 
-                                        <div id="border"></div>
-                                        <Row id="GettingToSimHq-titleRow">
-                                            <Col md={12} className="text-left" id="GettingToSimHq-titleRowCol">
-                                                <h6 id="GettingToSimHq-title">By Car</h6>
-                                            </Col>
-                                        </Row>
+                                                                <Col md={3} className="text-center GettingToSimHq-navItemCon">
+                                                                    <Nav.Item className="GettingToSimHq-navItems">
+                                                                        <Nav.Link eventKey="car" className="GettingToSimHq-navLinks">Car Information</Nav.Link>
+                                                                    </Nav.Item>
+                                                                </Col>
 
-                                        <Row id="GettingToSimHq-secondRow">
-                                            <Col md={12} className="text-center" id="GettingToSimHq-secondRowCol">
-                                                <Table responsive="sm" bordered id="GettingToSimHq-tableContainer">
-                                                    <thead id="GettingToSimHq-tableHeader">
-                                                        <tr>
-                                                            <th id="GettingToSimHq-SNoHeading">S/N</th>
-                                                            <th>Information</th>
-                                                            <th id="GettingToSimHq-editHeading">Edit</th>
-                                                        </tr>
-                                                    </thead>
-                                                    {this.state.carArray && this.state.carArray.map((carArr, index) => {
-                                                        return (
-                                                            <tbody id="GettingToSimHq-tableBody" key={carArr.carId}>
-                                                                <tr>
-                                                                    <td>{index + 1}</td>
-                                                                    <td className="text-left">{carArr.carDescription}</td>
-                                                                    <td><Button size="sm" id="GettingToSimHq-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                </tr>
-                                                            </tbody>
-                                                        )
-                                                    })}
-                                                </Table>
-                                            </Col>
-                                        </Row> 
+                                                                <Col md={3} className="text-center GettingToSimHq-navItemCon">
+                                                                    <Nav.Item className="GettingToSimHq-navItems">
+                                                                        <Nav.Link eventKey="bus" className="GettingToSimHq-navLinks">Bus Information</Nav.Link>
+                                                                    </Nav.Item>
+                                                                </Col>
 
-                                        <div id="border"></div>
-                                        <Row id="GettingToSimHq-titleRow">
-                                            <Col md={12} className="text-left" id="GettingToSimHq-titleRowCol">
-                                                <h6 id="GettingToSimHq-title">By Bus</h6>
-                                            </Col>
-                                        </Row>
+                                                                <Col md={3} className="text-center GettingToSimHq-navItemCon">
+                                                                    <Nav.Item className="GettingToSimHq-navItems">
+                                                                        <Nav.Link eventKey="mrt" className="GettingToSimHq-navLinks">MRT Information</Nav.Link>
+                                                                    </Nav.Item>
+                                                                </Col>
+                                                            </Nav>
+                                                        </Col>
+                                                    </Row>
 
-                                        <Row id="GettingToSimHq-secondRow">
-                                            <Col md={12} className="text-center" id="GettingToSimHq-secondRowCol">
-                                                <Table responsive="sm" bordered id="GettingToSimHq-tableContainer">
-                                                    <thead id="GettingToSimHq-tableHeader">
-                                                        <tr>
-                                                            <th id="GettingToSimHq-SNoHeading">S/N</th>
-                                                            <th>Location</th>
-                                                            <th>Bus Number</th>
-                                                            <th id="GettingToSimHq-editHeading">Edit</th>
-                                                        </tr>
-                                                    </thead>
-                                                    {this.state.busArray && this.state.busArray.map((busArr, index) => {
-                                                        return(
-                                                            <tbody id="GettingToSimHq-tableBody" key={busArr.busId}>
-                                                                <tr>
-                                                                    <td>{index + 1}</td>
-                                                                    <td id="GettingToSimHq-busLocation">{busArr.simBusDescription}</td>
-                                                                    <td></td>
-                                                                    <td><Button size="sm" id="GettingToSimHq-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>{index + 2}</td>
-                                                                    <td id="GettingToSimHq-busLocation">{busArr.oppSimBusDescription}</td>
-                                                                    {this.state.busOppSimArray ?
-                                                                        <td>{this.state.busOppSimArray}</td> : ''
-                                                                    }
-                                                                    <td><Button size="sm" id="GettingToSimHq-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                </tr>
-                                                            </tbody>
-                                                        )
-                                                    })}
-                                                </Table>
-                                            </Col>
-                                        </Row>
+                                                    
+                                                    <Row className="GettingToSimHq-secondInnerRow">
+                                                        <Col md={12} className="GettingToSimHq-secondInnerCol">
+                                                            <Tab.Content>
 
-                                        <div id="border"></div>
-                                        <Row id="GettingToSimHq-titleRow">
-                                            <Col md={12} className="text-left" id="GettingToSimHq-titleRowCol">
-                                                <h6 id="GettingToSimHq-title">By MRT</h6>
-                                            </Col>
-                                        </Row>
+                                                                {/* Map */}
+                                                                <Tab.Pane eventKey="map">
+                                                                    <Col md={12} className="text-center GettingToSimHq-tableColCon">
+                                                                        <Table responsive="sm" bordered className="GettingToSimHq-tableCon">
+                                                                            <thead id="GettingToSimHq-tableHeader">
+                                                                                <tr>
+                                                                                    <th>Image</th>
+                                                                                    <th id="GettingToSimHq-editHeading">Edit</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody id="GettingToSimHq-tableBody">
+                                                                                <tr>
+                                                                                    <td className="text-left">Getting To SIM HQ Map Image</td>
+                                                                                    <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={this.handleMapEditModal}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Tab.Pane>
 
-                                        <Row id="GettingToSimHq-secondRow">
-                                            <Col md={12} className="text-center" id="GettingToSimHq-secondRowCol">
-                                                <Table responsive="sm" bordered id="GettingToSimHq-tableContainer">
-                                                    <thead id="GettingToSimHq-tableHeader">
-                                                        <tr>
-                                                            <th id="GettingToSimHq-SNoHeading">S/N</th>
-                                                            <th>MRT Line</th>
-                                                            <th>Nearest MRT</th>
-                                                            <th id="GettingToSimHq-editHeading">Edit</th>
-                                                        </tr>
-                                                    </thead>
-                                                    {this.state.mrtArray && this.state.mrtArray.map((mrtArr, index) => {
-                                                        return (
-                                                            <tbody id="GettingToSimHq-tableBody" key={mrtArr.mrtId}>
-                                                                <tr>
-                                                                    <td>{index + 1}</td>
-                                                                    <td id="GettingToSimHq-mrtLocation">Downtown Line</td>
-                                                                    <td></td>
-                                                                    <td><Button size="sm" id="GettingToSimHq-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>{index + 2}</td>
-                                                                    <td id="GettingToSimHq-mrtLocation">East West Line</td>
-                                                                    <td></td>
-                                                                    <td><Button size="sm" id="GettingToSimHq-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                </tr>
-                                                            </tbody>
-                                                        )
-                                                    })}
-                                                </Table>
-                                            </Col>
-                                        </Row>
+                                                                {/* Car and Car Park */}
+                                                                <Tab.Pane eventKey="car">
+                                                                    <Row id="GettingToSimHq-secondRow">
+                                                                        <Col md={12} className="text-center GettingToSimHq-tableColCon">
+                                                                            <Table responsive="sm" bordered className="GettingToSimHq-tableCon">
+                                                                                <thead id="GettingToSimHq-tableHeader">
+                                                                                    <tr>
+                                                                                        <th id="GettingToSimHq-SNoHeading">S/N</th>
+                                                                                        <th>Information</th>
+                                                                                        <th id="GettingToSimHq-editHeading">Edit</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                {this.state.carArray && this.state.carArray.map((carArr, index) => {
+                                                                                    return (
+                                                                                        <tbody id="GettingToSimHq-tableBody" key={carArr.carId}>
+                                                                                            <tr>
+                                                                                                <td>{index + 1}</td>
+                                                                                                <td className="text-left">{carArr.carDescription}</td>
+                                                                                                <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={() => this.handleCarEditModal(carArr)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    )
+                                                                                })}
+                                                                            </Table>
+                                                                        </Col>
+                                                                    </Row>
 
-                                        <div id="border"></div>
-                                        <Row id="GettingToSimHq-titleRow">
-                                            <Col md={12} className="text-left" id="GettingToSimHq-titleRowCol">
-                                                <h6 id="GettingToSimHq-title">Car Park Info</h6>
-                                            </Col>
-                                        </Row>
+                                                                    <div id="border"></div>
+                                                                    <Row id="GettingToSimHq-titleRow">
+                                                                        <Col md={12} className="text-left" id="GettingToSimHq-titleRowCol">
+                                                                            <h6 id="GettingToSimHq-title">Car Park Info</h6>
+                                                                        </Col>
+                                                                    </Row>
 
-                                        <Row id="GettingToSimHq-secondRow">
-                                            <Col md={12} className="text-center" id="GettingToSimHq-secondRowCol">
-                                                <Table responsive="sm" bordered id="GettingToSimHq-tableContainer">
-                                                    <thead id="GettingToSimHq-tableHeader">
-                                                        <tr>
-                                                            <th id="GettingToSimHq-SNoHeading">S/N</th>
-                                                            <th>Information</th>
-                                                            <th id="GettingToSimHq-editHeading">Edit</th>
-                                                        </tr>
-                                                    </thead>
-                                                    {this.state.carParkArray && this.state.carParkArray.map((carPark, index) => {
-                                                        return (
-                                                            <tbody id="GettingToSimHq-tableBody" key={carPark.carParkId}>
-                                                                <tr>
-                                                                    <td>{index + 1}</td>
-                                                                    <td className="text-left">{carPark.carParkingDescription}</td>
-                                                                    <td><Button size="sm" id="GettingToSimHq-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                </tr>
-                                                            </tbody>
-                                                        )
-                                                    })}
-                                                </Table>
+                                                                    <Row id="GettingToSimHq-secondRow">
+                                                                        <Col md={12} className="text-center" id="GettingToSimHq-secondRowCol">
+                                                                            <Table responsive="sm" bordered id="GettingToSimHq-tableContainer">
+                                                                                <thead id="GettingToSimHq-tableHeader">
+                                                                                    <tr>
+                                                                                        <th id="GettingToSimHq-SNoHeading">S/N</th>
+                                                                                        <th>Information</th>
+                                                                                        <th id="GettingToSimHq-editHeading">Edit</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                {this.state.carParkArray && this.state.carParkArray.map((carPark, index) => {
+                                                                                    return (
+                                                                                        <tbody id="GettingToSimHq-tableBody" key={carPark.carParkId}>
+                                                                                            <tr>
+                                                                                                <td>{index + 1}</td>
+                                                                                                <td className="text-left">{carPark.carParkingDescription}</td>
+                                                                                                <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={() => this.handleCarParkEditModal(carPark)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    )
+                                                                                })}
+                                                                            </Table>
+                                                                        </Col>
+                                                                    </Row>
+                                                                </Tab.Pane>
+
+                                                                {/* Bus */}
+                                                                <Tab.Pane eventKey="bus">
+                                                                    <Col md={12} className="text-center GettingToSimHq-tableColCon">
+                                                                        <Table responsive="sm" bordered className="GettingToSimHq-tableCon">
+                                                                            <thead id="GettingToSimHq-tableHeader">
+                                                                                <tr>
+                                                                                    <th id="GettingToSimHq-SNoHeading">S/N</th>
+                                                                                    <th>Location</th>
+                                                                                    <th>Bus Number</th>
+                                                                                    <th id="GettingToSimHq-editHeading">Edit</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            {this.state.busArray && this.state.busArray.map((busArr, index) => {
+                                                                                return(
+                                                                                    <tbody id="GettingToSimHq-tableBody" key={busArr.busId}>
+                                                                                        <tr>
+                                                                                            <td>{index + 1}</td>
+                                                                                            <td id="GettingToSimHq-busLocation">{busArr.simBusDescription}</td>
+                                                                                            {this.state.busSimArray ?
+                                                                                                <td>{this.state.busSimArray}</td> : ''
+                                                                                            }
+                                                                                            <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={() => this.handleBusEditModal(busArr)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>{index + 2}</td>
+                                                                                            <td id="GettingToSimHq-busLocation">{busArr.oppSimBusDescription}</td>
+                                                                                            {this.state.busOppSimArray ?
+                                                                                                <td>{this.state.busOppSimArray}</td> : ''
+                                                                                            }
+                                                                                            <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={() => this.handleBusEditModal(busArr)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                )
+                                                                            })}
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Tab.Pane>
+                                                                
+                                                                {/* MRT */}
+                                                                <Tab.Pane eventKey="mrt">
+                                                                    <Col md={12} className="text-center GettingToSimHq-tableColCon">
+                                                                        <Table responsive="sm" bordered className="GettingToSimHq-tableCon">
+                                                                            <thead id="GettingToSimHq-tableHeader">
+                                                                                <tr>
+                                                                                    <th id="GettingToSimHq-SNoHeading">S/N</th>
+                                                                                    <th>MRT Line</th>
+                                                                                    <th>Nearest MRT</th>
+                                                                                    <th id="GettingToSimHq-editHeading">Edit</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            {this.state.mrtArray && this.state.mrtArray.map((mrtArr, index) => {
+                                                                                return (
+                                                                                    <tbody id="GettingToSimHq-tableBody" key={mrtArr.mrtId}>
+                                                                                        <tr>
+                                                                                            <td>{index + 1}</td>
+                                                                                            <td id="GettingToSimHq-mrtLocation">{mrtArr.downTownDescription}</td>
+                                                                                            {this.state.mrtDownTownArray ? 
+                                                                                                <td>{this.state.mrtDownTownArray}</td> : ''
+                                                                                            }
+                                                                                            <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={this.handleMrtEditModal}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>{index + 2}</td>
+                                                                                            <td id="GettingToSimHq-mrtLocation">{mrtArr.eastWestDescription}</td>
+                                                                                            {this.state.mrtEastWestArray ? 
+                                                                                                <td>{this.state.mrtEastWestArray}</td> : ''
+                                                                                            }
+                                                                                            <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={this.handleMrtEditModal}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                )
+                                                                            })}
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Tab.Pane>
+                                                            </Tab.Content>
+                                                        </Col>
+                                                    </Row>
+
+                                                </Tab.Container>
                                             </Col>
                                         </Row>
 
@@ -689,6 +937,219 @@ class GettingToSIMHQ extends Component {
 
                     <Footer />
                 </Container>
+
+                {/* Map Image Edit Modal */}
+                {this.state.mapEditModal == true ? 
+                    <Modal show={this.state.mapEditModal} onHide={this.handleMapEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="GettingToSimHq-modalTitle" className="w-100">Edit Map Image</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileImage} />
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.File type="file" name="imgFile" className="GettingToSimHq-imgFile" label={this.state.mapUrl} onChange={(e) => {console.log(e.target.files[0])}} custom required></Form.File>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="GettingToSimHq-editFooter">
+                                        <Col md={6} className="GettingToSimHq-editCol">
+                                            <Button id="GettingToSimHq-saveBtn" type="submit">Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="GettingToSimHq-editCol">
+                                            <Button id="GettingToSimHq-cancelBtn" onClick={this.handleMapEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Car Edit Modal */}
+                {this.state.carEditModal == true ? 
+                    <Modal show={this.state.carEditModal} onHide={this.handleCarEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="GettingToSimHq-modalTitle" className="w-100">Edit Car Information</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="2x" icon={faCar}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="4" type="text" name="carDescription" placeholder="Car Information" required defaultValue={this.state.carDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="GettingToSimHq-editFooter">
+                                        <Col md={6} className="GettingToSimHq-editCol">
+                                            <Button id="GettingToSimHq-saveBtn" type="submit">Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="GettingToSimHq-editCol">
+                                            <Button id="GettingToSimHq-cancelBtn" onClick={this.handleCarEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Car Park Info Edit Modal */}
+                {this.state.carParkEditModal == true ? 
+                    <Modal show={this.state.carParkEditModal} onHide={this.handleCarParkEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="GettingToSimHq-modalTitle" className="w-100">Edit Car Park Info</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="2x" icon={faParking}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="4" type="text" name="carParkDescription" placeholder="Car Park Information" required defaultValue={this.state.carParkingDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="GettingToSimHq-editFooter">
+                                        <Col md={6} className="GettingToSimHq-editCol">
+                                            <Button id="GettingToSimHq-saveBtn" type="submit">Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="GettingToSimHq-editCol">
+                                            <Button id="GettingToSimHq-cancelBtn" onClick={this.handleCarParkEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Bus Edit Modal */}
+                {this.state.busEditModal == true ? 
+                    <Modal show={this.state.busEditModal} onHide={this.handleBusEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="GettingToSimHq-modalTitle" className="w-100">Edit Bus Information</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faLocationArrow}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="GettingToSimHq-inputFields" type="text" name="busDescription" placeholder="Location" required defaultValue="" onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faBus}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="busNo" placeholder="Bus Numbers" required defaultValue="" onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="GettingToSimHq-editFooter">
+                                        <Col md={6} className="GettingToSimHq-editCol">
+                                            <Button id="GettingToSimHq-saveBtn" type="submit">Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="GettingToSimHq-editCol">
+                                            <Button id="GettingToSimHq-cancelBtn" onClick={this.handleBusEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* MRT Edit Modal */}
+                {this.state.mrtEditModal == true ? 
+                    <Modal show={this.state.mrtEditModal} onHide={this.handleMrtEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="GettingToSimHq-modalTitle" className="w-100">Edit MRT Information</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faLocationArrow}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="GettingToSimHq-inputFields" type="text" name="mrtDescription" placeholder="MRT Line" required defaultValue="" onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faTrain}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="mrtStation" placeholder="MRT Station Names" required defaultValue="" onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="GettingToSimHq-editFooter">
+                                        <Col md={6} className="GettingToSimHq-editCol">
+                                            <Button id="GettingToSimHq-saveBtn" type="submit">Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="GettingToSimHq-editCol">
+                                            <Button id="GettingToSimHq-cancelBtn" onClick={this.handleMrtEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
 
             </div>
 
