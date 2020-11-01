@@ -699,13 +699,13 @@ class ProgrammeTalkSchedule extends Component {
                             <Nav defaultActiveKey="day1" className="MAProgTalkScheduleTabNav" variant="tabs">
                               <Col md="6" className="MAProgTalkScheduleTabConInnerCol text-center">
                                 <Nav.Item className="MAProgTalkScheduleTab_NavItem">
-                                  <Nav.Link eventKey="day1" className="MAProgTalkScheduleTab_Day">{this.state.day1Date}</Nav.Link>
+                                  <Nav.Link eventKey="day1" className="MAProgTalkScheduleTab_Day">{this.state.openHouseDay1}</Nav.Link>
                                 </Nav.Item>
                               </Col>  
 
                               <Col md="6" className="MAProgTalkScheduleTabConInnerCol text-center">
                                 <Nav.Item className="MAProgTalkScheduleTab_NavItem">
-                                  <Nav.Link eventKey="day2" className="MAProgTalkScheduleTab_Day">{this.state.day2Date}</Nav.Link>
+                                  <Nav.Link eventKey="day2" className="MAProgTalkScheduleTab_Day">{this.state.openHouseDay2}</Nav.Link>
                                 </Nav.Item>
                               </Col>
                             </Nav>
