@@ -110,7 +110,6 @@ class ProgrammeTalkSchedule extends Component {
       deleteProgTalkModal: false,
     };
     this.resetForm = this.resetForm.bind(this);
-    this.display = this.display.bind(this);
   }
 
   authListener() {
@@ -197,33 +196,12 @@ class ProgrammeTalkSchedule extends Component {
         }
       });
       this.setState({openHouseDates: dates})
-    })
-    
-    const userRef = db
-    .collection("ProgrammeTalks")
-    .where('date', '>=', "2021")
-    .get()
-    .then((snapshot) => {
-      snapshot.forEach((doc) => {
-        progtalk.push(doc.data().date);
-      });
-      this.state.progList = progtalk;
-      function onlyUnique(value, index, self) {
-        return self.indexOf(value) === index;
-      }
-    
-      var unique = progtalk.filter(onlyUnique);
-      console.log(unique);
-
-      //day1
-      const day1date = [];
-      const openHouseDay1 = [];
-      day1date.push(unique[0]);
-      this.setState({ day1date: day1date });
+      this.setState({openHouseDay1: dates[0].date}) // Use date from OpenHouse  
+      this.setState({openHouseDay2: dates[1].date}) // Use date from OpenHouse       
       var day1_counter = 1;
 
       const day1  = db
-      .collection("ProgrammeTalks").where("date", "==", unique[0])
+      .collection("ProgrammeTalks").where("date", "==", dates[0].date)
       .get()
       .then((snapshot) => {
         const progtalk = [];
@@ -247,7 +225,9 @@ class ProgrammeTalkSchedule extends Component {
             day1_counter: day1_counter,
           };
             day1_counter++;
-            progtalk.push(data);
+            if(!doc.data().isLive && !doc.data().hasRecording) {
+              progtalk.push(data)
+            }
         });
         this.setState({ day1: progtalk });
         this.setState({ day1Date: progtalk[0].date}) 
@@ -255,44 +235,65 @@ class ProgrammeTalkSchedule extends Component {
       });
 
       //day 2
-      const day2date = [];
-      const openHouseDay2 = [];
-      day2date.push(unique[1]);
-      this.setState({ day2: day2date });
       var day2_counter = 1
 
       const day2  = db
-      .collection("ProgrammeTalks").where("date", "==", unique[1])
+      .collection("ProgrammeTalks").where("date", "==", dates[1].date)
       .get()
       .then((snapshot) => {
-          const progtalk = [];
-          snapshot.forEach((doc) => {
-            const data = {
-              docid: doc.id,
-              id: doc.data().id,
-              talkName:doc.data().talkName,
-              awardingUni: doc.data().awardingUni,
-              startTime:  doc.data().startTime,     
-              endTime: doc.data().endTime,
-              date: doc.data().date,
-              venue: doc.data().venue,
-              capacityLimit: doc.data().capacityLimit.toString(),
-              noRegistered: doc.data().noRegistered.toString(),
-              hasRecording: doc.data().hasRecording.toString(),
-              url: doc.data().url,
-              isLive: doc.data().isLive.toString(),
-              details: doc.data().details,
-              discipline: doc.data().discipline,
-              day2_counter: day2_counter,
-            };
-            day2_counter++;
-            progtalk.push(data);
-          });
-          this.setState({ day2: progtalk });   
-          this.setState({ day2Date: progtalk[0].date}) 
-          this.setState({ openHouseDay2: dates[1].date}) // Use date from OpenHouse
+        const progtalk = [];
+        snapshot.forEach((doc) => {
+          const data = {
+            docid: doc.id,
+            id: doc.data().id,
+            talkName:doc.data().talkName,
+            awardingUni: doc.data().awardingUni,
+            startTime:  doc.data().startTime,     
+            endTime: doc.data().endTime,
+            date: doc.data().date,
+            venue: doc.data().venue,
+            capacityLimit: doc.data().capacityLimit.toString(),
+            noRegistered: doc.data().noRegistered.toString(),
+            hasRecording: doc.data().hasRecording.toString(),
+            url: doc.data().url,
+            isLive: doc.data().isLive.toString(),
+            details: doc.data().details,
+            discipline: doc.data().discipline,
+            day2_counter: day2_counter,
+          };
+          day2_counter++;
+          if(!doc.data().isLive && !doc.data().hasRecording) {
+            progtalk.push(data)
+          }        
         });
-    });  
+        this.setState({ day2: progtalk });   
+        this.setState({ day2Date: progtalk[0].date}) 
+        this.setState({ openHouseDay2: dates[1].date}) // Use date from OpenHouse
+      });
+    })
+    
+    // const userRef = db
+    // .collection("ProgrammeTalks")
+    // .where('date', '>=', "2021")
+    // .get()
+    // .then((snapshot) => {
+    //   snapshot.forEach((doc) => {
+    //     progtalk.push(doc.data().date);
+    //   });
+    //   this.state.progList = progtalk;
+    //   function onlyUnique(value, index, self) {
+    //     return self.indexOf(value) === index;
+    //   }
+    
+    //   var unique = progtalk.filter(onlyUnique);
+    //   console.log(unique);
+
+      //day1
+      // const day1date = [];
+      // const openHouseDay1 = [];
+      // day1date.push(unique[0]);
+  
+    // });  
   }
 
   addProgrammeTalk = (e) => { 
@@ -315,8 +316,6 @@ class ProgrammeTalkSchedule extends Component {
           var docid= "";
           var res = doc.data().id.substring(8, 5);
           var id = parseInt(res);
-          var hasRecording = (this.state.hasRecording === "false");
-          var isLive = (this.state.isLive === "false");
           id += 1
 
           if(id.toString().length == 1){
@@ -337,8 +336,8 @@ class ProgrammeTalkSchedule extends Component {
             capacityLimit: +this.state.capacityLimit,
             date: this.state.date,
             endTime: this.state.endTime,
-            hasRecording: hasRecording,
-            isLive: isLive,
+            hasRecording: false,
+            isLive: false,
             noRegistered: +this.state.noRegistered,
             startTime: this.state.startTime,
             talkName: this.state.talkName,
@@ -855,7 +854,7 @@ class ProgrammeTalkSchedule extends Component {
         </Container>
 
 
-        {/* Add Programme Talk Modal */}
+        {/* dayramme Talk Modal */}
         <Modal 
           show={this.state.addProgTalkModal}
           onHide={this.handleAddProgTalkModal}
