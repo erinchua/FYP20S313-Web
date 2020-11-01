@@ -13,8 +13,6 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
-import AddLiveTalkModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/AddLiveTalkModal";
-import EditLiveTalkModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/EditLiveTalkModal";
 import DeleteLiveTalkModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/DeleteLiveTalkModal";
 
 
@@ -136,7 +134,7 @@ class LiveTalk extends Component {
       this.setState({openHouseDates: dates})
       this.setState({openHouseDay1: dates[0].date}) // Use date from OpenHouse  
       this.setState({openHouseDay2: dates[1].date}) // Use date from OpenHouse 
-      const openHouseDay1 = [];
+
       var day1_counter = 1;
 
       db
@@ -169,7 +167,6 @@ class LiveTalk extends Component {
       });
 
       //day 2
-      const openHouseDay2 = [];
       var day2_counter = 1
       
       db
@@ -291,7 +288,7 @@ class LiveTalk extends Component {
     });
   }
 
-  // **No need the following function. Using editProgTalk() instead.
+  // **No need the following function. Using editLiveTalk() instead.
   // update(e, livetalkid) {
     // const talkName = document.getElementById(livetalkid + "talkname").value
     // const awardingUni = document.getElementById(livetalkid + "awarduni").value
@@ -364,6 +361,7 @@ class LiveTalk extends Component {
     }
   }
 
+  /* Don't need cancel function as we can just hide the modal if cancel */
   // CancelEdit(e, livetalkid) {
   //   document.getElementById(livetalkid + "spantalkname").setAttribute("hidden", "");
   //   document.getElementById(livetalkid + "spanawarduni").setAttribute("hidden", "");
@@ -381,25 +379,6 @@ class LiveTalk extends Component {
   //     texttohide[i].removeAttribute("hidden", "");
   //   }
   // }
-
-  handleSaveChanges = () => {
-    this.setState({
-      awardingUni: this.state.awardingUni,
-      capacityLimit: this.state.capacityLimit,
-      date: this.state.date,
-      endTime: this.state.endTime,
-      hasRecording: this.state.hasRecording,
-      isLive: this.state.isLive,
-      noRegistered: this.state.noRegistered,
-      startTime: this.state.startTime,
-      talkName: this.state.talkName,
-      venue: this.state.venue,
-      url: this.state.url,
-      details: this.state.details,
-      discipline: this.state.discipline,
-      handleEditLiveTalkModal: false
-    });
-  }
 
   /* Add Live Talk Modal */
   handleAddLiveTalkModal = () => {
@@ -500,8 +479,7 @@ class LiveTalk extends Component {
 
     if (liveTalkError || universityError || venueError || startTimeError || endTimeError || dateError || urlError) {
       this.setState({
-        liveTalkError, universityError, venueError, startTimeError, endTimeError, dateError, universityError,
-        urlError
+        liveTalkError, universityError, venueError, startTimeError, endTimeError, dateError, urlError
       });
       return false;
     } 
