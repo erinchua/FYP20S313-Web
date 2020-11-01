@@ -450,7 +450,7 @@ class LiveTalk extends Component {
     let urlError = "";
 
     if ( !(this.state.talkName && this.state.talkName.length >= 4) ) {
-      liveTalkError = "Please enter a valid programme talk name!";
+      liveTalkError = "Please enter a valid live talk name!";
     } 
     
     if (!this.state.awardingUni) {
@@ -458,7 +458,7 @@ class LiveTalk extends Component {
     }
 
     if (! (this.state.venue && this.state.venue.length >= 3) ) {
-      venueError = "Please enter a valid value. E.g. SIM HQ BLK A Atrium!";
+      venueError = "Please enter a valid venue. E.g. SIM HQ BLK A Atrium!";
     }
 
     if ( !(this.state.startTime.includes(":") && (this.state.startTime.includes("AM") || this.state.startTime.includes("PM"))) ) {
@@ -474,7 +474,7 @@ class LiveTalk extends Component {
     }
 
     if ( !(this.state.url.includes(":") && this.state.url.includes("/")) ) {
-      urlError = "Please enter a valid live talk url!";
+      urlError = "Please enter a valid url!";
     }
 
     if (liveTalkError || universityError || venueError || startTimeError || endTimeError || dateError || urlError) {
