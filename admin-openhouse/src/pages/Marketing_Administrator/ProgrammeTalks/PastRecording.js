@@ -604,7 +604,7 @@ class PastRecording extends Component {
     let urlError = "";
 
     if ( !(this.state.talkName && this.state.talkName.length >= 4) ) {
-      pastRecError = "Please enter a valid programme talk name!";
+      pastRecError = "Please enter a valid recording name!";
     } 
     
     if (!this.state.awardingUni) {
@@ -612,7 +612,7 @@ class PastRecording extends Component {
     }
 
     if (! (this.state.venue && this.state.venue.length >= 3) ) {
-      venueError = "Please enter a valid value. E.g. SIM HQ BLK A Atrium!";
+      venueError = "Please enter a valid venue. E.g. SIM HQ BLK A Atrium!";
     }
 
     if ( !(this.state.startTime.includes(":") && (this.state.startTime.includes("AM") || this.state.startTime.includes("PM"))) ) {
@@ -631,9 +631,8 @@ class PastRecording extends Component {
       disciplineError = "Please select at least 1 discipline!";
     }
 
-    // ( !(this.state.url.includes(":") && this.state.url.includes("/")) )
-    if ( !this.state.url) {  
-      urlError = "Please enter a valid past recording url!";
+    if ( !(this.state.url.includes(":") && this.state.url.includes("/")) ) {  
+      urlError = "Please enter a valid url!";
     }
 
     if (pastRecError || universityError || venueError || startTimeError || endTimeError || dateError || disciplineError || urlError ) {
@@ -926,13 +925,13 @@ class PastRecording extends Component {
                   </Form.Row>
 
                   {/* File */}
-                  <Form.Row className="justify-content-center addPastRecForm_InnerRow">
+                  {/* <Form.Row className="justify-content-center addPastRecForm_InnerRow">
                     <Col md="10" className="text-left">
                       <Form.File name="url" className="addPastRecForm_RecFile" label={this.state.url} onChange={this.updateInput} custom required />
                       
                       <div className="errorMessage text-left">{this.state.urlError}</div>
                     </Col>
-                  </Form.Row>
+                  </Form.Row> */}
 
                   {/* Start/End Time */}
                   <Form.Row className="justify-content-center addPastRecForm_InnerRow">
@@ -967,6 +966,15 @@ class PastRecording extends Component {
                     </Col>
                   </Form.Row>
                   
+                  {/* URL */}
+                  <Form.Row className="justify-content-center addPastRecForm_InnerRow">
+                    <Col md="10" className="text-left">
+                      <Form.Label className="addPastRecFormLabel">Recording URL</Form.Label>                                     
+                      <FormControl as="textarea" name="url" rows="4" onChange={this.updateInput} required noValidate id="addPastRecForm_PastRecURL" placeholder="Past Recording URL*" />                                       
+                      
+                      <div className="errorMessage text-left">{this.state.urlError}</div>
+                    </Col>
+                  </Form.Row>
                 </Col>
 
                 {/* Right Col */}
@@ -1114,13 +1122,13 @@ class PastRecording extends Component {
                   </Form.Row>
 
                   {/* File */}
-                  <Form.Row className="justify-content-center editPastRecForm_InnerRow">
+                  {/* <Form.Row className="justify-content-center editPastRecForm_InnerRow">
                     <Col md="10" className="text-left">
                         <Form.File name="url" className="editPastRecForm_RecFile" label={this.state.url} onChange={this.updateInput} custom required />
                         
                         <div className="errorMessage text-left">{this.state.urlError}</div>
                     </Col>
-                  </Form.Row>
+                  </Form.Row> */}
 
                   {/* Start/End Time */}
                   <Form.Row className="justify-content-center editPastRecForm_InnerRow">
@@ -1154,7 +1162,16 @@ class PastRecording extends Component {
                       <div className="errorMessage text-left">{this.state.endTimeError}</div>
                     </Col>
                   </Form.Row>
-                    
+
+                  {/* URL */}
+                  <Form.Row className="justify-content-center editPastRecForm_InnerRow">
+                    <Col md="10" className="text-left">
+                      <Form.Label className="editPastRecFormLabel">Recording URL</Form.Label>                                     
+                      <FormControl as="textarea" name="url" rows="4" defaultValue={this.state.url} onChange={this.updateInput} required noValidate id="editPastRecForm_PastRecURL" placeholder="Past Recording URL*" />                                       
+                      
+                      <div className="errorMessage text-left">{this.state.urlError}</div>
+                    </Col>
+                  </Form.Row>
                 </Col>
 
                 {/* Right Col */}

@@ -569,7 +569,7 @@ class ProgrammeTalkSchedule extends Component {
     } 
 
     if (! (this.state.venue && this.state.venue.length >= 3) ) {
-      venueError = "Please enter a valid value. E.g. SIM HQ BLK A Atrium!";
+      venueError = "Please enter a valid venue. E.g. SIM HQ BLK A Atrium!";
     }
 
     if (! (this.state.capacityLimit && validCapacityLimit.test(this.state.capacityLimit)) ) {
