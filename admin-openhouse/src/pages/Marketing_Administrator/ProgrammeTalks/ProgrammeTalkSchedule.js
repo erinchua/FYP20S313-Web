@@ -904,7 +904,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" name="venue" onChange={this.updateInput} id="addProgTalkForm_Venue" placeholder="Venue*" required />
+                        <FormControl type="text" name="venue" onChange={this.updateInput} id="addProgTalkForm_Venue" placeholder="Venue*" required noValidate />
                       </InputGroup>
 
                       <div className="errorMessage text-left">{this.state.venueError}</div>
@@ -921,7 +921,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="number" min="0" name="capacityLimit" onChange={this.updateInput} id="addProgTalkForm_Capacity" placeholder="Capacity Limit*" required />
+                        <FormControl type="number" min="0" name="capacityLimit" onChange={this.updateInput} id="addProgTalkForm_Capacity" placeholder="Capacity Limit*" required noValidate />
                       </InputGroup>
 
                       <div className="errorMessage text-left">{this.state.capacityLimitError}</div>
@@ -939,7 +939,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="startTime" onChange={this.updateInput} id="addProgTalkForm_ProgTalkStartTime" placeholder="Start Time*" required />
+                        <FormControl type="text" name="startTime" onChange={this.updateInput} id="addProgTalkForm_ProgTalkStartTime" placeholder="Start Time*" required noValidate />
                       </InputGroup>
 
                       <div className="errorMessage text-left">{this.state.startTimeError}</div>
@@ -954,7 +954,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="endTime" onChange={this.updateInput} id="addProgTalkForm_ProgTalkEndTime" placeholder="End Time*" required />
+                        <FormControl type="text" name="endTime" onChange={this.updateInput} id="addProgTalkForm_ProgTalkEndTime" placeholder="End Time*" required noValidate />
                       </InputGroup>
 
                       <div className="errorMessage text-left">{this.state.endTimeError}</div>
@@ -1093,7 +1093,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" name="talkName" defaultValue={this.state.talkName} onChange={this.updateInput} id="editProgTalkForm_ProgTalkName" placeholder="Name of Programme Talk*" required />
+                        <FormControl type="text" name="talkName" defaultValue={this.state.talkName} onChange={this.updateInput} id="editProgTalkForm_ProgTalkName" placeholder="Name of Programme Talk*" required noValidate />
                       </InputGroup>
 
                       <div className="errorMessage text-left">{this.state.progTalkError}</div>
@@ -1110,7 +1110,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" name="venue" defaultValue={this.state.venue} onChange={this.updateInput} id="editProgTalkForm_Venue" placeholder="Venue*" required />
+                        <FormControl type="text" name="venue" defaultValue={this.state.venue} onChange={this.updateInput} id="editProgTalkForm_Venue" placeholder="Venue*" required noValidate />
                       </InputGroup>
 
                       <div className="errorMessage text-left">{this.state.venueError}</div>
@@ -1127,7 +1127,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="number" min="0" name="capacityLimit" defaultValue={this.state.capacityLimit} onChange={this.updateInput} id="editProgTalkForm_Capacity" placeholder="Capacity Limit*" required />
+                        <FormControl type="number" min="0" name="capacityLimit" defaultValue={this.state.capacityLimit} onChange={this.updateInput} id="editProgTalkForm_Capacity" placeholder="Capacity Limit*" required noValidate />
                       </InputGroup>
 
                       <div className="errorMessage text-left">{this.state.capacityLimitError}</div>
@@ -1145,7 +1145,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="startTime" defaultValue={this.state.startTime} onChange={this.updateInput} id="editProgTalkForm_ProgTalkStartTime" placeholder="Start Time*" required />
+                        <FormControl type="text" name="startTime" defaultValue={this.state.startTime} onChange={this.updateInput} id="editProgTalkForm_ProgTalkStartTime" placeholder="Start Time*" required noValidate />
                       </InputGroup>
 
                       <div className="errorMessage text-left">{this.state.startTimeError}</div>
@@ -1160,7 +1160,7 @@ class ProgrammeTalkSchedule extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="endTime" defaultValue={this.state.endTime} onChange={this.updateInput} id="editProgTalkForm_ProgTalkEndTime" placeholder="End Time*" required />
+                        <FormControl type="text" name="endTime" defaultValue={this.state.endTime} onChange={this.updateInput} id="editProgTalkForm_ProgTalkEndTime" placeholder="End Time*" required noValidate />
                       </InputGroup>
 
                       <div className="errorMessage text-left">{this.state.endTimeError}</div>
