@@ -265,6 +265,7 @@ class StudySIM_ITComputerSciences extends Component {
                                         className="studySIMProgData_ProgNameLink"
                                         onClick={() => {
                                           this.setState({
+                                            programmeName: ITComputerScience.programmeName,
                                             aboutprogramme1:
                                               ITComputerScience.aboutprogramme
                                                 .aboutProgramme1,
@@ -632,6 +633,7 @@ class StudySIM_ITComputerSciences extends Component {
           keyboard={false}
         >
           <ViewStudySIMProgDetailsModal
+          programmeName={this.state.programmeName}
             aboutprogramme1={this.state.aboutprogramme1}
             aboutprogramme2={this.state.aboutprogramme2}
             aboutprogramme3={this.state.aboutprogramme3}

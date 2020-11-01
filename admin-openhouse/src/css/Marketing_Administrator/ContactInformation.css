@@ -176,7 +176,7 @@
 
 .contactInfoDataInfo_InnerRow {
     width: 100%;
-    border: none !important;
+    padding: 1%;
 }
 
 /*******************************************************/
@@ -216,10 +216,16 @@
     border: none !important;
 }
 
-.editContactInfoForm_OperatingHours {
-    border-radius: 6px;
-    color: #434343;
-    font-size: 85%;
+.editContactInfoForm_InputField {
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    color: #434343 !important;
+    font-size: 85% !important;
+    border-radius: 0 !important;
+}
+
+.editContactInfoForm_InputField:focus {
+    box-shadow: none !important;
 }
 
 .editContactInfoFormLabel {

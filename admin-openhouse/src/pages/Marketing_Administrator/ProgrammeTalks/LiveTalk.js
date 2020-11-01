@@ -338,7 +338,6 @@ class LiveTalk extends Component {
     if (isValid) {
       this.setState(initialStates);
 
-      console.log(this.state.id)
       const db = fire.firestore();
       db
       .collection("ProgrammeTalks")

@@ -19,7 +19,7 @@ export default class ViewStudySIMProgDetailsModal extends React.Component {
         <Modal.Header closeButton className="justify-content-center">
           {/* To be retrieved from db */}
           <Modal.Title id="viewStudySIMProgDetailsModalTitle" className="w-100">
-            Programme Name
+            {this.props.programmeName}
           </Modal.Title>
         </Modal.Header>
 

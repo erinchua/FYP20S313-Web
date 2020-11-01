@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
-import { Container, Row, Col, Button, Table, Modal, Tab, Nav, Form, FormControl, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Button, Table, Modal, Tab, Nav, Form, FormControl } from 'react-bootstrap';
 
 import "../../../css/Marketing_Administrator/ContactInformation.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBusinessTime } from '@fortawesome/free-solid-svg-icons';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 
 import NavBar from '../../../components/Navbar';
@@ -14,7 +13,17 @@ import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
 
 
+const initialStates = {
+  weekdayError: "",
+  weekendError: "",
+  noOperationError: "",
+  contactNoError: "",
+  emailError: "",
+}
+
 class ContactInformation extends Component {
+  state = initialStates;
+
   constructor() {
     super();
     this.state = {
@@ -27,8 +36,12 @@ class ContactInformation extends Component {
       noOperation: "",
       id: "",
 
-      editContactInfoModal: false
+      editContactInfoModal: false,
+      operatingHoursRow: false,
+      contactNoRow: false,
+      emailRow: false
     };
+    this.resetForm = this.resetForm.bind(this);
   }
 
   authListener() {
@@ -91,31 +104,31 @@ class ContactInformation extends Component {
     });
   }
 
-  update(e, contactid) {
-    const contactNo = document.getElementById(contactid + "number").value
-    const email = document.getElementById(contactid + "email").value
-    const noOperation = document.getElementById(contactid + "nooperate").value
-    const weekday = document.getElementById(contactid + "weekday").value
-    const weekend = document.getElementById(contactid + "weekend").value
+  // update(e, contactid) {
+  //   const contactNo = document.getElementById(contactid + "number").value
+  //   const email = document.getElementById(contactid + "email").value
+  //   const noOperation = document.getElementById(contactid + "nooperate").value
+  //   const weekday = document.getElementById(contactid + "weekday").value
+  //   const weekend = document.getElementById(contactid + "weekend").value
 
-    const db = fire.firestore();
-    if (contactNo != null && email != null && noOperation != null && weekday != null && weekend != null) {
-      const userRef = db
-      .collection("ContactInfo")
-      .doc(contactid)
-      .update({
-          contactNo: contactNo,
-          email: email,
-          noOperation: noOperation,
-          weekday: weekday,
-          weekend: weekend,
-      })
-      .then(function () {
-        alert("Updated");
-        window.location.reload();
-      });
-    }
-  }
+  //   const db = fire.firestore();
+  //   if (contactNo != null && email != null && noOperation != null && weekday != null && weekend != null) {
+  //     const userRef = db
+  //     .collection("ContactInfo")
+  //     .doc(contactid)
+  //     .update({
+  //         contactNo: contactNo,
+  //         email: email,
+  //         noOperation: noOperation,
+  //         weekday: weekday,
+  //         weekend: weekend,
+  //     })
+  //     .then(function () {
+  //       alert("Updated");
+  //       window.location.reload();
+  //     });
+  //   }
+  // }
 
   editContact(e, contactid) {
     // document.getElementById(contactid + "spannumber").removeAttribute("hidden");
@@ -132,6 +145,29 @@ class ContactInformation extends Component {
     // for (var i = 0; i < texttohide.length; i++) {
     //   texttohide[i].setAttribute("hidden", "");
     // }  
+
+    const isValid = this.validate();
+    if (isValid) {
+      this.setState(initialStates);
+
+      const db = fire.firestore();
+      db
+      .collection("ContactInfo")
+      .doc(this.state.id)
+      .update({
+        contactNo: this.state.contactNo,
+        email: this.state.email,
+        noOperation: this.state.noOperation,
+        weekday: this.state.weekday,
+        weekend: this.state.weekend,
+      })
+      .then(dataSnapshot => {
+        this.setState({
+          editContactInfoModal: false
+        })
+        this.display()
+      }); 
+    }
   }
 
   // CancelEdit(e, contactid) {
@@ -152,23 +188,119 @@ class ContactInformation extends Component {
   // }
 
   /* Edit Contact Information Modal */
-  handleEditContactInfoModal = (contactInfo) => {
+  handleEditContactInfoModal = (contactInfo, field) => {
     if (this.state.editContactInfoModal == false) {
-      this.setState({
-        editContactInfoModal: true,
-        // weekday: contactInfo.weekday,
-        // weekend: contactInfo.weekend,
-        // noOperation: contactInfo.noOperation,
-        // contactNo: contactInfo.contactNo,
-        // email: contactInfo.email
-      });
+      if (field === "openingHours") {
+        this.setState({
+          operatingHoursRow: true,
+          contactNoRow: false,
+          emailRow: false,
+          contactTitle: contactInfo.contactTitle,
+          editContactInfoModal: true,
+          id: contactInfo.id,
+          weekday: contactInfo.weekday,
+          weekend: contactInfo.weekend,
+          noOperation: contactInfo.noOperation,
+          contactNo: contactInfo.contactNo,
+          email: contactInfo.email
+        });
+      }
+      else if (field === "contactNo") {
+        this.setState({
+          operatingHoursRow: false,
+          contactNoRow: true,
+          emailRow: false,
+          contactTitle: contactInfo.contactTitle,
+          editContactInfoModal: true,
+          id: contactInfo.id,
+          weekday: contactInfo.weekday,
+          weekend: contactInfo.weekend,
+          noOperation: contactInfo.noOperation,
+          contactNo: contactInfo.contactNo,
+          email: contactInfo.email
+        });
+      }
+      else if (field === "email") {
+        this.setState({
+          operatingHoursRow: false,
+          contactNoRow: false,
+          emailRow: true,
+          contactTitle: contactInfo.contactTitle,
+          editContactInfoModal: true,
+          id: contactInfo.id,
+          weekday: contactInfo.weekday,
+          weekend: contactInfo.weekend,
+          noOperation: contactInfo.noOperation,
+          contactNo: contactInfo.contactNo,
+          email: contactInfo.email
+        });
+      }
     }
     else {
       this.setState({
         editContactInfoModal: false
       });
+      this.resetForm();
     }
   };
+
+  //Validations for the Forms in Modals
+  validate = () => {
+    let weekdayError = "";
+    let weekendError = "";
+    let noOperationError = "";
+    let contactNoError = "";
+    let emailError = "";
+
+    const validContactRegex = RegExp(/^\+[1-9]{1}[0-9]{1,14}$/);
+    const validEmailRegex = RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+
+    if (!this.state.weekday) {
+      weekdayError = "Operating hour for weekday cannot be empty! Put \- or N.A. if not applicable!";
+    } 
+    
+    if (!this.state.weekend) {
+      weekendError = "Operating hour for weekend cannot be empty! Put \- or N.A. if not applicable!";
+    }
+
+    if (!this.state.noOperation) {
+      noOperationError = "No operation field cannot be empty! Put \- or N.A. if not applicable!";
+    }
+
+    if (!(this.state.contactNo && validContactRegex.test(this.state.contactNo)) ) {
+      contactNoError = "Please enter a valid contact no. in this format: e.g. +65-61234567!";
+    }
+
+    if (!(this.state.email && validEmailRegex.test(this.state.email)) ) {
+      emailError = "Please enter a valid email!";
+    }
+
+
+    if (weekdayError || weekendError || noOperationError || contactNoError || emailError) {
+      this.setState({
+        weekdayError, weekendError, noOperationError, contactNoError, emailError
+      });
+      return false;
+    } 
+    return true;
+  }
+
+  //Reset Forms
+  resetForm = () => {
+    this.setState({
+      weekdayError: "",
+      weekendError: "",
+      noOperationError: "",
+      contactNoError: "",
+      emailError: "",
+      id: "", 
+      weekday: "", 
+      weekend: "", 
+      noOperation: "", 
+      contactNo: "", 
+      email: ""
+    })
+  }
 
 
   render() {
@@ -239,65 +371,73 @@ class ContactInformation extends Component {
                                         <th className="contactInfoHeader_Edit">Edit</th>
                                       </tr>
                                     </thead>
-              
                                     
                                     <tbody>
+                                      {/* Operating Hours Row */}
                                       {this.state.contact && this.state.contact.map((contactInfo) => {
                                         if(contactInfo.contactTitle === "General Enquiries"){
                                           return (
-                                            <>
-                                              {/* Operating Hours Row */}
-                                              <tr key={contactInfo.id}>
-                                                <td className="contactInfoData_SNo text-center">1</td>
-                                                <td className="contactInfoData_Type text-center">Operating Hours:</td>
-                                                <td className="contactInfoData_OperatingHrInfo text-left">
-                                                  <tr>
-                                                    <td className="contactInfoDataInfo_InnerRow"><b>Weekday:</b> {contactInfo.weekday}</td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td className="contactInfoDataInfo_InnerRow"><b>Weekend:</b> {contactInfo.weekend}</td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td className="contactInfoDataInfo_InnerRow"><b>Closed on:</b> {contactInfo.noOperation}</td>
-                                                  </tr>
-                                                </td>
-                                                <td className="contactInfoData_Edit text-center">
-                                                  <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal()}>
-                                                    <FontAwesomeIcon size="lg" className="editContactInfoBtnIcon" icon={faEdit} />
-                                                  </Button>
-                                                </td>
-                                              </tr>
-                                        
-                                              {/* Tel No. Row */}
-                                              <tr key={contactInfo.id}>
-                                                <td className="contactInfoData_SNo text-center">2</td>
-                                                <td className="contactInfoData_Type text-center">Tel No.</td>
-                                                <td className="contactInfoData_Info text-left">{contactInfo.contactNo}</td>
-                                                <td className="contactInfoData_Edit text-center">
-                                                  <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal()}>
-                                                    <FontAwesomeIcon size="lg" className="editContactInfoBtnIcon" icon={faEdit} />
-                                                  </Button>
-                                                </td>
-                                              </tr>
-
-                                              {/* Email Row */}
-                                              <tr key={contactInfo.id}>
-                                                <td className="contactInfoData_SNo text-center">3</td>
-                                                <td className="contactInfoData_Type text-center">Email:</td>
-                                                <td className="contactInfoData_Info text-left">{contactInfo.email}</td>
-                                                <td className="contactInfoData_Edit text-center">
-                                                  <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo.id)}>
-                                                    <FontAwesomeIcon size="lg" className="editContactInfoBtnIcon" icon={faEdit} />
-                                                  </Button>
-                                                </td>
-                                              </tr>
-                                            </>
+                                            <tr key={contactInfo.id}>
+                                              <td className="contactInfoData_SNo text-center">1</td>
+                                              <td className="contactInfoData_Type text-center">Operating Hours:</td>
+                                              <td className="contactInfoData_OperatingHrInfo text-left">
+                                                <Row className="contactInfoDataInfo_InnerRow">
+                                                  <Col className="contactInfoDataInfo_InnerCol"><b>Weekday:</b> {contactInfo.weekday}</Col>
+                                                </Row>
+                                                <Row className="contactInfoDataInfo_InnerRow">
+                                                  <Col className="contactInfoDataInfo_InnerCol"><b>Weekend:</b> {contactInfo.weekend}</Col>
+                                                </Row>
+                                                <Row className="contactInfoDataInfo_InnerRow">
+                                                  <Col className="contactInfoDataInfo_InnerCol"><b>Closed on:</b> {contactInfo.noOperation}</Col>
+                                                </Row>
+                                              </td>
+                                              <td className="contactInfoData_Edit text-center">
+                                                <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo, "openingHours")}>
+                                                  <FontAwesomeIcon size="lg" className="editContactInfoBtnIcon" icon={faEdit} />
+                                                </Button>
+                                              </td>
+                                            </tr>
                                           );
                                         }
                                       })}
-                                  
-                                    </tbody>
                                         
+                                      {/* Tel No. Row */}
+                                      {this.state.contact && this.state.contact.map((contactInfo) => {
+                                        if(contactInfo.contactTitle === "General Enquiries"){
+                                          return (
+                                            <tr key={contactInfo.id}>
+                                              <td className="contactInfoData_SNo text-center">2</td>
+                                              <td className="contactInfoData_Type text-center">Tel No.</td>
+                                              <td className="contactInfoData_Info text-left">{contactInfo.contactNo}</td>
+                                              <td className="contactInfoData_Edit text-center">
+                                                <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo, "contactNo")}>
+                                                  <FontAwesomeIcon size="lg" className="editContactInfoBtnIcon" icon={faEdit} />
+                                                </Button>
+                                              </td>
+                                            </tr>
+                                          );
+                                        }
+                                      })}
+
+                                      {/* Email Row */}
+                                      {this.state.contact && this.state.contact.map((contactInfo) => {
+                                        if(contactInfo.contactTitle === "General Enquiries"){
+                                          return (
+                                            <tr key={contactInfo.id}>
+                                              <td className="contactInfoData_SNo text-center">3</td>
+                                              <td className="contactInfoData_Type text-center">Email:</td>
+                                              <td className="contactInfoData_Info text-left">{contactInfo.email}</td>
+                                              <td className="contactInfoData_Edit text-center">
+                                                <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo, "email")}>
+                                                  <FontAwesomeIcon size="lg" className="editContactInfoBtnIcon" icon={faEdit} />
+                                                </Button>
+                                              </td>
+                                            </tr>
+                                          );
+                                        }
+                                      })}
+                                          
+                                    </tbody>                                      
                                   </Table>
                                 </Col>
                               </Tab.Pane>
@@ -315,60 +455,72 @@ class ContactInformation extends Component {
                                       </tr>
                                     </thead>
               
-                                    {this.state.contact && this.state.contact.map((contactInfo) => {
-                                      if(contactInfo.contactTitle === "Student Services Enquiries"){
-                                        return (
-                                          <tbody key={contactInfo.id}>
-                                            {/* Operating Hours Row */}
-                                            <tr>
+                                    <tbody>
+                                      {/* Operating Hours Row */}
+                                      {this.state.contact && this.state.contact.map((contactInfo) => {
+                                        if(contactInfo.contactTitle === "Student Services Enquiries"){
+                                          return (
+                                            <tr key={contactInfo.id}>
                                               <td className="contactInfoData_SNo text-center">1</td>
                                               <td className="contactInfoData_Type text-center">Operating Hours:</td>
                                               <td className="contactInfoData_OperatingHrInfo text-left">
-                                                <tr>
-                                                  <td className="contactInfoDataInfo_InnerRow"><b>Weekday:</b> {contactInfo.weekday}</td>
-                                                </tr>
-                                                <tr>
-                                                  <td className="contactInfoDataInfo_InnerRow"><b>Weekend:</b> {contactInfo.weekend}</td>
-                                                </tr>
-                                                <tr>
-                                                  <td className="contactInfoDataInfo_InnerRow"><b>Closed on:</b> {contactInfo.noOperation}</td>
-                                                </tr>
+                                                <Row className="contactInfoDataInfo_InnerRow">
+                                                  <Col className="contactInfoDataInfo_InnerCol"><b>Weekday:</b> {contactInfo.weekday}</Col>
+                                                </Row>
+                                                <Row className="contactInfoDataInfo_InnerRow">
+                                                  <Col className="contactInfoDataInfo_InnerCol"><b>Weekend:</b> {contactInfo.weekend}</Col>
+                                                </Row>
+                                                <Row className="contactInfoDataInfo_InnerRow">
+                                                  <Col className="contactInfoDataInfo_InnerCol"><b>Closed on:</b> {contactInfo.noOperation}</Col>
+                                                </Row>
                                               </td>
                                               <td className="contactInfoData_Edit text-center">
-                                                <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo.id)}>
+                                                <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo, "openingHours")}>
                                                   <FontAwesomeIcon size="lg" className="editContactInfoBtnIcon" icon={faEdit} />
                                                 </Button>
                                               </td>
                                             </tr>
-                                      
-                                            {/* Tel No. Row */}
-                                            <tr>
+                                          );
+                                        }
+                                      })}
+                                        
+                                      {/* Tel No. Row */}
+                                      {this.state.contact && this.state.contact.map((contactInfo) => {
+                                        if(contactInfo.contactTitle === "Student Services Enquiries"){
+                                          return (
+                                            <tr key={contactInfo.id}>
                                               <td className="contactInfoData_SNo text-center">2</td>
                                               <td className="contactInfoData_Type text-center">Tel No.</td>
                                               <td className="contactInfoData_Info text-left">{contactInfo.contactNo}</td>
                                               <td className="contactInfoData_Edit text-center">
-                                                <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo.id)}>
+                                                <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo, "contactNo")}>
                                                   <FontAwesomeIcon size="lg" className="editContactInfoBtnIcon" icon={faEdit} />
                                                 </Button>
                                               </td>
                                             </tr>
+                                          );
+                                        }
+                                      })}
 
-                                            {/* Email Row */}
-                                            <tr>
+                                      {/* Email Row */}
+                                      {this.state.contact && this.state.contact.map((contactInfo) => {
+                                        if(contactInfo.contactTitle === "Student Services Enquiries"){
+                                          return (
+                                            <tr key={contactInfo.id}>
                                               <td className="contactInfoData_SNo text-center">3</td>
                                               <td className="contactInfoData_Type text-center">Email:</td>
                                               <td className="contactInfoData_Info text-left">{contactInfo.email}</td>
                                               <td className="contactInfoData_Edit text-center">
-                                                <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo.id)}>
+                                                <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo, "email")}>
                                                   <FontAwesomeIcon size="lg" className="editContactInfoBtnIcon" icon={faEdit} />
                                                 </Button>
                                               </td>
                                             </tr>
-                                        
-                                          </tbody>
-                                        );
-                                      }
-                                    })}
+                                          );
+                                        }
+                                      })}
+                                          
+                                    </tbody>
 
                                   </Table>
                                 </Col>
@@ -387,60 +539,72 @@ class ContactInformation extends Component {
                                       </tr>
                                     </thead>
               
-                                    {this.state.contact && this.state.contact.map((contactInfo) => {
-                                      if(contactInfo.contactTitle === "Programmes Enquiries"){
-                                        return (
-                                          <tbody key={contactInfo.id}>
-                                            {/* Operating Hours Row */}
-                                            <tr>
+                                    <tbody>
+                                      {/* Operating Hours Row */}
+                                      {this.state.contact && this.state.contact.map((contactInfo) => {
+                                        if(contactInfo.contactTitle === "Programmes Enquiries"){
+                                          return (
+                                            <tr key={contactInfo.id}>
                                               <td className="contactInfoData_SNo text-center">1</td>
                                               <td className="contactInfoData_Type text-center">Operating Hours:</td>
                                               <td className="contactInfoData_OperatingHrInfo text-left">
-                                                <tr>
-                                                  <td className="contactInfoDataInfo_InnerRow"><b>Weekday:</b> {contactInfo.weekday}</td>
-                                                </tr>
-                                                <tr>
-                                                  <td className="contactInfoDataInfo_InnerRow"><b>Weekend:</b> {contactInfo.weekend}</td>
-                                                </tr>
-                                                <tr>
-                                                  <td className="contactInfoDataInfo_InnerRow"><b>Closed on:</b> {contactInfo.noOperation}</td>
-                                                </tr>
+                                                <Row className="contactInfoDataInfo_InnerRow">
+                                                  <Col className="contactInfoDataInfo_InnerCol"><b>Weekday:</b> {contactInfo.weekday}</Col>
+                                                </Row>
+                                                <Row className="contactInfoDataInfo_InnerRow">
+                                                  <Col className="contactInfoDataInfo_InnerCol"><b>Weekend:</b> {contactInfo.weekend}</Col>
+                                                </Row>
+                                                <Row className="contactInfoDataInfo_InnerRow">
+                                                  <Col className="contactInfoDataInfo_InnerCol"><b>Closed on:</b> {contactInfo.noOperation}</Col>
+                                                </Row>
                                               </td>
                                               <td className="contactInfoData_Edit text-center">
-                                                <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo.id)}>
+                                                <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo, "openingHours")}>
                                                   <FontAwesomeIcon size="lg" className="editContactInfoBtnIcon" icon={faEdit} />
                                                 </Button>
                                               </td>
                                             </tr>
-                                      
-                                            {/* Tel No. Row */}
-                                            <tr>
+                                          );
+                                        }
+                                      })}
+                                        
+                                      {/* Tel No. Row */}
+                                      {this.state.contact && this.state.contact.map((contactInfo) => {
+                                        if(contactInfo.contactTitle === "Programmes Enquiries"){
+                                          return (
+                                            <tr key={contactInfo.id}>
                                               <td className="contactInfoData_SNo text-center">2</td>
                                               <td className="contactInfoData_Type text-center">Tel No.</td>
                                               <td className="contactInfoData_Info text-left">{contactInfo.contactNo}</td>
                                               <td className="contactInfoData_Edit text-center">
-                                                <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo.id)}>
+                                                <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo, "contactNo")}>
                                                   <FontAwesomeIcon size="lg" className="editContactInfoBtnIcon" icon={faEdit} />
                                                 </Button>
                                               </td>
                                             </tr>
+                                          );
+                                        }
+                                      })}
 
-                                            {/* Email Row */}
-                                            <tr>
+                                      {/* Email Row */}
+                                      {this.state.contact && this.state.contact.map((contactInfo) => {
+                                        if(contactInfo.contactTitle === "Programmes Enquiries"){
+                                          return (
+                                            <tr key={contactInfo.id}>
                                               <td className="contactInfoData_SNo text-center">3</td>
                                               <td className="contactInfoData_Type text-center">Email:</td>
                                               <td className="contactInfoData_Info text-left">{contactInfo.email}</td>
                                               <td className="contactInfoData_Edit text-center">
-                                                <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo.id)}>
+                                                <Button className="editContactInfoBtn" onClick={()=>this.handleEditContactInfoModal(contactInfo, "email")}>
                                                   <FontAwesomeIcon size="lg" className="editContactInfoBtnIcon" icon={faEdit} />
                                                 </Button>
                                               </td>
                                             </tr>
-                                        
-                                          </tbody>
-                                        );
-                                      }
-                                    })}
+                                          );
+                                        }
+                                      })}
+                                          
+                                    </tbody>
 
                                   </Table>
                                 </Col>
@@ -476,40 +640,87 @@ class ContactInformation extends Component {
           keyboard={false}
         >
           <Modal.Header closeButton className="justify-content-center">
-            <Modal.Title id="editContactInfoModalTitle" className="w-100">
-              Edit Operating Hours
-            </Modal.Title>
+            {this.state.operatingHoursRow ?
+              <Modal.Title id="editContactInfoModalTitle" className="w-100">Edit Operating Hours</Modal.Title>
+              :""
+            }
+
+            {this.state.contactNoRow ?
+              <Modal.Title id="editContactInfoModalTitle" className="w-100">Edit Contact No.</Modal.Title>
+              :""
+            }
+
+            {this.state.emailRow ?
+              <Modal.Title id="editContactInfoModalTitle" className="w-100">Edit Email</Modal.Title>
+              :""
+            }
           </Modal.Header>
 
           <Modal.Body id="editContactInfoModalBody">
-            <Form noValidate> {/* onSubmit={this.edit} */}
-              {/* Operating Time - Weekday */}
-              <Form.Row className="justify-content-center editContactInfoFormRow">
-                <Col md="10">
-                  <Form.Label className="editContactInfoFormLabel">Weekday</Form.Label>
-                  <FormControl defaultValue={this.state.weekday} required noValidate className="editContactInfoForm_OperatingHours" placeholder="Weekday" />
-                
-                </Col>
-              </Form.Row>
+            <Form noValidate onClick={() => {this.editContact()}}>
+              {/* Operating Hours */}
+              {this.state.operatingHoursRow ?
+                <>
+                  <Form.Row className="justify-content-center editContactInfoFormRow">
+                    <Col md="10">
+                      <Form.Label className="editContactInfoFormLabel">Weekday</Form.Label>
+                      <FormControl defaultValue={this.state.weekday} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Weekday" />
+                      
+                      <div className="errorMessage text-left">{this.state.weekdayError}</div>
+                    </Col>
+                  </Form.Row>
 
-              {/* Operating Time - Weekend */}
-              <Form.Row className="justify-content-center editContactInfoFormRow">
-                <Col md="10">
-                  <Form.Label className="editContactInfoFormLabel">Weekend</Form.Label>
-                  <FormControl defaultValue={this.state.weekend} required noValidate className="editContactInfoForm_OperatingHours" placeholder="Weekend" />
-                
-                </Col>
-              </Form.Row>
+                  <Form.Row className="justify-content-center editContactInfoFormRow">
+                    <Col md="10">
+                      <Form.Label className="editContactInfoFormLabel">Weekend</Form.Label>
+                      <FormControl defaultValue={this.state.weekend} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Weekend" />
+                    
+                      <div className="errorMessage text-left">{this.state.weekendError}</div>
+                    </Col>
+                  </Form.Row>
 
-              {/* Operating Time - Closed On */}
-              <Form.Row className="justify-content-center editContactInfoFormRow">
-                <Col md="10">
-                  <Form.Label className="editContactInfoFormLabel">Closed on</Form.Label>
-                  <FormControl defaultValue={this.state.noOperation} required noValidate className="editContactInfoForm_OperatingHours" placeholder="Closed on" />
-                
-                </Col>
-              </Form.Row>
+                  <Form.Row className="justify-content-center editContactInfoFormRow">
+                    <Col md="10">
+                      <Form.Label className="editContactInfoFormLabel">Closed on</Form.Label>
+                      <FormControl defaultValue={this.state.noOperation} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Closed on" />
+                    
+                      <div className="errorMessage text-left">{this.state.noOperationError}</div>
+                    </Col>
+                  </Form.Row> 
+                </>
+                : ""
+              }
 
+              {/* Tel No. */}
+              {this.state.contactNoRow ?
+                <>
+                  <Form.Row className="justify-content-center editContactInfoFormRow">
+                    <Col md="10">
+                      <Form.Label className="editContactInfoFormLabel">Tel No.</Form.Label>
+                      <FormControl defaultValue={this.state.contactNo} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Tel No." />
+                    
+                      <div className="errorMessage text-left">{this.state.contactNoError}</div>
+                    </Col>
+                  </Form.Row>
+                </>
+                : ""
+              }
+
+              {/* Email */}
+              {this.state.emailRow ?
+                <>
+                  <Form.Row className="justify-content-center editContactInfoFormRow">
+                    <Col md="10">
+                      <Form.Label className="editContactInfoFormLabel">Email</Form.Label>
+                      <FormControl defaultValue={this.state.email} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Email" />
+                    
+                      <div className="errorMessage text-left">{this.state.emailError}</div>
+                    </Col>
+                  </Form.Row>
+                </>
+                : ""
+              }
+            
             </Form>
           </Modal.Body>
 
@@ -518,7 +729,7 @@ class ContactInformation extends Component {
             <Container>
               <Row>
                 <Col md="6" className="text-right">
-                  <Button id="saveChangesContactInfoFormBtn">Save Changes</Button>
+                  <Button id="saveChangesContactInfoFormBtn" onClick={(e) => {this.editContact()}}>Save Changes</Button>
                 </Col>
 
                 <Col md="6" className="text-left">

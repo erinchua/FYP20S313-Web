@@ -20,7 +20,7 @@ class CampusFacilitiesMap extends Component {
       blockName: "",
       facilityName: "",
       location: "",
-      URL: "",
+      url: "",
       progress: "",
 
       editCampusFacilModal: false
@@ -65,13 +65,13 @@ class CampusFacilitiesMap extends Component {
 
     //Map Image File
     const image = db
-    .collection("CampusFacilities").doc("mapImage")
+    .collection("CampusFacilities").doc("map")
     .get()
     .then((snapshot) => {
       const maparray = [];
       const image = snapshot.data();
       const data = {
-        URL: image.URL,
+        url: image.url,
 
       };
       maparray.push(data);
@@ -199,9 +199,9 @@ class CampusFacilitiesMap extends Component {
 
           const userRef = db
           .collection("CampusFacilities")
-          .doc("mapImage")
+          .doc("map")
           .update({
-              URL: downloadURL,
+            url: downloadURL,
           })
           .then(function () {
             // alert("Updated");
