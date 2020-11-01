@@ -20,7 +20,8 @@ class GenerateAttendance extends Component {
       totalNumber: 0,
       date: "",
       useremail:"",
-      uniId:"",
+      universityvalue:"",
+      programmenamevalue:""
     };
   }
 
@@ -62,6 +63,8 @@ class GenerateAttendance extends Component {
 display() {
   const db = fire.firestore();
   var counter = 1;
+  this.state.universityName = "All"
+  this.state.programmeName = "All"
   //Retrieve Attendance
   const userRef = db
     .collection("Attendance")
@@ -80,6 +83,7 @@ display() {
           counter : counter,
         };
         counter++;
+       
         attendance.push(data);
         console.log(data)
       });
@@ -88,33 +92,181 @@ display() {
     });
 
     // Get All Universities
-    db.collection("Universities").get()
-    .then((snapshot) => {
+    function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+      }
       const university = [];
+    const Universityquery = db
+    .collection("Universities")
+    .onSnapshot((snapshot) => {     
       snapshot.forEach((doc) => {
-        const data = {
-          docid: doc.id,
-          uniId: doc.data().id,
-          universityName: doc.data().universityName,
-        };
-        university.push(data);
+        university.push(doc.data().universityName);
       });
-      this.setState({ university: university });
+      var uniqueUniversity = university.filter(onlyUnique);
+      uniqueUniversity = uniqueUniversity.filter((val) => val !== undefined);
+        uniqueUniversity = uniqueUniversity.filter((val) => val !== "");
+      this.setState({ university: uniqueUniversity });
     });
+
+    // Get All Programme Name
+    const programmename = [];
+    const programmeNamequery = db
+    .collection("Attendance")
+    .onSnapshot((snapshot) => {     
+      snapshot.forEach((doc) => {
+        programmename.push(doc.data().programmeName);
+      });
+      var uniqueProgName = programmename.filter(onlyUnique);
+      uniqueProgName = uniqueProgName.filter((val) => val !== undefined);
+      uniqueProgName = uniqueProgName.filter((val) => val !== "");
+      this.setState({ programmename: uniqueProgName });
+    });
+    console.log(university)
+    console.log(programmename)
+}
+
+handleUniversityChange = (e) => {
+  
+  this.setState({
+    universityvalue: e.target.value,
+  });
+  this.setState({
+    universityvalue: e.target.value,
+  },() => { this.universityFiltered() })
+
+
+}
+handleProgrammeChange = (e) => {
+  
+  this.setState({
+    programmenamevalue: e.target.value,
+  });
+  this.setState({
+    universityvalue: e.target.value,
+  },() => { this.programmenameFiltered() })
+
+
 }
 
 
 
+universityFiltered(){
+  function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  }
+const db = fire.firestore();
+var getprogrammename="";
+var counter = 1;
+this.state.universityName = this.state.universityvalue
+//Retrieve Attendance
+const userRef = db
+  .collection("Attendance").where("universityName","==",this.state.universityvalue)
+  .onSnapshot((snapshot) => {
+   
+    const attendance = [];
+    snapshot.forEach((doc) => {
+      getprogrammename = doc.data().programmeName
+      const data = {
+        firstName: doc.data().firstName,
+        lastName: doc.data().lastName,
+        email: doc.data().email,
+        date: doc.data().date,
+        programmeName: doc.data().programmeName,
+        universityName: doc.data().universityName,
+        id: doc.id,
+        counter : counter,
+      };
+      
+      counter++;
+      attendance.push(data);
+      console.log(data)
+    });
+
+    this.setState({ 
+      programmeName : getprogrammename,
+      attendance: attendance });
+  })
+  const programmename = [];
+  const programmeNamequery = db
+  .collection("Attendance").where("universityName","==",this.state.universityvalue)
+  .onSnapshot((snapshot) => {     
+    snapshot.forEach((doc) => {
+      programmename.push(doc.data().programmeName);
+    });
+    var uniqueProgName = programmename.filter(onlyUnique);
+    uniqueProgName = uniqueProgName.filter((val) => val !== undefined);
+    uniqueProgName = uniqueProgName.filter((val) => val !== "");
+    this.setState({ programmename: uniqueProgName });
+  });
+
+
+}
+programmenameFiltered(){
+
+  function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  }
+const db = fire.firestore();
+var getprogrammename="";
+var getuniversityname =""
+var counter = 1;
+//Retrieve Attendance
+
+const userRef = db
+  .collection("Attendance").where("programmeName","==",this.state.programmenamevalue)
+  .onSnapshot((snapshot) => {
+    
+    const attendance = [];
+    snapshot.forEach((doc) => {
+      getprogrammename = doc.data().programmeName
+      getuniversityname =doc.data().universityName
+      const data = {
+        firstName: doc.data().firstName,
+        lastName: doc.data().lastName,
+        email: doc.data().email,
+        date: doc.data().date,
+        programmeName: doc.data().programmeName,
+        universityName: doc.data().universityName,
+        id: doc.id,
+        counter : counter,
+      };
+    
+      counter++;
+      attendance.push(data);
+      console.log(data)
+    });
+
+    this.setState({ 
+      universityName : getuniversityname,
+      programmeName : getprogrammename,
+      attendance: attendance });
+  })
+
+
+}
+
+
+
+
+
+
+
   generateReport = () => {
+    console.log(this.state.attendance)
+    var id ="";
+if(this.state.attendance.length > 0){
+id = this.state.attendance[0].id;
+}
     const db = fire.firestore();
     var counter = 0;
+    
     const total = db
-      .collection("Attendance")
+
+
+      .collection("Attendance").where("id","==",id)
       .onSnapshot((snapshot) => {
-        snapshot.forEach((doc) => {
-            console.log(doc.id);
-          counter++;
-        });
+        counter = snapshot.size
+       
         this.setState(
             {
                 totalNumber: counter
@@ -125,6 +277,7 @@ display() {
             }
           );
         });
+        counter++;
       console.log(counter);
 
     }
@@ -152,7 +305,12 @@ generatePDF(){
     doc.text(14,20,adminuser);
 
     doc.line(14, 30, 283, 30);
-        
+
+    var universityName = "\nUniversity Name: " + this.state.universityName;
+    doc.text(14,33,universityName); 
+    
+    var programmeName = "\nProgramme Name: " + this.state.programmeName;
+    doc.text(14,40,programmeName);
 
     var totalNumber = "\nTotal Number : " + this.state.totalNumber;
     doc.setFontSize(20);   
@@ -184,6 +342,33 @@ generatePDF(){
   render() {
     return (
       <div className="home">
+        <label>
+          Choose a University:
+          <select onChange={this.handleUniversityChange}>
+          <option selected="true" disabled="disabled">Choose a University</option>    
+
+          {this.state.university &&
+                this.state.university.map((university) => {
+                  return (
+                    <option value={university}>{university}</option>
+                  );
+                })}          
+          </select>
+        </label>
+        <label>
+          Choose a Programme Name:
+          <select onChange={this.handleProgrammeChange}>
+          <option selected="true" disabled="disabled">Choose Programme Name</option>    
+
+          {this.state.programmename &&
+                this.state.programmename.map((programmename) => {
+               
+                  return (
+                    <option value={programmename}>{programmename}</option>
+                  );
+                })}          
+          </select>
+        </label>
         <div>
             {/* Do not change the id below*/}
           <table id="attendance" class="table table-bordered">
@@ -199,6 +384,8 @@ generatePDF(){
               </tr>
               {this.state.attendance &&
                 this.state.attendance.map((attendance) => {
+              
+               console.log(this.state.universityName)
                   return (
                     <tr>
                       <td>{attendance.counter}</td>
