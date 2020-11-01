@@ -490,25 +490,6 @@ class ProgrammeTalkSchedule extends Component {
     this.setState({discipline: disciplineArray});
   }
 
-  handleSaveChanges = () => {
-    this.setState({
-      awardingUni: this.state.awardingUni,
-      capacityLimit: this.state.capacityLimit,
-      date: this.state.date,
-      endTime: this.state.endTime,
-      hasRecording: this.state.hasRecording,
-      isLive: this.state.isLive,
-      noRegistered: this.state.noRegistered,
-      startTime: this.state.startTime,
-      talkName: this.state.talkName,
-      venue: this.state.venue,
-      url: this.state.url,
-      details: this.state.details,
-      discipline: this.state.discipline,
-      handleEditProgTalkModal: false
-    });
-  }
-
   /* Add Programme Talk Modal */
   handleAddProgTalkModal = () => {
     if (this.state.addProgTalkModal == false) {

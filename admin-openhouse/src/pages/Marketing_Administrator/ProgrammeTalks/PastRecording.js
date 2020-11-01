@@ -532,21 +532,6 @@ class PastRecording extends Component {
     this.setState({discipline: disciplineArray});
   }
 
-  handleSaveChanges = () => {
-    this.setState({
-      awardingUni: this.state.awardingUni,
-      date: this.state.date,
-      endTime: this.state.endTime,
-      hasRecording: this.state.hasRecording,
-      startTime: this.state.startTime,
-      talkName: this.state.talkName,
-      venue: this.state.venue,
-      url: this.state.url,
-      discipline: this.state.discipline,
-      handleEditPastProgModal: false
-    });
-  }
-
   /* Add Past Rec Modal */
   handleAddPastRecModal = () => {
     if (this.state.addPastRecModal == false) {
