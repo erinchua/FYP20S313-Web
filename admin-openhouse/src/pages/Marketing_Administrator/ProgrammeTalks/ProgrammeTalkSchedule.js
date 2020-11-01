@@ -104,7 +104,6 @@ class ProgrammeTalkSchedule extends Component {
       disciplineName: "",
       disciplineList: [],
 
-      checkDiscipline: true,
       addProgTalkModal: false,
       editProgTalkModal: false,
       deleteProgTalkModal: false,
@@ -854,7 +853,7 @@ class ProgrammeTalkSchedule extends Component {
         </Container>
 
 
-        {/* dayramme Talk Modal */}
+        {/* Add Programme Talk Modal */}
         <Modal 
           show={this.state.addProgTalkModal}
           onHide={this.handleAddProgTalkModal}

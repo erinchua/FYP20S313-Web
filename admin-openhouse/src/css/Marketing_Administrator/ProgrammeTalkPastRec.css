@@ -233,7 +233,11 @@
     word-wrap: break-word;
 }
 
-.pastRecData_FileLink:hover {
+.pastRecData_FileUrl {
+    color: #434343 !important;
+}
+
+.pastRecData_FileUrl:hover {
     color: #88B7B5 !important;
 }
 
