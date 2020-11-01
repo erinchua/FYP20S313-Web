@@ -159,7 +159,7 @@
     font-size: 90%;
 }
 
-.progLiveTalkHeader_Link {
+.progLiveTalkHeader_Url {
     width: 20%;
     color: #424242;
     font-size: 90%;
@@ -220,15 +220,19 @@
     word-wrap: break-word;
 }
 
-.progLiveTalkData_Link {
+.progLiveTalkData_Url {
     width: 20%;
-    color: #434343;
+    color: #434343 !important;
     font-size: 85%;
     word-wrap: break-word;
     word-break: break-all;
 }
 
-.progLiveTalkData_LinkHref:Hover {
+.progLiveTalkData_UrlHref {
+    color: #434343 !important;
+}
+
+.progLiveTalkData_UrlHref:hover {
     color: #88B7B5 !important;
 }
 
