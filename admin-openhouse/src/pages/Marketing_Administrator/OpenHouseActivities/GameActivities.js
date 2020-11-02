@@ -26,14 +26,11 @@ export function sortFunction(a, b) {
     }
 
     if (+aSplitNumberAlpha[0] == +bSplitNumberAlpha[0]) {
-        if (aSplitNumberAlpha[1].match(/[^A-Za-z]/) || bSplitNumberAlpha[1].match(/[^A-Za-z]/)){
-            if(aSplitNumberAlpha[1] < bSplitNumberAlpha[1]) {
-                return -1;
-            }
-
-            if (aSplitNumberAlpha[1] > bSplitNumberAlpha[1]) {
-                return 1;
-            }
+        if (aSplitNumberAlpha[1] == '' && bSplitNumberAlpha[1] != '') {
+            return 1;
+        }
+        if (bSplitNumberAlpha[1] == '' && aSplitNumberAlpha[1] != '') {
+            return -1;
         }
     }
     
@@ -181,9 +178,7 @@ class GameActivities extends Component {
         const dates = [];
 
         //Retrieve Open House Dates from Openhouse Collection
-        const retrieveDate = db
-        .collection("Openhouse")
-        .get()
+        db.collection("Openhouse").get()
         .then((snapshot) => {
             snapshot.forEach((doc) => {
                 const data = doc.get('day')
@@ -241,8 +236,12 @@ class GameActivities extends Component {
                         id: docid,
                         boothNumber: this.state.boothNumber,
                     })
-                    .then(function () {
-                        window.location.reload();
+                    .then(dataSnapshot => {
+                        console.log("Added the Game/Activity");
+                        this.setState({
+                            addModal: false
+                        });
+                        this.display();
                     });
                 })
             })
@@ -253,9 +252,12 @@ class GameActivities extends Component {
     DeleteGameActivities(e, gamesActivitiesId) {
         const db = fire.firestore();
         db.collection("GamesActivities").doc(gamesActivitiesId).delete()
-        .then(function() {
+        .then(dataSnapshot => {
             console.log("Deleted the Game/Activity");
-            window.location.reload();
+            this.setState({
+                deleteModal: false
+            });
+            this.display();
         });
     }
 
@@ -299,28 +301,31 @@ class GameActivities extends Component {
                 venue: this.state.venue,
                 pointsAward: +this.state.pointsAward,
             })
-            .then(function () {
+            .then(dataSnapshot => {
                 console.log("Updated the Game/Activity");
-                window.location.reload();
+                this.setState({
+                    editModal: false
+                });
+                this.display();
             });
         }
 
     }
 
-    //Get respective data out by their ids for Edit Modal when click on Edit Button - Integrated
+    /*//Dont need, use handleEdit()
     editGameActivities(e, gamesActivitiesId) {
-        // document.getElementById(gameactivitiesid + "spangameboothname").removeAttribute("hidden");
-        // document.getElementById(gameactivitiesid + "spanpointsaward").removeAttribute("hidden");
-        // document.getElementById(gameactivitiesid + "spanvenue").removeAttribute("hidden");
-        // document.getElementById(gameactivitiesid + "editbutton").setAttribute("hidden", "");
-        // document.getElementById(gameactivitiesid + "updatebutton").removeAttribute("hidden");
-        // document.getElementById(gameactivitiesid + "cancelbutton").removeAttribute("hidden");
-        // var texttohide = document.getElementsByClassName(
-        //     gameactivitiesid + "text"
-        // );
-        // for (var i = 0; i < texttohide.length; i++) {
-        //     texttohide[i].setAttribute("hidden", "");
-        // }  
+        document.getElementById(gameactivitiesid + "spangameboothname").removeAttribute("hidden");
+        document.getElementById(gameactivitiesid + "spanpointsaward").removeAttribute("hidden");
+        document.getElementById(gameactivitiesid + "spanvenue").removeAttribute("hidden");
+        document.getElementById(gameactivitiesid + "editbutton").setAttribute("hidden", "");
+        document.getElementById(gameactivitiesid + "updatebutton").removeAttribute("hidden");
+        document.getElementById(gameactivitiesid + "cancelbutton").removeAttribute("hidden");
+        var texttohide = document.getElementsByClassName(
+            gameactivitiesid + "text"
+        );
+        for (var i = 0; i < texttohide.length; i++) {
+            texttohide[i].setAttribute("hidden", "");
+        }  
 
         this.editModal = this.state.editModal;
         if (this.editModal == false) {
@@ -351,8 +356,7 @@ class GameActivities extends Component {
             });
             this.resetForm();
         }
-
-    }
+    }*/
 
     /*//Don't need cancel function as we can just hide the modal if cancel
     CancelEdit(e, gameactivitiesid) {
@@ -387,7 +391,7 @@ class GameActivities extends Component {
             boothNumberError = "Please enter a valid booth number. E.g. 10 or 10A";
         }
 
-        if (!this.state.startTime.includes(':')) {
+        if ( !(this.state.startTime.includes(":") && (this.state.startTime.includes("AM") || this.state.startTime.includes("PM"))) ) {
             startTimeError = "Please enter a valid start time. E.g. 1:30PM";
         }
 
@@ -400,7 +404,7 @@ class GameActivities extends Component {
         }
 
         if (!this.state.venue) {
-            venueError = "Please enter a valid value. E.g. SIM HQ BLK A Atrium";
+            venueError = "Please enter a valid venue. E.g. SIM HQ BLK A Atrium";
         }
 
         if (dateError || boothNumberError || startTimeError || gameBoothNameError || venueError || pointsAwardError) {
@@ -433,12 +437,23 @@ class GameActivities extends Component {
         }
     }
 
-    //Edit Modal
-    handleEdit = () => {
+    //Get respective data out for Edit Modal when click on Edit Button - Integrated
+    handleEdit = (gameActivitiesId) => {
         this.editModal = this.state.editModal;
         if (this.editModal == false) {
+
+            var pointsAward = gameActivitiesId.pointsAward;
+            var stringPointsAward = pointsAward.toString();
+
             this.setState({
                 editModal: true,
+                id: gameActivitiesId.id,
+                date: gameActivitiesId.date,
+                startTime: gameActivitiesId.startTime,
+                gameBoothName: gameActivitiesId.gameBoothName,
+                boothNumber: gameActivitiesId.boothNumber,
+                venue: gameActivitiesId.venue,
+                pointsAward: stringPointsAward,
             });
         } else {
             this.setState({
@@ -536,7 +551,7 @@ class GameActivities extends Component {
                                                                                                 <td>{day1.startTime}</td>
                                                                                                 <td>{day1.venue}</td>
                                                                                                 <td>{day1.pointsAward}</td>
-                                                                                                <td><Button size="sm" id="GamesActivities-editBtn" onClick={(e) => {this.editGameActivities(e, day1.id)}}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                <td><Button size="sm" id="GamesActivities-editBtn" onClick={(e) => {this.handleEdit(day1)}}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                                 <td><Button size="sm" id="GamesActivities-deleteBtn" onClick={(e) => this.handleDelete(e, day1.id)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
                                                                                             </tr>
                                                                                         )
@@ -574,7 +589,7 @@ class GameActivities extends Component {
                                                                                                 <td>{day2.startTime}</td>
                                                                                                 <td>{day2.venue}</td>
                                                                                                 <td>{day2.pointsAward}</td>
-                                                                                                <td><Button size="sm" id="GamesActivities-editBtn" onClick={(e) => {this.editGameActivities(e, day2.id)}}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                <td><Button size="sm" id="GamesActivities-editBtn" onClick={(e) => {this.handleEdit(day2)}}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                                 <td><Button size="sm" id="GamesActivities-deleteBtn" onClick={(e) => this.handleDelete(e, day2.id)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
                                                                                             </tr>
                                                                                         )
@@ -713,7 +728,7 @@ class GameActivities extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faDice}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GamesActivities-inputFields" type="text" name="boothNumber" placeholder="Booth Number: e.g. 10 or 10A" required defaultValue={editGamesActivities.boothNumber} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <Form.Control id="GamesActivities-inputFields" type="text" name="boothNumber" placeholder="Booth Number: e.g. 10 or 10A" required defaultValue={this.state.boothNumber} onChange={this.updateInput} noValidate></Form.Control>
                                                                 <div className="errorMessage">{this.state.boothNumberError}</div>
                                                         </Form.Group>
                                                     </Form.Group>
@@ -724,7 +739,7 @@ class GameActivities extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faGamepad}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GamesActivities-inputFields" type="text" name="gameBoothName" placeholder="Tour: e.g. Amazing Race - Canteen Xplore" onChange={this.updateInput} required defaultValue={editGamesActivities.gameBoothName} noValidate></Form.Control>
+                                                            <Form.Control id="GamesActivities-inputFields" type="text" name="gameBoothName" placeholder="Tour: e.g. Amazing Race - Canteen Xplore" onChange={this.updateInput} required defaultValue={this.state.gameBoothName} noValidate></Form.Control>
                                                             <div className="errorMessage">{this.state.gameBoothNameError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
@@ -735,7 +750,7 @@ class GameActivities extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faCalendarAlt}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GamesActivities-inputFields" as="select" name="date" onChange={this.updateInput} required defaultValue={editGamesActivities.date} noValidate>
+                                                            <Form.Control id="GamesActivities-inputFields" as="select" name="date" onChange={this.updateInput} required defaultValue={this.state.date} noValidate>
                                                                 <option value="">Choose an Openhouse Date</option>
                                                                 <option>{this.state.openHouseDates[0].date}</option>
                                                                 <option>{this.state.openHouseDates[1].date}</option>
@@ -750,7 +765,7 @@ class GameActivities extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faHourglassStart}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GamesActivities-inputFields" type="text" name="startTime" placeholder="Start Time: e.g. 1:30PM" onChange={this.updateInput} required defaultValue={editGamesActivities.startTime} noValidate></Form.Control>
+                                                            <Form.Control id="GamesActivities-inputFields" type="text" name="startTime" placeholder="Start Time: e.g. 1:30PM" onChange={this.updateInput} required defaultValue={this.state.startTime} noValidate></Form.Control>
                                                             <div className="errorMessage">{this.state.startTimeError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
@@ -761,7 +776,7 @@ class GameActivities extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faCalculator}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GamesActivities-inputFields" type="text" name="pointsAward" placeholder="Points Award: e.g. 5" required defaultValue={editGamesActivities.pointsAward} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <Form.Control id="GamesActivities-inputFields" type="text" name="pointsAward" placeholder="Points Award: e.g. 5" required defaultValue={this.state.pointsAward} onChange={this.updateInput} noValidate></Form.Control>
                                                             <div className="errorMessage">{this.state.pointsAwardError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
@@ -772,7 +787,7 @@ class GameActivities extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faSchool}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GamesActivities-inputFields" type="text" name="venue" placeholder="Venue: e.g. SIM HQ BLK A Atrium" onChange={this.updateInput} required defaultValue={editGamesActivities.venue} noValidate></Form.Control>
+                                                            <Form.Control id="GamesActivities-inputFields" type="text" name="venue" placeholder="Venue: e.g. SIM HQ BLK A Atrium" onChange={this.updateInput} required defaultValue={this.state.venue} noValidate></Form.Control>
                                                             <div className="errorMessage">{this.state.venueError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     

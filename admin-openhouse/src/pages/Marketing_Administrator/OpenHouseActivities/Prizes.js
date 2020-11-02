@@ -239,7 +239,7 @@ class Prizes extends Component {
         if (isValid) {
             this.setState(initialStates);
 
-            db.collection("Prizes").orderBy("id", "desc").limit(1).get().then((snapshot) => {
+            db.collection("Prizes").orderBy("id", "desc").where("id", "!=", "venue").limit(1).get().then((snapshot) => {
                 snapshot.forEach((doc) => {
                     var docid = "";
                     var res = doc.data().id.substring(9, 6);
@@ -259,8 +259,12 @@ class Prizes extends Component {
                         stock: +this.state.stock,
                         id: docid,
                     })
-                    .then(function() {
-                        window.location.reload();
+                    .then(dataSnapshot => {
+                        console.log("Added the prize");
+                        this.setState({
+                            addModal: false,
+                        });
+                        this.display();
                     });
                 });
             });
@@ -271,27 +275,30 @@ class Prizes extends Component {
     DeletePrize(e, prizeId) {
         const db = fire.firestore();
         db.collection("Prizes").doc(prizeId).delete()
-        .then(function () {
+        .then(dataSnapshot => {
             console.log("Deleted the prize");
-            window.location.reload();
+            this.setState({
+                deleteModal: false
+            });
+            this.display();
         });
     }
 
-    //Get respective data out by their ids for Edit Modal when click on Edit Button - Integrated
+    /*//Dont need, use handleEdit()
     editPrize(e, prizeId) {
-        // document
-        //     .getElementById(prizeid + "spanprizename")
-        //     .removeAttribute("hidden");
-        // document
-        //     .getElementById(prizeid + "spanprizepointscost")
-        //     .removeAttribute("hidden");
-        // document.getElementById(prizeid + "editbutton").setAttribute("hidden", "");
-        // document.getElementById(prizeid + "updatebutton").removeAttribute("hidden");
-        // document.getElementById(prizeid + "cancelbutton").removeAttribute("hidden");
-        // var texttohide = document.getElementsByClassName(prizeid + "text");
-        // for (var i = 0; i < texttohide.length; i++) {
-        //     texttohide[i].setAttribute("hidden", "");
-        // }
+        document
+            .getElementById(prizeid + "spanprizename")
+            .removeAttribute("hidden");
+        document
+            .getElementById(prizeid + "spanprizepointscost")
+            .removeAttribute("hidden");
+        document.getElementById(prizeid + "editbutton").setAttribute("hidden", "");
+        document.getElementById(prizeid + "updatebutton").removeAttribute("hidden");
+        document.getElementById(prizeid + "cancelbutton").removeAttribute("hidden");
+        var texttohide = document.getElementsByClassName(prizeid + "text");
+        for (var i = 0; i < texttohide.length; i++) {
+            texttohide[i].setAttribute("hidden", "");
+        }
 
         this.editModal = this.state.editModal;
         if (this.editModal == false) {
@@ -321,7 +328,7 @@ class Prizes extends Component {
             });
             this.resetForm();
         }
-    }
+    }*/
 
     //Update prize when click on 'Save Changes' button in Edit Modal - Integrated
     updatePrize(e, prizeId) {
@@ -358,14 +365,17 @@ class Prizes extends Component {
                 stock: +this.state.stock,
                 id: prizeId,
             })
-            .then(function () {
+            .then(dataSnapshot => {
                 console.log("Updated the prize");
-                window.location.reload();
+                this.setState({
+                    editModal: false
+                });
+                this.display();
             });
         }
     }
 
-    //Get respective data out by venueId and the day number for Venue Edit Modal - Integrated
+    /*//Get respective data out by venueId and the day number for Venue Edit Modal - Integrated
     editVenue(e, venueId, venueDay) {
         // document.getElementById(venue + "venuelocation").removeAttribute("hidden");
         // document.getElementById(venue + "text").setAttribute("hidden", "");
@@ -420,7 +430,7 @@ class Prizes extends Component {
             this.resetForm();
         }
 
-    }
+    }*/
 
     updateVenue(e, venueId, venueDay) {
         // const venuetext = document.getElementById(venueid + "venuelocationtext")
@@ -458,9 +468,12 @@ class Prizes extends Component {
                             "day.1.date": this.state.date,
                             "day.1.venue": this.state.venue,
                         })
-                        .then(function() {
+                        .then(dataSnapshot => {
                             console.log("Updated the venue");
-                            window.location.reload();
+                            this.setState ({
+                                editVenueModal: false
+                            });
+                            this.display();
                         });
                         
                     }
@@ -479,9 +492,12 @@ class Prizes extends Component {
                             "day.2.date": this.state.date,
                             "day.2.venue": this.state.venue,
                         })
-                        .then(function() {
+                        .then(dataSnapshot => {
                             console.log("Updated the venue");
-                            window.location.reload();
+                            this.setState ({
+                                editVenueModal: false
+                            });
+                            this.display();
                         });                        
                     }
                 }
@@ -540,12 +556,22 @@ class Prizes extends Component {
         }
     }
 
-    //Edit Modal
-    handleEdit = () => {
+    //Get respective data out for Edit Modal when click on Edit Button - Integrated
+    handleEdit = (prizeId) => {
         this.editModal = this.state.editModal;
         if (this.editModal == false) {
+
+            var stock = prizeId.stock;
+            var stringStock = stock.toString();
+            var prizePointsCost = prizeId.prizePointsCost;
+            var stringPrizePointsCost = prizePointsCost.toString();
+
             this.setState({
-                editModal: true
+                editModal: true,
+                id: prizeId.id,
+                prizeName: prizeId.prizeName,
+                prizePointsCost: stringPrizePointsCost,
+                stock: stringStock,
             });
         } else {
             this.setState({
@@ -571,12 +597,34 @@ class Prizes extends Component {
     }
 
     //Edit Modal
-    handleVenueEdit = () => {
+    handleVenueEdit = (venueId) => {
         this.editVenueModal = this.state.editVenueModal;
         if (this.editVenueModal == false) {
             this.setState({
                 editVenueModal: true,
             });
+
+            if (venueId.day == 1) {
+                for (var i = 0; i < 1; i++){
+                    this.setState({
+                        day: venueId.day,
+                        date: venueId.date,
+                        venue: venueId.venue,
+                        id: venueId.id,
+                    });
+                }
+            }
+
+            if (venueId.day == 2) {
+                for (var i = 1; i < 2; i++){
+                    this.setState({
+                        day: venueId.day,
+                        date: venueId.date,
+                        venue: venueId.venue,
+                        id: venueId.id,
+                    });
+                }
+            }
         } else {
             this.setState({
                 editVenueModal: false
@@ -595,7 +643,7 @@ class Prizes extends Component {
         }
 
         if (!this.state.venue) {
-            venueError = "Please enter a valid value. E.g. SIM HQ BLK A Atrium";
+            venueError = "Please enter a valid venue. E.g. SIM HQ BLK A Atrium";
         }
 
         if (dateError || venueError) {
@@ -705,7 +753,7 @@ class Prizes extends Component {
                                                                                         <tr key={venue.id}>
                                                                                             <td>{venue.date}</td>
                                                                                             <td>{venue.venue}</td>
-                                                                                            <td><Button size="sm" id="Prizes-editBtn" onClick={(e) => {this.editVenue(e, venue.id, venue.day)}}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><Button size="sm" id="Prizes-editBtn" onClick={(e) => {this.handleVenueEdit(venue)}}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                         </tr>
                                                                                     )
                                                                                 })}
@@ -736,7 +784,7 @@ class Prizes extends Component {
                                                                                             <td>{prize.prizeName}</td>
                                                                                             <td>{prize.prizePointsCost}</td>
                                                                                             <td>{prize.stock}</td>
-                                                                                            <td><Button size="sm" id="Prizes-editBtn" onClick={(e) => {this.editPrize(e, prize.id)}}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><Button size="sm" id="Prizes-editBtn" onClick={(e) => {this.handleEdit(prize)}}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                             <td><Button size="sm" id="Prizes-deleteBtn" onClick={(e) => {this.handleDelete(e, prize.id)}}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
                                                                                         </tr>
                                                                                     )
@@ -778,7 +826,7 @@ class Prizes extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faCalendarAlt}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                        <Form.Control id="Prizes-inputFields" type="text" name="date" placeholder="Date: e.g. 21-Nov-2020" onChange={this.updateInput} required defaultValue={venue.date} noValidate></Form.Control>
+                                                        <Form.Control id="Prizes-inputFields" type="text" name="date" placeholder="Date: e.g. 21-Nov-2020" onChange={this.updateInput} required defaultValue={this.state.date} noValidate></Form.Control>
                                                             <div className="errorMessage">{this.state.dateError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
@@ -789,7 +837,7 @@ class Prizes extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faSchool}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="Prizes-inputFields" type="text" name="venue" placeholder="Venue: e.g. SIM HQ BLK A Atrium" onChange={this.updateInput} required defaultValue={venue.venue} noValidate></Form.Control>
+                                                            <Form.Control id="Prizes-inputFields" type="text" name="venue" placeholder="Venue: e.g. SIM HQ BLK A Atrium" onChange={this.updateInput} required defaultValue={this.state.venue} noValidate></Form.Control>
                                                             <div className="errorMessage">{this.state.venueError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
