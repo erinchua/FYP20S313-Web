@@ -48,6 +48,8 @@ import AdmissionApplication from "./pages/Marketing_Administrator/Useful_Info/Ad
 import GenerateAttendance from "./pages/Marketing_Administrator/GenerateReport/GenerateAttendance";
 import OtherFinancialAssistance from "./pages/Marketing_Administrator/StudentLife@SIM/OtherFinancialAssistance";
 import SIMGEBursary from "./pages/Marketing_Administrator/StudentLife@SIM/SIMGEBursary";
+import Sponsors from "./pages/Marketing_Administrator/StudentLife@SIM/Sponsors";
+import SIMGEScholarship from "./pages/Marketing_Administrator/StudentLife@SIM/SIMGEScholarship";
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -104,6 +106,8 @@ ReactDOM.render(
       <Route path="/GenerateAttendance" component={GenerateAttendance} />
       <Route path="/OtherFinancialAssistance" component={OtherFinancialAssistance} />
       <Route path="/SIMGEBursary" component={SIMGEBursary} />
+      <Route path="/Sponsors" component={Sponsors} />
+      <Route path="/SIMGEScholarship" component={SIMGEScholarship} />
       
     </Switch>
   </Router>,
