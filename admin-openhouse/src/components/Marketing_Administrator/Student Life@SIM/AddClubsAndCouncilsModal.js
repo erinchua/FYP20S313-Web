@@ -9,6 +9,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt, faFileImage, faSwimmer } from '@fortawesome/free-solid-svg-icons';
 
 class AddClubsAndCouncilsModal extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            id: "",
+            categoryType: "",
+            clubsAndCouncilDescription: "",
+            clubsAndCouncilTitle: "",
+            clubsAndCouncilsLogo: "",
+            progress: "",
+        };
+    }
+
     render(){
         return(
             <div>
@@ -16,7 +29,7 @@ class AddClubsAndCouncilsModal extends Component {
                     <Modal.Title id="ArtsCulture-modalTitle" className="w-100">Add Club/Council</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form noValidate onSubmit={this.addGuidedTour}>
+                    <Form noValidate>
                         <Form.Group>
                             <Form.Group as={Row} className="ArtsCulture-formGroup">
                                 <Form.Group as={Col} md="1" className="ArtsCulture-formGroup">
@@ -24,7 +37,7 @@ class AddClubsAndCouncilsModal extends Component {
                                 </Form.Group> 
                                 <Form.Group as={Col} md="7">
                                     <Form.Control id="ArtsCulture-inputFields" type="text" name="clubsAndCouncilTitle" placeholder="Name of Club/Council: e.g. Dance Art" required onChange={this.updateInput} noValidate></Form.Control>
-                                        <div className="errorMessage"></div>
+                                    <div className="errorMessage"></div>
                                 </Form.Group>
                             </Form.Group>                     
                         </Form.Group>

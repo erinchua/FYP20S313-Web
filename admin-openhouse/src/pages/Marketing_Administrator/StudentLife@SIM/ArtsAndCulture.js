@@ -100,7 +100,7 @@ class ArtsAndCulture extends Component {
         .limit(1).get().then((snapshot) =>  {
             snapshot.forEach((doc) => {
                 var docid = "";
-                var res = doc.data().id.substring(5, 10);
+                var res = doc.data().id.substring(8, 5);
                 var id = parseInt(res)
                 if (id.toString().length <= 2) {
                     docid = "club-0" + (id + 1) 
@@ -108,8 +108,8 @@ class ArtsAndCulture extends Component {
                     docid = "club-0" + (id + 1) 
                 }
 
-                var clubsAndCouncilTitle = document.getElementById("clubsAndCouncilTitle").value;
-                var clubsAndCouncilDescription = document.getElementById("clubsAndCouncilDescription").value
+                // var clubsAndCouncilTitle = document.getElementById("clubsAndCouncilTitle").value;
+                // var clubsAndCouncilDescription = document.getElementById("clubsAndCouncilDescription").value
 
                 const parentthis = this;
                 const foldername = "/ClubsAndCouncil/ArtsCulture";
@@ -122,7 +122,7 @@ class ArtsAndCulture extends Component {
                         .collection("ClubsAndCouncils")
                         .doc(docid)
                         .set({
-                            categoryType : "Arts & Culture",
+                            categoryType: "Arts & Culture",
                             clubsAndCouncilTitle: clubsAndCouncilTitle,
                             clubsAndCouncilDescription: clubsAndCouncilDescription,
                             clubsAndCouncilsLogo: downloadURL,
