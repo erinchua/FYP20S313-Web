@@ -35,6 +35,25 @@
     color: #424242;
 }
 
+#ArtsCulture-secondRow {
+    margin: 0 !important;
+}
+
+#ArtsCulture-secondRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#ArtsCulture-tableHeader {
+    color: #424242;
+    font-size: 90%;
+}
+
+#ArtsCulture-tableBody {
+    color: #434343;
+    font-size: 85%;
+}
+
 #ArtsCulture-addBtn {
     background: none;
     border: 1px solid #424242;
@@ -57,41 +76,10 @@
     margin-left: 10%;
 }
 
-#ArtsCulture-secondRow {
-    margin: 0 !important;
-}
-
-#ArtsCulture-secondRowCol {
-    padding: 0 !important;
-}
-
-/* -- Day 1 and 2 Content -- */
-.ArtsCulture-tableColCon {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-}
-
-
-.ArtsCulture-tableCon {
-    width: 100%;
-    margin-bottom: 0;
-    max-width: 100%;
-}
-
-.ArtsCulture-tableHeader {
-    color: #424242;
-    font-size: 90%;
-}
-
-.ArtsCulture-tableBody {
-    color: #434343;
-    font-size: 85%;
-}
-
 #ArtsCulture-editBtn {
     background: none;
-    border: none;
     color: #434343;
+    border: none;
 }
 
 #ArtsCulture-editBtn:focus {
@@ -187,6 +175,23 @@
 
 #ArtsCulture-gameBoothNameData {
     text-transform: capitalize;
+}
+
+.ArtsCulture-imgFile .custom-file-input {
+    border: 1px solid #c8c8c8;
+    border-radius: 6px;
+    font-size: 85% !important;
+    color: #434343;
+}
+
+.ArtsCulture-imgFile .custom-file-label {
+    color: #434343;
+    overflow: hidden;
+    font-size: 90% !important;
+}
+
+.ArtsCulture-imgFile:focus {
+    box-shadow: none;
 }
 
  /* -- Delete Modal -- */

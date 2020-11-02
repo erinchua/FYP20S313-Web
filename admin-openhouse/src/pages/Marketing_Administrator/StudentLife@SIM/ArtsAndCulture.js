@@ -8,6 +8,9 @@ import '../../../css/Marketing_Administrator/ArtsAndCulture.css';
 import NavBar from '../../../components/Navbar';
 import SideNavBar from '../../../components/SideNavbar';
 import Footer from '../../../components/Footer';
+import AddClubsAndCouncilsModal from '../../../components/Marketing_Administrator/Student Life@SIM/AddClubsAndCouncilsModal';
+import EditClubsAndCouncilsModal from '../../../components/Marketing_Administrator/Student Life@SIM/EditClubsAndCouncilsModal';
+import DeleteClubsAndCouncilsModal from '../../../components/Marketing_Administrator/Student Life@SIM/DeleteClubsAndCouncilsModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
@@ -15,11 +18,19 @@ class ArtsAndCulture extends Component {
     constructor() {
         super();
         this.state = {
+            id: "",
             categoryType: "",
             clubsAndCouncilDescription: "",
             clubsAndCouncilTitle: "",
             clubsAndCouncilsLogo: "",
+            counter: "",
             progress: "",
+            //Below states are for functions
+            artsCulture: "",
+            //Below states are for modals
+            addModal: false,
+            deleteModal: false,
+            editModal: false,
         };
     }
 
@@ -58,8 +69,7 @@ class ArtsAndCulture extends Component {
     display() {
         const db = fire.firestore();
         var counter = 1;
-        const userRef = db
-        .collection("ClubsAndCouncils").where("categoryType", "==", "Arts & Culture").get()
+        db.collection("ClubsAndCouncils").where("categoryType", "==", "Arts & Culture").get()
         .then((snapshot) => {
             const artsculture = [];
             snapshot.forEach((doc) => {
@@ -74,7 +84,7 @@ class ArtsAndCulture extends Component {
                 counter++;
                 artsculture.push(data);
             });
-            this.setState({ artsculture: artsculture });
+            this.setState({ artsCulture: artsculture });
         });
     }
 
@@ -154,6 +164,7 @@ class ArtsAndCulture extends Component {
         }  
     }
 
+    /*//Dont need, using the handle Modals function to close
     CancelEdit(e, artscultureid) {
         document.getElementById(artscultureid + "upload").setAttribute("hidden", "");
         document.getElementById(artscultureid + "spanartstitle").setAttribute("hidden", "");
@@ -168,7 +179,7 @@ class ArtsAndCulture extends Component {
         for (var i = 0; i < texttohide.length; i++) {
             texttohide[i].removeAttribute("hidden", "");
         }
-    }
+    }*/
 
     DeleteArtsCulture(e, artscultureid) {
         const db = fire.firestore();
@@ -231,6 +242,48 @@ class ArtsAndCulture extends Component {
         }
     };
 
+    //Add Modal
+    handleAdd = () => {
+        this.addModal = this.state.addModal;
+        if (this.addModal == false) {
+            this.setState({
+                addModal: true,
+            });
+        } else {
+            this.setState({
+                addModal: false
+            });
+        }
+    }
+
+    //Edit Modal
+    handleEdit = () => {
+        this.editModal = this.state.editModal;
+        if (this.editModal == false) {
+            this.setState({
+                editModal: true,
+            });
+        } else {
+            this.setState({
+                editModal: false
+            });
+        }
+    }
+
+    //Delete Modal
+    handleDelete = () => {
+        this.deleteModal = this.state.deleteModal;
+        if (this.deleteModal == false) {
+            this.setState({
+                deleteModal: true,
+            });
+        } else {
+            this.setState({
+                deleteModal: false
+            });
+        }
+    }
+
     render() {
         return (
 
@@ -251,7 +304,7 @@ class ArtsAndCulture extends Component {
                                                 <h4 id="ArtsCulture-title">Arts & Culture</h4>
                                             </Col>
                                             <Col md={6} className="text-right" id="ArtsCulture-firstRowCol">
-                                                <Button id="ArtsCulture-addBtn"><FontAwesomeIcon size="lg" icon={faPlus} /><span id="ArtsCulture-addBtnText">Add</span></Button>
+                                                <Button id="ArtsCulture-addBtn" onClick={this.handleAdd}><FontAwesomeIcon size="lg" icon={faPlus} /><span id="ArtsCulture-addBtnText">Add</span></Button>
                                             </Col>
                                         </Row>
 
@@ -268,16 +321,20 @@ class ArtsAndCulture extends Component {
                                                             <th>Delete</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="ArtsCulture-tableBody">
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td id="ArtsCulture-descriptionData"></td>
-                                                            <td></td>
-                                                            <td><Button size="sm" id="ArtsCulture-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                            <td><Button size="sm" id="ArtsCulture-deleteBtn"><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
-                                                        </tr>
-                                                    </tbody>
+                                                    {this.state.artsCulture && this.state.artsCulture.map((artsCulture) => {
+                                                        return (
+                                                            <tbody id="ArtsCulture-tableBody" key={artsCulture.id}>
+                                                                <tr>
+                                                                    <td>{artsCulture.counter}</td>
+                                                                    <td>{artsCulture.clubsAndCouncilTitle}</td>
+                                                                    <td className="text-left">{artsCulture.clubsAndCouncilDescription}</td>
+                                                                    <td className="text-left">{artsCulture.clubsAndCouncilTitle} Logo</td>
+                                                                    <td><Button size="sm" id="ArtsCulture-editBtn" onClick={() => this.handleEdit()}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                    <td><Button size="sm" id="ArtsCulture-deleteBtn" onClick={() => this.handleDelete()}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        )
+                                                    })}
                                                 </Table>
                                             </Col>
                                         </Row>
@@ -290,9 +347,22 @@ class ArtsAndCulture extends Component {
                     <Footer />
                 </Container>
 
+                {/* Add Modal */}
+                <Modal show={this.state.addModal} onHide={this.handleAdd} size="md" centered keyboard={false}>
+                    <AddClubsAndCouncilsModal/>
+                </Modal>
+
+                {/* Edit Modal */}
+                <Modal show={this.state.editModal} onHide={this.handleEdit} size="lg" centered keyboard={false}>
+                    <EditClubsAndCouncilsModal handleEdit={this.handleEdit}/>
+                </Modal>
+
+                {/* Delete Modal */}
+                <Modal show={this.state.deleteModal} onHide={this.handleDelete} size="md" centered keyboard={false}>
+                    <DeleteClubsAndCouncilsModal handleDelete={this.handleDelete}/>
+                </Modal>
+
             </div>
-
-
 
 
             // <div className="home">

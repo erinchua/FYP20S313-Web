@@ -24,7 +24,7 @@ import "../../../css/Marketing_Administrator/AddStudySIMProgModal.css";
 //   return valid;
 // }
 
-export default class EditStudySIMProgModal extends React.Component {
+export default class AddStudySIMProgModal extends React.Component {
   constructor(props) {
     super(props);
 
