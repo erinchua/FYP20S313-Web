@@ -51,8 +51,7 @@ class CommonFAQs extends Component {
     var counter = 1;
     const userRef = db
       .collection("CommonFAQ")
-      .get()
-      .then((snapshot) => {
+      .onSnapshot((snapshot) => {
         const commonfaq = [];
         snapshot.forEach((doc) => {
           const data = {
@@ -115,7 +114,7 @@ class CommonFAQs extends Component {
       .delete()
       .then(function () {
         alert("Deleted");
-        window.location.reload();
+        //window.location.reload();
       });
   }
 
