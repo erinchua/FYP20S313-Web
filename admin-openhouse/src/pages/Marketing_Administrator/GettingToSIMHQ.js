@@ -131,6 +131,8 @@ class GettingToSIMHQ extends Component {
         });
         console.log(e.target.name)
         console.log(e.target.value)
+        console.dir(e.target.title)
+
     };
 
     componentDidMount() {
@@ -262,15 +264,21 @@ class GettingToSIMHQ extends Component {
     };
 
     busupdate = (e, locationid) => {
-        const dbfiled = "busNo." + locationid;
-        var value = document.getElementById(locationid + "busno").value;
-        if (value !== "") {
-            value = document.getElementById(locationid + "busno").value;
+       /* if (title == "SIMHQbusNo") {
             const db = fire.firestore();
-
             const userRef = db.collection("CampusLocation").doc("bus")
             .update({
-                [dbfiled]: value,
+                description: this.state.busDescription,
+                bus1: this.state.SIMHQbusNo1,
+                bus2: this.state.SIMHQbusNo2,
+                bus3: this.state.SIMHQbusNo3,
+                bus4: this.state.SIMHQbusNo4,
+                bus5: this.state.SIMHQbusNo5,
+                bus6: this.state.SIMHQbusNo6,
+                bus7: this.state.SIMHQbusNo7,
+                bus8: this.state.SIMHQbusNo8,
+                bus9: this.state.SIMHQbusNo9,
+                bus10: this.state.SIMHQbusNo10,
             })
             .then(dataSnapshot => {
                 console.log("Updated Bus Info");
@@ -279,9 +287,29 @@ class GettingToSIMHQ extends Component {
                 });
                 this.display();
             });
-        } else {
-            console.log("Fields cannot be empty ");
-        }
+        } else if(title == "OppSIMHQbusNo") {
+            const db = fire.firestore();
+            const userRef = db.collection("CampusLocation").doc("bus")
+            .update({
+                description: this.state.busDescription,
+                bus1: this.state.SIMHQbusNo1,
+                bus2: this.state.SIMHQbusNo2,
+                bus3: this.state.SIMHQbusNo3,
+                bus4: this.state.SIMHQbusNo4,
+                bus5: this.state.SIMHQbusNo5,
+                bus6: this.state.SIMHQbusNo6,
+                bus7: this.state.SIMHQbusNo7,
+                bus8: this.state.SIMHQbusNo8,
+                bus1: this.state.SIMHQbusNo9,
+            })
+            .then(dataSnapshot => {
+                console.log("Updated Bus Info");
+                this.setState({
+                    busEditModal: false
+                });
+                this.display();
+            });
+        }*/
     };
 
     mrtupdate = (e, locationid) => {
@@ -825,7 +853,7 @@ class GettingToSIMHQ extends Component {
                                                                     <FontAwesomeIcon size="lg" icon={faBus}/>
                                                                 </Form.Group> 
                                                                 <Form.Group as={Col} md="7">
-                                                                    <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="busNo" placeholder="Bus Numbers" required defaultValue={this.state.editSimArray[index]} onChange={this.updateInput} noValidate></Form.Control>
+                                                                    <Form.Control id="GettingToSimHq-textAreas" title="SIMHQbusNo" as="textarea" rows="2" type="text" name={"SIMHQbusNo"+ (index+1)} placeholder="Bus Numbers" required defaultValue={this.state.editSimArray[index]} onChange={this.updateInput} noValidate></Form.Control>
                                                                     <div className="errorMessage"></div>
                                                                 </Form.Group>
                                                             </Form.Group>                     
@@ -856,7 +884,7 @@ class GettingToSIMHQ extends Component {
                                                                     <FontAwesomeIcon size="lg" icon={faBus}/>
                                                                 </Form.Group> 
                                                                 <Form.Group as={Col} md="7">
-                                                                    <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="busNo" placeholder="Bus Numbers" required defaultValue={this.state.editOppSimArray[index]} onChange={this.updateInput} noValidate></Form.Control>
+                                                                    <Form.Control id="GettingToSimHq-textAreas"  title="OppSIMHQbusNo" as="textarea" rows="2" type="text" name={"OppSIMHQbusNo"+ (index+1)} placeholder="Bus Numbers" required defaultValue={this.state.editOppSimArray[index]} onChange={this.updateInput} noValidate></Form.Control>
                                                                     <div className="errorMessage"></div>
                                                                 </Form.Group>
                                                             </Form.Group>                     
@@ -872,7 +900,7 @@ class GettingToSIMHQ extends Component {
                                 <Container>
                                     <Row id="GettingToSimHq-editFooter">
                                         <Col md={6} className="GettingToSimHq-editCol">
-                                            <Button id="GettingToSimHq-saveBtn" type="submit">Save Changes</Button>
+                                            <Button id="GettingToSimHq-saveBtn" type="submit" onClick={this.busupdate}>Save Changes</Button>
                                         </Col>
                                         <Col md={6} className="GettingToSimHq-editCol">
                                             <Button id="GettingToSimHq-cancelBtn" onClick={this.handleBusEditModal}>Cancel</Button>
