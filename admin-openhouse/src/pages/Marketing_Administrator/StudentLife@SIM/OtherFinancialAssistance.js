@@ -112,7 +112,7 @@ class OtherFinancialAssistance extends Component {
     })
 }
 
-//*****Will do up edit when modal is up****
+
 
   /*editStudentCare(e, studentcareid, type) {
     if (type === "workPlayLiveWell") {
