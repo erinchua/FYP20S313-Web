@@ -11,6 +11,7 @@ class CommonFAQs extends Component {
       faqAnswer: "",
       faqQuestion: "",
       faqType: "",
+      id: "",
     };
   }
 
@@ -72,15 +73,37 @@ class CommonFAQs extends Component {
   addCommonFAQ = (e) => {
     e.preventDefault();
     const db = fire.firestore();
-    const userRef = db
+    var lastdoc = db
       .collection("CommonFAQ")
-      .add({
-        faqType: this.state.faqType,
-        faqQuestion: this.state.faqQuestion,
-        faqAnswer: this.state.faqAnswer,
-      })
-      .then(function () {
-        window.location.reload();
+      .orderBy("id", "desc")
+      .limit(1)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          var docid = "";
+          var res = doc.data().id.substring(12,9);
+          var id = parseInt(res);
+          if (id.toString().length <= 1) {
+            docid = "question-00" + (id + 1);
+          } else if (id.toString().length <= 2) {
+            docid = "question-0" + (id + 1);
+          } else {
+            docid = "question-0" + (id + 1);
+          }
+
+          const userRef = db
+            .collection("CommonFAQ")
+            .doc(docid)
+            .set({
+              faqAnswer: this.state.faqAnswer,
+              faqQuestion: this.state.faqQuestion,
+              faqType: this.state.faqType,
+              id: docid,
+            })
+            .then(function () {
+              window.location.reload();
+            });
+        });
       });
   };
 
