@@ -1,0 +1,224 @@
+.ArtsCulture-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.ArtsCulture-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#ArtsCulture-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#ArtsCulture-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#ArtsCulture-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#ArtsCulture-title {
+    color: #424242;
+}
+
+#ArtsCulture-addBtn {
+    background: none;
+    border: 1px solid #424242;
+    color: #424242;
+    min-width: 20%;
+    border-radius: 6px;
+}
+
+#ArtsCulture-addBtn:hover {
+    background: #424242;
+    border-color: #424242;
+    color: white;
+}
+
+#ArtsCulture-addBtn:focus {
+    box-shadow: none;
+}
+
+#ArtsCulture-addBtnText {
+    margin-left: 10%;
+}
+
+#ArtsCulture-secondRow {
+    margin: 0 !important;
+}
+
+#ArtsCulture-secondRowCol {
+    padding: 0 !important;
+}
+
+/* -- Day 1 and 2 Content -- */
+.ArtsCulture-tableColCon {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+
+.ArtsCulture-tableCon {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+.ArtsCulture-tableHeader {
+    color: #424242;
+    font-size: 90%;
+}
+
+.ArtsCulture-tableBody {
+    color: #434343;
+    font-size: 85%;
+}
+
+#ArtsCulture-editBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#ArtsCulture-editBtn:focus {
+    box-shadow: none;
+}
+
+#ArtsCulture-deleteBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#ArtsCulture-deleteBtn:focus {
+    box-shadow: none;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 80%;
+}
+
+/* -- Add/Edit Modal -- */
+.ArtsCulture-formGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#ArtsCulture-modalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+#ArtsCulture-addfooter, #ArtsCulture-editFooter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ArtsCulture-addFooterCol, .ArtsCulture-editFooterCol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#ArtsCulture-submitBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#ArtsCulture-submitBtn:focus {
+    box-shadow: none;    
+}
+
+#ArtsCulture-saveBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#ArtsCulture-saveBtn:focus {
+    box-shadow: none;    
+}
+
+#ArtsCulture-cancelBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: #60c6d9;    
+}
+
+#ArtsCulture-cancelBtn:focus {
+    box-shadow: none;    
+}
+
+#ArtsCulture-inputFields {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;    
+    font-size: 85%;
+}
+
+#ArtsCulture-inputFields:focus {
+    box-shadow: none;
+}
+
+#ArtsCulture-gameBoothNameData {
+    text-transform: capitalize;
+}
+
+ /* -- Delete Modal -- */
+.ArtsCulture-deleteFooterCol {
+    padding-bottom: 4%;
+}
+
+#ArtsCulture-deleteText {
+    font-size: 95%;
+    color: #424242;
+}
+
+#ArtsCulture-deleteConfirmBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #EA526F
+}
+
+#ArtsCulture-deleteConfirmBtn:focus {
+    box-shadow: none;    
+}
+
+#ArtsCulture-deleteCancelBtn {
+    width: 40%;
+    background: #EA526F;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: white;
+}
+
+#ArtsCulture-deleteCancelBtn:focus {
+    box-shadow: none;    
+}
