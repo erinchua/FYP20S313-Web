@@ -108,8 +108,8 @@ class ArtsAndCulture extends Component {
                     docid = "club-0" + (id + 1) 
                 }
 
-                // var clubsAndCouncilTitle = document.getElementById("clubsAndCouncilTitle").value;
-                // var clubsAndCouncilDescription = document.getElementById("clubsAndCouncilDescription").value
+                var clubsAndCouncilTitle = document.getElementById("clubsAndCouncilTitle").value;
+                var clubsAndCouncilDescription = document.getElementById("clubsAndCouncilDescription").value
 
                 const parentthis = this;
                 const foldername = "/ClubsAndCouncil/ArtsCulture";
