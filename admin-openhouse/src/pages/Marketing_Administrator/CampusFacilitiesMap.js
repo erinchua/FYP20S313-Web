@@ -110,7 +110,7 @@ class CampusFacilitiesMap extends Component {
       });
       this.setState({ block: block });
       var filteredBlock = block.filter(onlyUnique);
-      
+
       this.setState({ facilities: facilities,});
       this.setState({filteredBlock: filteredBlock});
     });
@@ -424,7 +424,7 @@ class CampusFacilitiesMap extends Component {
                     </InputGroup.Prepend>
 
                     <Form.Control as="select" name="blockName" defaultValue={this.state.blockName} onChange={this.updateInput} className="editCampusFacilFormSelect" required noValidate>
-                      <option value="chooseBlock" className="editCampusFacilFormSelectOption">Choose Block</option>
+                      <option value="" className="editCampusFacilFormSelectOption">Choose Block</option>
                       
                       {this.state.filteredBlock && this.state.filteredBlock.map((blockName) => {
                         return (
