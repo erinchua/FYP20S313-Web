@@ -13,18 +13,28 @@ import Footer from '../../components/Footer';
 import SideNavBar from '../../components/SideNavbar';
 
 
+const initialStates = {
+  blockError: "",
+  facilityNameError: "",
+  facilityLocationError: ""
+}
+
 class CampusFacilitiesMap extends Component {
+  state = initialStates;
+
   constructor() {
     super();
     this.state = {
       blockName: "",
       facilityName: "",
       location: "",
-      url: "",
-      progress: "",
+      // url: "",
+      // progress: "",
 
+      filteredBlock: [],
       editCampusFacilModal: false
     };
+    this.resetForm = this.resetForm.bind(this);
   }
 
   authListener() {
@@ -64,25 +74,30 @@ class CampusFacilitiesMap extends Component {
     const db = fire.firestore();
 
     //Map Image File
-    const image = db
-    .collection("CampusFacilities").doc("map")
-    .get()
-    .then((snapshot) => {
-      const maparray = [];
-      const image = snapshot.data();
-      const data = {
-        url: image.url,
+    // const image = db
+    // .collection("CampusFacilities").doc("map")
+    // .get()
+    // .then((snapshot) => {
+    //   const maparray = [];
+    //   const image = snapshot.data();
+    //   const data = {
+    //     url: image.url,
 
-      };
-      maparray.push(data);
-      this.setState({ maparr: maparray});   
-    });
+    //   };
+    //   maparray.push(data);
+    //   this.setState({ maparr: maparray});   
+    // });
+
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    }
 
     const userRef = db
-    .collection("CampusFacilities")
+    .collection("CampusFacilities").orderBy('blockName','asc')
     .get()
     .then((snapshot) => {
       const facilities = [];
+      const block = [];
       snapshot.forEach((doc) => {
         const data = {
           blockName: doc.data().blockName,
@@ -91,61 +106,66 @@ class CampusFacilitiesMap extends Component {
           id: doc.id,
         };
         facilities.push(data);
+        block.push(doc.data().blockName);
       });
+      this.setState({ block: block });
+      var filteredBlock = block.filter(onlyUnique);
 
-      this.setState({ facilities: facilities });
+      this.setState({ facilities: facilities,});
+      this.setState({filteredBlock: filteredBlock});
     });
   }
 
-  update(e, facilitiesid) {
-    const blockName = document.getElementById(facilitiesid + "block").value
-    const facilityName = document.getElementById(facilitiesid + "name").value
-    const location = document.getElementById(facilitiesid + "location").value
 
-    const db = fire.firestore();
-    if (blockName != null && facilityName != null && location != null) {
-      const userRef = db
-      .collection("CampusFacilities")
-      .doc(facilitiesid)
-      .update({
-        blockName: blockName,
-        facilityName: facilityName,
-        location: location,
-      })
-      .then(function () {
-        // alert("Updated");
-        window.location.reload();
-      });
-    }
-  }
+  // update(e, facilitiesid) {
+  //   const blockName = document.getElementById(facilitiesid + "block").value
+  //   const facilityName = document.getElementById(facilitiesid + "name").value
+  //   const location = document.getElementById(facilitiesid + "location").value
 
-  editLink(e, facilitiesid){
-    document.getElementById(facilitiesid + "upload").removeAttribute("hidden");
-    document.getElementById(facilitiesid + "spanimagelink").removeAttribute("hidden");
-    document.getElementById(facilitiesid + "editbutton").setAttribute("hidden", "");
-    document.getElementById(facilitiesid + "updatebutton").removeAttribute("hidden");
-    document.getElementById(facilitiesid + "cancelbutton").removeAttribute("hidden");
-    var texttohide = document.getElementsByClassName(
-      facilitiesid + "text"
-    );
-    for (var i = 0; i < texttohide.length; i++) {
-      texttohide[i].setAttribute("hidden", "");
-    }
-  }
+  //   const db = fire.firestore();
+  //   if (blockName != null && facilityName != null && location != null) {
+  //     const userRef = db
+  //     .collection("CampusFacilities")
+  //     .doc(facilitiesid)
+  //     .update({
+  //       blockName: blockName,
+  //       facilityName: facilityName,
+  //       location: location,
+  //     })
+  //     .then(function () {
+  //       // alert("Updated");
+  //       window.location.reload();
+  //     });
+  //   }
+  // }
 
-  CancelEditLink(e, facilitiesid) {
-    document.getElementById(facilitiesid + "upload").setAttribute("hidden", "");
-    document.getElementById(facilitiesid + "spanimagelink").setAttribute("hidden", "");
-    document.getElementById(facilitiesid + "editbutton").removeAttribute("hidden");
-    document.getElementById(facilitiesid + "updatebutton").setAttribute("hidden", "");
-    document.getElementById(facilitiesid + "cancelbutton").setAttribute("hidden", "");
-    var texttohide = document.getElementsByClassName(
-      facilitiesid + "text"
-    );
-    for (var i = 0; i < texttohide.length; i++) {
-      texttohide[i].removeAttribute("hidden", "");
-    }
-  }
+  // editLink(e, facilitiesid){
+  //   document.getElementById(facilitiesid + "upload").removeAttribute("hidden");
+  //   document.getElementById(facilitiesid + "spanimagelink").removeAttribute("hidden");
+  //   document.getElementById(facilitiesid + "editbutton").setAttribute("hidden", "");
+  //   document.getElementById(facilitiesid + "updatebutton").removeAttribute("hidden");
+  //   document.getElementById(facilitiesid + "cancelbutton").removeAttribute("hidden");
+  //   var texttohide = document.getElementsByClassName(
+  //     facilitiesid + "text"
+  //   );
+  //   for (var i = 0; i < texttohide.length; i++) {
+  //     texttohide[i].setAttribute("hidden", "");
+  //   }
+  // }
+
+  // CancelEditLink(e, facilitiesid) {
+  //   document.getElementById(facilitiesid + "upload").setAttribute("hidden", "");
+  //   document.getElementById(facilitiesid + "spanimagelink").setAttribute("hidden", "");
+  //   document.getElementById(facilitiesid + "editbutton").removeAttribute("hidden");
+  //   document.getElementById(facilitiesid + "updatebutton").setAttribute("hidden", "");
+  //   document.getElementById(facilitiesid + "cancelbutton").setAttribute("hidden", "");
+  //   var texttohide = document.getElementsByClassName(
+  //     facilitiesid + "text"
+  //   );
+  //   for (var i = 0; i < texttohide.length; i++) {
+  //     texttohide[i].removeAttribute("hidden", "");
+  //   }
+  // }
 
   editFacilities(e, facilitiesid) {
     // document.getElementById(facilitiesid + "spanblock").removeAttribute("hidden");
@@ -160,75 +180,97 @@ class CampusFacilitiesMap extends Component {
     // for (var i = 0; i < texttohide.length; i++) {
     //   texttohide[i].setAttribute("hidden", "");
     // }
-    
-  }
 
-  CancelEdit(e, facilitiesid) {
-    document.getElementById(facilitiesid + "spanblock").setAttribute("hidden", "");
-    document.getElementById(facilitiesid + "spanname").setAttribute("hidden", "");
-    document.getElementById(facilitiesid + "spanlocation").setAttribute("hidden", "");
-    document.getElementById(facilitiesid + "editbutton").removeAttribute("hidden");
-    document.getElementById(facilitiesid + "updatebutton").setAttribute("hidden", "");
-    document.getElementById(facilitiesid + "cancelbutton").setAttribute("hidden", "");
-    var texttohide = document.getElementsByClassName(
-      facilitiesid + "text"
-    );
-    for (var i = 0; i < texttohide.length; i++) {
-      texttohide[i].removeAttribute("hidden", "");
+    const isValid = this.validate();
+    if (isValid) {
+      this.setState(initialStates);
+
+      const db = fire.firestore();
+      db
+      .collection("CampusFacilities")
+      .doc(this.state.id)
+      .update({
+        blockName: this.state.blockName,
+        facilityName: this.state.facilityName,
+        location: this.state.location,
+      })
+      .then(dataSnapshot => {
+        this.setState({
+          editCampusFacilModal: false
+        })
+        this.display()
+      }); 
     }
   }
 
-  handleFileUpload = (files) => {
-    this.setState({
-      files: files,
-    });
-  };
+  // CancelEdit(e, facilitiesid) {
+  //   document.getElementById(facilitiesid + "spanblock").setAttribute("hidden", "");
+  //   document.getElementById(facilitiesid + "spanname").setAttribute("hidden", "");
+  //   document.getElementById(facilitiesid + "spanlocation").setAttribute("hidden", "");
+  //   document.getElementById(facilitiesid + "editbutton").removeAttribute("hidden");
+  //   document.getElementById(facilitiesid + "updatebutton").setAttribute("hidden", "");
+  //   document.getElementById(facilitiesid + "cancelbutton").setAttribute("hidden", "");
+  //   var texttohide = document.getElementsByClassName(
+  //     facilitiesid + "text"
+  //   );
+  //   for (var i = 0; i < texttohide.length; i++) {
+  //     texttohide[i].removeAttribute("hidden", "");
+  //   }
+  // }
+  
+  /** Images for this page are static so the images cannot be replaced. **/
+  // handleFileUpload = (files) => {
+  //   this.setState({
+  //     files: files,
+  //   });
+  // };
 
-  handleSave = () => {
-    const parentthis = this;
-    const db = fire.firestore();
+  // handleSave = () => {
+  //   const parentthis = this;
+  //   const db = fire.firestore();
 
-    if (this.state.files !== undefined) {
-      const foldername = "CampusFacilitiesMap";
-      const file = this.state.files[0];
-      const storageRef = fire.storage().ref(foldername);
-      const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
-      fileRef.on("state_changed", function (snapshot) {
-        fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-          console.log("File available at", downloadURL);
+  //   if (this.state.files !== undefined) {
+  //     const foldername = "CampusFacilitiesMap";
+  //     const file = this.state.files[0];
+  //     const storageRef = fire.storage().ref(foldername);
+  //     const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
+  //     fileRef.on("state_changed", function (snapshot) {
+  //       fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+  //         console.log("File available at", downloadURL);
 
-          const userRef = db
-          .collection("CampusFacilities")
-          .doc("map")
-          .update({
-            url: downloadURL,
-          })
-          .then(function () {
-            // alert("Updated");
-            window.location.reload();
-          });
+  //         const userRef = db
+  //         .collection("CampusFacilities")
+  //         .doc("map")
+  //         .update({
+  //           url: downloadURL,
+  //         })
+  //         .then(function () {
+  //           // alert("Updated");
+  //           window.location.reload();
+  //         });
           
-        });
+  //       });
 
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        if (progress != "100") {
-          parentthis.setState({ progress: progress });
-        } else {
-          parentthis.setState({ progress: "Uploaded!" });
-        }
-      });
-      console.log();
-    } else {
-      alert("No Files Selected");
-    }
-  };
+  //       const progress = Math.round(
+  //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+  //       );
+  //       if (progress != "100") {
+  //         parentthis.setState({ progress: progress });
+  //       } else {
+  //         parentthis.setState({ progress: "Uploaded!" });
+  //       }
+  //     });
+  //     console.log();
+  //   } else {
+  //     alert("No Files Selected");
+  //   }
+  // };
 
   /* Edit Campus Facilities Modal */
   handleEditCampusFacilModal = (facility) => {
     if (this.state.editCampusFacilModal == false) {
       this.setState({
+        id: facility.id,
         editCampusFacilModal: true,
         blockName: facility.blockName,
         facilityName: facility.facilityName,
@@ -239,9 +281,49 @@ class CampusFacilitiesMap extends Component {
       this.setState({
         editCampusFacilModal: false
       });
+      this.resetForm();
     }
   };
 
+  //Validations for the Forms in Modals
+  validate = () => {
+    let blockError = "";
+    let facilityNameError = "";
+    let facilityLocationError = "";
+
+    if (!this.state.blockName) {
+      blockError = "Please select a valid block!";
+    } 
+
+    if (! (this.state.facilityName && this.state.facilityName.length >= 2) ) {
+      facilityNameError = "Please enter a valid facility name!";
+    }
+
+    if (! (this.state.location && this.state.location.length >= 2) ) {
+      facilityLocationError = "Please enter a valid facility location!";
+    }
+
+    if (blockError || facilityNameError || facilityLocationError) {
+      this.setState({
+        blockError, facilityNameError, facilityLocationError
+      });
+      return false;
+    } 
+    return true;
+  }
+
+  //Reset Forms
+  resetForm = () => {
+    this.setState({
+      blockError: "",
+      facilityNameError: "",
+      facilityLocationError: "",
+      id: "", 
+      blockName: "",
+      facilityName: "",
+      location: "",
+    })
+  }
 
 
   render() {
@@ -330,7 +412,7 @@ class CampusFacilitiesMap extends Component {
           </Modal.Header>
 
           <Modal.Body id="editCampusFacilModalBody">
-            <Form noValidate> {/* onSubmit={this.edit} */}
+            <Form noValidate onSubmit={()=>{this.editFacilities()}}>
               {/* Block */}
               <Form.Row className="justify-content-center editCampusFacilFormRow">
                 <Col md="10" className="editCampusFacilFormCol">
@@ -341,20 +423,20 @@ class CampusFacilitiesMap extends Component {
                       </InputGroup.Text>
                     </InputGroup.Prepend>
 
-                    <Form.Control as="select" name="blockName" defaultValue={this.state.blockName} className="editCampusFacilFormSelect" required noValidate>
-                      <option value="chooseBlock" className="editCampusFacilFormSelectOption">Choose Block</option>
+                    <Form.Control as="select" name="blockName" defaultValue={this.state.blockName} onChange={this.updateInput} className="editCampusFacilFormSelect" required noValidate>
+                      <option value="" className="editCampusFacilFormSelectOption">Choose Block</option>
                       
-                      {/* To be retrieved from DB */}
-                      {this.state.facilities && this.state.facilities.map((facility) => {
+                      {this.state.filteredBlock && this.state.filteredBlock.map((blockName) => {
                         return (
                           <>
-                            <option value={facility.blockName} className="editCampusFacilFormSelectOption">{facility.blockName}</option>
+                            <option value={blockName} className="editCampusFacilFormSelectOption">{blockName}</option>
                           </>
                         );
                       })}
-
                     </Form.Control> 
                   </InputGroup>
+
+                  <div className="errorMessage text-left">{this.state.blockError}</div>
                 </Col>
               </Form.Row>
 
@@ -362,8 +444,9 @@ class CampusFacilitiesMap extends Component {
               <Form.Row className="justify-content-center editCampusFacilFormRow">
                 <Col md="10">
                   <Form.Label className="editCampusFacilFormLabel">Facility Name</Form.Label>
-
-                  <FormControl as="textarea" rows="4" defaultValue={this.state.facilityName} required noValidate id="editCampusFacilForm_FacilName" placeholder="Facility Name*" />                                       
+                  <FormControl as="textarea" rows="4" name="facilityName" defaultValue={this.state.facilityName} onChange={this.updateInput} required noValidate id="editCampusFacilForm_FacilName" placeholder="Facility Name*" />                                       
+                
+                  <div className="errorMessage text-left">{this.state.facilityNameError}</div>
                 </Col>
               </Form.Row>
 
@@ -371,8 +454,9 @@ class CampusFacilitiesMap extends Component {
               <Form.Row className="justify-content-center editCampusFacilFormRow">
                 <Col md="10">
                   <Form.Label className="editCampusFacilFormLabel">Facility Location</Form.Label>
-
-                  <FormControl as="textarea" rows="4" defaultValue={this.state.location} required noValidate id="editCampusFacilForm_FacilLocation" placeholder="Facility Location*" />                                       
+                  <FormControl as="textarea" rows="4" name="location" defaultValue={this.state.location} onChange={this.updateInput} required noValidate id="editCampusFacilForm_FacilLocation" placeholder="Facility Location*" />                                       
+                
+                  <div className="errorMessage text-left">{this.state.facilityLocationError}</div>
                 </Col>
               </Form.Row>
 
@@ -384,7 +468,7 @@ class CampusFacilitiesMap extends Component {
             <Container>
               <Row>
                 <Col md="6" className="text-right">
-                  <Button id="saveChangesCampusFacilFormBtn">Save Changes</Button>
+                  <Button id="saveChangesCampusFacilFormBtn" onClick={(e)=>{this.editFacilities()}}>Save Changes</Button>
                 </Col>
 
                 <Col md="6" className="text-left">
