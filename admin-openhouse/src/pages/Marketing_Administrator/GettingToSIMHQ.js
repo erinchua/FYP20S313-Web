@@ -75,6 +75,8 @@ class GettingToSIMHQ extends Component {
             busArray: "",
             busOppSimArray: "",
             busSimArray: "",
+            editOppSimArray: "",
+            editSimArray: "",
             busNo: "",
             //Below states are for MRT 
             mrtId: "",
@@ -83,6 +85,8 @@ class GettingToSIMHQ extends Component {
             mrtArray: "",
             mrtDownTownArray: "",
             mrtEastWestArray: "",
+            editDownTownArray: "",
+            editEastWestArray: "",
             nearestMRT: "",
             //Below states are for Car Park Info
             carParkId: "",
@@ -166,6 +170,8 @@ class GettingToSIMHQ extends Component {
                         busArray: busarray, 
                         busOppSimArray: oppSimHq.sort(sortFunction).join(", "), 
                         busSimArray: simHq.sort(sortFunction).join(", "),
+                        editOppSimArray: oppSimHq,
+                        editSimArray: simHq,
                     }));
                 }
 
@@ -218,7 +224,9 @@ class GettingToSIMHQ extends Component {
                     this.setState(() => ({ 
                         mrtArray: mrtarray, 
                         mrtDownTownArray: downTownLine.sort(sortAlphabet).join(", "), 
-                        mrtEastWestArray: eastWestLine.sort(sortAlphabet).join(", ")
+                        mrtEastWestArray: eastWestLine.sort(sortAlphabet).join(", "),
+                        editDownTownArray: downTownLine,
+                        editEastWestArray: eastWestLine,
                     }));
                 }
 
@@ -239,16 +247,18 @@ class GettingToSIMHQ extends Component {
     }
 
     carupdate = (e, locationid) => {
-            const db = fire.firestore();
-
-            const userRef = db.collection("CampusLocation").doc("car")
-            .update({
-                carDescription: this.state.carDescription,
-            })
-            .then(function () {
-                alert("Updated");
+        const db = fire.firestore();
+        db.collection("CampusLocation").doc("car")
+        .update({
+            carDescription: this.state.carDescription,
+        })
+        .then(dataSnapshot => {
+            console.log("Updated Car Info");
+            this.setState({
+                carEditModal: false
             });
-        
+            this.display();
+        });
     };
 
     busupdate = (e, locationid) => {
@@ -262,11 +272,15 @@ class GettingToSIMHQ extends Component {
             .update({
                 [dbfiled]: value,
             })
-            .then(function () {
-                alert("Updated");
+            .then(dataSnapshot => {
+                console.log("Updated Bus Info");
+                this.setState({
+                    busEditModal: false
+                });
+                this.display();
             });
         } else {
-            alert("Fields cannot be empty ");
+            console.log("Fields cannot be empty ");
         }
     };
 
@@ -281,23 +295,31 @@ class GettingToSIMHQ extends Component {
             .update({
                 [dbfield]: value,
             })
-            .then(function () {
-                alert("Updated");
+            .then(dataSnapshot => {
+                console.log("Updated MRT Info");
+                this.setState({
+                    mrtEditModal: false
+                });
+                this.display();
             });
         } else {
-            alert("Fields cannot be empty ");
+            console.log("Fields cannot be empty ");
         }
     };
 
     carparkupdate = (e, locationid) => {
-            const db = fire.firestore();
-            const userRef = db.collection("CampusLocation").doc("car")
-            .update({
-                carParkingDescription: this.state.carParkDescription,
-            })
-            .then(function () {
-                alert("Updated");
+        const db = fire.firestore();
+        db.collection("CampusLocation").doc("car")
+        .update({
+            carParkingDescription: this.state.carParkDescription,
+        })
+        .then(dataSnapshot => {
+            console.log("Updated Car Park Info");
+            this.setState({
+                carParkEditModal: false
             });
+            this.display();
+        });
     };
 
     handleFileUpload = (files) => {
@@ -323,9 +345,8 @@ class GettingToSIMHQ extends Component {
                     .update({
                         url: downloadURL,
                     })
-                    .then(function () {
-                        alert("Updated");
-                        window.location.reload();
+                    .then(function() {
+                        console.log("Updated the Map Image");
                     });
                 });
                 const progress = Math.round(
@@ -338,15 +359,20 @@ class GettingToSIMHQ extends Component {
                 }
             });
             console.log();
+            this.setState({
+                mapEditModal: false
+            })
         } else {
-            alert("No Files Selected");
+            console.log("No Files Selected");
         }
     };
 
-    handleMapEditModal = () => {
+    handleMapEditModal = (map) => {
         if (this.state.mapEditModal == false) {
             this.setState({
                 mapEditModal: true,
+                mapId: map.id,
+                mapUrl: map.url,
             })
         }
         else {
@@ -386,12 +412,12 @@ class GettingToSIMHQ extends Component {
         }
     }
 
-    handleBusEditModal = (busDescription) => {
+    handleBusEditModal = (bus) => {
         if (this.state.busEditModal == false) {
             this.setState({
                 busEditModal: true,
-                simBusDescription: busDescription,
-                oppSimBusDescription: busDescription,
+                simBusDescription: bus,
+                oppSimBusDescription: bus,
             });
         }
         else {
@@ -484,16 +510,16 @@ class GettingToSIMHQ extends Component {
                                                                                     <th id="GettingToSimHq-editHeading">Edit</th>
                                                                                 </tr>
                                                                             </thead>
-                                                                            {this.state.mapArray && this.state.mapArray.map((mapArray) => {
-                                                                                    return (
-                                                                            <tbody id="GettingToSimHq-tableBody" key={mapArray.mapId}>
-                                                                                <tr>
-                                                                                    <td className="text-left">{mapArray.url}</td>
-                                                                                    <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={this.handleMapEditModal}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                            )
-                                                                        })}
+                                                                            {this.state.mapArray && this.state.mapArray.map((map) => {
+                                                                                return (
+                                                                                    <tbody id="GettingToSimHq-tableBody" key={map.mapId}>
+                                                                                        <tr>
+                                                                                            <td className="text-left">Getting to SIM HQ Map Image</td>
+                                                                                            <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={() => this.handleMapEditModal(map)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                )
+                                                                            })}
                                                                         </Table>
                                                                     </Col>
                                                                 </Tab.Pane>
@@ -660,6 +686,11 @@ class GettingToSIMHQ extends Component {
                                 <Form noValidate>
                                     <Form.Group>
                                         <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                            <img height="200px" width="400px" src={this.state.mapUrl} style={{marginBottom: "3%"}}/>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
                                             <Form.Group as={Col} md="1">
                                                 <FontAwesomeIcon size="lg" icon={faFileImage} />
                                             </Form.Group> 
@@ -786,17 +817,21 @@ class GettingToSIMHQ extends Component {
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
-                                                <Form.Group>
-                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
-                                                        <Form.Group as={Col} md="1">
-                                                            <FontAwesomeIcon size="lg" icon={faBus}/>
-                                                        </Form.Group> 
-                                                        <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="busNo" placeholder="Bus Numbers" required defaultValue={this.state.busSimArray} onChange={this.updateInput} noValidate></Form.Control>
-                                                            <div className="errorMessage"></div>
+                                                {this.state.editSimArray && this.state.editSimArray.map((bus, index) => {
+                                                    return (
+                                                        <Form.Group>
+                                                            <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                                <Form.Group as={Col} md="1">
+                                                                    <FontAwesomeIcon size="lg" icon={faBus}/>
+                                                                </Form.Group> 
+                                                                <Form.Group as={Col} md="7">
+                                                                    <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="busNo" placeholder="Bus Numbers" required defaultValue={this.state.editSimArray[index]} onChange={this.updateInput} noValidate></Form.Control>
+                                                                    <div className="errorMessage"></div>
+                                                                </Form.Group>
+                                                            </Form.Group>                     
                                                         </Form.Group>
-                                                    </Form.Group>                     
-                                                </Form.Group>
+                                                    )
+                                                })}
                                             </Form>
                                         )
                                     } else {
@@ -813,17 +848,21 @@ class GettingToSIMHQ extends Component {
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
-                                                <Form.Group>
-                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
-                                                        <Form.Group as={Col} md="1">
-                                                            <FontAwesomeIcon size="lg" icon={faBus}/>
-                                                        </Form.Group> 
-                                                        <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="busNo" placeholder="Bus Numbers" required defaultValue={this.state.busOppSimArray} onChange={this.updateInput} noValidate></Form.Control>
-                                                            <div className="errorMessage"></div>
+                                                {this.state.editOppSimArray && this.state.editOppSimArray.map((bus, index) => {
+                                                    return (
+                                                        <Form.Group>
+                                                            <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                                <Form.Group as={Col} md="1">
+                                                                    <FontAwesomeIcon size="lg" icon={faBus}/>
+                                                                </Form.Group> 
+                                                                <Form.Group as={Col} md="7">
+                                                                    <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="busNo" placeholder="Bus Numbers" required defaultValue={this.state.editOppSimArray[index]} onChange={this.updateInput} noValidate></Form.Control>
+                                                                    <div className="errorMessage"></div>
+                                                                </Form.Group>
+                                                            </Form.Group>                     
                                                         </Form.Group>
-                                                    </Form.Group>                     
-                                                </Form.Group>
+                                                    )
+                                                })}
                                             </Form>
                                         )
                                     }
@@ -868,17 +907,21 @@ class GettingToSIMHQ extends Component {
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
-                                                <Form.Group>
-                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
-                                                        <Form.Group as={Col} md="1">
-                                                            <FontAwesomeIcon size="lg" icon={faTrain}/>
-                                                        </Form.Group> 
-                                                        <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="mrtStation" placeholder="MRT Station Names" required defaultValue={this.state.mrtDownTownArray} onChange={this.updateInput} noValidate></Form.Control>
-                                                            <div className="errorMessage"></div>
-                                                        </Form.Group>
-                                                    </Form.Group>                     
-                                                </Form.Group>
+                                                {this.state.editDownTownArray && this.state.editDownTownArray.map((mrt, index) => {
+                                                    return (
+                                                        <Form.Group>
+                                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                            <Form.Group as={Col} md="1">
+                                                                <FontAwesomeIcon size="lg" icon={faTrain}/>
+                                                            </Form.Group> 
+                                                            <Form.Group as={Col} md="7">
+                                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="mrtStation" placeholder="MRT Station Names" required defaultValue={this.state.editDownTownArray[index]} onChange={this.updateInput} noValidate></Form.Control>
+                                                                <div className="errorMessage"></div>
+                                                            </Form.Group>
+                                                        </Form.Group>                     
+                                                    </Form.Group>
+                                                    )
+                                                })}
                                             </Form>
                                         )
                                     } else {
@@ -895,17 +938,21 @@ class GettingToSIMHQ extends Component {
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
-                                                <Form.Group>
-                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
-                                                        <Form.Group as={Col} md="1">
-                                                            <FontAwesomeIcon size="lg" icon={faTrain}/>
-                                                        </Form.Group> 
-                                                        <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="mrtStation" placeholder="MRT Station Names" required defaultValue={this.state.mrtEastWestArray} onChange={this.updateInput} noValidate></Form.Control>
-                                                            <div className="errorMessage"></div>
-                                                        </Form.Group>
-                                                    </Form.Group>                     
-                                                </Form.Group>
+                                                {this.state.editEastWestArray && this.state.editEastWestArray.map((mrt, index) => {
+                                                    return (
+                                                        <Form.Group>
+                                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                            <Form.Group as={Col} md="1">
+                                                                <FontAwesomeIcon size="lg" icon={faTrain}/>
+                                                            </Form.Group> 
+                                                            <Form.Group as={Col} md="7">
+                                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="mrtStation" placeholder="MRT Station Names" required defaultValue={this.state.editEastWestArray[index]} onChange={this.updateInput} noValidate></Form.Control>
+                                                                <div className="errorMessage"></div>
+                                                            </Form.Group>
+                                                        </Form.Group>                     
+                                                    </Form.Group>
+                                                    )
+                                                })}
                                             </Form>
                                         )
                                     }
