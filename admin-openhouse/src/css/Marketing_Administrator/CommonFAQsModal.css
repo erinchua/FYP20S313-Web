@@ -1,0 +1,172 @@
+/**********************************************************************************************/
+/* Add Common FAQ Modal Css */
+/**********************************************************************************************/
+#addCommonFAQModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.addCommonFAQFormRow {
+    padding-bottom: 4%;
+}
+
+.addCommonFAQFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.addCommonFAQFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    border-radius: 0 !important;
+    font-size: 85% !important;
+}
+
+.addCommonFAQFormSelect:focus {
+    box-shadow: none !important;
+}
+
+.addCommonFAQFormSelectOption {
+    color: #434343;
+    font-size: 85% !important;
+}
+
+.addCommonFAQForm_Textarea {
+    resize: none;
+    border-radius: 6px;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+.addCommonFAQFormLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
+}
+
+#addCommonFAQFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+    width: 20%;
+}
+
+#addCommonFAQFormBtn:focus {
+    box-shadow: none;
+}
+
+/**********************************************************************************************/
+/* Edit Common FAQ Modal Css */
+/**********************************************************************************************/
+#editCommonFAQModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.editCommonFAQFormRow {
+    padding-bottom: 4%;
+}
+
+.addCommonFAQFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.editCommonFAQFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    border-radius: 0 !important;
+    font-size: 85% !important;
+}
+
+.editCommonFAQFormSelect:focus {
+    box-shadow: none !important;
+}
+
+.editCommonFAQFormSelectOption {
+    color: #434343;
+    font-size: 85% !important;
+}
+
+.editCommonFAQForm_Textarea {
+    resize: none;
+    border-radius: 6px;
+    color: #434343;
+    font-size: 85% !important;
+}
+
+.editCommonFAQFormLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
+}
+
+#saveChangesCommonFAQFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+}
+
+#saveChangesCommonFAQFormBtn:focus {
+    box-shadow: none;
+}
+
+#cancelEditCommonFAQFormBtn {
+    background: none;
+    border: 1px solid #60c6d9;
+    color: #60c6d9;
+    border-radius: 6px;
+}
+
+#cancelEditCommonFAQFormBtn:focus {
+    box-shadow: none;
+}
+
+/**********************************************************************************************/
+/* Delete Common FAQ Modal Css */
+/**********************************************************************************************/
+#deleteCommonFAQModalTitle {
+    font-size: 95%;
+    color: #EA526F;
+}
+
+.deleteCommonFAQModalCol {
+    padding-bottom: 4%;
+}
+
+#deleteCommonFAQModalText {
+    font-size: 90%;
+    color: #424242;
+}
+
+#confirmDeleteCommonFAQModalBtn {
+    background: none;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #EA526F;
+    width: 40%;
+}
+
+#confirmDeleteCommonFAQModalBtn:focus {
+    box-shadow: none;
+}
+
+#cancelDeleteCommonFAQModalBtn {
+    background: #EA526F;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #ffffff;
+    width: 40%;
+}
+
+#cancelDeleteCommonFAQModalBtn:focus {
+    box-shadow: none;
+}
+
+/**********************************************************************************************/
+/* Modal Validation Css */
+/**********************************************************************************************/
+.errorMessage {
+    color: red;
+    font-size: 80%;
+}

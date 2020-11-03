@@ -1,4 +1,4 @@
-.MAProgLiveTalkCon {
+.commonFAQCon {
     min-height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -6,36 +6,36 @@
     padding: 0 !important;
 }
 
-.MAProgLiveTalkContent {
+.commonFAQContent {
     background: #ffffff;
     min-height: 84vh;
     padding: 0 !important;
 }
 
-.MAProgLiveTalkContentCon {
+.commonFAQContentCon {
     background: #ffffff;
     min-height: 84vh;
     padding: 0 !important;
 }
 
-#MAProgLiveTalkContentHeaderRow {
+#commonFAQContentHeaderRow {
     background: #88B7B5;
     width: 100%;
     margin: 0 !important;
 }
 
-.MAProgLiveTalkContentHeaderCol {
+.commonFAQContentHeaderCol {
     height: 100%;
     width: 100%;
     padding-top: 2%;
     padding-bottom: 2%;
 }
 
-#MAProgLiveTalkHeaderText {
+#commonFAQHeaderText {
     color: #424242;
 }
 
-#addProgLiveTalkBtn {
+#addCommonFAQBtn {
     background: none;
     color: #424242;
     min-width: 20%;
@@ -43,242 +43,181 @@
     border: 1px solid #424242;
 }
 
-#addProgLiveTalkBtnIcon {
+#addCommonFAQBtnIcon {
     margin-right: 5%;
 }
 
-#addProgLiveTalkBtnText {
+#addCommonFAQBtnText {
     margin-left: 5%;
 }
 
-#addProgLiveTalkBtn:hover {
+#addCommonFAQBtn:hover {
     background: #424242;
     color: #ffffff;
     border-color: #424242;
 }
 
-#addProgLiveTalkBtn:focus {
+#addCommonFAQBtn:focus {
     box-shadow: none;
 }
 
 /*******************************************************/
 /* Tabs Con Css*/
-.MAProgLiveTalkContentTabRow {
+.commonFAQContentTabRow {
     margin: 0 !important;
 }
 
-.MAProgLiveTalkContentTabCol {
+.commonFAQContentTabCol {
     padding: 0 !important;
 }
 
-.MAProgLiveTalkTabConRow {
+.commonFAQTabConRow {
     margin: 0 !important;
     padding: 0;
 }
 
-.MAProgLiveTalkTabConCol {
+.commonFAQTabConCol {
     padding: 0 !important;
 }
 
-.MAProgLiveTalkTabConInnerCol {
+.commonFAQTabConInnerCol {
     padding: 0 !important;
 }
 
-.MAProgLiveTalkTab_NavItem {
+.commonFAQTab_NavItem {
     background: #e4f2f0;
 }
 
-.MAProgLiveTalkTab_Day {
+.commonFAQTab_FAQ {
     color: #424242;
     font-weight: bold;
 }
 
-.MAProgLiveTalkTab_Day:focus {
+.commonFAQTab_FAQ:focus {
     color: #ffffff;
     background: #62929E;
     border-color: #62929E !important;
 }
 
-.MAProgLiveTalkTab_Day:hover {
+.commonFAQTab_FAQ:hover {
     color: #ffffff;
     background: #62929E;
     border-color: #62929E !important;
 }
 
-.MAProgLiveTalkTabNav .MAProgLiveTalkTab_Day.active {
+.commonFAQTabNav .commonFAQTab_FAQ.active {
     background: #62929E !important;
     color: #ffffff !important;
     border-color: #62929E !important;   
 }
 
-.MAProgLiveTalkTabpaneCol {
+.commonFAQTabpaneCol {
     padding: 0 !important;
 }
 
 /*******************************************************/
-/* Live Stream Table - Day 1 */
-#MAProgLiveTalkTable_Day1 {
+/* Common FAQs Table - Openhouse */
+.commonFAQTable_Openhouse {
     width: 100%;
     margin-bottom: 0;
     max-width: 100%;
 }
 
-.progLiveTalkHeader_SNo {
+.commonFAQHeader_SNo {
     width: 3%;
     color: #424242;
     font-size: 90%;
 }
 
-.progLiveTalkHeader_ProgTalk {
+.commonFAQHeader_Question {
     width: 16%;
     color: #424242;
     font-size: 90%;
 }
 
-.progLiveTalkHeader_AwardingUni {
+.commonFAQHeader_Answer {
     width: 16%;
     color: #424242;
     font-size: 90%;
 }
 
-.progLiveTalkHeader_StartTime {
-    width: 10%;
-    color: #424242;
-    font-size: 90%;
-}
-
-.progLiveTalkHeader_EndTime {
-    width: 10%;
-    color: #424242;
-    font-size: 90%;
-}
-
-.progLiveTalkHeader_Venue {
-    width: 15%;
-    color: #424242;
-    font-size: 90%;
-}
-
-.progLiveTalkHeader_Url {
-    width: 20%;
-    color: #424242;
-    font-size: 90%;
-}
-
-.progLiveTalkHeader_Edit {
+.commonFAQHeader_Edit {
     width: 5%;
     color: #424242;
     font-size: 90%;
 }
 
-.progLiveTalkHeader_Delete {
+.commonFAQHeader_Delete {
     width: 5%;
     color: #424242;
     font-size: 90%;
 }
 
 /******************* Table Data *******************/
-.progLiveTalkData_SNo {
+.commonFAQData_SNo {
     width: 3%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
 }
 
-.progLiveTalkData_ProgTalk {
+.commonFAQData_Question {
     width: 16%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
 }
 
-.progLiveTalkData_AwardingUni {
+.commonFAQData_Answer {
     width: 16%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
 }
 
-.progLiveTalkData_StartTime {
-    width: 10%;
-    color: #434343;
-    font-size: 85%;
-    word-wrap: break-word;
-}
-
-.progLiveTalkData_EndTime {
-    width: 10%;
-    color: #434343;
-    font-size: 85%;
-    word-wrap: break-word;
-}
-
-.progLiveTalkData_Venue {
-    width: 15%;
-    color: #434343;
-    font-size: 85%;
-    word-wrap: break-word;
-}
-
-.progLiveTalkData_Url {
-    width: 20%;
-    color: #434343 !important;
-    font-size: 85%;
-    word-wrap: break-word;
-    word-break: break-all;
-}
-
-.progLiveTalkData_UrlHref {
-    color: #434343 !important;
-}
-
-.progLiveTalkData_UrlHref:hover {
-    color: #88B7B5 !important;
-}
-
-.progLiveTalkData_Edit {
+.commonFAQData_Edit {
     width: 5%;
     color: #434343;
     font-size: 85%;
 }
 
-.progLiveTalkHeader_Delete {
+.commonFAQHeader_Delete {
     width: 5%;
     color: #434343;
     font-size: 85%;
 }
 
-#editProgLiveTalkBtn {
+#editCommonFAQBtn {
     background: none;
     border: none;
     color: #434343;
 }
 
-#editProgLiveTalkBtn:focus {
+#editCommonFAQBtn:focus {
     box-shadow: none;
 }
 
-#editProgLiveTalkBtnIcon {
+#editCommonFAQBtnIcon {
     color: #424242;
 }
 
-#deleteProgLiveTalkBtn {
+#deleteCommonFAQBtn {
     background: none;
     border: none;
     color: #434343;
 }
 
-#deleteProgLiveTalkBtn:focus {
+#deleteCommonFAQBtn:focus {
     box-shadow: none;
 }
 
-#deleteProgLiveTalkBtnIcon {
+#deleteCommonFAQBtnIcon {
     color: #424242;
 }
 
 /*******************************************************/
-/* Live Stream Table - Day 2 */
-#MAProgLiveTalkTable_Day2 {
+/* Common FAQ Table - General */
+#commonFAQTable_General {
     width: 100%;
     margin-bottom: 0;
     max-width: 100%;

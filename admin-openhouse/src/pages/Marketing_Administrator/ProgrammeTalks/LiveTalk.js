@@ -593,8 +593,8 @@ class LiveTalk extends Component {
                                             <td className="progLiveTalkData_EndTime text-left">{day1.endTime}</td>
                                             <td className="progLiveTalkData_Venue text-left">{day1.venue}</td>
                                             <td className="progLiveTalkData_Url text-left">
-                                                <a href={day1.url} className="progLiveTalkData_UrlHref">{day1.url}</a>
-                                              </td>
+                                              <a href={day1.url} className="progLiveTalkData_UrlHref">{day1.url}</a>
+                                            </td>
                                             <td className="progLiveTalkData_Edit text-center">
                                               <Button id="editProgLiveTalkBtn" onClick={()=>this.handleEditLiveTalkModal(day1)}>
                                                 <FontAwesomeIcon size="lg" id="editProgLiveTalkBtnIcon" icon={faEdit} />
