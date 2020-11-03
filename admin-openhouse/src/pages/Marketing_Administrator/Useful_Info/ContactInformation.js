@@ -664,7 +664,7 @@ class ContactInformation extends Component {
                   <Form.Row className="justify-content-center editContactInfoFormRow">
                     <Col md="10">
                       <Form.Label className="editContactInfoFormLabel">Weekday</Form.Label>
-                      <FormControl defaultValue={this.state.weekday} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Weekday" />
+                      <FormControl name="weekday" defaultValue={this.state.weekday} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Weekday" />
                       
                       <div className="errorMessage text-left">{this.state.weekdayError}</div>
                     </Col>
@@ -673,7 +673,7 @@ class ContactInformation extends Component {
                   <Form.Row className="justify-content-center editContactInfoFormRow">
                     <Col md="10">
                       <Form.Label className="editContactInfoFormLabel">Weekend</Form.Label>
-                      <FormControl defaultValue={this.state.weekend} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Weekend" />
+                      <FormControl name="weekend" defaultValue={this.state.weekend} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Weekend" />
                     
                       <div className="errorMessage text-left">{this.state.weekendError}</div>
                     </Col>
@@ -682,7 +682,7 @@ class ContactInformation extends Component {
                   <Form.Row className="justify-content-center editContactInfoFormRow">
                     <Col md="10">
                       <Form.Label className="editContactInfoFormLabel">Closed on</Form.Label>
-                      <FormControl defaultValue={this.state.noOperation} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Closed on" />
+                      <FormControl name="noOperation" defaultValue={this.state.noOperation} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Closed on" />
                     
                       <div className="errorMessage text-left">{this.state.noOperationError}</div>
                     </Col>
@@ -697,7 +697,7 @@ class ContactInformation extends Component {
                   <Form.Row className="justify-content-center editContactInfoFormRow">
                     <Col md="10">
                       <Form.Label className="editContactInfoFormLabel">Tel No.</Form.Label>
-                      <FormControl defaultValue={this.state.contactNo} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Tel No." />
+                      <FormControl name="contactNo" defaultValue={this.state.contactNo} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Tel No." />
                     
                       <div className="errorMessage text-left">{this.state.contactNoError}</div>
                     </Col>
@@ -712,7 +712,7 @@ class ContactInformation extends Component {
                   <Form.Row className="justify-content-center editContactInfoFormRow">
                     <Col md="10">
                       <Form.Label className="editContactInfoFormLabel">Email</Form.Label>
-                      <FormControl defaultValue={this.state.email} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Email" />
+                      <FormControl name="email" defaultValue={this.state.email} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Email" />
                     
                       <div className="errorMessage text-left">{this.state.emailError}</div>
                     </Col>
