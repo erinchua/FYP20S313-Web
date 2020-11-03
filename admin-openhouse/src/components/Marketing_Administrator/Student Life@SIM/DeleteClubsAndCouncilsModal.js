@@ -4,7 +4,7 @@ import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import firebase from "firebase/app";
 
-import '../../../css/Marketing_Administrator/ArtsAndCulture.css';
+import '../../../css/Marketing_Administrator/StudentLife.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
@@ -39,27 +39,27 @@ class DeleteClubsAndCouncilsModal extends Component {
         return(
             <div>
                 <Modal.Header closeButton className="justify-content-center">
-                    <Modal.Title id="ArtsCulture-modalTitle" className="w-100">Delete Club/Council</Modal.Title>
+                    <Modal.Title id="StudentLife-modalTitle" className="w-100">Delete Club/Council</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row className="justify-content-center">
-                        <Col md={12} className="text-center ArtsCulture-deleteFooterCol">
+                        <Col md={12} className="text-center StudentLife-deleteFooterCol">
                             <FontAwesomeIcon size="3x" icon={faExclamationCircle}/>
                         </Col>
                     </Row>
 
                     <Row className="justify-content-center">
-                        <Col md={12} className="text-center ArtsCulture-deleteFooterCol">
-                            <h5 id="ArtsCulture-deleteText">Do you want to delete this club/council?</h5>
+                        <Col md={12} className="text-center StudentLife-deleteFooterCol">
+                            <h5 id="StudentLife-deleteText">Do you want to delete this club/council?</h5>
                         </Col>
                     </Row>
 
                     <Row className="justify-content-center">
-                        <Col md={6} className="text-right ArtsCulture-deleteFooterCol">
-                            <Button id="ArtsCulture-deleteConfirmBtn" onClick={() => this.deleteClubsCouncils()}>Confirm</Button>
+                        <Col md={6} className="text-right StudentLife-deleteFooterCol">
+                            <Button id="StudentLife-deleteConfirmBtn" onClick={() => this.deleteClubsCouncils()}>Confirm</Button>
                         </Col>
-                        <Col md={6} className="text-left ArtsCulture-deleteFooterCol">
-                            <Button id="ArtsCulture-deleteCancelBtn" onClick={() => this.props.handleDelete()}>Cancel</Button>
+                        <Col md={6} className="text-left StudentLife-deleteFooterCol">
+                            <Button id="StudentLife-deleteCancelBtn" onClick={() => this.props.handleDelete()}>Cancel</Button>
                         </Col>
                     </Row>
                 </Modal.Body>

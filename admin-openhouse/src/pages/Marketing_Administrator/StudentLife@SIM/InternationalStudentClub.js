@@ -1,398 +1,215 @@
+import { Container, Row, Col, Table, Button, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
+import firebase from "firebase/app";
 
-//import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
+import '../../../css/Marketing_Administrator/InternationalStudentClub.css';
+import '../../../css/Marketing_Administrator/StudentLife.css';
+import NavBar from '../../../components/Navbar';
+import SideNavBar from '../../../components/SideNavbar';
+import Footer from '../../../components/Footer';
+import AddClubsAndCouncilsModal from '../../../components/Marketing_Administrator/Student Life@SIM/AddClubsAndCouncilsModal';
+import EditClubsAndCouncilsModal from '../../../components/Marketing_Administrator/Student Life@SIM/EditClubsAndCouncilsModal';
+import DeleteClubsAndCouncilsModal from '../../../components/Marketing_Administrator/Student Life@SIM/DeleteClubsAndCouncilsModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 class InternationalStudentClub extends Component {
-  constructor() {
-    super();
-    this.state = {
-      categoryType: "",
-      clubsAndCouncilDescription: "",
-      clubsAndCouncilTitle: "",
-      clubsAndCouncilsLogo: "",
-      progress: "",
-    };
-  }
+    constructor() {
+        super();
+        this.state = {
+            id: "",
+            categoryType: "",
+            clubsAndCouncilDescription: "",
+            clubsAndCouncilTitle: "",
+            clubsAndCouncilsLogo: "",
+            counter: "",
+            progress: "",
+            //Below states are for functions
+            internationalStudentClub: "",
+            //Below states are for modals
+            addModal: false,
+            deleteModal: false,
+            editModal: false,
+        };
+    }
 
-  authListener() {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        const db = fire.firestore();
-        var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
-        getrole.get().then((snapshot) => {
-          snapshot.forEach((doc) => {
-            if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
+    authListener() {
+        fire.auth().onAuthStateChanged((user) => {
+            if (user) {
+                const db = fire.firestore();
+                var getrole = db
+                .collection("Administrators")
+                .where("email", "==", user.email);
+                getrole.get().then((snapshot) => {
+                    snapshot.forEach((doc) => {
+                        if (doc.data().administratorType === "Marketing Administrator") {
+                            this.display();
+                        } else {
+                            history.push("/Login");
+                        }
+                    });
+                });
             } else {
-              history.push("/Login");
+                history.push("/Login");
             }
-          });
         });
-      } else {
-        history.push("/Login");
-      }
-    });
-  }
-  updateInput = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+    }
 
-  componentDidMount() {
-    
-    this.authListener();
- 
-  }
+    componentDidMount() {
+        this.authListener();
+    }
 
-  display() {
-    const db = fire.firestore();
-    var counter = 1;
-    const userRef = db
-      .collection("ClubsAndCouncils").where("categoryType", "==", "InternationalStudent")
-      .get()
-      .then((snapshot) => {
-        const internationalstudent = [];
-        snapshot.forEach((doc) => {
-          const data = {
-            categoryType: doc.data().categoryType,
-            clubsAndCouncilDescription: doc.data().clubsAndCouncilDescription,
-            clubsAndCouncilTitle: doc.data().clubsAndCouncilTitle,
-            clubsAndCouncilsLogo: doc.data().clubsAndCouncilsLogo,
-            id: doc.id,
-            counter: counter,
-          };
-          counter++;
-          internationalstudent.push(data);
+    display() {
+        const db = fire.firestore();
+        var counter = 1;
+        db.collection("ClubsAndCouncils").where("categoryType", "==", "InternationalStudent").get()
+        .then((snapshot) => {
+            const internationalStudent = [];
+            snapshot.forEach((doc) => {
+                const data = {
+                    categoryType: doc.data().categoryType,
+                    clubsAndCouncilDescription: doc.data().clubsAndCouncilDescription,
+                    clubsAndCouncilTitle: doc.data().clubsAndCouncilTitle,
+                    clubsAndCouncilsLogo: doc.data().clubsAndCouncilsLogo,
+                    id: doc.id,
+                    counter: counter,
+                };
+                counter++;
+                internationalStudent.push(data);
+            });
+            this.setState({ internationalStudentClub: internationalStudent });
         });
+    }
 
-        this.setState({ internationalstudent: internationalstudent });
-      });
-  }
-  handleFileUpload = (files) => {
-    this.setState({
-      files: files,
-    });
-  
-  };
-  addInternationalStudent()  {
-  const db = fire.firestore();
-      var lastdoc = db.collection("ClubsAndCouncils").orderBy('id','desc')
-      .limit(1).get().then((snapshot) =>  {
-        snapshot.forEach((doc) => {
-  var docid= "";
-          var res = doc.data().id.substring(5, 10);
-        var id = parseInt(res)
-  if(id.toString().length <= 2){
-  docid= "club-0" + (id +1) 
-  }else{
-    docid="club-0" + (id +1) 
-  }
-  var clubsAndCouncilTitle = document.getElementById("clubsAndCouncilTitle").value;
-var clubsAndCouncilDescription = document.getElementById("clubsAndCouncilDescription").value
+    //Add Modal
+    handleAdd = () => {
+        this.addModal = this.state.addModal;
+        if (this.addModal == false) {
+            this.setState({
+                addModal: true,
+            });
+        } else {
+            this.setState({
+                addModal: false
+            });
+        }
+    }
 
-const parentthis = this;
-const foldername = "/ClubsAndCouncil/InternationalStudent";
-const file = this.state.files[0];
-const storageRef = fire.storage().ref(foldername);
-const fileRef = storageRef.child(file.name).put(file);
-fileRef.on("state_changed", function (snapshot) {
-  fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-  
+    //Edit Modal
+    handleEdit = (internationalStudent) => {
+        this.editModal = this.state.editModal;
+        if (this.editModal == false) {
+            this.setState({
+                editModal: true,
+                id: internationalStudent.id,
+                categoryType: internationalStudent.categoryType,
+                clubsAndCouncilDescription: internationalStudent.clubsAndCouncilDescription,
+                clubsAndCouncilTitle: internationalStudent.clubsAndCouncilTitle,
+                clubsAndCouncilsLogo: internationalStudent.clubsAndCouncilsLogo,
+            });
+        } else {
+            this.setState({
+                editModal: false
+            });
+        }
+    }
 
-    const userRef = db
-    .collection("ClubsAndCouncils")
-    .doc(docid)
-    .set({
-        categoryType : "InternationalStudent",
-        clubsAndCouncilTitle: clubsAndCouncilTitle,
-        clubsAndCouncilDescription: clubsAndCouncilDescription,
-        clubsAndCouncilsLogo: downloadURL,
-    })
-    .then(function () {
-      alert("Added");
-      window.location.reload();
-    });
+    //Delete Modal
+    handleDelete = () => {
+        this.deleteModal = this.state.deleteModal;
+        if (this.deleteModal == false) {
+            this.setState({
+                deleteModal: true,
+            });
+        } else {
+            this.setState({
+                deleteModal: false
+            });
+        }
+    }
 
-  });
-  const progress = Math.round(
-    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-  );
-  if (progress != "100") {
-    parentthis.setState({ progress: progress });
-  } else {
-    parentthis.setState({ progress: "Uploaded!" });
-  }
-});
+    render() {
+        return (
+            <div>
+                <Container fluid className="InternationalStudent-container">
+                    <NavBar isMA={true} />
 
+                        <Container fluid className="InternationalStudent-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                            <Row>
+                                <Col md={2} style={{paddingRight: 0}}>
+                                    <SideNavBar />
+                                </Col>
 
-      })
+                                <Col md={10} style={{paddingLeft: 0}}>
+                                    <Container fluid id="InternationalStudent-topContentContainer">
+                                        <Row id="InternationalStudent-firstRow">
+                                            <Col md={6} className="text-left" id="InternationalStudent-firstRowCol">
+                                                <h4 id="InternationalStudent-title">International Students Clubs</h4>
+                                            </Col>
+                                            <Col md={6} className="text-right" id="InternationalStudent-firstRowCol">
+                                                <Button id="InternationalStudent-addBtn" onClick={this.handleAdd}><FontAwesomeIcon size="lg" icon={faPlus} /><span id="InternationalStudent-addBtnText">Add</span></Button>
+                                            </Col>
+                                        </Row>
 
-  });
+                                        <Row id="InternationalStudent-secondRow">
+                                            <Col md={12} className="text-center" id="InternationalStudent-secondRowCol">
+                                                <Table responsive="sm" bordered id="InternationalStudent-tableContainer">
+                                                    <thead id="InternationalStudent-tableHeader">
+                                                        <tr>
+                                                            <th>S/N</th>
+                                                            <th>Name of Club/Council</th>
+                                                            <th>Description</th>
+                                                            <th>Logo File</th>
+                                                            <th>Edit</th>
+                                                            <th>Delete</th>
+                                                        </tr>
+                                                    </thead>
+                                                    {this.state.internationalStudentClub && this.state.internationalStudentClub.map((internationalStudent) => {
+                                                        return (
+                                                            <tbody id="InternationalStudent-tableBody" key={internationalStudent.id}>
+                                                                <tr>
+                                                                    <td>{internationalStudent.counter}</td>
+                                                                    <td>{internationalStudent.clubsAndCouncilTitle}</td>
+                                                                    <td className="text-left">{internationalStudent.clubsAndCouncilDescription}</td>
+                                                                    <td className="text-left">{internationalStudent.clubsAndCouncilTitle} Logo</td>
+                                                                    <td><Button size="sm" id="InternationalStudent-editBtn" onClick={() => this.handleEdit(internationalStudent)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                    <td><Button size="sm" id="InternationalStudent-deleteBtn" onClick={() => [this.setState({id: internationalStudent.id, clubsAndCouncilTitle: internationalStudent.clubsAndCouncilTitle, categoryType: internationalStudent.categoryType}), this.handleDelete()]}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        )
+                                                    })}
+                                                </Table>
+                                            </Col>
+                                        </Row>
 
-}
+                                    </Container>
+                                </Col>
+                            </Row>    
+                        </Container>                    
 
-  editInternationalStudent(e, internationalstudentid) {
-    document.getElementById(internationalstudentid + "upload").removeAttribute("hidden");
-    document.getElementById(internationalstudentid + "spanintstudtitle").removeAttribute("hidden");
-    document.getElementById(internationalstudentid + "spanintstuddesc").removeAttribute("hidden");
-    document.getElementById(internationalstudentid + "spanintstudlogo").removeAttribute("hidden");
-    document.getElementById(internationalstudentid + "editbutton").setAttribute("hidden", "");
-    document.getElementById(internationalstudentid + "updatebutton").removeAttribute("hidden");
-    document.getElementById(internationalstudentid + "cancelbutton").removeAttribute("hidden");
-    var texttohide = document.getElementsByClassName(
-        internationalstudentid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }  
-}
+                    <Footer />
+                </Container>
 
-  CancelEdit(e, internationalstudentid) {
-    document.getElementById(internationalstudentid + "upload").setAttribute("hidden", "");
-    document.getElementById(internationalstudentid + "spanintstudtitle").setAttribute("hidden", "");
-    document.getElementById(internationalstudentid + "spanintstuddesc").setAttribute("hidden", "");
-    document.getElementById(internationalstudentid + "spanintstudlogo").setAttribute("hidden", "");
-    document.getElementById(internationalstudentid + "editbutton").removeAttribute("hidden");
-    document.getElementById(internationalstudentid + "updatebutton").setAttribute("hidden", "");
-    document.getElementById(internationalstudentid + "cancelbutton").setAttribute("hidden", "");
-    var texttohide = document.getElementsByClassName(
-        internationalstudentid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].removeAttribute("hidden", "");
-      }
-}
+                {/* Add Modal */}
+                <Modal show={this.state.addModal} onHide={this.handleAdd} size="lg" centered keyboard={false}>
+                    <AddClubsAndCouncilsModal handleClose={this.handleAdd}/>
+                </Modal>
 
-DeleteInternationalStudent(e, internationalstudentid) {
-    const db = fire.firestore();
-  
-    const userRef = db
-      .collection("ClubsAndCouncils")
-      .doc(internationalstudentid)
-      .delete()
-      .then(function () {
-        alert("Deleted");
-        window.location.reload();
-      });
-  }
+                {/* Edit Modal */}
+                <Modal show={this.state.editModal} onHide={this.handleEdit} size="lg" centered keyboard={false}>
+                    <EditClubsAndCouncilsModal handleEdit={this.handleEdit} id={this.state.id} categoryType={this.state.categoryType} clubsAndCouncilTitle={this.state.clubsAndCouncilTitle} clubsAndCouncilDescription={this.state.clubsAndCouncilDescription} clubsAndCouncilsLogo={this.state.clubsAndCouncilsLogo}/>
+                </Modal>
 
-handleSave = (internationalstudentid) => {
-  const parentthis = this;
-  const db = fire.firestore();
+                {/* Delete Modal */}
+                <Modal show={this.state.deleteModal} onHide={this.handleDelete} size="md" centered keyboard={false}>
+                    <DeleteClubsAndCouncilsModal handleDelete={this.handleDelete} id={this.state.id} categoryType={this.state.categoryType} clubsAndCouncilTitle={this.state.clubsAndCouncilTitle}/>
+                </Modal>
 
-  var clubsAndCouncilTitle = document.getElementById(internationalstudentid + "intstudtitle").value;
-var clubsAndCouncilDescription = document.getElementById(internationalstudentid + "intstuddesc").value;
-console.log(this.state.files);
+            </div>
 
-if (this.state.files !== undefined) {
-    const foldername = "/ClubsAndCouncil/InternationalStudent";
-    const storageRef = fire.storage().ref(foldername);
-    const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
-    fileRef.on("state_changed", function (snapshot) {
-      fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-
-        const userRef = db
-        .collection("ClubsAndCouncils")
-        .doc(internationalstudentid)
-        .update({
-            clubsAndCouncilTitle: clubsAndCouncilTitle,
-            clubsAndCouncilDescription: clubsAndCouncilDescription,
-            clubsAndCouncilsLogo: downloadURL,
-        })
-        .then(function () {
-          alert("Updated");
-          window.location.reload();
-        });
-
-      });
-      const progress = Math.round(
-        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-      );
-      if (progress != "100") {
-        parentthis.setState({ progress: progress });
-      } else {
-        parentthis.setState({ progress: "Uploaded!" });
-      }
-    });
-    console.log();
-  } else {
-    const userRef = db
-    .collection("ClubsAndCouncils")
-    .doc(internationalstudentid)
-    .update({
-        clubsAndCouncilTitle: clubsAndCouncilTitle,
-        clubsAndCouncilDescription: clubsAndCouncilDescription,
-    })
-    .then(function () {
-      alert("Updated");
-      window.location.reload();
-    });
-  }
-};
-
-  render() {
-    return (
-      <div className="home">
-        <div>
-          <table id="users" class="table table-bordered"> 
-            <tbody>
-              <tr>
-                <th scope="col">S/N</th>
-                <th scope="col">Name of Clubs/Councils</th>
-                <th scope="col">Description</th>
-                <th scope="col">Logo File</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
-              </tr>
-              {this.state.internationalstudent &&
-                this.state.internationalstudent.map((internationalstudent) => {
-                  return (
-                    <tr>
-                        <td>{internationalstudent.counter}</td>
-                      <td>
-                      <span class={internationalstudent.id + "text"}>
-                      {internationalstudent.clubsAndCouncilTitle}
-                        </span>
-                          <span id={internationalstudent.id + "spanintstudtitle"} hidden>
-                          <input
-                            id={internationalstudent.id + "intstudtitle"}
-                            defaultValue={internationalstudent.clubsAndCouncilTitle}
-                            type="text"
-                            name={internationalstudent.id + "intstudtitle"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={internationalstudent.clubsAndCouncilTitle}
-                            required
-                          />
-                        </span>            
-                      </td>
-                      <td>
-                      <span class={internationalstudent.id + "text"}>
-                      {internationalstudent.clubsAndCouncilDescription}
-                        </span>
-                          <span id={internationalstudent.id + "spanintstuddesc"} hidden>
-                          <input
-                            id={internationalstudent.id + "intstuddesc"}
-                            defaultValue={internationalstudent.clubsAndCouncilDescription}
-                            type="text"
-                            name={internationalstudent.id + "intstuddesc"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={internationalstudent.clubsAndCouncilDescription}
-                            required
-                          />
-                        </span>  
-                      </td>
-                      <td>
-                      <span class={internationalstudent.id + "text"}>
-                      {internationalstudent.clubsAndCouncilsLogo}
-                        </span>
-                          <span id={internationalstudent.id + "spanintstudlogo"} hidden>
-                          <input
-                            id={internationalstudent.id + "intstudlogo"}
-                            defaultValue={internationalstudent.clubsAndCouncilsLogo}
-                            type="text"
-                            name={internationalstudent.id + "intstudlogo"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={internationalstudent.clubsAndCouncilsLogo}
-                            required
-                            disabled={"disabled"}
-                          />
-                        </span>
-                       <span id= {internationalstudent.id+ "upload" } hidden ><input
-            type="file"
-            onChange={(e) => {
-              this.handleFileUpload(e.target.files);
-            }}
-          />
-         
-       {this.state.progress}
-       <div>
-         <progress value={this.state.progress} max="100" />
-       </div>
-       </span> 
-                      </td>
-                      <td>
-                        <button
-                          id={internationalstudent.id + "editbutton"}
-                          onClick={(e) => {
-                            this.editInternationalStudent(e, internationalstudent.id);
-                          }}
-                        >
-                          Edit
-                        </button>
-
-                        <button
-                          id={internationalstudent.id + "updatebutton"}
-                          hidden
-                          onClick={(e) => {
-                            this.handleSave(internationalstudent.id);
-                          }}
-                        >
-                          Update
-                        </button>
-                        <button
-                          hidden
-                          id={internationalstudent.id + "cancelbutton"}
-                          onClick={(e) => {
-                            this.CancelEdit(e, internationalstudent.id);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                      <td>
-                        <button
-                          onClick={(e) => {
-                            this.DeleteInternationalStudent(e, internationalstudent.id);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-        <form onSubmit={(e) => {this.addInternationalStudent(); e.preventDefault();}}>
-          <input
-            id="clubsAndCouncilTitle"
-            type="text"
-            name="clubsAndCouncilTitle"
-            placeholder="Title"
-            onChange={this.updateInput}
-            value={this.state.clubsAndCouncilTitle}
-            required
-          />
-          <input
-            id="clubsAndCouncilDescription"
-            type="text"
-            name="clubsAndCouncilDescription"
-            placeholder="Description"
-            onChange={this.updateInput}
-            value={this.state.clubsAndCouncilDescription}
-            required
-          />
-          <input
-            type="file"
-
-            onChange={(e) => {
-              this.handleFileUpload(e.target.files); 
-            }
-            
-            }required></input>
-          <button type="submit">Add International Student Club</button>
-        </form>
-      </div>
-    );
-  }
+        );
+    }
 }
 export default InternationalStudentClub;

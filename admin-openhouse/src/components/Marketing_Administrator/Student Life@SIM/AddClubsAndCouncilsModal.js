@@ -4,7 +4,7 @@ import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import firebase from "firebase/app";
 
-import '../../../css/Marketing_Administrator/ArtsAndCulture.css';
+import '../../../css/Marketing_Administrator/StudentLife.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt, faFileImage, faFolderOpen, faSwimmer } from '@fortawesome/free-solid-svg-icons';
 
@@ -72,20 +72,31 @@ class AddClubsAndCouncilsModal extends Component {
         if (this.state.clubsAndCouncilsLogo.startsWith("blob:")) {
 
             if(this.state.categoryType === "Arts & Culture"){
-                category = "ArtsCulture"
-            };
+                category = "ArtsCulture";
+                const words = this.state.clubsAndCouncilTitle.split(" ");
+                for (let i = 0; i < words.length; i++) {
+                    words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+                }
+                capsTitle = words.join(" ");
+                title = capsTitle.replace(/\s/g, '');
 
-            const words = this.state.clubsAndCouncilTitle.split(" ");
-            for (let i = 0; i < words.length; i++) {
-                words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+                const url = await savePicture(this.state.clubsAndCouncilsLogo, category, title);
+                this.setState({
+                    url: url
+                });
+            } else {
+                const words = this.state.clubsAndCouncilTitle.split(" ");
+                for (let i = 0; i < words.length; i++) {
+                    words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+                }
+                capsTitle = words.join(" ");
+                title = capsTitle.replace(/\s/g, '');
+
+                const url = await savePicture(this.state.clubsAndCouncilsLogo, this.state.categoryType, title);
+                this.setState({
+                    url: url
+                });
             }
-            capsTitle = words.join(" ");
-            title = capsTitle.replace(/\s/g, '');
-
-            const url = await savePicture(this.state.clubsAndCouncilsLogo, category, title);
-            this.setState({
-                url: url
-            });
         }
 
         if (isValid) {
@@ -107,7 +118,7 @@ class AddClubsAndCouncilsModal extends Component {
                         docid = "club-" + (id) 
                     }
 
-                    if (this.state.categoryType === "ArtsCulture"){
+                    if (this.state.categoryType === "StudentLife"){
                         this.setState({
                             categoryType: "Arts & Culture"
                         });
@@ -165,17 +176,17 @@ class AddClubsAndCouncilsModal extends Component {
         return(
             <div>
                 <Modal.Header closeButton className="justify-content-center">
-                    <Modal.Title id="ArtsCulture-modalTitle" className="w-100">Add Club/Council</Modal.Title>
+                    <Modal.Title id="StudentLife-modalTitle" className="w-100">Add Club/Council</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form noValidate>
                         <Form.Group>
-                            <Form.Group as={Row} className="ArtsCulture-formGroup">
-                                <Form.Group as={Col} md="1" className="ArtsCulture-formGroup">
+                            <Form.Group as={Row} className="StudentLife-formGroup">
+                                <Form.Group as={Col} md="1" className="StudentLife-formGroup">
                                     <FontAwesomeIcon size="lg" icon={faFolderOpen}/>
                                 </Form.Group> 
                                 <Form.Group as={Col} md="7">
-                                    <Form.Control id="ArtsCulture-inputFields" name="categoryType" as="select" required value={this.state.categoryType} onChange={this.updateInput} noValidate>
+                                    <Form.Control id="StudentLife-inputFields" name="categoryType" as="select" required value={this.state.categoryType} onChange={this.updateInput} noValidate>
                                         <option value="">Select a Category</option>
                                         <option value="Arts & Culture">Arts & Culture</option>
                                         <option value="InternationalStudent">International Students Clubs</option>
@@ -188,34 +199,34 @@ class AddClubsAndCouncilsModal extends Component {
                             </Form.Group>                     
                         </Form.Group>
                         <Form.Group>
-                            <Form.Group as={Row} className="ArtsCulture-formGroup">
-                                <Form.Group as={Col} md="1" className="ArtsCulture-formGroup">
+                            <Form.Group as={Row} className="StudentLife-formGroup">
+                                <Form.Group as={Col} md="1" className="StudentLife-formGroup">
                                     <FontAwesomeIcon size="lg" icon={faSwimmer}/>
                                 </Form.Group> 
                                 <Form.Group as={Col} md="7">
-                                    <Form.Control id="ArtsCulture-inputFields" type="text" name="clubsAndCouncilTitle" placeholder="Name of Club/Council: e.g. Dance Art" required value={this.state.clubsAndCouncilTitle} onChange={this.updateInput} noValidate></Form.Control>
+                                    <Form.Control id="StudentLife-inputFields" type="text" name="clubsAndCouncilTitle" placeholder="Name of Club/Council: e.g. Dance Art" required value={this.state.clubsAndCouncilTitle} onChange={this.updateInput} noValidate></Form.Control>
                                     <div className="errorMessage">{this.state.clubsAndCouncilTitleError}</div>
                                 </Form.Group>
                             </Form.Group>                     
                         </Form.Group>
                         <Form.Group>
-                            <Form.Group as={Row} className="ArtsCulture-formGroup">
-                                <Form.Group as={Col} md="1" className="ArtsCulture-formGroup">
+                            <Form.Group as={Row} className="StudentLife-formGroup">
+                                <Form.Group as={Col} md="1" className="StudentLife-formGroup">
                                     <FontAwesomeIcon size="lg" icon={faFileAlt}/>
                                 </Form.Group> 
                                 <Form.Group as={Col} md="7">
-                                    <Form.Control id="ArtsCulture-textAreas" as="textarea" rows="4" name="clubsAndCouncilDescription" placeholder="Description" required value={this.state.clubsAndCouncilDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                    <Form.Control id="StudentLife-textAreas" as="textarea" rows="4" name="clubsAndCouncilDescription" placeholder="Description" required value={this.state.clubsAndCouncilDescription} onChange={this.updateInput} noValidate></Form.Control>
                                     <div className="errorMessage">{this.state.clubsAndCouncilDescriptionError}</div>
                                 </Form.Group>
                             </Form.Group>                     
                         </Form.Group>
                         <Form.Group>
-                            <Form.Group as={Row} className="ArtsCulture-formGroup">
-                                <Form.Group as={Col} md="1" className="ArtsCulture-formGroup">
+                            <Form.Group as={Row} className="StudentLife-formGroup">
+                                <Form.Group as={Col} md="1" className="StudentLife-formGroup">
                                     <FontAwesomeIcon size="lg" icon={faFileImage}/>
                                 </Form.Group> 
                                 <Form.Group as={Col} md="7">
-                                    <Form.File name="imgFile" className="ArtsCulture-imgFile" label={this.state.clubsAndCouncilsLogo} onChange={this.handleFileUpload} custom required></Form.File>
+                                    <Form.File name="imgFile" className="StudentLife-imgFile" label={this.state.clubsAndCouncilsLogo} onChange={this.handleFileUpload} custom required></Form.File>
                                     <div className="errorMessage">{this.state.clubsAndCouncilsLogoError}</div>
                                 </Form.Group>
                             </Form.Group>                     
@@ -224,9 +235,9 @@ class AddClubsAndCouncilsModal extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Container>
-                        <Row id="ArtsCulture-addFooter">
-                            <Col md={12} className="ArtsCulture-addFooterCol">
-                                <Button id="ArtsCulture-submitBtn" type="submit" onClick={this.addClubsCouncils}>Submit</Button>
+                        <Row id="StudentLife-addFooter">
+                            <Col md={12} className="StudentLife-addFooterCol">
+                                <Button id="StudentLife-submitBtn" type="submit" onClick={this.addClubsCouncils}>Submit</Button>
                             </Col>
                         </Row>
                     </Container>

@@ -58,34 +58,34 @@ const renderForum = (props) => (
 const renderClubs_Councils_SIM = (props) => (
     <Tooltip id="button-tooltip" {...props}>
         <Nav.Link href="/ArtsAndCulture" className="sideNavBar-navLinks">Arts & Culture</Nav.Link>
-        <Nav.Link href="#" className="sideNavBar-navLinks">International Students Clubs</Nav.Link>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Student Councils</Nav.Link>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Special Interest Club</Nav.Link>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Sports & Fitness</Nav.Link>
+        <Nav.Link href="/InternationalStudentClub" className="sideNavBar-navLinks">International Students Clubs</Nav.Link>
+        <Nav.Link href="/StudentCouncil" className="sideNavBar-navLinks">Student Councils</Nav.Link>
+        <Nav.Link href="/SpecialInterestClub" className="sideNavBar-navLinks">Special Interest Club</Nav.Link>
+        <Nav.Link href="/SportAndFitness" className="sideNavBar-navLinks">Sports & Fitness</Nav.Link>
     </Tooltip>
 );
 
 //Tooltip for Scholarships
 const renderScholarships = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-        <Nav.Link href="#" className="sideNavBar-navLinks">SIM GE Scholarship</Nav.Link>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Sponsors</Nav.Link>
+        <Nav.Link href="/SIMGEScholarship" className="sideNavBar-navLinks">SIM GE Scholarship</Nav.Link>
+        <Nav.Link href="/Sponsors" className="sideNavBar-navLinks">Sponsors</Nav.Link>
     </Tooltip>
 );
 
 //Tooltip for Bursary
 const renderBursary = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-        <Nav.Link href="#" className="sideNavBar-navLinks">SIM GE Bursary</Nav.Link>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Other Financial Assistance</Nav.Link>
+        <Nav.Link href="/SIMGEBursary" className="sideNavBar-navLinks">SIM GE Bursary</Nav.Link>
+        <Nav.Link href="/OtherFinancialAssistance" className="sideNavBar-navLinks">Other Financial Assistance</Nav.Link>
     </Tooltip>
 );
 
 //Tooltip for Brochures
 const renderBrochures = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Study@SIM</Nav.Link>
-        <Nav.Link href="#" className="sideNavBar-navLinks">Student Life@SIM</Nav.Link>
+        <Nav.Link href="/StudySIMBrochure" className="sideNavBar-navLinks">Study@SIM</Nav.Link>
+        <Nav.Link href="/StudentLifeBrochure" className="sideNavBar-navLinks">Student Life@SIM</Nav.Link>
     </Tooltip>
 );
 
