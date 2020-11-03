@@ -205,8 +205,8 @@ export default class SideNavBar extends React.Component {
                                     <ContextAwareToggle eventKey="6">Generate Report</ContextAwareToggle>
                                     <Accordion.Collapse eventKey="6">
                                         <div>
-                                            <Nav.Link href="#" className="sideNavBar-navLinks">Report on the total number of registrations for open house mobile application</Nav.Link>
-                                            <Nav.Link href="#" className="sideNavBar-navLinks">Report on the total number of attendees for programme talks</Nav.Link>
+                                            <Nav.Link href="/GenerateStudentRegistration" className="sideNavBar-navLinks">Report on the total number of registrations for open house mobile application</Nav.Link>
+                                            <Nav.Link href="/GenerateAttendance" className="sideNavBar-navLinks">Report on the total number of attendees for programme talks</Nav.Link>
                                         </div>
                                     </Accordion.Collapse>
                                 </Accordion>

@@ -376,7 +376,7 @@ class Announcement extends Component {
           </Modal.Header>
 
           <Modal.Body id="addAnnouncementModalBody">
-            <Form noValidate> {/* onSubmit={this.add} */}
+            <Form noValidate>
               {/* Announcement Title */}
               <Form.Row className="justify-content-center addAnnouncementFormRow">
                 <Col md="10">
@@ -448,8 +448,8 @@ class Announcement extends Component {
                             </InputGroup.Prepend>
                             
                             <Col className="addAnnouncementInnerTimeCol_HrMin text-center">
-                              <Form.Control as="select" name="scheduledDate" defaultValue="chooseScheduledDate" className="addAnnouncementFormSelect" required noValidate>
-                                <option value="chooseScheduledDate" className="addAnnouncementFormSelectOption">Hour</option>
+                              <Form.Control as="select" name="scheduledDate" defaultValue="" className="addAnnouncementFormSelect" required noValidate>
+                                <option value="" className="addAnnouncementFormSelectOption">Hour</option>
                                 {/* To be retrieved from arrays - Hr Array */}
                                 <option value="1" className="addAnnouncementFormSelectOption">1</option>
                               </Form.Control>
