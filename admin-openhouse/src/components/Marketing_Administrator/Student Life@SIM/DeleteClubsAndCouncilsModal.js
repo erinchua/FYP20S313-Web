@@ -12,9 +12,27 @@ class DeleteClubsAndCouncilsModal extends Component {
 
     constructor(props) {
         super(props);
+        console.log(this.props.id)
+        console.log(this.props.categoryType)
+        console.log(this.props.clubsAndCouncilTitle)
         this.state = {
             handleDelete: "",
         }
+    }
+
+    deleteClubsCouncils() {
+        const db = fire.firestore();
+        const storage = fire.storage().ref(`/ClubsAndCouncil/${this.props.categoryType}`).child(this.props.clubsAndCouncilTitle);
+
+        db.collection("ClubsAndCouncils").doc(this.props.id).delete()
+        .then(dataSnapshot => {
+            console.log("Deleted the Club/Council");
+            storage.delete().then(dataSnapshot => {
+                console.log("Deleted Image in Storage");
+                this.props.handleDelete();
+                window.location.reload();
+            });
+        });
     }
 
     render(){
@@ -38,7 +56,7 @@ class DeleteClubsAndCouncilsModal extends Component {
 
                     <Row className="justify-content-center">
                         <Col md={6} className="text-right ArtsCulture-deleteFooterCol">
-                            <Button id="ArtsCulture-deleteConfirmBtn">Confirm</Button>
+                            <Button id="ArtsCulture-deleteConfirmBtn" onClick={() => this.deleteClubsCouncils()}>Confirm</Button>
                         </Col>
                         <Col md={6} className="text-left ArtsCulture-deleteFooterCol">
                             <Button id="ArtsCulture-deleteCancelBtn" onClick={() => this.props.handleDelete()}>Cancel</Button>

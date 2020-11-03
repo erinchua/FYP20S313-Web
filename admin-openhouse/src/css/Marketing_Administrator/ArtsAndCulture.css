@@ -173,6 +173,17 @@
     box-shadow: none;
 }
 
+#ArtsCulture-textAreas {
+    color: #434343;    
+    font-size: 85%;
+    border: 1px solid #c8c8c8;
+}
+
+#ArtsCulture-textAreas:focus {
+    box-shadow: none;
+    border: 1px solid #c8c8c8;
+}
+
 #ArtsCulture-gameBoothNameData {
     text-transform: capitalize;
 }

@@ -72,7 +72,9 @@ class ArtsAndCulture extends Component {
         db.collection("ClubsAndCouncils").where("categoryType", "==", "Arts & Culture").get()
         .then((snapshot) => {
             const artsculture = [];
+            var category = "";
             snapshot.forEach((doc) => {
+
                 const data = {
                     categoryType: doc.data().categoryType,
                     clubsAndCouncilDescription: doc.data().clubsAndCouncilDescription,
@@ -88,6 +90,7 @@ class ArtsAndCulture extends Component {
         });
     }
 
+    /* //These functions r in the component modals
     handleFileUpload = (files) => {
         this.setState({
             files: files,
@@ -147,6 +150,16 @@ class ArtsAndCulture extends Component {
             })
         });
     }
+    
+    DeleteArtsCulture(e, artscultureid) {
+        const db = fire.firestore();
+
+        const userRef = db.collection("ClubsAndCouncils").doc(artscultureid).delete()
+        .then(function () {
+            console.log("Deleted the Club");
+            window.location.reload();
+        });
+    }
 
     editArtsCulture(e, artscultureid) {
         document.getElementById(artscultureid + "upload").removeAttribute("hidden");
@@ -163,34 +176,7 @@ class ArtsAndCulture extends Component {
             texttohide[i].setAttribute("hidden", "");
         }  
     }
-
-    /*//Dont need, using the handle Modals function to close
-    CancelEdit(e, artscultureid) {
-        document.getElementById(artscultureid + "upload").setAttribute("hidden", "");
-        document.getElementById(artscultureid + "spanartstitle").setAttribute("hidden", "");
-        document.getElementById(artscultureid + "spanartsdesc").setAttribute("hidden", "");
-        document.getElementById(artscultureid + "spanartslogo").setAttribute("hidden", "");
-        document.getElementById(artscultureid + "editbutton").removeAttribute("hidden");
-        document.getElementById(artscultureid + "updatebutton").setAttribute("hidden", "");
-        document.getElementById(artscultureid + "cancelbutton").setAttribute("hidden", "");
-        var texttohide = document.getElementsByClassName(
-            artscultureid + "text"
-        );
-        for (var i = 0; i < texttohide.length; i++) {
-            texttohide[i].removeAttribute("hidden", "");
-        }
-    }*/
-
-    DeleteArtsCulture(e, artscultureid) {
-        const db = fire.firestore();
-
-        const userRef = db.collection("ClubsAndCouncils").doc(artscultureid).delete()
-        .then(function () {
-            console.log("Deleted the Club");
-            window.location.reload();
-        });
-    }
-
+    
     handleSave = (artscultureid) => {
         const parentthis = this;
         const db = fire.firestore();
@@ -240,7 +226,24 @@ class ArtsAndCulture extends Component {
                 window.location.reload();
             });
         }
-    };
+    };*/
+
+    /*//Dont need, using the handle Modals function to close
+    CancelEdit(e, artscultureid) {
+        document.getElementById(artscultureid + "upload").setAttribute("hidden", "");
+        document.getElementById(artscultureid + "spanartstitle").setAttribute("hidden", "");
+        document.getElementById(artscultureid + "spanartsdesc").setAttribute("hidden", "");
+        document.getElementById(artscultureid + "spanartslogo").setAttribute("hidden", "");
+        document.getElementById(artscultureid + "editbutton").removeAttribute("hidden");
+        document.getElementById(artscultureid + "updatebutton").setAttribute("hidden", "");
+        document.getElementById(artscultureid + "cancelbutton").setAttribute("hidden", "");
+        var texttohide = document.getElementsByClassName(
+            artscultureid + "text"
+        );
+        for (var i = 0; i < texttohide.length; i++) {
+            texttohide[i].removeAttribute("hidden", "");
+        }
+    }*/
 
     //Add Modal
     handleAdd = () => {
@@ -257,11 +260,16 @@ class ArtsAndCulture extends Component {
     }
 
     //Edit Modal
-    handleEdit = () => {
+    handleEdit = (artsCulture) => {
         this.editModal = this.state.editModal;
         if (this.editModal == false) {
             this.setState({
                 editModal: true,
+                id: artsCulture.id,
+                categoryType: artsCulture.categoryType,
+                clubsAndCouncilDescription: artsCulture.clubsAndCouncilDescription,
+                clubsAndCouncilTitle: artsCulture.clubsAndCouncilTitle,
+                clubsAndCouncilsLogo: artsCulture.clubsAndCouncilsLogo,
             });
         } else {
             this.setState({
@@ -329,8 +337,8 @@ class ArtsAndCulture extends Component {
                                                                     <td>{artsCulture.clubsAndCouncilTitle}</td>
                                                                     <td className="text-left">{artsCulture.clubsAndCouncilDescription}</td>
                                                                     <td className="text-left">{artsCulture.clubsAndCouncilTitle} Logo</td>
-                                                                    <td><Button size="sm" id="ArtsCulture-editBtn" onClick={() => this.handleEdit()}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                    <td><Button size="sm" id="ArtsCulture-deleteBtn" onClick={() => this.handleDelete()}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                    <td><Button size="sm" id="ArtsCulture-editBtn" onClick={() => this.handleEdit(artsCulture)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                    <td><Button size="sm" id="ArtsCulture-deleteBtn" onClick={() => [this.setState({id: artsCulture.id, clubsAndCouncilTitle: artsCulture.clubsAndCouncilTitle, categoryType: "ArtsCulture"}), this.handleDelete()]}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
                                                                 </tr>
                                                             </tbody>
                                                         )
@@ -348,18 +356,18 @@ class ArtsAndCulture extends Component {
                 </Container>
 
                 {/* Add Modal */}
-                <Modal show={this.state.addModal} onHide={this.handleAdd} size="md" centered keyboard={false}>
-                    <AddClubsAndCouncilsModal/>
+                <Modal show={this.state.addModal} onHide={this.handleAdd} size="lg" centered keyboard={false}>
+                    <AddClubsAndCouncilsModal handleClose={this.handleAdd}/>
                 </Modal>
 
                 {/* Edit Modal */}
                 <Modal show={this.state.editModal} onHide={this.handleEdit} size="lg" centered keyboard={false}>
-                    <EditClubsAndCouncilsModal handleEdit={this.handleEdit}/>
+                    <EditClubsAndCouncilsModal handleEdit={this.handleEdit} id={this.state.id} categoryType={this.state.categoryType} clubsAndCouncilTitle={this.state.clubsAndCouncilTitle} clubsAndCouncilDescription={this.state.clubsAndCouncilDescription} clubsAndCouncilsLogo={this.state.clubsAndCouncilsLogo}/>
                 </Modal>
 
                 {/* Delete Modal */}
                 <Modal show={this.state.deleteModal} onHide={this.handleDelete} size="md" centered keyboard={false}>
-                    <DeleteClubsAndCouncilsModal handleDelete={this.handleDelete}/>
+                    <DeleteClubsAndCouncilsModal handleDelete={this.handleDelete} id={this.state.id} categoryType={this.state.categoryType} clubsAndCouncilTitle={this.state.clubsAndCouncilTitle}/>
                 </Modal>
 
             </div>

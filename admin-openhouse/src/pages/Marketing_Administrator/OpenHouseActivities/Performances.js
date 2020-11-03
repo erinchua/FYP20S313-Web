@@ -218,18 +218,18 @@ class Performances extends Component {
                 snapshot.forEach((doc) => {
                     var docid= "";
                     var res = doc.data().id.substring(12);
-                    var id = parseInt(res)
-                    if (id.toString().length <= 1) {
-                        docid= "performance-00" + (id +1) 
-                    } else if(id.toString().length <= 2) {
-                        docid= "performance-0" + (id +1) 
+                    var id = parseInt(res);
+                    id += 1;
+
+                    if (id.toString().length == 1) {
+                        docid = "performance-00" + (id) 
+                    } else if(id.toString().length == 2) {
+                        docid = "performance-0" + (id) 
                     } else {
-                        docid="performance-0" + (id +1) 
+                        docid ="performance-" + (id) 
                     }
 
-                    const userRef = db
-                    .collection("Performances")
-                    .doc(docid)
+                    db.collection("Performances").doc(docid)
                     .set({
                         date: this.state.date,
                         endTime: this.state.endTime,

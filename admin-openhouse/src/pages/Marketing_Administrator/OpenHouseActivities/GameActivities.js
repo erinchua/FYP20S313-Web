@@ -217,15 +217,17 @@ class GameActivities extends Component {
                 snapshot.forEach((doc) => {
                     var docid= "";
                     var res = doc.data().id.substring(12, 9);
-                    var id = parseInt(res)
-                    if(id.toString().length <= 1) {
-                        docid = "activity-00" + (id + 1) 
-                    } else if(id.toString().length <= 2) {
-                        docid = "activity-0" + (id + 1) 
+                    var id = parseInt(res);
+                    id += 1;
+
+                    if(id.toString().length == 1) {
+                        docid = "activity-00" + (id) 
+                    } else if(id.toString().length == 2) {
+                        docid = "activity-0" + (id) 
                     } else {
-                        docid = "activity-0" + (id + 1) 
+                        docid = "activity-" + (id) 
                     }
-                    console.log(docid)
+                    
                     db.collection("GamesActivities").doc(docid)
                     .set({
                         date: this.state.date,
