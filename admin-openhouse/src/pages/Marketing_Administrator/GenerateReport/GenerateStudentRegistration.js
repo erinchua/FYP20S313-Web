@@ -2,6 +2,15 @@ import React, { Component, useReducer } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import firecreate from "../../../config/firebasecreate";
+import { Container, Row, Col, Button, Table, Modal } from "react-bootstrap";
+
+import "../../../css/Marketing_Administrator/GenerateStudentRegistration.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
+import NavBar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
+import SideNavBar from "../../../components/SideNavbar";
 
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -100,24 +109,25 @@ class GenerateStudentRegistration extends Component {
     .collection("Students")
     .onSnapshot((snapshot) => {
       snapshot.forEach((doc) => {
-          console.log(doc.id);
+        console.log(doc.id);
         counter++;
       });
+
       this.setState(
-          {
-              totalNumber: counter
-          },
-          () => {
-            console.log(this.state.totalNumber);
-            this.generatePDF();
-          }
-        );
-      });
+        {
+            totalNumber: counter
+        },
+        () => {
+          console.log(this.state.totalNumber);
+          this.generatePDF();
+        }
+      );
+    });
     console.log(counter);
   }
 
   generatePDF(){
-    var doc = new jsPDF("landscape");
+    var doc = new jsPDF('p', 'mm', [297, 210]);
     var monthNames = [
       "January", "February", "March",
       "April", "May", "June", "July",
@@ -125,74 +135,134 @@ class GenerateStudentRegistration extends Component {
       "November", "December"
     ];
 
+    var user = this.state.useremail;
+    var adminuser = "\nRequested by : " + user;
+    doc.setFontSize(11);   
+    doc.text(14, 25, adminuser);
+
     var today = new Date();    
     var day = today.getDate();
     var monthIndex = today.getMonth();
     var year = today.getFullYear();
     var date = day + ' ' + monthNames[monthIndex] + ' ' + year;
-    var newdat = "\nDate Requested : "+ date;
-    doc.setFontSize(14);   
-    doc.text(206,20,newdat);
+    var newdate = "\nDate Requested : "+ date;
+    doc.setFontSize(11);   
+    doc.text(132, 25, newdate);
 
-    var user = this.state.useremail;
-    var adminuser = "\nRequested by : " + user;
-    doc.setFontSize(14);   
-    doc.text(14,20,adminuser);
+    // Line Separator
+    doc.setLineWidth(0.8);
+    doc.line(14, 35, 196, 35);
 
-    doc.line(14, 30, 283, 30);
+    var totalNumber = "\nTotal Number of Registrations : " + this.state.totalNumber;
+    doc.setFontSize(12);   
+    doc.text(14, 39, totalNumber);
 
-    var totalNumber = "\nTotal Number : " + this.state.totalNumber;
-    doc.setFontSize(20);   
-    doc.text(14,34,totalNumber);
+    // Line Separator
+    doc.line(14, 50, 196, 50);
 
-    doc.line(14, 50, 283, 50);
-
-    doc.setFontSize(12);
-    doc.text(14,57,"List of People Registered");
+    doc.setFontSize(11);
+    doc.text(14, 59, "List of Registrants");
 
     doc.autoTable({
       html: "#students",
-      startY: 63,
-      didParseCell: function (data) {
-        var rows = data.table.body;
-        if (data.row.index === 0) {
-          data.cell.styles.fontStyle = "bold";
-        }
+      styles: { 
+        halign: 'center', 
+        fillColor: [136, 183, 181] ,
+        font: 'helvetica',
+        cellPadding: {top: 3, right: 3, bottom: 3, left: 3},
       },
+      columnStyles: { 
+        0: { halign: 'center'},
+        1: { halign: 'center'},
+        2: { halign: 'center'},
+        3: { halign: 'center'},
+        4: { halign: 'center'},
+        5: { halign: 'center'},
+      },
+      startY: 65,
+      pageBreak: "auto"
     });
 
-    doc.setFontSize(18); 
-    doc.text("Report on Total Number of Registerations for Open House Mobile Application", 35, 15);
-      
+    doc.setFontSize(13);
+    doc.setFont('helvetica', 'bold');
+    doc.text("Report on Total Number of Registrations for Open House Mobile Application", 20, 20);
+
     doc.save("StudentRegisteration.pdf");
   };
 
 
   render() {
     return (
-      <div className="home">
-        <div>{/* Do not change the id below*/}
-          <table id="students" class="table table-bordered">
-            <tbody>
-              <tr>
-                <th scope="col">S/N</th>
-                <th scope="col">Email</th>
-                <th scope="col">Date</th>
-              </tr>
-              {this.state.users &&
-                this.state.users.map((user) => {
-                  return (
-                    <tr>
-                      <td>{user.counter}</td>
-                      <td>{user.email} </td>
-                      <td>{user.dateRegistered} </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-        <button onClick={this.generateReport}>Generate PDF</button>
+      <div>
+        <Container fluid className="generateMobileRegCon">
+          <NavBar isMA={true} />
+
+          <Container fluid className="generateMobileRegContent">
+            <Row>
+              {/* SideNavBar Col */}
+              <Col md="2" style={{ paddingRight: "0" }} className="sideNavBarCol">
+                <SideNavBar />
+              </Col>
+
+              {/* Contents Col */}
+              <Col md="10" style={{ paddingLeft: "0" }}>
+                <Container fluid className="generateMobileRegContentCon">
+                  {/* Generate Mobile Registration Page Header row */}
+                  <Row className="justify-content-center generateMobileRegContentHeaderRow">
+                    <Col md="9" className="text-left generateMobileRegContentHeaderCol">
+                      <h4 className="generateMobileRegHeaderText">Report on Total Number of Registrations for Open House Mobile Application</h4>
+                    </Col>
+
+                    <Col md="3" className="text-right generateMobileRegContentHeaderCol">
+                      <Button className="generateReportBtn" onClick={this.handleGenerateReportModal}>
+                        <FontAwesomeIcon size="lg" className="generateReportBtnIcon" icon={faPlus} />
+                        <span className="generateReportBtnText" onClick={this.generateReport}>Generate Report</span>
+                      </Button>
+                    </Col>
+                  </Row>
+
+                  {/* Table Row */}
+                  <Row className="justify-content-center generateMobileRegReportTableRow">
+                    <Col md="12" className="text-center">
+                      <Table responsive="sm" hover bordered id="students" className="generateMobileRegReportTable">
+                        <thead>
+                          <tr>
+                            <th className="generateMobileRegReportHeader_SNo">S/N</th>
+                            <th className="generateMobileRegReportHeader_RegEmail">Registered Email</th>
+                            <th className="generateMobileRegReportHeader_Name">Name</th>
+                            <th className="generateMobileRegReportHeader_HighestQual">Highest Qualification</th>
+                            <th className="generateMobileRegReportHeader_ContactNo">Contact No.</th>
+                            <th className="generateMobileRegReportHeader_RegDate">Date of Registration</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          {this.state.users && this.state.users.map((user) => {
+                            return (
+                              <tr key={user.id}>
+                                <td className="generateMobileRegReportData_SNo">{user.counter}</td>
+                                <td className="generateMobileRegReportData_RegEmail">{user.email}</td>
+                                <td className="generateMobileRegReportData_Name">{user.firstName} {user.lastName}</td>
+                                <td className="generateMobileRegReportData_HighestQual">{user.highestQualification}</td>
+                                <td className="generateMobileRegReportData_ContactNo">{user.contactNo}</td>
+                                <td className="generateMobileRegReportData_RegDate">{user.dateRegistered}</td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </Table>
+                    </Col>
+                  </Row>
+
+                </Container>
+
+              </Col>
+            </Row>
+          </Container>
+
+          <Footer />
+        </Container>
+
       </div>
     );
   }

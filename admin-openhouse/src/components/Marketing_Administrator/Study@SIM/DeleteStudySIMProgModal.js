@@ -29,7 +29,6 @@ export default class DeleteStudySIMProgModal extends React.Component {
     .delete()
     .then(function () {
       // a.props.handleConfirmDelete();
-      alert("Deleted");
     });
   }
 

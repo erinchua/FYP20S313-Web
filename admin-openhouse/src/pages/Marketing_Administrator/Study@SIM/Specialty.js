@@ -381,7 +381,7 @@ class StudySIM_Speciality extends Component {
           keyboard={false}
           className="addStudySIMProgModal"
         >
-          <AddStudySIMProgModal />
+          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} />
         </Modal>
 
         {/* Edit Programme Modal */}
@@ -429,7 +429,7 @@ class StudySIM_Speciality extends Component {
             durationfulltime={this.state.durationfulltime}
             durationparttime={this.state.durationparttime}
             
-            handleSaveChanges={() => {console.log("Edit Modal Saved");}}
+            handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
             handleCancelEdit={this.handleEditStudySIMProgModal}
           />
         </Modal>
