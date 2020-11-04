@@ -207,7 +207,7 @@ class GenerateStudentRegistration extends Component {
               {/* Contents Col */}
               <Col md="10" style={{ paddingLeft: "0" }}>
                 <Container fluid className="generateMobileRegContentCon">
-                  {/* Generate Attendance Page Header row */}
+                  {/* Generate Mobile Registration Page Header row */}
                   <Row className="justify-content-center generateMobileRegContentHeaderRow">
                     <Col md="9" className="text-left generateMobileRegContentHeaderCol">
                       <h4 className="generateMobileRegHeaderText">Report on Total Number of Registrations for Open House Mobile Application</h4>
