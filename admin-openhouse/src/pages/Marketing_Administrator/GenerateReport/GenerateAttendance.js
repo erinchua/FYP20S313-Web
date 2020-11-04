@@ -2,6 +2,16 @@ import React, { Component, useReducer } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import firecreate from "../../../config/firebasecreate";
+import { Container, Row, Col, Button, Table, Modal } from "react-bootstrap";
+
+import "../../../css/Marketing_Administrator/GenerateAttendance.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+
+import NavBar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
+import SideNavBar from "../../../components/SideNavbar";
 
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -324,7 +334,8 @@ display() {
 
   render() {
     return (
-      <div className="home">
+      <div>
+        
         <label>
           Choose a University:
           <select onChange={this.handleUniversityChange}>
@@ -352,8 +363,9 @@ display() {
                 })}          
           </select>
         </label>
+
+        {/* Do not change the id below*/}
         <div>
-            {/* Do not change the id below*/}
           <table id="attendance" class="table table-bordered">
             <tbody>
               <tr>

@@ -173,9 +173,7 @@ class StudySIM_ArtsSocialSciences extends Component {
                   {/* Study@SIM Page Header row */}
                   <Row className="justify-content-center MAStudySIMContentHeaderRow">
                     <Col md="6" className="text-left MAStudySIMContentHeaderCol">
-                      <h4 className="MAStudySIMHeaderText">
-                        Programmes for Art & Social Science
-                      </h4>
+                      <h4 className="MAStudySIMHeaderText">Programmes for Art & Social Science</h4>
                     </Col>
 
                     <Col md="6" className="text-right MAStudySIMContentHeaderCol">
@@ -372,7 +370,7 @@ class StudySIM_ArtsSocialSciences extends Component {
           keyboard={false}
           className="addStudySIMProgModal"
         >
-          <AddStudySIMProgModal />
+          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} />
         </Modal>
 
         {/* Edit Programme Modal */}
@@ -420,7 +418,7 @@ class StudySIM_ArtsSocialSciences extends Component {
             durationparttime={this.state.durationparttime}
             docid={this.state.docid}
             
-            handleSaveChanges={() => {console.log("Edit Modal Saved");}}
+            handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
             handleCancelEdit={this.handleEditStudySIMProgModal}
           />
         </Modal>
