@@ -50,12 +50,20 @@ class MAHome extends Component {
       }
       display() {
         const db = fire.firestore();
-        var counter = 1;
+        var counter = 0;
         const registeredstudentsquery = db
           .collection("Students")
           .onSnapshot((snapshot) => {
             console.log(snapshot.size);
             this.setState({ registeredstudents: snapshot.size });
+          });
+
+          const attendancequery = db
+          .collection("Attendance")
+          
+          .onSnapshot((snapshot) => {
+            console.log(snapshot.size);
+            this.setState({ attendanceregistered: snapshot.size });
           });
     
         const programtalkquery = db
@@ -68,6 +76,7 @@ class MAHome extends Component {
             console.log(counter);
             this.setState({ programtalkregisterd: counter });
           });
+
       }
 
     render() {
@@ -111,7 +120,7 @@ class MAHome extends Component {
                                                         <FontAwesomeIcon size="3x" icon={faSchool}/>
                                                     </Col>
                                                     <Col md={6} className="MAHome-thirdInnerCol2">
-                                                        <h3>350</h3>
+                                                        <h3>{this.state.attendanceregistered}</h3>
                                                     </Col>
                                                 </Row>
                                             </Col>
@@ -132,7 +141,7 @@ class MAHome extends Component {
                                                 <Chart id="MAHome-fourthChart" height="45vh" chartType="BarChart" data={[
     ["Label", "Total Number of Participants", { role: "style" }],
     ["Total number of registered prospective students for the open house mobile application", this.state.registeredstudents, "color: #deecfc"],
-    ["Total number of prospective student actual turn-ups for open house programme talks", 350, "color: #b9ceeb"],
+    ["Total number of prospective student actual turn-ups for open house programme talks", this.state.attendanceregistered, "color: #b9ceeb"],
     ["Total number of registrations for open house programme talks (through mobile application)", this.state.programtalkregisterd, "color: #87a8d0"],
 ]} options={{legend: "none", vAxis: {textStyle: {fontSize: 8.5}}}}/>
                                             </Col>

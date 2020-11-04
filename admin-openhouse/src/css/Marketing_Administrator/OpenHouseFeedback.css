@@ -1,0 +1,96 @@
+.openhouseFeedbackCon {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 0 auto;
+    padding: 0 !important;
+}
+
+.openhouseFeedbackContent {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+.openhouseFeedbackContentCon {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#openhouseFeedbackContentHeaderRow {
+    background: #88B7B5;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.openhouseFeedbackContentHeaderCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#openhouseFeedbackHeaderText {
+    color: #424242;
+}
+
+/**********************************************/
+/**************** Table Header ****************/
+#openhouseFeedbackTable {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+#openhouseFeedbackHeader_SNo {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+#openhouseFeedbackHeader_AttendedDate {
+    width: 25%;
+    color: #424242;
+    font-size: 90%;
+}
+
+#openhouseFeedbackHeader_Nature {
+    width: 25%;
+    color: #424242;
+    font-size: 90%;
+}
+
+#openhouseFeedbackHeader_Feedback {
+    width: 40%;
+    color: #424242;
+    font-size: 90%;
+}
+
+/**************** Table Data ****************/
+#openhouseFeedbackData_SNo {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+#openhouseFeedbackData_AttendedDate {
+    width: 25%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+#openhouseFeedbackData_Nature {
+    width: 25%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+#openhouseFeedbackData_Feedback {
+    width: 40%;
+    color: #434343;
+    font-size: 85%;
+}

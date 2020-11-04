@@ -88,7 +88,14 @@
     box-shadow: none;
 }
 
-.addPastRecForm_RecFile .custom-file-input {
+#addPastRecForm_PastRecURL {
+    resize: none;
+    border-radius: 6px;
+    color: #434343;
+    font-size: 85%;
+}
+
+/* .addPastRecForm_RecFile .custom-file-input {
     border: 1px solid #c8c8c8;
     border-radius: 6px;
     font-size: 85% !important;
@@ -103,7 +110,7 @@
 
 .addPastRecForm_RecFile:focus {
     box-shadow: none;
-}
+} */
 
 .addPastRecForm_InnerCol {
     height: 80%;
@@ -230,7 +237,14 @@
     box-shadow: none;
 }
 
-.editPastRecForm_RecFile .custom-file-input {
+#editPastRecForm_PastRecURL {
+    resize: none;
+    border-radius: 6px;
+    color: #434343;
+    font-size: 85%;
+}
+
+/* .editPastRecForm_RecFile .custom-file-input {
     border: 1px solid #c8c8c8;
     border-radius: 6px;
     font-size: 85% !important;
@@ -245,7 +259,7 @@
 
 .editPastRecForm_RecFile:focus {
     box-shadow: none;
-}
+} */
 
 .editPastRecForm_InnerCol {
     height: 80%;

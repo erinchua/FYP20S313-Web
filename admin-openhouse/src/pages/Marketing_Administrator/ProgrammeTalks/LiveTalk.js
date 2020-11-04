@@ -13,12 +13,22 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
-import AddLiveTalkModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/AddLiveTalkModal";
-import EditLiveTalkModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/EditLiveTalkModal";
 import DeleteLiveTalkModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/DeleteLiveTalkModal";
 
 
+const initialStates = {
+  liveTalkError: "",
+  universityError: "",
+  startTimeError: "",
+  endTimeError: "",
+  dateError: "",
+  venueError: "",
+  urlError: ""
+}
+
 class LiveTalk extends Component {
+  state = initialStates;
+
   constructor() {
     super();
     this.state = {
@@ -32,11 +42,13 @@ class LiveTalk extends Component {
       startTime: "",
       talkName: "",
       venue: "",
-      link: "",
+      url: "",
       id: "",
       progTalkDetails: "",
       day1: [],
       day2: [],
+      openHouseDay1: "",
+      openHouseDay2: "",
       day1Date: "",
       day2Date: "",
 
@@ -49,6 +61,7 @@ class LiveTalk extends Component {
       editLiveTalkModal: false,
       deleteLiveTalkModal: false,
     };
+    this.resetForm = this.resetForm.bind(this);
   }
 
   authListener() {
@@ -105,31 +118,27 @@ class LiveTalk extends Component {
       this.setState({ uniList: uni_list });
     });
 
-
-    const userRef = db
-    .collection("ProgrammeTalks")
-    .get()
+    // Retrieve Open House Dates from Openhouse Collection
+    const dates = [];
+    db.collection("Openhouse").get()
     .then((snapshot) => {
       snapshot.forEach((doc) => {
-        livetalk.push(doc.data().date);
+        const data = doc.get('day');
+        for (var i = 0; i < Object.keys(data).length; i++) {
+          const retrieved = {
+              date: data[Object.keys(data)[i]].date
+          };
+          dates.push(retrieved)
+        }
       });
+      this.setState({openHouseDates: dates})
+      this.setState({openHouseDay1: dates[0].date}) // Use date from OpenHouse  
+      this.setState({openHouseDay2: dates[1].date}) // Use date from OpenHouse 
 
-      console.log(livetalk);
-        
-      function onlyUnique(value, index, self) {
-        return self.indexOf(value) === index;
-      }
-      
-      var unique = livetalk.filter(onlyUnique);
-      console.log(unique);
-      //day1
-      const day1date = [];
-      day1date.push(unique[0]);
-      this.setState({ day1: day1date });
       var day1_counter = 1;
 
-      const day1  = db
-      .collection("ProgrammeTalks").where("date", "==", unique[0])
+      db
+      .collection("ProgrammeTalks").where("date", "==", dates[0].date)
       .where("isLive", "==", true)
       .get()
       .then((snapshot) => {
@@ -143,10 +152,10 @@ class LiveTalk extends Component {
             startTime: doc.data().startTime,     
             endTime: doc.data().endTime,
             venue: doc.data().venue,
-            capacityLimit: doc.data().capacityLimit,
-            noRegistered: doc.data().noRegistered,
+            capacityLimit: doc.data().capacityLimit.toString(),
+            noRegistered: doc.data().noRegistered.toString(),
             hasRecording: doc.data().hasRecording.toString(),
-            link: doc.data().link,
+            url: doc.data().url,
             isLive: doc.data().isLive.toString(),
             date: doc.data().date,
             day1_counter: day1_counter
@@ -154,18 +163,14 @@ class LiveTalk extends Component {
           day1_counter++
           livetalk.push(data);
         });
-        this.setState({ day1: livetalk });     
-        this.setState({ day1Date: livetalk[0].date})               
+        this.setState({ day1: livetalk });            
       });
 
       //day 2
-      const day2date = [];
-      day2date.push(unique[1]);
-      this.setState({ day2: day2date });
       var day2_counter = 1
-
-      const day2  = db
-      .collection("ProgrammeTalks").where("date", "==", unique[1])
+      
+      db
+      .collection("ProgrammeTalks").where("date", "==", dates[1].date)
       .where("isLive", "==", true)
       .get()
       .then((snapshot) => {
@@ -179,10 +184,10 @@ class LiveTalk extends Component {
             startTime:  doc.data().startTime,     
             endTime: doc.data().endTime,
             venue: doc.data().venue,
-            capacityLimit: doc.data().capacityLimit,
-            noRegistered: doc.data().noRegistered,
+            capacityLimit: doc.data().capacityLimit.toString(),
+            noRegistered: doc.data().noRegistered.toString(),
             hasRecording: doc.data().hasRecording.toString(),
-            link : doc.data().link,
+            url : doc.data().url,
             isLive: doc.data().isLive.toString(),
             date: doc.data().date,
             day2_counter: day2_counter
@@ -191,9 +196,26 @@ class LiveTalk extends Component {
           livetalk.push(data);
         });
         this.setState({ day2: livetalk });   
-        this.setState({ day2Date: livetalk[0].date})  
       });
-    });
+    })
+
+    // const userRef = db
+    // .collection("ProgrammeTalks")
+    // .get()
+    // .then((snapshot) => {
+    //   snapshot.forEach((doc) => {
+    //     livetalk.push(doc.data().date);
+    //   });
+        
+      // function onlyUnique(value, index, self) {
+      //   return self.indexOf(value) === index;
+      // }
+      
+      // var unique = livetalk.filter(onlyUnique);
+      // console.log(unique);
+      //day1
+    
+    // });
   }
 
   addLiveTalks = (e) => {
@@ -204,45 +226,54 @@ class LiveTalk extends Component {
     // livestatus = livestatus.options[livestatus.selectedIndex].value;
     // recordingvalue = (recordingvalue === "true");
     // livestatus = (livestatus === "true");
+    
+    const isValid = this.validate();
+    if (isValid) {
+      this.setState(initialStates);
 
-    const db = fire.firestore();
-    var lastdoc = db.collection("ProgrammeTalks").orderBy('id','desc')
-    .limit(1).get().then((snapshot) =>  {
-      snapshot.forEach((doc) => {
-        var docid= "";
-        var res = doc.data().id.substring(5, 10);
-        var id = parseInt(res)
-        if(id.toString().length <= 1){
-          docid= "talk-00" + (id +1) 
-        }
-        else if(id.toString().length <= 2){
-          docid= "talk-0" + (id +1) 
-        }
-        else{
-          docid="talk-0" + (id +1) 
-        }
-        const userRef = db
-        .collection("ProgrammeTalks")
-        .doc(docid)
-        .set({
-          awardingUni: this.state.awardingUni,
-          capacityLimit: this.state.capacityLimit,
-          date: this.state.date,
-          endTime: this.state.endTime,
-          hasRecording: this.state.hasRecording,
-          isLive: this.state.livestatus,
-          noRegistered: this.state.noRegistered,
-          startTime: this.state.startTime,
-          talkName: this.state.talkName,
-          venue: this.state.venue,
-          link: this.state.link,
-          id: docid,
+      const db = fire.firestore();
+      var lastdoc = db.collection("ProgrammeTalks").orderBy('id','desc')
+      .limit(1).get().then((snapshot) =>  {
+        snapshot.forEach((doc) => {
+          var docid= "";
+          var res = doc.data().id.substring(8, 5);
+          var id = parseInt(res);
+          id += 1
+
+          if(id.toString().length == 1){
+            docid= "talk-00" + (id) 
+          }
+          else if(id.toString().length == 2){
+            docid= "talk-0" + (id) 
+          }
+          else{
+            docid="talk-" + (id) 
+          }
+
+          const userRef = db
+          .collection("ProgrammeTalks")
+          .doc(docid)
+          .set({
+            awardingUni: this.state.awardingUni,
+            capacityLimit: +this.state.capacityLimit,
+            date: this.state.date,
+            endTime: this.state.endTime,
+            hasRecording: false,
+            isLive: true,
+            noRegistered: +this.state.noRegistered,
+            startTime: this.state.startTime,
+            talkName: this.state.talkName,
+            venue: this.state.venue,
+            url: this.state.url,
+            id: docid
+          })
+          .then(dataSnapshot => {
+            this.display();
+            this.setState({addLiveTalkModal: false}); 
+          });
         })
-        .then(function () {
-          window.location.reload();
-        });
       })
-    })
+    }
   };
 
   DeleteLiveTalk(e, livetalkid) {
@@ -251,58 +282,85 @@ class LiveTalk extends Component {
     .collection("ProgrammeTalks")
     .doc(livetalkid)
     .delete()
-    .then(function () {
-        alert("Deleted");
-        window.location.reload();
+    .then(dataSnapshot => {
+      this.display();
+      this.setState({deleteLiveTalkModal: false}); 
     });
   }
 
-  update(e, livetalkid) {
-    const talkName = document.getElementById(livetalkid + "talkname").value
-    const awardingUni = document.getElementById(livetalkid + "awarduni").value
-    const startTime = document.getElementById(livetalkid + "starttime").value
-    const endTime = document.getElementById(livetalkid + "endtime").value
-    const venue = document.getElementById(livetalkid + "venue").value
-    const link = document.getElementById(livetalkid + "link").value
+  // **No need the following function. Using editLiveTalk() instead.
+  // update(e, livetalkid) {
+    // const talkName = document.getElementById(livetalkid + "talkname").value
+    // const awardingUni = document.getElementById(livetalkid + "awarduni").value
+    // const startTime = document.getElementById(livetalkid + "starttime").value
+    // const endTime = document.getElementById(livetalkid + "endtime").value
+    // const venue = document.getElementById(livetalkid + "venue").value
+    // const link = document.getElementById(livetalkid + "link").value
 
-    const db = fire.firestore();
-    if (talkName != null && awardingUni != null && startTime != null && endTime != null && venue != null && link != null) {
-      const userRef = db
+    // const db = fire.firestore();
+    // if (talkName != null && awardingUni != null && startTime != null && endTime != null && venue != null && url != null) {
+    // const userRef = db
+    // .collection("ProgrammeTalks")
+    // .doc(livetalkid)
+    // .update({
+    //   awardingUni: awardingUni,
+    //   endTime: endTime,
+    //   startTime: startTime,
+    //   talkName: talkName,
+    //   venue: venue,
+    //   url: url,
+    // })
+    // .then(function () {
+    //   // alert("Updated");
+    //   window.location.reload();
+    // });
+    // }
+  // }
+
+  editLiveTalk(e, livetalkid) {
+    // document.getElementById(livetalkid + "spantalkname").removeAttribute("hidden");
+    // document.getElementById(livetalkid + "spanawarduni").removeAttribute("hidden");
+    // document.getElementById(livetalkid + "spanstarttime").removeAttribute("hidden");
+    // document.getElementById(livetalkid + "spanendtime").removeAttribute("hidden");
+    // document.getElementById(livetalkid + "spanvenue").removeAttribute("hidden");
+    // document.getElementById(livetalkid + "spanlink").removeAttribute("hidden");
+    // document.getElementById(livetalkid + "editbutton").setAttribute("hidden", "");
+    // document.getElementById(livetalkid + "updatebutton").removeAttribute("hidden");
+    // document.getElementById(livetalkid + "cancelbutton").removeAttribute("hidden");
+    // var texttohide = document.getElementsByClassName(
+    //   livetalkid + "text"
+    // );
+    // for (var i = 0; i < texttohide.length; i++) {
+    //   texttohide[i].setAttribute("hidden", "");
+    // }  
+
+    const isValid = this.validate();
+    if (isValid) {
+      this.setState(initialStates);
+
+      const db = fire.firestore();
+      db
       .collection("ProgrammeTalks")
-      .doc(livetalkid)
+      .doc(this.state.id)
       .update({
-        awardingUni: awardingUni,
-        endTime: endTime,
-        startTime: startTime,
-        talkName: talkName,
-        venue: venue,
-        link: link,
+          awardingUni: this.state.awardingUni,
+          endTime: this.state.endTime,
+          startTime: this.state.startTime,
+          talkName: this.state.talkName,
+          venue: this.state.venue,
+          date: this.state.date,
+          url: this.state.url
       })
-      .then(function () {
-        alert("Updated");
-        window.location.reload();
-      });
+      .then(dataSnapshot => {
+        this.setState({
+          editLiveTalkModal: false
+        })
+        this.display()
+      }); 
     }
   }
 
-  editLiveTalk(e, livetalkid) {
-    document.getElementById(livetalkid + "spantalkname").removeAttribute("hidden");
-    document.getElementById(livetalkid + "spanawarduni").removeAttribute("hidden");
-    document.getElementById(livetalkid + "spanstarttime").removeAttribute("hidden");
-    document.getElementById(livetalkid + "spanendtime").removeAttribute("hidden");
-    document.getElementById(livetalkid + "spanvenue").removeAttribute("hidden");
-    document.getElementById(livetalkid + "spanlink").removeAttribute("hidden");
-    document.getElementById(livetalkid + "editbutton").setAttribute("hidden", "");
-    document.getElementById(livetalkid + "updatebutton").removeAttribute("hidden");
-    document.getElementById(livetalkid + "cancelbutton").removeAttribute("hidden");
-    var texttohide = document.getElementsByClassName(
-      livetalkid + "text"
-    );
-    for (var i = 0; i < texttohide.length; i++) {
-      texttohide[i].setAttribute("hidden", "");
-    }  
-  }
-
+  /* Don't need cancel function as we can just hide the modal if cancel */
   // CancelEdit(e, livetalkid) {
   //   document.getElementById(livetalkid + "spantalkname").setAttribute("hidden", "");
   //   document.getElementById(livetalkid + "spanawarduni").setAttribute("hidden", "");
@@ -332,6 +390,7 @@ class LiveTalk extends Component {
       this.setState({
         addLiveTalkModal: false
       });
+      this.resetForm();
     }
   };
 
@@ -339,6 +398,7 @@ class LiveTalk extends Component {
   handleEditLiveTalkModal = (day) => {
     if (this.state.editLiveTalkModal == false) {
       this.setState({
+        id: day.id,
         editLiveTalkModal: true,
         awardingUni: day.awardingUni,
         capacityLimit: day.capacityLimit,
@@ -350,23 +410,26 @@ class LiveTalk extends Component {
         startTime: day.startTime,
         talkName: day.talkName,
         venue: day.venue,
-        link: day.link,
-        progTalkDetails: day.progTalkDetails
+        url: day.url,
+        details: day.details,
+        discipline: day.discipline
       });
     }
     else {
       this.setState({
         editLiveTalkModal: false
       });
+      this.resetForm();
     }
   };
 
   /* Delete Live Talk Modal */
-  handleDeleteLiveTalkModal = () => {
+  handleDeleteLiveTalkModal = (id) => {
     if (this.state.deleteLiveTalkModal == false) {
       this.setState({
         deleteLiveTalkModal: true,
       });
+      this.state.id = id;
     }
     else {
       this.setState({
@@ -374,6 +437,74 @@ class LiveTalk extends Component {
       });
     }
   };
+  
+  //Validations for the Forms in Modals
+  validate = () => {
+    let liveTalkError = "";
+    let universityError = "";
+    let startTimeError = "";
+    let endTimeError = "";
+    let dateError = "";
+    let venueError = "";
+    let urlError = "";
+
+    if ( !(this.state.talkName && this.state.talkName.length >= 4) ) {
+      liveTalkError = "Please enter a valid live talk name!";
+    } 
+    
+    if (!this.state.awardingUni) {
+      universityError = "Please select a valid university!";
+    }
+
+    if (! (this.state.venue && this.state.venue.length >= 3) ) {
+      venueError = "Please enter a valid venue. E.g. SIM HQ BLK A Atrium!";
+    }
+
+    if ( !(this.state.startTime.includes(":") && (this.state.startTime.includes("AM") || this.state.startTime.includes("PM"))) ) {
+      startTimeError = "Please enter a valid start time. E.g. 1:30PM";
+    }
+
+    if ( !(this.state.endTime.includes(":") && (this.state.endTime.includes("AM") || this.state.endTime.includes("PM"))) ) {
+      endTimeError = "Please enter a valid end time. E.g. 2:30PM";
+    }
+
+    if (!this.state.date) {
+      dateError = "Please select a valid date!";
+    }
+
+    if ( !(this.state.url.includes(":") && this.state.url.includes("/")) ) {
+      urlError = "Please enter a valid url!";
+    }
+
+    if (liveTalkError || universityError || venueError || startTimeError || endTimeError || dateError || urlError) {
+      this.setState({
+        liveTalkError, universityError, venueError, startTimeError, endTimeError, dateError, urlError
+      });
+      return false;
+    } 
+    return true;
+  }
+
+  //Reset Forms
+  resetForm = () => {
+    this.setState({
+      liveTalkError: "",
+      universityError: "",
+      startTimeError: "",
+      endTimeError: "",
+      dateError: "",
+      venueError: "",
+      urlError: "",
+      id: "", 
+      talkName: "", 
+      venue: "", 
+      startTime: "", 
+      endTime: "", 
+      date: "", 
+      awardingUni: "",
+      url: ""
+    })
+  }
 
 
   render() {
@@ -416,13 +547,13 @@ class LiveTalk extends Component {
                             <Nav defaultActiveKey="day1" className="MAProgLiveTalkTabNav" variant="tabs">
                               <Col md="6" className="MAProgLiveTalkTabConInnerCol text-center">
                                 <Nav.Item className="MAProgLiveTalkTab_NavItem">
-                                  <Nav.Link eventKey="day1" className="MAProgLiveTalkTab_Day">{this.state.day1Date}</Nav.Link>
+                                  <Nav.Link eventKey="day1" className="MAProgLiveTalkTab_Day">{this.state.openHouseDay1}</Nav.Link>
                                 </Nav.Item>
                               </Col>
 
                               <Col md="6" className="MAProgLiveTalkTabConInnerCol text-center">
                                 <Nav.Item className="MAProgLiveTalkTab_NavItem">
-                                  <Nav.Link eventKey="day2" className="MAProgLiveTalkTab_Day">{this.state.day2Date}</Nav.Link>
+                                  <Nav.Link eventKey="day2" className="MAProgLiveTalkTab_Day">{this.state.openHouseDay2}</Nav.Link>
                                 </Nav.Item>
                               </Col>
                             </Nav>
@@ -445,7 +576,7 @@ class LiveTalk extends Component {
                                         <th className="progLiveTalkHeader_StartTime">Start Time</th>
                                         <th className="progLiveTalkHeader_EndTime">End Time</th>
                                         <th className="progLiveTalkHeader_Venue">Venue</th>
-                                        <th className="progLiveTalkHeader_Link">Live Stream Link</th>
+                                        <th className="progLiveTalkHeader_Url">Live Stream URL</th>
                                         <th className="progLiveTalkHeader_Edit">Edit</th>
                                         <th className="progLiveTalkHeader_Delete">Delete</th>
                                       </tr>
@@ -461,16 +592,16 @@ class LiveTalk extends Component {
                                             <td className="progLiveTalkData_StartTime text-left">{day1.startTime}</td>
                                             <td className="progLiveTalkData_EndTime text-left">{day1.endTime}</td>
                                             <td className="progLiveTalkData_Venue text-left">{day1.venue}</td>
-                                            <td className="progLiveTalkData_Link text-left">
-                                                <a href={day1.link} className="progLiveTalkData_LinkHref">{day1.link}</a>
-                                              </td>
+                                            <td className="progLiveTalkData_Url text-left">
+                                              <a href={day1.url} className="progLiveTalkData_UrlHref">{day1.url}</a>
+                                            </td>
                                             <td className="progLiveTalkData_Edit text-center">
                                               <Button id="editProgLiveTalkBtn" onClick={()=>this.handleEditLiveTalkModal(day1)}>
                                                 <FontAwesomeIcon size="lg" id="editProgLiveTalkBtnIcon" icon={faEdit} />
                                               </Button>
                                             </td>
                                             <td className="progLiveTalkData_Delete text-center">
-                                              <Button id="deleteProgLiveTalkBtn" onClick={this.handleDeleteLiveTalkModal}>
+                                              <Button id="deleteProgLiveTalkBtn" onClick={(e) => this.handleDeleteLiveTalkModal(day1.id)}>
                                                 <FontAwesomeIcon size="lg" id="deleteProgLiveTalkBtnIcon" icon={faTrashAlt} />
                                               </Button>
                                             </td>
@@ -496,7 +627,7 @@ class LiveTalk extends Component {
                                         <th className="progLiveTalkHeader_StartTime">Start Time</th>
                                         <th className="progLiveTalkHeader_EndTime">End Time</th>
                                         <th className="progLiveTalkHeader_Venue">Venue</th>
-                                        <th className="progLiveTalkHeader_Link">Live Stream Link</th>
+                                        <th className="progLiveTalkHeader_Url">Live Stream Url</th>
                                         <th className="progLiveTalkHeader_Edit">Edit</th>
                                         <th className="progLiveTalkHeader_Delete">Delete</th>
                                       </tr>
@@ -513,8 +644,8 @@ class LiveTalk extends Component {
                                               <td className="progLiveTalkData_StartTime text-left">{day2.startTime}</td>
                                               <td className="progLiveTalkData_EndTime text-left">{day2.endTime}</td>
                                               <td className="progLiveTalkData_Venue text-left">{day2.venue}</td>
-                                              <td className="progLiveTalkData_Link text-left">
-                                                <a href={day2.link} className="progLiveTalkData_LinkHref">{day2.link}</a>
+                                              <td className="progLiveTalkData_Url text-left">
+                                                <a href={day2.url} className="progLiveTalkData_UrlHref">{day2.url}</a>
                                               </td>
                                               <td className="progLiveTalkData_Edit text-center">
                                                 <Button id="editProgLiveTalkBtn" onClick={()=>this.handleEditLiveTalkModal(day2)}>
@@ -522,7 +653,7 @@ class LiveTalk extends Component {
                                                 </Button>
                                               </td>
                                               <td className="progLiveTalkData_Delete text-center">
-                                                <Button id="deleteProgLiveTalkBtn" onClick={this.handleDeleteLiveTalkModal}>
+                                                <Button id="deleteProgLiveTalkBtn" onClick={(e) => this.handleDeleteLiveTalkModal(day2.id)}>
                                                   <FontAwesomeIcon size="lg" id="deleteProgLiveTalkBtnIcon" icon={faTrashAlt} />
                                                 </Button>
                                               </td>
@@ -572,7 +703,7 @@ class LiveTalk extends Component {
           </Modal.Header>
 
           <Modal.Body id="addLiveTalkModalBody">
-            <Form noValidate> {/* onSubmit={this.addLiveTalk} */}
+            <Form noValidate>
               {/* Main Row */}
               <Form.Row className="justify-content-center">
                 {/* Left Col */}
@@ -587,8 +718,10 @@ class LiveTalk extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" name="talkName" id="addLiveTalkForm_ProgTalkName" placeholder="Name of Live Talk*" required />
+                        <FormControl type="text" name="talkName" id="addLiveTalkForm_ProgTalkName" onChange={this.updateInput} placeholder="Name of Live Talk*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.liveTalkError}</div>
                     </Col>
                   </Form.Row>
 
@@ -602,8 +735,10 @@ class LiveTalk extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" name="venue" id="addLiveTalkForm_Venue" placeholder="Venue*" required />
+                        <FormControl type="text" name="venue" id="addLiveTalkForm_Venue" onChange={this.updateInput} placeholder="Venue*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.venueError}</div>
                     </Col>
                   </Form.Row>
 
@@ -618,8 +753,10 @@ class LiveTalk extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="startTime" id="addLiveTalkForm_ProgTalkStartTime" placeholder="Start Time*" required />
+                        <FormControl type="text" name="startTime" id="addLiveTalkForm_ProgTalkStartTime" onChange={this.updateInput} placeholder="Start Time*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.startTimeError}</div>
                     </Col>
 
                     {/* End Time */}
@@ -631,8 +768,10 @@ class LiveTalk extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="endTime" id="addLiveTalkForm_ProgTalkEndTime" placeholder="End Time*" required />
+                        <FormControl type="text" name="endTime" id="addLiveTalkForm_ProgTalkEndTime" onChange={this.updateInput} placeholder="End Time*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.endTimeError}</div>
                     </Col>
                   </Form.Row>
                 </Col>
@@ -649,15 +788,14 @@ class LiveTalk extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <Form.Control as="select" name="date" defaultValue="chooseDate" className="addLiveTalkFormSelect" required noValidate>
-                          <option value="chooseDate" className="addLiveTalkFormSelectOption">Choose an Openhouse Date</option>
-                          
-                          {/* To be retrieved from DB */}
-                          <option value={this.state.day1Date} className="addLiveTalkFormSelectOption">{this.state.day1Date}</option>
-                          <option value={this.state.day2Date} className="addLiveTalkFormSelectOption">{this.state.day2Date}</option>
-
+                        <Form.Control as="select" name="date" onChange={this.updateInput} defaultValue="" className="addLiveTalkFormSelect" required noValidate>
+                          <option value="" className="addLiveTalkFormSelectOption">Choose an Openhouse Date</option>
+                          <option value={this.state.openHouseDay1} className="addLiveTalkFormSelectOption">{this.state.openHouseDay1}</option>
+                          <option value={this.state.openHouseDay2} className="addLiveTalkFormSelectOption">{this.state.openHouseDay2}</option>
                         </Form.Control>                                        
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.dateError}</div>
                     </Col>
                   </Form.Row>
 
@@ -671,10 +809,9 @@ class LiveTalk extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <Form.Control as="select" name="uniName" defaultValue="chooseUni" className="addLiveTalkFormSelect" required noValidate>
-                          <option value="chooseUni" className="addLiveTalkFormSelectOption">Choose a University</option>
-                          
-                          {/* To be retrieved from DB */}
+                        <Form.Control as="select" name="awardingUni" onChange={this.updateInput} defaultValue="" className="addLiveTalkFormSelect" required noValidate>
+                          <option value="" className="addLiveTalkFormSelectOption">Choose a University</option>
+
                           {this.state.uniList && this.state.uniList.map((uni) => {
                             return (
                               <>
@@ -685,15 +822,18 @@ class LiveTalk extends Component {
 
                         </Form.Control>
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.universityError}</div>
                     </Col>
                   </Form.Row>
 
-                  {/* Link */}
+                  {/* URL */}
                   <Form.Row className="justify-content-center addLiveTalkForm_InnerRow">
                     <Col md="10" className="text-left addLiveTalkForm_InnerCol">
                       <Form.Label className="addLiveTalkFormLabel">Live Talk URL</Form.Label>                                     
-                          
-                      <FormControl as="textarea" rows="4" required noValidate id="addLiveTalkForm_LiveTalkURL" placeholder="Live Talk URL*" />                                       
+                      <FormControl as="textarea" rows="4" name="url" onChange={this.updateInput} required noValidate id="addLiveTalkForm_LiveTalkURL" placeholder="Live Talk URL*" />                                       
+                      
+                      <div className="errorMessage text-left">{this.state.urlError}</div>
                     </Col>
                   </Form.Row>
 
@@ -705,7 +845,7 @@ class LiveTalk extends Component {
 
           <Modal.Footer className="justify-content-center">
             {/* Add Live Talk Submit Btn*/}
-            <Button type="submit" id="addLiveTalkFormBtn">Submit</Button>
+            <Button type="submit" id="addLiveTalkFormBtn" onClick={this.addLiveTalks}>Submit</Button>
           </Modal.Footer>
         </Modal>
 
@@ -727,7 +867,7 @@ class LiveTalk extends Component {
           </Modal.Header>
 
           <Modal.Body id="editLiveTalkModalBody">
-            <Form noValidate> {/* onSubmit={this.editLiveTalk} */}
+            <Form noValidate onSubmit={()=>{this.editLiveTalk()}}>
               {/* Main Row */}
               <Form.Row className="justify-content-center">
                 {/* Left Col */}
@@ -742,8 +882,10 @@ class LiveTalk extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" defaultValue={this.state.talkName} name="talkName" id="editLiveTalkForm_ProgTalkName" placeholder="Name of Live Talk*" required />
+                        <FormControl type="text" defaultValue={this.state.talkName} name="talkName" onChange={this.updateInput} id="editLiveTalkForm_ProgTalkName" placeholder="Name of Live Talk*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.liveTalkError}</div>
                     </Col>
                   </Form.Row>
 
@@ -757,8 +899,10 @@ class LiveTalk extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" defaultValue={this.state.venue} name="venue" id="editLiveTalkForm_Venue" placeholder="Venue*" required />
+                        <FormControl type="text" defaultValue={this.state.venue} name="venue" onChange={this.updateInput} id="editLiveTalkForm_Venue" placeholder="Venue*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.venueError}</div>
                     </Col>
                   </Form.Row>
 
@@ -773,8 +917,10 @@ class LiveTalk extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                     
-                        <FormControl type="text" defaultValue={this.state.startTime} name="startTime" id="editLiveTalkForm_ProgTalkStartTime" placeholder="Start Time*" required />
+                        <FormControl type="text" defaultValue={this.state.startTime} name="startTime" onChange={this.updateInput} id="editLiveTalkForm_ProgTalkStartTime" placeholder="Start Time*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.startTimeError}</div>
                     </Col>
 
                     {/* End Time */}
@@ -786,8 +932,10 @@ class LiveTalk extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                           
-                        <FormControl type="text" defaultValue={this.state.endTime} name="endTime" id="editLiveTalkForm_ProgTalkEndTime" placeholder="End Time*" required />
+                        <FormControl type="text" defaultValue={this.state.endTime} name="endTime" onChange={this.updateInput} id="editLiveTalkForm_ProgTalkEndTime" placeholder="End Time*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.endTimeError}</div>
                     </Col>
                   </Form.Row>
                 </Col>
@@ -804,15 +952,15 @@ class LiveTalk extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                     
-                        <Form.Control as="select" name="date" defaultValue={this.state.date} className="editLiveTalkFormSelect" required noValidate>
-                          <option value="chooseDate" className="editLiveTalkFormSelectOption">Choose an Openhouse Date</option>
-                          
-                          {/* To be retrieved from DB */}
-                          <option value={this.state.day1Date} className="editLiveTalkFormSelectOption">{this.state.day1Date}</option>
-                          <option value={this.state.day2Date} className="editLiveTalkFormSelectOption">{this.state.day2Date}</option>
+                        <Form.Control as="select" name="date" defaultValue={this.state.date} onChange={this.updateInput} className="editLiveTalkFormSelect" required noValidate>
+                          <option value="" className="editLiveTalkFormSelectOption">Choose an Openhouse Date</option>
 
+                          <option value={this.state.openHouseDay1} className="editLiveTalkFormSelectOption">{this.state.openHouseDay1}</option>
+                          <option value={this.state.openHouseDay2} className="editLiveTalkFormSelectOption">{this.state.openHouseDay2}</option>
                         </Form.Control>                                        
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.dateError}</div>
                     </Col>
                   </Form.Row>
 
@@ -826,10 +974,9 @@ class LiveTalk extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <Form.Control as="select" name="uniName" defaultValue={this.state.awardingUni} className="editLiveTalkFormSelect" required noValidate>
-                          <option value="chooseUni" className="editLiveTalkFormSelectOption">Choose a University</option>
+                        <Form.Control as="select" name="awardingUni" defaultValue={this.state.awardingUni} onChange={this.updateInput} className="editLiveTalkFormSelect" required noValidate>
+                          <option value="" className="editLiveTalkFormSelectOption">Choose a University</option>
                           
-                          {/* To be retrieved from DB */}
                           {this.state.uniList && this.state.uniList.map((uni) => {
                             return (
                             <>
@@ -840,18 +987,20 @@ class LiveTalk extends Component {
 
                         </Form.Control>
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.universityError}</div>
                     </Col>
                   </Form.Row>
 
-                  {/* Link */}
+                  {/* URL */}
                   <Form.Row className="justify-content-center editLiveTalkForm_InnerRow">
                     <Col md="10" className="text-left editLiveTalkForm_InnerCol">
                       <Form.Label className="editLiveTalkFormLabel">Live Talk URL</Form.Label>                                     
-                          
-                      <FormControl as="textarea" rows="4" defaultValue={this.state.link} required noValidate id="editLiveTalkForm_LiveTalkURL" placeholder="Live Talk URL*" />                                       
+                      <FormControl as="textarea" name="url" rows="4" defaultValue={this.state.url} onChange={this.updateInput} required noValidate id="editLiveTalkForm_LiveTalkURL" placeholder="Live Talk URL*" />                                       
                     </Col>
                   </Form.Row>
 
+                  <div className="errorMessage text-left">{this.state.urlError}</div>
                 </Col>
               </Form.Row>
 
@@ -863,7 +1012,7 @@ class LiveTalk extends Component {
             <Container>
               <Row>
                 <Col md="6" className="text-right">
-                  <Button id="saveChangesLiveTalkFormBtn">Save Changes</Button>
+                  <Button id="saveChangesLiveTalkFormBtn" onClick={(e) => {this.editLiveTalk()}}>Save Changes</Button>
                 </Col>
 
                 <Col md="6" className="text-left">

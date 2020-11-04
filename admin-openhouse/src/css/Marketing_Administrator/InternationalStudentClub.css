@@ -1,0 +1,102 @@
+.InternationalStudent-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.InternationalStudent-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#InternationalStudent-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#InternationalStudent-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#InternationalStudent-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#InternationalStudent-title {
+    color: #424242;
+}
+
+#InternationalStudent-secondRow {
+    margin: 0 !important;
+}
+
+#InternationalStudent-secondRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#InternationalStudent-tableHeader {
+    color: #424242;
+    font-size: 90%;
+}
+
+#InternationalStudent-tableBody {
+    color: #434343;
+    font-size: 85%;
+}
+
+#InternationalStudent-addBtn {
+    background: none;
+    border: 1px solid #424242;
+    color: #424242;
+    min-width: 20%;
+    border-radius: 6px;
+}
+
+#InternationalStudent-addBtn:hover {
+    background: #424242;
+    border-color: #424242;
+    color: white;
+}
+
+#InternationalStudent-addBtn:focus {
+    box-shadow: none;
+}
+
+#InternationalStudent-addBtnText {
+    margin-left: 10%;
+}
+
+#InternationalStudent-editBtn {
+    background: none;
+    color: #434343;
+    border: none;
+}
+
+#InternationalStudent-editBtn:focus {
+    box-shadow: none;
+}
+
+#InternationalStudent-deleteBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#InternationalStudent-deleteBtn:focus {
+    box-shadow: none;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 80%;
+}

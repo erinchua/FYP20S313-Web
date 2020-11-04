@@ -1,0 +1,138 @@
+
+/* -- Add/Edit Modal -- */
+.StudentLife-formGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#StudentLife-modalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+#StudentLife-addfooter, #StudentLife-editFooter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.StudentLife-addFooterCol, .StudentLife-editFooterCol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#StudentLife-submitBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#StudentLife-submitBtn:focus {
+    box-shadow: none;    
+}
+
+#StudentLife-saveBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#StudentLife-saveBtn:focus {
+    box-shadow: none;    
+}
+
+#StudentLife-cancelBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: #60c6d9;    
+}
+
+#StudentLife-cancelBtn:focus {
+    box-shadow: none;    
+}
+
+#StudentLife-inputFields {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;    
+    font-size: 85%;
+}
+
+#StudentLife-inputFields:focus {
+    box-shadow: none;
+}
+
+#StudentLife-textAreas {
+    color: #434343;    
+    font-size: 85%;
+    border: 1px solid #c8c8c8;
+}
+
+#StudentLife-textAreas:focus {
+    box-shadow: none;
+    border: 1px solid #c8c8c8;
+}
+
+#StudentLife-gameBoothNameData {
+    text-transform: capitalize;
+}
+
+.StudentLife-imgFile .custom-file-input {
+    border: 1px solid #c8c8c8;
+    border-radius: 6px;
+    font-size: 85% !important;
+    color: #434343;
+}
+
+.StudentLife-imgFile .custom-file-label {
+    color: #434343;
+    overflow: hidden;
+    font-size: 90% !important;
+}
+
+.StudentLife-imgFile:focus {
+    box-shadow: none;
+}
+
+ /* -- Delete Modal -- */
+.StudentLife-deleteFooterCol {
+    padding-bottom: 4%;
+}
+
+#StudentLife-deleteText {
+    font-size: 95%;
+    color: #424242;
+}
+
+#StudentLife-deleteConfirmBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #EA526F
+}
+
+#StudentLife-deleteConfirmBtn:focus {
+    box-shadow: none;    
+}
+
+#StudentLife-deleteCancelBtn {
+    width: 40%;
+    background: #EA526F;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: white;
+}
+
+#StudentLife-deleteCancelBtn:focus {
+    box-shadow: none;    
+}

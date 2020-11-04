@@ -24,13 +24,13 @@ export default class DeleteStudySIMProgModal extends React.Component {
     const db = fire.firestore();
 
     const userRef = db
-      .collection("Programmes")
-      .doc(this.props.docid)
-      .delete()
-      .then(function () {
-        // a.props.handleConfirmDelete();
-        alert("Deleted");
-      });
+    .collection("Programmes")
+    .doc(this.props.docid)
+    .delete()
+    .then(function () {
+      // a.props.handleConfirmDelete();
+      alert("Deleted");
+    });
   }
 
   
@@ -52,32 +52,19 @@ export default class DeleteStudySIMProgModal extends React.Component {
 
           <Row className="justify-content-center">
             <Col md="12" className="text-center deleteStudySIMProgModalCol">
-              <h5 id="deleteStudySIMProgModalText">
-                Are you sure you want to remove this programme?
-              </h5>
+              <h5 id="deleteStudySIMProgModalText">Are you sure you want to remove this programme?</h5>
             </Col>
           </Row>
 
           <Row className="justify-content-center">
             <Col md="6" className="text-right deleteStudySIMProgModalCol">
-              <Button
-                id="confirmDeleteStudySIMProgModalBtn"
-                onClick={() => {
-                  this.delete();
-                  this.props.handleConfirmDelete();
-                }}
-              >
+              <Button id="confirmDeleteStudySIMProgModalBtn" onClick={() => {this.delete(); this.props.handleConfirmDelete();}}>
                 Confirm
               </Button>
             </Col>
 
             <Col md="6" className="text-left deleteStudySIMProgModalCol">
-              <Button
-                id="cancelDeleteStudySIMProgModalBtn"
-                onClick={this.props.handleCancelDelete}
-              >
-                Cancel
-              </Button>
+              <Button id="cancelDeleteStudySIMProgModalBtn" onClick={this.props.handleCancelDelete}>Cancel</Button>
             </Col>
           </Row>
         </Modal.Body>

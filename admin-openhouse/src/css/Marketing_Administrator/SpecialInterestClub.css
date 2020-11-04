@@ -1,0 +1,102 @@
+.SpecialInterest-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.SpecialInterest-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#SpecialInterest-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#SpecialInterest-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#SpecialInterest-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#SpecialInterest-title {
+    color: #424242;
+}
+
+#SpecialInterest-secondRow {
+    margin: 0 !important;
+}
+
+#SpecialInterest-secondRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#SpecialInterest-tableHeader {
+    color: #424242;
+    font-size: 90%;
+}
+
+#SpecialInterest-tableBody {
+    color: #434343;
+    font-size: 85%;
+}
+
+#SpecialInterest-addBtn {
+    background: none;
+    border: 1px solid #424242;
+    color: #424242;
+    min-width: 20%;
+    border-radius: 6px;
+}
+
+#SpecialInterest-addBtn:hover {
+    background: #424242;
+    border-color: #424242;
+    color: white;
+}
+
+#SpecialInterest-addBtn:focus {
+    box-shadow: none;
+}
+
+#SpecialInterest-addBtnText {
+    margin-left: 10%;
+}
+
+#SpecialInterest-editBtn {
+    background: none;
+    color: #434343;
+    border: none;
+}
+
+#SpecialInterest-editBtn:focus {
+    box-shadow: none;
+}
+
+#SpecialInterest-deleteBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#SpecialInterest-deleteBtn:focus {
+    box-shadow: none;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 80%;
+}

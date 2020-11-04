@@ -16,6 +16,7 @@ import EditStudySIMProgModal from "../../../components/Marketing_Administrator/S
 import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/DeleteStudySIMProgModal";
 import ViewStudySIMProgDetailsModal from "../../../components/Marketing_Administrator/Study@SIM/ViewStudySIMProgDetailsModal";
 
+
 class StudySIM_Speciality extends Component {
   constructor() {
     super();
@@ -32,8 +33,9 @@ class StudySIM_Speciality extends Component {
       if (user) {
         const db = fire.firestore();
         var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
+        .collection("Administrators")
+        .where("email", "==", user.email);
+
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
@@ -68,8 +70,7 @@ class StudySIM_Speciality extends Component {
             return Object.keys(object).find((key) => object[key] === value);
           }
 
-          var disciplinepath =
-            "discipline." + getKeyByValue(getdiscipline, "Specialty");
+          var disciplinepath = "discipline." + getKeyByValue(getdiscipline, "Specialty");
 
           const data = {
             docid: doc.id,
@@ -82,7 +83,7 @@ class StudySIM_Speciality extends Component {
             discipline2: doc.data().discipline.disciplineName2,
             disciplinepath: disciplinepath,
             AcademicLevel: doc.data().academicLevel,
-            Qualificaiton: doc.data().entryQualifications,
+            Qualification: doc.data().entryQualifications,
 
             subDiscipline: doc.data().subDiscipline,
 
@@ -155,6 +156,7 @@ class StudySIM_Speciality extends Component {
     }
   };
 
+
   render() {
     return (
       <div>
@@ -164,11 +166,7 @@ class StudySIM_Speciality extends Component {
           <Container fluid className="MAStudySIMContent">
             <Row>
               {/* SideNavBar Col */}
-              <Col
-                md="2"
-                style={{ paddingRight: "0" }}
-                className="sideNavBarCol"
-              >
+              <Col md="2" style={{ paddingRight: "0" }} className="sideNavBarCol">
                 <SideNavBar />
               </Col>
 
@@ -177,28 +175,13 @@ class StudySIM_Speciality extends Component {
                 <Container fluid className="MAStudySIMContentCon">
                   {/* Study@SIM Page Header row */}
                   <Row className="justify-content-center MAStudySIMContentHeaderRow">
-                    <Col
-                      md="6"
-                      className="text-left MAStudySIMContentHeaderCol"
-                    >
-                      <h4 className="MAStudySIMHeaderText">
-                        Programmes for Specialty
-                      </h4>
+                    <Col md="6" className="text-left MAStudySIMContentHeaderCol">
+                      <h4 className="MAStudySIMHeaderText">Programmes for Specialty</h4>
                     </Col>
 
-                    <Col
-                      md="6"
-                      className="text-right MAStudySIMContentHeaderCol"
-                    >
-                      <Button
-                        className="addStudySIMProgBtn"
-                        onClick={this.handleAddStudySIMProgModal}
-                      >
-                        <FontAwesomeIcon
-                          size="lg"
-                          className="addStudySIMProgBtnIcon"
-                          icon={faPlus}
-                        />
+                    <Col md="6" className="text-right MAStudySIMContentHeaderCol">
+                      <Button className="addStudySIMProgBtn" onClick={this.handleAddStudySIMProgModal}>
+                        <FontAwesomeIcon size="lg" className="addStudySIMProgBtnIcon" icon={faPlus} />
                         <span className="addStudySIMProgBtnText">Add</span>
                       </Button>
                     </Col>
@@ -207,291 +190,179 @@ class StudySIM_Speciality extends Component {
                   {/* Table Row */}
                   <Row className="justify-content-center MAStudySIMTableRow">
                     <Col md="12" className="text-center">
-                      <Table
-                        responsive="sm"
-                        hover
-                        bordered
-                        className="MAStudySIMTable"
-                      >
+                      <Table responsive="sm" hover bordered className="MAStudySIMTable">
                         <thead>
                           <tr>
                             <th className="studySIMProgHeader_SNo">S/N</th>
-                            <th className="studySIMProgHeader_ProgName">
-                              Programme Name
-                            </th>
-                            <th className="studySIMProgHeader_AwardedBy">
-                              Awarded By
-                            </th>
-                            <th className="studySIMProgHeader_LogoFile">
-                              Logo File
-                            </th>
-                            <th className="studySIMProgHeader_Category">
-                              Category
-                            </th>
-                            <th className="studySIMProgHeader_MoS">
-                              Mode of Study
-                            </th>
-                            <th className="studySIMProgHeader_Discipline">
-                              Disciplines
-                            </th>
-                            <th className="studySIMProgHeader_AcademicLvl">
-                              Academic Level
-                            </th>
-                            <th className="studySIMProgHeader_EntryQual">
-                              Entry Qualifications
-                            </th>
-                            <th className="studySIMProgHeader_SubDiscipline">
-                              Sub-Disciplines
-                            </th>
+                            <th className="studySIMProgHeader_ProgName">Programme Name</th>
+                            <th className="studySIMProgHeader_AwardedBy">Awarded By</th>
+                            <th className="studySIMProgHeader_LogoFile">Logo File</th>
+                            <th className="studySIMProgHeader_Category">Category</th>
+                            <th className="studySIMProgHeader_MoS">Mode of Study</th>
+                            <th className="studySIMProgHeader_Discipline">Disciplines</th>
+                            <th className="studySIMProgHeader_AcademicLvl">Academic Level</th>
+                            <th className="studySIMProgHeader_EntryQual">Entry Qualifications</th>
+                            <th className="studySIMProgHeader_SubDiscipline">Sub-Disciplines</th>
                             <th className="studySIMProgHeader_Edit">Edit</th>
-                            <th className="studySIMProgHeader_Delete">
-                              Delete
-                            </th>
+                            <th className="studySIMProgHeader_Delete">Delete</th>
                           </tr>
                         </thead>
-                        {this.state.Specialty &&
-                          this.state.Specialty.map((Specialty, index) => {
-                            index = index + 1;
-                            return (
-                              <tbody>
-                                <tr>
-                                  <td className="studySIMProgData_SNo text-center">
-                                    {index}
-                                  </td>
-                                  <td className="studySIMProgData_ProgName text-left">
-                                    <a
-                                      className="studySIMProgData_ProgNameLink"
-                                      onClick={() => {
-                                        this.setState({
-                                          programmeName: Specialty.programmeName,
-                                          aboutprogramme1:
-                                            Specialty.aboutprogramme
-                                              .aboutProgramme1,
-                                          aboutprogramme2:
-                                            Specialty.aboutprogramme
-                                              .aboutProgramme2,
-                                          aboutprogramme3:
-                                            Specialty.aboutprogramme
-                                              .aboutProgramme3,
-                                          applicationperiod1:
-                                            Specialty.applicationperiod.period1,
-                                          applicationperiod2:
-                                            Specialty.applicationperiod.period2,
-                                          programmestructurecoursework:
-                                            Specialty.programmestructure
-                                              .coursework,
-                                          programmestructureexamination:
-                                            Specialty.programmestructure
-                                              .examination,
-                                          overseaopportunityexchange:
-                                            Specialty.overseaopportunity
-                                              .exchange,
-                                          overseaopportunitytransfer:
-                                            Specialty.overseaopportunity
-                                              .transfer,
-                                          intakemonthsfulltime:
-                                            Specialty.intakemonths.fullTime,
-                                          intakemonthsparttime:
-                                            Specialty.intakemonths.partTime,
-                                          durationfulltime:
-                                            Specialty.duration.fullTime,
-                                          durationparttime:
-                                            Specialty.duration.partTime,
-                                        });
-                                        this.handleViewStudySIMProgDetailsModal();
-                                      }}
-                                    >
-                                      {/* href={
-                                        "/ArtsSocialScienceViewProgramme?id=" +
-                                        Specialty.docid
-                                      } */}
-                                      {Specialty.programmeName}
-                                    </a>
-                                  </td>
-                                  <td className="studySIMProgData_AwardedBy text-left">
-                                    {Specialty.awardBy}
-                                  </td>
-                                  <td className="studySIMProgData_LogoFile text-left">
-                                    {Specialty.Logofile}
-                                  </td>
-                                  <td className="studySIMProgData_Category text-left">
-                                    {Specialty.CategoryProgramme}
-                                  </td>
-                                  <td className="studySIMProgData_MoS text-left">
-                                    <tr>
-                                      {Specialty.ModeOfStudy.fullTime ===
-                                        true && <span>Full-Time</span>}
-                                    </tr>
-                                    <tr>
-                                      {Specialty.ModeOfStudy.partTime ===
-                                        true && <span>Part-Time</span>}
-                                    </tr>
-                                  </td>
-                                  <td className="studySIMProgData_Discipline text-left">
-                                    <tr>{Specialty.discipline1}</tr>
-                                    <tr>{Specialty.discipline2}</tr>
-                                  </td>
-                                  <td className="studySIMProgData_AcademicLvl text-left">
-                                    {Specialty.AcademicLevel}
-                                  </td>
-                                  <td className="studySIMProgData_EntryQual text-left">
-                                    <tr>
-                                      {Specialty.Qualificaiton.aLevel ===
-                                        true && <span>"A" level</span>}
-                                    </tr>
-                                    <tr>
-                                      {Specialty.Qualificaiton.degree ===
-                                        true && <span>Degree</span>}
-                                    </tr>
-                                    <tr>
-                                      {Specialty.Qualificaiton.diploma ===
-                                        true && <span>Diploma</span>}
-                                    </tr>
-                                    <tr>
-                                      {Specialty.Qualificaiton.oLevel ===
-                                        true && <span>"O" Level</span>}
-                                    </tr>
-                                  </td>
-                                  <td className="studySIMProgData_SubDiscipline text-left">
-                                    <tr>
-                                      {
-                                        Specialty.subDiscipline
-                                          .subDisciplineName1
-                                      }
-                                    </tr>
-                                    <tr>
-                                      {
-                                        Specialty.subDiscipline
-                                          .subDisciplineName2
-                                      }
-                                    </tr>
-                                    <tr>
-                                      {
-                                        Specialty.subDiscipline
-                                          .subDisciplineName3
-                                      }
-                                    </tr>
-                                    <tr>
-                                      {
-                                        Specialty.subDiscipline
-                                          .subDisciplineName4
-                                      }
-                                    </tr>
-                                    <tr>
-                                      {
-                                        Specialty.subDiscipline
-                                          .subDisciplineName5
-                                      }
-                                    </tr>
-                                  </td>
-                                  <td className="studySIMProgData_Edit text-center">
-                                    <Button
-                                      className="editStudySIMProgBtn"
-                                      onClick={() => {
-                                        this.setState({
-                                          programmeName:
-                                            Specialty.programmeName,
-                                          University: Specialty.awardBy,
-                                          category: Specialty.CategoryProgramme,
-                                          ModeOfStudy: Specialty.ModeOfStudy,
-                                          discipline1: Specialty.discipline1,
-                                          discipline2: Specialty.discipline2,
-                                          acadamiclevel:
-                                            Specialty.AcademicLevel,
-                                          olevel:
-                                            Specialty.Qualificaiton.oLevel,
-                                          aLevel:
-                                            Specialty.Qualificaiton.aLevel,
-                                          degree:
-                                            Specialty.Qualificaiton.degree,
-                                          diploma:
-                                            Specialty.Qualificaiton.diploma,
-                                          subdisciplne1:
-                                            Specialty.subDiscipline
-                                              .subDisciplineName1,
-                                          subdisciplne2:
-                                            Specialty.subDiscipline
-                                              .subDisciplineName2,
-                                          subdisciplne3:
-                                            Specialty.subDiscipline
-                                              .subDisciplineName3,
-                                          subdisciplne4:
-                                            Specialty.subDiscipline
-                                              .subDisciplineName4,
-                                          subdisciplne5:
-                                            Specialty.subDiscipline
-                                              .subDisciplineName5,
-                                          //details
-                                          aboutprogramme1:
-                                            Specialty.aboutprogramme
-                                              .aboutProgramme1,
-                                          aboutprogramme2:
-                                            Specialty.aboutprogramme
-                                              .aboutProgramme2,
-                                          aboutprogramme3:
-                                            Specialty.aboutprogramme
-                                              .aboutProgramme3,
-                                          applicationperiod1:
-                                            Specialty.applicationperiod.period1,
-                                          applicationperiod2:
-                                            Specialty.applicationperiod.period2,
-                                          programmestructurecoursework:
-                                            Specialty.programmestructure
-                                              .coursework,
-                                          programmestructureexamination:
-                                            Specialty.programmestructure
-                                              .examination,
-                                          overseaopportunityexchange:
-                                            Specialty.overseaopportunity
-                                              .exchange,
-                                          overseaopportunitytransfer:
-                                            Specialty.overseaopportunity
-                                              .transfer,
-                                          intakemonthsfulltime:
-                                            Specialty.intakemonths.fullTime,
-                                          intakemonthsparttime:
-                                            Specialty.intakemonths.partTime,
-                                          durationfulltime:
-                                            Specialty.duration.fullTime,
-                                          durationparttime:
-                                            Specialty.duration.partTime,
-                                          docid: Specialty.docid,
-                                        });
-                                        this.handleEditStudySIMProgModal();
-                                      }}
-                                    >
-                                      <FontAwesomeIcon
-                                        size="lg"
-                                        className="editStudySIMProgBtnIcon"
-                                        icon={faEdit}
-                                      />
-                                    </Button>
-                                  </td>
-                                  <td className="studySIMProgData_Delete text-center">
-                                    <Button
-                                      className="deleteStudySIMProgBtn"
-                                      onClick={() => {
-                                        this.setState({
-                                          docid: Specialty.docid,
-                                        });
-                                        this.handleDeleteStudySIMProgModal();
-                                      }}
-                                    >
-                                      <FontAwesomeIcon
-                                        size="lg"
-                                        className="deleteStudySIMProgBtnIcon"
-                                        icon={faTrashAlt}
-                                      />
-                                    </Button>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            );
-                          })}
+
+                        {this.state.Specialty && this.state.Specialty.map((Specialty, index) => {
+                          index = index + 1;
+                          return (
+                            <tbody>
+                              <tr>
+                                <td className="studySIMProgData_SNo text-center">{index}</td>
+                                <td className="studySIMProgData_ProgName text-left">
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => 
+                                    {
+                                      this.setState({
+                                        programmeName: Specialty.programmeName,
+                                        aboutprogramme1: Specialty.aboutprogramme.aboutProgramme1,
+                                        aboutprogramme2: Specialty.aboutprogramme.aboutProgramme2,
+                                        aboutprogramme3: Specialty.aboutprogramme.aboutProgramme3,
+                                        applicationperiod1: Specialty.applicationperiod.period1,
+                                        applicationperiod2: Specialty.applicationperiod.period2,
+                                        programmestructurecoursework: Specialty.programmestructure.coursework,
+                                        programmestructureexamination: Specialty.programmestructure.examination,
+                                        overseaopportunityexchange: Specialty.overseaopportunity.exchange,
+                                        overseaopportunitytransfer: Specialty.overseaopportunity.transfer,
+                                        intakemonthsfulltime: Specialty.intakemonths.fullTime,
+                                        intakemonthsparttime: Specialty.intakemonths.partTime,
+                                        durationfulltime: Specialty.duration.fullTime,
+                                        durationparttime: Specialty.duration.partTime,
+                                      });
+                                      this.handleViewStudySIMProgDetailsModal();
+                                    }}
+                                  >
+                                    {Specialty.programmeName}
+                                  </a>
+                                </td>
+
+                                <td className="studySIMProgData_AwardedBy text-left">{Specialty.awardBy}</td>
+                                <td className="studySIMProgData_LogoFile text-left">{Specialty.Logofile}</td>
+                                <td className="studySIMProgData_Category text-left">{Specialty.CategoryProgramme}</td>
+                                <td className="studySIMProgData_MoS text-left">
+                                  <tr>
+                                    {Specialty.ModeOfStudy.fullTime === true && 
+                                      <span>Full-Time</span>
+                                    }
+                                  </tr>
+
+                                  <tr>
+                                    {Specialty.ModeOfStudy.partTime === true && 
+                                      <span>Part-Time</span>
+                                    }
+                                  </tr>
+                                </td>
+
+                                <td className="studySIMProgData_Discipline text-left">
+                                  <tr>{Specialty.discipline1}</tr>
+                                  <tr>{Specialty.discipline2}</tr>
+                                </td>
+
+                                <td className="studySIMProgData_AcademicLvl text-left">{Specialty.AcademicLevel}</td>
+                                
+                                <td className="studySIMProgData_EntryQual text-left">
+                                  <tr>
+                                    {Specialty.Qualification.aLevel === true && 
+                                      <span>"A" level</span>
+                                    }
+                                  </tr>
+
+                                  <tr>
+                                    {Specialty.Qualification.degree === true && 
+                                      <span>Degree</span>
+                                    }
+                                  </tr>
+
+                                  <tr>
+                                    {Specialty.Qualification.diploma === true && 
+                                      <span>Diploma</span>
+                                    }
+                                  </tr>
+
+                                  <tr>
+                                    {Specialty.Qualification.oLevel === true && 
+                                      <span>"O" Level</span>
+                                    }
+                                  </tr>
+                                </td>
+
+                                <td className="studySIMProgData_SubDiscipline text-left">
+                                  <tr>{Specialty.subDiscipline.subDisciplineName1}</tr>
+                                  <tr>{Specialty.subDiscipline.subDisciplineName2}</tr>
+                                  <tr>{Specialty.subDiscipline.subDisciplineName3}</tr>
+                                  <tr>{Specialty.subDiscipline.subDisciplineName4}</tr>
+                                  <tr>{Specialty.subDiscipline.subDisciplineName5}</tr>
+                                </td>
+
+                                <td className="studySIMProgData_Edit text-center">
+                                  <Button className="editStudySIMProgBtn" onClick={() => 
+                                    {
+                                      this.setState({
+                                        programmeName: Specialty.programmeName,
+                                        University: Specialty.awardBy,
+                                        category: Specialty.CategoryProgramme,
+                                        ModeOfStudy: Specialty.ModeOfStudy,
+                                        discipline1: Specialty.discipline1,
+                                        discipline2: Specialty.discipline2,
+                                        acadamiclevel: Specialty.AcademicLevel,
+                                        olevel: Specialty.Qualification.oLevel,
+                                        aLevel: Specialty.Qualification.aLevel,
+                                        degree: Specialty.Qualification.degree,
+                                        diploma: Specialty.Qualification.diploma,
+                                        subdiscipline1: Specialty.subDiscipline.subDisciplineName1,
+                                        subdiscipline2: Specialty.subDiscipline.subDisciplineName2,
+                                        subdiscipline3: Specialty.subDiscipline.subDisciplineName3,
+                                        subdiscipline4: Specialty.subDiscipline.subDisciplineName4,
+                                        subdiscipline5: Specialty.subDiscipline.subDisciplineName5,
+                                        
+                                        //details
+                                        aboutprogramme1: Specialty.aboutprogramme.aboutProgramme1,
+                                        aboutprogramme2: Specialty.aboutprogramme.aboutProgramme2,
+                                        aboutprogramme3: Specialty.aboutprogramme.aboutProgramme3,
+                                        applicationperiod1: Specialty.applicationperiod.period1,
+                                        applicationperiod2: Specialty.applicationperiod.period2,
+                                        programmestructurecoursework: Specialty.programmestructure.coursework,
+                                        programmestructureexamination: Specialty.programmestructure.examination,
+                                        overseaopportunityexchange: Specialty.overseaopportunity.exchange,
+                                        overseaopportunitytransfer: Specialty.overseaopportunity.transfer,
+                                        intakemonthsfulltime: Specialty.intakemonths.fullTime,
+                                        intakemonthsparttime: Specialty.intakemonths.partTime,
+                                        durationfulltime: Specialty.duration.fullTime,
+                                        durationparttime: Specialty.duration.partTime,
+                                        docid: Specialty.docid,
+                                      });
+                                      this.handleEditStudySIMProgModal();
+                                    }}
+                                  >
+                                    <FontAwesomeIcon size="lg" className="editStudySIMProgBtnIcon" icon={faEdit} />
+                                  </Button>
+                                </td>
+
+                                <td className="studySIMProgData_Delete text-center">
+                                  <Button className="deleteStudySIMProgBtn" onClick={() => 
+                                    {
+                                      this.setState({
+                                        docid: Specialty.docid,
+                                      });
+                                      this.handleDeleteStudySIMProgModal();
+                                    }}
+                                  >
+                                    <FontAwesomeIcon size="lg" className="deleteStudySIMProgBtnIcon" icon={faTrashAlt} />
+                                  </Button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          );
+                        })}
                       </Table>
                     </Col>
                   </Row>
                 </Container>
+
               </Col>
             </Row>
           </Container>
@@ -537,32 +408,28 @@ class StudySIM_Speciality extends Component {
             aLevel={this.state.aLevel}
             degree={this.state.degree}
             diploma={this.state.diploma}
-            subdisciplne1={this.state.subdisciplne1}
-            subdisciplne2={this.state.subdisciplne2}
-            subdisciplne3={this.state.subdisciplne3}
-            subdisciplne4={this.state.subdisciplne4}
-            subdisciplne5={this.state.subdisciplne5}
+            subdiscipline1={this.state.subdiscipline1}
+            subdiscipline2={this.state.subdiscipline2}
+            subdiscipline3={this.state.subdiscipline3}
+            subdiscipline4={this.state.subdiscipline4}
+            subdiscipline5={this.state.subdiscipline5}
+
             //details
             aboutprogramme1={this.state.aboutprogramme1}
             aboutprogramme2={this.state.aboutprogramme2}
             aboutprogramme3={this.state.aboutprogramme3}
             applicationperiod1={this.state.applicationperiod1}
             applicationperiod2={this.state.applicationperiod2}
-            programmestructurecoursework={
-              this.state.programmestructurecoursework
-            }
-            programmestructureexamination={
-              this.state.programmestructureexamination
-            }
+            programmestructurecoursework={this.state.programmestructurecoursework}
+            programmestructureexamination={this.state.programmestructureexamination}
             overseaopportunityexchange={this.state.overseaopportunityexchange}
             overseaopportunitytransfer={this.state.overseaopportunitytransfer}
             intakemonthsfulltime={this.state.intakemonthsfulltime}
             intakemonthsparttime={this.state.intakemonthsparttime}
             durationfulltime={this.state.durationfulltime}
             durationparttime={this.state.durationparttime}
-            handleSaveChanges={() => {
-              console.log("Edit Modal Saved");
-            }}
+            
+            handleSaveChanges={() => {console.log("Edit Modal Saved");}}
             handleCancelEdit={this.handleEditStudySIMProgModal}
           />
         </Modal>
@@ -577,12 +444,7 @@ class StudySIM_Speciality extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <DeleteStudySIMProgModal
-            docid={this.state.docid}
-            handleConfirmDelete={() => {
-              this.handleDeleteStudySIMProgModal();
-            }}
-            handleCancelDelete={this.handleDeleteStudySIMProgModal}
+          <DeleteStudySIMProgModal docid={this.state.docid} handleConfirmDelete={() => {this.handleDeleteStudySIMProgModal();}} handleCancelDelete={this.handleDeleteStudySIMProgModal}
           />
         </Modal>
 
@@ -597,18 +459,14 @@ class StudySIM_Speciality extends Component {
           keyboard={false}
         >
           <ViewStudySIMProgDetailsModal
-          programmeName={this.state.programmeName}
+            programmeName={this.state.programmeName}
             aboutprogramme1={this.state.aboutprogramme1}
             aboutprogramme2={this.state.aboutprogramme2}
             aboutprogramme3={this.state.aboutprogramme3}
             applicationperiod1={this.state.applicationperiod1}
             applicationperiod2={this.state.applicationperiod2}
-            programmestructurecoursework={
-              this.state.programmestructurecoursework
-            }
-            programmestructureexamination={
-              this.state.programmestructureexamination
-            }
+            programmestructurecoursework={this.state.programmestructurecoursework}
+            programmestructureexamination={this.state.programmestructureexamination}
             overseaopportunityexchange={this.state.overseaopportunityexchange}
             overseaopportunitytransfer={this.state.overseaopportunitytransfer}
             intakemonthsfulltime={this.state.intakemonthsfulltime}
@@ -621,4 +479,5 @@ class StudySIM_Speciality extends Component {
     );
   }
 }
+
 export default StudySIM_Speciality;

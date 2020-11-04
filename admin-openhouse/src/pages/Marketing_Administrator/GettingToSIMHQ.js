@@ -75,6 +75,8 @@ class GettingToSIMHQ extends Component {
             busArray: "",
             busOppSimArray: "",
             busSimArray: "",
+            editOppSimArray: "",
+            editSimArray: "",
             busNo: "",
             //Below states are for MRT 
             mrtId: "",
@@ -83,6 +85,8 @@ class GettingToSIMHQ extends Component {
             mrtArray: "",
             mrtDownTownArray: "",
             mrtEastWestArray: "",
+            editDownTownArray: "",
+            editEastWestArray: "",
             nearestMRT: "",
             //Below states are for Car Park Info
             carParkId: "",
@@ -125,18 +129,20 @@ class GettingToSIMHQ extends Component {
         this.setState({
             [e.target.name]: e.target.value,
         });
+        console.log(e.target.name)
+        console.log(e.target.value)
+        console.dir(e.target.title)
+
     };
 
     componentDidMount() {
-        //this.authListener();
-        this.display();
+        this.authListener();
     }
 
     display() {
         const db = fire.firestore();
 
-        db.collection("CampusLocation").get()
-        .then((snapshot) => {
+        db.collection("CampusLocation").onSnapshot((snapshot) => {
             snapshot.forEach((doc) => {
 
                 //Bus
@@ -166,6 +172,8 @@ class GettingToSIMHQ extends Component {
                         busArray: busarray, 
                         busOppSimArray: oppSimHq.sort(sortFunction).join(", "), 
                         busSimArray: simHq.sort(sortFunction).join(", "),
+                        editOppSimArray: oppSimHq,
+                        editSimArray: simHq,
                     }));
                 }
 
@@ -218,7 +226,9 @@ class GettingToSIMHQ extends Component {
                     this.setState(() => ({ 
                         mrtArray: mrtarray, 
                         mrtDownTownArray: downTownLine.sort(sortAlphabet).join(", "), 
-                        mrtEastWestArray: eastWestLine.sort(sortAlphabet).join(", ")
+                        mrtEastWestArray: eastWestLine.sort(sortAlphabet).join(", "),
+                        editDownTownArray: downTownLine,
+                        editEastWestArray: eastWestLine,
                     }));
                 }
 
@@ -236,146 +246,70 @@ class GettingToSIMHQ extends Component {
             });
         });;
 
-        /* //Below queries are not needed, just have to query once and use if statement to differentiate.
-
-        //Map Image File
-        const image = db.collection("CampusLocation").doc("map").get()
-        .then((snapshot) => {
-            const maparray = [];
-            const image = snapshot.data();
-            const data = {
-                url: image.url,
-            };
-            maparray.push(data);
-            this.setState({ mapArray: maparray });
-        });
-
-        //car
-        const car = db.collection("CampusLocation").doc("car").get()
-        .then((snapshot) => {
-            const cararray = [];
-            const car = snapshot.data();
-            const data = {
-                carDescription: car.carDescription,
-                carId: car.id,
-            };
-            cararray.push(data);
-            this.setState({ carArray: cararray });
-        });
-
-        //bus
-        const bus = db.collection("CampusLocation").doc("bus").get()
-        .then((snapshot) => {
-            const busarray = [];
-            const oppSimHq = [];
-            const simHq = [];
-
-            const oppSim = snapshot.data().oppSimHq.buses;
-            for (var i = 0; i < Object.keys(oppSim).length; i++) {
-                oppSimHq.push(oppSim[Object.keys(oppSim)[i]]);
-            }
-
-            const sim = snapshot.data().simHq.buses;
-            for (var i = 0; i < Object.keys(sim).length; i++) {
-                simHq.push(sim[Object.keys(sim)[i]]);
-            }
-
-            const data = {
-                busId: snapshot.id,
-                oppSimBusDescription: snapshot.data().oppSimHq.description,
-                simBusDescription: snapshot.data().simHq.description,
-            };
-            busarray.push(data);
-
-            this.setState(() => ({ 
-                busArray: busarray, 
-                busOppSimArray: oppSimHq.sort(sortFunction).join(", "), 
-                busSimArray: simHq.sort(sortFunction).join(", "),
-            }));
-        });
-
-        //mrt
-        const mrt = db.collection("CampusLocation").doc("mrt").get()
-        .then((snapshot) => {
-            const mrtarray = [];
-            const downTownLine = [];
-            const eastWestLine = [];
-
-            const downTown = snapshot.data().downtownLine.stations;
-            for (var i = 0; i < Object.keys(downTown).length; i++) {
-                downTownLine.push(downTown[Object.keys(downTown)[i]]);
-            }
-
-            const eastWest = snapshot.data().eastwestLine.stations;
-            for (var i = 0; i < Object.keys(eastWest).length; i++) {
-                eastWestLine.push(eastWest[Object.keys(eastWest)[i]]);
-            }
-
-            const data = {
-                mrtId: snapshot.id,
-                downTownDescription: snapshot.data().downtownLine.description,
-                eastWestDescription: snapshot.data().eastwestLine.description,
-            };
-            mrtarray.push(data);
-
-            this.setState(() => ({ 
-                mrtArray: mrtarray, 
-                mrtDownTownArray: downTownLine.sort(sortAlphabet).join(", "), 
-                mrtEastWestArray: eastWestLine.sort(sortAlphabet).join(", ")
-            }));
-        });
-
-        //carpark
-        const carpark = db.collection("CampusLocation").doc("car").get()
-        .then((snapshot) => {
-            const carparkarray = [];
-            const carpark = snapshot.data();
-            const data = {
-                carParkingDescription: carpark.carParkingDescription,
-                carParkId: carpark.id,
-            };
-            carparkarray.push(data);
-            this.setState({ carParkArray: carparkarray });
-        }); */
     }
 
     carupdate = (e, locationid) => {
-        var value = document.getElementById(locationid + "carDes").value;
-        if (value !== "") {
-            value = document.getElementById(locationid + "carDes").value;
-            const db = fire.firestore();
-
-            const userRef = db.collection("CampusLocation").doc("car")
-            .update({
-                carDescription: value,
-            })
-            .then(function () {
-                alert("Updated");
-                window.location.reload();
+        const db = fire.firestore();
+        db.collection("CampusLocation").doc("car")
+        .update({
+            carDescription: this.state.carDescription,
+        })
+        .then(dataSnapshot => {
+            console.log("Updated Car Info");
+            this.setState({
+                carEditModal: false
             });
-        } else {
-            alert("Fields cannot be empty ");
-        }
+            this.display();
+        });
     };
 
     busupdate = (e, locationid) => {
-        const dbfiled = "busNo." + locationid;
-        var value = document.getElementById(locationid + "busno").value;
-        if (value !== "") {
-            value = document.getElementById(locationid + "busno").value;
+       /* if (title == "SIMHQbusNo") {
             const db = fire.firestore();
-
             const userRef = db.collection("CampusLocation").doc("bus")
             .update({
-                [dbfiled]: value,
+                description: this.state.busDescription,
+                bus1: this.state.SIMHQbusNo1,
+                bus2: this.state.SIMHQbusNo2,
+                bus3: this.state.SIMHQbusNo3,
+                bus4: this.state.SIMHQbusNo4,
+                bus5: this.state.SIMHQbusNo5,
+                bus6: this.state.SIMHQbusNo6,
+                bus7: this.state.SIMHQbusNo7,
+                bus8: this.state.SIMHQbusNo8,
+                bus9: this.state.SIMHQbusNo9,
+                bus10: this.state.SIMHQbusNo10,
             })
-            .then(function () {
-                alert("Updated");
-                window.location.reload();
+            .then(dataSnapshot => {
+                console.log("Updated Bus Info");
+                this.setState({
+                    busEditModal: false
+                });
+                this.display();
             });
-        } else {
-            alert("Fields cannot be empty ");
-        }
+        } else if(title == "OppSIMHQbusNo") {
+            const db = fire.firestore();
+            const userRef = db.collection("CampusLocation").doc("bus")
+            .update({
+                description: this.state.busDescription,
+                bus1: this.state.SIMHQbusNo1,
+                bus2: this.state.SIMHQbusNo2,
+                bus3: this.state.SIMHQbusNo3,
+                bus4: this.state.SIMHQbusNo4,
+                bus5: this.state.SIMHQbusNo5,
+                bus6: this.state.SIMHQbusNo6,
+                bus7: this.state.SIMHQbusNo7,
+                bus8: this.state.SIMHQbusNo8,
+                bus1: this.state.SIMHQbusNo9,
+            })
+            .then(dataSnapshot => {
+                console.log("Updated Bus Info");
+                this.setState({
+                    busEditModal: false
+                });
+                this.display();
+            });
+        }*/
     };
 
     mrtupdate = (e, locationid) => {
@@ -389,213 +323,32 @@ class GettingToSIMHQ extends Component {
             .update({
                 [dbfield]: value,
             })
-            .then(function () {
-                alert("Updated");
-                window.location.reload();
+            .then(dataSnapshot => {
+                console.log("Updated MRT Info");
+                this.setState({
+                    mrtEditModal: false
+                });
+                this.display();
             });
         } else {
-            alert("Fields cannot be empty ");
+            console.log("Fields cannot be empty ");
         }
     };
 
     carparkupdate = (e, locationid) => {
-        var value = document.getElementById("carparkinput").value;
-        if (value !== "") {
-            value = document.getElementById("carparkinput").value;
-            const db = fire.firestore();
-
-            const userRef = db.collection("CampusLocation").doc("car")
-            .update({
-                carparkDescription: value,
-            })
-            .then(function () {
-                alert("Updated");
-                window.location.reload();
+        const db = fire.firestore();
+        db.collection("CampusLocation").doc("car")
+        .update({
+            carParkingDescription: this.state.carParkDescription,
+        })
+        .then(dataSnapshot => {
+            console.log("Updated Car Park Info");
+            this.setState({
+                carParkEditModal: false
             });
-        } else {
-            alert("Fields cannot be empty ");
-        }
+            this.display();
+        });
     };
-
-    editLocation(e, locationid, type) {
-        if (type === "mapImage") {
-            document.getElementById(locationid + "upload").removeAttribute("hidden");
-            document
-                .getElementById(locationid + "spanimagelink")
-                .removeAttribute("hidden");
-            document
-                .getElementById(locationid + "editbutton")
-                .setAttribute("hidden", "");
-            document
-                .getElementById(locationid + "updatebutton")
-                .removeAttribute("hidden");
-            document
-                .getElementById(locationid + "cancelbutton")
-                .removeAttribute("hidden");
-            var texttohide = document.getElementsByClassName(locationid + "text");
-            for (var i = 0; i < texttohide.length; i++) {
-                texttohide[i].setAttribute("hidden", "");
-            }
-        }
-
-        if (type === "car") {
-            document
-                .getElementById(locationid + "spancardes")
-                .removeAttribute("hidden");
-            document
-                .getElementById(locationid + "editbutton")
-                .setAttribute("hidden", "");
-            document
-                .getElementById(locationid + "updatebutton")
-                .removeAttribute("hidden");
-            document
-                .getElementById(locationid + "cancelbutton")
-                .removeAttribute("hidden");
-            var texttohide = document.getElementsByClassName(locationid + "text");
-            for (var i = 0; i < texttohide.length; i++) {
-                texttohide[i].setAttribute("hidden", "");
-            }
-        }
-
-        if (type === "bus") {
-            document
-                .getElementById(locationid + "spanbusno")
-                .removeAttribute("hidden");
-            document
-                .getElementById(locationid + "editbutton")
-                .setAttribute("hidden", "");
-            document
-                .getElementById(locationid + "updatebutton")
-                .removeAttribute("hidden");
-            document
-                .getElementById(locationid + "cancelbutton")
-                .removeAttribute("hidden");
-            var texttohide = document.getElementsByClassName(locationid + "text");
-            for (var i = 0; i < texttohide.length; i++) {
-                texttohide[i].setAttribute("hidden", "");
-            }
-        }
-
-        if (type === "mrt") {
-            document
-                .getElementById(locationid + "spannearmrt")
-                .removeAttribute("hidden");
-            document
-                .getElementById(locationid + "editbutton")
-                .setAttribute("hidden", "");
-            document
-                .getElementById(locationid + "updatebutton")
-                .removeAttribute("hidden");
-            document
-                .getElementById(locationid + "cancelbutton")
-                .removeAttribute("hidden");
-            var texttohide = document.getElementsByClassName(locationid + "text");
-            for (var i = 0; i < texttohide.length; i++) {
-                texttohide[i].setAttribute("hidden", "");
-            }
-        }
-
-        if (type === "carpark") {
-            document.getElementById("carparkspan").removeAttribute("hidden");
-            document.getElementById("carparkeditbutton").setAttribute("hidden", "");
-            document.getElementById("carparkupdatebutton").removeAttribute("hidden");
-            document.getElementById("carparkcancelbutton").removeAttribute("hidden");
-            var texttohide = document.getElementsByClassName("carparktext");
-            for (var i = 0; i < texttohide.length; i++) {
-                texttohide[i].setAttribute("hidden", "");
-            }
-        }
-    }
-
-    CancelEdit(e, locationid, type) {
-        if (type === "mapImage") {
-            document.getElementById(locationid + "upload").setAttribute("hidden", "");
-            document
-                .getElementById(locationid + "spanimagelink")
-                .setAttribute("hidden", "");
-            document
-                .getElementById(locationid + "editbutton")
-                .removeAttribute("hidden");
-            document
-                .getElementById(locationid + "updatebutton")
-                .setAttribute("hidden", "");
-            document
-                .getElementById(locationid + "cancelbutton")
-                .setAttribute("hidden", "");
-            var texttohide = document.getElementsByClassName(locationid + "text");
-            for (var i = 0; i < texttohide.length; i++) {
-                texttohide[i].removeAttribute("hidden", "");
-            }
-        }
-
-        if (type === "car") {
-            document
-                .getElementById(locationid + "spancardes")
-                .setAttribute("hidden", "");
-            document
-                .getElementById(locationid + "editbutton")
-                .removeAttribute("hidden");
-            document
-                .getElementById(locationid + "updatebutton")
-                .setAttribute("hidden", "");
-            document
-                .getElementById(locationid + "cancelbutton")
-                .setAttribute("hidden", "");
-            var texttohide = document.getElementsByClassName(locationid + "text");
-            for (var i = 0; i < texttohide.length; i++) {
-                texttohide[i].removeAttribute("hidden", "");
-            }
-        }
-
-        if (type === "bus") {
-            document
-                .getElementById(locationid + "spanbusno")
-                .setAttribute("hidden", "");
-            document
-                .getElementById(locationid + "editbutton")
-                .removeAttribute("hidden");
-            document
-                .getElementById(locationid + "updatebutton")
-                .setAttribute("hidden", "");
-            document
-                .getElementById(locationid + "cancelbutton")
-                .setAttribute("hidden", "");
-            var texttohide = document.getElementsByClassName(locationid + "text");
-            for (var i = 0; i < texttohide.length; i++) {
-                texttohide[i].removeAttribute("hidden", "");
-            }
-        }
-
-        if (type === "mrt") {
-            document
-                .getElementById(locationid + "spannearmrt")
-                .setAttribute("hidden", "");
-            document
-                .getElementById(locationid + "editbutton")
-                .removeAttribute("hidden");
-            document
-                .getElementById(locationid + "updatebutton")
-                .setAttribute("hidden", "");
-            document
-                .getElementById(locationid + "cancelbutton")
-                .setAttribute("hidden", "");
-            var texttohide = document.getElementsByClassName(locationid + "text");
-            for (var i = 0; i < texttohide.length; i++) {
-                texttohide[i].removeAttribute("hidden", "");
-            }
-        }
-
-        if (type === "carpark") {
-            document.getElementById("carparkspan").setAttribute("hidden", "");
-            document.getElementById("carparkeditbutton").removeAttribute("hidden");
-            document.getElementById("carparkupdatebutton").setAttribute("hidden", "");
-            document.getElementById("carparkcancelbutton").setAttribute("hidden", "");
-            var texttohide = document.getElementsByClassName("carparktext");
-            for (var i = 0; i < texttohide.length; i++) {
-                texttohide[i].removeAttribute("hidden", "");
-            }
-        }
-    }
 
     handleFileUpload = (files) => {
         this.setState({
@@ -616,13 +369,12 @@ class GettingToSIMHQ extends Component {
                 fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
                     console.log("File available at", downloadURL);
 
-                    const userRef = db.collection("CampusLocation").doc("mapImage")
+                    const userRef = db.collection("CampusLocation").doc("map")
                     .update({
-                        URL: downloadURL,
+                        url: downloadURL,
                     })
-                    .then(function () {
-                        alert("Updated");
-                        window.location.reload();
+                    .then(function() {
+                        console.log("Updated the Map Image");
                     });
                 });
                 const progress = Math.round(
@@ -635,15 +387,20 @@ class GettingToSIMHQ extends Component {
                 }
             });
             console.log();
+            this.setState({
+                mapEditModal: false
+            })
         } else {
-            alert("No Files Selected");
+            console.log("No Files Selected");
         }
     };
 
-    handleMapEditModal = () => {
+    handleMapEditModal = (map) => {
         if (this.state.mapEditModal == false) {
             this.setState({
                 mapEditModal: true,
+                mapId: map.id,
+                mapUrl: map.url,
             })
         }
         else {
@@ -683,12 +440,12 @@ class GettingToSIMHQ extends Component {
         }
     }
 
-    handleBusEditModal = (busDescription) => {
+    handleBusEditModal = (bus) => {
         if (this.state.busEditModal == false) {
             this.setState({
                 busEditModal: true,
-                simBusDescription: busDescription,
-                oppSimBusDescription: busDescription,
+                simBusDescription: bus,
+                oppSimBusDescription: bus,
             });
         }
         else {
@@ -781,12 +538,16 @@ class GettingToSIMHQ extends Component {
                                                                                     <th id="GettingToSimHq-editHeading">Edit</th>
                                                                                 </tr>
                                                                             </thead>
-                                                                            <tbody id="GettingToSimHq-tableBody">
-                                                                                <tr>
-                                                                                    <td className="text-left">Getting To SIM HQ Map Image</td>
-                                                                                    <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={this.handleMapEditModal}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                </tr>
-                                                                            </tbody>
+                                                                            {this.state.mapArray && this.state.mapArray.map((map) => {
+                                                                                return (
+                                                                                    <tbody id="GettingToSimHq-tableBody" key={map.mapId}>
+                                                                                        <tr>
+                                                                                            <td className="text-left">Getting to SIM HQ Map Image</td>
+                                                                                            <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={() => this.handleMapEditModal(map)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                )
+                                                                            })}
                                                                         </Table>
                                                                     </Col>
                                                                 </Tab.Pane>
@@ -953,11 +714,16 @@ class GettingToSIMHQ extends Component {
                                 <Form noValidate>
                                     <Form.Group>
                                         <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                            <img height="200px" width="400px" src={this.state.mapUrl} style={{marginBottom: "3%"}}/>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
                                             <Form.Group as={Col} md="1">
                                                 <FontAwesomeIcon size="lg" icon={faFileImage} />
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
-                                                <Form.File type="file" name="imgFile" className="GettingToSimHq-imgFile" label={this.state.mapUrl} onChange={(e) => {console.log(e.target.files[0])}} custom required></Form.File>
+                                                <Form.File type="file" name="imgFile" className="GettingToSimHq-imgFile" label={this.state.mapUrl} onChange={(e) => {this.handleFileUpload(e.target.files)}} custom required></Form.File>
                                                 <div className="errorMessage"></div>
                                             </Form.Group>
                                         </Form.Group>                     
@@ -968,7 +734,7 @@ class GettingToSIMHQ extends Component {
                                 <Container>
                                     <Row id="GettingToSimHq-editFooter">
                                         <Col md={6} className="GettingToSimHq-editCol">
-                                            <Button id="GettingToSimHq-saveBtn" type="submit">Save Changes</Button>
+                                            <Button id="GettingToSimHq-saveBtn" type="submit" onClick={this.handleSave}>Save Changes</Button>
                                         </Col>
                                         <Col md={6} className="GettingToSimHq-editCol">
                                             <Button id="GettingToSimHq-cancelBtn" onClick={this.handleMapEditModal}>Cancel</Button>
@@ -1006,7 +772,7 @@ class GettingToSIMHQ extends Component {
                                 <Container>
                                     <Row id="GettingToSimHq-editFooter">
                                         <Col md={6} className="GettingToSimHq-editCol">
-                                            <Button id="GettingToSimHq-saveBtn" type="submit">Save Changes</Button>
+                                            <Button id="GettingToSimHq-saveBtn" type="submit" onClick={this.carupdate}>Save Changes</Button>
                                         </Col>
                                         <Col md={6} className="GettingToSimHq-editCol">
                                             <Button id="GettingToSimHq-cancelBtn" onClick={this.handleCarEditModal}>Cancel</Button>
@@ -1044,7 +810,7 @@ class GettingToSIMHQ extends Component {
                                 <Container>
                                     <Row id="GettingToSimHq-editFooter">
                                         <Col md={6} className="GettingToSimHq-editCol">
-                                            <Button id="GettingToSimHq-saveBtn" type="submit">Save Changes</Button>
+                                            <Button id="GettingToSimHq-saveBtn" type="submit" onClick={this.carparkupdate}>Save Changes</Button>
                                         </Col>
                                         <Col md={6} className="GettingToSimHq-editCol">
                                             <Button id="GettingToSimHq-cancelBtn" onClick={this.handleCarParkEditModal}>Cancel</Button>
@@ -1079,17 +845,21 @@ class GettingToSIMHQ extends Component {
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
-                                                <Form.Group>
-                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
-                                                        <Form.Group as={Col} md="1">
-                                                            <FontAwesomeIcon size="lg" icon={faBus}/>
-                                                        </Form.Group> 
-                                                        <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="busNo" placeholder="Bus Numbers" required defaultValue={this.state.busSimArray} onChange={this.updateInput} noValidate></Form.Control>
-                                                            <div className="errorMessage"></div>
+                                                {this.state.editSimArray && this.state.editSimArray.map((bus, index) => {
+                                                    return (
+                                                        <Form.Group>
+                                                            <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                                <Form.Group as={Col} md="1">
+                                                                    <FontAwesomeIcon size="lg" icon={faBus}/>
+                                                                </Form.Group> 
+                                                                <Form.Group as={Col} md="7">
+                                                                    <Form.Control id="GettingToSimHq-textAreas" title="SIMHQbusNo" as="textarea" rows="2" type="text" name={"SIMHQbusNo"+ (index+1)} placeholder="Bus Numbers" required defaultValue={this.state.editSimArray[index]} onChange={this.updateInput} noValidate></Form.Control>
+                                                                    <div className="errorMessage"></div>
+                                                                </Form.Group>
+                                                            </Form.Group>                     
                                                         </Form.Group>
-                                                    </Form.Group>                     
-                                                </Form.Group>
+                                                    )
+                                                })}
                                             </Form>
                                         )
                                     } else {
@@ -1106,17 +876,21 @@ class GettingToSIMHQ extends Component {
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
-                                                <Form.Group>
-                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
-                                                        <Form.Group as={Col} md="1">
-                                                            <FontAwesomeIcon size="lg" icon={faBus}/>
-                                                        </Form.Group> 
-                                                        <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="busNo" placeholder="Bus Numbers" required defaultValue={this.state.busOppSimArray} onChange={this.updateInput} noValidate></Form.Control>
-                                                            <div className="errorMessage"></div>
+                                                {this.state.editOppSimArray && this.state.editOppSimArray.map((bus, index) => {
+                                                    return (
+                                                        <Form.Group>
+                                                            <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                                <Form.Group as={Col} md="1">
+                                                                    <FontAwesomeIcon size="lg" icon={faBus}/>
+                                                                </Form.Group> 
+                                                                <Form.Group as={Col} md="7">
+                                                                    <Form.Control id="GettingToSimHq-textAreas"  title="OppSIMHQbusNo" as="textarea" rows="2" type="text" name={"OppSIMHQbusNo"+ (index+1)} placeholder="Bus Numbers" required defaultValue={this.state.editOppSimArray[index]} onChange={this.updateInput} noValidate></Form.Control>
+                                                                    <div className="errorMessage"></div>
+                                                                </Form.Group>
+                                                            </Form.Group>                     
                                                         </Form.Group>
-                                                    </Form.Group>                     
-                                                </Form.Group>
+                                                    )
+                                                })}
                                             </Form>
                                         )
                                     }
@@ -1126,7 +900,7 @@ class GettingToSIMHQ extends Component {
                                 <Container>
                                     <Row id="GettingToSimHq-editFooter">
                                         <Col md={6} className="GettingToSimHq-editCol">
-                                            <Button id="GettingToSimHq-saveBtn" type="submit">Save Changes</Button>
+                                            <Button id="GettingToSimHq-saveBtn" type="submit" onClick={this.busupdate}>Save Changes</Button>
                                         </Col>
                                         <Col md={6} className="GettingToSimHq-editCol">
                                             <Button id="GettingToSimHq-cancelBtn" onClick={this.handleBusEditModal}>Cancel</Button>
@@ -1161,17 +935,21 @@ class GettingToSIMHQ extends Component {
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
-                                                <Form.Group>
-                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
-                                                        <Form.Group as={Col} md="1">
-                                                            <FontAwesomeIcon size="lg" icon={faTrain}/>
-                                                        </Form.Group> 
-                                                        <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="mrtStation" placeholder="MRT Station Names" required defaultValue={this.state.mrtDownTownArray} onChange={this.updateInput} noValidate></Form.Control>
-                                                            <div className="errorMessage"></div>
-                                                        </Form.Group>
-                                                    </Form.Group>                     
-                                                </Form.Group>
+                                                {this.state.editDownTownArray && this.state.editDownTownArray.map((mrt, index) => {
+                                                    return (
+                                                        <Form.Group>
+                                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                            <Form.Group as={Col} md="1">
+                                                                <FontAwesomeIcon size="lg" icon={faTrain}/>
+                                                            </Form.Group> 
+                                                            <Form.Group as={Col} md="7">
+                                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="mrtStation" placeholder="MRT Station Names" required defaultValue={this.state.editDownTownArray[index]} onChange={this.updateInput} noValidate></Form.Control>
+                                                                <div className="errorMessage"></div>
+                                                            </Form.Group>
+                                                        </Form.Group>                     
+                                                    </Form.Group>
+                                                    )
+                                                })}
                                             </Form>
                                         )
                                     } else {
@@ -1188,17 +966,21 @@ class GettingToSIMHQ extends Component {
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
-                                                <Form.Group>
-                                                    <Form.Group as={Row} className="GettingToSimHq-formGroup">
-                                                        <Form.Group as={Col} md="1">
-                                                            <FontAwesomeIcon size="lg" icon={faTrain}/>
-                                                        </Form.Group> 
-                                                        <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="mrtStation" placeholder="MRT Station Names" required defaultValue={this.state.mrtEastWestArray} onChange={this.updateInput} noValidate></Form.Control>
-                                                            <div className="errorMessage"></div>
-                                                        </Form.Group>
-                                                    </Form.Group>                     
-                                                </Form.Group>
+                                                {this.state.editEastWestArray && this.state.editEastWestArray.map((mrt, index) => {
+                                                    return (
+                                                        <Form.Group>
+                                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
+                                                            <Form.Group as={Col} md="1">
+                                                                <FontAwesomeIcon size="lg" icon={faTrain}/>
+                                                            </Form.Group> 
+                                                            <Form.Group as={Col} md="7">
+                                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="mrtStation" placeholder="MRT Station Names" required defaultValue={this.state.editEastWestArray[index]} onChange={this.updateInput} noValidate></Form.Control>
+                                                                <div className="errorMessage"></div>
+                                                            </Form.Group>
+                                                        </Form.Group>                     
+                                                    </Form.Group>
+                                                    )
+                                                })}
                                             </Form>
                                         )
                                     }

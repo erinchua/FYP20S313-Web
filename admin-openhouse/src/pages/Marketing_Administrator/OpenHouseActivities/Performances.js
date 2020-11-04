@@ -218,18 +218,18 @@ class Performances extends Component {
                 snapshot.forEach((doc) => {
                     var docid= "";
                     var res = doc.data().id.substring(12);
-                    var id = parseInt(res)
-                    if (id.toString().length <= 1) {
-                        docid= "performance-00" + (id +1) 
-                    } else if(id.toString().length <= 2) {
-                        docid= "performance-0" + (id +1) 
+                    var id = parseInt(res);
+                    id += 1;
+
+                    if (id.toString().length == 1) {
+                        docid = "performance-00" + (id) 
+                    } else if(id.toString().length == 2) {
+                        docid = "performance-0" + (id) 
                     } else {
-                        docid="performance-0" + (id +1) 
+                        docid ="performance-" + (id) 
                     }
 
-                    const userRef = db
-                    .collection("Performances")
-                    .doc(docid)
+                    db.collection("Performances").doc(docid)
                     .set({
                         date: this.state.date,
                         endTime: this.state.endTime,
@@ -238,8 +238,12 @@ class Performances extends Component {
                         venue: this.state.venue,
                         id: docid,
                     })
-                    .then(function() {
-                        window.location.reload();
+                    .then(dataSnapshot => {
+                        console.log("Added the performance");
+                        this.setState({
+                            addModal: false
+                        });
+                        this.display();
                     });
                 })
             })
@@ -247,15 +251,15 @@ class Performances extends Component {
     };
 
     //Delete performance when click on 'Confirm' button in Delete Modal - Integrated
-    DeletePerformance(e, performanceid) {
+    DeletePerformance(e, performanceId) {
         const db = fire.firestore();
-        const userRef = db
-        .collection("Performances")
-        .doc(performanceid)
-        .delete()
-        .then(function () {
+        db.collection("Performances").doc(performanceId).delete()
+        .then(dataSnapshot => {
             console.log("Deleted the performance");
-            window.location.reload();
+            this.setState({
+                deleteModal: false
+            });
+            this.display();
         });
     }
 
@@ -289,9 +293,7 @@ class Performances extends Component {
         const isValid = this.validate();
         if (isValid) {
             this.setState(initialStates);
-            const userRef = db
-            .collection("Performances")
-            .doc(performanceid)
+            db.collection("Performances").doc(performanceid)
             .set({
                 id: performanceid,
                 performanceName: this.state.performanceName,
@@ -300,14 +302,17 @@ class Performances extends Component {
                 date: this.state.date,
                 venue: this.state.venue
             })
-            .then(function () {
+            .then(dataSnapshot => {
                 console.log("Updated the performance");
-                window.location.reload();
+                this.setState({
+                    editModal: false
+                });
+                this.display();
             });
         }
     }
 
-    //Get respective data out by their ids for Edit Modal when click on Edit Button - Integrated
+    /*//Dont need, use handleEdit()
     editPerformance(e, performanceid) {
         // document.getElementById(performanceid + "spanperformancename").removeAttribute("hidden");
         // document.getElementById(performanceid + "spanstarttime").removeAttribute("hidden");
@@ -348,7 +353,7 @@ class Performances extends Component {
             });
             this.resetForm();
         }
-    }
+    }*/
 
     /*//Don't need cancel function as we can just hide the modal if cancel
     CancelEdit(e, performanceid) {
@@ -385,12 +390,18 @@ class Performances extends Component {
         }
     }
 
-    //Edit Modal
-    handleEdit = () => {
+    //Get respective data out for Edit Modal when click on Edit Button - Integrated
+    handleEdit = (performanceId) => {
         this.editModal = this.state.editModal;
         if (this.editModal == false) {
             this.setState({
                 editModal: true,
+                id: performanceId.id,
+                date: performanceId.date,
+                endTime: performanceId.endTime,
+                startTime: performanceId.startTime,
+                venue: performanceId.venue,
+                performanceName: performanceId.performanceName,
             });
         } else {
             this.setState({
@@ -427,11 +438,11 @@ class Performances extends Component {
             dateError = "Please select a valid date.";
         }
 
-        if (!this.state.endTime.includes(':')) {
+        if ( !(this.state.endTime.includes(":") && (this.state.endTime.includes("AM") || this.state.endTime.includes("PM"))) ) {
             endTimeError = "Please enter a valid end time. E.g. 2:30PM";
         }
 
-        if (!this.state.startTime.includes(':')) {
+        if ( !(this.state.startTime.includes(":") && (this.state.startTime.includes("AM") || this.state.startTime.includes("PM"))) ) {
             startTimeError = "Please enter a valid start time. E.g. 1:30PM";
         }
 
@@ -440,7 +451,7 @@ class Performances extends Component {
         }
 
         if (!this.state.venue) {
-            venueError = "Please enter a valid value. E.g. SIM HQ BLK A Atrium";
+            venueError = "Please enter a valid venue. E.g. SIM HQ BLK A Atrium";
         }
 
         if (dateError || endTimeError || startTimeError || performanceNameError || venueError) {
@@ -529,7 +540,7 @@ class Performances extends Component {
                                                                                                 <td>{day1.startTime}</td>
                                                                                                 <td>{day1.endTime}</td>
                                                                                                 <td>{day1.venue}</td>
-                                                                                                <td><Button size="sm" id="Performances-editBtn" onClick={(e) => this.editPerformance(e, day1.id)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                <td><Button size="sm" id="Performances-editBtn" onClick={(e) => this.handleEdit(day1)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                                 <td><Button size="sm" id="Performances-deleteBtn" onClick={(e) => this.handleDelete(e, day1.id)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
                                                                                             </tr>
                                                                                         )
@@ -566,7 +577,7 @@ class Performances extends Component {
                                                                                                 <td>{day2.startTime}</td>
                                                                                                 <td>{day2.endTime}</td>
                                                                                                 <td>{day2.venue}</td>
-                                                                                                <td><Button size="sm" id="Performances-editBtn" onClick={(e) => this.editPerformance(e, day2.id)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                <td><Button size="sm" id="Performances-editBtn" onClick={(e) => this.handleEdit(day2)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                                 <td><Button size="sm" id="Performances-deleteBtn" onClick={(e) => this.handleDelete(e, day2.id)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
                                                                                             </tr>
                                                                                         )
@@ -692,7 +703,7 @@ class Performances extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faMapPin}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="Performances-inputFields" type="text" name="performanceName" placeholder="Tour: e.g. DreamWerkz" onChange={this.updateInput} required defaultValue={editPerformance.performanceName} noValidate></Form.Control>
+                                                            <Form.Control id="Performances-inputFields" type="text" name="performanceName" placeholder="Tour: e.g. DreamWerkz" onChange={this.updateInput} required defaultValue={this.state.performanceName} noValidate></Form.Control>
                                                             <div className="errorMessage">{this.state.performanceNameError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
@@ -703,7 +714,7 @@ class Performances extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faCalendarAlt}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="Performances-inputFields" as="select" name="date" onChange={this.updateInput} required defaultValue={editPerformance.date} noValidate>
+                                                            <Form.Control id="Performances-inputFields" as="select" name="date" onChange={this.updateInput} required defaultValue={this.state.date} noValidate>
                                                                 <option value="">Choose an Openhouse Date</option>
                                                                 <option>{this.state.openHouseDates[0].date}</option>
                                                                 <option>{this.state.openHouseDates[1].date}</option>
@@ -718,7 +729,7 @@ class Performances extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faHourglassStart}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="Performances-inputFields" type="text" name="startTime" placeholder="Start Time: e.g. 1:30PM" onChange={this.updateInput} required defaultValue={editPerformance.startTime} noValidate></Form.Control>
+                                                            <Form.Control id="Performances-inputFields" type="text" name="startTime" placeholder="Start Time: e.g. 1:30PM" onChange={this.updateInput} required defaultValue={this.state.startTime} noValidate></Form.Control>
                                                             <div className="errorMessage">{this.state.startTimeError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
@@ -729,7 +740,7 @@ class Performances extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faHourglassEnd}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="Performances-inputFields" type="text" name="endTime" placeholder="End Time: e.g. 2:30PM" onChange={this.updateInput} required defaultValue={editPerformance.endTime} noValidate></Form.Control>
+                                                            <Form.Control id="Performances-inputFields" type="text" name="endTime" placeholder="End Time: e.g. 2:30PM" onChange={this.updateInput} required defaultValue={this.state.endTime} noValidate></Form.Control>
                                                             <div className="errorMessage">{this.state.endTimeError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
@@ -740,7 +751,7 @@ class Performances extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faSchool}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="Performances-inputFields" type="text" name="venue" placeholder="Venue: e.g. SIM HQ BLK A Atrium" onChange={this.updateInput} required defaultValue={editPerformance.venue} noValidate></Form.Control>
+                                                            <Form.Control id="Performances-inputFields" type="text" name="venue" placeholder="Venue: e.g. SIM HQ BLK A Atrium" onChange={this.updateInput} required defaultValue={this.state.venue} noValidate></Form.Control>
                                                             <div className="errorMessage">{this.state.venueError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
