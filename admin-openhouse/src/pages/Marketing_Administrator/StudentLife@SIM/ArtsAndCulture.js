@@ -96,6 +96,7 @@ class ArtsAndCulture extends Component {
             this.setState({
                 addModal: false
             });
+            this.display();
         }
     }
 
@@ -115,6 +116,7 @@ class ArtsAndCulture extends Component {
             this.setState({
                 editModal: false
             });
+            this.display();
         }
     }
 
@@ -129,6 +131,7 @@ class ArtsAndCulture extends Component {
             this.setState({
                 deleteModal: false
             });
+            this.display();
         }
     }
 
@@ -177,7 +180,7 @@ class ArtsAndCulture extends Component {
                                                                     <td className="text-left">{artsCulture.clubsAndCouncilDescription}</td>
                                                                     <td className="text-left">{artsCulture.clubsAndCouncilTitle} Logo</td>
                                                                     <td><Button size="sm" id="ArtsCulture-editBtn" onClick={() => this.handleEdit(artsCulture)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                    <td><Button size="sm" id="ArtsCulture-deleteBtn" onClick={() => [this.setState({id: artsCulture.id, clubsAndCouncilTitle: artsCulture.clubsAndCouncilTitle, categoryType: "ArtsCulture"}), this.handleDelete()]}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                    <td><Button size="sm" id="ArtsCulture-deleteBtn" onClick={() => [this.setState({id: artsCulture.id, clubsAndCouncilTitle: artsCulture.clubsAndCouncilTitle, categoryType: "ArtsCulture", clubsAndCouncilsLogo: artsCulture.clubsAndCouncilsLogo}), this.handleDelete()]}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
                                                                 </tr>
                                                             </tbody>
                                                         )
@@ -206,7 +209,7 @@ class ArtsAndCulture extends Component {
 
                 {/* Delete Modal */}
                 <Modal show={this.state.deleteModal} onHide={this.handleDelete} size="md" centered keyboard={false}>
-                    <DeleteClubsAndCouncilsModal handleDelete={this.handleDelete} id={this.state.id} categoryType={this.state.categoryType} clubsAndCouncilTitle={this.state.clubsAndCouncilTitle}/>
+                    <DeleteClubsAndCouncilsModal handleDelete={this.handleDelete} id={this.state.id} categoryType={this.state.categoryType} clubsAndCouncilTitle={this.state.clubsAndCouncilTitle} clubsAndCouncilsLogo={this.state.clubsAndCouncilsLogo}/>
                 </Modal>
 
             </div>

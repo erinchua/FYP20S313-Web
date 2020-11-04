@@ -32,7 +32,6 @@ class EditClubsAndCouncilsModal extends Component {
 
     constructor(props) {
         super(props);
-        console.log(this.props.clubsAndCouncilsLogo)
         this.state = {
             id: this.props.id,
             categoryType: this.props.categoryType,
@@ -68,7 +67,6 @@ class EditClubsAndCouncilsModal extends Component {
         const isValid = this.validate();
         var category = "";
         var title = "";
-        var capsTitle = "";
         var res = "";
         var extension = "";
         var fileName = "";
@@ -77,35 +75,42 @@ class EditClubsAndCouncilsModal extends Component {
 
             if (this.state.categoryType === "Arts & Culture"){
                 category = "ArtsCulture";
-                const words = this.props.clubsAndCouncilTitle.split(" ");
-                for (let i = 0; i < words.length; i++) {
-                    words[i] = words[i][0].toUpperCase() + words[i].substr(1);
-                }
-                capsTitle = words.join(" ");
-                title = capsTitle.replace(/\s/g, '');
+
+                title = this.props.clubsAndCouncilsLogo.split(/\%2..*%2F(.*?)\?alt/)[1].split(".")[0]
                 res = this.props.clubsAndCouncilsLogo.split("?alt=")[0];
                 extension = res.substr(res.length - 4);
-                fileName = title + extension;
 
-                const url = await savePicture(this.state.clubsAndCouncilsLogo, category, fileName);
-                this.setState({
-                    url: url
-                });
+                if (!extension.includes('.png') && !extension.includes('.jpg') && !extension.includes('.PNG') && !extension.includes('.JPG')) {
+                    fileName = title;
+                    const url = await savePicture(this.state.clubsAndCouncilsLogo, category, fileName);
+                    this.setState({
+                        url: url
+                    });
+                } else {
+                    fileName = title + extension;
+                    const url = await savePicture(this.state.clubsAndCouncilsLogo, category, fileName);
+                    this.setState({
+                        url: url
+                    });
+                }
             } else {
-                const words = this.props.clubsAndCouncilTitle.split(" ");
-                for (let i = 0; i < words.length; i++) {
-                    words[i] = words[i][0].toUpperCase() + words[i].substr(1);
-                }
-                capsTitle = words.join(" ");
-                title = capsTitle.replace(/\s/g, '');
+                title = this.props.clubsAndCouncilsLogo.split(/\%2..*%2F(.*?)\?alt/)[1].split(".")[0]
                 res = this.props.clubsAndCouncilsLogo.split("?alt=")[0];
                 extension = res.substr(res.length - 4);
-                fileName = title + extension;
 
-                const url = await savePicture(this.state.clubsAndCouncilsLogo, this.state.categoryType, fileName);
-                this.setState({
-                    url: url
-                });
+                if (!extension.includes('.png') && !extension.includes('.jpg') && !extension.includes('.PNG') && !extension.includes('.JPG')) {
+                    fileName = title;
+                    const url = await savePicture(this.state.clubsAndCouncilsLogo, this.state.categoryType, fileName);
+                    this.setState({
+                        url: url
+                    });
+                } else {
+                    fileName = title + extension;
+                    const url = await savePicture(this.state.clubsAndCouncilsLogo, this.state.categoryType, fileName);
+                    this.setState({
+                        url: url
+                    });
+                }
             }            
 
             if (isValid) {
@@ -122,7 +127,6 @@ class EditClubsAndCouncilsModal extends Component {
                 .then(dataSnapshot => {
                     console.log("Updated the Club/Council");
                     this.props.handleEdit();
-                    window.location.reload();
                 });
             }
             
@@ -139,7 +143,6 @@ class EditClubsAndCouncilsModal extends Component {
                 .then(dataSnapshot => {
                     console.log("Updated the Club/Council");
                     this.props.handleEdit();
-                    window.location.reload();
                 });
             }
         }
