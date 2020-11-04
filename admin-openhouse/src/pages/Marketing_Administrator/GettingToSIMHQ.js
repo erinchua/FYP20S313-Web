@@ -608,7 +608,7 @@ class GettingToSIMHQ extends Component {
                                                 <Tab.Container defaultActiveKey="map">
                                                     <Row className="GettingToSimHq-secondInnerRow">
                                                         <Col md={12} className="GettingToSimHq-secondInnerCol">
-                                                            <Nav defaultActiveKey="day1" className="GettingToSimHq-nav" variant="tabs">
+                                                            <Nav defaultActiveKey="map" className="GettingToSimHq-nav" variant="tabs">
                                                                 <Col md={3} className="text-center GettingToSimHq-navItemCon">
                                                                     <Nav.Item className="GettingToSimHq-navItems">
                                                                         <Nav.Link eventKey="map" className="GettingToSimHq-navLinks">Campus Map</Nav.Link>
