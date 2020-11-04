@@ -1,0 +1,146 @@
+.generateMobileRegCon {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 0 auto;
+    padding: 0 !important;
+}
+
+.generateMobileRegContent {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+.generateMobileRegContentCon {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+.generateMobileRegContentHeaderRow {
+    background: #88B7B5;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.generateMobileRegContentHeaderCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.generateMobileRegHeaderText {
+    color: #424242;
+}
+
+.generateReportBtn {
+    background: none !important;
+    color: #424242 !important;
+    border-radius: 6px !important;
+    border: 1px solid #424242 !important;
+    min-width: 60% !important;
+    padding: 2% !important;
+}
+
+.generateReportBtnIcon {
+    margin-right: 5%;
+}
+
+.generateReportBtn:hover {
+    background: #424242 !important;
+    color: #ffffff !important;
+    border-color: #424242 !important;
+}
+
+.generateReportBtn:focus {
+    box-shadow: none !important;
+}
+
+/*******************************************************/
+/* Generate Mobile Registration Table */
+.generateMobileRegReportTable {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+.generateMobileRegReportHeader_SNo {
+    width: 5%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.generateMobileRegReportHeader_RegEmail {
+    width: 25%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.generateMobileRegReportHeader_Name {
+    width: 20%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.generateMobileRegReportHeader_HighestQual {
+    width: 15%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.generateMobileRegReportHeader_ContactNo {
+    width: 15%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.generateMobileRegReportHeader_RegDate {
+    width: 20%;
+    color: #424242;
+    font-size: 90%;
+}
+
+/******************* Table Data *******************/
+.generateMobileRegReportData_SNo {
+    width: 5%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.generateMobileRegReportData_RegEmail {
+    width: 25%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.generateMobileRegReportData_Name {
+    width: 20%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.generateMobileRegReportData_HighestQual {
+    width: 15%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.generateMobileRegReportData_ContactNo {
+    width: 15%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.generateMobileRegReportData_RegDate {
+    width: 20%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
