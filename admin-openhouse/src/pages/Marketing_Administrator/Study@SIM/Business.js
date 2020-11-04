@@ -32,8 +32,9 @@ class StudySIM_Business extends Component {
       if (user) {
         const db = fire.firestore();
         var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
+        .collection("Administrators")
+        .where("email", "==", user.email);
+
         getrole.onSnapshot((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
@@ -68,8 +69,7 @@ class StudySIM_Business extends Component {
             return Object.keys(object).find((key) => object[key] === value);
           }
 
-          var disciplinepath =
-            "discipline." + getKeyByValue(getdiscipline, "Business");
+          var disciplinepath = "discipline." + getKeyByValue(getdiscipline, "Business");
 
           const data = {
             docid: doc.id,
@@ -82,7 +82,7 @@ class StudySIM_Business extends Component {
             discipline2: doc.data().discipline.disciplineName2,
             disciplinepath: disciplinepath,
             AcademicLevel: doc.data().academicLevel,
-            Qualificaiton: doc.data().entryQualifications,
+            Qualification: doc.data().entryQualifications,
 
             subDiscipline: doc.data().subDiscipline,
 
@@ -93,11 +93,9 @@ class StudySIM_Business extends Component {
             intakemonths: doc.data().intakeMonths,
             duration: doc.data().duration,
           };
-
           business.push(data);
         }
       });
-
       this.setState({ business: business });
     });
   }
@@ -155,6 +153,7 @@ class StudySIM_Business extends Component {
     }
   };
 
+
   render() {
     return (
       <div>
@@ -164,11 +163,7 @@ class StudySIM_Business extends Component {
           <Container fluid className="MAStudySIMContent">
             <Row>
               {/* SideNavBar Col */}
-              <Col
-                md="2"
-                style={{ paddingRight: "0" }}
-                className="sideNavBarCol"
-              >
+              <Col md="2" style={{ paddingRight: "0" }} className="sideNavBarCol">
                 <SideNavBar />
               </Col>
 
@@ -177,28 +172,13 @@ class StudySIM_Business extends Component {
                 <Container fluid className="MAStudySIMContentCon">
                   {/* Study@SIM Page Header row */}
                   <Row className="justify-content-center MAStudySIMContentHeaderRow">
-                    <Col
-                      md="6"
-                      className="text-left MAStudySIMContentHeaderCol"
-                    >
-                      <h4 className="MAStudySIMHeaderText">
-                        Programmes for Business
-                      </h4>
+                    <Col md="6" className="text-left MAStudySIMContentHeaderCol">
+                      <h4 className="MAStudySIMHeaderText">Programmes for Business</h4>
                     </Col>
 
-                    <Col
-                      md="6"
-                      className="text-right MAStudySIMContentHeaderCol"
-                    >
-                      <Button
-                        className="addStudySIMProgBtn"
-                        onClick={this.handleAddStudySIMProgModal}
-                      >
-                        <FontAwesomeIcon
-                          size="lg"
-                          className="addStudySIMProgBtnIcon"
-                          icon={faPlus}
-                        />
+                    <Col md="6" className="text-right MAStudySIMContentHeaderCol">
+                      <Button className="addStudySIMProgBtn" onClick={this.handleAddStudySIMProgModal}>
+                        <FontAwesomeIcon size="lg" className="addStudySIMProgBtnIcon" icon={faPlus} />
                         <span className="addStudySIMProgBtnText">Add</span>
                       </Button>
                     </Col>
@@ -207,286 +187,177 @@ class StudySIM_Business extends Component {
                   {/* Table Row */}
                   <Row className="justify-content-center MAStudySIMTableRow">
                     <Col md="12" className="text-center">
-                      <Table
-                        responsive="sm"
-                        hover
-                        bordered
-                        className="MAStudySIMTable"
-                      >
+                      <Table responsive="sm" hover bordered className="MAStudySIMTable">
                         <thead>
                           <tr>
                             <th className="studySIMProgHeader_SNo">S/N</th>
-                            <th className="studySIMProgHeader_ProgName">
-                              Programme Name
-                            </th>
-                            <th className="studySIMProgHeader_AwardedBy">
-                              Awarded By
-                            </th>
-                            <th className="studySIMProgHeader_LogoFile">
-                              Logo File
-                            </th>
-                            <th className="studySIMProgHeader_Category">
-                              Category
-                            </th>
-                            <th className="studySIMProgHeader_MoS">
-                              Mode of Study
-                            </th>
-                            <th className="studySIMProgHeader_Discipline">
-                              Disciplines
-                            </th>
-                            <th className="studySIMProgHeader_AcademicLvl">
-                              Academic Level
-                            </th>
-                            <th className="studySIMProgHeader_EntryQual">
-                              Entry Qualifications
-                            </th>
-                            <th className="studySIMProgHeader_SubDiscipline">
-                              Sub-Disciplines
-                            </th>
+                            <th className="studySIMProgHeader_ProgName">Programme Name</th>
+                            <th className="studySIMProgHeader_AwardedBy">Awarded By</th>
+                            <th className="studySIMProgHeader_LogoFile">Logo File</th>
+                            <th className="studySIMProgHeader_Category">Category</th>
+                            <th className="studySIMProgHeader_MoS">Mode of Study</th>
+                            <th className="studySIMProgHeader_Discipline">Disciplines</th>
+                            <th className="studySIMProgHeader_AcademicLvl">Academic Level</th>
+                            <th className="studySIMProgHeader_EntryQual">Entry Qualifications</th>
+                            <th className="studySIMProgHeader_SubDiscipline">Sub-Disciplines</th>
                             <th className="studySIMProgHeader_Edit">Edit</th>
-                            <th className="studySIMProgHeader_Delete">
-                              Delete
-                            </th>
+                            <th className="studySIMProgHeader_Delete">Delete</th>
                           </tr>
                         </thead>
-                        {this.state.business &&
-                          this.state.business.map((business, index) => {
-                            index = index + 1;
-                            return (
-                              <tbody>
-                                <tr>
-                                  <td className="studySIMProgData_SNo text-center">
-                                    {index}
-                                  </td>
-                                  <td className="studySIMProgData_ProgName text-left">
-                                    <a
-                                      className="studySIMProgData_ProgNameLink"
-                                      onClick={() => {
-                                        this.setState({
-                                          programmeName: business.programmeName,
-                                          aboutprogramme1:
-                                            business.aboutprogramme
-                                              .aboutProgramme1,
-                                          aboutprogramme2:
-                                            business.aboutprogramme
-                                              .aboutProgramme2,
-                                          aboutprogramme3:
-                                            business.aboutprogramme
-                                              .aboutProgramme3,
-                                          applicationperiod1:
-                                            business.applicationperiod.period1,
-                                          applicationperiod2:
-                                            business.applicationperiod.period2,
-                                          programmestructurecoursework:
-                                            business.programmestructure
-                                              .coursework,
-                                          programmestructureexamination:
-                                            business.programmestructure
-                                              .examination,
-                                          overseaopportunityexchange:
-                                            business.overseaopportunity
-                                              .exchange,
-                                          overseaopportunitytransfer:
-                                            business.overseaopportunity
-                                              .transfer,
-                                          intakemonthsfulltime:
-                                            business.intakemonths.fullTime,
-                                          intakemonthsparttime:
-                                            business.intakemonths.partTime,
-                                          durationfulltime:
-                                            business.duration.fullTime,
-                                          durationparttime:
-                                            business.duration.partTime,
-                                        });
-                                        this.handleViewStudySIMProgDetailsModal();
-                                      }}
-                                    >
-                                      {/* href={
-                                        "/ArtsSocialScienceViewProgramme?id=" +
-                                        business.docid
-                                      } */}
-                                      {business.programmeName}
-                                    </a>
-                                  </td>
-                                  <td className="studySIMProgData_AwardedBy text-left">
-                                    {business.awardBy}
-                                  </td>
-                                  <td className="studySIMProgData_LogoFile text-left">
-                                    {business.Logofile}
-                                  </td>
-                                  <td className="studySIMProgData_Category text-left">
-                                    {business.CategoryProgramme}
-                                  </td>
-                                  <td className="studySIMProgData_MoS text-left">
-                                    <tr>
-                                      {business.ModeOfStudy.fullTime ===
-                                        true && <span>Full-Time</span>}
-                                    </tr>
-                                    <tr>
-                                      {business.ModeOfStudy.partTime ===
-                                        true && <span>Part-Time</span>}
-                                    </tr>
-                                  </td>
-                                  <td className="studySIMProgData_Discipline text-left">
-                                    <tr>{business.discipline1}</tr>
-                                    <tr>{business.discipline2}</tr>
-                                  </td>
-                                  <td className="studySIMProgData_AcademicLvl text-left">
-                                    {business.AcademicLevel}
-                                  </td>
-                                  <td className="studySIMProgData_EntryQual text-left">
-                                    <tr>
-                                      {business.Qualificaiton.aLevel ===
-                                        true && <span>"A" level</span>}
-                                    </tr>
-                                    <tr>
-                                      {business.Qualificaiton.degree ===
-                                        true && <span>Degree</span>}
-                                    </tr>
-                                    <tr>
-                                      {business.Qualificaiton.diploma ===
-                                        true && <span>Diploma</span>}
-                                    </tr>
-                                    <tr>
-                                      {business.Qualificaiton.oLevel ===
-                                        true && <span>"O" Level</span>}
-                                    </tr>
-                                  </td>
-                                  <td className="studySIMProgData_SubDiscipline text-left">
-                                    <tr>
-                                      {
-                                        business.subDiscipline
-                                          .subDisciplineName1
-                                      }
-                                    </tr>
-                                    <tr>
-                                      {
-                                        business.subDiscipline
-                                          .subDisciplineName2
-                                      }
-                                    </tr>
-                                    <tr>
-                                      {
-                                        business.subDiscipline
-                                          .subDisciplineName3
-                                      }
-                                    </tr>
-                                    <tr>
-                                      {
-                                        business.subDiscipline
-                                          .subDisciplineName4
-                                      }
-                                    </tr>
-                                    <tr>
-                                      {
-                                        business.subDiscipline
-                                          .subDisciplineName5
-                                      }
-                                    </tr>
-                                  </td>
-                                  <td className="studySIMProgData_Edit text-center">
-                                    <Button
-                                      className="editStudySIMProgBtn"
-                                      onClick={() => {
-                                        this.setState({
-                                          programmeName: business.programmeName,
-                                          University: business.awardBy,
-                                          category: business.CategoryProgramme,
-                                          ModeOfStudy: business.ModeOfStudy,
-                                          discipline1: business.discipline1,
-                                          discipline2: business.discipline2,
-                                          acadamiclevel: business.AcademicLevel,
-                                          olevel: business.Qualificaiton.oLevel,
-                                          aLevel: business.Qualificaiton.aLevel,
-                                          degree: business.Qualificaiton.degree,
-                                          diploma:
-                                            business.Qualificaiton.diploma,
-                                          subdisciplne1:
-                                            business.subDiscipline
-                                              .subDisciplineName1,
-                                          subdisciplne2:
-                                            business.subDiscipline
-                                              .subDisciplineName2,
-                                          subdisciplne3:
-                                            business.subDiscipline
-                                              .subDisciplineName3,
-                                          subdisciplne4:
-                                            business.subDiscipline
-                                              .subDisciplineName4,
-                                          subdisciplne4:
-                                            business.subDiscipline
-                                              .subDisciplineName4,
-                                          //details
-                                          aboutprogramme1:
-                                            business.aboutprogramme
-                                              .aboutProgramme1,
-                                          aboutprogramme2:
-                                            business.aboutprogramme
-                                              .aboutProgramme2,
-                                          aboutprogramme3:
-                                            business.aboutprogramme
-                                              .aboutProgramme3,
-                                          applicationperiod1:
-                                            business.applicationperiod.period1,
-                                          applicationperiod2:
-                                            business.applicationperiod.period2,
-                                          programmestructurecoursework:
-                                            business.programmestructure
-                                              .coursework,
-                                          programmestructureexamination:
-                                            business.programmestructure
-                                              .examination,
-                                          overseaopportunityexchange:
-                                            business.overseaopportunity
-                                              .exchange,
-                                          overseaopportunitytransfer:
-                                            business.overseaopportunity
-                                              .transfer,
-                                          intakemonthsfulltime:
-                                            business.intakemonths.fullTime,
-                                          intakemonthsparttime:
-                                            business.intakemonths.partTime,
-                                          durationfulltime:
-                                            business.duration.fullTime,
-                                          durationparttime:
-                                            business.duration.partTime,
-                                          docid: business.docid,
-                                        });
-                                        this.handleEditStudySIMProgModal();
-                                      }}
-                                    >
-                                      <FontAwesomeIcon
-                                        size="lg"
-                                        className="editStudySIMProgBtnIcon"
-                                        icon={faEdit}
-                                      />
-                                    </Button>
-                                  </td>
-                                  <td className="studySIMProgData_Delete text-center">
-                                    <Button
-                                      className="deleteStudySIMProgBtn"
-                                      onClick={() => {
-                                        this.setState({
-                                          docid: business.docid,
-                                        });
-                                        this.handleDeleteStudySIMProgModal();
-                                      }}
-                                    >
-                                      <FontAwesomeIcon
-                                        size="lg"
-                                        className="deleteStudySIMProgBtnIcon"
-                                        icon={faTrashAlt}
-                                      />
-                                    </Button>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            );
-                          })}
+
+                        {this.state.business && this.state.business.map((business, index) => {
+                          index = index + 1;
+                          return (
+                            <tbody>
+                              <tr>
+                                <td className="studySIMProgData_SNo text-center">{index}</td>
+                                <td className="studySIMProgData_ProgName text-left">
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {
+                                      this.setState({
+                                        programmeName: business.programmeName,
+                                        aboutprogramme1: business.aboutprogramme.aboutProgramme1,
+                                        aboutprogramme2: business.aboutprogramme.aboutProgramme2,
+                                        aboutprogramme3: business.aboutprogramme.aboutProgramme3,
+                                        applicationperiod1: business.applicationperiod.period1,
+                                        applicationperiod2: business.applicationperiod.period2,
+                                        programmestructurecoursework: business.programmestructure.coursework,
+                                        programmestructureexamination: business.programmestructur.examination,
+                                        overseaopportunityexchange: business.overseaopportunity.exchange,
+                                        overseaopportunitytransfer: business.overseaopportunity.transfer,
+                                        intakemonthsfulltime: business.intakemonths.fullTime,
+                                        intakemonthsparttime: business.intakemonths.partTime,
+                                        durationfulltime: business.duration.fullTime,
+                                        durationparttime: business.duration.partTime,
+                                      });
+                                      this.handleViewStudySIMProgDetailsModal();
+                                    }}
+                                  >
+                                    {business.programmeName}
+                                  </a>
+                                </td>
+                                
+                                <td className="studySIMProgData_AwardedBy text-left">{business.awardBy}</td>
+                                <td className="studySIMProgData_LogoFile text-left">{business.Logofile}</td>
+                                <td className="studySIMProgData_Category text-left">{business.CategoryProgramme}</td>
+                                
+                                <td className="studySIMProgData_MoS text-left">
+                                  <tr>
+                                    {business.ModeOfStudy.fullTime === true && 
+                                      <span>Full-Time</span>
+                                    }
+                                  </tr>
+
+                                  <tr>
+                                    {business.ModeOfStudy.partTime === true && 
+                                      <span>Part-Time</span>
+                                    }
+                                  </tr>
+                                </td>
+
+                                <td className="studySIMProgData_Discipline text-left">
+                                  <tr>{business.discipline1}</tr>
+                                  <tr>{business.discipline2}</tr>
+                                </td>
+
+                                <td className="studySIMProgData_AcademicLvl text-left">{business.AcademicLevel}</td>
+                                <td className="studySIMProgData_EntryQual text-left">
+                                  <tr>
+                                    {business.Qualification.aLevel === true && 
+                                      <span>"A" level</span>
+                                    }
+                                  </tr>
+
+                                  <tr>
+                                    {business.Qualification.degree === true && 
+                                      <span>Degree</span>
+                                    }
+                                  </tr>
+
+                                  <tr>
+                                    {business.Qualification.diploma === true && 
+                                      <span>Diploma</span>
+                                    }
+                                  </tr>
+
+                                  <tr>
+                                    {business.Qualification.oLevel === true && 
+                                      <span>"O" Level</span>
+                                    }
+                                  </tr>
+                                </td>
+
+                                <td className="studySIMProgData_SubDiscipline text-left">
+                                  <tr>{business.subDiscipline.subDisciplineName1}</tr>
+                                  <tr>{business.subDiscipline.subDisciplineName2}</tr>
+                                  <tr>{business.subDiscipline.subDisciplineName3}</tr>
+                                  <tr>{business.subDiscipline.subDisciplineName4}</tr>
+                                  <tr>{business.subDiscipline.subDisciplineName5}</tr>
+                                </td>
+
+                                <td className="studySIMProgData_Edit text-center">
+                                  <Button className="editStudySIMProgBtn" onClick={() => 
+                                    {
+                                      this.setState({
+                                        programmeName: business.programmeName,
+                                        University: business.awardBy,
+                                        category: business.CategoryProgramme,
+                                        ModeOfStudy: business.ModeOfStudy,
+                                        discipline1: business.discipline1,
+                                        discipline2: business.discipline2,
+                                        acadamiclevel: business.AcademicLevel,
+                                        olevel: business.Qualification.oLevel,
+                                        aLevel: business.Qualification.aLevel,
+                                        degree: business.Qualification.degree,
+                                        diploma: business.Qualification.diploma,
+                                        subdiscipline1: business.subDiscipline.subDisciplineName1,
+                                        subdiscipline2: business.subDiscipline.subDisciplineName2,
+                                        subdiscipline3: business.subDiscipline.subDisciplineName3,
+                                        subdiscipline4: business.subDiscipline.subDisciplineName4,
+                                        subdiscipline5: business.subDiscipline.subDisciplineName5,
+
+                                        //details
+                                        aboutprogramme1: business.aboutprogramme.aboutProgramme1,
+                                        aboutprogramme2: business.aboutprogramme.aboutProgramme2,
+                                        aboutprogramme3: business.aboutprogramme.aboutProgramme3,
+                                        applicationperiod1: business.applicationperiod.period1,
+                                        applicationperiod2: business.applicationperiod.period2,
+                                        programmestructurecoursework: business.programmestructure.coursework,
+                                        programmestructureexamination: business.programmestructure.examination,
+                                        overseaopportunityexchange: business.overseaopportunity.exchange,
+                                        overseaopportunitytransfer: business.overseaopportunity.transfer,
+                                        intakemonthsfulltime: business.intakemonths.fullTime,
+                                        intakemonthsparttime: business.intakemonths.partTime,
+                                        durationfulltime: business.duration.fullTime,
+                                        durationparttime: business.duration.partTime,
+                                        docid: business.docid,
+                                      });
+                                      this.handleEditStudySIMProgModal();
+                                    }}
+                                  >
+                                    <FontAwesomeIcon size="lg" className="editStudySIMProgBtnIcon" icon={faEdit} />
+                                  </Button>
+                                </td>
+
+                                <td className="studySIMProgData_Delete text-center">
+                                  <Button className="deleteStudySIMProgBtn" onClick={() => 
+                                    {
+                                      this.setState({ docid: business.docid, });
+                                      this.handleDeleteStudySIMProgModal();
+                                    }}
+                                  >
+                                    <FontAwesomeIcon size="lg" className="deleteStudySIMProgBtnIcon" icon={faTrashAlt} />
+                                  </Button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          );
+                        })}
+
                       </Table>
                     </Col>
                   </Row>
                 </Container>
+
               </Col>
             </Row>
           </Container>
@@ -531,23 +402,20 @@ class StudySIM_Business extends Component {
             aLevel={this.state.aLevel}
             degree={this.state.degree}
             diploma={this.state.diploma}
-            subdisciplne1={this.state.subdisciplne1}
-            subdisciplne2={this.state.subdisciplne2}
-            subdisciplne3={this.state.subdisciplne3}
-            subdisciplne4={this.state.subdisciplne4}
-            subdisciplne5={this.state.subdisciplne5}
+            subdiscipline1={this.state.subdiscipline1}
+            subdiscipline2={this.state.subdiscipline2}
+            subdiscipline3={this.state.subdiscipline3}
+            subdiscipline4={this.state.subdiscipline4}
+            subdiscipline5={this.state.subdiscipline5}
+
             //details
             aboutprogramme1={this.state.aboutprogramme1}
             aboutprogramme2={this.state.aboutprogramme2}
             aboutprogramme3={this.state.aboutprogramme3}
             applicationperiod1={this.state.applicationperiod1}
             applicationperiod2={this.state.applicationperiod2}
-            programmestructurecoursework={
-              this.state.programmestructurecoursework
-            }
-            programmestructureexamination={
-              this.state.programmestructureexamination
-            }
+            programmestructurecoursework={this.state.programmestructurecoursework}
+            programmestructureexamination={this.state.programmestructureexamination}
             overseaopportunityexchange={this.state.overseaopportunityexchange}
             overseaopportunitytransfer={this.state.overseaopportunitytransfer}
             intakemonthsfulltime={this.state.intakemonthsfulltime}
@@ -555,6 +423,7 @@ class StudySIM_Business extends Component {
             durationfulltime={this.state.durationfulltime}
             durationparttime={this.state.durationparttime}
             docid={this.state.docid}
+
             handleSaveChanges={() => {
               console.log("Edit Modal Saved");
             }}
@@ -572,13 +441,7 @@ class StudySIM_Business extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <DeleteStudySIMProgModal
-            docid={this.state.docid}
-            handleConfirmDelete={() => {
-              this.handleDeleteStudySIMProgModal();
-            }}
-            handleCancelDelete={this.handleDeleteStudySIMProgModal}
-          />
+          <DeleteStudySIMProgModal docid={this.state.docid} handleConfirmDelete={() => {this.handleDeleteStudySIMProgModal();}} handleCancelDelete={this.handleDeleteStudySIMProgModal} />
         </Modal>
 
         {/* View Programme Details Modal */}
@@ -592,18 +455,14 @@ class StudySIM_Business extends Component {
           keyboard={false}
         >
           <ViewStudySIMProgDetailsModal
-          programmeName={this.state.programmeName}
+            programmeName={this.state.programmeName}
             aboutprogramme1={this.state.aboutprogramme1}
             aboutprogramme2={this.state.aboutprogramme2}
             aboutprogramme3={this.state.aboutprogramme3}
             applicationperiod1={this.state.applicationperiod1}
             applicationperiod2={this.state.applicationperiod2}
-            programmestructurecoursework={
-              this.state.programmestructurecoursework
-            }
-            programmestructureexamination={
-              this.state.programmestructureexamination
-            }
+            programmestructurecoursework={this.state.programmestructurecoursework}
+            programmestructureexamination={this.state.programmestructureexamination}
             overseaopportunityexchange={this.state.overseaopportunityexchange}
             overseaopportunitytransfer={this.state.overseaopportunitytransfer}
             intakemonthsfulltime={this.state.intakemonthsfulltime}
@@ -616,4 +475,5 @@ class StudySIM_Business extends Component {
     );
   }
 }
+
 export default StudySIM_Business;

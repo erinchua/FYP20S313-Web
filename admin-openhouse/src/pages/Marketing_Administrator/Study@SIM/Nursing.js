@@ -32,8 +32,9 @@ class StudySIM_Nursing extends Component {
       if (user) {
         const db = fire.firestore();
         var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
+        .collection("Administrators")
+        .where("email", "==", user.email);
+
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
@@ -68,8 +69,7 @@ class StudySIM_Nursing extends Component {
             return Object.keys(object).find((key) => object[key] === value);
           }
 
-          var disciplinepath =
-            "discipline." + getKeyByValue(getdiscipline, "Nursing");
+          var disciplinepath = "discipline." + getKeyByValue(getdiscipline, "Nursing");
 
           const data = {
             docid: doc.id,
@@ -82,7 +82,7 @@ class StudySIM_Nursing extends Component {
             discipline2: doc.data().discipline.disciplineName2,
             disciplinepath: disciplinepath,
             AcademicLevel: doc.data().academicLevel,
-            Qualificaiton: doc.data().entryQualifications,
+            Qualification: doc.data().entryQualifications,
 
             subDiscipline: doc.data().subDiscipline,
 
@@ -155,6 +155,7 @@ class StudySIM_Nursing extends Component {
     }
   };
 
+
   render() {
     return (
       <div>
@@ -164,11 +165,7 @@ class StudySIM_Nursing extends Component {
           <Container fluid className="MAStudySIMContent">
             <Row>
               {/* SideNavBar Col */}
-              <Col
-                md="2"
-                style={{ paddingRight: "0" }}
-                className="sideNavBarCol"
-              >
+              <Col md="2" style={{ paddingRight: "0" }} className="sideNavBarCol">
                 <SideNavBar />
               </Col>
 
@@ -177,28 +174,13 @@ class StudySIM_Nursing extends Component {
                 <Container fluid className="MAStudySIMContentCon">
                   {/* Study@SIM Page Header row */}
                   <Row className="justify-content-center MAStudySIMContentHeaderRow">
-                    <Col
-                      md="6"
-                      className="text-left MAStudySIMContentHeaderCol"
-                    >
-                      <h4 className="MAStudySIMHeaderText">
-                        Programmes for Nursing
-                      </h4>
+                    <Col md="6" className="text-left MAStudySIMContentHeaderCol">
+                      <h4 className="MAStudySIMHeaderText">Programmes for Nursing</h4>
                     </Col>
 
-                    <Col
-                      md="6"
-                      className="text-right MAStudySIMContentHeaderCol"
-                    >
-                      <Button
-                        className="addStudySIMProgBtn"
-                        onClick={this.handleAddStudySIMProgModal}
-                      >
-                        <FontAwesomeIcon
-                          size="lg"
-                          className="addStudySIMProgBtnIcon"
-                          icon={faPlus}
-                        />
+                    <Col md="6" className="text-right MAStudySIMContentHeaderCol">
+                      <Button className="addStudySIMProgBtn" onClick={this.handleAddStudySIMProgModal}>
+                        <FontAwesomeIcon size="lg" className="addStudySIMProgBtnIcon" icon={faPlus} />
                         <span className="addStudySIMProgBtnText">Add</span>
                       </Button>
                     </Col>
@@ -207,267 +189,179 @@ class StudySIM_Nursing extends Component {
                   {/* Table Row */}
                   <Row className="justify-content-center MAStudySIMTableRow">
                     <Col md="12" className="text-center">
-                      <Table
-                        responsive="sm"
-                        hover
-                        bordered
-                        className="MAStudySIMTable"
-                      >
+                      <Table responsive="sm" hover bordered className="MAStudySIMTable">
                         <thead>
                           <tr>
                             <th className="studySIMProgHeader_SNo">S/N</th>
-                            <th className="studySIMProgHeader_ProgName">
-                              Programme Name
-                            </th>
-                            <th className="studySIMProgHeader_AwardedBy">
-                              Awarded By
-                            </th>
-                            <th className="studySIMProgHeader_LogoFile">
-                              Logo File
-                            </th>
-                            <th className="studySIMProgHeader_Category">
-                              Category
-                            </th>
-                            <th className="studySIMProgHeader_MoS">
-                              Mode of Study
-                            </th>
-                            <th className="studySIMProgHeader_Discipline">
-                              Disciplines
-                            </th>
-                            <th className="studySIMProgHeader_AcademicLvl">
-                              Academic Level
-                            </th>
-                            <th className="studySIMProgHeader_EntryQual">
-                              Entry Qualifications
-                            </th>
-                            <th className="studySIMProgHeader_SubDiscipline">
-                              Sub-Disciplines
-                            </th>
+                            <th className="studySIMProgHeader_ProgName">Programme Name</th>
+                            <th className="studySIMProgHeader_AwardedBy">Awarded By</th>
+                            <th className="studySIMProgHeader_LogoFile">Logo File</th>
+                            <th className="studySIMProgHeader_Category">Category</th>
+                            <th className="studySIMProgHeader_MoS">Mode of Study</th>
+                            <th className="studySIMProgHeader_Discipline">Disciplines</th>
+                            <th className="studySIMProgHeader_AcademicLvl">Academic Level</th>
+                            <th className="studySIMProgHeader_EntryQual">Entry Qualifications</th>
+                            <th className="studySIMProgHeader_SubDiscipline">Sub-Disciplines</th>
                             <th className="studySIMProgHeader_Edit">Edit</th>
-                            <th className="studySIMProgHeader_Delete">
-                              Delete
-                            </th>
+                            <th className="studySIMProgHeader_Delete">Delete</th>
                           </tr>
                         </thead>
-                        {this.state.nursing &&
-                          this.state.nursing.map((nursing, index) => {
-                            index = index + 1;
-                            return (
-                              <tbody>
-                                <tr>
-                                  <td className="studySIMProgData_SNo text-center">
-                                    {index}
-                                  </td>
-                                  <td className="studySIMProgData_ProgName text-left">
-                                    <a
-                                      className="studySIMProgData_ProgNameLink"
-                                      onClick={() => {
-                                        this.setState({
-                                          programmeName: nursing.programmeName,
-                                          aboutprogramme1:
-                                            nursing.aboutprogramme
-                                              .aboutProgramme1,
-                                          aboutprogramme2:
-                                            nursing.aboutprogramme
-                                              .aboutProgramme2,
-                                          aboutprogramme3:
-                                            nursing.aboutprogramme
-                                              .aboutProgramme3,
-                                          applicationperiod1:
-                                            nursing.applicationperiod.period1,
-                                          applicationperiod2:
-                                            nursing.applicationperiod.period2,
-                                          programmestructurecoursework:
-                                            nursing.programmestructure
-                                              .coursework,
-                                          programmestructureexamination:
-                                            nursing.programmestructure
-                                              .examination,
-                                          overseaopportunityexchange:
-                                            nursing.overseaopportunity.exchange,
-                                          overseaopportunitytransfer:
-                                            nursing.overseaopportunity.transfer,
-                                          intakemonthsfulltime:
-                                            nursing.intakemonths.fullTime,
-                                          intakemonthsparttime:
-                                            nursing.intakemonths.partTime,
-                                          durationfulltime:
-                                            nursing.duration.fullTime,
-                                          durationparttime:
-                                            nursing.duration.partTime,
-                                        });
-                                        this.handleViewStudySIMProgDetailsModal();
-                                      }}
-                                    >
-                                      {/* href={
-                                        "/ArtsSocialScienceViewProgramme?id=" +
-                                        nursing.docid
-                                      } */}
-                                      {nursing.programmeName}
-                                    </a>
-                                  </td>
-                                  <td className="studySIMProgData_AwardedBy text-left">
-                                    {nursing.awardBy}
-                                  </td>
-                                  <td className="studySIMProgData_LogoFile text-left">
-                                    {nursing.Logofile}
-                                  </td>
-                                  <td className="studySIMProgData_Category text-left">
-                                    {nursing.CategoryProgramme}
-                                  </td>
-                                  <td className="studySIMProgData_MoS text-left">
-                                    <tr>
-                                      {nursing.ModeOfStudy.fullTime ===
-                                        true && <span>Full-Time</span>}
-                                    </tr>
-                                    <tr>
-                                      {nursing.ModeOfStudy.partTime ===
-                                        true && <span>Part-Time</span>}
-                                    </tr>
-                                  </td>
-                                  <td className="studySIMProgData_Discipline text-left">
-                                    <tr>{nursing.discipline1}</tr>
-                                    <tr>{nursing.discipline2}</tr>
-                                  </td>
-                                  <td className="studySIMProgData_AcademicLvl text-left">
-                                    {nursing.AcademicLevel}
-                                  </td>
-                                  <td className="studySIMProgData_EntryQual text-left">
-                                    <tr>
-                                      {nursing.Qualificaiton.aLevel ===
-                                        true && <span>"A" level</span>}
-                                    </tr>
-                                    <tr>
-                                      {nursing.Qualificaiton.degree ===
-                                        true && <span>Degree</span>}
-                                    </tr>
-                                    <tr>
-                                      {nursing.Qualificaiton.diploma ===
-                                        true && <span>Diploma</span>}
-                                    </tr>
-                                    <tr>
-                                      {nursing.Qualificaiton.oLevel ===
-                                        true && <span>"O" Level</span>}
-                                    </tr>
-                                  </td>
-                                  <td className="studySIMProgData_SubDiscipline text-left">
-                                    <tr>
-                                      {nursing.subDiscipline.subDisciplineName1}
-                                    </tr>
-                                    <tr>
-                                      {nursing.subDiscipline.subDisciplineName2}
-                                    </tr>
-                                    <tr>
-                                      {nursing.subDiscipline.subDisciplineName3}
-                                    </tr>
-                                    <tr>
-                                      {nursing.subDiscipline.subDisciplineName4}
-                                    </tr>
-                                    <tr>
-                                      {nursing.subDiscipline.subDisciplineName5}
-                                    </tr>
-                                  </td>
-                                  <td className="studySIMProgData_Edit text-center">
-                                    <Button
-                                      className="editStudySIMProgBtn"
-                                      onClick={() => {
-                                        this.setState({
-                                          programmeName: nursing.programmeName,
-                                          University: nursing.awardBy,
-                                          category: nursing.CategoryProgramme,
-                                          ModeOfStudy: nursing.ModeOfStudy,
-                                          discipline1: nursing.discipline1,
-                                          discipline2: nursing.discipline2,
-                                          acadamiclevel: nursing.AcademicLevel,
-                                          olevel: nursing.Qualificaiton.oLevel,
-                                          aLevel: nursing.Qualificaiton.aLevel,
-                                          degree: nursing.Qualificaiton.degree,
-                                          diploma:
-                                            nursing.Qualificaiton.diploma,
-                                          subdisciplne1:
-                                            nursing.subDiscipline
-                                              .subDisciplineName1,
-                                          subdisciplne2:
-                                            nursing.subDiscipline
-                                              .subDisciplineName2,
-                                          subdisciplne3:
-                                            nursing.subDiscipline
-                                              .subDisciplineName3,
-                                          subdisciplne4:
-                                            nursing.subDiscipline
-                                              .subDisciplineName4,
-                                          subdisciplne4:
-                                            nursing.subDiscipline
-                                              .subDisciplineName4,
-                                          //details
-                                          aboutprogramme1:
-                                            nursing.aboutprogramme
-                                              .aboutProgramme1,
-                                          aboutprogramme2:
-                                            nursing.aboutprogramme
-                                              .aboutProgramme2,
-                                          aboutprogramme3:
-                                            nursing.aboutprogramme
-                                              .aboutProgramme3,
-                                          applicationperiod1:
-                                            nursing.applicationperiod.period1,
-                                          applicationperiod2:
-                                            nursing.applicationperiod.period2,
-                                          programmestructurecoursework:
-                                            nursing.programmestructure
-                                              .coursework,
-                                          programmestructureexamination:
-                                            nursing.programmestructure
-                                              .examination,
-                                          overseaopportunityexchange:
-                                            nursing.overseaopportunity.exchange,
-                                          overseaopportunitytransfer:
-                                            nursing.overseaopportunity.transfer,
-                                          intakemonthsfulltime:
-                                            nursing.intakemonths.fullTime,
-                                          intakemonthsparttime:
-                                            nursing.intakemonths.partTime,
-                                          durationfulltime:
-                                            nursing.duration.fullTime,
-                                          durationparttime:
-                                            nursing.duration.partTime,
-                                          docid: nursing.docid,
-                                        });
-                                        this.handleEditStudySIMProgModal();
-                                      }}
-                                    >
-                                      <FontAwesomeIcon
-                                        size="lg"
-                                        className="editStudySIMProgBtnIcon"
-                                        icon={faEdit}
-                                      />
-                                    </Button>
-                                  </td>
-                                  <td className="studySIMProgData_Delete text-center">
-                                    <Button
-                                      className="deleteStudySIMProgBtn"
-                                      onClick={() => {
-                                        this.setState({
-                                          docid: nursing.docid,
-                                        });
-                                        this.handleDeleteStudySIMProgModal();
-                                      }}
-                                    >
-                                      <FontAwesomeIcon
-                                        size="lg"
-                                        className="deleteStudySIMProgBtnIcon"
-                                        icon={faTrashAlt}
-                                      />
-                                    </Button>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            );
-                          })}
+
+                        {this.state.nursing && this.state.nursing.map((nursing, index) => {
+                          index = index + 1;
+                          return (
+                            <tbody>
+                              <tr>
+                                <td className="studySIMProgData_SNo text-center">{index}</td>
+                                <td className="studySIMProgData_ProgName text-left">
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => 
+                                    {
+                                      this.setState({
+                                        programmeName: nursing.programmeName,
+                                        aboutprogramme1: nursing.aboutprogramme.aboutProgramme1,
+                                        aboutprogramme2: nursing.aboutprogramme.aboutProgramme2,
+                                        aboutprogramme3: nursing.aboutprogramme.aboutProgramme3,
+                                        applicationperiod1: nursing.applicationperiod.period1,
+                                        applicationperiod2: nursing.applicationperiod.period2,
+                                        programmestructurecoursework: nursing.programmestructure.coursework,
+                                        programmestructureexamination: nursing.programmestructure.examination,
+                                        overseaopportunityexchange: nursing.overseaopportunity.exchange,
+                                        overseaopportunitytransfer: nursing.overseaopportunity.transfer,
+                                        intakemonthsfulltime: nursing.intakemonths.fullTime,
+                                        intakemonthsparttime: nursing.intakemonths.partTime,
+                                        durationfulltime: nursing.duration.fullTime,
+                                        durationparttime: nursing.duration.partTime,
+                                      });
+                                      this.handleViewStudySIMProgDetailsModal();
+                                    }}
+                                  >
+                                    {nursing.programmeName}
+                                  </a>
+                                </td>
+
+                                <td className="studySIMProgData_AwardedBy text-left">{nursing.awardBy}</td>
+                                <td className="studySIMProgData_LogoFile text-left">{nursing.Logofile}</td>
+                                <td className="studySIMProgData_Category text-left">{nursing.CategoryProgramme}</td>
+
+                                <td className="studySIMProgData_MoS text-left">
+                                  <tr>
+                                    {nursing.ModeOfStudy.fullTime === true && 
+                                      <span>Full-Time</span>
+                                    }
+                                  </tr>
+
+                                  <tr>
+                                    {nursing.ModeOfStudy.partTime === true && 
+                                      <span>Part-Time</span>
+                                    }
+                                  </tr>
+                                </td>
+
+                                <td className="studySIMProgData_Discipline text-left">
+                                  <tr>{nursing.discipline1}</tr>
+                                  <tr>{nursing.discipline2}</tr>
+                                </td>
+
+                                <td className="studySIMProgData_AcademicLvl text-left">{nursing.AcademicLevel}</td>
+                                <td className="studySIMProgData_EntryQual text-left">
+                                  <tr>
+                                    {nursing.Qualification.aLevel === true && 
+                                      <span>"A" level</span>
+                                    }
+                                  </tr>
+
+                                  <tr>
+                                    {nursing.Qualification.degree === true && 
+                                      <span>Degree</span>
+                                    }
+                                  </tr>
+
+                                  <tr>
+                                    {nursing.Qualification.diploma === true && 
+                                      <span>Diploma</span>
+                                    }
+                                  </tr>
+
+                                  <tr>
+                                    {nursing.Qualification.oLevel === true && 
+                                      <span>"O" Level</span>
+                                    }
+                                  </tr>
+                                </td>
+
+                                <td className="studySIMProgData_SubDiscipline text-left">
+                                  <tr>{nursing.subDiscipline.subDisciplineName1}</tr>
+                                  <tr>{nursing.subDiscipline.subDisciplineName2}</tr>
+                                  <tr>{nursing.subDiscipline.subDisciplineName3}</tr>
+                                  <tr>{nursing.subDiscipline.subDisciplineName4}</tr>
+                                  <tr>{nursing.subDiscipline.subDisciplineName5}</tr>
+                                </td>
+
+                                <td className="studySIMProgData_Edit text-center">
+                                  <Button className="editStudySIMProgBtn" onClick={() => 
+                                    {
+                                      this.setState({
+                                        programmeName: nursing.programmeName,
+                                        University: nursing.awardBy,
+                                        category: nursing.CategoryProgramme,
+                                        ModeOfStudy: nursing.ModeOfStudy,
+                                        discipline1: nursing.discipline1,
+                                        discipline2: nursing.discipline2,
+                                        acadamiclevel: nursing.AcademicLevel,
+                                        olevel: nursing.Qualification.oLevel,
+                                        aLevel: nursing.Qualification.aLevel,
+                                        degree: nursing.Qualification.degree,
+                                        diploma: nursing.Qualification.diploma,
+                                        subdiscipline1: nursing.subDiscipline.subDisciplineName1,
+                                        subdiscipline2: nursing.subDiscipline.subDisciplineName2,
+                                        subdiscipline3: nursing.subDiscipline.subDisciplineName3,
+                                        subdiscipline4: nursing.subDiscipline.subDisciplineName4,
+                                        subdiscipline5: nursing.subDiscipline.subDisciplineName5,
+
+                                        //details
+                                        aboutprogramme1: nursing.aboutprogramme.aboutProgramme1,
+                                        aboutprogramme2: nursing.aboutprogramme.aboutProgramme2,
+                                        aboutprogramme3: nursing.aboutprogramme.aboutProgramme3,
+                                        applicationperiod1: nursing.applicationperiod.period1,
+                                        applicationperiod2: nursing.applicationperiod.period2,
+                                        programmestructurecoursework: nursing.programmestructure.coursework,
+                                        programmestructureexamination: nursing.programmestructure.examination,
+                                        overseaopportunityexchange: nursing.overseaopportunity.exchange,
+                                        overseaopportunitytransfer: nursing.overseaopportunity.transfer,
+                                        intakemonthsfulltime: nursing.intakemonths.fullTime,
+                                        intakemonthsparttime: nursing.intakemonths.partTime,
+                                        durationfulltime: nursing.duration.fullTime,
+                                        durationparttime: nursing.duration.partTime,
+                                        docid: nursing.docid,
+                                      });
+                                      this.handleEditStudySIMProgModal();
+                                    }}
+                                  >
+                                    <FontAwesomeIcon size="lg" className="editStudySIMProgBtnIcon" icon={faEdit} />
+                                  </Button>
+                                </td>
+
+                                <td className="studySIMProgData_Delete text-center">
+                                  <Button className="deleteStudySIMProgBtn" onClick={() => 
+                                    {
+                                      this.setState({
+                                        docid: nursing.docid,
+                                      });
+                                      this.handleDeleteStudySIMProgModal();
+                                    }}
+                                  >
+                                    <FontAwesomeIcon size="lg" className="deleteStudySIMProgBtnIcon" icon={faTrashAlt} />
+                                  </Button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          );
+                        })}
                       </Table>
                     </Col>
                   </Row>
                 </Container>
+
               </Col>
             </Row>
           </Container>
@@ -512,23 +406,19 @@ class StudySIM_Nursing extends Component {
             aLevel={this.state.aLevel}
             degree={this.state.degree}
             diploma={this.state.diploma}
-            subdisciplne1={this.state.subdisciplne1}
-            subdisciplne2={this.state.subdisciplne2}
-            subdisciplne3={this.state.subdisciplne3}
-            subdisciplne4={this.state.subdisciplne4}
-            subdisciplne5={this.state.subdisciplne5}
+            subdiscipline1={this.state.subdiscipline1}
+            subdiscipline2={this.state.subdiscipline2}
+            subdiscipline3={this.state.subdiscipline3}
+            subdiscipline4={this.state.subdiscipline4}
+            subdiscipline5={this.state.subdiscipline5}
             //details
             aboutprogramme1={this.state.aboutprogramme1}
             aboutprogramme2={this.state.aboutprogramme2}
             aboutprogramme3={this.state.aboutprogramme3}
             applicationperiod1={this.state.applicationperiod1}
             applicationperiod2={this.state.applicationperiod2}
-            programmestructurecoursework={
-              this.state.programmestructurecoursework
-            }
-            programmestructureexamination={
-              this.state.programmestructureexamination
-            }
+            programmestructurecoursework={this.state.programmestructurecoursework}
+            programmestructureexamination={this.state.programmestructureexamination}
             overseaopportunityexchange={this.state.overseaopportunityexchange}
             overseaopportunitytransfer={this.state.overseaopportunitytransfer}
             intakemonthsfulltime={this.state.intakemonthsfulltime}
@@ -536,9 +426,8 @@ class StudySIM_Nursing extends Component {
             durationfulltime={this.state.durationfulltime}
             durationparttime={this.state.durationparttime}
             docid={this.state.docid}
-            handleSaveChanges={() => {
-              console.log("Edit Modal Saved");
-            }}
+
+            handleSaveChanges={() => {console.log("Edit Modal Saved");}}
             handleCancelEdit={this.handleEditStudySIMProgModal}
           />
         </Modal>
@@ -553,13 +442,7 @@ class StudySIM_Nursing extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <DeleteStudySIMProgModal
-            docid={this.state.docid}
-            handleConfirmDelete={() => {
-              this.handleDeleteStudySIMProgModal();
-            }}
-            handleCancelDelete={this.handleDeleteStudySIMProgModal}
-          />
+          <DeleteStudySIMProgModal docid={this.state.docid} handleConfirmDelete={() => {this.handleDeleteStudySIMProgModal();}} handleCancelDelete={this.handleDeleteStudySIMProgModal} />
         </Modal>
 
         {/* View Programme Details Modal */}
@@ -573,18 +456,14 @@ class StudySIM_Nursing extends Component {
           keyboard={false}
         >
           <ViewStudySIMProgDetailsModal
-          programmeName={this.state.programmeName}
+            programmeName={this.state.programmeName}
             aboutprogramme1={this.state.aboutprogramme1}
             aboutprogramme2={this.state.aboutprogramme2}
             aboutprogramme3={this.state.aboutprogramme3}
             applicationperiod1={this.state.applicationperiod1}
             applicationperiod2={this.state.applicationperiod2}
-            programmestructurecoursework={
-              this.state.programmestructurecoursework
-            }
-            programmestructureexamination={
-              this.state.programmestructureexamination
-            }
+            programmestructurecoursework={this.state.programmestructurecoursework}
+            programmestructureexamination={this.state.programmestructureexamination}
             overseaopportunityexchange={this.state.overseaopportunityexchange}
             overseaopportunitytransfer={this.state.overseaopportunitytransfer}
             intakemonthsfulltime={this.state.intakemonthsfulltime}
@@ -597,4 +476,5 @@ class StudySIM_Nursing extends Component {
     );
   }
 }
+
 export default StudySIM_Nursing;
