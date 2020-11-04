@@ -99,11 +99,11 @@ class CommonFAQs extends Component {
           general_counter: general_counter
         };
 
-        if (doc.data().faqType === "openhouse") {
+        if (doc.data().faqType === "Openhouse") {
           openhouse_counter++;
           commonfaq_openhouse.push(data)
         }
-        if (doc.data().faqType === "general") {
+        if (doc.data().faqType === "General") {
           general_counter++;
           commonfaq_general.push(data)
         }

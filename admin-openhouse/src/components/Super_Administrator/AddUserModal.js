@@ -62,7 +62,6 @@ export default class AddUserModal extends React.Component {
                     password: this.state.password,
                 })
                 .then(function () {
-                    // alert("Added");
                     window.location.reload();
                 });
 
@@ -174,48 +173,7 @@ export default class AddUserModal extends React.Component {
 
                     </Form>
                 </Modal.Body>
-                    
-                {/* <Modal.Body>
-                    <p>
-                        <form onSubmit={this.addUser}>
-                <input
-                type="text"
-                name="fullname"
-                placeholder="Full name"
-                onChange={this.updateInput}
-                value={this.state.fullname}
-                required
-                />
-                <input
-                type="text"
-                name="email"
-                placeholder="Email"
-                onChange={this.updateInput}
-                value={this.state.email}
-                required
-                />
-                <input
-                type="text"
-                name="administratorType"
-                placeholder="Type of User"
-                onChange={this.updateInput}
-                value={this.state.administratorType}
-                required
-                />
-                <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                onChange={this.updateInput}
-                value={this.state.password}
-                required
-                />
-                <button type="submit">Add User</button>
-            </form>
-            
-            
-                    </p>
-                </Modal.Body> */}
+              
             </div>
         )
     }

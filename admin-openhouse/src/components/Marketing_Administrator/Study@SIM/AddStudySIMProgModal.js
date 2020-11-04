@@ -14,8 +14,8 @@ export default class AddStudySIMProgModal extends React.Component {
 
     this.state = {
       docid: "",
-      handleSaveChanges: "",
-      handleCancelEdit: "",
+      handleAdd: "",
+
       disciplinecheckedItems: [],
       subdisciplinecheckedItems: [],
       entryqualificationcheckedItems: [],
@@ -969,7 +969,7 @@ export default class AddStudySIMProgModal extends React.Component {
 
         <Modal.Footer className="justify-content-center">
           {/* Add Programme Submit Btn*/}
-          <Button type="submit" id="addStudySIMProgFormBtn" onClick={() => this.test()}>Submit</Button>
+          <Button type="submit" id="addStudySIMProgFormBtn" onClick={() => {this.test(); this.props.handleAdd();}}>Submit</Button>
         </Modal.Footer>
       </div>
     );
