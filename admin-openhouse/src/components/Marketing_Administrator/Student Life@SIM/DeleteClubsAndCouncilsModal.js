@@ -12,9 +12,6 @@ class DeleteClubsAndCouncilsModal extends Component {
 
     constructor(props) {
         super(props);
-        console.log(this.props.id)
-        console.log(this.props.categoryType)
-        console.log(this.props.clubsAndCouncilTitle)
         this.state = {
             handleDelete: "",
         }
@@ -22,17 +19,38 @@ class DeleteClubsAndCouncilsModal extends Component {
 
     deleteClubsCouncils() {
         const db = fire.firestore();
-        const storage = fire.storage().ref(`/ClubsAndCouncil/${this.props.categoryType}`).child(this.props.clubsAndCouncilTitle);
 
-        db.collection("ClubsAndCouncils").doc(this.props.id).delete()
-        .then(dataSnapshot => {
-            console.log("Deleted the Club/Council");
-            storage.delete().then(dataSnapshot => {
-                console.log("Deleted Image in Storage");
-                this.props.handleDelete();
-                window.location.reload();
+        var title = this.props.clubsAndCouncilsLogo.split(/\%2..*%2F(.*?)\?alt/)[1].split(".")[0]
+        var res = this.props.clubsAndCouncilsLogo.split("?alt=")[0];
+        var extension = res.substr(res.length - 4);
+
+        if (!extension.includes('.png') && !extension.includes('.jpg') && !extension.includes('.PNG') && !extension.includes('.JPG')) {
+            var fileName = title;
+            const storage = fire.storage().ref(`/ClubsAndCouncil/${this.props.categoryType}`).child(fileName);
+
+            db.collection("ClubsAndCouncils").doc(this.props.id).delete()
+            .then(dataSnapshot => {
+                console.log("Deleted the Club/Council");
+                storage.delete().then(dataSnapshot => {
+                    console.log("Deleted Image in Storage");
+                    this.props.handleDelete();
+                });
             });
-        });
+            
+        } else {
+            var fileName = title + extension;
+            const storage = fire.storage().ref(`/ClubsAndCouncil/${this.props.categoryType}`).child(fileName);
+
+            db.collection("ClubsAndCouncils").doc(this.props.id).delete()
+            .then(dataSnapshot => {
+                console.log("Deleted the Club/Council");
+                storage.delete().then(dataSnapshot => {
+                    console.log("Deleted Image in Storage");
+                    this.props.handleDelete();
+                });
+            });
+            
+        }
     }
 
     render(){

@@ -94,6 +94,7 @@ class InternationalStudentClub extends Component {
             this.setState({
                 addModal: false
             });
+            this.display();
         }
     }
 
@@ -113,6 +114,7 @@ class InternationalStudentClub extends Component {
             this.setState({
                 editModal: false
             });
+            this.display();
         }
     }
 
@@ -127,6 +129,7 @@ class InternationalStudentClub extends Component {
             this.setState({
                 deleteModal: false
             });
+            this.display();
         }
     }
 
@@ -175,7 +178,7 @@ class InternationalStudentClub extends Component {
                                                                     <td className="text-left">{internationalStudent.clubsAndCouncilDescription}</td>
                                                                     <td className="text-left">{internationalStudent.clubsAndCouncilTitle} Logo</td>
                                                                     <td><Button size="sm" id="InternationalStudent-editBtn" onClick={() => this.handleEdit(internationalStudent)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                    <td><Button size="sm" id="InternationalStudent-deleteBtn" onClick={() => [this.setState({id: internationalStudent.id, clubsAndCouncilTitle: internationalStudent.clubsAndCouncilTitle, categoryType: internationalStudent.categoryType}), this.handleDelete()]}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                    <td><Button size="sm" id="InternationalStudent-deleteBtn" onClick={() => [this.setState({id: internationalStudent.id, clubsAndCouncilTitle: internationalStudent.clubsAndCouncilTitle, categoryType: internationalStudent.categoryType, clubsAndCouncilsLogo: internationalStudent.clubsAndCouncilsLogo}), this.handleDelete()]}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
                                                                 </tr>
                                                             </tbody>
                                                         )
@@ -204,7 +207,7 @@ class InternationalStudentClub extends Component {
 
                 {/* Delete Modal */}
                 <Modal show={this.state.deleteModal} onHide={this.handleDelete} size="md" centered keyboard={false}>
-                    <DeleteClubsAndCouncilsModal handleDelete={this.handleDelete} id={this.state.id} categoryType={this.state.categoryType} clubsAndCouncilTitle={this.state.clubsAndCouncilTitle}/>
+                    <DeleteClubsAndCouncilsModal handleDelete={this.handleDelete} id={this.state.id} categoryType={this.state.categoryType} clubsAndCouncilTitle={this.state.clubsAndCouncilTitle} clubsAndCouncilsLogo={this.state.clubsAndCouncilsLogo}/>
                 </Modal>
 
             </div>

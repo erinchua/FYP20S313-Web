@@ -1,398 +1,218 @@
+import { Container, Row, Col, Table, Button, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
+import firebase from "firebase/app";
 
-//import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
+import '../../../css/Marketing_Administrator/SpecialInterestClub.css';
+import '../../../css/Marketing_Administrator/StudentLife.css';
+import NavBar from '../../../components/Navbar';
+import SideNavBar from '../../../components/SideNavbar';
+import Footer from '../../../components/Footer';
+import AddClubsAndCouncilsModal from '../../../components/Marketing_Administrator/Student Life@SIM/AddClubsAndCouncilsModal';
+import EditClubsAndCouncilsModal from '../../../components/Marketing_Administrator/Student Life@SIM/EditClubsAndCouncilsModal';
+import DeleteClubsAndCouncilsModal from '../../../components/Marketing_Administrator/Student Life@SIM/DeleteClubsAndCouncilsModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 class SpecialInterestClub extends Component {
-  constructor() {
-    super();
-    this.state = {
-      categoryType: "",
-      clubsAndCouncilDescription: "",
-      clubsAndCouncilTitle: "",
-      clubsAndCouncilsLogo: "",
-      progress: "",
-    };
-  }
+    constructor() {
+        super();
+        this.state = {
+            id: "",
+            categoryType: "",
+            clubsAndCouncilDescription: "",
+            clubsAndCouncilTitle: "",
+            clubsAndCouncilsLogo: "",
+            counter: "",
+            progress: "",
+            //Below states are for functions
+            specialInterest: "",
+            //Below states are for modals
+            addModal: false,
+            deleteModal: false,
+            editModal: false,
+        };
+    }
 
-  authListener() {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        const db = fire.firestore();
-        var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
-        getrole.get().then((snapshot) => {
-          snapshot.forEach((doc) => {
-            if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
+    authListener() {
+        fire.auth().onAuthStateChanged((user) => {
+            if (user) {
+                const db = fire.firestore();
+                var getrole = db
+                .collection("Administrators")
+                .where("email", "==", user.email);
+                getrole.get().then((snapshot) => {
+                    snapshot.forEach((doc) => {
+                        if (doc.data().administratorType === "Marketing Administrator") {
+                            this.display();
+                        } else {
+                            history.push("/Login");
+                        }
+                    });
+                });
             } else {
-              history.push("/Login");
+                history.push("/Login");
             }
-          });
         });
-      } else {
-        history.push("/Login");
-      }
-    });
-  }
-  updateInput = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+    }
 
-  componentDidMount() {
-    
-    this.authListener();
- 
-  }
+    componentDidMount() {
+        this.authListener();
+    }
 
-  display() {
-    const db = fire.firestore();
-    var counter = 1;
-    const userRef = db
-      .collection("ClubsAndCouncils").where("categoryType", "==", "SpecialInterest")
-      .get()
-      .then((snapshot) => {
-        const specialinterest = [];
-        snapshot.forEach((doc) => {
-          const data = {
-            categoryType: doc.data().categoryType,
-            clubsAndCouncilDescription: doc.data().clubsAndCouncilDescription,
-            clubsAndCouncilTitle: doc.data().clubsAndCouncilTitle,
-            clubsAndCouncilsLogo: doc.data().clubsAndCouncilsLogo,
-            id: doc.id,
-            counter: counter,
-          };
-          counter++;
-          specialinterest.push(data);
+    display() {
+        const db = fire.firestore();
+        var counter = 1;
+        db.collection("ClubsAndCouncils").where("categoryType", "==", "SpecialInterest").get()
+        .then((snapshot) => {
+            const specialInterest = [];
+            snapshot.forEach((doc) => {
+                const data = {
+                    categoryType: doc.data().categoryType,
+                    clubsAndCouncilDescription: doc.data().clubsAndCouncilDescription,
+                    clubsAndCouncilTitle: doc.data().clubsAndCouncilTitle,
+                    clubsAndCouncilsLogo: doc.data().clubsAndCouncilsLogo,
+                    id: doc.id,
+                    counter: counter,
+                };
+                counter++;
+                specialInterest.push(data);
+            });
+
+            this.setState({ specialInterest: specialInterest });
         });
+    }
 
-        this.setState({ specialinterest: specialinterest });
-      });
-  }
-  handleFileUpload = (files) => {
-    this.setState({
-      files: files,
-    });
-  
-  };
-  addSpecialInterest()  {
-  const db = fire.firestore();
-      var lastdoc = db.collection("ClubsAndCouncils").orderBy('id','desc')
-      .limit(1).get().then((snapshot) =>  {
-        snapshot.forEach((doc) => {
-  var docid= "";
-          var res = doc.data().id.substring(5, 10);
-        var id = parseInt(res)
-  if(id.toString().length <= 2){
-  docid= "club-0" + (id +1) 
-  }else{
-    docid="club-0" + (id +1) 
-  }
-  var clubsAndCouncilTitle = document.getElementById("clubsAndCouncilTitle").value;
-var clubsAndCouncilDescription = document.getElementById("clubsAndCouncilDescription").value
+    //Add Modal
+    handleAdd = () => {
+        this.addModal = this.state.addModal;
+        if (this.addModal == false) {
+            this.setState({
+                addModal: true,
+            });
+        } else {
+            this.setState({
+                addModal: false
+            });
+            this.display();
+        }
+    }
 
-const parentthis = this;
-const foldername = "/ClubsAndCouncil/SpecialInterest";
-const file = this.state.files[0];
-const storageRef = fire.storage().ref(foldername);
-const fileRef = storageRef.child(file.name).put(file);
-fileRef.on("state_changed", function (snapshot) {
-  fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-  
+    //Edit Modal
+    handleEdit = (specialInterest) => {
+        this.editModal = this.state.editModal;
+        if (this.editModal == false) {
+            this.setState({
+                editModal: true,
+                id: specialInterest.id,
+                categoryType: specialInterest.categoryType,
+                clubsAndCouncilDescription: specialInterest.clubsAndCouncilDescription,
+                clubsAndCouncilTitle: specialInterest.clubsAndCouncilTitle,
+                clubsAndCouncilsLogo: specialInterest.clubsAndCouncilsLogo,
+            });
+        } else {
+            this.setState({
+                editModal: false
+            });
+            this.display();
+        }
+    }
 
-    const userRef = db
-    .collection("ClubsAndCouncils")
-    .doc(docid)
-    .set({
-        categoryType : "SpecialInterest",
-        clubsAndCouncilTitle: clubsAndCouncilTitle,
-        clubsAndCouncilDescription: clubsAndCouncilDescription,
-        clubsAndCouncilsLogo: downloadURL,
-    })
-    .then(function () {
-      alert("Added");
-      window.location.reload();
-    });
+    //Delete Modal
+    handleDelete = () => {
+        this.deleteModal = this.state.deleteModal;
+        if (this.deleteModal == false) {
+            this.setState({
+                deleteModal: true,
+            });
+        } else {
+            this.setState({
+                deleteModal: false
+            });
+            this.display();
+        }
+    }
 
-  });
-  const progress = Math.round(
-    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-  );
-  if (progress != "100") {
-    parentthis.setState({ progress: progress });
-  } else {
-    parentthis.setState({ progress: "Uploaded!" });
-  }
-});
+    render() {
+        return (
+            <div>
+                <Container fluid className="SpecialInterest-container">
+                    <NavBar isMA={true} />
 
+                        <Container fluid className="SpecialInterest-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                            <Row>
+                                <Col md={2} style={{paddingRight: 0}}>
+                                    <SideNavBar />
+                                </Col>
 
-      })
+                                <Col md={10} style={{paddingLeft: 0}}>
+                                    <Container fluid id="SpecialInterest-topContentContainer">
+                                        <Row id="SpecialInterest-firstRow">
+                                            <Col md={6} className="text-left" id="SpecialInterest-firstRowCol">
+                                                <h4 id="SpecialInterest-title">Special Interest Club</h4>
+                                            </Col>
+                                            <Col md={6} className="text-right" id="SpecialInterest-firstRowCol">
+                                                <Button id="SpecialInterest-addBtn" onClick={this.handleAdd}><FontAwesomeIcon size="lg" icon={faPlus} /><span id="SpecialInterest-addBtnText">Add</span></Button>
+                                            </Col>
+                                        </Row>
 
-  });
+                                        <Row id="SpecialInterest-secondRow">
+                                            <Col md={12} className="text-center" id="SpecialInterest-secondRowCol">
+                                                <Table responsive="sm" bordered id="SpecialInterest-tableContainer">
+                                                    <thead id="SpecialInterest-tableHeader">
+                                                        <tr>
+                                                            <th>S/N</th>
+                                                            <th>Name of Club/Council</th>
+                                                            <th>Description</th>
+                                                            <th>Logo File</th>
+                                                            <th>Edit</th>
+                                                            <th>Delete</th>
+                                                        </tr>
+                                                    </thead>
+                                                    {this.state.specialInterest && this.state.specialInterest.map((specialInterest) => {
+                                                        return (
+                                                            <tbody id="SpecialInterest-tableBody" key={specialInterest.id}>
+                                                                <tr>
+                                                                    <td>{specialInterest.counter}</td>
+                                                                    <td>{specialInterest.clubsAndCouncilTitle}</td>
+                                                                    <td className="text-left">{specialInterest.clubsAndCouncilDescription}</td>
+                                                                    <td className="text-left">{specialInterest.clubsAndCouncilTitle} Logo</td>
+                                                                    <td><Button size="sm" id="SpecialInterest-editBtn" onClick={() => this.handleEdit(specialInterest)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                    <td><Button size="sm" id="SpecialInterest-deleteBtn" onClick={() => [this.setState({id: specialInterest.id, clubsAndCouncilTitle: specialInterest.clubsAndCouncilTitle, categoryType: specialInterest.categoryType, clubsAndCouncilsLogo: specialInterest.clubsAndCouncilsLogo}), this.handleDelete()]}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        )
+                                                    })}
+                                                </Table>
+                                            </Col>
+                                        </Row>
 
-}
+                                    </Container>
+                                </Col>
+                            </Row>    
+                        </Container>                    
 
-  editSpecialInterest(e, specialinterestid) {
-    document.getElementById(specialinterestid + "upload").removeAttribute("hidden");
-    document.getElementById(specialinterestid + "spanspecialinteresttitle").removeAttribute("hidden");
-    document.getElementById(specialinterestid + "spanspecialinterestdesc").removeAttribute("hidden");
-    document.getElementById(specialinterestid + "spanspecialinterestlogo").removeAttribute("hidden");
-    document.getElementById(specialinterestid + "editbutton").setAttribute("hidden", "");
-    document.getElementById(specialinterestid + "updatebutton").removeAttribute("hidden");
-    document.getElementById(specialinterestid + "cancelbutton").removeAttribute("hidden");
-    var texttohide = document.getElementsByClassName(
-        specialinterestid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }  
-}
+                    <Footer />
+                </Container>
 
-  CancelEdit(e, specialinterestid) {
-    document.getElementById(specialinterestid + "upload").setAttribute("hidden", "");
-    document.getElementById(specialinterestid + "spanspecialinteresttitle").setAttribute("hidden", "");
-    document.getElementById(specialinterestid + "spanspecialinterestdesc").setAttribute("hidden", "");
-    document.getElementById(specialinterestid + "spanspecialinterestlogo").setAttribute("hidden", "");
-    document.getElementById(specialinterestid + "editbutton").removeAttribute("hidden");
-    document.getElementById(specialinterestid + "updatebutton").setAttribute("hidden", "");
-    document.getElementById(specialinterestid + "cancelbutton").setAttribute("hidden", "");
-    var texttohide = document.getElementsByClassName(
-        specialinterestid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].removeAttribute("hidden", "");
-      }
-}
+                {/* Add Modal */}
+                <Modal show={this.state.addModal} onHide={this.handleAdd} size="lg" centered keyboard={false}>
+                    <AddClubsAndCouncilsModal handleClose={this.handleAdd}/>
+                </Modal>
 
-DeleteSpecialInterest(e, specialinterestid) {
-    const db = fire.firestore();
-  
-    const userRef = db
-      .collection("ClubsAndCouncils")
-      .doc(specialinterestid)
-      .delete()
-      .then(function () {
-        alert("Deleted");
-        window.location.reload();
-      });
-  }
+                {/* Edit Modal */}
+                <Modal show={this.state.editModal} onHide={this.handleEdit} size="lg" centered keyboard={false}>
+                    <EditClubsAndCouncilsModal handleEdit={this.handleEdit} id={this.state.id} categoryType={this.state.categoryType} clubsAndCouncilTitle={this.state.clubsAndCouncilTitle} clubsAndCouncilDescription={this.state.clubsAndCouncilDescription} clubsAndCouncilsLogo={this.state.clubsAndCouncilsLogo}/>
+                </Modal>
 
-handleSave = (specialinterestid) => {
-  const parentthis = this;
-  const db = fire.firestore();
+                {/* Delete Modal */}
+                <Modal show={this.state.deleteModal} onHide={this.handleDelete} size="md" centered keyboard={false}>
+                    <DeleteClubsAndCouncilsModal handleDelete={this.handleDelete} id={this.state.id} categoryType={this.state.categoryType} clubsAndCouncilTitle={this.state.clubsAndCouncilTitle} clubsAndCouncilsLogo={this.state.clubsAndCouncilsLogo}/>
+                </Modal>
 
-  var clubsAndCouncilTitle = document.getElementById(specialinterestid + "specialinteresttitle").value;
-var clubsAndCouncilDescription = document.getElementById(specialinterestid + "specialinterestdesc").value;
-console.log(this.state.files);
-
-if (this.state.files !== undefined) {
-    const foldername = "/ClubsAndCouncil/SpecialInterest";
-    const storageRef = fire.storage().ref(foldername);
-    const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
-    fileRef.on("state_changed", function (snapshot) {
-      fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-
-        const userRef = db
-        .collection("ClubsAndCouncils")
-        .doc(specialinterestid)
-        .update({
-            clubsAndCouncilTitle: clubsAndCouncilTitle,
-            clubsAndCouncilDescription: clubsAndCouncilDescription,
-            clubsAndCouncilsLogo: downloadURL,
-        })
-        .then(function () {
-          alert("Updated");
-          window.location.reload();
-        });
-
-      });
-      const progress = Math.round(
-        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-      );
-      if (progress != "100") {
-        parentthis.setState({ progress: progress });
-      } else {
-        parentthis.setState({ progress: "Uploaded!" });
-      }
-    });
-    console.log();
-  } else {
-    const userRef = db
-    .collection("ClubsAndCouncils")
-    .doc(specialinterestid)
-    .update({
-        clubsAndCouncilTitle: clubsAndCouncilTitle,
-        clubsAndCouncilDescription: clubsAndCouncilDescription,
-    })
-    .then(function () {
-      alert("Updated");
-      window.location.reload();
-    });
-  }
-};
-
-  render() {
-    return (
-      <div className="home">
-        <div>
-          <table id="users" class="table table-bordered"> 
-            <tbody>
-              <tr>
-                <th scope="col">S/N</th>
-                <th scope="col">Name of Clubs/Councils</th>
-                <th scope="col">Description</th>
-                <th scope="col">Logo File</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
-              </tr>
-              {this.state.specialinterest &&
-                this.state.specialinterest.map((specialinterest) => {
-                  return (
-                    <tr>
-                        <td>{specialinterest.counter}</td>
-                      <td>
-                      <span class={specialinterest.id + "text"}>
-                      {specialinterest.clubsAndCouncilTitle}
-                        </span>
-                          <span id={specialinterest.id + "spanspecialinteresttitle"} hidden>
-                          <input
-                            id={specialinterest.id + "specialinteresttitle"}
-                            defaultValue={specialinterest.clubsAndCouncilTitle}
-                            type="text"
-                            name={specialinterest.id + "specialinteresttitle"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={specialinterest.clubsAndCouncilTitle}
-                            required
-                          />
-                        </span>            
-                      </td>
-                      <td>
-                      <span class={specialinterest.id + "text"}>
-                      {specialinterest.clubsAndCouncilDescription}
-                        </span>
-                          <span id={specialinterest.id + "spanspecialinterestdesc"} hidden>
-                          <input
-                            id={specialinterest.id + "specialinterestdesc"}
-                            defaultValue={specialinterest.clubsAndCouncilDescription}
-                            type="text"
-                            name={specialinterest.id + "specialinterestdesc"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={specialinterest.clubsAndCouncilDescription}
-                            required
-                          />
-                        </span>  
-                      </td>
-                      <td>
-                      <span class={specialinterest.id + "text"}>
-                      {specialinterest.clubsAndCouncilsLogo}
-                        </span>
-                          <span id={specialinterest.id + "spanspecialinterestlogo"} hidden>
-                          <input
-                            id={specialinterest.id + "specialinterestlogo"}
-                            defaultValue={specialinterest.clubsAndCouncilsLogo}
-                            type="text"
-                            name={specialinterest.id + "specialinterestlogo"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={specialinterest.clubsAndCouncilsLogo}
-                            required
-                            disabled={"disabled"}
-                          />
-                        </span>
-                       <span id= {specialinterest.id+ "upload" } hidden ><input
-            type="file"
-            onChange={(e) => {
-              this.handleFileUpload(e.target.files);
-            }}
-          />
-         
-       {this.state.progress}
-       <div>
-         <progress value={this.state.progress} max="100" />
-       </div>
-       </span> 
-                      </td>
-                      <td>
-                        <button
-                          id={specialinterest.id + "editbutton"}
-                          onClick={(e) => {
-                            this.editSpecialInterest(e, specialinterest.id);
-                          }}
-                        >
-                          Edit
-                        </button>
-
-                        <button
-                          id={specialinterest.id + "updatebutton"}
-                          hidden
-                          onClick={(e) => {
-                            this.handleSave(specialinterest.id);
-                          }}
-                        >
-                          Update
-                        </button>
-                        <button
-                          hidden
-                          id={specialinterest.id + "cancelbutton"}
-                          onClick={(e) => {
-                            this.CancelEdit(e, specialinterest.id);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                      <td>
-                        <button
-                          onClick={(e) => {
-                            this.DeleteSpecialInterest(e, specialinterest.id);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-        <form onSubmit={(e) => {this.addSpecialInterest(); e.preventDefault();}}>
-          <input
-            id="clubsAndCouncilTitle"
-            type="text"
-            name="clubsAndCouncilTitle"
-            placeholder="Title"
-            onChange={this.updateInput}
-            value={this.state.clubsAndCouncilTitle}
-            required
-          />
-          <input
-            id="clubsAndCouncilDescription"
-            type="text"
-            name="clubsAndCouncilDescription"
-            placeholder="Description"
-            onChange={this.updateInput}
-            value={this.state.clubsAndCouncilDescription}
-            required
-          />
-          <input
-            type="file"
-
-            onChange={(e) => {
-              this.handleFileUpload(e.target.files); 
-            }
-            
-            }required></input>
-          <button type="submit">Add Special Interest Club</button>
-        </form>
-      </div>
-    );
-  }
+            </div>
+        );
+    }
 }
 export default SpecialInterestClub;

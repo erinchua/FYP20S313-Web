@@ -135,7 +135,6 @@ class AddClubsAndCouncilsModal extends Component {
                     .then(dataSnapshot => {
                         console.log("Added the Club/Council");
                         this.props.handleClose();
-                        window.location.reload();
                     });
                 })
             });
