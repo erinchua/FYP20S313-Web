@@ -1,4 +1,4 @@
-.ArtsCulture-container {
+.SportsFitness-container {
     min-height: 100vh;
     overflow-y: auto;
     flex: 1 0 auto;
@@ -6,55 +6,55 @@
     padding: 0 !important;
 }
 
-.ArtsCulture-content {
+.SportsFitness-content {
     background-color: #ffffff;
     min-height: 84vh;
     padding: 0 !important;
 }
 
-#ArtsCulture-topContentContainer {
+#SportsFitness-topContentContainer {
     background-color: #ffffff;
     min-height: 84vh;
     padding: 0 !important;
 }
 
-#ArtsCulture-firstRow {
+#SportsFitness-firstRow {
     background-color: #88B7B5;
     height: 13vh;
     margin: 0 !important;
 }
 
-#ArtsCulture-firstRowCol {
+#SportsFitness-firstRowCol {
     height: 100%;
     width: 100%;
     padding-top: 2%;
     padding-bottom: 2%;
 }
 
-#ArtsCulture-title {
+#SportsFitness-title {
     color: #424242;
 }
 
-#ArtsCulture-secondRow {
+#SportsFitness-secondRow {
     margin: 0 !important;
 }
 
-#ArtsCulture-secondRowCol {
+#SportsFitness-secondRowCol {
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
 
-#ArtsCulture-tableHeader {
+#SportsFitness-tableHeader {
     color: #424242;
     font-size: 90%;
 }
 
-#ArtsCulture-tableBody {
+#SportsFitness-tableBody {
     color: #434343;
     font-size: 85%;
 }
 
-#ArtsCulture-addBtn {
+#SportsFitness-addBtn {
     background: none;
     border: 1px solid #424242;
     color: #424242;
@@ -62,37 +62,37 @@
     border-radius: 6px;
 }
 
-#ArtsCulture-addBtn:hover {
+#SportsFitness-addBtn:hover {
     background: #424242;
     border-color: #424242;
     color: white;
 }
 
-#ArtsCulture-addBtn:focus {
+#SportsFitness-addBtn:focus {
     box-shadow: none;
 }
 
-#ArtsCulture-addBtnText {
+#SportsFitness-addBtnText {
     margin-left: 10%;
 }
 
-#ArtsCulture-editBtn {
+#SportsFitness-editBtn {
     background: none;
     color: #434343;
     border: none;
 }
 
-#ArtsCulture-editBtn:focus {
+#SportsFitness-editBtn:focus {
     box-shadow: none;
 }
 
-#ArtsCulture-deleteBtn {
+#SportsFitness-deleteBtn {
     background: none;
     border: none;
     color: #434343;
 }
 
-#ArtsCulture-deleteBtn:focus {
+#SportsFitness-deleteBtn:focus {
     box-shadow: none;
 }
 

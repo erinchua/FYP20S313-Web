@@ -244,12 +244,14 @@ class Prizes extends Component {
                     var docid = "";
                     var res = doc.data().id.substring(9, 6);
                     var id = parseInt(res);
-                    if (id.toString().length <= 1) {
-                        docid = "prize-00" + (id + 1);
-                    } else if (id.toString().length <= 2) {
-                        docid = "prize-0" + (id + 1);
+                    id += 1;
+
+                    if (id.toString().length == 1) {
+                        docid = "prize-00" + (id);
+                    } else if (id.toString().length == 2) {
+                        docid = "prize-0" + (id);
                     } else {
-                        docid = "prize-0" + (id + 1);
+                        docid = "prize-" + (id);
                     }
         
                     db.collection("Prizes").doc(docid)

@@ -144,17 +144,18 @@ class GuidedTour extends Component {
                 snapshot.forEach((doc) => {
                     var docid = "";
                     var res = doc.data().id.substring(8, 5);
-                    var id = parseInt(res)
-                    if (id.toString().length <= 1) {
-                        docid = "tour-00" + (id + 1)
-                    } else if(id.toString().length <= 2) {
-                        docid = "tour-0" + (id + 1)
+                    var id = parseInt(res);
+                    id += 1;
+
+                    if (id.toString().length == 1) {
+                        docid = "tour-00" + (id)
+                    } else if(id.toString().length == 2) {
+                        docid = "tour-0" + (id)
                     } else {
-                        docid = "tour-0" + (id + 1)
+                        docid = "tour-" + (id)
                     }
-                    const userRef = db
-                    .collection("GuidedTours")
-                    .doc(docid)
+
+                    db.collection("GuidedTours").doc(docid)
                     .set({
                         id: docid,
                         date: this.state.date,
@@ -203,9 +204,7 @@ class GuidedTour extends Component {
         const isValid = this.validate();
         if (isValid) {
             this.setState(initialStates);
-            const userRef = db
-            .collection("GuidedTours")
-            .doc(guidedTourId)
+            db.collection("GuidedTours").doc(guidedTourId)
             .set({
                 id: guidedTourId,
                 tourName: this.state.tourName,

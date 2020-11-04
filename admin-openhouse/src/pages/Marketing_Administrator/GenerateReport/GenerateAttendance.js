@@ -31,9 +31,10 @@ class GenerateAttendance extends Component {
         const db = fire.firestore();
 
         var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
-          this.state.useremail=user.email;
+        .collection("Administrators")
+        .where("email", "==", user.email);
+        this.state.useremail=user.email;
+
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
@@ -55,47 +56,48 @@ class GenerateAttendance extends Component {
     });
   };
 
-
   componentDidMount=() =>{ 
     this.authListener()
-}
+  }
 
 display() {
   const db = fire.firestore();
   var counter = 1;
   this.state.universityName = "All"
   this.state.programmeName = "All"
+
   //Retrieve Attendance
   const userRef = db
-    .collection("Attendance")
-    .get()
-    .then((snapshot) => {
-      const attendance = [];
-      snapshot.forEach((doc) => {
-        const data = {
-          firstName: doc.data().firstName,
-          lastName: doc.data().lastName,
-          email: doc.data().email,
-          date: doc.data().date,
-          programmeName: doc.data().programmeName,
-          universityName: doc.data().universityName,
-          id: doc.id,
-          counter : counter,
-        };
-        counter++;
+  .collection("Attendance")
+  .get()
+  .then((snapshot) => {
+    const attendance = [];
+    snapshot.forEach((doc) => {
+      const data = {
+        firstName: doc.data().firstName,
+        lastName: doc.data().lastName,
+        email: doc.data().email,
+        date: doc.data().date,
+        programmeName: doc.data().programmeName,
+        universityName: doc.data().universityName,
+        id: doc.id,
+        counter : counter,
+      };
+      counter++;
        
-        attendance.push(data);
-        console.log(data)
-      });
-
-      this.setState({ attendance: attendance });
+      attendance.push(data);
+      console.log(data)
     });
+
+    this.setState({ attendance: attendance });
+  });
 
     // Get All Universities
     function onlyUnique(value, index, self) {
-        return self.indexOf(value) === index;
-      }
-      const university = [];
+      return self.indexOf(value) === index;
+    }
+    
+    const university = [];
     const Universityquery = db
     .collection("Universities")
     .onSnapshot((snapshot) => {     
@@ -104,7 +106,7 @@ display() {
       });
       var uniqueUniversity = university.filter(onlyUnique);
       uniqueUniversity = uniqueUniversity.filter((val) => val !== undefined);
-        uniqueUniversity = uniqueUniversity.filter((val) => val !== "");
+      uniqueUniversity = uniqueUniversity.filter((val) => val !== "");
       this.setState({ university: uniqueUniversity });
     });
 
@@ -123,172 +125,153 @@ display() {
     });
     console.log(university)
     console.log(programmename)
-}
-
-handleUniversityChange = (e) => {
-  
-  this.setState({
-    universityvalue: e.target.value,
-  });
-  this.setState({
-    universityvalue: e.target.value,
-  },() => { this.universityFiltered() })
-
-
-}
-handleProgrammeChange = (e) => {
-  
-  this.setState({
-    programmenamevalue: e.target.value,
-  });
-  this.setState({
-    universityvalue: e.target.value,
-  },() => { this.programmenameFiltered() })
-
-
-}
-
-
-
-universityFiltered(){
-  function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
   }
-const db = fire.firestore();
-var getprogrammename="";
-var counter = 1;
-this.state.universityName = this.state.universityvalue
-//Retrieve Attendance
-const userRef = db
-  .collection("Attendance").where("universityName","==",this.state.universityvalue)
-  .onSnapshot((snapshot) => {
-   
-    const attendance = [];
-    snapshot.forEach((doc) => {
-      getprogrammename = doc.data().programmeName
-      const data = {
-        firstName: doc.data().firstName,
-        lastName: doc.data().lastName,
-        email: doc.data().email,
-        date: doc.data().date,
-        programmeName: doc.data().programmeName,
-        universityName: doc.data().universityName,
-        id: doc.id,
-        counter : counter,
-      };
-      
-      counter++;
-      attendance.push(data);
-      console.log(data)
+
+  handleUniversityChange = (e) => {
+    this.setState({
+      universityvalue: e.target.value,
     });
-
-    this.setState({ 
-      programmeName : getprogrammename,
-      attendance: attendance });
-  })
-  const programmename = [];
-  const programmeNamequery = db
-  .collection("Attendance").where("universityName","==",this.state.universityvalue)
-  .onSnapshot((snapshot) => {     
-    snapshot.forEach((doc) => {
-      programmename.push(doc.data().programmeName);
-    });
-    var uniqueProgName = programmename.filter(onlyUnique);
-    uniqueProgName = uniqueProgName.filter((val) => val !== undefined);
-    uniqueProgName = uniqueProgName.filter((val) => val !== "");
-    this.setState({ programmename: uniqueProgName });
-  });
-
-
-}
-programmenameFiltered(){
-
-  function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
+    this.setState({
+      universityvalue: e.target.value,
+    },() => { this.universityFiltered() })
   }
-const db = fire.firestore();
-var getprogrammename="";
-var getuniversityname =""
-var counter = 1;
-//Retrieve Attendance
 
-const userRef = db
-  .collection("Attendance").where("programmeName","==",this.state.programmenamevalue)
-  .onSnapshot((snapshot) => {
-    
-    const attendance = [];
-    snapshot.forEach((doc) => {
-      getprogrammename = doc.data().programmeName
-      getuniversityname =doc.data().universityName
-      const data = {
-        firstName: doc.data().firstName,
-        lastName: doc.data().lastName,
-        email: doc.data().email,
-        date: doc.data().date,
-        programmeName: doc.data().programmeName,
-        universityName: doc.data().universityName,
-        id: doc.id,
-        counter : counter,
-      };
-    
-      counter++;
-      attendance.push(data);
-      console.log(data)
+  handleProgrammeChange = (e) => {
+    this.setState({
+      programmenamevalue: e.target.value,
     });
+    this.setState({
+      universityvalue: e.target.value,
+    },() => { this.programmenameFiltered() })
+  }
 
-    this.setState({ 
-      universityName : getuniversityname,
-      programmeName : getprogrammename,
-      attendance: attendance });
-  })
+  universityFiltered(){
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    }
 
+    const db = fire.firestore();
+    var getprogrammename="";
+    var counter = 1;
+    this.state.universityName = this.state.universityvalue;
 
-}
+    //Retrieve Attendance
+    const userRef = db
+    .collection("Attendance").where("universityName","==",this.state.universityvalue)
+    .onSnapshot((snapshot) => {
+      const attendance = [];
+      snapshot.forEach((doc) => {
+        getprogrammename = doc.data().programmeName
+        const data = {
+          firstName: doc.data().firstName,
+          lastName: doc.data().lastName,
+          email: doc.data().email,
+          date: doc.data().date,
+          programmeName: doc.data().programmeName,
+          universityName: doc.data().universityName,
+          id: doc.id,
+          counter : counter,
+        };
+        counter++;
+        attendance.push(data);
+        console.log(data)
+      });
+      this.setState({ 
+        programmeName : getprogrammename,
+        attendance: attendance 
+      });
+    })
 
+    const programmename = [];
+    const programmeNamequery = db
+    .collection("Attendance").where("universityName","==",this.state.universityvalue)
+    .onSnapshot((snapshot) => {     
+      snapshot.forEach((doc) => {
+        programmename.push(doc.data().programmeName);
+      });
+      var uniqueProgName = programmename.filter(onlyUnique);
+      uniqueProgName = uniqueProgName.filter((val) => val !== undefined);
+      uniqueProgName = uniqueProgName.filter((val) => val !== "");
+      this.setState({ programmename: uniqueProgName });
+    });
+  }
 
+  programmenameFiltered(){
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    }
 
+    const db = fire.firestore();
+    var getprogrammename="";
+    var getuniversityname =""
+    var counter = 1;
+    //Retrieve Attendance
 
+    const userRef = db
+    .collection("Attendance").where("programmeName","==",this.state.programmenamevalue)
+    .onSnapshot((snapshot) => {
+      const attendance = [];
+      snapshot.forEach((doc) => {
+        getprogrammename = doc.data().programmeName
+        getuniversityname =doc.data().universityName
 
-
+        const data = {
+          firstName: doc.data().firstName,
+          lastName: doc.data().lastName,
+          email: doc.data().email,
+          date: doc.data().date,
+          programmeName: doc.data().programmeName,
+          universityName: doc.data().universityName,
+          id: doc.id,
+          counter : counter,
+        };
+        counter++;
+        attendance.push(data);
+        console.log(data)
+      });
+      this.setState({ 
+        universityName : getuniversityname,
+        programmeName : getprogrammename,
+        attendance: attendance 
+      });
+    })
+  }
 
   generateReport = () => {
     console.log(this.state.attendance)
     var id ="";
-if(this.state.attendance.length > 0){
-id = this.state.attendance[0].id;
-}
+    if(this.state.attendance.length > 0){
+      id = this.state.attendance[0].id;
+    }
     const db = fire.firestore();
     var counter = 0;
     
     const total = db
+    .collection("Attendance").where("id","==",id)
+    .onSnapshot((snapshot) => {
+      counter = snapshot.size
+      this.setState(
+        {
+          totalNumber: counter
+        },
+        () => {
+          console.log(this.state.totalNumber);
+          this.generatePDF();
+        }
+      );
+    });
+    counter++;
+    console.log(counter);
+  }
 
-
-      .collection("Attendance").where("id","==",id)
-      .onSnapshot((snapshot) => {
-        counter = snapshot.size
-       
-        this.setState(
-            {
-                totalNumber: counter
-            },
-            () => {
-              console.log(this.state.totalNumber);
-              this.generatePDF();
-            }
-          );
-        });
-        counter++;
-      console.log(counter);
-
-    }
-generatePDF(){
+  generatePDF(){
     var doc = new jsPDF("landscape");
     var monthNames = [
-        "January", "February", "March",
-        "April", "May", "June", "July",
-        "August", "September", "October",
-        "November", "December"
-      ];
+      "January", "February", "March",
+      "April", "May", "June", "July",
+      "August", "September", "October",
+      "November", "December"
+    ];
 
     var today = new Date();    
     var day = today.getDate();
@@ -406,4 +389,5 @@ generatePDF(){
     );
   }
 }
+
 export default GenerateAttendance;

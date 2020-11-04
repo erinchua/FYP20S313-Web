@@ -85,7 +85,6 @@ class ContactInformation extends Component {
     .onSnapshot((snapshot) => {
       const contact = [];
       snapshot.forEach((doc) => {
-        console.log(doc.data());
         const data = {
           docid: doc.id,
           contactNo: doc.data().contactNo,
@@ -99,7 +98,6 @@ class ContactInformation extends Component {
         };
         contact.push(data);
       });
-      console.log(contact);
       this.setState({ contact: contact });
     });
   }
@@ -130,7 +128,7 @@ class ContactInformation extends Component {
   //   }
   // }
 
-  editContact(e, contactid) {
+  editContact(e) {
     // document.getElementById(contactid + "spannumber").removeAttribute("hidden");
     // document.getElementById(contactid + "spanemail").removeAttribute("hidden");
     // document.getElementById(contactid + "spannooperate").removeAttribute("hidden");
@@ -149,6 +147,7 @@ class ContactInformation extends Component {
     const isValid = this.validate();
     if (isValid) {
       this.setState(initialStates);
+      console.log(this.state.id)
 
       const db = fire.firestore();
       db
@@ -157,9 +156,11 @@ class ContactInformation extends Component {
       .update({
         contactNo: this.state.contactNo,
         email: this.state.email,
-        noOperation: this.state.noOperation,
-        weekday: this.state.weekday,
-        weekend: this.state.weekend,
+        operatingHours: {
+          noOperation: this.state.noOperation,
+          weekday: this.state.weekday,
+          weekend: this.state.weekend,
+        }
       })
       .then(dataSnapshot => {
         this.setState({
@@ -190,19 +191,22 @@ class ContactInformation extends Component {
   /* Edit Contact Information Modal */
   handleEditContactInfoModal = (contactInfo, field) => {
     if (this.state.editContactInfoModal == false) {
+      this.setState({
+        editContactInfoModal: true,
+        id: contactInfo.id,
+        weekday: contactInfo.weekday,
+        weekend: contactInfo.weekend,
+        noOperation: contactInfo.noOperation,
+        contactNo: contactInfo.contactNo,
+        email: contactInfo.email
+      })
+
       if (field === "openingHours") {
         this.setState({
           operatingHoursRow: true,
           contactNoRow: false,
           emailRow: false,
           contactTitle: contactInfo.contactTitle,
-          editContactInfoModal: true,
-          id: contactInfo.id,
-          weekday: contactInfo.weekday,
-          weekend: contactInfo.weekend,
-          noOperation: contactInfo.noOperation,
-          contactNo: contactInfo.contactNo,
-          email: contactInfo.email
         });
       }
       else if (field === "contactNo") {
@@ -210,14 +214,7 @@ class ContactInformation extends Component {
           operatingHoursRow: false,
           contactNoRow: true,
           emailRow: false,
-          contactTitle: contactInfo.contactTitle,
-          editContactInfoModal: true,
-          id: contactInfo.id,
-          weekday: contactInfo.weekday,
-          weekend: contactInfo.weekend,
-          noOperation: contactInfo.noOperation,
-          contactNo: contactInfo.contactNo,
-          email: contactInfo.email
+          contactTitle: contactInfo.contactTitle
         });
       }
       else if (field === "email") {
@@ -225,14 +222,7 @@ class ContactInformation extends Component {
           operatingHoursRow: false,
           contactNoRow: false,
           emailRow: true,
-          contactTitle: contactInfo.contactTitle,
-          editContactInfoModal: true,
-          id: contactInfo.id,
-          weekday: contactInfo.weekday,
-          weekend: contactInfo.weekend,
-          noOperation: contactInfo.noOperation,
-          contactNo: contactInfo.contactNo,
-          email: contactInfo.email
+          contactTitle: contactInfo.contactTitle
         });
       }
     }
@@ -252,7 +242,7 @@ class ContactInformation extends Component {
     let contactNoError = "";
     let emailError = "";
 
-    const validContactRegex = RegExp(/^\+[1-9]{1}[0-9]{1,14}$/);
+    const validContactRegex = RegExp(/^(6|8|9)\d{7}$/);
     const validEmailRegex = RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
     if (!this.state.weekday) {
@@ -268,13 +258,12 @@ class ContactInformation extends Component {
     }
 
     if (!(this.state.contactNo && validContactRegex.test(this.state.contactNo)) ) {
-      contactNoError = "Please enter a valid contact no. in this format: e.g. +65-61234567!";
+      contactNoError = "Please enter a valid contact no. in this format: e.g. 61234567!";
     }
 
     if (!(this.state.email && validEmailRegex.test(this.state.email)) ) {
       emailError = "Please enter a valid email!";
     }
-
 
     if (weekdayError || weekendError || noOperationError || contactNoError || emailError) {
       this.setState({
@@ -657,14 +646,14 @@ class ContactInformation extends Component {
           </Modal.Header>
 
           <Modal.Body id="editContactInfoModalBody">
-            <Form noValidate onClick={() => {this.editContact()}}>
+            <Form noValidate onSubmit={() => {this.editContact()}}>
               {/* Operating Hours */}
               {this.state.operatingHoursRow ?
                 <>
                   <Form.Row className="justify-content-center editContactInfoFormRow">
                     <Col md="10">
                       <Form.Label className="editContactInfoFormLabel">Weekday</Form.Label>
-                      <FormControl defaultValue={this.state.weekday} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Weekday" />
+                      <FormControl name="weekday" defaultValue={this.state.weekday} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Weekday" />
                       
                       <div className="errorMessage text-left">{this.state.weekdayError}</div>
                     </Col>
@@ -673,7 +662,7 @@ class ContactInformation extends Component {
                   <Form.Row className="justify-content-center editContactInfoFormRow">
                     <Col md="10">
                       <Form.Label className="editContactInfoFormLabel">Weekend</Form.Label>
-                      <FormControl defaultValue={this.state.weekend} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Weekend" />
+                      <FormControl name="weekend" defaultValue={this.state.weekend} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Weekend" />
                     
                       <div className="errorMessage text-left">{this.state.weekendError}</div>
                     </Col>
@@ -682,7 +671,7 @@ class ContactInformation extends Component {
                   <Form.Row className="justify-content-center editContactInfoFormRow">
                     <Col md="10">
                       <Form.Label className="editContactInfoFormLabel">Closed on</Form.Label>
-                      <FormControl defaultValue={this.state.noOperation} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Closed on" />
+                      <FormControl name="noOperation" defaultValue={this.state.noOperation} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Closed on" />
                     
                       <div className="errorMessage text-left">{this.state.noOperationError}</div>
                     </Col>
@@ -697,7 +686,7 @@ class ContactInformation extends Component {
                   <Form.Row className="justify-content-center editContactInfoFormRow">
                     <Col md="10">
                       <Form.Label className="editContactInfoFormLabel">Tel No.</Form.Label>
-                      <FormControl defaultValue={this.state.contactNo} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Tel No." />
+                      <FormControl name="contactNo" defaultValue={this.state.contactNo} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Tel No." />
                     
                       <div className="errorMessage text-left">{this.state.contactNoError}</div>
                     </Col>
@@ -712,7 +701,7 @@ class ContactInformation extends Component {
                   <Form.Row className="justify-content-center editContactInfoFormRow">
                     <Col md="10">
                       <Form.Label className="editContactInfoFormLabel">Email</Form.Label>
-                      <FormControl defaultValue={this.state.email} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Email" />
+                      <FormControl name="email" defaultValue={this.state.email} onChange={this.updateInput} required noValidate className="editContactInfoForm_InputField" placeholder="Email" />
                     
                       <div className="errorMessage text-left">{this.state.emailError}</div>
                     </Col>

@@ -1,398 +1,217 @@
+import { Container, Row, Col, Table, Button, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
+import firebase from "firebase/app";
 
-//import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
+import '../../../css/Marketing_Administrator/StudentCouncil.css';
+import '../../../css/Marketing_Administrator/StudentLife.css';
+import NavBar from '../../../components/Navbar';
+import SideNavBar from '../../../components/SideNavbar';
+import Footer from '../../../components/Footer';
+import AddClubsAndCouncilsModal from '../../../components/Marketing_Administrator/Student Life@SIM/AddClubsAndCouncilsModal';
+import EditClubsAndCouncilsModal from '../../../components/Marketing_Administrator/Student Life@SIM/EditClubsAndCouncilsModal';
+import DeleteClubsAndCouncilsModal from '../../../components/Marketing_Administrator/Student Life@SIM/DeleteClubsAndCouncilsModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 class StudentCouncil extends Component {
-  constructor() {
-    super();
-    this.state = {
-      categoryType: "",
-      clubsAndCouncilDescription: "",
-      clubsAndCouncilTitle: "",
-      clubsAndCouncilsLogo: "",
-      progress: "",
-    };
-  }
+    constructor() {
+        super();
+        this.state = {
+            id: "",
+            categoryType: "",
+            clubsAndCouncilDescription: "",
+            clubsAndCouncilTitle: "",
+            clubsAndCouncilsLogo: "",
+            counter: "",
+            progress: "",
+            //Below states are for functions
+            studentCouncil: "",
+            //Below states are for modals
+            addModal: false,
+            deleteModal: false,
+            editModal: false,
+        };
+    }
 
-  authListener() {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        const db = fire.firestore();
-        var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
-        getrole.get().then((snapshot) => {
-          snapshot.forEach((doc) => {
-            if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
+    authListener() {
+        fire.auth().onAuthStateChanged((user) => {
+            if (user) {
+                const db = fire.firestore();
+                var getrole = db
+                .collection("Administrators")
+                .where("email", "==", user.email);
+                getrole.get().then((snapshot) => {
+                    snapshot.forEach((doc) => {
+                        if (doc.data().administratorType === "Marketing Administrator") {
+                            this.display();
+                        } else {
+                            history.push("/Login");
+                        }
+                    });
+                });
             } else {
-              history.push("/Login");
+                history.push("/Login");
             }
-          });
         });
-      } else {
-        history.push("/Login");
-      }
-    });
-  }
-  updateInput = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+    }
 
-  componentDidMount() {
-    
-    this.authListener();
- 
-  }
+    componentDidMount() {
+        this.authListener();
+    }
 
-  display() {
-    const db = fire.firestore();
-    var counter = 1;
-    const userRef = db
-      .collection("ClubsAndCouncils").where("categoryType", "==", "StudentCouncil")
-      .get()
-      .then((snapshot) => {
-        const studentcouncil = [];
-        snapshot.forEach((doc) => {
-          const data = {
-            categoryType: doc.data().categoryType,
-            clubsAndCouncilDescription: doc.data().clubsAndCouncilDescription,
-            clubsAndCouncilTitle: doc.data().clubsAndCouncilTitle,
-            clubsAndCouncilsLogo: doc.data().clubsAndCouncilsLogo,
-            id: doc.id,
-            counter: counter,
-          };
-          counter++;
-          studentcouncil.push(data);
+    display() {
+        const db = fire.firestore();
+        var counter = 1;
+        db.collection("ClubsAndCouncils").where("categoryType", "==", "StudentCouncil").get()
+        .then((snapshot) => {
+            const studCouncil = [];
+            snapshot.forEach((doc) => {
+                const data = {
+                    categoryType: doc.data().categoryType,
+                    clubsAndCouncilDescription: doc.data().clubsAndCouncilDescription,
+                    clubsAndCouncilTitle: doc.data().clubsAndCouncilTitle,
+                    clubsAndCouncilsLogo: doc.data().clubsAndCouncilsLogo,
+                    id: doc.id,
+                    counter: counter,
+                };
+                counter++;
+                studCouncil.push(data);
+            });
+            this.setState({ studentCouncil: studCouncil });
         });
+    }
 
-        this.setState({ studentcouncil: studentcouncil });
-      });
-  }
-  handleFileUpload = (files) => {
-    this.setState({
-      files: files,
-    });
-  
-  };
-  addStudentCouncil()  {
-  const db = fire.firestore();
-      var lastdoc = db.collection("ClubsAndCouncils").orderBy('id','desc')
-      .limit(1).get().then((snapshot) =>  {
-        snapshot.forEach((doc) => {
-  var docid= "";
-          var res = doc.data().id.substring(5, 10);
-        var id = parseInt(res)
-  if(id.toString().length <= 2){
-  docid= "club-0" + (id +1) 
-  }else{
-    docid="club-0" + (id +1) 
-  }
-  var clubsAndCouncilTitle = document.getElementById("clubsAndCouncilTitle").value;
-var clubsAndCouncilDescription = document.getElementById("clubsAndCouncilDescription").value
+    //Add Modal
+    handleAdd = () => {
+        this.addModal = this.state.addModal;
+        if (this.addModal == false) {
+            this.setState({
+                addModal: true,
+            });
+        } else {
+            this.setState({
+                addModal: false
+            });
+            this.display();
+        }
+    }
 
-const parentthis = this;
-const foldername = "/ClubsAndCouncil/StudentCouncil";
-const file = this.state.files[0];
-const storageRef = fire.storage().ref(foldername);
-const fileRef = storageRef.child(file.name).put(file);
-fileRef.on("state_changed", function (snapshot) {
-  fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-  
+    //Edit Modal
+    handleEdit = (studentCouncil) => {
+        this.editModal = this.state.editModal;
+        if (this.editModal == false) {
+            this.setState({
+                editModal: true,
+                id: studentCouncil.id,
+                categoryType: studentCouncil.categoryType,
+                clubsAndCouncilDescription: studentCouncil.clubsAndCouncilDescription,
+                clubsAndCouncilTitle: studentCouncil.clubsAndCouncilTitle,
+                clubsAndCouncilsLogo: studentCouncil.clubsAndCouncilsLogo,
+            });
+        } else {
+            this.setState({
+                editModal: false
+            });
+            this.display();
+        }
+    }
 
-    const userRef = db
-    .collection("ClubsAndCouncils")
-    .doc(docid)
-    .set({
-        categoryType : "StudentCouncil",
-        clubsAndCouncilTitle: clubsAndCouncilTitle,
-        clubsAndCouncilDescription: clubsAndCouncilDescription,
-        clubsAndCouncilsLogo: downloadURL,
-    })
-    .then(function () {
-      alert("Added");
-      window.location.reload();
-    });
+    //Delete Modal
+    handleDelete = () => {
+        this.deleteModal = this.state.deleteModal;
+        if (this.deleteModal == false) {
+            this.setState({
+                deleteModal: true,
+            });
+        } else {
+            this.setState({
+                deleteModal: false
+            });
+            this.display();
+        }
+    }
 
-  });
-  const progress = Math.round(
-    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-  );
-  if (progress != "100") {
-    parentthis.setState({ progress: progress });
-  } else {
-    parentthis.setState({ progress: "Uploaded!" });
-  }
-});
+    render() {
+        return (
+            <div>
+                <Container fluid className="StudentCouncil-container">
+                    <NavBar isMA={true} />
 
+                        <Container fluid className="StudentCouncil-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                            <Row>
+                                <Col md={2} style={{paddingRight: 0}}>
+                                    <SideNavBar />
+                                </Col>
 
-      })
+                                <Col md={10} style={{paddingLeft: 0}}>
+                                    <Container fluid id="StudentCouncil-topContentContainer">
+                                        <Row id="StudentCouncil-firstRow">
+                                            <Col md={6} className="text-left" id="StudentCouncil-firstRowCol">
+                                                <h4 id="StudentCouncil-title">Student Councils</h4>
+                                            </Col>
+                                            <Col md={6} className="text-right" id="StudentCouncil-firstRowCol">
+                                                <Button id="StudentCouncil-addBtn" onClick={this.handleAdd}><FontAwesomeIcon size="lg" icon={faPlus} /><span id="StudentCouncil-addBtnText">Add</span></Button>
+                                            </Col>
+                                        </Row>
 
-  });
+                                        <Row id="StudentCouncil-secondRow">
+                                            <Col md={12} className="text-center" id="StudentCouncil-secondRowCol">
+                                                <Table responsive="sm" bordered id="StudentCouncil-tableContainer">
+                                                    <thead id="StudentCouncil-tableHeader">
+                                                        <tr>
+                                                            <th>S/N</th>
+                                                            <th>Name of Club/Council</th>
+                                                            <th>Description</th>
+                                                            <th>Logo File</th>
+                                                            <th>Edit</th>
+                                                            <th>Delete</th>
+                                                        </tr>
+                                                    </thead>
+                                                    {this.state.studentCouncil && this.state.studentCouncil.map((studentCouncil) => {
+                                                        return (
+                                                            <tbody id="StudentCouncil-tableBody" key={studentCouncil.id}>
+                                                                <tr>
+                                                                    <td>{studentCouncil.counter}</td>
+                                                                    <td>{studentCouncil.clubsAndCouncilTitle}</td>
+                                                                    <td className="text-left">{studentCouncil.clubsAndCouncilDescription}</td>
+                                                                    <td className="text-left">{studentCouncil.clubsAndCouncilTitle} Logo</td>
+                                                                    <td><Button size="sm" id="StudentCouncil-editBtn" onClick={() => this.handleEdit(studentCouncil)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                    <td><Button size="sm" id="StudentCouncil-deleteBtn" onClick={() => [this.setState({id: studentCouncil.id, clubsAndCouncilTitle: studentCouncil.clubsAndCouncilTitle, categoryType: studentCouncil.categoryType, clubsAndCouncilsLogo: studentCouncil.clubsAndCouncilsLogo}), this.handleDelete()]}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        )
+                                                    })}
+                                                </Table>
+                                            </Col>
+                                        </Row>
 
-}
+                                    </Container>
+                                </Col>
+                            </Row>    
+                        </Container>                    
 
-  editStudentCouncil(e, studentcouncilid) {
-    document.getElementById(studentcouncilid + "upload").removeAttribute("hidden");
-    document.getElementById(studentcouncilid + "spanstudcounciltitle").removeAttribute("hidden");
-    document.getElementById(studentcouncilid + "spanstudcouncildesc").removeAttribute("hidden");
-    document.getElementById(studentcouncilid + "spanstudcouncillogo").removeAttribute("hidden");
-    document.getElementById(studentcouncilid + "editbutton").setAttribute("hidden", "");
-    document.getElementById(studentcouncilid + "updatebutton").removeAttribute("hidden");
-    document.getElementById(studentcouncilid + "cancelbutton").removeAttribute("hidden");
-    var texttohide = document.getElementsByClassName(
-        studentcouncilid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }  
-}
+                    <Footer />
+                </Container>
 
-  CancelEdit(e, studentcouncilid) {
-    document.getElementById(studentcouncilid + "upload").setAttribute("hidden", "");
-    document.getElementById(studentcouncilid + "spanstudcounciltitle").setAttribute("hidden", "");
-    document.getElementById(studentcouncilid + "spanstudcouncildesc").setAttribute("hidden", "");
-    document.getElementById(studentcouncilid + "spanstudcouncillogo").setAttribute("hidden", "");
-    document.getElementById(studentcouncilid + "editbutton").removeAttribute("hidden");
-    document.getElementById(studentcouncilid + "updatebutton").setAttribute("hidden", "");
-    document.getElementById(studentcouncilid + "cancelbutton").setAttribute("hidden", "");
-    var texttohide = document.getElementsByClassName(
-        studentcouncilid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].removeAttribute("hidden", "");
-      }
-}
+                {/* Add Modal */}
+                <Modal show={this.state.addModal} onHide={this.handleAdd} size="lg" centered keyboard={false}>
+                    <AddClubsAndCouncilsModal handleClose={this.handleAdd}/>
+                </Modal>
 
-DeleteStudentCouncil(e, studentcouncilid) {
-    const db = fire.firestore();
-  
-    const userRef = db
-      .collection("ClubsAndCouncils")
-      .doc(studentcouncilid)
-      .delete()
-      .then(function () {
-        alert("Deleted");
-        window.location.reload();
-      });
-  }
+                {/* Edit Modal */}
+                <Modal show={this.state.editModal} onHide={this.handleEdit} size="lg" centered keyboard={false}>
+                    <EditClubsAndCouncilsModal handleEdit={this.handleEdit} id={this.state.id} categoryType={this.state.categoryType} clubsAndCouncilTitle={this.state.clubsAndCouncilTitle} clubsAndCouncilDescription={this.state.clubsAndCouncilDescription} clubsAndCouncilsLogo={this.state.clubsAndCouncilsLogo}/>
+                </Modal>
 
-handleSave = (studentcouncilid) => {
-  const parentthis = this;
-  const db = fire.firestore();
+                {/* Delete Modal */}
+                <Modal show={this.state.deleteModal} onHide={this.handleDelete} size="md" centered keyboard={false}>
+                    <DeleteClubsAndCouncilsModal handleDelete={this.handleDelete} id={this.state.id} categoryType={this.state.categoryType} clubsAndCouncilTitle={this.state.clubsAndCouncilTitle} clubsAndCouncilsLogo={this.state.clubsAndCouncilsLogo}/>
+                </Modal>
 
-  var clubsAndCouncilTitle = document.getElementById(studentcouncilid + "studcounciltitle").value;
-var clubsAndCouncilDescription = document.getElementById(studentcouncilid + "studcouncildesc").value;
-console.log(this.state.files);
-
-if (this.state.files !== undefined) {
-    const foldername = "/ClubsAndCouncil/StudentCouncil";
-    const storageRef = fire.storage().ref(foldername);
-    const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
-    fileRef.on("state_changed", function (snapshot) {
-      fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-
-        const userRef = db
-        .collection("ClubsAndCouncils")
-        .doc(studentcouncilid)
-        .update({
-            clubsAndCouncilTitle: clubsAndCouncilTitle,
-            clubsAndCouncilDescription: clubsAndCouncilDescription,
-            clubsAndCouncilsLogo: downloadURL,
-        })
-        .then(function () {
-          alert("Updated");
-          window.location.reload();
-        });
-
-      });
-      const progress = Math.round(
-        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-      );
-      if (progress != "100") {
-        parentthis.setState({ progress: progress });
-      } else {
-        parentthis.setState({ progress: "Uploaded!" });
-      }
-    });
-    console.log();
-  } else {
-    const userRef = db
-    .collection("ClubsAndCouncils")
-    .doc(studentcouncilid)
-    .update({
-        clubsAndCouncilTitle: clubsAndCouncilTitle,
-        clubsAndCouncilDescription: clubsAndCouncilDescription,
-    })
-    .then(function () {
-      alert("Updated");
-      window.location.reload();
-    });
-  }
-};
-
-  render() {
-    return (
-      <div className="home">
-        <div>
-          <table id="users" class="table table-bordered"> 
-            <tbody>
-              <tr>
-                <th scope="col">S/N</th>
-                <th scope="col">Name of Clubs/Councils</th>
-                <th scope="col">Description</th>
-                <th scope="col">Logo File</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
-              </tr>
-              {this.state.studentcouncil &&
-                this.state.studentcouncil.map((studentcouncil) => {
-                  return (
-                    <tr>
-                        <td>{studentcouncil.counter}</td>
-                      <td>
-                      <span class={studentcouncil.id + "text"}>
-                      {studentcouncil.clubsAndCouncilTitle}
-                        </span>
-                          <span id={studentcouncil.id + "spanstudcounciltitle"} hidden>
-                          <input
-                            id={studentcouncil.id + "studcounciltitle"}
-                            defaultValue={studentcouncil.clubsAndCouncilTitle}
-                            type="text"
-                            name={studentcouncil.id + "studcounciltitle"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={studentcouncil.clubsAndCouncilTitle}
-                            required
-                          />
-                        </span>            
-                      </td>
-                      <td>
-                      <span class={studentcouncil.id + "text"}>
-                      {studentcouncil.clubsAndCouncilDescription}
-                        </span>
-                          <span id={studentcouncil.id + "spanstudcouncildesc"} hidden>
-                          <input
-                            id={studentcouncil.id + "studcouncildesc"}
-                            defaultValue={studentcouncil.clubsAndCouncilDescription}
-                            type="text"
-                            name={studentcouncil.id + "studcouncildesc"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={studentcouncil.clubsAndCouncilDescription}
-                            required
-                          />
-                        </span>  
-                      </td>
-                      <td>
-                      <span class={studentcouncil.id + "text"}>
-                      {studentcouncil.clubsAndCouncilsLogo}
-                        </span>
-                          <span id={studentcouncil.id + "spanstudcouncillogo"} hidden>
-                          <input
-                            id={studentcouncil.id + "studcouncillogo"}
-                            defaultValue={studentcouncil.clubsAndCouncilsLogo}
-                            type="text"
-                            name={studentcouncil.id + "studcouncillogo"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={studentcouncil.clubsAndCouncilsLogo}
-                            required
-                            disabled={"disabled"}
-                          />
-                        </span>
-                       <span id= {studentcouncil.id+ "upload" } hidden ><input
-            type="file"
-            onChange={(e) => {
-              this.handleFileUpload(e.target.files);
-            }}
-          />
-         
-       {this.state.progress}
-       <div>
-         <progress value={this.state.progress} max="100" />
-       </div>
-       </span> 
-                      </td>
-                      <td>
-                        <button
-                          id={studentcouncil.id + "editbutton"}
-                          onClick={(e) => {
-                            this.editStudentCouncil(e, studentcouncil.id);
-                          }}
-                        >
-                          Edit
-                        </button>
-
-                        <button
-                          id={studentcouncil.id + "updatebutton"}
-                          hidden
-                          onClick={(e) => {
-                            this.handleSave(studentcouncil.id);
-                          }}
-                        >
-                          Update
-                        </button>
-                        <button
-                          hidden
-                          id={studentcouncil.id + "cancelbutton"}
-                          onClick={(e) => {
-                            this.CancelEdit(e, studentcouncil.id);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                      <td>
-                        <button
-                          onClick={(e) => {
-                            this.DeleteStudentCouncil(e, studentcouncil.id);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-        <form onSubmit={(e) => {this.addStudentCouncil(); e.preventDefault();}}>
-          <input
-            id="clubsAndCouncilTitle"
-            type="text"
-            name="clubsAndCouncilTitle"
-            placeholder="Title"
-            onChange={this.updateInput}
-            value={this.state.clubsAndCouncilTitle}
-            required
-          />
-          <input
-            id="clubsAndCouncilDescription"
-            type="text"
-            name="clubsAndCouncilDescription"
-            placeholder="Description"
-            onChange={this.updateInput}
-            value={this.state.clubsAndCouncilDescription}
-            required
-          />
-          <input
-            type="file"
-
-            onChange={(e) => {
-              this.handleFileUpload(e.target.files); 
-            }
-            
-            }required></input>
-          <button type="submit">Add Student Councils</button>
-        </form>
-      </div>
-    );
-  }
+            </div>
+        );
+    }
 }
 export default StudentCouncil;
