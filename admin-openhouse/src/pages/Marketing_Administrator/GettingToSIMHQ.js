@@ -78,6 +78,29 @@ class GettingToSIMHQ extends Component {
             editOppSimArray: "",
             editSimArray: "",
             busNo: "",
+            busLocation: "",
+            SIMHQbusNo1:"",
+            SIMHQbusNo2:"",
+            SIMHQbusNo3:"",
+            SIMHQbusNo4:"",
+            SIMHQbusNo5:"",
+            SIMHQbusNo6:"",
+            SIMHQbusNo7:"",
+            SIMHQbusNo8:"",
+            SIMHQbusNo9:"",
+            busDescription:"",
+           
+            OppSIMHQbusNo1:"",
+            OppSIMHQbusNo2:"",
+            OppSIMHQbusNo3:"",
+            OppSIMHQbusNo4:"",
+            OppSIMHQbusNo5:"",
+            OppSIMHQbusNo6:"",
+            OppSIMHQbusNo7:"",
+            OppSIMHQbusNo8:"",
+            OppSIMHQbusNo9:"",
+            OppSIMHQbusNo10:"",
+            OppbusDescription:"",
             //Below states are for MRT 
             mrtId: "",
             downTownDescription: "",
@@ -88,6 +111,14 @@ class GettingToSIMHQ extends Component {
             editDownTownArray: "",
             editEastWestArray: "",
             nearestMRT: "",
+            mrtLine: "",
+            DowntownmrtDescription: "",
+            EastwestmrtDescription: "",
+            Downtownstation1: "",
+            Downtownstation2: "",
+            Downtownstation3: "",
+            Eastweststation1: "",
+            Eastweststation2: "",
             //Below states are for Car Park Info
             carParkId: "",
             carParkingDescription: "",
@@ -129,6 +160,27 @@ class GettingToSIMHQ extends Component {
         this.setState({
             [e.target.name]: e.target.value,
         });
+        if(e.target.title === "SIMHQbusNo"){
+            this.setState({
+                busLocation: "SIMHQbusNo"                
+            })
+        }
+        else if (e.target.title === "OppSIMHQbusNo"){
+            this.setState({
+                busLocation: "OppSIMHQbusNo"                
+            }) 
+        }
+
+        if(e.target.title === "Downtown"){
+            this.setState({
+                mrtLine: "Downtown"                
+            })
+        }
+        else if (e.target.title === "Eastwest"){
+            this.setState({
+                mrtLine: "Eastwest"                
+            }) 
+        }
         console.log(e.target.name)
         console.log(e.target.value)
         console.dir(e.target.title)
@@ -154,12 +206,30 @@ class GettingToSIMHQ extends Component {
                     const oppSim = doc.data().oppSimHq.buses;
                     for (var i = 0; i < Object.keys(oppSim).length; i++) {
                         oppSimHq.push(oppSim[Object.keys(oppSim)[i]]);
+                        
                     }
 
                     const sim = doc.data().simHq.buses;
                     for (var i = 0; i < Object.keys(sim).length; i++) {
                         simHq.push(sim[Object.keys(sim)[i]]);
+                        //this.state.SIMHQbusNo2
+                        
                     }
+
+                    // set each SIMHQbus to state
+                    for (var i = 0; i <simHq.length; i++) {
+                        var statename = "SIMHQbusNo"+(i+1);
+                         this.state[statename] =  simHq.sort(sortFunction)[i]
+                        }
+                        
+                        // set each OppSIMHQbus to state
+                        for (var i = 0; i <oppSimHq.length; i++) {
+                            var statename = "OppSIMHQbusNo"+(i+1);
+                        
+                               this.state[statename] =  oppSimHq.sort(sortFunction)[i]
+                            
+                        }
+            
 
                     const data = {
                         busId: doc.id,
@@ -175,6 +245,8 @@ class GettingToSIMHQ extends Component {
                         editOppSimArray: oppSimHq,
                         editSimArray: simHq,
                     }));
+                    this.state.SIMHQbusDescription  = doc.data().simHq.description;
+                    this.state.OppSIMHQbusDescription  = doc.data().oppSimHq.description;
                 }
 
                 //Car and Car Park Info
@@ -216,6 +288,22 @@ class GettingToSIMHQ extends Component {
                         eastWestLine.push(eastWest[Object.keys(eastWest)[i]]);
                     }
 
+                    // set each downtownmrt to state
+                    console.log(downTownLine.length)
+                    for (var i = 0; i <downTownLine.length; i++) {
+                        var statename = "Downtownstation"+(i+1);
+                        console.log(statename)
+                        this.state[statename] =  downTownLine.sort(sortAlphabet)[i]
+                        }
+                        
+                        // set each eastwestmrt to state
+                        for (var i = 0; i <eastWestLine.length; i++) {
+                            var statename = "Eastweststation"+(i+1);
+                        
+                            this.state[statename] =  eastWestLine.sort(sortAlphabet)[i]
+                            
+                        }
+
                     const data = {
                         mrtId: doc.id,
                         downTownDescription: doc.data().downtownLine.description,
@@ -230,8 +318,10 @@ class GettingToSIMHQ extends Component {
                         editDownTownArray: downTownLine,
                         editEastWestArray: eastWestLine,
                     }));
+                    this.state.DowntownmrtDescription  = doc.data().downtownLine.description;
+                    this.state.EastwestmrtDescription  = doc.data().eastwestLine.description;
                 }
-
+                
                 //Map Image File
                 if (doc.id === "map") {
                     const maparray = [];
@@ -240,7 +330,9 @@ class GettingToSIMHQ extends Component {
                         url: doc.data().url,
                     };
                     maparray.push(data);
-                    this.setState({ mapArray: maparray });
+                    this.setState({ 
+                        mapurl : doc.data().url,
+                        mapArray: maparray });
                 }
 
             });
@@ -264,21 +356,23 @@ class GettingToSIMHQ extends Component {
     };
 
     busupdate = (e, locationid) => {
-       /* if (title == "SIMHQbusNo") {
+        var title = this.state.busLocation
+        
+      if (title == "SIMHQbusNo") {
             const db = fire.firestore();
             const userRef = db.collection("CampusLocation").doc("bus")
             .update({
-                description: this.state.busDescription,
-                bus1: this.state.SIMHQbusNo1,
-                bus2: this.state.SIMHQbusNo2,
-                bus3: this.state.SIMHQbusNo3,
-                bus4: this.state.SIMHQbusNo4,
-                bus5: this.state.SIMHQbusNo5,
-                bus6: this.state.SIMHQbusNo6,
-                bus7: this.state.SIMHQbusNo7,
-                bus8: this.state.SIMHQbusNo8,
-                bus9: this.state.SIMHQbusNo9,
-                bus10: this.state.SIMHQbusNo10,
+                "simHq.description": this.state.SIMHQbusDescription,
+                "simHq.buses.bus1": this.state.SIMHQbusNo1,
+                "simHq.buses.bus2": this.state.SIMHQbusNo2,
+                "simHq.buses.bus3": this.state.SIMHQbusNo3,
+                "simHq.buses.bus4": this.state.SIMHQbusNo4,
+                "simHq.buses.bus5": this.state.SIMHQbusNo5,
+                "simHq.buses.bus6": this.state.SIMHQbusNo6,
+                "simHq.buses.bus7": this.state.SIMHQbusNo7,
+                "simHq.buses.bus8": this.state.SIMHQbusNo8,
+                "simHq.buses.bus9": this.state.SIMHQbusNo9,
+                "simHq.buses.bus10": this.state.SIMHQbusNo10,
             })
             .then(dataSnapshot => {
                 console.log("Updated Bus Info");
@@ -291,16 +385,16 @@ class GettingToSIMHQ extends Component {
             const db = fire.firestore();
             const userRef = db.collection("CampusLocation").doc("bus")
             .update({
-                description: this.state.busDescription,
-                bus1: this.state.SIMHQbusNo1,
-                bus2: this.state.SIMHQbusNo2,
-                bus3: this.state.SIMHQbusNo3,
-                bus4: this.state.SIMHQbusNo4,
-                bus5: this.state.SIMHQbusNo5,
-                bus6: this.state.SIMHQbusNo6,
-                bus7: this.state.SIMHQbusNo7,
-                bus8: this.state.SIMHQbusNo8,
-                bus1: this.state.SIMHQbusNo9,
+                "oppSimHq.description": this.state.OppSIMHQbusDescription,
+                "oppSimHq.buses.bus1": this.state.OppSIMHQbusNo1,
+                "oppSimHq.buses.bus2": this.state.OppSIMHQbusNo2,
+                "oppSimHq.buses.bus3": this.state.OppSIMHQbusNo3,
+                "oppSimHq.buses.bus4": this.state.OppSIMHQbusNo4,
+                "oppSimHq.buses.bus5": this.state.OppSIMHQbusNo5,
+                "oppSimHq.buses.bus6": this.state.OppSIMHQbusNo6,
+                "oppSimHq.buses.bus7": this.state.OppSIMHQbusNo7,
+                "oppSimHq.buses.bus8": this.state.OppSIMHQbusNo8,
+                "oppSimHq.buses.bus9": this.state.OppSIMHQbusNo9,
             })
             .then(dataSnapshot => {
                 console.log("Updated Bus Info");
@@ -309,30 +403,44 @@ class GettingToSIMHQ extends Component {
                 });
                 this.display();
             });
-        }*/
+        }
     };
 
     mrtupdate = (e, locationid) => {
-        var value = document.getElementById(locationid + "nearmrt").value;
-        if (value !== "") {
-            value = document.getElementById(locationid + "nearmrt").value;
-            var dbfield = "mrt." + locationid;
-            const db = fire.firestore();
-
-            const userRef = db.collection("CampusLocation").doc("mrt")
-            .update({
-                [dbfield]: value,
-            })
-            .then(dataSnapshot => {
-                console.log("Updated MRT Info");
-                this.setState({
-                    mrtEditModal: false
+            var title = this.state.mrtLine
+                    
+            if (title == "Downtown") {
+                const db = fire.firestore();
+                const userRef = db.collection("CampusLocation").doc("mrt")
+                .update({
+                    "downtownLine.description": this.state.DowntownmrtDescription,
+                    "downtownLine.stations.station1": this.state.Downtownstation1,
+                    "downtownLine.stations.station2": this.state.Downtownstation2,
+                    "downtownLine.stations.station3": this.state.Downtownstation3,
+                })
+                .then(dataSnapshot => {
+                    console.log("Updated MRT Info");
+                    this.setState({
+                        mrtEditModal: false
+                    });
+                    this.display();
                 });
-                this.display();
-            });
-        } else {
-            console.log("Fields cannot be empty ");
-        }
+            } else if(title == "Eastwest") {
+                const db = fire.firestore();
+                const userRef = db.collection("CampusLocation").doc("mrt")
+                .update({
+                    "eastwestLine.description": this.state.EastwestmrtDescription,
+                    "eastwestLine.stations.station1": this.state.Eastweststation1,
+                    "eastwestLine.stations.station2": this.state.Eastweststation2,
+                })
+                .then(dataSnapshot => {
+                    console.log("Updated MRT Info");
+                    this.setState({
+                        mrtEditModal: false
+                    });
+                    this.display();
+                });
+            }
     };
 
     carparkupdate = (e, locationid) => {
@@ -357,6 +465,11 @@ class GettingToSIMHQ extends Component {
     };
 
     handleSave = (mapImage) => {
+        // Create a reference to the file to delete
+        var desertRef = fire.storage().refFromURL(this.state.mapurl)
+
+        // Delete the file
+        desertRef.delete();
         const parentthis = this;
         const db = fire.firestore();
 
@@ -840,12 +953,13 @@ class GettingToSIMHQ extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faLocationArrow}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GettingToSimHq-inputFields" type="text" name="busDescription" placeholder="Location" required defaultValue={this.state.simBusDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <Form.Control id="GettingToSimHq-inputFields" type="text" name="SIMHQbusDescription" placeholder="Location" required defaultValue={this.state.simBusDescription} onChange={this.updateInput} noValidate></Form.Control>
                                                             <div className="errorMessage"></div>
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
                                                 {this.state.editSimArray && this.state.editSimArray.map((bus, index) => {
+                                                    this.state.busLocation = "SIMHQbusNo"
                                                     return (
                                                         <Form.Group>
                                                             <Form.Group as={Row} className="GettingToSimHq-formGroup">
@@ -871,12 +985,14 @@ class GettingToSIMHQ extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faLocationArrow}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GettingToSimHq-inputFields" type="text" name="busDescription" placeholder="Location" required defaultValue={this.state.oppSimBusDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <Form.Control id="GettingToSimHq-inputFields" type="text" name="OppSIMHQbusDescription" placeholder="Location" required defaultValue={this.state.oppSimBusDescription} onChange={this.updateInput} noValidate></Form.Control>
                                                             <div className="errorMessage"></div>
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
                                                 {this.state.editOppSimArray && this.state.editOppSimArray.map((bus, index) => {
+                                                    
+                                                    
                                                     return (
                                                         <Form.Group>
                                                             <Form.Group as={Row} className="GettingToSimHq-formGroup">
@@ -930,12 +1046,13 @@ class GettingToSIMHQ extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faLocationArrow}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GettingToSimHq-inputFields" type="text" name="mrtDescription" placeholder="MRT Line" required defaultValue={this.state.downTownDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <Form.Control id="GettingToSimHq-inputFields" type="text" name="DowntownmrtDescription" placeholder="MRT Line" required defaultValue={this.state.downTownDescription} onChange={this.updateInput} noValidate></Form.Control>
                                                             <div className="errorMessage"></div>
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
                                                 {this.state.editDownTownArray && this.state.editDownTownArray.map((mrt, index) => {
+                                                    this.state.mrtLine = "Downtown"
                                                     return (
                                                         <Form.Group>
                                                         <Form.Group as={Row} className="GettingToSimHq-formGroup">
@@ -943,7 +1060,7 @@ class GettingToSIMHQ extends Component {
                                                                 <FontAwesomeIcon size="lg" icon={faTrain}/>
                                                             </Form.Group> 
                                                             <Form.Group as={Col} md="7">
-                                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="mrtStation" placeholder="MRT Station Names" required defaultValue={this.state.editDownTownArray[index]} onChange={this.updateInput} noValidate></Form.Control>
+                                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" title="Downtown" name={"Downtownstation" + (index+1)} placeholder="MRT Station Names" required defaultValue={this.state.editDownTownArray[index]} onChange={this.updateInput} noValidate></Form.Control>
                                                                 <div className="errorMessage"></div>
                                                             </Form.Group>
                                                         </Form.Group>                     
@@ -961,12 +1078,13 @@ class GettingToSIMHQ extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faLocationArrow}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="GettingToSimHq-inputFields" type="text" name="mrtDescription" placeholder="MRT Line" required defaultValue={this.state.eastWestDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <Form.Control id="GettingToSimHq-inputFields" type="text" name="EastwestmrtDescription" placeholder="MRT Line" required defaultValue={this.state.eastWestDescription} onChange={this.updateInput} noValidate></Form.Control>
                                                             <div className="errorMessage"></div>
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
                                                 {this.state.editEastWestArray && this.state.editEastWestArray.map((mrt, index) => {
+                                                    this.state.mrtLine = "Eastwest"
                                                     return (
                                                         <Form.Group>
                                                         <Form.Group as={Row} className="GettingToSimHq-formGroup">
@@ -974,7 +1092,7 @@ class GettingToSIMHQ extends Component {
                                                                 <FontAwesomeIcon size="lg" icon={faTrain}/>
                                                             </Form.Group> 
                                                             <Form.Group as={Col} md="7">
-                                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" name="mrtStation" placeholder="MRT Station Names" required defaultValue={this.state.editEastWestArray[index]} onChange={this.updateInput} noValidate></Form.Control>
+                                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" title="Eastwest" name={"Eastweststation" + (index+1)} placeholder="MRT Station Names" required defaultValue={this.state.editEastWestArray[index]} onChange={this.updateInput} noValidate></Form.Control>
                                                                 <div className="errorMessage"></div>
                                                             </Form.Group>
                                                         </Form.Group>                     
@@ -990,7 +1108,7 @@ class GettingToSIMHQ extends Component {
                                 <Container>
                                     <Row id="GettingToSimHq-editFooter">
                                         <Col md={6} className="GettingToSimHq-editCol">
-                                            <Button id="GettingToSimHq-saveBtn" type="submit">Save Changes</Button>
+                                            <Button id="GettingToSimHq-saveBtn" type="submit" onClick={this.mrtupdate}>Save Changes</Button>
                                         </Col>
                                         <Col md={6} className="GettingToSimHq-editCol">
                                             <Button id="GettingToSimHq-cancelBtn" onClick={this.handleMrtEditModal}>Cancel</Button>
