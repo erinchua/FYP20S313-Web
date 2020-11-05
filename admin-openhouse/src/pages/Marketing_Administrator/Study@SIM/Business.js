@@ -212,7 +212,8 @@ class StudySIM_Business extends Component {
                               <tr>
                                 <td className="studySIMProgData_SNo text-center">{index}</td>
                                 <td className="studySIMProgData_ProgName text-left">
-                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => 
+                                    {
                                       this.setState({
                                         programmeName: business.programmeName,
                                         aboutprogramme1: business.aboutprogramme.aboutProgramme1,

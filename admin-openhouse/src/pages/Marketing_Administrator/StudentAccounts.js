@@ -39,8 +39,8 @@ class StudentAccounts extends Component {
         const db = fire.firestore();
 
         var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
+        .collection("Administrators")
+        .where("email", "==", user.email);
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
@@ -70,7 +70,127 @@ class StudentAccounts extends Component {
     const db = fire.firestore();
     var counter = 1;
     db
+    .collection("Students")
+    .get()
+    .then((snapshot) => {
+      const users = [];
+      snapshot.forEach((doc) => {
+        const data = {
+          firstName: doc.data().firstName,
+          lastName: doc.data().lastName,
+          email: doc.data().email,
+          contactNo: doc.data().contactNo,
+          dob: doc.data().dob,
+          highestQualification: doc.data().highestQualification,
+          nationality: doc.data().nationality,
+          isSuspendedFromForum: doc.data().isSuspendedFromForum,
+          id: doc.id,
+          counter : counter,
+        };
+        counter++;
+        users.push(data);
+      });
+
+      this.setState({ users: users });
+    });
+  }
+
+  Unsuspend(e, studentdocid) {
+    const db = fire.firestore();
+
+    db
+    .collection("Students")
+    .doc(studentdocid)
+    .update({
+      isSuspendedFromForum: false,
+    })
+    .then(dataSnapshot => {
+      this.setState({
+        suspendStudAcctModal: false
+      })
+      this.display()
+    }); 
+
+    db
+    .collection("Forum")
+    .doc(studentdocid)
+    .update({
+      suspended: false,
+    })
+    .then(dataSnapshot => {
+      this.setState({
+        suspendStudAcctModal: false
+      })
+      this.display()
+    }); 
+  }
+
+  Suspend(e, studentdocid) {
+    const db = fire.firestore();
+
+    db
+    .collection("Students")
+    .doc(studentdocid)
+    .update({
+      isSuspendedFromForum: true,
+    })
+    .then(dataSnapshot => {
+      this.setState({
+        suspendStudAcctModal: false
+      })
+      this.display()
+    }); 
+
+    db
+    .collection("Forum")
+    .doc(studentdocid)
+    .update({
+      suspended: true,
+    })
+    .then(dataSnapshot => {
+      this.setState({
+        suspendStudAcctModal: false,
+      })
+      this.display()
+    }); 
+  }
+
+  Search = (e) => {
+    const db = fire.firestore();
+
+    var counter = 1;
+    var searchvalue = document.getElementById("MAStudentAcctSearchBar").value;
+
+    if (searchvalue == "" || searchvalue == null) {
+      const userRef = db
       .collection("Students")
+      .get()
+      .then((snapshot) => {
+        const users = [];
+        snapshot.forEach((doc) => {
+          const data = {
+            firstName: doc.data().firstName,
+            lastName: doc.data().lastName,
+            email: doc.data().email,
+            contactNo: doc.data().contactNo,
+            dob: doc.data().dob,
+            highestQualification: doc.data().highestQualification,
+            nationality: doc.data().nationality,
+            isSuspendedFromForum: doc.data().isSuspendedFromForum,
+            id: doc.id,
+            counter : counter,
+          };
+          users.push(data);
+          counter ++;
+        });
+        this.setState({ users: users });
+      });
+    } else {
+      const userRef = db
+      .collection("Students")
+      .orderBy("email")
+      .startAt(searchvalue)
+      .endAt(searchvalue + "\uf8ff")
       .get()
       .then((snapshot) => {
         const users = [];
@@ -93,121 +213,8 @@ class StudentAccounts extends Component {
 
         this.setState({ users: users });
       });
-  }
-
-  Unsuspend(e, studentdocid) {
-    const db = fire.firestore();
-
-    db
-      .collection("Students")
-      .doc(studentdocid)
-      .update({
-        isSuspendedFromForum: false,
-      })
-      .then(function () {
-        window.location.reload();
-      });
-
-      db
-      .collection("Forum")
-      .doc(studentdocid)
-      .update({
-        suspended: false,
-      })
-      .then(function () {
-        // alert("Updated");
-        window.location.reload();
-      });
-  }
-
-  Suspend(e, studentdocid) {
-    const db = fire.firestore();
-
-    db
-      .collection("Students")
-      .doc(studentdocid)
-      .update({
-        isSuspendedFromForum: true,
-      })
-      .then(function () {
-        window.location.reload();
-      });
-
-    db
-      .collection("Forum")
-      .doc(studentdocid)
-      .update({
-        suspended: true,
-      })
-      .then(function () {
-        // alert("Updated");
-        window.location.reload();
-      });
-  }
-
-  Search = (e) => {
-    //console.log(e.target.value);
-    const db = fire.firestore();
-    //const searchvalue = e.target.value;
-    var counter = 1;
-    var searchvalue = document.getElementById("MAStudentAcctSearchBar").value;
-
-    if (searchvalue == "" || searchvalue == null) {
-      const userRef = db
-        .collection("Students")
-        .get()
-        .then((snapshot) => {
-          const users = [];
-          snapshot.forEach((doc) => {
-            const data = {
-              firstName: doc.data().firstName,
-              lastName: doc.data().lastName,
-              email: doc.data().email,
-              contactNo: doc.data().contactNo,
-              dob: doc.data().dob,
-              highestQualification: doc.data().highestQualification,
-              nationality: doc.data().nationality,
-              isSuspendedFromForum: doc.data().isSuspendedFromForum,
-              id: doc.id,
-              counter : counter,
-            };
-            users.push(data);
-            counter ++;
-          });
-
-          this.setState({ users: users });
-        });
-    } else {
-      const userRef = db
-        .collection("Students")
-        .orderBy("email")
-        .startAt(searchvalue)
-        .endAt(searchvalue + "\uf8ff")
-        .get()
-        .then((snapshot) => {
-          const users = [];
-          snapshot.forEach((doc) => {
-            const data = {
-              firstName: doc.data().firstName,
-              lastName: doc.data().lastName,
-              email: doc.data().email,
-              contactNo: doc.data().contactNo,
-              dob: doc.data().dob,
-              highestQualification: doc.data().highestQualification,
-              nationality: doc.data().nationality,
-              isSuspendedFromForum: doc.data().isSuspendedFromForum,
-              id: doc.id,
-              counter : counter,
-            };
-            counter++;
-            users.push(data);
-          });
-
-          this.setState({ users: users });
-        });
     }
   };
-
 
   /* Suspend Student Account Modal */
   handleSuspendStudAcctModal = () => {
@@ -225,9 +232,9 @@ class StudentAccounts extends Component {
 
   /* Handle Suspend Modals */
   retrieveuserdata_suspend(id, isSuspendedFromForum){
-      this.state.id = id
-      this.state.isSuspendedFromForum = isSuspendedFromForum
-      this.handleSuspendStudAcctModal();
+    this.state.id = id
+    this.state.isSuspendedFromForum = isSuspendedFromForum
+    this.handleSuspendStudAcctModal();
   }
 
 
@@ -371,7 +378,6 @@ class StudentAccounts extends Component {
                 </Row>
               </Modal.Body> 
             </>
-
             : 
             <>
               <Modal.Header closeButton className="justify-content-center">
@@ -412,4 +418,5 @@ class StudentAccounts extends Component {
     );
   }
 }
+
 export default StudentAccounts;
