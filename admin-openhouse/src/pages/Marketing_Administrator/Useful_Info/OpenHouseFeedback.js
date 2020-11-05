@@ -141,31 +141,9 @@ class OpenHouseFeedback extends Component {
           <Footer />
         </Container>
 
-
-
-        {/* <div>
-          <table id="users" class="table table-bordered"> 
-            <tbody>
-              <tr>
-                <th scope="col">Attended Open House Date</th>
-                <th scope="col">Nature of Feedback</th>
-                <th scope="col">Feedback/Comments</th>
-              </tr>
-              {this.state.feedback &&
-                this.state.feedback.map((feedback) => {
-                  return (
-                    <tr>
-                        <td>{feedback.attendedDate}</td>
-                        <td>{feedback.natureOfFeedback}</td>
-                        <td>{feedback.feedbackDescription}</td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div> */}
       </div>
     );
   }
 }
+
 export default OpenHouseFeedback;

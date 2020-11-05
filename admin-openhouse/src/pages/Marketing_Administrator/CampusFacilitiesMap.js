@@ -651,4 +651,5 @@ class CampusFacilitiesMap extends Component {
     );
   }
 }
+
 export default CampusFacilitiesMap;
