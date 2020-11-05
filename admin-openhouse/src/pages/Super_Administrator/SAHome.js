@@ -183,7 +183,7 @@ class SAHome extends Component {
       // const decryptPassword = bcrypt.compareSync(this.state.password, passwordHash);
       // console.log("Decrypted: " + decryptPassword)
       
-      firecreate
+      fire
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((useraction) => {

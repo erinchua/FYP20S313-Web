@@ -7,9 +7,9 @@ import history from "../../../config/history";
 import "../../../css/Marketing_Administrator/ViewStudySIMProgDetailsModal.css";
 
 export default class ViewStudySIMProgDetailsModal extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(this.props);
+  constructor() {
+    super();
+    //console.log(this.props);
   }
 
 
