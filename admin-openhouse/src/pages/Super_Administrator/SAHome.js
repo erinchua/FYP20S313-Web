@@ -16,11 +16,45 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
 
+const bcrypt = require('bcryptjs')
+
 const initialStates = {
   nameError: "",
   emailError: "",
   userTypeError: "",
 }
+
+  /* Generate Random Password */
+  function randomGenPassword(passwordLength) {
+    var numberChars = "0123456789";
+    var upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var lowerChars = "abcdefghijklmnopqrstuvwxyz";
+    var specialChars = "!@#$%^&*~()?,<>./{}[]|-_`'\":;";
+    var allChars = numberChars + upperChars + lowerChars + specialChars;
+
+    var randPasswordArray = Array(passwordLength);
+    randPasswordArray[0] = numberChars;
+    randPasswordArray[1] = upperChars;
+    randPasswordArray[2] = lowerChars;
+    randPasswordArray[3] = specialChars;
+
+    randPasswordArray = randPasswordArray.fill(allChars, 4);
+    return shuffleArray(randPasswordArray.map(function(x) { 
+      return x[Math.floor(Math.random() * x.length)] 
+    })).join('');
+    
+  }
+
+  function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    return array;
+  }
+
 
 class SAHome extends Component {
   state = initialStates;
@@ -32,7 +66,7 @@ class SAHome extends Component {
       administratorType: "",
       email: "",
       fullname: "",
-      password: "Qwerty123!",
+      password: "",
       id: "",
 
       filteredAdminType: [],
@@ -49,8 +83,8 @@ class SAHome extends Component {
         const db = fire.firestore();
         var a  = this;
         var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
+        .collection("Administrators")
+        .where("email", "==", user.email);
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Super Administrator") {
@@ -133,19 +167,23 @@ class SAHome extends Component {
     history.push("/Login");
   }
 
-  /* Random Password Generator */
-  randomGenPassword = () => {
-
-  }
-
   addUser = (e) => {
     e.preventDefault();
 
     const isValid = this.validate();
     if (isValid) {
       this.setState(initialStates);
-      console.log("Added admin")
 
+      this.state.password = randomGenPassword(10);
+      console.log("Plain Pwd: " + this.state.password)
+
+      /* Hash Password */
+      const passwordHash = bcrypt.hashSync(this.state.password, 10);
+  
+      /* Decrypt Password Hash */
+      // const decryptPassword = bcrypt.compareSync(this.state.password, passwordHash);
+      // console.log("Decrypted: " + decryptPassword)
+      
       firecreate
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -158,11 +196,11 @@ class SAHome extends Component {
           administratorType: this.state.administratorType,
           email: this.state.email,
           name: this.state.fullname,
-          password: this.state.password,
+          password: passwordHash,
         })
         .then(dataSnapshot => {
-          this.display();
           this.setState({addUserModal: false}); 
+          this.display();
         });
       });
     }
