@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import fire from "../../config/firebase";
 import history from "../../config/history";
-import firecreate from "../../config/firebasecreate";
-import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal, Alert } from 'react-bootstrap';
 
 import "../../css/Super_Administrator/SAHome.css";
 import "../../css/Super_Administrator/SAHomeModals.css";
@@ -184,7 +183,7 @@ class SAHome extends Component {
       // const decryptPassword = bcrypt.compareSync(this.state.password, passwordHash);
       // console.log("Decrypted: " + decryptPassword)
       
-      firecreate
+      fire
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((useraction) => {

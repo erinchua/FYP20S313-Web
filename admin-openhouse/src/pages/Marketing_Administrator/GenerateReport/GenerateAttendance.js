@@ -1,7 +1,6 @@
 import React, { Component, useReducer } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
-import firecreate from "../../../config/firebasecreate";
 import { Container, Row, Col, Button, Table, Form } from "react-bootstrap";
 
 import "../../../css/Marketing_Administrator/GenerateAttendance.css";

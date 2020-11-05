@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import fire from "../../config/firebase";
 import history from "../../config/history";
-import firecreate from "../../config/firebasecreate";
 import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
 
 import "../../css/Marketing_Administrator/StudentAccounts.css";
