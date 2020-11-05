@@ -245,7 +245,7 @@ class SAHome extends Component {
     if (searchvalue == "" || searchvalue == null) {
       
       const userRef = db
-      .collection("Administrators").where("administratorType", "==", "Marketing Administrator")
+      .collection("Administrators").where("administratorType", "!=", "Super Administrator")
       .get()
       .then((snapshot) => {
         const users = [];
@@ -266,7 +266,7 @@ class SAHome extends Component {
       });
     } else {
       const userRef = db
-      .collection("Administrators").where("administratorType", "==", "Marketing Administrator") 
+      .collection("Administrators").where("administratorType", "==", "Marketing Administrator") // Need to change to show crew also
       .orderBy("email")
       .startAt(searchvalue)
       .endAt(searchvalue + "\uf8ff")
