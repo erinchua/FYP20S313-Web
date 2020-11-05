@@ -47,7 +47,7 @@ import {
         if (user) {
           const db = fire.firestore();
            var getrole = db
-            .collection("Crews")
+            .collection("Administrators")
             .where("email", "==", user.email)
             .onSnapshot((snapshot) => {
               console.log(snapshot.size);

@@ -4,16 +4,60 @@ import history from "../../config/history";
 import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal, Alert } from 'react-bootstrap';
 
 import "../../css/Super_Administrator/SAHome.css";
+import "../../css/Super_Administrator/SAHomeModals.css";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { faTrashAlt, faAddressCard, faEnvelope, faUserCircle  } from '@fortawesome/free-regular-svg-icons';
 import DeleteAdmin from "../../img/Super_Administrator/deleteAdmin.png";
 
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import AddUserModal from "../../components/Super_Administrator/AddUserModal";
+
+
+const bcrypt = require('bcryptjs')
+
+const initialStates = {
+  nameError: "",
+  emailError: "",
+  userTypeError: "",
+}
+
+  /* Generate Random Password */
+  function randomGenPassword(passwordLength) {
+    var numberChars = "0123456789";
+    var upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var lowerChars = "abcdefghijklmnopqrstuvwxyz";
+    var specialChars = "!@#$%^&*~()?,<>./{}[]|-_`'\":;";
+    var allChars = numberChars + upperChars + lowerChars + specialChars;
+
+    var randPasswordArray = Array(passwordLength);
+    randPasswordArray[0] = numberChars;
+    randPasswordArray[1] = upperChars;
+    randPasswordArray[2] = lowerChars;
+    randPasswordArray[3] = specialChars;
+
+    randPasswordArray = randPasswordArray.fill(allChars, 4);
+    return shuffleArray(randPasswordArray.map(function(x) { 
+      return x[Math.floor(Math.random() * x.length)] 
+    })).join('');
+    
+  }
+
+  function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    return array;
+  }
+
 
 class SAHome extends Component {
+  state = initialStates;
+
   constructor() {
     super();
     this.logout = this.logout.bind(this);
@@ -23,10 +67,13 @@ class SAHome extends Component {
       fullname: "",
       password: "",
       id: "",
+
+      filteredAdminType: [],
+
       addUserModal: false,
       deleteAdminModal: false,
     };
-    this.handleAddUserModal = this.handleAddUserModal.bind(this);
+    this.resetForm = this.resetForm.bind(this);
   }
 
   authListener() {
@@ -35,8 +82,8 @@ class SAHome extends Component {
         const db = fire.firestore();
         var a  = this;
         var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
+        .collection("Administrators")
+        .where("email", "==", user.email);
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Super Administrator") {
@@ -81,12 +128,18 @@ class SAHome extends Component {
 
   display() {
     const db = fire.firestore();
+
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    }
+
     var counter = 1;
     const userRef = db
-    .collection("Administrators").where("administratorType", "==", "Marketing Administrator")
+    .collection("Administrators").where("administratorType", "!=", "Super Administrator")
     .get()
     .then((snapshot) => {
       const users = [];
+      const adminType = [];
       snapshot.forEach((doc) => {
         const data = {
           administratorType: doc.data().administratorType,
@@ -98,9 +151,13 @@ class SAHome extends Component {
         };
         counter++;
         users.push(data);
+        adminType.push(doc.data().administratorType);
       });
+      this.setState({ adminType: adminType });
+      var filteredAdminType = adminType.filter(onlyUnique);
 
       this.setState({ users: users });
+      this.setState({ filteredAdminType: filteredAdminType });
     });
   }
   
@@ -109,6 +166,44 @@ class SAHome extends Component {
     history.push("/Login");
   }
 
+  addUser = (e) => {
+    e.preventDefault();
+
+    const isValid = this.validate();
+    if (isValid) {
+      this.setState(initialStates);
+
+      this.state.password = randomGenPassword(10);
+      console.log("Plain Pwd: " + this.state.password)
+
+      /* Hash Password */
+      const passwordHash = bcrypt.hashSync(this.state.password, 10);
+  
+      /* Decrypt Password Hash */
+      // const decryptPassword = bcrypt.compareSync(this.state.password, passwordHash);
+      // console.log("Decrypted: " + decryptPassword)
+      
+      firecreate
+      .auth()
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then((useraction) => {
+        const db = fire.firestore();
+
+        const userRef = db
+        .collection("Administrators")
+        .add({
+          administratorType: this.state.administratorType,
+          email: this.state.email,
+          name: this.state.fullname,
+          password: passwordHash,
+        })
+        .then(dataSnapshot => {
+          this.setState({addUserModal: false}); 
+          this.display();
+        });
+      });
+    }
+  };
 
   /* Add User Modal */
   handleAddUserModal = () => {
@@ -121,6 +216,7 @@ class SAHome extends Component {
       this.setState({ 
         addUserModal: false 
       });
+      this.resetForm();
     }
   };
 
@@ -192,10 +288,52 @@ class SAHome extends Component {
       });
     }
   }
+
+  //Validations for the Forms in Modals
+  validate = () => {
+    let nameError = "";
+    let emailError = "";
+    let userTypeError = "";
+
+    const validEmailRegex = RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+
+    if ( !(this.state.fullname && this.state.fullname.length >= 4) ) {
+      nameError = "Please enter a valid name!";
+    } 
+    
+    if ( !(this.state.email && validEmailRegex.test(this.state.email)) ) {
+      emailError = "Please enter a valid email!";
+    }
+
+    if (!this.state.administratorType) {
+      userTypeError = "Please select a valid user type!";
+    }
+
+    if (nameError || emailError || userTypeError) {
+      this.setState({
+        nameError, emailError, userTypeError
+      });
+      return false;
+    } 
+    return true;
+  }
+
+  //Reset Forms
+  resetForm = () => {
+    this.setState({
+      nameError: "",
+      emailError: "",
+      userTypeError: "",
+      id: "", 
+      fullname: "", 
+      email: "", 
+      startTime: "", 
+      userType: ""
+    })
+  }
   
 
   render() {
-    if(this.state.Login)
 
     return (
       <div>
@@ -205,7 +343,7 @@ class SAHome extends Component {
             <Container fluid className="SAHomeContent">
               <Row id="SAHomeSearchBarRow" className="justify-content-center">
                 <Col md="3" className="SAHomeSearchBarCol text-center">
-                  <Button id="addUserBtn" onClick={this.handleAddUserModal.bind(this)}>Add User</Button>
+                  <Button id="addUserBtn" onClick={this.handleAddUserModal}>Add User</Button>
                 </Col>
                 
                 <Col md="6" className="SAHomeSearchBarCol">
@@ -272,69 +410,137 @@ class SAHome extends Component {
             <Footer />      
         </Container>
 
-        {this.state.addUserModal == true ?
-          <Modal
-           show={this.state.addUserModal}
-           onHide={this.handleAddUserModal}
-           aria-labelledby="addUserModalTitle"
-           size="lg"
-           centered
-           backdrop="static"
-           keyboard={false}
-          >
-            <AddUserModal />
-          </Modal>
-          :''
-        }
 
-        {this.state.deleteAdminModal == true && 
-          <Modal 
-            show={this.state.deleteAdminModal}
-            onHide={this.handleDeleteAdminModal}
-            aria-labelledby="deleteAdminModalTitle"
-            size="md"
-            centered
-            backdrop="static"
-            keyboard={false}
-          >
-            <Modal.Header closeButton className="justify-content-center">
-              <Modal.Title id="deleteAdminModalTitle">
-                Remove Administrator
-              </Modal.Title>
-            </Modal.Header>
+        {/* Add User Modal */}
+        <Modal
+          show={this.state.addUserModal}
+          onHide={this.handleAddUserModal}
+          aria-labelledby="addUserModalTitle"
+          size="lg"
+          centered
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton className="justify-content-center">
+            <Modal.Title id="addUserModalTitle" className="w-100">
+              Add Staff
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body id="addUserModalBody">
+            <Form noValidate>
+              {/* Admin Name */}
+              <Form.Row className="justify-content-center addAdminFormRow">
+                <Col md="3"></Col>
+                
+                <Col md="1" className="addAdminFormCol text-right">
+                  <FontAwesomeIcon size="lg" className="addAdminFormIcon" icon={faAddressCard} />
+                </Col>
+
+                <Col md="5">
+                  <Form.Control name="fullname" type="text" placeholder="Full Name*" className="addAdminFormText" required onChange={this.updateInput} noValidate />
+                  <div className="errorMessage text-left">{this.state.nameError}</div>
+                </Col>
+
+                <Col md="3"></Col>
+              </Form.Row>
+
+              {/* Admin Email */}
+              <Form.Row className="justify-content-center addAdminFormRow">
+                <Col md="3"></Col>
+                
+                <Col md="1" className="addAdminFormCol text-right">
+                  <FontAwesomeIcon size="lg" className="addAdminFormIcon" icon={faEnvelope} />
+                </Col>
+
+                <Col md="5">
+                  <Form.Control name="email" type="email" placeholder="Email*" className="addAdminFormText" required onChange={this.updateInput} noValidate />
+                  <div className="errorMessage text-left">{this.state.emailError}</div>
+                </Col>
+
+                <Col md="3"></Col>
+              </Form.Row>
+
+              {/* Admin User Type */}
+              <Form.Row className="justify-content-center addAdminFormRow">
+                <Col md="3"></Col>
+                
+                <Col md="1" className="addAdminFormCol text-right">
+                  <FontAwesomeIcon size="lg" className="addAdminFormIcon" icon={faUserCircle} />
+                </Col>
+
+                <Col md="5">
+                  <Form.Control as="select" name="administratorType" defaultValue="" className="addAdminFormText" id="addAdminFormSelect" required onChange={this.updateInput} noValidate>
+                    <option value="" className="addAdminFormSelectOption">Choose User Type</option>
+
+                    {this.state.filteredAdminType && this.state.filteredAdminType.map((userType) => {
+                      return (
+                        <>
+                          <option value={userType} className="addAdminFormSelectOption">{userType}</option>
+                        </>
+                      );
+                    })}
+                  </Form.Control>
+
+                  <div className="errorMessage text-left">{this.state.userTypeError}</div>
+                </Col>
+
+                <Col md="3"></Col>
+              </Form.Row>
+
+              <Form.Row className="justify-content-center addAdminFormBtnRow">
+                <Col className="text-center">
+                  <Button type="submit" id="addAdminFormBtn" onClick={this.addUser}>Add Administrator</Button>
+                </Col>
+              </Form.Row>
+
+            </Form>
+          </Modal.Body>
+        </Modal>
+
+
+        {/* Delete User Modal */}
+        <Modal 
+          show={this.state.deleteAdminModal}
+          onHide={this.handleDeleteAdminModal}
+          aria-labelledby="deleteAdminModalTitle"
+          size="md"
+          centered
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton className="justify-content-center">
+            <Modal.Title id="deleteAdminModalTitle">
+              Remove Administrator
+            </Modal.Title>
+          </Modal.Header>
+          
+          <Modal.Body>
+            <Row className="justify-content-center">
+              <Col md="12" className="text-center deleteAdminModalCol">
+                <img id="deleteAdminModalIcon" src={DeleteAdmin} />
+              </Col>
+            </Row>
             
-            <Modal.Body>
-              <Row className="justify-content-center">
-                <Col md="12" className="text-center deleteAdminModalCol">
-                  <img id="deleteAdminModalIcon" src={DeleteAdmin} />
-                </Col>
-              </Row>
-              
-              <Row className="justify-content-center">
-                <Col md="12" className="text-center deleteAdminModalCol">
-                  <h5 id="deleteAdminModalText">Are you sure you want to remove this administrator?</h5>
-                </Col>
-              </Row>
+            <Row className="justify-content-center">
+              <Col md="12" className="text-center deleteAdminModalCol">
+                <h5 id="deleteAdminModalText">Are you sure you want to remove this administrator?</h5>
+              </Col>
+            </Row>
 
-              <Row className="justify-content-center">
-                <Col md="6" className="text-right deleteAdminModalCol">
-                  <Button id="confirmDeleteAdminModalBtn" onClick={ (e) => {this.DeleteUser(e, this.state.id)} }>Confirm</Button>
-                </Col>
+            <Row className="justify-content-center">
+              <Col md="6" className="text-right deleteAdminModalCol">
+                <Button id="confirmDeleteAdminModalBtn" onClick={ (e) => {this.DeleteUser(e, this.state.id)} }>Confirm</Button>
+              </Col>
 
-                <Col md="6" className="text-left deleteAdminModalCol">
-                  <Button id="cancelDeleteAdminModalBtn" onClick={this.handleDeleteAdminModal}>Cancel</Button>
-                </Col>
-              </Row>
-            </Modal.Body>
-          </Modal>
-        }
-
+              <Col md="6" className="text-left deleteAdminModalCol">
+                <Button id="cancelDeleteAdminModalBtn" onClick={this.handleDeleteAdminModal}>Cancel</Button>
+              </Col>
+            </Row>
+          </Modal.Body>
+        </Modal>
       </div>
     );
-    else {
-
-      return(<div></div>)
-      }
   }
 }
 

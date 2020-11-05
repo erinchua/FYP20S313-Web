@@ -7,7 +7,19 @@ import history from "../../../config/history";
 import "../../../css/Marketing_Administrator/AddStudySIMProgModal.css";
 
 
+const initialStates = {
+  liveTalkError: "",
+  universityError: "",
+  startTimeError: "",
+  endTimeError: "",
+  dateError: "",
+  venueError: "",
+  urlError: ""
+}
+
 export default class AddStudySIMProgModal extends React.Component {
+  state = initialStates;
+  
   constructor(props) {
     super(props);
 

@@ -159,38 +159,3 @@
     box-shadow: none;
 }
 
-/************************************************************/
-/* Delete Admin Modal */
-#deleteAdminModalTitle {
-    font-size: 95%;
-    color: #EA526F;
-}
-
-.deleteAdminModalCol {
-    padding-bottom: 4%;
-}
-
-#deleteAdminModalIcon {
-    width: 20%;
-}
-
-#deleteAdminModalText {
-    font-size: 90%;
-    color: #424242;
-}
-
-#confirmDeleteAdminModalBtn {
-    background: none;
-    border: 1px solid #EA526F;
-    border-radius: 6px;
-    color: #EA526F;
-    width: 40%;
-}
-
-#cancelDeleteAdminModalBtn {
-    background: #EA526F;
-    border: 1px solid #EA526F;
-    border-radius: 6px;
-    color: #ffffff;
-    width: 40%;
-}

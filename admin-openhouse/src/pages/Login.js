@@ -10,6 +10,8 @@ import { faAt, faLock } from '@fortawesome/free-solid-svg-icons';
 import ForgetPasswordModal from "../components/ForgetPasswordModal";
  
 
+const bcrypt = require('bcryptjs')
+
 const marketingInitialState = {
     marketingEmailError: "",
     marketingPasswordError: "",
@@ -59,17 +61,25 @@ class Login extends Component {
                 .where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
                     if (snapshot.empty) {
-                        alert("No such user!");
+                        console.log("No such user!");
+                        this.setState({showAlert: true});
                     } else {
                         snapshot.forEach((doc) => {
-                            if (doc.data().administratorType === "Marketing Administrator") {
-                                this.setState({ user: "Marketing Administrator" });
-                                history.push("/MAHome");
-                                window.location.reload();
-                            } else {
-                                history.push("/Login");
-                                window.location.reload();
-                            }
+                            /* Decrypt password  */
+                            // const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
+                                
+                            // if(decryptPassword){
+                            //     console.log("decrypt: " + decryptPassword)
+                                    
+                                if (doc.data().administratorType === "Marketing Administrator") {
+                                    this.setState({ user: "Marketing Administrator" });
+                                    history.push("/MAHome");
+                                    window.location.reload();
+                                } else {
+                                    history.push("/Login");
+                                    window.location.reload();
+                                }
+                            // }
                         });
                     }
                 });
@@ -89,17 +99,24 @@ class Login extends Component {
                 .where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
                     if (snapshot.empty) {
-                        alert("No such user!");
+                        console.log("No such user!");
+                        this.setState({showAlert: true});
                     } else {
                         snapshot.forEach((doc) => {
-                            if (doc.data().administratorType === "Super Administrator") {
-                                this.setState({ user: "Super Administrator" });
-                                history.push("/SAHome");
-                                window.location.reload();
-                            }  else {
-                                history.push("/Login");
-                                window.location.reload();
-                            }
+                            /* Decrypt password  */
+                            // const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
+                                
+                            // if(decryptPassword){
+                            //     console.log("decrypt: " + decryptPassword)
+                                if (doc.data().administratorType === "Super Administrator") {
+                                    this.setState({ user: "Super Administrator" });
+                                    history.push("/SAHome");
+                                    window.location.reload();
+                                }  else {
+                                    history.push("/Login");
+                                    window.location.reload();
+                                }
+                            // }
                         });
                     }
                 });
@@ -115,21 +132,29 @@ class Login extends Component {
                 const db = fire.firestore();
 
                 var getrole = db
-                .collection("Crews")
+                .collection("Administrators")
                 .where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
                     if (snapshot.empty) {
-                        alert("No such user!");
+                        console.log("No such user!");
+                        this.setState({showAlert: true});
                     } else {
                         snapshot.forEach((doc) => {
-                            if (doc.data().administratorType === "Crew") {
-                                this.setState({ user: "Crew" });
-                                history.push("/AttendanceMarkingScanner");
-                                window.location.reload();
-                            }  else {
-                                history.push("/Login");
-                                window.location.reload();
-                            }
+                            /* Decrypt password  */
+                            // const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
+                                
+                            // if(decryptPassword){
+                            //     console.log("decrypt: " + decryptPassword)
+
+                                if (doc.data().administratorType === "Crew") {
+                                    this.setState({ user: "Crew" });
+                                    history.push("/AttendanceMarkingScanner");
+                                    window.location.reload();
+                                }  else {
+                                    history.push("/Login");
+                                    window.location.reload();
+                                }
+                            //}
                         });
                     }
                 });
@@ -263,7 +288,6 @@ class Login extends Component {
 
     /* Forget Password Modal */
     handleForgetPasswordModal = () => {
-        this.resetForm();
         this.forgetPasswordModal = this.state.forgetPasswordModal;
         if (this.forgetPasswordModal == false) {
             this.setState({
@@ -275,7 +299,9 @@ class Login extends Component {
                 forgetPasswordModal: false
             });
         }
+        this.resetForm();
     };
+
 
     render() {
         return (
