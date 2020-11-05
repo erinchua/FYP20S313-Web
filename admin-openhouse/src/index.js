@@ -40,11 +40,16 @@ import ITComputerSciences from "./pages/Marketing_Administrator/Study@SIM/IT&Com
 import Nursing from "./pages/Marketing_Administrator/Study@SIM/Nursing";
 import Specialty from "./pages/Marketing_Administrator/Study@SIM/Specialty";
 import ContactInformation from "./pages/Marketing_Administrator/Useful_Info/ContactInformation";
-import GenerateStudentRegisteration from "./pages/Marketing_Administrator/GenerateReport/GenerateStudentRegisteration";
+import GenerateStudentRegistration from "./pages/Marketing_Administrator/GenerateReport/GenerateStudentRegistration";
 import StudentLifeBrochure from "./pages/Marketing_Administrator/Brochure/StudentLifeBrochure";
 import StudySIMBrochure from "./pages/Marketing_Administrator/Brochure/StudySIMBrochure";
 import AttendanceMarkingScanner from "./pages/Crew/AttendanceMarkingScanner";
 import AdmissionApplication from "./pages/Marketing_Administrator/Useful_Info/AdmissionApplication";
+import GenerateAttendance from "./pages/Marketing_Administrator/GenerateReport/GenerateAttendance";
+import OtherFinancialAssistance from "./pages/Marketing_Administrator/StudentLife@SIM/OtherFinancialAssistance";
+import SIMGEBursary from "./pages/Marketing_Administrator/StudentLife@SIM/SIMGEBursary";
+import Sponsors from "./pages/Marketing_Administrator/StudentLife@SIM/Sponsors";
+import SIMGEScholarship from "./pages/Marketing_Administrator/StudentLife@SIM/SIMGEScholarship";
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -94,10 +99,15 @@ ReactDOM.render(
       <Route path="/Nursing" component={Nursing} />
       <Route path="/Specialty" component={Specialty} />
       <Route path="/ContactInformation" component={ContactInformation} />
-      <Route path="/GenerateStudentRegisteration" component={GenerateStudentRegisteration} />
+      <Route path="/GenerateStudentRegistration" component={GenerateStudentRegistration} />
       <Route path="/StudentLifeBrochure" component={StudentLifeBrochure} />
       <Route path="/StudySIMBrochure" component={StudySIMBrochure} />
       <Route path="/AdmissionApplication" component={AdmissionApplication} />
+      <Route path="/GenerateAttendance" component={GenerateAttendance} />
+      <Route path="/OtherFinancialAssistance" component={OtherFinancialAssistance} />
+      <Route path="/SIMGEBursary" component={SIMGEBursary} />
+      <Route path="/Sponsors" component={Sponsors} />
+      <Route path="/SIMGEScholarship" component={SIMGEScholarship} />
       
     </Switch>
   </Router>,

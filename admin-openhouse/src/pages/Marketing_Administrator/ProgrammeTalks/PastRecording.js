@@ -7,18 +7,29 @@ import "../../../css/Marketing_Administrator/ProgrammeTalkPastRec.css";
 import "../../../css/Marketing_Administrator/PastRecModals.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd, faChair, faUniversity } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMicrophone, faSchool, faCalendarAlt, faHourglassStart, faHourglassEnd, faUniversity } from '@fortawesome/free-solid-svg-icons';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
 import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
-import AddPastRecModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/AddPastRecModal";
-import EditPastRecModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/EditPastRecModal";
 import DeletePastRecModal from "../../../components/Marketing_Administrator/OpenHouseProgrammes/DeletePastRecModal";
 
 
+const initialStates = {
+  pastRecError: "",
+  universityError: "",
+  startTimeError: "",
+  endTimeError: "",
+  dateError: "",
+  venueError: "",
+  urlError: "", 
+  disciplineError: ""
+}
+
 class PastRecording extends Component {
+  state = initialStates;
+
   constructor() {
     super();
     this.state = {
@@ -32,13 +43,54 @@ class PastRecording extends Component {
       startTime: "",
       talkName: "",
       venue: "",
-      link: "",
-      progTalkDetails: "",
-      discipline: "",
-      day1: [],
-      day2: [],
+      url: "",
+      id: "",
+      details: "",
+      discipline: [],
+      day1: [
+        {
+          docid : "",
+          id: "",
+          talkName: "",
+          awardingUni : "",
+          startTime:  "",     
+          endTime: "",
+          date: "",
+          venue: "",
+          capacityLimit: "",
+          noRegistered: "",
+          hasRecording: "",
+          url : "",
+          isLive: "",
+          details: "",
+          discipline: [],
+          day1_counter: ""
+        }
+      ],
+      day2: [
+        {
+          docid : "",
+          id: "",
+          talkName: "",
+          awardingUni : "",
+          startTime:  "",     
+          endTime: "",
+          date: "",
+          venue: "",
+          capacityLimit: "",
+          noRegistered: "",
+          hasRecording: "",
+          url : "",
+          isLive: "",
+          details: "",
+          discipline: [],
+          day2_counter: ""
+        }
+      ],
       day1Date: "",
       day2Date: "",
+      openHouseDay1: "",
+      openHouseDay2: "",
 
       // University collection
       uniId: "",
@@ -51,13 +103,13 @@ class PastRecording extends Component {
       disciplineList: [],
 
       // File Upload
-      fileLabel: "Recording File*",
-      fileName: "",
+      fileLabel: this.state.url,
 
       addPastRecModal: false,
       editPastRecModal: false,
       deletePastRecModal: false
     };
+    this.resetForm = this.resetForm.bind(this);
   }
 
   authListener() {
@@ -129,146 +181,239 @@ class PastRecording extends Component {
       this.setState({ disciplineList: discipline_list });
     });
 
-    const userRef = db
-    .collection("ProgrammeTalks")
-    .get()
+    // Retrieve Open House Dates from Openhouse Collection
+    const dates = [];
+    db.collection("Openhouse").get()
     .then((snapshot) => {
       snapshot.forEach((doc) => {
-        pastrecording.push(doc.data().date);
+        const data = doc.get('day');
+        for (var i = 0; i < Object.keys(data).length; i++) {
+          const retrieved = {
+              date: data[Object.keys(data)[i]].date
+          };
+          dates.push(retrieved)
+        }
       });
-      console.log(pastrecording);
-      
-      function onlyUnique(value, index, self) {
-        return self.indexOf(value) === index;
-      }
-      
-      var unique = pastrecording.filter(onlyUnique);
-      console.log(unique);
-
-      //day1
-      const day1date = [];
-      day1date.push(unique[0]);
-      this.setState({ day1date: day1date });
+      this.setState({openHouseDates: dates})
+      this.setState({openHouseDay1: dates[0].date}) // Use date from OpenHouse  
+      this.setState({openHouseDay2: dates[1].date}) // Use date from OpenHouse       
       var day1_counter = 1;
 
       const day1  = db
-      .collection("ProgrammeTalks").where("date", "==", unique[0])
+      .collection("ProgrammeTalks").where("date", "==", dates[0].date)
       .where("hasRecording", "==", true)
       .get()
       .then((snapshot) => {
-        const pastrecording = [];
+        const pastRecording = [];
         snapshot.forEach((doc) => {
           const data = {
-            docid : doc.id,
+            docid: doc.id,
             id: doc.data().id,
-            talkName:doc.data().talkName,
-            awardingUni : doc.data().awardingUni,
-            startTime:  doc.data().startTime,     
+            talkName: doc.data().talkName,
+            date: doc.data().date,
+            awardingUni: doc.data().awardingUni,
+            startTime: doc.data().startTime,     
             endTime: doc.data().endTime,
             venue: doc.data().venue,
-            capacityLimit: doc.data().capacityLimit,
-            noRegistered: doc.data().noRegistered,
+            capacityLimit: doc.data().capacityLimit.toString(),
+            noRegistered: doc.data().noRegistered.toString(),
             hasRecording: doc.data().hasRecording.toString(),
-            link : doc.data().link,
+            url: doc.data().url,
             isLive: doc.data().isLive.toString(),
-            date: doc.data().date,
+            details: doc.data().details,
             discipline: doc.data().discipline,
-            day1_counter: day1_counter, 
+            day1_counter: day1_counter,
           };
-          day1_counter++;
-          pastrecording.push(data);  
+          day1_counter++
+          pastRecording.push(data);
         });
-        this.setState({ day1: pastrecording });
-        this.setState({ day1Date: pastrecording[0].date})
-      });
-                  
+        this.setState({ day1: pastRecording });
+      })
+
       //day 2
-      const day2date = [];
-      day2date.push(unique[1]);
-      this.setState({ day2date: day2date });
-      var day2_counter = 1;
+      var day2_counter = 1
 
       const day2  = db
-      .collection("ProgrammeTalks").where("date", "==", unique[1])
+      .collection("ProgrammeTalks").where("date", "==", dates[1].date)
       .where("hasRecording", "==", true)
       .get()
       .then((snapshot) => {
-        const pastrecording = [];
+        const pastRecording = [];
         snapshot.forEach((doc) => {
           const data = {
-            docid : doc.id,
+            docid: doc.id,
             id: doc.data().id,
             talkName:doc.data().talkName,
             awardingUni: doc.data().awardingUni,
             startTime:  doc.data().startTime,     
             endTime: doc.data().endTime,
-            venue: doc.data().venue,
-            capacityLimit: doc.data().capacityLimit,
-            noRegistered: doc.data().noRegistered,
-            hasRecording: doc.data().hasRecording.toString(),
-            link: doc.data().link,
-            isLive: doc.data().isLive.toString(),
             date: doc.data().date,
+            venue: doc.data().venue,
+            capacityLimit: doc.data().capacityLimit.toString(),
+            noRegistered: doc.data().noRegistered.toString(),
+            hasRecording: doc.data().hasRecording.toString(),
+            url: doc.data().url,
+            isLive: doc.data().isLive.toString(),
+            details: doc.data().details,
             discipline: doc.data().discipline,
             day2_counter: day2_counter,
           };
-          day2_counter++;
-          pastrecording.push(data);
+          day2_counter++
+          pastRecording.push(data);
         });
-        this.setState({ day2: pastrecording });
-        this.setState({ day2Date: pastrecording[0].date})
-      });
-    });    
+        this.setState({ day2: pastRecording });   
+      })
+    })
+
+    // const userRef = db
+    // .collection("ProgrammeTalks")
+    // .get()
+    // .then((snapshot) => {
+    //   snapshot.forEach((doc) => {
+    //     pastrecording.push(doc.data().date);
+    //   });
+    //   console.log(pastrecording);
+      
+    //   function onlyUnique(value, index, self) {
+    //     return self.indexOf(value) === index;
+    //   }
+      
+    //   var unique = pastrecording.filter(onlyUnique);
+    //   console.log(unique);
+
+    //   //day1
+    //   const day1date = [];
+    //   day1date.push(unique[0]);
+    //   this.setState({ day1date: day1date });
+    //   var day1_counter = 1;
+
+    //   const day1  = db
+    //   .collection("ProgrammeTalks").where("date", "==", unique[0])
+    //   .where("hasRecording", "==", true)
+    //   .get()
+    //   .then((snapshot) => {
+    //     const pastrecording = [];
+    //     snapshot.forEach((doc) => {
+    //       const data = {
+    //         docid : doc.id,
+    //         id: doc.data().id,
+    //         talkName:doc.data().talkName,
+    //         awardingUni : doc.data().awardingUni,
+    //         startTime:  doc.data().startTime,     
+    //         endTime: doc.data().endTime,
+    //         venue: doc.data().venue,
+    //         capacityLimit: doc.data().capacityLimit,
+    //         noRegistered: doc.data().noRegistered,
+    //         hasRecording: doc.data().hasRecording.toString(),
+    //         url : doc.data().url,
+    //         isLive: doc.data().isLive.toString(),
+    //         date: doc.data().date,
+    //         discipline: doc.data().discipline,
+    //         day1_counter: day1_counter, 
+    //       };
+    //       day1_counter++;
+    //       pastrecording.push(data);  
+    //     });
+    //     this.setState({ day1: pastrecording });
+    //     this.setState({ day1Date: pastrecording[0].date})
+    //   });
+                  
+    //   //day 2
+    //   const day2date = [];
+    //   day2date.push(unique[1]);
+    //   this.setState({ day2date: day2date });
+    //   var day2_counter = 1;
+
+    //   const day2  = db
+    //   .collection("ProgrammeTalks").where("date", "==", unique[1])
+    //   .where("hasRecording", "==", true)
+    //   .get()
+    //   .then((snapshot) => {
+    //     const pastrecording = [];
+    //     snapshot.forEach((doc) => {
+    //       const data = {
+    //         docid : doc.id,
+    //         id: doc.data().id,
+    //         talkName:doc.data().talkName,
+    //         awardingUni: doc.data().awardingUni,
+    //         startTime:  doc.data().startTime,     
+    //         endTime: doc.data().endTime,
+    //         venue: doc.data().venue,
+    //         capacityLimit: doc.data().capacityLimit,
+    //         noRegistered: doc.data().noRegistered,
+    //         hasRecording: doc.data().hasRecording.toString(),
+    //         url: doc.data().url,
+    //         isLive: doc.data().isLive.toString(),
+    //         date: doc.data().date,
+    //         discipline: doc.data().discipline,
+    //         day2_counter: day2_counter,
+    //       };
+    //       day2_counter++;
+    //       pastrecording.push(data);
+    //     });
+    //     this.setState({ day2: pastrecording });
+    //     this.setState({ day2Date: pastrecording[0].date})
+    //   });
+    // });    
   }
 
   addPastRecording = (e) => {
     e.preventDefault();
-    var recordingvalue = document.getElementById("recordingvalue");
-    var livestatus = document.getElementById("livestatus");
-    recordingvalue = recordingvalue.options[recordingvalue.selectedIndex].value;
-    livestatus = livestatus.options[livestatus.selectedIndex].value;
-    recordingvalue = (recordingvalue === "true");
-    livestatus = (livestatus === "true");
+    // var recordingvalue = document.getElementById("recordingvalue");
+    // var livestatus = document.getElementById("livestatus");
+    // recordingvalue = recordingvalue.options[recordingvalue.selectedIndex].value;
+    // livestatus = livestatus.options[livestatus.selectedIndex].value;
+    // recordingvalue = (recordingvalue === "true");
+    // livestatus = (livestatus === "true");
+    const isValid = this.validate();
+    if (isValid) {
+      this.setState(initialStates);
 
-    const db = fire.firestore();
-    var lastdoc = db.collection("ProgrammeTalks").orderBy('id','desc')
-    .limit(1).get().then((snapshot) =>  {
-      snapshot.forEach((doc) => {
-        var docid= "";
-        var res = doc.data().id.substring(5, 10);
-        var id = parseInt(res)
-        if(id.toString().length <= 1){
-          docid= "talk-00" + (id +1) 
-        }
-        else if(id.toString().length <= 2){
-          docid= "talk-0" + (id +1) 
-        }
-        else{
-          docid="talk-0" + (id +1) 
-        }
+      const db = fire.firestore();
+      var lastdoc = db.collection("ProgrammeTalks").orderBy('id','desc')
+      .limit(1).get().then((snapshot) =>  {
+        snapshot.forEach((doc) => {
+          var docid= "";
+          var res = doc.data().id.substring(8, 5);
+          var id = parseInt(res);
+          id += 1
 
-        const userRef = db
-        .collection("ProgrammeTalks")
-        .doc(docid)
-        .set({
-          awardingUni: this.state.awardingUni,
-          capacityLimit: this.state.capacityLimit,
-          date: this.state.date,
-          endTime: this.state.endTime,
-          hasRecording: recordingvalue,
-          isLive: livestatus,
-          noRegistered: this.state.noRegistered,
-          startTime: this.state.startTime,
-          talkName: this.state.talkName,
-          venue: this.state.venue,
-          link: this.state.link,
-          id: docid,
+          if(id.toString().length == 1){
+            docid= "talk-00" + (id) 
+          }
+          else if(id.toString().length == 2){
+            docid= "talk-0" + (id) 
+            }
+          else{
+            docid="talk-" + (id) 
+          }
+
+          db
+          .collection("ProgrammeTalks")
+          .doc(docid)
+          .set({
+            awardingUni: this.state.awardingUni,
+            capacityLimit: +this.state.capacityLimit,
+            date: this.state.date,
+            endTime: this.state.endTime,
+            hasRecording: true,
+            isLive: false,
+            noRegistered: +this.state.noRegistered,
+            startTime: this.state.startTime,
+            talkName: this.state.talkName,
+            venue: this.state.venue,
+            url: this.state.url,
+            id: docid,
+            details: this.state.details,
+            discipline: this.state.discipline,
+          })
+          .then(dataSnapshot => {
+            this.display();
+            this.setState({addPastRecModal: false}); 
+          });
         })
-        .then(function () {
-          window.location.reload();
-        });
       })
-    })
+    }
   };
 
   DeletePastRecording(e, pastrecordingid) {
@@ -277,58 +422,87 @@ class PastRecording extends Component {
     .collection("ProgrammeTalks")
     .doc(pastrecordingid)
     .delete()
-    .then(function () {
-      alert("Deleted");
-      window.location.reload();
+    .then(dataSnapshot => {
+      this.display();
+      this.setState({deletePastRecModal: false}); 
     });
   }
 
-  update(e, pastrecordingid) {
-    const talkName = document.getElementById(pastrecordingid + "talkname").value
-    const awardingUni = document.getElementById(pastrecordingid + "awarduni").value
-    const startTime = document.getElementById(pastrecordingid + "starttime").value
-    const endTime = document.getElementById(pastrecordingid + "endtime").value
-    const venue = document.getElementById(pastrecordingid + "venue").value
-    const link = document.getElementById(pastrecordingid + "link").value
+  // **No need the following function. Using editPastRecording() instead.
+  // update(e, pastrecordingid) {
+    // const talkName = document.getElementById(pastrecordingid + "talkname").value
+    // const awardingUni = document.getElementById(pastrecordingid + "awarduni").value
+    // const startTime = document.getElementById(pastrecordingid + "starttime").value
+    // const endTime = document.getElementById(pastrecordingid + "endtime").value
+    // const venue = document.getElementById(pastrecordingid + "venue").value
+    // const link = document.getElementById(pastrecordingid + "link").value
 
-    const db = fire.firestore();
-    if (talkName != null && awardingUni != null && startTime != null && endTime != null && venue != null && link != null) {
-      const userRef = db
+    // const db = fire.firestore();
+    // if (talkName != null && awardingUni != null && startTime != null && endTime != null && venue != null && link != null) {
+    //   const userRef = db
+    //   .collection("ProgrammeTalks")
+    //   .doc(pastrecordingid)
+    //   .update({
+    //     awardingUni: awardingUni,
+    //     endTime: endTime,
+    //     startTime: startTime,
+    //     talkName: talkName,
+    //     venue: venue,
+    //     url: url,
+    //   })
+    //   .then(function () {
+    //     alert("Updated");
+    //     window.location.reload();
+    //   });
+    // }
+  // }
+
+  editPastRecording(e, pastrecordingid) {
+    // document.getElementById(pastrecordingid + "spantalkname").removeAttribute("hidden");
+    // document.getElementById(pastrecordingid + "spanawarduni").removeAttribute("hidden");
+    // document.getElementById(pastrecordingid + "spanstarttime").removeAttribute("hidden");
+    // document.getElementById(pastrecordingid + "spanendtime").removeAttribute("hidden");
+    // document.getElementById(pastrecordingid + "spanvenue").removeAttribute("hidden");
+    // document.getElementById(pastrecordingid + "spanlink").removeAttribute("hidden");
+    // document.getElementById(pastrecordingid + "editbutton").setAttribute("hidden", "");
+    // document.getElementById(pastrecordingid + "updatebutton").removeAttribute("hidden");
+    // document.getElementById(pastrecordingid + "cancelbutton").removeAttribute("hidden");
+    // var texttohide = document.getElementsByClassName(
+    //   pastrecordingid + "text"
+    // );
+    // for (var i = 0; i < texttohide.length; i++) {
+    //   texttohide[i].setAttribute("hidden", "");
+    // }  
+
+    const isValid = this.validate();
+    if (isValid) {
+      this.setState(initialStates);
+
+      const db = fire.firestore();
+
+      db
       .collection("ProgrammeTalks")
-      .doc(pastrecordingid)
+      .doc(this.state.id)
       .update({
-        awardingUni: awardingUni,
-        endTime: endTime,
-        startTime: startTime,
-        talkName: talkName,
-        venue: venue,
-        link: link,
+          awardingUni: this.state.awardingUni,
+          endTime: this.state.endTime,
+          startTime: this.state.startTime,
+          talkName: this.state.talkName,
+          venue: this.state.venue,
+          date: this.state.date,
+          discipline: this.state.discipline,
+          url: this.state.url
       })
-      .then(function () {
-        alert("Updated");
-        window.location.reload();
-      });
+      .then(dataSnapshot => {
+        this.setState({
+          editPastRecModal: false
+        })
+        this.display()
+      }); 
     }
   }
 
-  editPastRecording(e, pastrecordingid) {
-    document.getElementById(pastrecordingid + "spantalkname").removeAttribute("hidden");
-    document.getElementById(pastrecordingid + "spanawarduni").removeAttribute("hidden");
-    document.getElementById(pastrecordingid + "spanstarttime").removeAttribute("hidden");
-    document.getElementById(pastrecordingid + "spanendtime").removeAttribute("hidden");
-    document.getElementById(pastrecordingid + "spanvenue").removeAttribute("hidden");
-    document.getElementById(pastrecordingid + "spanlink").removeAttribute("hidden");
-    document.getElementById(pastrecordingid + "editbutton").setAttribute("hidden", "");
-    document.getElementById(pastrecordingid + "updatebutton").removeAttribute("hidden");
-    document.getElementById(pastrecordingid + "cancelbutton").removeAttribute("hidden");
-    var texttohide = document.getElementsByClassName(
-      pastrecordingid + "text"
-    );
-    for (var i = 0; i < texttohide.length; i++) {
-      texttohide[i].setAttribute("hidden", "");
-    }  
-  }
-
+  /* Don't need cancel function as we can just hide the modal if cancel */
   // CancelEdit(e, pastrecordingid) {
   //   document.getElementById(pastrecordingid + "spantalkname").setAttribute("hidden", "");
   //   document.getElementById(pastrecordingid + "spanawarduni").setAttribute("hidden", "");
@@ -347,17 +521,30 @@ class PastRecording extends Component {
   //   }
   // }
 
+  /* Checkbox - Discipline */
+  handleCheckbox = (event) => {
+    let disciplineArray = this.state.discipline
+    if (disciplineArray.includes(event.target.value)) {
+      disciplineArray = disciplineArray.filter(discipline => discipline !== event.target.value)
+    } else {
+      disciplineArray.push(event.target.value);
+    }
+    this.setState({discipline: disciplineArray});
+  }
+
   /* Add Past Rec Modal */
   handleAddPastRecModal = () => {
     if (this.state.addPastRecModal == false) {
       this.setState({
         addPastRecModal: true,
+        discipline: []
       });
     }
     else {
       this.setState({
         addPastRecModal: false
       });
+      this.resetForm();
     }
   };
 
@@ -365,8 +552,10 @@ class PastRecording extends Component {
   handleEditPastRecModal = (day) => {
     if (this.state.editPastRecModal == false) {
       this.setState({
+        id: day.id,
         editPastRecModal: true,
         awardingUni: day.awardingUni,
+        capacityLimit: day.capacityLimit,
         date: day.date,
         endTime: day.endTime,
         hasRecording: day.hasRecording,
@@ -375,8 +564,8 @@ class PastRecording extends Component {
         startTime: day.startTime,
         talkName: day.talkName,
         venue: day.venue,
-        link: day.link,
-        progTalkDetails: day.progTalkDetails,
+        url: day.url,
+        details: day.details,
         discipline: day.discipline
       })
     }
@@ -384,15 +573,17 @@ class PastRecording extends Component {
       this.setState({
         editPastRecModal: false
       });
+      this.resetForm();
     }
   };
 
   /* Delete Past Rec Modal */
-  handleDeletePastRecModal = () => {
+  handleDeletePastRecModal = (id) => {
     if (this.state.deletePastRecModal == false) {
       this.setState({
         deletePastRecModal: true,
       });
+      this.state.id = id;
     }
     else {
       this.setState({
@@ -400,6 +591,82 @@ class PastRecording extends Component {
       });
     }
   };
+
+  //Validations for the Forms in Modals
+  validate = () => {
+    let pastRecError = "";
+    let venueError = "";
+    let startTimeError = "";
+    let endTimeError = "";
+    let dateError = "";
+    let universityError = "";
+    let disciplineError = ""
+    let urlError = "";
+
+    if ( !(this.state.talkName && this.state.talkName.length >= 4) ) {
+      pastRecError = "Please enter a valid recording name!";
+    } 
+    
+    if (!this.state.awardingUni) {
+      universityError = "Please select a valid university!";
+    }
+
+    if (! (this.state.venue && this.state.venue.length >= 3) ) {
+      venueError = "Please enter a valid venue. E.g. SIM HQ BLK A Atrium!";
+    }
+
+    if ( !(this.state.startTime.includes(":") && (this.state.startTime.includes("AM") || this.state.startTime.includes("PM"))) ) {
+      startTimeError = "Please enter a valid start time. E.g. 1:30PM";
+    }
+
+    if ( !(this.state.endTime.includes(":") && (this.state.endTime.includes("AM") || this.state.endTime.includes("PM"))) ) {
+      endTimeError = "Please enter a valid end time. E.g. 2:30PM";
+    }
+
+    if (!this.state.date) {
+      dateError = "Please select a valid date!";
+    }
+
+    if (this.state.discipline.length == 0) {
+      disciplineError = "Please select at least 1 discipline!";
+    }
+
+    if ( !(this.state.url.includes(":") && this.state.url.includes("/")) ) {  
+      urlError = "Please enter a valid url!";
+    }
+
+    if (pastRecError || universityError || venueError || startTimeError || endTimeError || dateError || disciplineError || urlError ) {
+      this.setState({
+        pastRecError, universityError, venueError, startTimeError, endTimeError, dateError, disciplineError,
+        urlError
+      });
+      return false;
+    } 
+    return true;
+  }
+
+  //Reset Forms
+  resetForm = () => {
+    this.setState({
+      pastRecError: "",
+      venueError: "",
+      startTimeError: "",
+      endTimeError: "",
+      dateError: "",
+      universityError: "",
+      disciplineError: "",
+      urlError: "",
+      id: "", 
+      talkName: "", 
+      venue: "", 
+      startTime: "", 
+      endTime: "", 
+      date: "", 
+      awardingUni: "",
+      discipline: [],
+      url: ""
+    })
+  }
 
 
   render() {
@@ -442,13 +709,13 @@ class PastRecording extends Component {
                             <Nav defaultActiveKey="day1" className="MAPastRecTabNav" variant="tabs">
                               <Col md="6" className="MAPastRecTabConInnerCol text-center">
                                 <Nav.Item className="MAPastRecTab_NavItem">
-                                  <Nav.Link eventKey="day1" className="MAPastRecTab_Day">{this.state.day1Date}</Nav.Link>
+                                  <Nav.Link eventKey="day1" className="MAPastRecTab_Day">{this.state.openHouseDay1}</Nav.Link>
                                 </Nav.Item>
                               </Col>  
 
                               <Col md="6" className="MAPastRecTabConInnerCol text-center">
                                 <Nav.Item className="MAPastRecTab_NavItem">
-                                  <Nav.Link eventKey="day2" className="MAPastRecTab_Day">{this.state.day2Date}</Nav.Link>
+                                  <Nav.Link eventKey="day2" className="MAPastRecTab_Day">{this.state.openHouseDay2}</Nav.Link>
                                 </Nav.Item>
                               </Col>
                             </Nav>
@@ -489,16 +756,24 @@ class PastRecording extends Component {
                                             <td className="pastRecData_EndTime text-left">{day1.endTime}</td>
                                             <td className="pastRecData_Venue text-left">{day1.venue}</td>
                                             <td className="pastRecData_File text-left">
-                                              <a href={day1.link} className="pastRecData_FileLink">{day1.link}</a>
+                                              <a href={day1.url} className="pastRecData_FileUrl">{day1.url}</a>
                                             </td>
-                                            <td className="pastRecData_Discipline text-center">{day1.discipline}</td>
+                                            <td className="pastRecData_Discipline text-center">
+                                              {day1.discipline && day1.discipline.map((discipline) => {
+                                                return(
+                                                  <Row className="justify-content-center">
+                                                    <Col className="text-left">- {discipline}</Col>
+                                                  </Row>
+                                                );
+                                              })}
+                                            </td>
                                             <td className="pastRecData_Edit text-center">
                                               <Button id="editPastRecBtn" onClick={()=>this.handleEditPastRecModal(day1)}>
                                                 <FontAwesomeIcon size="lg" id="editPastRecBtnIcon" icon={faEdit} />
                                               </Button>
                                             </td>
                                             <td className="pastRecData_Delete text-center">
-                                              <Button id="deletePastRecBtn" onClick={this.handleDeletePastRecModal}>
+                                              <Button id="deletePastRecBtn" onClick={(e) => this.handleDeletePastRecModal(day1.id)}>
                                                 <FontAwesomeIcon size="lg" id="deletePastRecBtnIcon" icon={faTrashAlt} />
                                               </Button>
                                             </td>
@@ -542,16 +817,24 @@ class PastRecording extends Component {
                                             <td className="pastRecData_EndTime text-left">{day2.endTime}</td>
                                             <td className="pastRecData_Venue text-left">{day2.venue}</td>
                                             <td className="pastRecData_File text-left">
-                                              <a href={day2.link} className="pastRecData_FileLink">{day2.link}</a>
+                                              <a href={day2.url} className="pastRecData_FileUrl">{day2.url}</a>
                                             </td>
-                                            <td className="pastRecData_Discipline text-center">{day2.discipline}</td>
+                                            <td className="pastRecData_Discipline text-center">
+                                              {day2.discipline && day2.discipline.map((discipline) => {
+                                                return(
+                                                  <Row className="justify-content-center">
+                                                    <Col className="text-left">- {discipline}</Col>
+                                                  </Row>
+                                                );
+                                              })}
+                                            </td>
                                             <td className="pastRecData_Edit text-center">
                                               <Button id="editPastRecBtn" onClick={()=>this.handleEditPastRecModal(day2)}>
                                                 <FontAwesomeIcon size="lg" id="editPastRecBtnIcon" icon={faEdit} />
                                               </Button>
                                             </td>
                                             <td className="pastRecData_Delete text-center">
-                                              <Button id="deletePastRecBtn" onClick={this.handleDeletePastRecModal}>
+                                              <Button id="deletePastRecBtn" onClick={(e) => this.handleDeletePastRecModal(day2.id)}>
                                                 <FontAwesomeIcon size="lg" id="deletePastRecBtnIcon" icon={faTrashAlt} />
                                               </Button>
                                             </td>
@@ -602,7 +885,7 @@ class PastRecording extends Component {
           </Modal.Header>
 
           <Modal.Body id="addPastRecModalBody">
-            <Form noValidate> {/* Need to add onSubmit later */}
+            <Form noValidate>
               {/* Main Row */}
               <Form.Row className="justify-content-center">
                 {/* Left Col */}
@@ -617,8 +900,10 @@ class PastRecording extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" name="talkName" id="addPastRecForm_ProgTalkName" placeholder="Name of Recording*" required />
+                        <FormControl type="text" name="talkName" onChange={this.updateInput} id="addPastRecForm_ProgTalkName" placeholder="Name of Recording*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.pastRecError}</div>
                     </Col>
                   </Form.Row>
 
@@ -632,17 +917,21 @@ class PastRecording extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" name="venue" id="addPastRecForm_Venue" placeholder="Venue*" required />
+                        <FormControl type="text" name="venue" onChange={this.updateInput} id="addPastRecForm_Venue" placeholder="Venue*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.venueError}</div>
                     </Col>
                   </Form.Row>
 
                   {/* File */}
-                  <Form.Row className="justify-content-center addPastRecForm_InnerRow">
+                  {/* <Form.Row className="justify-content-center addPastRecForm_InnerRow">
                     <Col md="10" className="text-left">
-                      <Form.File name="link" className="addPastRecForm_RecFile" label={this.state.fileLabel} onChange={console.log("set state of filename here")} custom required />
+                      <Form.File name="url" className="addPastRecForm_RecFile" label={this.state.url} onChange={this.updateInput} custom required />
+                      
+                      <div className="errorMessage text-left">{this.state.urlError}</div>
                     </Col>
-                  </Form.Row>
+                  </Form.Row> */}
 
                   {/* Start/End Time */}
                   <Form.Row className="justify-content-center addPastRecForm_InnerRow">
@@ -655,8 +944,10 @@ class PastRecording extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="startTime" id="addPastRecForm_ProgTalkStartTime" placeholder="Start Time*" required />
+                        <FormControl type="text" name="startTime" onChange={this.updateInput} id="addPastRecForm_ProgTalkStartTime" placeholder="Start Time*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.startTimeError}</div>
                     </Col>
 
                     {/* End Time */}
@@ -668,11 +959,22 @@ class PastRecording extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="endTime" id="addPastRecForm_ProgTalkEndTime" placeholder="End Time*" required />
+                        <FormControl type="text" name="endTime" onChange={this.updateInput} id="addPastRecForm_ProgTalkEndTime" placeholder="End Time*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.endTimeError}</div>
                     </Col>
                   </Form.Row>
                   
+                  {/* URL */}
+                  <Form.Row className="justify-content-center addPastRecForm_InnerRow">
+                    <Col md="10" className="text-left">
+                      <Form.Label className="addPastRecFormLabel">Recording URL</Form.Label>                                     
+                      <FormControl as="textarea" name="url" rows="4" onChange={this.updateInput} required noValidate id="addPastRecForm_PastRecURL" placeholder="Past Recording URL*" />                                       
+                      
+                      <div className="errorMessage text-left">{this.state.urlError}</div>
+                    </Col>
+                  </Form.Row>
                 </Col>
 
                 {/* Right Col */}
@@ -687,15 +989,14 @@ class PastRecording extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <Form.Control as="select" name="date" defaultValue="chooseDate" className="addPastRecFormSelect" required noValidate>
-                            <option value="chooseDate" className="addPastRecFormSelectOption">Choose an Openhouse Date</option>
-                            
-                            {/* To be retrieved from DB */}
-                            <option value={this.state.day1Date} className="addPastRecFormSelectOption">{this.state.day1Date}</option>
-                            <option value={this.state.day2Date} className="addPastRecFormSelectOption">{this.state.day2Date}</option>
-
+                        <Form.Control as="select" name="date" defaultValue="" onChange={this.updateInput} className="addPastRecFormSelect" required noValidate>
+                            <option value="" className="addPastRecFormSelectOption">Choose an Openhouse Date</option>
+                            <option value={this.state.openHouseDay1} className="addPastRecFormSelectOption">{this.state.openHouseDay1}</option>
+                            <option value={this.state.openHouseDay2} className="addPastRecFormSelectOption">{this.state.openHouseDay2}</option>
                         </Form.Control>                                        
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.dateError}</div>
                     </Col>
                   </Form.Row>
 
@@ -709,10 +1010,9 @@ class PastRecording extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <Form.Control as="select" name="uniName" defaultValue="chooseUni" className="addPastRecFormSelect" required noValidate>
-                          <option value="chooseUni" className="addPastRecFormSelectOption">Choose a University</option>
-                          
-                          {/* To be retrieved from DB */}
+                        <Form.Control as="select" name="awardingUni" defaultValue="" onChange={this.updateInput} className="addPastRecFormSelect" required noValidate>
+                          <option value="" className="addPastRecFormSelectOption">Choose a University</option>
+
                           {this.state.uniList && this.state.uniList.map((uni) => {
                             return (
                               <>
@@ -720,34 +1020,36 @@ class PastRecording extends Component {
                               </>
                             );
                           })}
-
                         </Form.Control>
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.universityError}</div>
                     </Col>
                   </Form.Row>
 
                   {/* Discipline Name */}
                   <Form.Row className="justify-content-center addPastRecForm_InnerRow">
-                      <Col md="10" className="text-left addPastRecForm_InnerCol">
-                        <Form.Label className="addPastRecFormLabel">Choose Discipline(s):</Form.Label>                                     
-                            
-                        <Container className="addPastRecForm_DisciplineCon">
-                          {/* To be retrieved from db - row is generated dynamically */}
-                          {this.state.disciplineList && this.state.disciplineList.map((discipline) => {
-                            return (
-                              <>
-                                <Row key={discipline.disciplineId}>
-                                  <Col>
-                                    <Form.Check name="discipline" checked={this.checkDiscipline} value={discipline.disciplineName} type="checkbox" label={discipline.disciplineName} className="addPastRecForm_CheckBox" />
-                                  </Col>
-                                </Row>
-                              </>
-                            );
-                          })}
+                    <Col md="10" className="text-left addPastRecForm_InnerCol">
+                      <Form.Label className="addPastRecFormLabel">Choose Discipline(s):</Form.Label>                                     
+                          
+                      <Container className="addPastRecForm_DisciplineCon">
+                        {this.state.disciplineList && this.state.disciplineList.map((discipline) => {
+                          return (
+                            <>
+                              <Row key={discipline.disciplineId}>
+                                <Col>
+                                  <Form.Check name="discipline" value={discipline.disciplineName} onChange={this.handleCheckbox} type="checkbox" label={discipline.disciplineName} className="addPastRecForm_CheckBox" />
+                                </Col>
+                              </Row>
+                            </>
+                          );
+                        })}
 
-                        </Container>                                        
-                      </Col>
-                    </Form.Row>
+                      </Container>         
+
+                      <div className="errorMessage text-left">{this.state.disciplineError}</div>                               
+                    </Col>
+                  </Form.Row>
 
                 </Col>
               </Form.Row>
@@ -757,9 +1059,8 @@ class PastRecording extends Component {
 
           <Modal.Footer className="justify-content-center">
             {/* Add Past Rec Submit Btn*/}
-            <Button type="submit" id="addPastRecFormBtn">Submit</Button>
-          </Modal.Footer>
-          
+            <Button type="submit" id="addPastRecFormBtn" onClick={this.addPastRecording}>Submit</Button>
+          </Modal.Footer>        
         </Modal>
 
 
@@ -781,7 +1082,7 @@ class PastRecording extends Component {
           </Modal.Header>
 
           <Modal.Body id="editPastRecModalBody">
-            <Form noValidate> {/* Need to add onSubmit later */}
+            <Form noValidate onSubmit={()=>{this.editPastRecording()}}>
               {/* Main Row */}
               <Form.Row className="justify-content-center">
                 {/* Left Col */}
@@ -796,8 +1097,10 @@ class PastRecording extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" name="talkName" defaultValue={this.state.talkName} id="editPastRecForm_ProgTalkName" placeholder="Name of Recording*" required />
+                        <FormControl type="text" name="talkName" defaultValue={this.state.talkName} onChange={this.updateInput} id="editPastRecForm_ProgTalkName" placeholder="Name of Recording*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.pastRecError}</div>
                     </Col>
                   </Form.Row>
 
@@ -811,17 +1114,21 @@ class PastRecording extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <FormControl type="text" name="venue" defaultValue={this.state.venue} id="editPastRecForm_Venue" placeholder="Venue*" required />
+                        <FormControl type="text" name="venue" defaultValue={this.state.venue} onChange={this.updateInput} id="editPastRecForm_Venue" placeholder="Venue*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.venueError}</div>
                     </Col>
                   </Form.Row>
 
                   {/* File */}
-                  <Form.Row className="justify-content-center editPastRecForm_InnerRow">
+                  {/* <Form.Row className="justify-content-center editPastRecForm_InnerRow">
                     <Col md="10" className="text-left">
-                        <Form.File name="link" className="editPastRecForm_RecFile" label={this.state.link} onChange={console.log("set state of filename here")} custom required />
+                        <Form.File name="url" className="editPastRecForm_RecFile" label={this.state.url} onChange={this.updateInput} custom required />
+                        
+                        <div className="errorMessage text-left">{this.state.urlError}</div>
                     </Col>
-                  </Form.Row>
+                  </Form.Row> */}
 
                   {/* Start/End Time */}
                   <Form.Row className="justify-content-center editPastRecForm_InnerRow">
@@ -834,8 +1141,10 @@ class PastRecording extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="startTime" defaultValue={this.state.startTime} id="editPastRecForm_ProgTalkStartTime" placeholder="Start Time*" required />
+                        <FormControl type="text" name="startTime" defaultValue={this.state.startTime} onChange={this.updateInput} id="editPastRecForm_ProgTalkStartTime" placeholder="Start Time*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.startTimeError}</div>
                     </Col>
 
                     {/* End Time */}
@@ -847,11 +1156,22 @@ class PastRecording extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <FormControl type="text" name="endTime" defaultValue={this.state.endTime} id="editPastRecForm_ProgTalkEndTime" placeholder="End Time*" required />
+                        <FormControl type="text" name="endTime" defaultValue={this.state.endTime} onChange={this.updateInput} id="editPastRecForm_ProgTalkEndTime" placeholder="End Time*" required noValidate />
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.endTimeError}</div>
                     </Col>
                   </Form.Row>
-                    
+
+                  {/* URL */}
+                  <Form.Row className="justify-content-center editPastRecForm_InnerRow">
+                    <Col md="10" className="text-left">
+                      <Form.Label className="editPastRecFormLabel">Recording URL</Form.Label>                                     
+                      <FormControl as="textarea" name="url" rows="4" defaultValue={this.state.url} onChange={this.updateInput} required noValidate id="editPastRecForm_PastRecURL" placeholder="Past Recording URL*" />                                       
+                      
+                      <div className="errorMessage text-left">{this.state.urlError}</div>
+                    </Col>
+                  </Form.Row>
                 </Col>
 
                 {/* Right Col */}
@@ -866,15 +1186,15 @@ class PastRecording extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
                         
-                        <Form.Control as="select" name="date" defaultValue={this.state.date} className="editPastRecFormSelect" required noValidate>
-                          <option value="chooseDate" className="editPastRecFormSelectOption">Choose an Openhouse Date</option>
-                          
-                          {/* To be retrieved from DB */}
-                          <option value={this.state.day1Date} className="editPastRecFormSelectOption">{this.state.day1Date}</option>
-                          <option value={this.state.day2Date} className="editPastRecFormSelectOption">{this.state.day2Date}</option>
+                        <Form.Control as="select" name="date" defaultValue={this.state.date} onChange={this.updateInput} className="editPastRecFormSelect" required noValidate>
+                          <option value="" className="editPastRecFormSelectOption">Choose an Openhouse Date</option>
 
+                          <option value={this.state.openHouseDay1} className="editPastRecFormSelectOption">{this.state.openHouseDay1}</option>
+                          <option value={this.state.openHouseDay2} className="editPastRecFormSelectOption">{this.state.openHouseDay2}</option>
                         </Form.Control>                                        
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.dateError}</div>
                     </Col>
                   </Form.Row>
 
@@ -888,10 +1208,9 @@ class PastRecording extends Component {
                           </InputGroup.Text>
                         </InputGroup.Prepend>
 
-                        <Form.Control as="select" name="uniName" defaultValue={this.state.awardingUni} className="editPastRecFormSelect" required noValidate>
-                          <option value="chooseUni" className="editPastRecFormSelectOption">Choose a University</option>
-                          
-                          {/* To be retrieved from DB */}
+                        <Form.Control as="select" name="awardingUni" defaultValue={this.state.awardingUni} onChange={this.updateInput} className="editPastRecFormSelect" required noValidate>
+                          <option value="" className="editPastRecFormSelectOption">Choose a University</option>
+
                           {this.state.uniList && this.state.uniList.map((uni) => {
                             return (
                               <>
@@ -899,9 +1218,10 @@ class PastRecording extends Component {
                               </>
                             );
                           })}
-
                         </Form.Control>
                       </InputGroup>
+
+                      <div className="errorMessage text-left">{this.state.universityError}</div>
                     </Col>
                   </Form.Row>
 
@@ -911,20 +1231,21 @@ class PastRecording extends Component {
                       <Form.Label className="editPastRecFormLabel">Choose Discipline(s):</Form.Label>                                     
                           
                       <Container className="editPastRecForm_DisciplineCon">
-                        {/* To be retrieved from db - row is generated dynamically */}
                         {this.state.disciplineList && this.state.disciplineList.map((discipline) => {
                           return (
                             <>
                               <Row key={discipline.disciplineId}>
                                 <Col>
-                                  <Form.Check name="discipline" checked={this.checkDiscipline} value={discipline.disciplineName} type="checkbox" label={discipline.disciplineName} className="editPastRecForm_CheckBox" />
+                                  <Form.Check name="discipline" value={discipline.disciplineName} onChange={this.handleCheckbox} defaultChecked={this.state.discipline.indexOf(discipline.disciplineName) > -1} type="checkbox" label={discipline.disciplineName} className="editPastRecForm_CheckBox" />
                                 </Col>
                               </Row>
                             </>
                           );
                         })}
 
-                      </Container>                                        
+                      </Container>     
+
+                      <div className="errorMessage text-left">{this.state.disciplineError}</div>                                   
                     </Col>
                   </Form.Row>
 
@@ -939,7 +1260,7 @@ class PastRecording extends Component {
             <Container>
               <Row>
                 <Col md="6" className="text-right">
-                  <Button id="saveChangesPastRecFormBtn" onClick={this.handleSaveChanges}>Save Changes</Button>
+                  <Button id="saveChangesPastRecFormBtn" onClick={(e) => {this.editPastRecording()}}>Save Changes</Button>
                 </Col>
 
                 <Col md="6" className="text-left">

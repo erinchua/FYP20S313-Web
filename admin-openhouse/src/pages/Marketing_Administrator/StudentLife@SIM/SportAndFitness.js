@@ -1,398 +1,218 @@
+import { Container, Row, Col, Table, Button, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
+import firebase from "firebase/app";
 
-//import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
+import '../../../css/Marketing_Administrator/SportAndFitness.css';
+import '../../../css/Marketing_Administrator/StudentLife.css';
+import NavBar from '../../../components/Navbar';
+import SideNavBar from '../../../components/SideNavbar';
+import Footer from '../../../components/Footer';
+import AddClubsAndCouncilsModal from '../../../components/Marketing_Administrator/Student Life@SIM/AddClubsAndCouncilsModal';
+import EditClubsAndCouncilsModal from '../../../components/Marketing_Administrator/Student Life@SIM/EditClubsAndCouncilsModal';
+import DeleteClubsAndCouncilsModal from '../../../components/Marketing_Administrator/Student Life@SIM/DeleteClubsAndCouncilsModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 class SportAndFitness extends Component {
-  constructor() {
-    super();
-    this.state = {
-      categoryType: "",
-      clubsAndCouncilDescription: "",
-      clubsAndCouncilTitle: "",
-      clubsAndCouncilsLogo: "",
-      progress: "",
-    };
-  }
+    constructor() {
+        super();
+        this.state = {
+            id: "",
+            categoryType: "",
+            clubsAndCouncilDescription: "",
+            clubsAndCouncilTitle: "",
+            clubsAndCouncilsLogo: "",
+            counter: "",
+            progress: "",
+            //Below states are for functions
+            sportsFitness: "",
+            //Below states are for modals
+            addModal: false,
+            deleteModal: false,
+            editModal: false,
+        };
+    }
 
-  authListener() {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        const db = fire.firestore();
-        var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
-        getrole.get().then((snapshot) => {
-          snapshot.forEach((doc) => {
-            if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
+    authListener() {
+        fire.auth().onAuthStateChanged((user) => {
+            if (user) {
+                const db = fire.firestore();
+                var getrole = db
+                .collection("Administrators")
+                .where("email", "==", user.email);
+                getrole.get().then((snapshot) => {
+                    snapshot.forEach((doc) => {
+                        if (doc.data().administratorType === "Marketing Administrator") {
+                            this.display();
+                        } else {
+                            history.push("/Login");
+                        }
+                    });
+                });
             } else {
-              history.push("/Login");
+                history.push("/Login");
             }
-          });
         });
-      } else {
-        history.push("/Login");
-      }
-    });
-  }
-  updateInput = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+    }
 
-  componentDidMount() {
-    
-    this.authListener();
- 
-  }
+    componentDidMount() {
+        this.authListener();
+    }
 
-  display() {
-    const db = fire.firestore();
-    var counter = 1;
-    const userRef = db
-      .collection("ClubsAndCouncils").where("categoryType", "==", "SportsFitness")
-      .get()
-      .then((snapshot) => {
-        const sportfitness = [];
-        snapshot.forEach((doc) => {
-          const data = {
-            categoryType: doc.data().categoryType,
-            clubsAndCouncilDescription: doc.data().clubsAndCouncilDescription,
-            clubsAndCouncilTitle: doc.data().clubsAndCouncilTitle,
-            clubsAndCouncilsLogo: doc.data().clubsAndCouncilsLogo,
-            id: doc.id,
-            counter: counter,
-          };
-          counter++;
-          sportfitness.push(data);
+    display() {
+        const db = fire.firestore();
+        var counter = 1;
+        db.collection("ClubsAndCouncils").where("categoryType", "==", "SportsFitness").get()
+        .then((snapshot) => {
+            const sportsFitness = [];
+            snapshot.forEach((doc) => {
+                const data = {
+                    categoryType: doc.data().categoryType,
+                    clubsAndCouncilDescription: doc.data().clubsAndCouncilDescription,
+                    clubsAndCouncilTitle: doc.data().clubsAndCouncilTitle,
+                    clubsAndCouncilsLogo: doc.data().clubsAndCouncilsLogo,
+                    id: doc.id,
+                    counter: counter,
+                };
+                counter++;
+                sportsFitness.push(data);
+            });
+
+            this.setState({ sportsFitness: sportsFitness });
         });
+    }
 
-        this.setState({ sportfitness: sportfitness });
-      });
-  }
-  handleFileUpload = (files) => {
-    this.setState({
-      files: files,
-    });
-  
-  };
-  addSportFitness()  {
-  const db = fire.firestore();
-      var lastdoc = db.collection("ClubsAndCouncils").orderBy('id','desc')
-      .limit(1).get().then((snapshot) =>  {
-        snapshot.forEach((doc) => {
-  var docid= "";
-          var res = doc.data().id.substring(5, 10);
-        var id = parseInt(res)
-  if(id.toString().length <= 2){
-  docid= "club-0" + (id +1) 
-  }else{
-    docid="club-0" + (id +1) 
-  }
-  var clubsAndCouncilTitle = document.getElementById("clubsAndCouncilTitle").value;
-var clubsAndCouncilDescription = document.getElementById("clubsAndCouncilDescription").value
+    //Add Modal
+    handleAdd = () => {
+        this.addModal = this.state.addModal;
+        if (this.addModal == false) {
+            this.setState({
+                addModal: true,
+            });
+        } else {
+            this.setState({
+                addModal: false
+            });
+            this.display();
+        }
+    }
 
-const parentthis = this;
-const foldername = "/ClubsAndCouncil/SportsFitness";
-const file = this.state.files[0];
-const storageRef = fire.storage().ref(foldername);
-const fileRef = storageRef.child(file.name).put(file);
-fileRef.on("state_changed", function (snapshot) {
-  fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-  
+    //Edit Modal
+    handleEdit = (sportsFitness) => {
+        this.editModal = this.state.editModal;
+        if (this.editModal == false) {
+            this.setState({
+                editModal: true,
+                id: sportsFitness.id,
+                categoryType: sportsFitness.categoryType,
+                clubsAndCouncilDescription: sportsFitness.clubsAndCouncilDescription,
+                clubsAndCouncilTitle: sportsFitness.clubsAndCouncilTitle,
+                clubsAndCouncilsLogo: sportsFitness.clubsAndCouncilsLogo,
+            });
+        } else {
+            this.setState({
+                editModal: false
+            });
+            this.display();
+        }
+    }
 
-    const userRef = db
-    .collection("ClubsAndCouncils")
-    .doc(docid)
-    .set({
-        categoryType : "SportsFitness",
-        clubsAndCouncilTitle: clubsAndCouncilTitle,
-        clubsAndCouncilDescription: clubsAndCouncilDescription,
-        clubsAndCouncilsLogo: downloadURL,
-    })
-    .then(function () {
-      alert("Added");
-      window.location.reload();
-    });
+    //Delete Modal
+    handleDelete = () => {
+        this.deleteModal = this.state.deleteModal;
+        if (this.deleteModal == false) {
+            this.setState({
+                deleteModal: true,
+            });
+        } else {
+            this.setState({
+                deleteModal: false
+            });
+            this.display();
+        }
+    }
 
-  });
-  const progress = Math.round(
-    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-  );
-  if (progress != "100") {
-    parentthis.setState({ progress: progress });
-  } else {
-    parentthis.setState({ progress: "Uploaded!" });
-  }
-});
+    render() {
+        return (
+            <div>
+                <Container fluid className="SportsFitness-container">
+                    <NavBar isMA={true} />
 
+                        <Container fluid className="SportsFitness-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                            <Row>
+                                <Col md={2} style={{paddingRight: 0}}>
+                                    <SideNavBar />
+                                </Col>
 
-      })
+                                <Col md={10} style={{paddingLeft: 0}}>
+                                    <Container fluid id="SportsFitness-topContentContainer">
+                                        <Row id="SportsFitness-firstRow">
+                                            <Col md={6} className="text-left" id="SportsFitness-firstRowCol">
+                                                <h4 id="SportsFitness-title">Sports & Fitness</h4>
+                                            </Col>
+                                            <Col md={6} className="text-right" id="SportsFitness-firstRowCol">
+                                                <Button id="SportsFitness-addBtn" onClick={this.handleAdd}><FontAwesomeIcon size="lg" icon={faPlus} /><span id="SportsFitness-addBtnText">Add</span></Button>
+                                            </Col>
+                                        </Row>
 
-  });
+                                        <Row id="SportsFitness-secondRow">
+                                            <Col md={12} className="text-center" id="SportsFitness-secondRowCol">
+                                                <Table responsive="sm" bordered id="SportsFitness-tableContainer">
+                                                    <thead id="SportsFitness-tableHeader">
+                                                        <tr>
+                                                            <th>S/N</th>
+                                                            <th>Name of Club/Council</th>
+                                                            <th>Description</th>
+                                                            <th>Logo File</th>
+                                                            <th>Edit</th>
+                                                            <th>Delete</th>
+                                                        </tr>
+                                                    </thead>
+                                                    {this.state.sportsFitness && this.state.sportsFitness.map((sportsFitness) => {
+                                                        return (
+                                                            <tbody id="SportsFitness-tableBody" key={sportsFitness.id}>
+                                                                <tr>
+                                                                    <td>{sportsFitness.counter}</td>
+                                                                    <td>{sportsFitness.clubsAndCouncilTitle}</td>
+                                                                    <td className="text-left">{sportsFitness.clubsAndCouncilDescription}</td>
+                                                                    <td className="text-left">{sportsFitness.clubsAndCouncilTitle} Logo</td>
+                                                                    <td><Button size="sm" id="SportsFitness-editBtn" onClick={() => this.handleEdit(sportsFitness)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                    <td><Button size="sm" id="SportsFitness-deleteBtn" onClick={() => [this.setState({id: sportsFitness.id, clubsAndCouncilTitle: sportsFitness.clubsAndCouncilTitle, categoryType: sportsFitness.categoryType, clubsAndCouncilsLogo: sportsFitness.clubsAndCouncilsLogo}), this.handleDelete()]}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        )
+                                                    })}
+                                                </Table>
+                                            </Col>
+                                        </Row>
 
-}
+                                    </Container>
+                                </Col>
+                            </Row>    
+                        </Container>                    
 
-  editSportFitness(e, sportfitnessid) {
-    document.getElementById(sportfitnessid + "upload").removeAttribute("hidden");
-    document.getElementById(sportfitnessid + "spansportfitnesstitle").removeAttribute("hidden");
-    document.getElementById(sportfitnessid + "spansportfitnessdesc").removeAttribute("hidden");
-    document.getElementById(sportfitnessid + "spansportfitnesslogo").removeAttribute("hidden");
-    document.getElementById(sportfitnessid + "editbutton").setAttribute("hidden", "");
-    document.getElementById(sportfitnessid + "updatebutton").removeAttribute("hidden");
-    document.getElementById(sportfitnessid + "cancelbutton").removeAttribute("hidden");
-    var texttohide = document.getElementsByClassName(
-        sportfitnessid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }  
-}
+                    <Footer />
+                </Container>
 
-  CancelEdit(e, sportfitnessid) {
-    document.getElementById(sportfitnessid + "upload").setAttribute("hidden", "");
-    document.getElementById(sportfitnessid + "spansportfitnesstitle").setAttribute("hidden", "");
-    document.getElementById(sportfitnessid + "spansportfitnessdesc").setAttribute("hidden", "");
-    document.getElementById(sportfitnessid + "spansportfitnesslogo").setAttribute("hidden", "");
-    document.getElementById(sportfitnessid + "editbutton").removeAttribute("hidden");
-    document.getElementById(sportfitnessid + "updatebutton").setAttribute("hidden", "");
-    document.getElementById(sportfitnessid + "cancelbutton").setAttribute("hidden", "");
-    var texttohide = document.getElementsByClassName(
-        sportfitnessid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].removeAttribute("hidden", "");
-      }
-}
+                {/* Add Modal */}
+                <Modal show={this.state.addModal} onHide={this.handleAdd} size="lg" centered keyboard={false}>
+                    <AddClubsAndCouncilsModal handleClose={this.handleAdd}/>
+                </Modal>
 
-DeleteSportFitness(e, sportfitnessid) {
-    const db = fire.firestore();
-  
-    const userRef = db
-      .collection("ClubsAndCouncils")
-      .doc(sportfitnessid)
-      .delete()
-      .then(function () {
-        alert("Deleted");
-        window.location.reload();
-      });
-  }
+                {/* Edit Modal */}
+                <Modal show={this.state.editModal} onHide={this.handleEdit} size="lg" centered keyboard={false}>
+                    <EditClubsAndCouncilsModal handleEdit={this.handleEdit} id={this.state.id} categoryType={this.state.categoryType} clubsAndCouncilTitle={this.state.clubsAndCouncilTitle} clubsAndCouncilDescription={this.state.clubsAndCouncilDescription} clubsAndCouncilsLogo={this.state.clubsAndCouncilsLogo}/>
+                </Modal>
 
-handleSave = (sportfitnessid) => {
-  const parentthis = this;
-  const db = fire.firestore();
+                {/* Delete Modal */}
+                <Modal show={this.state.deleteModal} onHide={this.handleDelete} size="md" centered keyboard={false}>
+                    <DeleteClubsAndCouncilsModal handleDelete={this.handleDelete} id={this.state.id} categoryType={this.state.categoryType} clubsAndCouncilTitle={this.state.clubsAndCouncilTitle} clubsAndCouncilsLogo={this.state.clubsAndCouncilsLogo}/>
+                </Modal>
 
-  var clubsAndCouncilTitle = document.getElementById(sportfitnessid + "sportfitnesstitle").value;
-var clubsAndCouncilDescription = document.getElementById(sportfitnessid + "sportfitnessdesc").value;
-console.log(this.state.files);
-
-if (this.state.files !== undefined) {
-    const foldername = "/ClubsAndCouncil/SportsFitness";
-    const storageRef = fire.storage().ref(foldername);
-    const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
-    fileRef.on("state_changed", function (snapshot) {
-      fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-
-        const userRef = db
-        .collection("ClubsAndCouncils")
-        .doc(sportfitnessid)
-        .update({
-            clubsAndCouncilTitle: clubsAndCouncilTitle,
-            clubsAndCouncilDescription: clubsAndCouncilDescription,
-            clubsAndCouncilsLogo: downloadURL,
-        })
-        .then(function () {
-          alert("Updated");
-          window.location.reload();
-        });
-
-      });
-      const progress = Math.round(
-        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-      );
-      if (progress != "100") {
-        parentthis.setState({ progress: progress });
-      } else {
-        parentthis.setState({ progress: "Uploaded!" });
-      }
-    });
-    console.log();
-  } else {
-    const userRef = db
-    .collection("ClubsAndCouncils")
-    .doc(sportfitnessid)
-    .update({
-        clubsAndCouncilTitle: clubsAndCouncilTitle,
-        clubsAndCouncilDescription: clubsAndCouncilDescription,
-    })
-    .then(function () {
-      alert("Updated");
-      window.location.reload();
-    });
-  }
-};
-
-  render() {
-    return (
-      <div className="home">
-        <div>
-          <table id="users" class="table table-bordered"> 
-            <tbody>
-              <tr>
-                <th scope="col">S/N</th>
-                <th scope="col">Name of Clubs/Councils</th>
-                <th scope="col">Description</th>
-                <th scope="col">Logo File</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
-              </tr>
-              {this.state.sportfitness &&
-                this.state.sportfitness.map((sportfitness) => {
-                  return (
-                    <tr>
-                        <td>{sportfitness.counter}</td>
-                      <td>
-                      <span class={sportfitness.id + "text"}>
-                      {sportfitness.clubsAndCouncilTitle}
-                        </span>
-                          <span id={sportfitness.id + "spansportfitnesstitle"} hidden>
-                          <input
-                            id={sportfitness.id + "sportfitnesstitle"}
-                            defaultValue={sportfitness.clubsAndCouncilTitle}
-                            type="text"
-                            name={sportfitness.id + "sportfitnesstitle"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={sportfitness.clubsAndCouncilTitle}
-                            required
-                          />
-                        </span>            
-                      </td>
-                      <td>
-                      <span class={sportfitness.id + "text"}>
-                      {sportfitness.clubsAndCouncilDescription}
-                        </span>
-                          <span id={sportfitness.id + "spansportfitnessdesc"} hidden>
-                          <input
-                            id={sportfitness.id + "sportfitnessdesc"}
-                            defaultValue={sportfitness.clubsAndCouncilDescription}
-                            type="text"
-                            name={sportfitness.id + "sportfitnessdesc"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={sportfitness.clubsAndCouncilDescription}
-                            required
-                          />
-                        </span>  
-                      </td>
-                      <td>
-                      <span class={sportfitness.id + "text"}>
-                      {sportfitness.clubsAndCouncilsLogo}
-                        </span>
-                          <span id={sportfitness.id + "spansportfitnesslogo"} hidden>
-                          <input
-                            id={sportfitness.id + "sportfitnesslogo"}
-                            defaultValue={sportfitness.clubsAndCouncilsLogo}
-                            type="text"
-                            name={sportfitness.id + "sportfitnesslogo"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={sportfitness.clubsAndCouncilsLogo}
-                            required
-                            disabled={"disabled"}
-                          />
-                        </span>
-                       <span id= {sportfitness.id+ "upload" } hidden ><input
-            type="file"
-            onChange={(e) => {
-              this.handleFileUpload(e.target.files);
-            }}
-          />
-         
-       {this.state.progress}
-       <div>
-         <progress value={this.state.progress} max="100" />
-       </div>
-       </span> 
-                      </td>
-                      <td>
-                        <button
-                          id={sportfitness.id + "editbutton"}
-                          onClick={(e) => {
-                            this.editSportFitness(e, sportfitness.id);
-                          }}
-                        >
-                          Edit
-                        </button>
-
-                        <button
-                          id={sportfitness.id + "updatebutton"}
-                          hidden
-                          onClick={(e) => {
-                            this.handleSave(sportfitness.id);
-                          }}
-                        >
-                          Update
-                        </button>
-                        <button
-                          hidden
-                          id={sportfitness.id + "cancelbutton"}
-                          onClick={(e) => {
-                            this.CancelEdit(e, sportfitness.id);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                      <td>
-                        <button
-                          onClick={(e) => {
-                            this.DeleteSportFitness(e, sportfitness.id);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-        <form onSubmit={(e) => {this.addSportFitness(); e.preventDefault();}}>
-          <input
-            id="clubsAndCouncilTitle"
-            type="text"
-            name="clubsAndCouncilTitle"
-            placeholder="Title"
-            onChange={this.updateInput}
-            value={this.state.clubsAndCouncilTitle}
-            required
-          />
-          <input
-            id="clubsAndCouncilDescription"
-            type="text"
-            name="clubsAndCouncilDescription"
-            placeholder="Description"
-            onChange={this.updateInput}
-            value={this.state.clubsAndCouncilDescription}
-            required
-          />
-          <input
-            type="file"
-
-            onChange={(e) => {
-              this.handleFileUpload(e.target.files); 
-            }
-            
-            }required></input>
-          <button type="submit">Add Sport Fitness</button>
-        </form>
-      </div>
-    );
-  }
+            </div>
+        );
+    }
 }
 export default SportAndFitness;
