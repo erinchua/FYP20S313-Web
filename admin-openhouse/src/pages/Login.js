@@ -59,7 +59,8 @@ class Login extends Component {
                 .where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
                     if (snapshot.empty) {
-                        alert("No such user!");
+                        console.log("No such user!");
+                        this.setState({showAlert: true});
                     } else {
                         snapshot.forEach((doc) => {
                             if (doc.data().administratorType === "Marketing Administrator") {
@@ -89,7 +90,8 @@ class Login extends Component {
                 .where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
                     if (snapshot.empty) {
-                        alert("No such user!");
+                        console.log("No such user!");
+                        this.setState({showAlert: true});
                     } else {
                         snapshot.forEach((doc) => {
                             if (doc.data().administratorType === "Super Administrator") {
@@ -115,11 +117,12 @@ class Login extends Component {
                 const db = fire.firestore();
 
                 var getrole = db
-                .collection("Crews")
+                .collection("Administrators")
                 .where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
                     if (snapshot.empty) {
-                        alert("No such user!");
+                        console.log("No such user!");
+                        this.setState({showAlert: true});
                     } else {
                         snapshot.forEach((doc) => {
                             if (doc.data().administratorType === "Crew") {
