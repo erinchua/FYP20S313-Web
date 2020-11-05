@@ -3,7 +3,6 @@ import { Modal, Form, Button, Col } from 'react-bootstrap';
 
 import fire from "../../config/firebase";
 import history from "../../config/history";
-import firecreate from "../../config/firebasecreate";
 import "../../css/Super_Administrator/AddUserModal.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAddressCard, faEnvelope, faUserCircle } from '@fortawesome/free-regular-svg-icons';
@@ -47,7 +46,7 @@ export default class AddUserModal extends React.Component {
         console.log("Added admin")
 
         e.preventDefault();
-        firecreate
+        fire
           .auth()
           .createUserWithEmailAndPassword(this.state.email, this.state.password)
           .then((useraction) => {
