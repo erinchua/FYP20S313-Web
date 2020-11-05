@@ -173,9 +173,7 @@ class StudySIM_ArtsSocialSciences extends Component {
                   {/* Study@SIM Page Header row */}
                   <Row className="justify-content-center MAStudySIMContentHeaderRow">
                     <Col md="6" className="text-left MAStudySIMContentHeaderCol">
-                      <h4 className="MAStudySIMHeaderText">
-                        Programmes for Art & Social Science
-                      </h4>
+                      <h4 className="MAStudySIMHeaderText">Programmes for Art & Social Science</h4>
                     </Col>
 
                     <Col md="6" className="text-right MAStudySIMContentHeaderCol">
@@ -215,23 +213,24 @@ class StudySIM_ArtsSocialSciences extends Component {
                                 <td className="studySIMProgData_SNo text-center">{index}</td>
                                 <td className="studySIMProgData_ProgName text-left">
                                   <a className="studySIMProgData_ProgNameLink" onClick={() => 
-                                    {this.setState({
-                                      programmeName: artsocialscience.programmeName,
-                                      aboutprogramme1: artsocialscience.aboutprogramme.aboutProgramme1,
-                                      aboutprogramme2: artsocialscience.aboutprogramme.aboutProgramme2,
-                                      aboutprogramme3: artsocialscience.aboutprogramme.aboutProgramme3,
-                                      applicationperiod1: artsocialscience.applicationperiod.period1,
-                                      applicationperiod2: artsocialscience.applicationperiod.period2,
-                                      programmestructurecoursework: artsocialscience.programmestructure.coursework,
-                                      programmestructureexamination: artsocialscience.programmestructure.examination,
-                                      overseaopportunityexchange: artsocialscience.overseaopportunity.exchange,
-                                      overseaopportunitytransfer: artsocialscience.overseaopportunity.transfer,
-                                      intakemonthsfulltime: artsocialscience.intakemonths.fullTime,
-                                      intakemonthsparttime: artsocialscience.intakemonths.partTime,
-                                      durationfulltime: artsocialscience.duration.fullTime,
-                                      durationparttime: artsocialscience.duration.partTime,
-                                    });
-                                    this.handleViewStudySIMProgDetailsModal();
+                                    {
+                                      this.setState({
+                                        programmeName: artsocialscience.programmeName,
+                                        aboutprogramme1: artsocialscience.aboutprogramme.aboutProgramme1,
+                                        aboutprogramme2: artsocialscience.aboutprogramme.aboutProgramme2,
+                                        aboutprogramme3: artsocialscience.aboutprogramme.aboutProgramme3,
+                                        applicationperiod1: artsocialscience.applicationperiod.period1,
+                                        applicationperiod2: artsocialscience.applicationperiod.period2,
+                                        programmestructurecoursework: artsocialscience.programmestructure.coursework,
+                                        programmestructureexamination: artsocialscience.programmestructure.examination,
+                                        overseaopportunityexchange: artsocialscience.overseaopportunity.exchange,
+                                        overseaopportunitytransfer: artsocialscience.overseaopportunity.transfer,
+                                        intakemonthsfulltime: artsocialscience.intakemonths.fullTime,
+                                        intakemonthsparttime: artsocialscience.intakemonths.partTime,
+                                        durationfulltime: artsocialscience.duration.fullTime,
+                                        durationparttime: artsocialscience.duration.partTime,
+                                      });
+                                      this.handleViewStudySIMProgDetailsModal();
                                     }}
                                   >
                                     {artsocialscience.programmeName}
@@ -372,7 +371,7 @@ class StudySIM_ArtsSocialSciences extends Component {
           keyboard={false}
           className="addStudySIMProgModal"
         >
-          <AddStudySIMProgModal />
+          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} />
         </Modal>
 
         {/* Edit Programme Modal */}
@@ -420,7 +419,7 @@ class StudySIM_ArtsSocialSciences extends Component {
             durationparttime={this.state.durationparttime}
             docid={this.state.docid}
             
-            handleSaveChanges={() => {console.log("Edit Modal Saved");}}
+            handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
             handleCancelEdit={this.handleEditStudySIMProgModal}
           />
         </Modal>

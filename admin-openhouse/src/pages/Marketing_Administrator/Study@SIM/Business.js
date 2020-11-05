@@ -212,7 +212,8 @@ class StudySIM_Business extends Component {
                               <tr>
                                 <td className="studySIMProgData_SNo text-center">{index}</td>
                                 <td className="studySIMProgData_ProgName text-left">
-                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => 
+                                    {
                                       this.setState({
                                         programmeName: business.programmeName,
                                         aboutprogramme1: business.aboutprogramme.aboutProgramme1,
@@ -376,7 +377,7 @@ class StudySIM_Business extends Component {
           keyboard={false}
           className="addStudySIMProgModal"
         >
-          <AddStudySIMProgModal />
+          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} />
         </Modal>
 
         {/* Edit Programme Modal */}
@@ -424,9 +425,7 @@ class StudySIM_Business extends Component {
             durationparttime={this.state.durationparttime}
             docid={this.state.docid}
 
-            handleSaveChanges={() => {
-              console.log("Edit Modal Saved");
-            }}
+            handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
             handleCancelEdit={this.handleEditStudySIMProgModal}
           />
         </Modal>

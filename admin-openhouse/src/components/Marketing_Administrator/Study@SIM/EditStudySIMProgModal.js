@@ -47,6 +47,7 @@ export default class EditStudySIMProgModal extends React.Component {
     this.DisciplinehandleChange = this.DisciplinehandleChange.bind(this);
     this.SubDisciplinehandleChange = this.SubDisciplinehandleChange.bind(this);
   }
+
   componentDidMount() {
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
@@ -70,7 +71,6 @@ export default class EditStudySIMProgModal extends React.Component {
       this.setState({
         parttime: true,
       });
-
       Modeofstudy.push(data);
     } else {
       const data = {
@@ -677,7 +677,7 @@ export default class EditStudySIMProgModal extends React.Component {
             "subDiscipline.subDisciplineName5": subdiscipline5,
           })
           .then(function () {
-            alert("Updated");
+            // alert("Updated");
           });
         });
 
@@ -733,7 +733,7 @@ export default class EditStudySIMProgModal extends React.Component {
         "subDiscipline.subDisciplineName5": subdiscipline5,
       })
       .then(function () {
-        alert("Updated");
+        // alert("Updated");
       });
     }
   }

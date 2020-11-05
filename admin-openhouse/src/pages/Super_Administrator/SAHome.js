@@ -48,13 +48,11 @@ class SAHome extends Component {
               
             } else {
               history.push("/Login");
-              window.location.reload();
             }
           });
         });
       } else {
         history.push("/Login");
-        window.location.reload();
       }
     });
   }
@@ -69,13 +67,13 @@ class SAHome extends Component {
     const db = fire.firestore();
 
     const userRef = db
-      .collection("Administrators")
-      .doc(this.state.id)
-      .delete()
-      .then(function () {
-        // alert("Deleted");
-        window.location.reload();
-      });
+    .collection("Administrators")
+    .doc(this.state.id)
+    .delete()
+    .then(dataSnapshot => {
+      this.display();
+      this.setState({deleteAdminModal: false}); 
+    });
   }
   
   componentDidMount() {
@@ -86,26 +84,25 @@ class SAHome extends Component {
     const db = fire.firestore();
     var counter = 1;
     const userRef = db
-      .collection("Administrators").where("administratorType", "==", "Marketing Administrator")
-      .get()
-      .then((snapshot) => {
-        const users = [];
-        snapshot.forEach((doc) => {
-          const data = {
-            administratorType: doc.data().administratorType,
-            name: doc.data().name,
-            email: doc.data().email,
-            password: doc.data.password,
-            id: doc.id,
-            counter : counter,
-
-          };
-          counter++;
-          users.push(data);
-        });
-
-        this.setState({ users: users });
+    .collection("Administrators").where("administratorType", "==", "Marketing Administrator")
+    .get()
+    .then((snapshot) => {
+      const users = [];
+      snapshot.forEach((doc) => {
+        const data = {
+          administratorType: doc.data().administratorType,
+          name: doc.data().name,
+          email: doc.data().email,
+          password: doc.data.password,
+          id: doc.id,
+          counter : counter,
+        };
+        counter++;
+        users.push(data);
       });
+
+      this.setState({ users: users });
+    });
   }
   
   logout() {
@@ -153,49 +150,47 @@ class SAHome extends Component {
       
       const userRef = db
       .collection("Administrators").where("administratorType", "==", "Marketing Administrator")
-        .get()
-        .then((snapshot) => {
-          const users = [];
-          snapshot.forEach((doc) => {
-            const data = {
-              administratorType: doc.data().administratorType,
-              name: doc.data().name,
-              email: doc.data().email,
-              password: doc.data.password,
-              id: doc.id,
-              counter : counter,
-            };
-            users.push(data);
-            counter ++;
-          });
-
-          this.setState({ users: users });
-        });
-    } else {
-      const userRef = db
-        .collection("Administrators").where("administratorType", "==", "Marketing Administrator") 
-        .orderBy("email")
-        .startAt(searchvalue)
-        .endAt(searchvalue + "\uf8ff")
-        .get()
-        .then((snapshot) => {
-          const users = [];
-          snapshot.forEach((doc) => {
-            const data = {
+      .get()
+      .then((snapshot) => {
+        const users = [];
+        snapshot.forEach((doc) => {
+          const data = {
             administratorType: doc.data().administratorType,
             name: doc.data().name,
             email: doc.data().email,
             password: doc.data.password,
             id: doc.id,
             counter : counter,
-            };
-            counter++;
-            users.push(data);
-          });
-          
-          this.setState({ users: users });
-          
+          };
+          users.push(data);
+          counter ++;
         });
+
+        this.setState({ users: users });
+      });
+    } else {
+      const userRef = db
+      .collection("Administrators").where("administratorType", "==", "Marketing Administrator") 
+      .orderBy("email")
+      .startAt(searchvalue)
+      .endAt(searchvalue + "\uf8ff")
+      .get()
+      .then((snapshot) => {
+        const users = [];
+        snapshot.forEach((doc) => {
+          const data = {
+            administratorType: doc.data().administratorType,
+            name: doc.data().name,
+            email: doc.data().email,
+            password: doc.data.password,
+            id: doc.id,
+            counter : counter,
+          };
+          counter++;
+          users.push(data);
+        });
+        this.setState({ users: users });
+      });
     }
   }
   
@@ -343,4 +338,5 @@ class SAHome extends Component {
       }
   }
 }
+
 export default SAHome;

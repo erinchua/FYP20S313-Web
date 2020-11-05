@@ -227,8 +227,8 @@ class EditClubsAndCouncilsModal extends Component {
                             </Form.Group>                     
                         </Form.Group>
                         <Form.Group>
-                            <Form.Group as={Row} className="GettingToSimHq-formGroup">
-                                <img height="200px" width="200px" src={this.props.clubsAndCouncilsLogo} style={{marginTop: "3%", marginBottom: "3%"}}/>
+                            <Form.Group as={Row} className="StudentLife-formGroup">
+                                <img height="100px" width="100px" src={this.state.clubsAndCouncilsLogo} style={{marginTop: "1%", marginBottom: "1%"}}/>
                             </Form.Group>                     
                         </Form.Group>
                         <Form.Group>
