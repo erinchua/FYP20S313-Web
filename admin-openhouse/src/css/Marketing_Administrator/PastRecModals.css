@@ -95,23 +95,6 @@
     font-size: 85%;
 }
 
-/* .addPastRecForm_RecFile .custom-file-input {
-    border: 1px solid #c8c8c8;
-    border-radius: 6px;
-    font-size: 85% !important;
-    color: #434343;
-}
-
-.addPastRecForm_RecFile .custom-file-label {
-    color: #434343;
-    overflow: hidden;
-    font-size: 90% !important;
-}
-
-.addPastRecForm_RecFile:focus {
-    box-shadow: none;
-} */
-
 .addPastRecForm_InnerCol {
     height: 80%;
 }
@@ -243,23 +226,6 @@
     color: #434343;
     font-size: 85%;
 }
-
-/* .editPastRecForm_RecFile .custom-file-input {
-    border: 1px solid #c8c8c8;
-    border-radius: 6px;
-    font-size: 85% !important;
-    color: #434343;
-}
-
-.editPastRecForm_RecFile .custom-file-label {
-    color: #434343;
-    overflow: hidden;
-    font-size: 90% !important;
-}
-
-.editPastRecForm_RecFile:focus {
-    box-shadow: none;
-} */
 
 .editPastRecForm_InnerCol {
     height: 80%;
