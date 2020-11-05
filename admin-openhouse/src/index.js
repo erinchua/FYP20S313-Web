@@ -5,7 +5,7 @@ import { Router, Route, Switch } from "react-router-dom";
 import * as serviceWorker from "./serviceWorker";
 import history from "./config/history";
 
-import { AuthContext, useAuthInit } from "./modules/auth";
+// import { AuthContext, useAuthInit } from "./modules/auth";
 
 import App from "./App";
 import Login from "./pages/Login";
