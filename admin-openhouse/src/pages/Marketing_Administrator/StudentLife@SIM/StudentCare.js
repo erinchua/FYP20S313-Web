@@ -31,6 +31,9 @@ const initialStates = {
     peerSupportLogoError: "",
     wellnessAdvocatesDescriptionError: "",
     wellnessAdvocatesLogoError: "",
+    workDescriptionError: "",
+    activityNameError: "",
+    activityLogoError: "",
 }
 
 class StudentCare extends Component {
@@ -107,7 +110,6 @@ class StudentCare extends Component {
         this.setState({
             [e.target.name]: e.target.value,
         });
-        console.log([e.target.name] + ": " + e.target.value)
     };
 
     componentDidMount() {
@@ -130,7 +132,7 @@ class StudentCare extends Component {
                     for (var i = 1; i <= Object.keys(activities).length; i++) {
                         var activity = "activity" + i;
                         const activitiesData = {
-                            activityId: doc.id,
+                            activityId: activity,
                             activityName: activities[activity].activitiesName,
                             activityLogo: activities[activity].activitiesLogo,
                         }
@@ -286,6 +288,13 @@ class StudentCare extends Component {
                     previousLogo: this.state.wellnessAdvocatesLogo,
                 });
             }
+
+            if (id == this.state.activityId) {
+                this.setState({
+                    activityLogo: homeURL,
+                    previousLogo: this.state.activityLogo,
+                });
+            }
         }
     };
 
@@ -324,7 +333,6 @@ class StudentCare extends Component {
 
                     db.collection("StudentCare").doc(id)
                     .update({
-                        id: id,
                         desc: this.state.studentWellnessDescription,
                         logo: this.state.url,
                     })
@@ -343,7 +351,6 @@ class StudentCare extends Component {
                     
                     db.collection("StudentCare").doc(id)
                     .update({
-                        id: id,
                         desc: this.state.studentWellnessDescription,
                     })
                     .then(dataSnapshot => {
@@ -384,7 +391,6 @@ class StudentCare extends Component {
 
                     db.collection("StudentCare").doc(id)
                     .update({
-                        id: id,
                         desc: this.state.counsellingServiceDescription,
                         logo: this.state.url,
                     })
@@ -403,7 +409,6 @@ class StudentCare extends Component {
 
                     db.collection("StudentCare").doc(id)
                     .update({
-                        id: id,
                         desc: this.state.counsellingServiceDescription,
                     })
                     .then(dataSnapshot => {
@@ -444,7 +449,6 @@ class StudentCare extends Component {
 
                     db.collection("StudentCare").doc(id)
                     .update({
-                        id: id,
                         desc: this.state.peerSupportDescription,
                         logo: this.state.url,
                     })
@@ -463,7 +467,6 @@ class StudentCare extends Component {
 
                     db.collection("StudentCare").doc(id)
                     .update({
-                        id: id,
                         desc: this.state.peerSupportDescription,
                     })
                     .then(dataSnapshot => {
@@ -504,7 +507,6 @@ class StudentCare extends Component {
 
                     db.collection("StudentCare").doc(id)
                     .update({
-                        id: id,
                         desc: this.state.wellnessAdvocatesDescription,
                         logo: this.state.url,
                     })
@@ -523,7 +525,6 @@ class StudentCare extends Component {
 
                     db.collection("StudentCare").doc(id)
                     .update({
-                        id: id,
                         desc: this.state.wellnessAdvocatesDescription,
                     })
                     .then(dataSnapshot => {
@@ -538,94 +539,143 @@ class StudentCare extends Component {
         }
     }
 
+    handleWorkUpdate = async(id) => {
+        const db = fire.firestore();
+        const isWorkValid = this.validateWork();
+        const isActivityValid = this.validateActivity();
 
-    // handleSave = (studentcareid) => {
-    //     const parentthis = this;
-    //     const db = fire.firestore();
+        if (id == this.state.activityId) {
 
-    //     var desc = document.getElementById(studentcareid + "desc").value;
-    //     console.log(this.state.files);
+            if (this.state.activityLogo.startsWith("blob:")) {
+                var title = this.state.previousLogo.split(/\%..(.*?)\?alt/)[1].split(".")[0]
+                var res = this.state.previousLogo.split("?alt=")[0];
+                var extension = res.substr(res.length - 4);
+    
+                if (!extension.includes('.png') && !extension.includes('.jpg') && !extension.includes('.PNG') && !extension.includes('.JPG')) {
+                    var fileName = title;
+                    const url = await savePicture(this.state.activityLogo, fileName);
+                    this.setState({
+                        url: url
+                    });
+                } else {
+                    var fileName = title + extension;
+                    const url = await savePicture(this.state.activityLogo, fileName);
+                    this.setState({
+                        url: url
+                    });
+                }
 
-    //     if (this.state.files !== undefined) {
-    //         const foldername = "StudentCare";
-    //         const storageRef = fire.storage().ref(foldername);
-    //         const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
-    //             fileRef.on("state_changed", function (snapshot) {
-    //             fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-    //                 const userRef = db.collection("StudentCare").doc(studentcareid)
-    //                 .update({
-    //                     desc: desc,
-    //                     logo: downloadURL,
-    //                 })
-    //                 .then(function () {
-    //                     console.log("Updated");
-    //                     window.location.reload();
-    //                 });
-    //             });
+                var number = id.split(/([0-9]+)/);
 
-    //             const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-    //             if (progress != "100") {
-    //                 parentthis.setState({ progress: progress });
-    //             } else {
-    //                 parentthis.setState({ progress: "Uploaded!" });
-    //             }
+                if (isActivityValid) {
+                    this.setState(initialStates);
 
-    //         });
-    //         console.log();
-    //     } else {
-    //         const userRef = db.collection("StudentCare").doc(studentcareid)
-    //         .update({
-    //             desc: desc,
-    //         })
-    //         .then(function () {
-    //             console.log("Updated");
-    //             window.location.reload();
-    //         });
-    //     }
-    // };
+                    if (number[1] === "1") {
+                        db.collection("StudentCare").doc("workPlayLiveWell")
+                        .update({
+                            "activities.activity1.activitiesName": this.state.activityName,
+                            "activities.activity1.activitiesLogo": this.state.url,
+                        })
+                        .then(dataSnapshot => {
+                            console.log("Updated Activities");
+                            this.setState({
+                                activityEditModal: false
+                            });
+                            this.display();
+                        });
+                    } else if (number[1] === "2") {
+                        db.collection("StudentCare").doc("workPlayLiveWell")
+                        .update({
+                            "activities.activity2.activitiesName": this.state.activityName,
+                            "activities.activity2.activitiesLogo": this.state.url,
+                        })
+                        .then(dataSnapshot => {
+                            console.log("Updated Activities");
+                            this.setState({
+                                activityEditModal: false
+                            });
+                            this.display();
+                        });
+                    } else if (number[1] === "3") {
+                        db.collection("StudentCare").doc("workPlayLiveWell")
+                        .update({
+                            "activities.activity3.activitiesName": this.state.activityName,
+                            "activities.activity3.activitiesLogo": this.state.url,
+                        })
+                        .then(dataSnapshot => {
+                            console.log("Updated Activities");
+                            this.setState({
+                                activityEditModal: false
+                            });
+                            this.display();
+                        });
+                    }
+                }
+    
+            } else {
+                var number = id.split(/([0-9]+)/);
 
-    // handleactivitesSave = (studentcareid, activity) => {
-    //     const parentthis = this;
-    //     const db = fire.firestore();
-    //     const updateactivitylogo = "activities.activity" + activity + ".activitiesLogo";
-    //     const updateactivityname = "activities.activity" + activity + ".activitiesName";
+                if (isActivityValid) {
+                    this.setState(initialStates);
 
-    //     var actname = document.getElementById(studentcareid + activity + "actname").value;
-    //     if (this.state.files !== undefined) {
-    //         const foldername = "StudentCare";
-    //         const storageRef = fire.storage().ref(foldername);
-    //         const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
-    //         fileRef.on("state_changed", function (snapshot) {
-    //             fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-    //                 const userRef = db.collection("StudentCare").doc(studentcareid)
-    //                 .update({
-    //                     [updateactivityname]: actname,
-    //                     [updateactivitylogo]: downloadURL,
-    //                 })
-    //                 .then(function () {
-    //                     console.log("Updated");
-    //                     window.location.reload();
-    //                 });
-    //             });
-    //             const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-    //             if (progress != "100") {
-    //                 parentthis.setState({ progress: progress });
-    //             } else {
-    //                 parentthis.setState({ progress: "Uploaded!" });
-    //             }
-    //         });
-    //         console.log();
-    //     } else {
-    //         const userRef = db.collection("StudentCare").doc(studentcareid)
-    //         .update({
-    //             [updateactivityname]: actname,
-    //         })
-    //         .then(function () {
-    //             console.log("Updated");
-    //             window.location.reload();
-    //         });
-    //     }
-    // };
+                    if (number[1] === "1") {
+                        db.collection("StudentCare").doc("workPlayLiveWell")
+                        .update({
+                            "activities.activity1.activitiesName": this.state.activityName,
+                        })
+                        .then(dataSnapshot => {
+                            console.log("Updated Activity Name");
+                            this.setState({
+                                activityEditModal: false
+                            });
+                            this.display();
+                        });
+                    } else if (number[1] === "2") {
+                        db.collection("StudentCare").doc("workPlayLiveWell")
+                        .update({
+                            "activities.activity2.activitiesName": this.state.activityName,
+                        })
+                        .then(dataSnapshot => {
+                            console.log("Updated Activity Name");
+                            this.setState({
+                                activityEditModal: false
+                            });
+                            this.display();
+                        });
+                    } else if (number[1] === "3") {
+                        db.collection("StudentCare").doc("workPlayLiveWell")
+                        .update({
+                            "activities.activity3.activitiesName": this.state.activityName,
+                        })
+                        .then(dataSnapshot => {
+                            console.log("Updated Activity Name");
+                            this.setState({
+                                activityEditModal: false
+                            });
+                            this.display();
+                        });
+                    }
+                }
+            }
+            
+        } else {
+            if (isWorkValid) {
+                this.setState(initialStates);
+
+                db.collection("StudentCare").doc(id)
+                .update({
+                    desc: this.state.workDescription,
+                })
+                .then(dataSnapshot => {
+                    console.log("Updated Work Description");
+                    this.setState({
+                        workEditModal: false
+                    });
+                    this.display();
+                });
+            }
+        }
+    }
 
     //Work, play and live well Edit Modal
     handleWorkEditModal = (workPlayLive) => {
@@ -648,7 +698,9 @@ class StudentCare extends Component {
         if (this.state.activityEditModal == false) {
             this.setState({
                 activityEditModal: true,
+                activityId: activity.activityId,
                 activityName: activity.activityName,
+                activityLogo: activity.activityLogo,
             });
         }
         else {
@@ -810,6 +862,43 @@ class StudentCare extends Component {
         return true;
     }
 
+    //Validation for Work, Play and Live Well
+    validateWork = () => {
+        let workDescriptionError = "";
+
+        if (!this.state.workDescription) {
+            workDescriptionError = "Please enter a valid description.";
+        }
+
+        if (workDescriptionError) {
+            this.setState({workDescriptionError});
+            return false;
+        } 
+
+        return true;
+    }
+
+    //Validation for Activities
+    validateActivity = () => {
+        let activityNameError = "";
+        let activityLogoError = "";
+
+        if (!this.state.activityName) {
+            activityNameError = "Please enter a valid description.";
+        }
+
+        if (!this.state.activityLogo) {
+            activityLogoError = "Please browse a logo.";
+        }
+
+        if (activityNameError || activityLogoError) {
+            this.setState({activityNameError, activityLogoError});
+            return false;
+        } 
+
+        return true;
+    }
+
     render() {
         return (
             <div>
@@ -917,7 +1006,7 @@ class StudentCare extends Component {
                                                                                 </thead>
                                                                                 {this.state.activityArray && this.state.activityArray.map((activities) => {
                                                                                     return (
-                                                                                        <tbody id="StudentCare-tableBody">
+                                                                                        <tbody id="StudentCare-tableBody" key={activities.activityId}>
                                                                                             <tr>
                                                                                                 <td>{activities.activityName}</td>
                                                                                                 <td>{activities.activityName} Logo</td>
@@ -1066,8 +1155,8 @@ class StudentCare extends Component {
                                                 <FontAwesomeIcon size="2x" icon={faFutbol}/>
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
-                                                <Form.Control id="StudentCare-textAreas" as="textarea" rows="4" type="text" name="workPlayLiveDescription" placeholder="Work, Play and Live Well Description" required defaultValue={this.state.workDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <Form.Control id="StudentCare-textAreas" as="textarea" rows="4" type="text" name="workDescription" placeholder="Work, Play and Live Well Description" required defaultValue={this.state.workDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.workDescriptionError}</div>
                                             </Form.Group>
                                         </Form.Group>                     
                                     </Form.Group>
@@ -1077,7 +1166,7 @@ class StudentCare extends Component {
                                 <Container>
                                     <Row id="StudentCare-editFooter">
                                         <Col md={6} className="StudentCare-editCol">
-                                            <Button id="StudentCare-saveBtn" type="submit">Save Changes</Button>
+                                            <Button id="StudentCare-saveBtn" type="submit" onClick={() => this.handleWorkUpdate(this.state.workId)}>Save Changes</Button>
                                         </Col>
                                         <Col md={6} className="StudentCare-editCol">
                                             <Button id="StudentCare-cancelBtn" onClick={this.handleWorkEditModal}>Cancel</Button>
@@ -1096,7 +1185,7 @@ class StudentCare extends Component {
                             <Modal.Title id="StudentCare-modalTitle" className="w-100">Edit Activities</Modal.Title>
                         </Modal.Header>
                         {this.state.activityArray && this.state.activityArray.map((activities) => {
-                            if (this.state.activityName === activities.activityName) {
+                            if (this.state.activityId === activities.activityId) {
                                 return (
                                     <div>
                                         <Modal.Body>
@@ -1107,14 +1196,14 @@ class StudentCare extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faBiking}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="StudentCare-inputFields" type="text" name="activitiesName" placeholder="Activity Name: E.g. Cycling" required defaultValue={activities.activityName} onChange={this.updateInput} noValidate></Form.Control>
-                                                            <div className="errorMessage"></div>
+                                                            <Form.Control id="StudentCare-inputFields" type="text" name="activityName" placeholder="Activity Name: E.g. Cycling" required defaultValue={activities.activityName} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage">{this.state.activityNameError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
                                                 <Form.Group>
                                                     <Form.Group as={Row} className="StudentCare-formGroup">
-                                                        <img height="80px" width="80px" src={activities.activityLogo} style={{marginTop: "1%", marginBottom: "1%"}}/>
+                                                        <img height="100px" width="100px" src={this.state.activityLogo} style={{marginTop: "1%", marginBottom: "1%"}}/>
                                                     </Form.Group>                     
                                                 </Form.Group>
                                                 <Form.Group>
@@ -1123,8 +1212,8 @@ class StudentCare extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faFileImage} />
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.File type="file" name="imgFile" className="StudentCare-imgFile" label={activities.activityLogo} onChange={() => console.log("Set State")} custom required></Form.File>
-                                                            <div className="errorMessage"></div>
+                                                            <Form.File type="file" name="imgFile" className="StudentCare-imgFile" label={activities.activityLogo} onChange={(e) => this.handleFileUpload(e, activities.activityId)} custom required></Form.File>
+                                                            <div className="errorMessage">{this.state.activityLogoError}</div>
                                                         </Form.Group>
                                                     </Form.Group>
                                                 </Form.Group>
@@ -1134,7 +1223,7 @@ class StudentCare extends Component {
                                             <Container>
                                                 <Row id="StudentCare-editFooter">
                                                     <Col md={6} className="StudentCare-editCol">
-                                                        <Button id="StudentCare-saveBtn" type="submit">Save Changes</Button>
+                                                        <Button id="StudentCare-saveBtn" type="submit" onClick={() => this.handleWorkUpdate(activities.activityId)}>Save Changes</Button>
                                                     </Col>
                                                     <Col md={6} className="StudentCare-editCol">
                                                         <Button id="StudentCare-cancelBtn" onClick={this.handleActivityEditModal}>Cancel</Button>
