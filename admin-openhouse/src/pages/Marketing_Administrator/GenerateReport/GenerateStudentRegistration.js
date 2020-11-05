@@ -2,7 +2,7 @@ import React, { Component, useReducer } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import firecreate from "../../../config/firebasecreate";
-import { Container, Row, Col, Button, Table, Modal } from "react-bootstrap";
+import { Container, Row, Col, Button, Table } from "react-bootstrap";
 
 import "../../../css/Marketing_Administrator/GenerateStudentRegistration.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -136,7 +136,7 @@ class GenerateStudentRegistration extends Component {
     ];
 
     var user = this.state.useremail;
-    var adminuser = "\nRequested by : " + user;
+    var adminuser = "\nRequested by: " + user;
     doc.setFontSize(11);   
     doc.text(14, 25, adminuser);
 
@@ -145,7 +145,7 @@ class GenerateStudentRegistration extends Component {
     var monthIndex = today.getMonth();
     var year = today.getFullYear();
     var date = day + ' ' + monthNames[monthIndex] + ' ' + year;
-    var newdate = "\nDate Requested : "+ date;
+    var newdate = "\nDate Requested: "+ date;
     doc.setFontSize(11);   
     doc.text(132, 25, newdate);
 
@@ -153,7 +153,7 @@ class GenerateStudentRegistration extends Component {
     doc.setLineWidth(0.8);
     doc.line(14, 35, 196, 35);
 
-    var totalNumber = "\nTotal Number of Registrations : " + this.state.totalNumber;
+    var totalNumber = "\nTotal Number of Registrations: " + this.state.totalNumber;
     doc.setFontSize(12);   
     doc.text(14, 39, totalNumber);
 
@@ -185,9 +185,9 @@ class GenerateStudentRegistration extends Component {
 
     doc.setFontSize(13);
     doc.setFont('helvetica', 'bold');
-    doc.text("Report on Total Number of Registrations for Open House Mobile Application", 20, 20);
+    doc.text("Total Number of Registrations for Open House Mobile Application Report", 20, 20);
 
-    doc.save("StudentRegisteration.pdf");
+    doc.save("StudentRegistration_" + date + ".pdf");
   };
 
 
@@ -214,9 +214,9 @@ class GenerateStudentRegistration extends Component {
                     </Col>
 
                     <Col md="3" className="text-right generateMobileRegContentHeaderCol">
-                      <Button className="generateReportBtn" onClick={this.handleGenerateReportModal}>
+                      <Button className="generateReportBtn" onClick={this.generateReport}>
                         <FontAwesomeIcon size="lg" className="generateReportBtnIcon" icon={faPlus} />
-                        <span className="generateReportBtnText" onClick={this.generateReport}>Generate Report</span>
+                        <span className="generateReportBtnText">Generate Report</span>
                       </Button>
                     </Col>
                   </Row>
