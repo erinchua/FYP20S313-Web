@@ -13,6 +13,13 @@ import { faEdit, faFileImage, faFutbol, faBiking, faSpa, faUsers, faComments } f
 
 class Scholarship extends Component {
 
+    constructor() {
+        super();
+        this.state = {
+            
+        }
+    }
+
     render() {
         return (
 
@@ -36,17 +43,221 @@ class Scholarship extends Component {
 
                                         <Row id="Scholarship-secondRow">
                                             <Col md={12} id="Scholarship-secondRowCol">
-                                            <Accordion defaultActiveKey="0">
+                                            <Accordion defaultActiveKey="categoriesOfScholarships">
                                                 <Card>
-                                                    <Accordion.Toggle as={Card.Header} eventKey="0">Click me!</Accordion.Toggle>
-                                                    <Accordion.Collapse eventKey="0">
-                                                        <Card.Body>Hello! I'm the body</Card.Body>
+                                                    <div className="Scholarship-Header">
+                                                        <Accordion.Toggle as={Card.Header} eventKey="categoriesOfScholarships">Categories of Scholarships</Accordion.Toggle>
+                                                    </div>
+                                                    <Accordion.Collapse eventKey="categoriesOfScholarships">
+                                                        <Card.Body className="Scholarship-cardBody">
+                                                            <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                <Table responsive="sm" bordered className="Scholarship-tableCon">
+                                                                    <thead id="Scholarship-tableHeader">
+                                                                        <tr>
+                                                                            <th></th>
+                                                                            <th></th>
+                                                                            <th id="Scholarship-editHeading">Edit</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="Scholarship-tableBody">
+                                                                        <tr>
+                                                                            <td className="text-left"></td>
+                                                                            <td></td>
+                                                                            <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </Table>
+                                                            </Col>
+                                                        </Card.Body>
                                                     </Accordion.Collapse>
                                                 </Card>
                                                 <Card>
-                                                    <Accordion.Toggle as={Card.Header} eventKey="1">Click me!</Accordion.Toggle>
-                                                    <Accordion.Collapse eventKey="1">
-                                                        <Card.Body>Hello! I'm another body</Card.Body>
+                                                    <div className="Scholarship-Header">
+                                                        <Accordion.Toggle as={Card.Header} eventKey="eligibility">Eligibility</Accordion.Toggle>
+                                                    </div>
+                                                    <Accordion.Collapse eventKey="eligibility">
+                                                        <Card.Body className="Scholarship-cardBody">
+                                                            <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                <Table responsive="sm" bordered className="Scholarship-tableCon">
+                                                                    <thead id="Scholarship-tableHeader">
+                                                                        <tr>
+                                                                            <th></th>
+                                                                            <th></th>
+                                                                            <th id="Scholarship-editHeading">Edit</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="Scholarship-tableBody">
+                                                                        <tr>
+                                                                            <td className="text-left"></td>
+                                                                            <td></td>
+                                                                            <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </Table>
+                                                            </Col>
+                                                        </Card.Body>
+                                                    </Accordion.Collapse>
+                                                </Card>
+                                                <Card>
+                                                    <div className="Scholarship-Header">
+                                                        <Accordion.Toggle as={Card.Header} eventKey="valueOfScholarship">Value of Scholarship</Accordion.Toggle>
+                                                    </div>
+                                                    <Accordion.Collapse eventKey="valueOfScholarship">
+                                                        <Card.Body className="Scholarship-cardBody">
+                                                            <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                <Table responsive="sm" bordered className="Scholarship-tableCon">
+                                                                    <thead id="Scholarship-tableHeader">
+                                                                        <tr>
+                                                                            <th></th>
+                                                                            <th></th>
+                                                                            <th id="Scholarship-editHeading">Edit</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="Scholarship-tableBody">
+                                                                        <tr>
+                                                                            <td className="text-left"></td>
+                                                                            <td></td>
+                                                                            <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </Table>
+                                                            </Col>
+                                                        </Card.Body>
+                                                    </Accordion.Collapse>
+                                                </Card>
+                                                <Card>
+                                                    <div className="Scholarship-Header">
+                                                        <Accordion.Toggle as={Card.Header} eventKey="application">Application</Accordion.Toggle>
+                                                    </div>
+                                                    <Accordion.Collapse eventKey="application">
+                                                        <Card.Body className="Scholarship-cardBody">
+                                                            <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                <Table responsive="sm" bordered className="Scholarship-tableCon">
+                                                                    <thead id="Scholarship-tableHeader">
+                                                                        <tr>
+                                                                            <th></th>
+                                                                            <th></th>
+                                                                            <th id="Scholarship-editHeading">Edit</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="Scholarship-tableBody">
+                                                                        <tr>
+                                                                            <td className="text-left"></td>
+                                                                            <td></td>
+                                                                            <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </Table>
+                                                            </Col>
+                                                        </Card.Body>
+                                                    </Accordion.Collapse>
+                                                </Card>
+                                                <Card>
+                                                    <div className="Scholarship-Header">
+                                                        <Accordion.Toggle as={Card.Header} eventKey="applicationDocumentsProcedures">Application Documents & Procedures</Accordion.Toggle>
+                                                    </div>
+                                                    <Accordion.Collapse eventKey="applicationDocumentsProcedures">
+                                                        <Card.Body className="Scholarship-cardBody">
+                                                            <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                <Table responsive="sm" bordered className="Scholarship-tableCon">
+                                                                    <thead id="Scholarship-tableHeader">
+                                                                        <tr>
+                                                                            <th></th>
+                                                                            <th></th>
+                                                                            <th id="Scholarship-editHeading">Edit</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="Scholarship-tableBody">
+                                                                        <tr>
+                                                                            <td className="text-left"></td>
+                                                                            <td></td>
+                                                                            <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </Table>
+                                                            </Col>
+                                                        </Card.Body>
+                                                    </Accordion.Collapse>
+                                                </Card>
+                                                <Card>
+                                                    <div className="Scholarship-Header">
+                                                        <Accordion.Toggle as={Card.Header} eventKey="selectionProcess">Selection Process</Accordion.Toggle>
+                                                    </div>
+                                                    <Accordion.Collapse eventKey="selectionProcess">
+                                                        <Card.Body className="Scholarship-cardBody">
+                                                            <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                <Table responsive="sm" bordered className="Scholarship-tableCon">
+                                                                    <thead id="Scholarship-tableHeader">
+                                                                        <tr>
+                                                                            <th></th>
+                                                                            <th></th>
+                                                                            <th id="Scholarship-editHeading">Edit</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="Scholarship-tableBody">
+                                                                        <tr>
+                                                                            <td className="text-left"></td>
+                                                                            <td></td>
+                                                                            <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </Table>
+                                                            </Col>
+                                                        </Card.Body>
+                                                    </Accordion.Collapse>
+                                                </Card>
+                                                <Card>
+                                                    <div className="Scholarship-Header">
+                                                        <Accordion.Toggle as={Card.Header} eventKey="tenureOfScholarship">Tenure of Scholarship</Accordion.Toggle>
+                                                    </div>
+                                                    <Accordion.Collapse eventKey="tenureOfScholarship">
+                                                        <Card.Body className="Scholarship-cardBody">
+                                                            <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                <Table responsive="sm" bordered className="Scholarship-tableCon">
+                                                                    <thead id="Scholarship-tableHeader">
+                                                                        <tr>
+                                                                            <th></th>
+                                                                            <th></th>
+                                                                            <th id="Scholarship-editHeading">Edit</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="Scholarship-tableBody">
+                                                                        <tr>
+                                                                            <td className="text-left"></td>
+                                                                            <td></td>
+                                                                            <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </Table>
+                                                            </Col>
+                                                        </Card.Body>
+                                                    </Accordion.Collapse>
+                                                </Card>
+                                                <Card>
+                                                    <div className="Scholarship-Header">
+                                                        <Accordion.Toggle as={Card.Header} eventKey="termsAndConditions">Terms and Conditions</Accordion.Toggle>
+                                                    </div>
+                                                    <Accordion.Collapse eventKey="termsAndConditions">
+                                                        <Card.Body className="Scholarship-cardBody">
+                                                            <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                <Table responsive="sm" bordered className="Scholarship-tableCon">
+                                                                    <thead id="Scholarship-tableHeader">
+                                                                        <tr>
+                                                                            <th></th>
+                                                                            <th></th>
+                                                                            <th id="Scholarship-editHeading">Edit</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="Scholarship-tableBody">
+                                                                        <tr>
+                                                                            <td className="text-left"></td>
+                                                                            <td></td>
+                                                                            <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </Table>
+                                                            </Col>
+                                                        </Card.Body>
                                                     </Accordion.Collapse>
                                                 </Card>
                                                 </Accordion>
