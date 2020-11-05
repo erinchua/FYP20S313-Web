@@ -1,1104 +1,1373 @@
+import { Container, Row, Col, Table, Button, Modal, Form, Tab, Nav } from 'react-bootstrap';
 import React, { Component } from "react";
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
+import firebase from "firebase/app";
 
-//import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
+import '../../../css/Marketing_Administrator/StudentCare.css';
+import NavBar from '../../../components/Navbar';
+import Footer from '../../../components/Footer';
+import SideNavBar from '../../../components/SideNavbar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faFileImage, faFutbol, faBiking, faSpa, faUsers, faComments } from '@fortawesome/free-solid-svg-icons';
+
+async function savePicture(blobURL, imageName) {
+    const storage = fire.storage();
+    const pictureRef = storage.ref(`/StudentCare/`).child(imageName);
+    const response = await fetch(blobURL);
+    const blob = await response.blob(); //fetch blob object
+    const snapshot = await pictureRef.put(blob); //upload
+    const url = await snapshot.ref.getDownloadURL(); //url in storage
+    console.log("image URL:", url);
+    return url;
+}
+
+const initialStates = {
+    studentWellnessDescriptionError: "",
+    studentWellnessLogoError: "",
+    counsellingServiceDescriptionError: "",
+    counsellingServiceLogoError: "",
+    peerSupportDescriptionError: "",
+    peerSupportLogoError: "",
+    wellnessAdvocatesDescriptionError: "",
+    wellnessAdvocatesLogoError: "",
+}
 
 class StudentCare extends Component {
-  constructor() {
-    super();
-    this.state = {
-      desc: "",
-      logo: "",
-      activitiesLogo: "",
-      activitiesName: "",
-      progress: "",
-    };
-  }
 
-  authListener() {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        const db = fire.firestore();
-        var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
-        getrole.get().then((snapshot) => {
-          snapshot.forEach((doc) => {
-            if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
+    state = initialStates;
+
+    constructor() {
+        super();
+        this.state = {
+            //Work, play and live well
+            workId: "",
+            workDescription: "",
+            activityId: "",
+            activityName: "",
+            activityLogo: "",
+            workArray: "",
+            activityArray: "",
+            //Student Wellness Centre
+            studentWellnessId: "",
+            studentWellnessDescription: "",
+            studentWellnessLogo: "",
+            studentWellnessArray: "",
+            //Counselling Service
+            counsellingServiceId: "",
+            counsellingServiceDescription: "",
+            counsellingServiceLogo: "",
+            counsellingServiceArray: "",
+            //SIM Peer Support
+            peerSupportId: "",
+            peerSupportDescription: "",
+            peerSupportLogo: "",
+            peerSupportArray: "",
+            //SIM Wellness Advocates
+            wellnessAdvocatesId: "",
+            wellnessAdvocatesDescription: "",
+            wellnessAdvocatesLogo: "",
+            wellnessAdvocatesArray: "",
+            //Others
+            logoFieldName: "",
+            previousLogo: "",
+            //Below states are for the modals
+            workEditModal: false,
+            activityEditModal: false,
+            studentWellnessEditModal: false,
+            counsellingServiceEditModal: false,
+            peerSupportEditModal: false,
+            wellnessAdvocatesEditModal: false,
+        };
+    }
+
+    authListener() {
+        fire.auth().onAuthStateChanged((user) => {
+            if (user) {
+                const db = fire.firestore();
+                var getrole = db
+                .collection("Administrators")
+                .where("email", "==", user.email);
+                getrole.get().then((snapshot) => {
+                    snapshot.forEach((doc) => {
+                        if (doc.data().administratorType === "Marketing Administrator") {
+                            this.display();
+                        } else {
+                            history.push("/Login");
+                        }
+                    });
+                });
             } else {
-              history.push("/Login");
+                history.push("/Login");
             }
-          });
         });
-      } else {
-        history.push("/Login");
-      }
-    });
-  }
-  updateInput = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  componentDidMount() {
-    this.authListener();
-  }
-
-  display() {
-    const db = fire.firestore();
-
-    //Work, Play and Live Well
-    const workplay = db
-      .collection("StudentCare")
-      .doc("workPlayLiveWell")
-      .get()
-      .then((snapshot) => {
-        const activitiesarray = [];
-        const actvititiesdata = snapshot.data().activities;
-        for (var i = 1; i <= Object.keys(actvititiesdata).length; i++) {
-          var activity = "activity" + i;
-          const data = {
-            activitiesLogo: snapshot.data().activities[activity].activitiesLogo,
-            activitiesName: snapshot.data().activities[activity].activitiesName,
-            id: snapshot.id,
-          };
-          activitiesarray.push(data);
-        }
-        this.setState({ activitiesarray: activitiesarray });
-      });
-
-    const workplaydesc = db
-      .collection("StudentCare")
-      .doc("workPlayLiveWell")
-      .get()
-      .then((snapshot) => {
-        const activitiesDesc = [];
-
-        const data = {
-          activitiesDesc: snapshot.data().desc,
-          id: snapshot.data().id,
-        };
-        activitiesDesc.push(data);
-
-        this.setState({ activitiesDesc: activitiesDesc });
-      });
-
-    //Student Wellness Centre
-    const studentwellness = db
-      .collection("StudentCare")
-      .doc("studentWellnessCentre")
-      .get()
-      .then((snapshot) => {
-        const wellnesscentre = [];
-        const wellness = snapshot.data();
-        const data = {
-          desc: wellness.desc,
-          logo: wellness.logo,
-          id: wellness.id,
-        };
-        wellnesscentre.push(data);
-        this.setState({ wellnesscentre: wellnesscentre });
-      });
-
-    //Counselling Service
-    const counsellingservice = db
-      .collection("StudentCare")
-      .doc("counsellingService")
-      .get()
-      .then((snapshot) => {
-        const counselling = [];
-        const counsel = snapshot.data();
-        const data = {
-          desc: counsel.desc,
-          logo: counsel.logo,
-          id: counsel.id,
-        };
-        counselling.push(data);
-        this.setState({ counselling: counselling });
-      });
-
-    //SIM Peer Support
-    const simpeersupport = db
-      .collection("StudentCare")
-      .doc("simPeerSupport")
-      .get()
-      .then((snapshot) => {
-        const peersupport = [];
-        const simpeer = snapshot.data();
-        const data = {
-          desc: simpeer.desc,
-          logo: simpeer.logo,
-          id: simpeer.id,
-        };
-        peersupport.push(data);
-        this.setState({ peersupport: peersupport });
-      });
-
-    //Student Wellness Advocates
-    const studentwellnessadvocates = db
-      .collection("StudentCare")
-      .doc("simWellnessAdvocates")
-      .get()
-      .then((snapshot) => {
-        const wellnessadvocates = [];
-        const advocates = snapshot.data();
-        const data = {
-          desc: advocates.desc,
-          logo: advocates.logo,
-          id: advocates.id,
-        };
-        wellnessadvocates.push(data);
-        this.setState({ wellnessadvocates: wellnessadvocates });
-      });
-  }
-
-  handleFileUpload = (files) => {
-    this.setState({
-      files: files,
-    });
-  };
-
-  editStudentCare(e, studentcareid, type) {
-    if (type === "workPlayLiveWell") {
-      document
-        .getElementById(studentcareid + "spanactivitiesdes")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "upload")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "editbutton")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "updatebutton")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "cancelbutton")
-        .removeAttribute("hidden");
-      var texttohide = document.getElementsByClassName(studentcareid + "text");
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }
     }
 
-    if (type === "studentWellnessCentre") {
-      document
-        .getElementById(studentcareid + "upload")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spanwelldes")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spanwelllogo")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "editbutton")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "updatebutton")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "cancelbutton")
-        .removeAttribute("hidden");
-      var texttohide = document.getElementsByClassName(studentcareid + "text");
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }
+    updateInput = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+        console.log([e.target.name] + ": " + e.target.value)
+    };
+
+    componentDidMount() {
+        this.authListener();
     }
 
-    if (type === "counsellingService") {
-      document
-        .getElementById(studentcareid + "upload")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spancounseldes")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spancounsellogo")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "editbutton")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "updatebutton")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "cancelbutton")
-        .removeAttribute("hidden");
-      var texttohide = document.getElementsByClassName(studentcareid + "text");
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }
-    }
+    display() {
+        const db = fire.firestore();
 
-    if (type === "simPeerSupport") {
-      document
-        .getElementById(studentcareid + "upload")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spanpeerdes")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spanpeerlogo")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "editbutton")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "updatebutton")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "cancelbutton")
-        .removeAttribute("hidden");
-      var texttohide = document.getElementsByClassName(studentcareid + "text");
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }
-    }
+        db.collection("StudentCare").get()
+        .then((snapshot) => {
+            snapshot.forEach((doc) => {
 
-    if (type === "simWellnessAdvocates") {
-      document
-        .getElementById(studentcareid + "upload")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spanadvocatesdes")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spanadvocateslogo")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "editbutton")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "updatebutton")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "cancelbutton")
-        .removeAttribute("hidden");
-      var texttohide = document.getElementsByClassName(studentcareid + "text");
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }
-    }
-  }
+                //Work, play and live well
+                if (doc.id === "workPlayLiveWell") {
+                    const activityArray = [];
+                    const workArray = [];
 
-  CancelEdit(e, studentcareid, type) {
-    if (type === "workPlayLiveWell") {
-      document
-        .getElementById(studentcareid + "spanactivitiesdes")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "editbutton")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "updatebutton")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "cancelbutton")
-        .setAttribute("hidden", "");
-      var texttohide = document.getElementsByClassName(studentcareid + "text");
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].removeAttribute("hidden", "");
-      }
-    }
+                    const activities = doc.data().activities;
+                    for (var i = 1; i <= Object.keys(activities).length; i++) {
+                        var activity = "activity" + i;
+                        const activitiesData = {
+                            activityId: doc.id,
+                            activityName: activities[activity].activitiesName,
+                            activityLogo: activities[activity].activitiesLogo,
+                        }
+                        activityArray.push(activitiesData);
+                    }
 
-    if (type === "studentWellnessCentre") {
-      document
-        .getElementById(studentcareid + "upload")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "spanwelldes")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "spanwelllogo")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "editbutton")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "updatebutton")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "cancelbutton")
-        .setAttribute("hidden", "");
-      var texttohide = document.getElementsByClassName(studentcareid + "text");
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].removeAttribute("hidden", "");
-      }
-    }
+                    const workData = {
+                        workId: doc.id,
+                        workDescription: doc.data().desc,
+                    }
+                    workArray.push(workData);
 
-    if (type === "counsellingService") {
-      document
-        .getElementById(studentcareid + "upload")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "spancounseldes")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "spancounsellogo")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "editbutton")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "updatebutton")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "cancelbutton")
-        .setAttribute("hidden", "");
-      var texttohide = document.getElementsByClassName(studentcareid + "text");
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].removeAttribute("hidden", "");
-      }
-    }
-    if (type === "simPeerSupport") {
-      document
-        .getElementById(studentcareid + "upload")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "spanpeerdes")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "spanpeerlogo")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "editbutton")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "updatebutton")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "cancelbutton")
-        .setAttribute("hidden", "");
-      var texttohide = document.getElementsByClassName(studentcareid + "text");
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].removeAttribute("hidden", "");
-      }
-    }
+                    this.setState({
+                        workArray: workArray,
+                        activityArray: activityArray,
+                    });
+                }
 
-    if (type === "simWellnessAdvocates") {
-      document
-        .getElementById(studentcareid + "upload")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "spanadvocatesdes")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "spanadvocateslogo")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "editbutton")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "updatebutton")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "cancelbutton")
-        .setAttribute("hidden", "");
-      var texttohide = document.getElementsByClassName(studentcareid + "text");
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].removeAttribute("hidden", "");
-      }
-    }
-  }
+                //Student Wellness Centre
+                if (doc.id === "studentWellnessCentre") {
+                    const studentWellness = [];
+                    const logoFieldTitle = [];
 
-  handleSave = (studentcareid) => {
-    const parentthis = this;
-    const db = fire.firestore();
+                    var title = doc.data().id;
+                    var splitTitle = title.match(/([A-Z]?[^A-Z]*)/g).slice(0,-1);
+                    for (let i = 0; i < splitTitle.length; i++) {
+                        logoFieldTitle.push(splitTitle[i][0].toUpperCase() + splitTitle[i].substr(1))
+                    }
+                    
+                    var logoFieldName = logoFieldTitle.join(" ");
 
-    var desc = document.getElementById(studentcareid + "desc").value;
-    console.log(this.state.files);
+                    const data = {
+                        studentWellnessId: doc.data().id,
+                        studentWellnessDescription: doc.data().desc,
+                        studentWellnessLogo: doc.data().logo,
+                        logoFieldName: logoFieldName,
+                    }
+                    studentWellness.push(data);
+                    this.setState({
+                        studentWellnessArray: studentWellness
+                    });
+                }
 
-    if (this.state.files !== undefined) {
-      const foldername = "StudentCare";
-      const storageRef = fire.storage().ref(foldername);
-      const fileRef = storageRef
-        .child(this.state.files[0].name)
-        .put(this.state.files[0]);
-      fileRef.on("state_changed", function (snapshot) {
-        fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-          const userRef = db
-            .collection("StudentCare")
-            .doc(studentcareid)
-            .update({
-              desc: desc,
-              logo: downloadURL,
-            })
-            .then(function () {
-              alert("Updated");
-              window.location.reload();
+                //Counselling Service
+                if (doc.id === "counsellingService") {
+                    const counsellingService = [];
+                    const logoFieldTitle = [];
+
+                    var title = doc.data().id;
+                    var splitTitle = title.match(/([A-Z]?[^A-Z]*)/g).slice(0,-1);
+                    for (let i = 0; i < splitTitle.length; i++) {
+                        logoFieldTitle.push(splitTitle[i][0].toUpperCase() + splitTitle[i].substr(1))
+                    }
+                    
+                    var logoFieldName = logoFieldTitle.join(" ");
+
+                    const data = {
+                        counsellingServiceId: doc.data().id,
+                        counsellingServiceDescription: doc.data().desc,
+                        counsellingServiceLogo: doc.data().logo,
+                        logoFieldName: logoFieldName,
+                    }
+                    counsellingService.push(data);
+                    this.setState({
+                        counsellingServiceArray: counsellingService
+                    });
+                }
+
+                //SIM Peer Support
+                if (doc.id === "simPeerSupport") {
+                    const peerSupport = [];
+                    const logoFieldTitle = [];
+
+                    var title = doc.data().id;
+                    var splitTitle = title.match(/([A-Z]?[^A-Z]*)/g).slice(0,-1);
+                    for (let i = 0; i < splitTitle.length; i++) {
+                        logoFieldTitle.push(splitTitle[i][0].toUpperCase() + splitTitle[i].substr(1))
+                    }
+                    
+                    var logoFieldName = logoFieldTitle.join(" ");
+
+                    const data = {
+                        peerSupportId: doc.data().id,
+                        peerSupportDescription: doc.data().desc,
+                        peerSupportLogo: doc.data().logo,
+                        logoFieldName: logoFieldName,
+                    }
+                    peerSupport.push(data);
+                    this.setState({
+                        peerSupportArray: peerSupport
+                    });
+                }
+
+                //SIM Wellness Advocates
+                if (doc.id === "simWellnessAdvocates") {
+                    const wellnessAdvocates = [];
+                    const logoFieldTitle = [];
+
+                    var title = doc.data().id;
+                    var splitTitle = title.match(/([A-Z]?[^A-Z]*)/g).slice(0,-1);
+                    for (let i = 0; i < splitTitle.length; i++) {
+                        logoFieldTitle.push(splitTitle[i][0].toUpperCase() + splitTitle[i].substr(1))
+                    }
+                    
+                    var logoFieldName = logoFieldTitle.join(" ");
+
+                    const data = {
+                        wellnessAdvocatesId: doc.data().id,
+                        wellnessAdvocatesDescription: doc.data().desc,
+                        wellnessAdvocatesLogo: doc.data().logo,
+                        logoFieldName: logoFieldName,
+                    }
+                    wellnessAdvocates.push(data);
+                    this.setState({
+                        wellnessAdvocatesArray: wellnessAdvocates
+                    });
+                }
+
             });
         });
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        if (progress != "100") {
-          parentthis.setState({ progress: progress });
-        } else {
-          parentthis.setState({ progress: "Uploaded!" });
-        }
-      });
-      console.log();
-    } else {
-      const userRef = db
-        .collection("StudentCare")
-        .doc(studentcareid)
-        .update({
-          desc: desc,
-        })
-        .then(function () {
-          alert("Updated");
-          window.location.reload();
-        });
     }
-  };
-  handleactivitesSave = (studentcareid, activity) => {
-    const parentthis = this;
-    const db = fire.firestore();
-    const updateactivitylogo =
-      "activities.activity" + activity + ".activitiesLogo";
-    const updateactivityname =
-      "activities.activity" + activity + ".activitiesName";
 
-    var actname = document.getElementById(studentcareid + activity + "actname")
-      .value;
-    if (this.state.files !== undefined) {
-      const foldername = "StudentCare";
-      const storageRef = fire.storage().ref(foldername);
-      const fileRef = storageRef
-        .child(this.state.files[0].name)
-        .put(this.state.files[0]);
-      fileRef.on("state_changed", function (snapshot) {
-        fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-          const userRef = db
-            .collection("StudentCare")
-            .doc(studentcareid)
-            .update({
-              [updateactivityname]: actname,
-              [updateactivitylogo]: downloadURL,
-            })
-            .then(function () {
-              alert("Updated");
-              window.location.reload();
+    handleFileUpload(e, id) {
+        if (e.target.files?.length > 0){
+            const file = e.target.files?.item(0);
+            const homeURL = URL.createObjectURL(file);
+
+            console.log("Create:", homeURL);
+            if (id == this.state.studentWellnessId) {
+                this.setState({
+                    studentWellnessLogo: homeURL,
+                    previousLogo: this.state.studentWellnessLogo,
+                });
+            }
+
+            if (id == this.state.counsellingServiceId) {
+                this.setState({
+                    counsellingServiceLogo: homeURL,
+                    previousLogo: this.state.counsellingServiceLogo,
+                });
+            }
+
+            if (id == this.state.peerSupportId) {
+                this.setState({
+                    peerSupportLogo: homeURL,
+                    previousLogo: this.state.peerSupportLogo,
+                });
+            }
+
+            if (id == this.state.wellnessAdvocatesId) {
+                this.setState({
+                    wellnessAdvocatesLogo: homeURL,
+                    previousLogo: this.state.wellnessAdvocatesLogo,
+                });
+            }
+        }
+    };
+
+    //Update function for Student Wellness Centre, Counselling Service, SIM Peer Support and SIM Wellness Advocates
+    handleUpdate = async(id) => {
+        const db = fire.firestore();
+        const isStudentWellnessValid = this.validateStudentWellness();
+        const isCounsellingServiceValid = this.validateCounsellingService();
+        const isPeerSupportValid = this.validatePeerSupport();
+        const isWellnessAdvocatesValid = this.validateWellnessAdvocates();
+
+        //Student Wellness Centre
+        if (id == this.state.studentWellnessId) {
+
+            if (this.state.studentWellnessLogo.startsWith("blob:")) {
+                var title = this.state.previousLogo.split(/\%..(.*?)\?alt/)[1].split(".")[0]
+                var res = this.state.previousLogo.split("?alt=")[0];
+                var extension = res.substr(res.length - 4);
+
+                if (!extension.includes('.png') && !extension.includes('.jpg') && !extension.includes('.PNG') && !extension.includes('.JPG')) {
+                    var fileName = title;
+                    const url = await savePicture(this.state.studentWellnessLogo, fileName);
+                    this.setState({
+                        url: url
+                    });
+                } else {
+                    var fileName = title + extension;
+                    const url = await savePicture(this.state.studentWellnessLogo, fileName);
+                    this.setState({
+                        url: url
+                    });
+                }
+
+                if (isStudentWellnessValid) { 
+                    this.setState(initialStates);
+
+                    db.collection("StudentCare").doc(id)
+                    .update({
+                        id: id,
+                        desc: this.state.studentWellnessDescription,
+                        logo: this.state.url,
+                    })
+                    .then(dataSnapshot => {
+                        console.log("Updated Student Wellness Centre");
+                        this.setState({
+                            studentWellnessEditModal: false
+                        });
+                        this.display();
+                    });
+                }
+                
+            } else {
+                if (isStudentWellnessValid) { 
+                    this.setState(initialStates);
+                    
+                    db.collection("StudentCare").doc(id)
+                    .update({
+                        id: id,
+                        desc: this.state.studentWellnessDescription,
+                    })
+                    .then(dataSnapshot => {
+                        console.log("Updated Student Wellness Centre");
+                        this.setState({
+                            studentWellnessEditModal: false
+                        });
+                        this.display();
+                    });
+                }
+            }
+        }
+
+        //Counselling Service
+        if (id == this.state.counsellingServiceId) {
+
+            if (this.state.counsellingServiceLogo.startsWith("blob:")) {
+                var title = this.state.previousLogo.split(/\%..(.*?)\?alt/)[1].split(".")[0]
+                var res = this.state.previousLogo.split("?alt=")[0];
+                var extension = res.substr(res.length - 4);
+
+                if (!extension.includes('.png') && !extension.includes('.jpg') && !extension.includes('.PNG') && !extension.includes('.JPG')) {
+                    var fileName = title;
+                    const url = await savePicture(this.state.counsellingServiceLogo, fileName);
+                    this.setState({
+                        url: url
+                    });
+                } else {
+                    var fileName = title + extension;
+                    const url = await savePicture(this.state.counsellingServiceLogo, fileName);
+                    this.setState({
+                        url: url
+                    });
+                }
+
+                if (isCounsellingServiceValid) {
+                    this.setState(initialStates);
+
+                    db.collection("StudentCare").doc(id)
+                    .update({
+                        id: id,
+                        desc: this.state.counsellingServiceDescription,
+                        logo: this.state.url,
+                    })
+                    .then(dataSnapshot => {
+                        console.log("Updated Counselling Service");
+                        this.setState({
+                            counsellingServiceEditModal: false
+                        });
+                        this.display();
+                    });
+                }
+
+            } else {
+                if (isCounsellingServiceValid) {
+                    this.setState(initialStates);
+
+                    db.collection("StudentCare").doc(id)
+                    .update({
+                        id: id,
+                        desc: this.state.counsellingServiceDescription,
+                    })
+                    .then(dataSnapshot => {
+                        console.log("Updated Counselling Service");
+                        this.setState({
+                            counsellingServiceEditModal: false
+                        });
+                        this.display();
+                    });
+                }
+            }
+        }
+
+        //SIM Peer Support
+        if (id == this.state.peerSupportId) {
+
+            if (this.state.peerSupportLogo.startsWith("blob:")) {
+                var title = this.state.previousLogo.split(/\%..(.*?)\?alt/)[1].split(".")[0]
+                var res = this.state.previousLogo.split("?alt=")[0];
+                var extension = res.substr(res.length - 4);
+
+                if (!extension.includes('.png') && !extension.includes('.jpg') && !extension.includes('.PNG') && !extension.includes('.JPG')) {
+                    var fileName = title;
+                    const url = await savePicture(this.state.peerSupportLogo, fileName);
+                    this.setState({
+                        url: url
+                    });
+                } else {
+                    var fileName = title + extension;
+                    const url = await savePicture(this.state.peerSupportLogo, fileName);
+                    this.setState({
+                        url: url
+                    });
+                }
+
+                if (isPeerSupportValid) {
+                    this.setState(initialStates);
+
+                    db.collection("StudentCare").doc(id)
+                    .update({
+                        id: id,
+                        desc: this.state.peerSupportDescription,
+                        logo: this.state.url,
+                    })
+                    .then(dataSnapshot => {
+                        console.log("Updated SIM Peer Support");
+                        this.setState({
+                            peerSupportEditModal: false
+                        });
+                        this.display();
+                    });
+                }
+
+            } else {
+                if (isPeerSupportValid) {
+                    this.setState(initialStates);
+
+                    db.collection("StudentCare").doc(id)
+                    .update({
+                        id: id,
+                        desc: this.state.peerSupportDescription,
+                    })
+                    .then(dataSnapshot => {
+                        console.log("Updated SIM Peer Support");
+                        this.setState({
+                            peerSupportEditModal: false
+                        });
+                        this.display();
+                    });
+                }
+            }
+        }
+
+        //SIM Wellness Advocates
+        if (id == this.state.wellnessAdvocatesId) {
+
+            if (this.state.wellnessAdvocatesLogo.startsWith("blob:")) {
+                var title = this.state.previousLogo.split(/\%..(.*?)\?alt/)[1].split(".")[0]
+                var res = this.state.previousLogo.split("?alt=")[0];
+                var extension = res.substr(res.length - 4);
+
+                if (!extension.includes('.png') && !extension.includes('.jpg') && !extension.includes('.PNG') && !extension.includes('.JPG')) {
+                    var fileName = title;
+                    const url = await savePicture(this.state.wellnessAdvocatesLogo, fileName);
+                    this.setState({
+                        url: url
+                    });
+                } else {
+                    var fileName = title + extension;
+                    const url = await savePicture(this.state.wellnessAdvocatesLogo, fileName);
+                    this.setState({
+                        url: url
+                    });
+                }
+
+                if (isWellnessAdvocatesValid) {
+                    this.setState(initialStates);
+
+                    db.collection("StudentCare").doc(id)
+                    .update({
+                        id: id,
+                        desc: this.state.wellnessAdvocatesDescription,
+                        logo: this.state.url,
+                    })
+                    .then(dataSnapshot => {
+                        console.log("Updated SIM Wellness Advocates");
+                        this.setState({
+                            wellnessAdvocatesEditModal: false
+                        });
+                        this.display();
+                    });
+                }
+
+            } else {
+                if (isWellnessAdvocatesValid) {
+                    this.setState(initialStates);
+
+                    db.collection("StudentCare").doc(id)
+                    .update({
+                        id: id,
+                        desc: this.state.wellnessAdvocatesDescription,
+                    })
+                    .then(dataSnapshot => {
+                        console.log("Updated SIM Wellness Advocates");
+                        this.setState({
+                            wellnessAdvocatesEditModal: false
+                        });
+                        this.display();
+                    });
+                }
+            }
+        }
+    }
+
+
+    // handleSave = (studentcareid) => {
+    //     const parentthis = this;
+    //     const db = fire.firestore();
+
+    //     var desc = document.getElementById(studentcareid + "desc").value;
+    //     console.log(this.state.files);
+
+    //     if (this.state.files !== undefined) {
+    //         const foldername = "StudentCare";
+    //         const storageRef = fire.storage().ref(foldername);
+    //         const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
+    //             fileRef.on("state_changed", function (snapshot) {
+    //             fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+    //                 const userRef = db.collection("StudentCare").doc(studentcareid)
+    //                 .update({
+    //                     desc: desc,
+    //                     logo: downloadURL,
+    //                 })
+    //                 .then(function () {
+    //                     console.log("Updated");
+    //                     window.location.reload();
+    //                 });
+    //             });
+
+    //             const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+    //             if (progress != "100") {
+    //                 parentthis.setState({ progress: progress });
+    //             } else {
+    //                 parentthis.setState({ progress: "Uploaded!" });
+    //             }
+
+    //         });
+    //         console.log();
+    //     } else {
+    //         const userRef = db.collection("StudentCare").doc(studentcareid)
+    //         .update({
+    //             desc: desc,
+    //         })
+    //         .then(function () {
+    //             console.log("Updated");
+    //             window.location.reload();
+    //         });
+    //     }
+    // };
+
+    // handleactivitesSave = (studentcareid, activity) => {
+    //     const parentthis = this;
+    //     const db = fire.firestore();
+    //     const updateactivitylogo = "activities.activity" + activity + ".activitiesLogo";
+    //     const updateactivityname = "activities.activity" + activity + ".activitiesName";
+
+    //     var actname = document.getElementById(studentcareid + activity + "actname").value;
+    //     if (this.state.files !== undefined) {
+    //         const foldername = "StudentCare";
+    //         const storageRef = fire.storage().ref(foldername);
+    //         const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
+    //         fileRef.on("state_changed", function (snapshot) {
+    //             fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+    //                 const userRef = db.collection("StudentCare").doc(studentcareid)
+    //                 .update({
+    //                     [updateactivityname]: actname,
+    //                     [updateactivitylogo]: downloadURL,
+    //                 })
+    //                 .then(function () {
+    //                     console.log("Updated");
+    //                     window.location.reload();
+    //                 });
+    //             });
+    //             const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+    //             if (progress != "100") {
+    //                 parentthis.setState({ progress: progress });
+    //             } else {
+    //                 parentthis.setState({ progress: "Uploaded!" });
+    //             }
+    //         });
+    //         console.log();
+    //     } else {
+    //         const userRef = db.collection("StudentCare").doc(studentcareid)
+    //         .update({
+    //             [updateactivityname]: actname,
+    //         })
+    //         .then(function () {
+    //             console.log("Updated");
+    //             window.location.reload();
+    //         });
+    //     }
+    // };
+
+    //Work, play and live well Edit Modal
+    handleWorkEditModal = (workPlayLive) => {
+        if (this.state.workEditModal == false) {
+            this.setState({
+                workEditModal: true,
+                workId: workPlayLive.workId,
+                workDescription: workPlayLive.workDescription,
             });
-        });
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        if (progress != "100") {
-          parentthis.setState({ progress: progress });
-        } else {
-          parentthis.setState({ progress: "Uploaded!" });
         }
-      });
-      console.log();
-    } else {
-      const userRef = db
-        .collection("StudentCare")
-        .doc(studentcareid)
-        .update({
-          [updateactivityname]: actname,
-        })
-        .then(function () {
-          alert("Updated");
-          window.location.reload();
-        });
+        else {
+            this.setState({
+                workEditModal: false
+            });
+        }
     }
-  };
 
-  render() {
-    return (
-      <div className="home">
-        <div>
-          <table id="users" class="table table-bordered">
-            <tbody>
-              <p>
-                <h1>WORK, PLAY AND LIVE WELL</h1>
-              </p>
-              <tr>
-                <th scope="col">Description</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.activitiesDesc &&
-                this.state.activitiesDesc.map((activitiesDesc) => {
-                  return (
-                    <tr>
-                      <td>
-                        <span class={activitiesDesc.id + "text"}>
-                          {activitiesDesc.activitiesDesc}
-                        </span>
-                        <span
-                          id={activitiesDesc.id + "spanactivitiesdes"}
-                          hidden
-                        >
-                          <input
-                            id={activitiesDesc.id + "desc"}
-                            defaultValue={activitiesDesc.activitiesDesc}
-                            type="text"
-                            name={activitiesDesc.id + "desc"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={activitiesDesc.activitiesDesc}
-                            required
-                          />
-                        </span>
-                      </td>
-                      <td>
-                        <button
-                          id={activitiesDesc.id + "editbutton"}
-                          onClick={(e) => {
-                            this.editStudentCare(
-                              e,
-                              activitiesDesc.id,
-                              "workPlayLiveWell"
-                            );
-                          }}
-                        >
-                          Edit
-                        </button>
+    //Activity Edit Modal
+    handleActivityEditModal = (activity) => {
+        if (this.state.activityEditModal == false) {
+            this.setState({
+                activityEditModal: true,
+                activityName: activity.activityName,
+            });
+        }
+        else {
+            this.setState({
+                activityEditModal: false
+            });
+        }
+    }
 
-                        <button
-                          id={activitiesDesc.id + "updatebutton"}
-                          hidden
-                          onClick={(e) => {
-                            this.handleSave(activitiesDesc.id);
-                          }}
-                        >
-                          Update
-                        </button>
-                        <button
-                          hidden
-                          id={activitiesDesc.id + "cancelbutton"}
-                          onClick={(e) => {
-                            this.CancelEdit(
-                              e,
-                              activitiesDesc.id,
-                              "workPlayLiveWell"
-                            );
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              <p>
-                <h4>WORK, PLAY AND LIVE WELL(Activities)</h4>
-              </p>
-              <tr>
-                <th scope="col">Activity Name</th>
-                <th scope="col">Logo File</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.activitiesarray &&
-                this.state.activitiesarray.map((activitiesarray, index) => {
-                  index = index + 1;
-                  return (
-                    <tr>
-                      <td>
-                        <span class={activitiesarray.id + index + "text"}>
-                          {activitiesarray.activitiesName}
-                        </span>
-                        <span
-                          id={activitiesarray.id + index + "spanactivitiesdes"}
-                          hidden
-                        >
-                          <input
-                            id={activitiesarray.id + index + "actname"}
-                            defaultValue={activitiesarray.activitiesName}
-                            type="text"
-                            name={activitiesarray.id + index + "actname"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={activitiesarray.activitiesName}
-                            required
-                          />
-                        </span>
-                      </td>
-                      <td>
-                        <span class={activitiesarray.id + index + "text"}>
-                          {activitiesarray.activitiesLogo}
-                        </span>
-                        <span
-                          id={activitiesarray.id + index + "spanactivitieslogo"}
-                          hidden
-                        >
-                          <input
-                            id={activitiesarray.id + index + "actlogo"}
-                            defaultValue={activitiesarray.activitiesLogo}
-                            type="text"
-                            name={activitiesarray.id + index + "actlogo"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={activitiesarray.activitiesLogo}
-                            required
-                            disabled={"disabled"}
-                          />
-                        </span>
-                        <span id={activitiesarray.id + index + "upload"} hidden>
-                          <input
-                            type="file"
-                            onChange={(e) => {
-                              this.handleFileUpload(e.target.files);
-                            }}
-                          />
-                          {this.state.progress}
-                          <div>
-                            <progress value={this.state.progress} max="100" />
-                          </div>
-                        </span>
-                      </td>
-                      <td>
-                        <button
-                          id={activitiesarray.id + index + "editbutton"}
-                          onClick={(e) => {
-                            this.editStudentCare(
-                              e,
-                              activitiesarray.id + index,
-                              "workPlayLiveWell"
-                            );
-                          }}
-                        >
-                          Edit
-                        </button>
+    //Student Wellness Centre Edit Modal
+    handleStudentWellnessEditModal = (studentWellness) => {
+        if (this.state.studentWellnessEditModal == false) {
+            this.setState({
+                studentWellnessEditModal: true,
+                studentWellnessId: studentWellness.studentWellnessId,
+                studentWellnessDescription: studentWellness.studentWellnessDescription,
+                studentWellnessLogo: studentWellness.studentWellnessLogo,
+            });
+        }
+        else {
+            this.setState({
+                studentWellnessEditModal: false
+            });
+        }
+    }
 
-                        <button
-                          id={activitiesarray.id + index + "updatebutton"}
-                          hidden
-                          onClick={(e) => {
-                            this.handleactivitesSave(activitiesarray.id, index);
-                          }}
-                        >
-                          Update
-                        </button>
-                        <button
-                          hidden
-                          id={activitiesarray.id + index + "cancelbutton"}
-                          onClick={(e) => {
-                            this.CancelEdit(
-                              e,
-                              activitiesarray.id,
-                              "workPlayLiveWell"
-                            );
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              <p>
-                <h1>STUDENT WELLNESS CENTRE</h1>
-              </p>
-              <tr>
-                <th scope="col">Description</th>
-                <th scope="col">Logo File</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.wellnesscentre &&
-                this.state.wellnesscentre.map((wellnesscentre) => {
-                  return (
-                    <tr>
-                      <td>
-                        <span class={wellnesscentre.id + "text"}>
-                          {wellnesscentre.desc}
-                        </span>
-                        <span id={wellnesscentre.id + "spanwelldes"} hidden>
-                          <input
-                            id={wellnesscentre.id + "desc"}
-                            defaultValue={wellnesscentre.desc}
-                            type="text"
-                            name={wellnesscentre.id + "desc"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={wellnesscentre.desc}
-                            required
-                          />
-                        </span>
-                      </td>
-                      <td>
-                        <span class={wellnesscentre.id + "text"}>
-                          {wellnesscentre.logo}
-                        </span>
-                        <span id={wellnesscentre.id + "spanwelllogo"} hidden>
-                          <input
-                            id={wellnesscentre.id + "welllogo"}
-                            defaultValue={wellnesscentre.logo}
-                            type="text"
-                            name={wellnesscentre.id + "welllogo"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={wellnesscentre.logo}
-                            required
-                            disabled={"disabled"}
-                          />
-                        </span>
-                        <span id={wellnesscentre.id + "upload"} hidden>
-                          <input
-                            type="file"
-                            onChange={(e) => {
-                              this.handleFileUpload(e.target.files);
-                            }}
-                          />
-                          {this.state.progress}
-                          <div>
-                            <progress value={this.state.progress} max="100" />
-                          </div>
-                        </span>
-                      </td>
-                      <td>
-                        <button
-                          id={wellnesscentre.id + "editbutton"}
-                          onClick={(e) => {
-                            this.editStudentCare(
-                              e,
-                              wellnesscentre.id,
-                              "studentWellnessCentre"
-                            );
-                          }}
-                        >
-                          Edit
-                        </button>
+    //Counselling Service Edit Modal
+    handleCounsellingServiceEditModal = (counsellingService) => {
+        if (this.state.counsellingServiceEditModal == false) {
+            this.setState({
+                counsellingServiceEditModal: true,
+                counsellingServiceId: counsellingService.counsellingServiceId,
+                counsellingServiceDescription: counsellingService.counsellingServiceDescription,
+                counsellingServiceLogo: counsellingService.counsellingServiceLogo,
+            });
+        }
+        else {
+            this.setState({
+                counsellingServiceEditModal: false
+            });
+        }
+    }
 
-                        <button
-                          id={wellnesscentre.id + "updatebutton"}
-                          hidden
-                          onClick={(e) => {
-                            this.handleSave(wellnesscentre.id);
-                          }}
-                        >
-                          Update
-                        </button>
-                        <button
-                          hidden
-                          id={wellnesscentre.id + "cancelbutton"}
-                          onClick={(e) => {
-                            this.CancelEdit(
-                              e,
-                              wellnesscentre.id,
-                              "studentWellnessCentre"
-                            );
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              <p>
-                <h1>COUNSELLING SERVICE</h1>
-              </p>
-              <tr>
-                <th scope="col">Description</th>
-                <th scope="col">Logo File</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.counselling &&
-                this.state.counselling.map((counselling) => {
-                  return (
-                    <tr>
-                      <td>
-                        <span class={counselling.id + "text"}>
-                          {counselling.desc}
-                        </span>
-                        <span id={counselling.id + "spancounseldes"} hidden>
-                          <input
-                            id={counselling.id + "desc"}
-                            defaultValue={counselling.desc}
-                            type="text"
-                            name={counselling.id + "desc"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={counselling.desc}
-                            required
-                          />
-                        </span>
-                      </td>
-                      <td>
-                        <span class={counselling.id + "text"}>
-                          {counselling.logo}
-                        </span>
-                        <span id={counselling.id + "spancounsellogo"} hidden>
-                          <input
-                            id={counselling.id + "counsellogo"}
-                            defaultValue={counselling.logo}
-                            type="text"
-                            name={counselling.id + "counsellogo"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={counselling.logo}
-                            required
-                            disabled={"disabled"}
-                          />
-                        </span>
-                        <span id={counselling.id + "upload"} hidden>
-                          <input
-                            type="file"
-                            onChange={(e) => {
-                              this.handleFileUpload(e.target.files);
-                            }}
-                          />
-                          {this.state.progress}
-                          <div>
-                            <progress value={this.state.progress} max="100" />
-                          </div>
-                        </span>
-                      </td>
-                      <td>
-                        <button
-                          id={counselling.id + "editbutton"}
-                          onClick={(e) => {
-                            this.editStudentCare(
-                              e,
-                              counselling.id,
-                              "counsellingService"
-                            );
-                          }}
-                        >
-                          Edit
-                        </button>
+    //SIM Peer Support Edit Modal
+    handlePeerSupportEditModal = (peerSupport) => {
+        if (this.state.peerSupportEditModal == false) {
+            this.setState({
+                peerSupportEditModal: true,
+                peerSupportId: peerSupport.peerSupportId,
+                peerSupportDescription: peerSupport.peerSupportDescription,
+                peerSupportLogo: peerSupport.peerSupportLogo,
+            });
+        }
+        else {
+            this.setState({
+                peerSupportEditModal: false
+            });
+        }
+    }
 
-                        <button
-                          id={counselling.id + "updatebutton"}
-                          hidden
-                          onClick={(e) => {
-                            this.handleSave(counselling.id);
-                          }}
-                        >
-                          Update
-                        </button>
-                        <button
-                          hidden
-                          id={counselling.id + "cancelbutton"}
-                          onClick={(e) => {
-                            this.CancelEdit(
-                              e,
-                              counselling.id,
-                              "counsellingService"
-                            );
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              <p>
-                <h1>SIM PEER SUPPORT</h1>
-              </p>
-              <tr>
-                <th scope="col">Description</th>
-                <th scope="col">Logo File</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.peersupport &&
-                this.state.peersupport.map((peersupport) => {
-                  return (
-                    <tr>
-                      <td>
-                        <span class={peersupport.id + "text"}>
-                          {peersupport.desc}
-                        </span>
-                        <span id={peersupport.id + "spanpeerdes"} hidden>
-                          <input
-                            id={peersupport.id + "desc"}
-                            defaultValue={peersupport.desc}
-                            type="text"
-                            name={peersupport.id + "desc"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={peersupport.desc}
-                            required
-                          />
-                        </span>
-                      </td>
-                      <td>
-                        <span class={peersupport.id + "text"}>
-                          {peersupport.logo}
-                        </span>
-                        <span id={peersupport.id + "spanpeerlogo"} hidden>
-                          <input
-                            id={peersupport.id + "peerlogo"}
-                            defaultValue={peersupport.logo}
-                            type="text"
-                            name={peersupport.id + "peerlogo"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={peersupport.logo}
-                            required
-                            disabled={"disabled"}
-                          />
-                        </span>
-                        <span id={peersupport.id + "upload"} hidden>
-                          <input
-                            type="file"
-                            onChange={(e) => {
-                              this.handleFileUpload(e.target.files);
-                            }}
-                          />
-                          {this.state.progress}
-                          <div>
-                            <progress value={this.state.progress} max="100" />
-                          </div>
-                        </span>
-                      </td>
-                      <td>
-                        <button
-                          id={peersupport.id + "editbutton"}
-                          onClick={(e) => {
-                            this.editStudentCare(
-                              e,
-                              peersupport.id,
-                              "simPeerSupport"
-                            );
-                          }}
-                        >
-                          Edit
-                        </button>
+    //SIM Wellness Advocates
+    handleWellnessAdvocatesEditModal = (wellnessAdvocates) => {
+        if (this.state.wellnessAdvocatesEditModal == false) {
+            this.setState({
+                wellnessAdvocatesEditModal: true,
+                wellnessAdvocatesId: wellnessAdvocates.wellnessAdvocatesId,
+                wellnessAdvocatesDescription: wellnessAdvocates.wellnessAdvocatesDescription,
+                wellnessAdvocatesLogo: wellnessAdvocates.wellnessAdvocatesLogo,
+            });
+        }
+        else {
+            this.setState({
+                wellnessAdvocatesEditModal: false
+            });
+        }
+    }
 
-                        <button
-                          id={peersupport.id + "updatebutton"}
-                          hidden
-                          onClick={(e) => {
-                            this.handleSave(peersupport.id);
-                          }}
-                        >
-                          Update
-                        </button>
-                        <button
-                          hidden
-                          id={peersupport.id + "cancelbutton"}
-                          onClick={(e) => {
-                            this.CancelEdit(
-                              e,
-                              peersupport.id,
-                              "simPeerSupport"
-                            );
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              <p>
-                <h1>SIM WELLNESS ADVOCATES</h1>
-              </p>
-              <tr>
-                <th scope="col">Description</th>
-                <th scope="col">Logo File</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.wellnessadvocates &&
-                this.state.wellnessadvocates.map((wellnessadvocates) => {
-                  return (
-                    <tr>
-                      <td>
-                        <span class={wellnessadvocates.id + "text"}>
-                          {wellnessadvocates.desc}
-                        </span>
-                        <span
-                          id={wellnessadvocates.id + "spanadvocatesdes"}
-                          hidden
-                        >
-                          <input
-                            id={wellnessadvocates.id + "desc"}
-                            defaultValue={wellnessadvocates.desc}
-                            type="text"
-                            name={wellnessadvocates.id + "desc"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={wellnessadvocates.desc}
-                            required
-                          />
-                        </span>
-                      </td>
-                      <td>
-                        <span class={wellnessadvocates.id + "text"}>
-                          {wellnessadvocates.logo}
-                        </span>
-                        <span
-                          id={wellnessadvocates.id + "spanadvocateslogo"}
-                          hidden
-                        >
-                          <input
-                            id={wellnessadvocates.id + "advocateslogo"}
-                            defaultValue={wellnessadvocates.logo}
-                            type="text"
-                            name={wellnessadvocates.id + "advocateslogo"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={wellnessadvocates.logo}
-                            required
-                            disabled={"disabled"}
-                          />
-                        </span>
-                        <span id={wellnessadvocates.id + "upload"} hidden>
-                          <input
-                            type="file"
-                            onChange={(e) => {
-                              this.handleFileUpload(e.target.files);
-                            }}
-                          />
-                          {this.state.progress}
-                          <div>
-                            <progress value={this.state.progress} max="100" />
-                          </div>
-                        </span>
-                      </td>
-                      <td>
-                        <button
-                          id={wellnessadvocates.id + "editbutton"}
-                          onClick={(e) => {
-                            this.editStudentCare(
-                              e,
-                              wellnessadvocates.id,
-                              "simWellnessAdvocates"
-                            );
-                          }}
-                        >
-                          Edit
-                        </button>
+    //Validation for Student Wellness
+    validateStudentWellness = () => {
+        let studentWellnessDescriptionError = "";
+        let studentWellnessLogoError = "";
 
-                        <button
-                          id={wellnessadvocates.id + "updatebutton"}
-                          hidden
-                          onClick={(e) => {
-                            this.handleSave(wellnessadvocates.id);
-                          }}
-                        >
-                          Update
-                        </button>
-                        <button
-                          hidden
-                          id={wellnessadvocates.id + "cancelbutton"}
-                          onClick={(e) => {
-                            this.CancelEdit(
-                              e,
-                              wellnessadvocates.id,
-                              "simWellnessAdvocates"
-                            );
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
-  }
+        if (!this.state.studentWellnessDescription) {
+            studentWellnessDescriptionError = "Please enter a valid description.";
+        }
+
+        if (!this.state.studentWellnessLogo) {
+            studentWellnessLogoError = "Please browse a logo.";
+        }
+
+        if (studentWellnessDescriptionError || studentWellnessLogoError) {
+            this.setState({studentWellnessDescriptionError, studentWellnessLogoError});
+            return false;
+        } 
+
+        return true;
+    }
+
+    //Validation for Counselling Service
+    validateCounsellingService = () => {
+        let counsellingServiceDescriptionError = "";
+        let counsellingServiceLogoError = "";
+
+        if (!this.state.counsellingServiceDescription) {
+            counsellingServiceDescriptionError = "Please enter a valid description.";
+        }
+
+        if (!this.state.counsellingServiceLogo) {
+            counsellingServiceLogoError = "Please browse a logo.";
+        }
+
+        if (counsellingServiceDescriptionError || counsellingServiceLogoError) {
+            this.setState({counsellingServiceDescriptionError, counsellingServiceLogoError});
+            return false;
+        } 
+
+        return true;
+    }
+
+    //Validation for SIM Peer Support
+    validatePeerSupport = () => {
+        let peerSupportDescriptionError = "";
+        let peerSupportLogoError = "";
+
+        if (!this.state.peerSupportDescription) {
+            peerSupportDescriptionError = "Please enter a valid description.";
+        }
+
+        if (!this.state.peerSupportLogo) {
+            peerSupportLogoError = "Please browse a logo.";
+        }
+
+        if (peerSupportDescriptionError || peerSupportLogoError) {
+            this.setState({peerSupportDescriptionError, peerSupportLogoError});
+            return false;
+        } 
+
+        return true;
+    }
+
+    //Validation for SIM Wellness Advocates
+    validateWellnessAdvocates = () => {
+        let wellnessAdvocatesDescriptionError = "";
+        let wellnessAdvocatesLogoError = "";
+
+        if (!this.state.wellnessAdvocatesDescription) {
+            wellnessAdvocatesDescriptionError = "Please enter a valid description.";
+        }
+
+        if (!this.state.wellnessAdvocatesLogo) {
+            wellnessAdvocatesLogoError = "Please browse a logo.";
+        }
+
+        if (wellnessAdvocatesDescriptionError || wellnessAdvocatesLogoError) {
+            this.setState({wellnessAdvocatesDescriptionError, wellnessAdvocatesLogoError});
+            return false;
+        } 
+
+        return true;
+    }
+
+    render() {
+        return (
+            <div>
+                <Container fluid className="StudentCare-container">
+                    <NavBar isMA={true} />
+
+                        <Container fluid className="StudentCare-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                            <Row>
+                                <Col md={2} style={{paddingRight: 0}}>
+                                    <SideNavBar />
+                                </Col>
+
+                                <Col md={10} style={{paddingLeft: 0}}>
+                                    <Container fluid id="StudentCare-topContentContainer">
+                                        <Row id="StudentCare-firstRow">
+                                            <Col md={12} className="text-left" id="StudentCare-firstRowCol">
+                                                <h4 id="StudentCare-title">Student Care</h4>
+                                            </Col>
+                                        </Row>
+
+                                        <Row id="StudentCare-secondRow">
+                                            <Col md={12} id="StudentCare-secondRowCol">
+                                                <Tab.Container defaultActiveKey="workPlayLive">
+                                                    <Row className="StudentCare-secondInnerRow">
+                                                        <Col md={12} className="StudentCare-secondInnerCol">
+                                                            <Nav defaultActiveKey="workPlayLive" className="StudentCare-nav" variant="tabs">
+                                                                <Col className="text-center StudentCare-navItemCon">
+                                                                    <Nav.Item className="StudentCare-navItems">
+                                                                        <Nav.Link eventKey="workPlayLive" className="StudentCare-navLinks">Work, play and <br/>live well</Nav.Link>
+                                                                    </Nav.Item>
+                                                                </Col>
+
+                                                                <Col className="text-center StudentCare-navItemCon">
+                                                                    <Nav.Item className="StudentCare-navItems">
+                                                                        <Nav.Link eventKey="studentWellnessCentre" className="StudentCare-navLinks">Student Wellness Centre</Nav.Link>
+                                                                    </Nav.Item>
+                                                                </Col>
+
+                                                                <Col className="text-center StudentCare-navItemCon">
+                                                                    <Nav.Item className="StudentCare-navItems">
+                                                                        <Nav.Link eventKey="counsellingService" className="StudentCare-navLinks">Counselling <br/>Service</Nav.Link>
+                                                                    </Nav.Item>
+                                                                </Col>
+
+                                                                <Col className="text-center StudentCare-navItemCon">
+                                                                    <Nav.Item className="StudentCare-navItems">
+                                                                        <Nav.Link eventKey="simPeerSupport" className="StudentCare-navLinks">SIM <br/>Peer Support</Nav.Link>
+                                                                    </Nav.Item>
+                                                                </Col>
+
+                                                                <Col className="text-center StudentCare-navItemCon">
+                                                                    <Nav.Item className="StudentCare-navItems">
+                                                                        <Nav.Link eventKey="simWellnessAdvocates" className="StudentCare-navLinks">SIM Wellness Advocates</Nav.Link>
+                                                                    </Nav.Item>
+                                                                </Col>
+                                                            </Nav>
+                                                        </Col>
+                                                    </Row>
+                                                    
+                                                    <Row className="StudentCare-secondInnerRow">
+                                                        <Col md={12} className="StudentCare-secondInnerCol">
+                                                            <Tab.Content>
+                                                                
+                                                                {/* Work, play and live well */}
+                                                                <Tab.Pane eventKey="workPlayLive">
+                                                                    <Row id="StudentCare-secondRow">
+                                                                        <Col md={12} className="text-center StudentCare-tableColCon">
+                                                                            <Table responsive="sm" bordered className="StudentCare-tableCon">
+                                                                                <thead id="StudentCare-tableHeader">
+                                                                                    <tr>
+                                                                                        <th>Description</th>
+                                                                                        <th id="StudentCare-editHeading">Edit</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                {this.state.workArray && this.state.workArray.map((workPlayLive) => {
+                                                                                    return (
+                                                                                        <tbody id="StudentCare-tableBody" key={workPlayLive.workId}>
+                                                                                            <tr>
+                                                                                                <td className="text-left">{workPlayLive.workDescription}</td>
+                                                                                                <td><Button size="sm" id="StudentCare-editBtn" onClick={() => this.handleWorkEditModal(workPlayLive)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    )
+                                                                                })}
+                                                                            </Table>
+                                                                        </Col>
+                                                                    </Row>
+
+                                                                    <div id="border"></div>
+                                                                    <Row id="StudentCare-titleRow">
+                                                                        <Col md={12} className="text-left" id="StudentCare-titleRowCol">
+                                                                            <h6 id="StudentCare-title">Activities</h6>
+                                                                        </Col>
+                                                                    </Row>
+
+                                                                    <Row id="StudentCare-secondRow">
+                                                                        <Col md={12} className="text-center" id="StudentCare-secondRowCol">
+                                                                            <Table responsive="sm" bordered id="StudentCare-tableContainer">
+                                                                                <thead id="StudentCare-tableHeader">
+                                                                                    <tr>
+                                                                                        <th>Activity Name</th>
+                                                                                        <th id="StudentCare-LogoHeading">Logo File</th>
+                                                                                        <th id="StudentCare-editHeading">Edit</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                {this.state.activityArray && this.state.activityArray.map((activities) => {
+                                                                                    return (
+                                                                                        <tbody id="StudentCare-tableBody">
+                                                                                            <tr>
+                                                                                                <td>{activities.activityName}</td>
+                                                                                                <td>{activities.activityName} Logo</td>
+                                                                                                <td><Button size="sm" id="StudentCare-editBtn" onClick={() => this.handleActivityEditModal(activities)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    )
+                                                                                })}
+                                                                                
+                                                                            </Table>
+                                                                        </Col>
+                                                                    </Row>
+                                                                </Tab.Pane>
+
+                                                                {/* Student Wellness Centre */}
+                                                                <Tab.Pane eventKey="studentWellnessCentre">
+                                                                    <Col md={12} className="text-center StudentCare-tableColCon">
+                                                                        <Table responsive="sm" bordered className="StudentCare-tableCon">
+                                                                            <thead id="StudentCare-tableHeader">
+                                                                                <tr>
+                                                                                    <th>Description</th>
+                                                                                    <th id="StudentCare-LogoHeading">Logo File</th>
+                                                                                    <th id="StudentCare-editHeading">Edit</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            {this.state.studentWellnessArray && this.state.studentWellnessArray.map((studentWellness) => {
+                                                                                return (
+                                                                                    <tbody id="StudentCare-tableBody" key={studentWellness.studentWellnessId}>
+                                                                                        <tr>
+                                                                                            <td className="text-left">{studentWellness.studentWellnessDescription}</td>
+                                                                                            <td>{studentWellness.logoFieldName} Logo</td>
+                                                                                            <td><Button size="sm" id="StudentCare-editBtn" onClick={() => this.handleStudentWellnessEditModal(studentWellness)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                )
+                                                                            })}
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Tab.Pane>
+
+                                                                {/* Counselling Service */}
+                                                                <Tab.Pane eventKey="counsellingService">
+                                                                    <Col md={12} className="text-center StudentCare-tableColCon">
+                                                                        <Table responsive="sm" bordered className="StudentCare-tableCon">
+                                                                            <thead id="StudentCare-tableHeader">
+                                                                                <tr>
+                                                                                    <th>Description</th>
+                                                                                    <th id="StudentCare-LogoHeading">Logo File</th>
+                                                                                    <th id="StudentCare-editHeading">Edit</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            {this.state.counsellingServiceArray && this.state.counsellingServiceArray.map((counsellingService) => {
+                                                                                return (
+                                                                                    <tbody id="StudentCare-tableBody" key={counsellingService.counsellingServiceId}>
+                                                                                        <tr>
+                                                                                            <td className="text-left">{counsellingService.counsellingServiceDescription}</td>
+                                                                                            <td>{counsellingService.logoFieldName} Logo</td>
+                                                                                            <td><Button size="sm" id="StudentCare-editBtn" onClick={() => this.handleCounsellingServiceEditModal(counsellingService)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                )
+                                                                            })}
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Tab.Pane>
+                                                                
+                                                                {/* Sim Peer Support */}
+                                                                <Tab.Pane eventKey="simPeerSupport">
+                                                                    <Col md={12} className="text-center StudentCare-tableColCon">
+                                                                        <Table responsive="sm" bordered className="StudentCare-tableCon">
+                                                                            <thead id="StudentCare-tableHeader">
+                                                                                <tr>
+                                                                                    <th>Description</th>
+                                                                                    <th id="StudentCare-LogoHeading">Logo File</th>
+                                                                                    <th id="StudentCare-editHeading">Edit</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            {this.state.peerSupportArray && this.state.peerSupportArray.map((peerSupport) => {
+                                                                                return (
+                                                                                    <tbody id="StudentCare-tableBody" key={peerSupport.peerSupportId}>
+                                                                                        <tr>
+                                                                                            <td className="text-left">{peerSupport.peerSupportDescription}</td>
+                                                                                            <td>{peerSupport.logoFieldName} Logo</td>
+                                                                                            <td><Button size="sm" id="StudentCare-editBtn" onClick={() => this.handlePeerSupportEditModal(peerSupport)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                )
+                                                                            })}
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Tab.Pane>
+
+                                                                {/* Sim Wellness Advocates */}
+                                                                <Tab.Pane eventKey="simWellnessAdvocates">
+                                                                    <Col md={12} className="text-center StudentCare-tableColCon">
+                                                                        <Table responsive="sm" bordered className="StudentCare-tableCon">
+                                                                            <thead id="StudentCare-tableHeader">
+                                                                                <tr>
+                                                                                    <th>Description</th>
+                                                                                    <th id="StudentCare-LogoHeading">Logo File</th>
+                                                                                    <th id="StudentCare-editHeading">Edit</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            {this.state.wellnessAdvocatesArray && this.state.wellnessAdvocatesArray.map((wellnessAdvocate) => {
+                                                                                return (
+                                                                                    <tbody id="StudentCare-tableBody" key={wellnessAdvocate.wellnessAdvocatesId}>
+                                                                                        <tr>
+                                                                                            <td className="text-left">{wellnessAdvocate.wellnessAdvocatesDescription}</td>
+                                                                                            <td>{wellnessAdvocate.logoFieldName} Logo</td>
+                                                                                            <td><Button size="sm" id="StudentCare-editBtn" onClick={() => this.handleWellnessAdvocatesEditModal(wellnessAdvocate)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                )
+                                                                            })}
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Tab.Pane>
+                                                            </Tab.Content>
+                                                        </Col>
+                                                    </Row>
+
+                                                </Tab.Container>
+                                            </Col>
+                                        </Row>
+
+                                    </Container>
+                                </Col>
+                            </Row>    
+                        </Container>                    
+
+                    <Footer />
+                </Container>
+
+                {/* WorkPlayLive Edit Modal */}
+                {this.state.workEditModal == true ? 
+                    <Modal show={this.state.workEditModal} onHide={this.handleWorkEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="StudentCare-modalTitle" className="w-100">Edit Description</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="StudentCare-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="2x" icon={faFutbol}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="StudentCare-textAreas" as="textarea" rows="4" type="text" name="workPlayLiveDescription" placeholder="Work, Play and Live Well Description" required defaultValue={this.state.workDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="StudentCare-editFooter">
+                                        <Col md={6} className="StudentCare-editCol">
+                                            <Button id="StudentCare-saveBtn" type="submit">Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="StudentCare-editCol">
+                                            <Button id="StudentCare-cancelBtn" onClick={this.handleWorkEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Activities Edit Modal */}
+                {this.state.activityEditModal == true ? 
+                    <Modal show={this.state.activityEditModal} onHide={this.handleActivityEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="StudentCare-modalTitle" className="w-100">Edit Activities</Modal.Title>
+                        </Modal.Header>
+                        {this.state.activityArray && this.state.activityArray.map((activities) => {
+                            if (this.state.activityName === activities.activityName) {
+                                return (
+                                    <div>
+                                        <Modal.Body>
+                                            <Form noValidate>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="StudentCare-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faBiking}/>
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="StudentCare-inputFields" type="text" name="activitiesName" placeholder="Activity Name: E.g. Cycling" required defaultValue={activities.activityName} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage"></div>
+                                                        </Form.Group>
+                                                    </Form.Group>                     
+                                                </Form.Group>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="StudentCare-formGroup">
+                                                        <img height="80px" width="80px" src={activities.activityLogo} style={{marginTop: "1%", marginBottom: "1%"}}/>
+                                                    </Form.Group>                     
+                                                </Form.Group>
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="StudentCare-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faFileImage} />
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.File type="file" name="imgFile" className="StudentCare-imgFile" label={activities.activityLogo} onChange={() => console.log("Set State")} custom required></Form.File>
+                                                            <div className="errorMessage"></div>
+                                                        </Form.Group>
+                                                    </Form.Group>
+                                                </Form.Group>
+                                            </Form>
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                            <Container>
+                                                <Row id="StudentCare-editFooter">
+                                                    <Col md={6} className="StudentCare-editCol">
+                                                        <Button id="StudentCare-saveBtn" type="submit">Save Changes</Button>
+                                                    </Col>
+                                                    <Col md={6} className="StudentCare-editCol">
+                                                        <Button id="StudentCare-cancelBtn" onClick={this.handleActivityEditModal}>Cancel</Button>
+                                                    </Col>
+                                                </Row>
+                                            </Container>
+                                        </Modal.Footer>
+                                    </div>
+                                )
+                            }
+                        })}
+                    </Modal>: ''
+                }
+
+                {/* Student Wellness Centre Edit Modal */}
+                {this.state.studentWellnessEditModal == true ? 
+                    <Modal show={this.state.studentWellnessEditModal} onHide={this.handleStudentWellnessEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="StudentCare-modalTitle" className="w-100">Edit Description</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="StudentCare-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faSpa}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="StudentCare-textAreas" as="textarea" rows="4" type="text" name="studentWellnessDescription" placeholder="Student Wellness Centre Description" required defaultValue={this.state.studentWellnessDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.studentWellnessDescriptionError}</div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="StudentCare-formGroup">
+                                            <img height="50px" width="50px" src={this.state.studentWellnessLogo} style={{marginTop: "1%", marginBottom: "1%"}}/>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="StudentCare-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileImage} />
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.File type="file" name="imgFile" className="StudentCare-imgFile" label={this.state.studentWellnessLogo} onChange={(e) => this.handleFileUpload(e, this.state.studentWellnessId)} custom required></Form.File>
+                                                <div className="errorMessage">{this.state.studentWellnessLogoError}</div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="StudentCare-editFooter">
+                                        <Col md={6} className="StudentCare-editCol">
+                                            <Button id="StudentCare-saveBtn" type="submit" onClick={() => {this.handleUpdate(this.state.studentWellnessId)}}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="StudentCare-editCol">
+                                            <Button id="StudentCare-cancelBtn" onClick={this.handleStudentWellnessEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Counselling Service Edit Modal */}
+                {this.state.counsellingServiceEditModal == true ? 
+                    <Modal show={this.state.counsellingServiceEditModal} onHide={this.handleCounsellingServiceEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="StudentCare-modalTitle" className="w-100">Edit Description</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="StudentCare-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faComments}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="StudentCare-textAreas" as="textarea" rows="4" type="text" name="counsellingServiceDescription" placeholder="Counselling Service Description" required defaultValue={this.state.counsellingServiceDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.counsellingServiceDescriptionError}</div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="StudentCare-formGroup">
+                                            <img height="50px" width="50px" src={this.state.counsellingServiceLogo} style={{marginTop: "1%", marginBottom: "1%"}}/>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="StudentCare-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileImage} />
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.File type="file" name="imgFile" className="StudentCare-imgFile" label={this.state.counsellingServiceLogo} onChange={(e) => this.handleFileUpload(e, this.state.counsellingServiceId)} custom required></Form.File>
+                                                <div className="errorMessage">{this.state.counsellingServiceLogoError}</div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="StudentCare-editFooter">
+                                        <Col md={6} className="StudentCare-editCol">
+                                            <Button id="StudentCare-saveBtn" type="submit" onClick={() => {this.handleUpdate(this.state.counsellingServiceId)}}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="StudentCare-editCol">
+                                            <Button id="StudentCare-cancelBtn" onClick={this.handleCounsellingServiceEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* SIM Peer Support Edit Modal */}
+                {this.state.peerSupportEditModal == true ? 
+                    <Modal show={this.state.peerSupportEditModal} onHide={this.handlePeerSupportEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="StudentCare-modalTitle" className="w-100">Edit Description</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="StudentCare-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faUsers}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="StudentCare-textAreas" as="textarea" rows="4" type="text" name="peerSupportDescription" placeholder="SIM Peer Support Description" required defaultValue={this.state.peerSupportDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.peerSupportDescriptionError}</div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="StudentCare-formGroup">
+                                            <img height="50px" width="50px" src={this.state.peerSupportLogo} style={{marginTop: "1%", marginBottom: "1%"}}/>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="StudentCare-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileImage} />
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.File type="file" name="imgFile" className="StudentCare-imgFile" label={this.state.peerSupportLogo} onChange={(e) => this.handleFileUpload(e, this.state.peerSupportId)} custom required></Form.File>
+                                                <div className="errorMessage">{this.state.peerSupportLogoError}</div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="StudentCare-editFooter">
+                                        <Col md={6} className="StudentCare-editCol">
+                                            <Button id="StudentCare-saveBtn" type="submit" onClick={() => {this.handleUpdate(this.state.peerSupportId)}}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="StudentCare-editCol">
+                                            <Button id="StudentCare-cancelBtn" onClick={this.handlePeerSupportEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* SIM Wellness Advocates Edit Modal */}
+                {this.state.wellnessAdvocatesEditModal == true ? 
+                    <Modal show={this.state.wellnessAdvocatesEditModal} onHide={this.handleWellnessAdvocatesEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="StudentCare-modalTitle" className="w-100">Edit Description</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="StudentCare-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faSpa}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="StudentCare-textAreas" as="textarea" rows="4" type="text" name="wellnessAdvocatesDescription" placeholder="SIM Wellness Advocates Description" required defaultValue={this.state.wellnessAdvocatesDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.wellnessAdvocatesDescriptionError}</div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="StudentCare-formGroup">
+                                            <img height="50px" width="50px" src={this.state.wellnessAdvocatesLogo} style={{marginTop: "1%", marginBottom: "1%"}}/>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="StudentCare-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileImage} />
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.File type="file" name="imgFile" className="StudentCare-imgFile" label={this.state.wellnessAdvocatesLogo} onChange={(e) => this.handleFileUpload(e, this.state.wellnessAdvocatesId)} custom required></Form.File>
+                                                <div className="errorMessage">{this.state.wellnessAdvocatesLogoError}</div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="StudentCare-editFooter">
+                                        <Col md={6} className="StudentCare-editCol">
+                                            <Button id="StudentCare-saveBtn" type="submit" onClick={() => {this.handleUpdate(this.state.wellnessAdvocatesId)}}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="StudentCare-editCol">
+                                            <Button id="StudentCare-cancelBtn" onClick={this.handleWellnessAdvocatesEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+            </div>
+
+        );
+    }
 }
 export default StudentCare;

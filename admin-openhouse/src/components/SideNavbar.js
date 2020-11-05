@@ -181,7 +181,7 @@ export default class SideNavBar extends React.Component {
                                                         <OverlayTrigger placement="right" defaultShow={this.state.show} trigger="focus" overlay={renderClubs_Councils_SIM}>
                                                             <Nav.Link onClick={() => this.setState({show: true})} className="sideNavBar-inner-navLinks">Clubs & Councils@SIM</Nav.Link>
                                                         </OverlayTrigger>
-                                                        <Nav.Link href="#" className="sideNavBar-inner-navLinks">Student Care</Nav.Link>
+                                                        <Nav.Link href="/StudentCare" className="sideNavBar-inner-navLinks">Student Care</Nav.Link>
                                                         <OverlayTrigger placement="right" defaultShow={this.state.show} trigger="focus" overlay={renderScholarships}>
                                                             <Nav.Link onClick={() => this.setState({show: true})} className="sideNavBar-inner-navLinks">Scholarships</Nav.Link>
                                                         </OverlayTrigger>
