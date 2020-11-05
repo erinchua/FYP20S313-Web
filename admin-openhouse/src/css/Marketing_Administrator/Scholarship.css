@@ -1,0 +1,209 @@
+.Scholarship-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.Scholarship-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#Scholarship-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#Scholarship-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#Scholarship-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#Scholarship-title {
+    color: #424242;
+}
+
+#Scholarship-secondRow {
+    margin: 0 !important;
+}
+
+#Scholarship-secondRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.Scholarship-secondInnerRow {
+    margin: 0 !important;
+}
+
+.Scholarship-secondInnerCol {
+    padding: 0 !important;
+}
+
+.Scholarship-Header {
+    background-color: #e4f2f0;
+    font-weight: bold;
+    color: #424242;
+    font-size: 90%;
+}
+
+.Scholarship-Header:hover {
+    background-color: #62929E;
+    color: white;
+}
+
+.card-header {
+    border-bottom: none !important;
+}
+
+.card {
+    border: none !important;
+}
+
+#Scholarship-titleRow {
+    margin: 0 !important;
+}
+
+#Scholarship-thirdRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#Scholarship-titleRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+.Scholarship-cardBody {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.Scholarship-tableColCon {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.Scholarship-tableCon {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+#Scholarship-editHeading {
+    width: 15%;
+}
+
+#Scholarship-tableHeader {
+    color: #424242;
+    font-size: 90%;
+}
+
+#Scholarship-tableBody {
+    color: #434343;
+    font-size: 85%;
+}
+
+#Scholarship-editBtn {
+    background: none;
+    color: #434343;
+    border: none;
+}
+
+#Scholarship-editBtn:focus {
+    box-shadow: none;
+}
+
+#Scholarship-modalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.Scholarship-formGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Scholarship-editFooter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Scholarship-editCol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Scholarship-saveBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#Scholarship-saveBtn:focus {
+    box-shadow: none;   
+}
+
+#Scholarship-cancelBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: #60c6d9;
+}
+
+#Scholarship-cancelBtn:focus {
+    box-shadow: none;   
+}
+
+#Scholarship-inputFields {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;    
+    font-size: 85%;
+}
+
+#Scholarship-inputFields:focus {
+    box-shadow: none;
+}
+
+#Scholarship-textAreas {
+    color: #434343;    
+    font-size: 85%;
+    border: 1px solid #c8c8c8;
+}
+
+#Scholarship-textAreas:focus {
+    box-shadow: none;
+    border: 1px solid #c8c8c8;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 85%;
+}
+
+#border {
+    border: 0.5px solid #e8e8e8;
+    margin: 2% 0% 1% 0%;
+}

@@ -270,39 +270,10 @@ class ProgrammeTalkSchedule extends Component {
         this.setState({ openHouseDay2: dates[1].date}) // Use date from OpenHouse
       });
     })
-    
-    // const userRef = db
-    // .collection("ProgrammeTalks")
-    // .where('date', '>=', "2021")
-    // .get()
-    // .then((snapshot) => {
-    //   snapshot.forEach((doc) => {
-    //     progtalk.push(doc.data().date);
-    //   });
-    //   this.state.progList = progtalk;
-    //   function onlyUnique(value, index, self) {
-    //     return self.indexOf(value) === index;
-    //   }
-    
-    //   var unique = progtalk.filter(onlyUnique);
-    //   console.log(unique);
-
-      //day1
-      // const day1date = [];
-      // const openHouseDay1 = [];
-      // day1date.push(unique[0]);
-  
-    // });  
   }
 
   addProgrammeTalk = (e) => { 
     e.preventDefault();
-    // var recordingvalue = document.getElementById("recordingvalue");
-    // var livestatus = document.getElementById("livestatus");
-    // recordingvalue = recordingvalue.options[recordingvalue.selectedIndex].value;
-    // livestatus = livestatus.options[livestatus.selectedIndex].value;
-    // recordingvalue = (recordingvalue === "true");
-    // livestatus = (livestatus === "true");
 
     const isValid = this.validate();
     if (isValid) {
@@ -367,71 +338,7 @@ class ProgrammeTalkSchedule extends Component {
     });
   }
 
-
-  // **No need the following function. Using editProgTalk() instead.
-  // update(e, progtalkid) {
-    // const talkName = document.getElementById(progtalkid + "talkname").value
-    // const awardingUni = document.getElementById(progtalkid + "awarduni").value
-    // const startTime = document.getElementById(progtalkid + "starttime").value
-    // const endTime = document.getElementById(progtalkid + "endtime").value
-    // const venue = document.getElementById(progtalkid + "venue").value
-
-    // const talkName = this.state.talkName;
-    // const awardingUni = this.state.awardingUni;
-    // const startTime = this.state.startTime;
-    // const endTime = this.state.endTime;
-    // const venue = this.state.endTime;
-    // const capacityLimit = this.state.capacityLimit;
-    // const date = this.state.date;
-    // const details = this.state.details;
-    // const discipline = this.state.discipline;
-
-    // const db = fire.firestore();
-    // const isValid = this.validate();
-    // if (isValid) {
-    // if (talkName !== null && awardingUni !== null && startTime !== null && endTime !== null && venue !== null
-    //   && capacityLimit !== null && date !== null && details !== null && discipline !== null) {
-  //     const userRef = db
-  //       .collection("ProgrammeTalks")
-  //       .doc(progtalkid)
-  //       .update({
-  //           awardingUni: awardingUni,
-  //           endTime: endTime,
-  //           startTime: startTime,
-  //           talkName: talkName,
-  //           venue: venue,
-  //           capacityLimit: capacityLimit,
-  //           date: date,
-  //           details: details,
-  //           discipline: discipline
-  //       })
-  //       .then(dataSnapshot => {
-  //         // alert("Updated");
-  //         this.display();
-  //         this.setState({
-  //           editProgTalkModal: false
-  //         });
-  //       }
-  //     );
-  //   }
-  // }
-
   editProgTalk() {
-    // document.getElementById(progtalkid + "spantalkname").removeAttribute("hidden");
-    // document.getElementById(progtalkid + "spanawarduni").removeAttribute("hidden");
-    // document.getElementById(progtalkid + "spanstarttime").removeAttribute("hidden");
-    // document.getElementById(progtalkid + "spanendtime").removeAttribute("hidden");
-    // document.getElementById(progtalkid + "spanvenue").removeAttribute("hidden");
-    // document.getElementById(progtalkid + "editbutton").setAttribute("hidden", "");
-    // document.getElementById(progtalkid + "updatebutton").removeAttribute("hidden");
-    // document.getElementById(progtalkid + "cancelbutton").removeAttribute("hidden");
-    // var texttohide = document.getElementsByClassName(
-    //     progtalkid + "text"
-    // );
-    // for (var i = 0; i < texttohide.length; i++) {
-    //   texttohide[i].setAttribute("hidden", "");
-    // }  
-
     const isValid = this.validate();
     if (isValid) {
       this.setState(initialStates);
@@ -460,24 +367,6 @@ class ProgrammeTalkSchedule extends Component {
       }); 
     }
   }
-
-  /* Don't need cancel function as we can just hide the modal if cancel */
-  // CancelEdit(e, progtalkid) {
-  //   document.getElementById(progtalkid + "spantalkname").setAttribute("hidden", "");
-  //   document.getElementById(progtalkid + "spanawarduni").setAttribute("hidden", "");
-  //   document.getElementById(progtalkid + "spanstarttime").setAttribute("hidden", "");
-  //   document.getElementById(progtalkid + "spanendtime").setAttribute("hidden", "");
-  //   document.getElementById(progtalkid + "spanvenue").setAttribute("hidden", "");
-  //   document.getElementById(progtalkid + "editbutton").removeAttribute("hidden");
-  //   document.getElementById(progtalkid + "updatebutton").setAttribute("hidden", "");
-  //   document.getElementById(progtalkid + "cancelbutton").setAttribute("hidden", "");
-  //   var texttohide = document.getElementsByClassName(
-  //       progtalkid + "text"
-  //   );
-  //   for (var i = 0; i < texttohide.length; i++) {
-  //     texttohide[i].removeAttribute("hidden", "");
-  //   }
-  // }
 
   /* Checkbox - Discipline */
   handleCheckbox = (event) => {
@@ -1273,4 +1162,5 @@ class ProgrammeTalkSchedule extends Component {
     );
   }
 }
+
 export default ProgrammeTalkSchedule;
