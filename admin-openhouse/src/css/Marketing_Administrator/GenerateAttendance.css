@@ -1,0 +1,181 @@
+.generateAttendanceCon {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 0 auto;
+    padding: 0 !important;
+}
+
+.generateAttendanceContent {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+.generateAttendanceContentCon {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+.generateAttendanceContentHeaderRow {
+    background: #88B7B5;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.generateAttendanceContentHeaderCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.generateAttendanceHeaderText {
+    color: #424242;
+}
+
+.generateReportBtn {
+    background: none !important;
+    color: #424242 !important;
+    border-radius: 6px !important;
+    border: 1px solid #424242 !important;
+    min-width: 60% !important;
+    padding: 2% !important;
+}
+
+.generateReportBtnIcon {
+    margin-right: 5%;
+}
+
+.generateReportBtn:hover {
+    background: #424242 !important;
+    color: #ffffff !important;
+    border-color: #424242 !important;
+}
+
+.generateReportBtn:focus {
+    box-shadow: none !important;
+}
+
+/*******************************************************/
+/* Filter Row */
+.generateAttendanceFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    border-radius: 0 !important;
+    font-size: 85% !important;
+}
+
+.generateAttendanceFormSelect:focus {
+    box-shadow: none !important;
+}
+
+.generateAttendanceFormSelectOption {
+    color: #434343 !important;
+    font-size: 85% !important;
+}
+
+.generateAttendanceFormLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
+}
+
+.generateAttendanceFilterRow {
+    padding: 1%;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.generateAttendanceFilterCol {
+    padding: 0 10% 0 10% !important;
+}
+
+/*******************************************************/
+/* Generate Attendance Table */
+.generateAttendanceReportTable {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+.generateAttendanceReportHeader_SNo {
+    width: 5%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.generateAttendanceReportHeader_Name {
+    width: 20%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.generateAttendanceReportHeader_Email {
+    width: 25%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.generateAttendanceReportHeader_Date {
+    width: 15%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.generateAttendanceReportHeader_ProgName {
+    width: 20%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.generateAttendanceReportHeader_Uni {
+    width: 15%;
+    color: #424242;
+    font-size: 90%;
+}
+
+/******************* Table Data *******************/
+.generateAttendanceReportData_SNo {
+    width: 5%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.generateAttendanceReportData_Name {
+    width: 20%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.generateAttendanceReportData_Email {
+    width: 25%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.generateAttendanceReportData_Date {
+    width: 15%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.generateAttendanceReportData_ProgName {
+    width: 20%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.generateAttendanceReportData_Uni {
+    width: 15%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
