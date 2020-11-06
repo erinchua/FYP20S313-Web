@@ -79,14 +79,15 @@ class SAHome extends Component {
   DeleteUser() {
     const db = fire.firestore();
 
-    const userRef = db
+    db
     .collection("Administrators")
     .doc(this.state.id)
     .delete()
     .then(dataSnapshot => {
-      this.display();
-      this.setState({deleteAdminModal: false}); 
+        this.display();
+        this.setState({deleteAdminModal: false}); 
     });
+
   }
   
   componentDidMount() {
@@ -149,16 +150,16 @@ class SAHome extends Component {
       firecreate
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then((useraction) => {
+      .then((user) => {
         const db = fire.firestore();
 
-        const userRef = db
-        .collection("Administrators")
-        .add({
-          administratorType: this.state.administratorType,
-          email: this.state.email,
-          name: this.state.fullname,
-          password: this.state.password,
+        db
+        .collection("Administrators").doc(user.user?.uid)
+        .set({
+            administratorType: this.state.administratorType,
+            email: this.state.email,
+            name: this.state.fullname,
+            password: this.state.password,
         })
         .then(dataSnapshot => {
           this.display();
