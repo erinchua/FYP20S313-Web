@@ -9,7 +9,7 @@ import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faFileImage, faFutbol, faBiking, faSpa, faUsers, faComments } from '@fortawesome/free-solid-svg-icons';
+import { faBookReader, faCalendarAlt, faEdit, faFileAlt, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 
 class Scholarship extends Component {
 
@@ -17,37 +17,56 @@ class Scholarship extends Component {
         super();
         this.state = {
             //Scholarship01
-            id: "",
-            title: "",
-            description: "",
+            scholarshipOneId: "",
+            scholarshipOneTitle: "",
+            scholarshipOneDescription: "",
             //Scholarship02
-            content: "",
+            scholarshipTwoId: "",
+            scholarshipTwoContent: "",
             //Scholarship03
-            covers: "",
+            scholarshipThreeId: "",
+            scholarshipThreeCovers: "",
             //Scholarship04
-            applicationPeriods: "",
+            scholarshipFourId: "",
+            scholarshipFourApplicationPeriods: "",
             //Scholarship05
-            email: "",
-            emailFormat: "",
-            simPdpaPolicy: "",
-            examples: "",
+            scholarshipFiveId: "",
+            scholarshipFiveContent: "",
+            scholarshipFiveExamples: "",
+            scholarshipFiveEmail: "",
+            scholarshipFiveEmailFormat: "",
+            scholarshipFiveSimPdpaPolicy: "",
             //Scholarship06
+            scholarshipSixId: "",
+            scholarshipSixDescription: "",
             //Scholarship07
-            programmes: "",
-            period: "",
-            sevenApplicationPeriod: "",
+            scholarshipSevenId: "",
+            scholarshipSevenDescription: "",
+            scholarshipSevenPeriod: "",
+            scholarshipSevenProgrammes: "",
             //Scholarship08
+            scholarshipEightId: "",
+            scholarshipEightContent: "",
             //Below states are for the functions
             scholarshipOne: "",
             scholarshipTwo: "",
             scholarshipThree: "",
             scholarshipFour: "",
-            scholarshipFive: "",
-            scholarshipFiveContent: "",
-            scholarshipFiveExamples: "",
+            scholarshipFiveOthers: "",
+            scholarshipFiveContentArray: "",
+            scholarshipFiveExamplesArray: "",
             scholarshipSix: "",
             scholarshipSeven: "",
             scholarshipEight: "",
+            //Below states are for the modals
+            editOneModal: false,
+            editTwoModal: false,
+            editThreeModal: false,
+            editFourModal: false,
+            editFiveModal: false,
+            editSixModal: false,
+            editSevenModal: false,
+            editEightModal: false,
         }
     }
 
@@ -72,12 +91,6 @@ class Scholarship extends Component {
             }
         });
     }
-
-    updateInput = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value,
-        });
-    };
     
     componentDidMount() {
         this.authListener();
@@ -90,14 +103,15 @@ class Scholarship extends Component {
         .then((snapshot) => {
             snapshot.forEach((doc) => {
                 
+                //Get Scholarship-01
                 if (doc.id === "scholarship-01") {
                     const scholarshipOne = [];
 
                     for (var i = 0; i < doc.data().content.length; i++) {
                         const data = {
-                            id: doc.id,
-                            title: doc.data().content[i].title,
-                            description: doc.data().content[i].description,
+                            scholarshipOneId: doc.id,
+                            scholarshipOneTitle: doc.data().content[i].title,
+                            scholarshipOneDescription: doc.data().content[i].description,
                         }
                         scholarshipOne.push(data);
 
@@ -105,45 +119,49 @@ class Scholarship extends Component {
                     this.setState({scholarshipOne: scholarshipOne});
                 }
 
+                //Get Scholarship-02
                 if (doc.id === "scholarship-02") {
                     const scholarshipTwo = [];
 
                     for (var i = 0; i < doc.data().content.length; i++) {
                         const data = {
-                            id: doc.id,
-                            content: doc.data().content[i],
+                            scholarshipTwoId: doc.id,
+                            scholarshipTwoContent: doc.data().content[i],
                         }
                         scholarshipTwo.push(data);
                     }
                     this.setState({scholarshipTwo: scholarshipTwo});
                 }
 
+                //Get Scholarship-03
                 if (doc.id === "scholarship-03") {
                     const scholarshipThree = [];
 
                     for (var i = 0; i < doc.data().covers.length; i++) {
                         const data = {
-                            id: doc.id,
-                            covers: doc.data().covers[i],
+                            scholarshipThreeId: doc.id,
+                            scholarshipThreeCovers: doc.data().covers[i],
                         }
                         scholarshipThree.push(data);
                     }
                     this.setState({scholarshipThree: scholarshipThree});
                 }
 
+                //Get Scholarship-04
                 if (doc.id === "scholarship-04") {
                     const scholarshipFour = [];
 
                     for (var i = 0; i < doc.data().applicationPeriods.length; i++) {
                         const data = {
-                            id: doc.id,
-                            applicationPeriods: doc.data().applicationPeriods[i],
+                            scholarshipFourId: doc.id,
+                            scholarshipFourApplicationPeriods: doc.data().applicationPeriods[i],
                         }
                         scholarshipFour.push(data);
                     }
                     this.setState({scholarshipFour: scholarshipFour});
                 }
 
+                //Get Scholarship-05
                 if (doc.id === "scholarship-05") {
                     const content = [];
                     const examples = [];
@@ -151,54 +169,58 @@ class Scholarship extends Component {
 
                     for (var i = 0; i < doc.data().content.length; i++) {
                         const data = {
-                            content: doc.data().content[i],
+                            scholarshipFiveId: doc.id,
+                            scholarshipFiveContent: doc.data().content[i],
                         }
                         content.push(data);
                     }
 
                     for (var i = 0; i < doc.data().examples.length; i++) {
                         const data = {
-                            examples: doc.data().examples[i],
+                            scholarshipFiveId: doc.id,
+                            scholarshipFiveExamples: doc.data().examples[i],
                         }
                         examples.push(data);
                     }
 
                     const otherData = {
-                        id: doc.id,
-                        email: doc.data().email,
-                        emailFormat: doc.data().emailFormat,
-                        simPdpaPolicy: doc.data().simPdpaPolicy,
+                        scholarshipFiveId: doc.id,
+                        scholarshipFiveEmail: doc.data().email,
+                        scholarshipFiveEmailFormat: doc.data().emailFormat,
+                        scholarshipFiveSimPdpaPolicy: doc.data().simPdpaPolicy,
                     }
                     others.push(otherData)
 
                     this.setState({
-                        scholarshipFive: others,
-                        scholarshipFiveContent: content,
-                        scholarshipFiveExamples: examples,
+                        scholarshipFiveOthers: others,
+                        scholarshipFiveContentArray: content,
+                        scholarshipFiveExamplesArray: examples,
                     });
                 }
 
+                //Get Scholarship-06
                 if (doc.id === "scholarship-06") {
                     const scholarshipSix = [];
 
                     const data = {
-                        id: doc.id,
-                        description: doc.data().description,
+                        scholarshipSixId: doc.id,
+                        scholarshipSixDescription: doc.data().description,
                     }
                     scholarshipSix.push(data);
                     this.setState({scholarshipSix: scholarshipSix});
                 }
 
+                //Get Scholarship-07
                 if (doc.id === "scholarship-07"){
                     const scholarshipSeven = [];
 
                     for (var i = 0; i < doc.data().content.length; i++) {
                         for (var j = 0; j < doc.data().content[i].applicationPeriod.length; j++) {
                             const data = {
-                                id: doc.id,
-                                description: doc.data().content[i].applicationPeriod[j].description,
-                                period: doc.data().content[i].applicationPeriod[j].period,
-                                programmes: doc.data().content[i].programmes,
+                                scholarshipSevenId: doc.id,
+                                scholarshipSevenDescription: doc.data().content[i].applicationPeriod[j].description,
+                                scholarshipSevenPeriod: doc.data().content[i].applicationPeriod[j].period,
+                                scholarshipSevenProgrammes: doc.data().content[i].programmes,
                             }
                             scholarshipSeven.push(data);
                         }
@@ -206,30 +228,372 @@ class Scholarship extends Component {
                     this.setState({scholarshipSeven: scholarshipSeven});
                 }
 
+                //Get Scholarship-08
                 if (doc.id === "scholarship-08") {
                     const scholarshipEight = [];
 
                     for (var i = 0; i < doc.data().content.length; i++) {
                         const data = {
-                            id: doc.id,
-                            content: doc.data().content[i],
+                            scholarshipEightId: doc.id,
+                            scholarshipEightContent: doc.data().content[i],
                         }
                         scholarshipEight.push(data);
                     }
                     this.setState({scholarshipEight: scholarshipEight});
                 }
-                
-
             });
         });
     }
 
+    updateInput = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+        console.log([e.target.name], e.target.value)
+    };
 
+    updateScholarships = (id) => {
+        const db = fire.firestore();
 
+        if (id == this.state.scholarshipOneId) {
+            db.collection("Scholarship").doc(id)
+            .update({
+                content: firebase.firestore.FieldValue.arrayRemove({
+                    title: this.state.previousTitle,
+                    description: this.state.previousData
+                })
+            })
+            .then(() => {
+                console.log("Removed Scholarship-01");
+                db.collection("Scholarship").doc(id)
+                .update({
+                    content: firebase.firestore.FieldValue.arrayUnion({
+                        title: this.state.scholarshipOneTitle,
+                        description: this.state.scholarshipOneDescription
+                    })
+                }).then(() => {
+                    console.log("Updated Scholarship-01")
+                    this.setState({
+                        editOneModal: false,
+                    });
+                    this.display();
+                });
+                
+            });
+        }
+
+        if (id == this.state.scholarshipTwoId) {
+            db.collection("Scholarship").doc(id)
+            .update({
+                content: firebase.firestore.FieldValue.arrayRemove(this.state.previousData)
+            })
+            .then(() => {
+                console.log("Removed Scholarship-02");
+                db.collection("Scholarship").doc(id)
+                .update({
+                    content: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipTwoContent)
+                }).then(() => {
+                    console.log("Updated Scholarship-02")
+                    this.setState({
+                        editTwoModal: false,
+                    });
+                    this.display();
+                });
+                
+            });
+        }
+
+        if (id == this.state.scholarshipThreeId) {
+            db.collection("Scholarship").doc(id)
+            .update({
+                covers: firebase.firestore.FieldValue.arrayRemove(this.state.previousData)
+            })
+            .then(() => {
+                console.log("Removed Scholarship-03");
+                db.collection("Scholarship").doc(id)
+                .update({
+                    covers: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipThreeCovers)
+                }).then(() => {
+                    console.log("Updated Scholarship-03")
+                    this.setState({
+                        editThreeModal: false,
+                    });
+                    this.display();
+                });
+                
+            });
+        }
+
+        if (id == this.state.scholarshipFourId) {
+            db.collection("Scholarship").doc(id)
+            .update({
+                applicationPeriods: firebase.firestore.FieldValue.arrayRemove(this.state.previousData)
+            })
+            .then(() => {
+                console.log("Removed Scholarship-04");
+                db.collection("Scholarship").doc(id)
+                .update({
+                    applicationPeriods: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipFourApplicationPeriods)
+                }).then(() => {
+                    console.log("Updated Scholarship-04")
+                    this.setState({
+                        editFourModal: false,
+                    });
+                    this.display();
+                });
+                
+            });
+        }
+
+        // if (id == this.state.scholarshipFiveId) {
+        //     console.log(typeof this.state.scholarshipFiveId)
+        //     db.collection("Scholarship").doc(this.state.scholarshipFiveId)
+        //     .update({
+        //         content: firebase.firestore.FieldValue.arrayRemove(this.state.previousContent),
+        //         examples: firebase.firestore.FieldValue.arrayRemove(this.state.previousExamples),
+        //         email: this.state.scholarshipFiveEmail,
+        //         emailFormat: this.state.scholarshipFiveEmailFormat,
+        //         simPdpaPolicy: this.state.scholarshipFiveSimPdpaPolicy,
+        //     })
+        //     .then(() => {
+        //         console.log("Removed Scholarship-05");
+        //         db.collection("Scholarship").doc(id)
+        //         .update({
+        //             content: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipFiveContent),
+        //             examples: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipFiveExamples),
+        //         }).then(() => {
+        //             console.log("Updated Scholarship-05")
+        //             this.setState({
+        //                 editFiveModal: false,
+        //             });
+        //             this.display();
+        //         });
+                
+        //     });
+        // }
+
+        if (id == this.state.scholarshipSixId) {
+            db.collection("Scholarship").doc(id)
+            .update({
+                description: this.state.scholarshipSixDescription, 
+            })
+            .then(() => {
+                console.log("Updated Scholarship-06")
+                this.setState({
+                    editSixModal: false,
+                });
+                this.display();
+            });
+        }
+
+        if (id == this.state.scholarshipSevenId) {
+            db.collection("Scholarship").doc(id)
+            .update({
+                // content: firebase.firestore.FieldValue.arrayRemove({
+                //     applicationPeriod: [{
+                //         description: this.state.previousDescription,
+                //         period: this.state.previousPeriod,
+                //     }],
+                //     programmes: this.state.preivousProgrammes,
+                // })
+                content: firebase.firestore.FieldValue.arrayUnion({
+                    applicationPeriod: [{
+                        description: this.state.scholarshipSevenDescription,
+                        period: this.state.scholarshipSevenPeriod,
+                    }],
+                    programmes: this.state.scholarshipSevenProgrammes,
+                })
+            })
+            .then(() => {
+                console.log("Removed Scholarship-07");
+                this.setState({
+                    editSevenModal: false,
+                });
+                this.display();
+
+                // db.collection("Scholarship").doc(id)
+                // .update({
+                //     content: firebase.firestore.FieldValue.arrayUnion({
+                //         applicationPeriod: [{
+                //             description: this.state.scholarshipSevenDescription,
+                //             period: this.state.scholarshipSevenPeriod,
+                //         }],
+                //         programmes: this.state.scholarshipSevenProgrammes,
+                //     })
+                // }).then(() => {
+                //     console.log("Updated Scholarship-07")
+                //     this.setState({
+                //         editSevenModal: false,
+                //     });
+                //     this.display();
+                // });
+                
+            });
+        }
+
+        if (id == this.state.scholarshipEightId) {
+            db.collection("Scholarship").doc(id)
+            .update({
+                content: firebase.firestore.FieldValue.arrayRemove(this.state.previousData)
+            })
+            .then(() => {
+                console.log("Removed Scholarship-08");
+                db.collection("Scholarship").doc(id)
+                .update({
+                    content: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipEightContent)
+                }).then(() => {
+                    console.log("Updated Scholarship-08")
+                    this.setState({
+                        editEightModal: false,
+                    });
+                    this.display();
+                });
+                
+            });
+        }
+    }
+
+    handleEditOne = (scholarshipOne) => {
+        if (this.state.editOneModal == false) {
+            this.setState({
+                editOneModal: true,
+                scholarshipOneId: scholarshipOne.scholarshipOneId,
+                scholarshipOneTitle: scholarshipOne.scholarshipOneTitle,
+                scholarshipOneDescription: scholarshipOne.scholarshipOneDescription,
+                previousTitle: scholarshipOne.scholarshipOneTitle,
+                previousData: scholarshipOne.scholarshipOneDescription,
+            });
+        }
+        else {
+            this.setState({
+                editOneModal: false
+            });
+        }
+    }
+
+    handleEditTwo = (scholarshipTwo) => {
+        if (this.state.editTwoModal == false) {
+            this.setState({
+                editTwoModal: true,
+                scholarshipTwoId: scholarshipTwo.scholarshipTwoId,
+                scholarshipTwoContent: scholarshipTwo.scholarshipTwoContent,
+                previousData: scholarshipTwo.scholarshipTwoContent,
+            });
+        }
+        else {
+            this.setState({
+                editTwoModal: false
+            });
+        }
+    }
+
+    handleEditThree = (scholarshipThree) => {
+        if (this.state.editThreeModal == false) {
+            this.setState({
+                editThreeModal: true,
+                scholarshipThreeId: scholarshipThree.scholarshipThreeId,
+                scholarshipThreeCovers: scholarshipThree.scholarshipThreeCovers,
+                previousData: scholarshipThree.scholarshipThreeCovers,
+            });
+        }
+        else {
+            this.setState({
+                editThreeModal: false
+            });
+        }
+    }
+
+    handleEditFour = (scholarshipFour) => {
+        console.log(scholarshipFour)
+        if (this.state.editFourModal == false) {
+            this.setState({
+                editFourModal: true,
+                scholarshipFourId: scholarshipFour.scholarshipFourId,
+                scholarshipFourApplicationPeriods: scholarshipFour.scholarshipFourApplicationPeriods,
+                previousData: scholarshipFour.scholarshipFourApplicationPeriods,
+            });
+        }
+        else {
+            this.setState({
+                editFourModal: false
+            });
+        }
+    }
+
+    handleEditFive = (scholarshipFive) => {
+        if (this.state.editFiveModal == false) {
+            this.setState({
+                editFiveModal: true,
+                scholarshipFiveContent: scholarshipFive.scholarshipFiveContent,
+                scholarshipFiveExamples: scholarshipFive.scholarshipFiveExamples,
+                scholarshipFiveEmail: scholarshipFive.scholarshipFiveExamples,
+                scholarshipFiveEmailFormat: scholarshipFive,
+                scholarshipFiveSimPdpaPolicy: scholarshipFive,
+                scholarshipFiveId: scholarshipFive,
+                previousContent: scholarshipFive.scholarshipFiveContent,
+                previousExamples: scholarshipFive.scholarshipFiveExamples,
+            });
+        }
+        else {
+            this.setState({
+                editFiveModal: false
+            });
+        }
+    }
+
+    handleEditSix = (scholarshipSix) => {
+        if (this.state.editSixModal == false) {
+            this.setState({
+                editSixModal: true,
+                scholarshipSixId: scholarshipSix.scholarshipSixId,
+                scholarshipSixDescription:scholarshipSix.scholarshipSixDescription,
+            });
+        }
+        else {
+            this.setState({
+                editSixModal: false
+            });
+        }
+    }
+
+    handleEditSeven = (scholarshipSeven) => {
+        if (this.state.editSevenModal == false) {
+            this.setState({
+                editSevenModal: true,
+                scholarshipSevenId: scholarshipSeven.scholarshipSevenId,
+                scholarshipSevenPeriod: scholarshipSeven.scholarshipSevenPeriod,
+                scholarshipSevenDescription: scholarshipSeven.scholarshipSevenDescription,
+                scholarshipSevenProgrammes: scholarshipSeven.scholarshipSevenProgrammes,
+                previousPeriod: scholarshipSeven.scholarshipSevenPeriod,
+                previousDescription: scholarshipSeven.scholarshipSevenDescription,
+                preivousProgrammes: scholarshipSeven.scholarshipSevenProgrammes,
+            });
+        }
+        else {
+            this.setState({
+                editSevenModal: false
+            });
+        }
+    }
+
+    handleEditEight = (scholarshipEight) => {
+        if (this.state.editEightModal == false) {
+            this.setState({
+                editEightModal: true,
+                scholarshipEightId: scholarshipEight.scholarshipEightId,
+                scholarshipEightContent: scholarshipEight.scholarshipEightContent,
+                previousData: scholarshipEight.scholarshipEightContent,
+            });
+        }
+        else {
+            this.setState({
+                editEightModal: false
+            });
+        }
+    }
 
     render() {
         return (
-
             <div>
                 <Container fluid className="Scholarship-container">
                     <NavBar isMA={true} />
@@ -268,11 +632,11 @@ class Scholarship extends Component {
                                                                     </thead>
                                                                     {this.state.scholarshipOne && this.state.scholarshipOne.map((one) => {
                                                                         return (
-                                                                            <tbody id="Scholarship-tableBody" key={one.id}>
+                                                                            <tbody id="Scholarship-tableBody">
                                                                                 <tr>
-                                                                                    <td>{one.title}</td>
-                                                                                    <td className="text-left">{one.description}</td>
-                                                                                    <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    <td>{one.scholarshipOneTitle}</td>
+                                                                                    <td className="text-left">{one.scholarshipOneDescription}</td>
+                                                                                    <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditOne(one)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         )
@@ -298,10 +662,10 @@ class Scholarship extends Component {
                                                                     </thead>
                                                                     {this.state.scholarshipTwo && this.state.scholarshipTwo.map((two) => {
                                                                         return (
-                                                                            <tbody id="Scholarship-tableBody" key={two.id}>
+                                                                            <tbody id="Scholarship-tableBody">
                                                                                 <tr>
-                                                                                    <td className="text-left">{two.content}</td>
-                                                                                    <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    <td className="text-left">{two.scholarshipTwoContent}</td>
+                                                                                    <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditTwo(two)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         )
@@ -327,10 +691,10 @@ class Scholarship extends Component {
                                                                     </thead>
                                                                     {this.state.scholarshipThree && this.state.scholarshipThree.map((three) => {
                                                                         return (
-                                                                            <tbody id="Scholarship-tableBody" key={three.id}>
+                                                                            <tbody id="Scholarship-tableBody">
                                                                                 <tr>
-                                                                                    <td className="text-left">{three.covers}</td>
-                                                                                    <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    <td className="text-left">{three.scholarshipThreeCovers}</td>
+                                                                                    <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditThree(three)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         )
@@ -356,10 +720,10 @@ class Scholarship extends Component {
                                                                     </thead>
                                                                     {this.state.scholarshipFour && this.state.scholarshipFour.map((four) => {
                                                                         return (
-                                                                            <tbody id="Scholarship-tableBody" key={four.id}>
+                                                                            <tbody id="Scholarship-tableBody">
                                                                                 <tr>
-                                                                                    <td className="text-left">{four.applicationPeriods}</td>
-                                                                                    <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    <td className="text-left">{four.scholarshipFourApplicationPeriods}</td>
+                                                                                    <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFour(four)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         )
@@ -384,24 +748,17 @@ class Scholarship extends Component {
                                                                                 <th id="Scholarship-editHeading">Edit</th>
                                                                             </tr>
                                                                         </thead>
-                                                                        {this.state.scholarshipFiveContent && this.state.scholarshipFiveContent.map((fiveContent) => {
+                                                                        {this.state.scholarshipFiveContentArray && this.state.scholarshipFiveContentArray.map((fiveContent) => {
                                                                             return (
                                                                                 <tbody id="Scholarship-tableBody">
                                                                                     <tr>
-                                                                                        <td className="text-left">{fiveContent.content}</td>
-                                                                                        <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        <td className="text-left">{fiveContent.scholarshipFiveContent}</td>
+                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFive(fiveContent)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             )
                                                                         })}
                                                                     </Table>
-                                                                </Col>
-                                                            </Row>
-
-                                                            <div id="border"></div>
-                                                            <Row id="Scholarship-titleRow">
-                                                                <Col md={12} className="text-left" id="Scholarship-titleRowCol">
-                                                                    <h6 id="Scholarship-title">Examples</h6>
                                                                 </Col>
                                                             </Row>
 
@@ -414,24 +771,17 @@ class Scholarship extends Component {
                                                                                 <th id="Scholarship-editHeading">Edit</th>
                                                                             </tr>
                                                                         </thead>
-                                                                        {this.state.scholarshipFiveExamples && this.state.scholarshipFiveExamples.map((fiveExamples) => {
+                                                                        {this.state.scholarshipFiveExamplesArray && this.state.scholarshipFiveExamplesArray.map((fiveExamples) => {
                                                                             return (
                                                                                 <tbody id="Scholarship-tableBody">
                                                                                     <tr>
-                                                                                        <td className="text-left">{fiveExamples.examples}</td>
-                                                                                        <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        <td className="text-left">{fiveExamples.scholarshipFiveExamples}</td>
+                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFive(fiveExamples)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             )
                                                                         })}
                                                                     </Table>
-                                                                </Col>
-                                                            </Row>
-
-                                                            <div id="border"></div>
-                                                            <Row id="Scholarship-titleRow">
-                                                                <Col md={12} className="text-left" id="Scholarship-titleRowCol">
-                                                                    <h6 id="Scholarship-title">Others</h6>
                                                                 </Col>
                                                             </Row>
 
@@ -444,23 +794,23 @@ class Scholarship extends Component {
                                                                                 <th id="Scholarship-editHeading">Edit</th>
                                                                             </tr>
                                                                         </thead>
-                                                                        {this.state.scholarshipFive && this.state.scholarshipFive.map((fiveOthers) => {
+                                                                        {this.state.scholarshipFiveOthers && this.state.scholarshipFiveOthers.map((fiveOthers) => {
                                                                             return (
-                                                                                <tbody id="Scholarship-tableBody" key={fiveOthers.id}>
+                                                                                <tbody id="Scholarship-tableBody">
                                                                                     <tr>
-                                                                                        <td id="Scholarship-titleHeading">Email</td>
-                                                                                        <td className="text-left">{fiveOthers.email}</td>
-                                                                                        <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        <td id="Scholarship-titleHeading"><b>Email</b></td>
+                                                                                        <td className="text-left">{fiveOthers.scholarshipFiveEmail}</td>
+                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFive(fiveOthers.scholarshipFiveEmail)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td>Email Format</td>
-                                                                                        <td className="text-left">{fiveOthers.emailFormat}</td>
-                                                                                        <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        <td id="Scholarship-titleHeading"><b>Email Format</b></td>
+                                                                                        <td className="text-left">{fiveOthers.scholarshipFiveEmailFormat}</td>
+                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFive(fiveOthers.scholarshipFiveEmailFormat)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td id="Scholarship-titleHeading">SIM PDPA Policy</td>
-                                                                                        <td className="text-left">{fiveOthers.simPdpaPolicy}</td>
-                                                                                        <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        <td id="Scholarship-titleHeading"><b>SIM PDPA Policy</b></td>
+                                                                                        <td className="text-left">{fiveOthers.scholarshipFiveSimPdpaPolicy}</td>
+                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFive(fiveOthers.scholarshipFiveSimPdpaPolicy)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             )
@@ -487,10 +837,10 @@ class Scholarship extends Component {
                                                                     </thead>
                                                                     {this.state.scholarshipSix && this.state.scholarshipSix.map((six) => {
                                                                         return (
-                                                                            <tbody id="Scholarship-tableBody" key={six.id}>
+                                                                            <tbody id="Scholarship-tableBody">
                                                                                 <tr>
-                                                                                    <td className="text-left">{six.description}</td>
-                                                                                    <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    <td className="text-left">{six.scholarshipSixDescription}</td>
+                                                                                    <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditSix(six)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         )
@@ -518,12 +868,12 @@ class Scholarship extends Component {
                                                                     </thead>
                                                                     {this.state.scholarshipSeven && this.state.scholarshipSeven.map((seven) => {
                                                                         return (
-                                                                            <tbody id="Scholarship-tableBody" key={seven.id}>
+                                                                            <tbody id="Scholarship-tableBody">
                                                                                 <tr>
-                                                                                    <td><b>{seven.period}</b></td>
-                                                                                    <td className="text-left">{seven.description}</td>
-                                                                                    <td className="text-left">{seven.programmes}</td>
-                                                                                    <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    <td><b>{seven.scholarshipSevenPeriod}</b></td>
+                                                                                    <td className="text-left">{seven.scholarshipSevenDescription}</td>
+                                                                                    <td className="text-left">{seven.scholarshipSevenProgrammes}</td>
+                                                                                    <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditSeven(seven)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         )
@@ -549,10 +899,10 @@ class Scholarship extends Component {
                                                                     </thead>
                                                                     {this.state.scholarshipEight && this.state.scholarshipEight.map((eight) => {
                                                                         return (
-                                                                            <tbody id="Scholarship-tableBody" key={eight.id}>
+                                                                            <tbody id="Scholarship-tableBody">
                                                                                 <tr>
-                                                                                    <td className="text-left">{eight.content}</td>
-                                                                                    <td><Button size="sm" id="Scholarship-editBtn" ><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    <td className="text-left">{eight.scholarshipEightContent}</td>
+                                                                                    <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditEight(eight)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         )
@@ -574,6 +924,433 @@ class Scholarship extends Component {
                     <Footer />
                 </Container>
 
+                {/* Scholarship 1 Edit Modal */}
+                {this.state.editOneModal == true ? 
+                    <Modal show={this.state.editOneModal} onHide={this.handleEditOne} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Scholarship-modalTitle" className="w-100">Edit Categories of Scholarships</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Scholarship-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faGraduationCap}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Scholarship-inputFields" type="text" name="scholarshipOneTitle" placeholder="Title for Categories of Scholarships" required value={this.state.scholarshipOneTitle} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Scholarship-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Scholarship-textAreas" as="textarea" rows="4" type="text" name="scholarshipOneDescription" placeholder="Description for Categories of Scholarships" required defaultValue={this.state.scholarshipOneDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Scholarship-editFooter">
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-saveBtn" type="submit" onClick={() => this.updateScholarships(this.state.scholarshipOneId)}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-cancelBtn" onClick={this.handleEditOne}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Scholarship 2 Edit Modal */}
+                {this.state.editTwoModal == true ? 
+                    <Modal show={this.state.editTwoModal} onHide={this.handleEditTwo} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Scholarship-modalTitle" className="w-100">Edit Eligibility</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Scholarship-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Scholarship-textAreas" as="textarea" rows="4" type="text" name="scholarshipTwoContent" placeholder="Content for Eligibility's Description" required defaultValue={this.state.scholarshipTwoContent} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Scholarship-editFooter">
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-saveBtn" type="submit" onClick={() => this.updateScholarships(this.state.scholarshipTwoId)}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-cancelBtn" onClick={this.handleEditTwo}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Scholarship 3 Edit Modal */}
+                {this.state.editThreeModal == true ? 
+                    <Modal show={this.state.editThreeModal} onHide={this.handleEditThree} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Scholarship-modalTitle" className="w-100">Edit Value of Scholarship</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Scholarship-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Scholarship-textAreas" as="textarea" rows="2" type="text" name="scholarshipThreeCovers" placeholder="Value of Scholarship's Covers" required defaultValue={this.state.scholarshipThreeCovers} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Scholarship-editFooter">
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-saveBtn" type="submit" onClick={() => this.updateScholarships(this.state.scholarshipThreeId)}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-cancelBtn" onClick={this.handleEditThree}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Scholarship 4 Edit Modal */}
+                {this.state.editFourModal == true ? 
+                    <Modal show={this.state.editFourModal} onHide={this.handleEditFour} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Scholarship-modalTitle" className="w-100">Edit Value of Scholarship</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Scholarship-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Scholarship-inputFields" name="scholarshipFourApplicationPeriods" as="select" required defaultValue={this.state.scholarshipFourApplicationPeriods} onChange={this.updateInput} noValidate>
+                                                    <option value="">Select a Period</option>
+                                                    <option value="January">January</option>
+                                                    <option value="February">February</option>
+                                                    <option value="March">March</option>
+                                                    <option value="April">April</option>
+                                                    <option value="May">May</option>
+                                                    <option value="June">June</option>
+                                                    <option value="July">July</option>
+                                                    <option value="August">August</option>
+                                                    <option value="September">September</option>
+                                                    <option value="October">October</option>
+                                                    <option value="November">November</option>
+                                                    <option value="December">December</option>
+                                                </Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Scholarship-editFooter">
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-saveBtn" type="submit" onClick={() => this.updateScholarships(this.state.scholarshipFourId)}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-cancelBtn" onClick={this.handleEditFour}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Scholarship 5 Edit Modal */}
+                {this.state.editFiveModal == true ? 
+                    <Modal show={this.state.editFiveModal} onHide={this.handleEditFive} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Scholarship-modalTitle" className="w-100">Edit Application Documents & Procedures</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    {this.state.scholarshipFiveContent ? 
+                                        <Form.Group>
+                                            <Form.Group as={Row} className="Scholarship-formGroup">
+                                                <Form.Group as={Col} md="1">
+                                                    <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                                </Form.Group> 
+                                                <Form.Group as={Col} md="7">
+                                                    <Form.Control id="Scholarship-textAreas" as="textarea" rows="4" type="text" name="scholarshipFiveContent" placeholder="Application Documents & Procedures's Content" required defaultValue={this.state.scholarshipFiveContent} onChange={this.updateInput} noValidate></Form.Control>
+                                                    <div className="errorMessage"></div>
+                                                </Form.Group>
+                                            </Form.Group>
+                                        </Form.Group> : ''
+                                    }
+                                    {this.state.scholarshipFiveExamples ? 
+                                        <Form.Group>
+                                            <Form.Group as={Row} className="Scholarship-formGroup">
+                                                <Form.Group as={Col} md="1">
+                                                    <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                                </Form.Group> 
+                                                <Form.Group as={Col} md="7">
+                                                    <Form.Control id="Scholarship-textAreas" as="textarea" rows="4" type="text" name="scholarshipFiveExamples" placeholder="Application Documents & Procedures's Examples" required defaultValue={this.state.scholarshipFiveExamples} onChange={this.updateInput} noValidate></Form.Control>
+                                                    <div className="errorMessage"></div>
+                                                </Form.Group>
+                                            </Form.Group>
+                                        </Form.Group> : ''
+                                    }
+                                    {this.state.scholarshipFiveOthers && this.state.scholarshipFiveOthers.map((five) => {
+                                        if (this.state.scholarshipFiveEmail == five.scholarshipFiveEmail){
+                                            return (
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="Scholarship-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="Scholarship-textAreas" as="textarea" rows="2" type="text" name="scholarshipFiveEmail" placeholder="Application Documents & Procedures's Email" required defaultValue={this.state.scholarshipFiveEmail} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage"></div>
+                                                        </Form.Group>
+                                                    </Form.Group>
+                                                </Form.Group>
+                                            )
+                                        } else if (this.state.scholarshipFiveEmailFormat == five.scholarshipFiveEmailFormat) {
+                                            return (
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="Scholarship-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="Scholarship-textAreas" as="textarea" rows="2" type="text" name="scholarshipFiveEmailFormat" placeholder="Application Documents & Procedures's Email Format" required defaultValue={this.state.scholarshipFiveEmailFormat} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage"></div>
+                                                        </Form.Group>
+                                                    </Form.Group>
+                                                </Form.Group>
+                                            )
+                                        } else if (this.state.scholarshipFiveSimPdpaPolicy == five.scholarshipFiveSimPdpaPolicy) {
+                                            return (
+                                                <Form.Group>
+                                                    <Form.Group as={Row} className="Scholarship-formGroup">
+                                                        <Form.Group as={Col} md="1">
+                                                            <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                                        </Form.Group> 
+                                                        <Form.Group as={Col} md="7">
+                                                            <Form.Control id="Scholarship-textAreas" as="textarea" rows="2" type="text" name="scholarshipFiveSimPdpaPolicy" placeholder="Application Documents & Procedures's SIM PDPA Policy" required defaultValue={this.state.scholarshipFiveSimPdpaPolicy} onChange={this.updateInput} noValidate></Form.Control>
+                                                            <div className="errorMessage"></div>
+                                                        </Form.Group>
+                                                    </Form.Group>
+                                                </Form.Group>
+                                            )
+                                        } else {
+                                            return ('')
+                                        }
+                                    })}
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Scholarship-editFooter">
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-saveBtn" type="submit" onClick={() => this.updateScholarships(this.state.scholarshipFiveId)}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-cancelBtn" onClick={this.handleEditFive}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Scholarship 6 Edit Modal */}
+                {this.state.editSixModal == true ? 
+                    <Modal show={this.state.editSixModal} onHide={this.handleEditSix} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Scholarship-modalTitle" className="w-100">Edit Selection Process</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Scholarship-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Scholarship-textAreas" as="textarea" rows="4" type="text" name="scholarshipSixDescription" placeholder="Selection Process's Description" required defaultValue={this.state.scholarshipSixDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Scholarship-editFooter">
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-saveBtn" type="submit" onClick={() => this.updateScholarships(this.state.scholarshipSixId)}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-cancelBtn" onClick={this.handleEditSix}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Scholarship 7 Edit Modal */}
+                {this.state.editSevenModal == true ? 
+                    <Modal show={this.state.editSevenModal} onHide={this.handleEditSeven} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Scholarship-modalTitle" className="w-100">Edit Tenure of Scholarship</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Scholarship-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faCalendarAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Scholarship-inputFields" name="scholarshipSevenPeriod" as="select" required defaultValue={this.state.scholarshipSevenPeriod} onChange={this.updateInput} noValidate>
+                                                    <option value="">Select a Period</option>
+                                                    <option value="January">January</option>
+                                                    <option value="February">February</option>
+                                                    <option value="March">March</option>
+                                                    <option value="April">April</option>
+                                                    <option value="May">May</option>
+                                                    <option value="June">June</option>
+                                                    <option value="July">July</option>
+                                                    <option value="August">August</option>
+                                                    <option value="September">September</option>
+                                                    <option value="October">October</option>
+                                                    <option value="November">November</option>
+                                                    <option value="December">December</option>
+                                                </Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Scholarship-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Scholarship-textAreas" as="textarea" rows="2" type="text" name="scholarshipSevenDescription" placeholder="Tenure of Scholarship's Description" required defaultValue={this.state.scholarshipSevenDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Scholarship-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faBookReader}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Scholarship-textAreas" as="textarea" rows="2" type="text" name="scholarshipSevenProgrammes" placeholder="Tenure of Scholarship's Programmes" required defaultValue={this.state.scholarshipSevenProgrammes} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Scholarship-editFooter">
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-saveBtn" type="submit" onClick={() => this.updateScholarships(this.state.scholarshipSevenId)}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-cancelBtn" onClick={this.handleEditSeven}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Scholarship 8 Edit Modal */}
+                {this.state.editEightModal == true ? 
+                    <Modal show={this.state.editEightModal} onHide={this.handleEditEight} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Scholarship-modalTitle" className="w-100">Edit Terms and Conditions</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Scholarship-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Scholarship-textAreas" as="textarea" rows="4" type="text" name="scholarshipEightContent" placeholder="Terms and Conditions's Description" required defaultValue={this.state.scholarshipEightContent} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Scholarship-editFooter">
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-saveBtn" type="submit" onClick={() => this.updateScholarships(this.state.scholarshipEightId)}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Scholarship-editCol">
+                                            <Button id="Scholarship-cancelBtn" onClick={this.handleEditEight}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
             </div>
 
         );
@@ -581,4 +1358,3 @@ class Scholarship extends Component {
 }
 
 export default Scholarship;
- 
