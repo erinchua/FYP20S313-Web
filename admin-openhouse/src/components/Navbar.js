@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, Container, Button, NavDropdown } from 'react-bootstrap';
-import fire from "../config/firebase";
+import { auth } from "../config/firebase";
 import history from "../config/history";
 
 import "../css/NavBar.css";
@@ -33,9 +33,8 @@ export default class NavBar extends React.Component {
     }
 
     componentDidMount=() =>{
-        fire.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
-                const db = fire.firestore();
                 var a  = this;
                 a.setState(() => ({
                     useremail: user.email, })
@@ -48,7 +47,7 @@ export default class NavBar extends React.Component {
     }
 
     logout() {
-        fire.auth().signOut();
+        auth.signOut();
         history.push("/Login");
       }
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 import { Container, Row, Col, Button, Table, Modal, Tab, Nav, Form, FormControl } from 'react-bootstrap';
 
@@ -45,9 +45,8 @@ class ContactInformation extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
 
         var getrole = db
           .collection("Administrators")
@@ -78,7 +77,6 @@ class ContactInformation extends Component {
   }
 
   display() {
-    const db = fire.firestore();
     const userRef = db
     .collection("ContactInfo")
     .where("country", "==", "local")
@@ -108,7 +106,6 @@ class ContactInformation extends Component {
       this.setState(initialStates);
       console.log(this.state.id)
 
-      const db = fire.firestore();
       db
       .collection("ContactInfo")
       .doc(this.state.id)

@@ -1,5 +1,5 @@
 import React, { Component, useReducer } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 import { Container, Row, Col, Button, Table, Form } from "react-bootstrap";
 
@@ -34,9 +34,8 @@ class GenerateAttendance extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
 
         var getrole = db
         .collection("Administrators")
@@ -69,7 +68,6 @@ class GenerateAttendance extends Component {
   }
 
 display() {
-  const db = fire.firestore();
   var counter = 1;
   this.state.universityName = "All"
   this.state.programmeName = "All"
@@ -158,7 +156,6 @@ display() {
       return self.indexOf(value) === index;
     }
 
-    const db = fire.firestore();
     var getProgrammeName="";
     var counter = 1;
     this.state.universityName = this.state.universityValue;
@@ -209,7 +206,6 @@ display() {
       return self.indexOf(value) === index;
     }
 
-    const db = fire.firestore();
     var getProgrammeName="";
     var getUniversityName =""
     var counter = 1;
@@ -252,7 +248,6 @@ display() {
       id = this.state.attendance[0].id;
     }
 
-    const db = fire.firestore();
     var counter = 0;
     
     const total = db

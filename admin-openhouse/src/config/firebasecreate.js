@@ -13,4 +13,4 @@ const firebaseConfig = {
 // Initialize Firebase 
 const firecreate = firebase.initializeApp(firebaseConfig, "openhouse-fyp"); 
  
-export default firecreate; 
+//export default firecreate; 

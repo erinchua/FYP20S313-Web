@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Button, Col, Row } from "react-bootstrap";
 
-import fire from "../../../config/firebase";
+import { db } from "../../../config/firebase";
 import history from "../../../config/history";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,7 +20,6 @@ export default class DeleteStudySIMProgModal extends React.Component {
 
   delete() {
     var a = this;
-    const db = fire.firestore();
 
     const userRef = db
     .collection("Programmes")

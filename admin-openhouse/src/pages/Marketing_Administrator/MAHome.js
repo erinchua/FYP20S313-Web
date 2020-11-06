@@ -1,6 +1,6 @@
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import React, { Component } from "react";
-import fire from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
 import history from "../../config/history";
 
 import '../../css/Marketing_Administrator/MAHome.css';
@@ -23,9 +23,8 @@ class MAHome extends Component {
       }
 
       authListener() {
-        fire.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
           if (user) {
-            const db = fire.firestore();
     
             var getrole = db
               .collection("Administrators")
@@ -49,7 +48,6 @@ class MAHome extends Component {
         this.authListener();
       }
       display() {
-        const db = fire.firestore();
         var counter = 0;
         const registeredstudentsquery = db
           .collection("Students")

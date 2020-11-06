@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Table } from "react-bootstrap";
 
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 
 import "../../../css/Marketing_Administrator/ViewStudySIMProgDetailsModal.css";

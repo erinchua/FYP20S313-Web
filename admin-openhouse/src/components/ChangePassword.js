@@ -1,11 +1,13 @@
 import React, { Component, useReducer } from "react";
 import history from "../config/history";
 import { Modal, Form, Button, InputGroup, Col, FormControl, Row, Container } from 'react-bootstrap';
+import { db, auth } from "../config/firebase";
+import firebase from 'firebase';
 
 import "../css/Marketing_Administrator/ChangePasswordModal.css";
 
 
-const firebase = require("firebase");
+//const firebase = require("firebase");
 
 const initialStates = {
   currentPwdError: "",
@@ -56,9 +58,8 @@ export default class ChangePasswordModal extends React.Component {
   };
 
   authListener() {
-    firebase.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = firebase.firestore();
         this.setState({ email: user.email });
 
         var getrole = db
@@ -103,7 +104,7 @@ export default class ChangePasswordModal extends React.Component {
       if (this.state.error == "Password OK.") {
         var currentpassword = this.state.currentPassword;
         var newPassword = this.state.newPassword;
-        var user = firebase.auth().currentUser;
+        var user = auth.currentUser;
         var credential = firebase.auth.EmailAuthProvider.credential(
           user.email,
           currentpassword
@@ -116,7 +117,6 @@ export default class ChangePasswordModal extends React.Component {
           user
           .updatePassword(newPassword)
           .then(function () {
-            const db = firebase.firestore();
             var getrole = db
             .collection("Administrators")
             .where("email", "==", user.email)

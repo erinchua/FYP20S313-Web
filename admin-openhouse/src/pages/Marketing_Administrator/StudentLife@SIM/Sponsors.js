@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 
 //import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
@@ -19,9 +19,8 @@ class Sponsors extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
         var getrole = db
           .collection("Administrators")
           .where("email", "==", user.email);
@@ -50,7 +49,6 @@ class Sponsors extends Component {
   }
 
   display() {
-    const db = fire.firestore();
 
     //Sponsors
     const otherfinancialassistance = db

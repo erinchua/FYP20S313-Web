@@ -1,6 +1,6 @@
 import { Container, Row, Col, Table, Button, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
 import firebase from "firebase/app";
 
@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt, faFileImage, faFolderOpen, faSwimmer } from '@fortawesome/free-solid-svg-icons';
 
 async function savePicture(blobURL, category, imageName) {
-    const storage = fire.storage();
     const pictureRef = storage.ref(`/ClubsAndCouncil/${category}`).child(imageName);
     const response = await fetch(blobURL);
     const blob = await response.blob(); //fetch blob object
@@ -63,7 +62,6 @@ class AddClubsAndCouncilsModal extends Component {
     };
 
     addClubsCouncils = async() => {
-        const db = fire.firestore();
         const isValid = this.validate();
         var category = "";
         var title = "";
