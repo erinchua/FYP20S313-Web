@@ -52,36 +52,25 @@
     padding: 0 !important;
 }
 
-.Scholarship-navItemCon {
-    padding: 0 !important;
-}
-
-/* .Scholarship-navItems {
+.Scholarship-Header {
     background-color: #e4f2f0;
-} */
-
-.Scholarship-navLinks {
-    color: #424242;
     font-weight: bold;
+    color: #424242;
+    font-size: 90%;
 }
 
-/* .Scholarship-navLinks:hover {
+.Scholarship-Header:hover {
     background-color: #62929E;
     color: white;
-    border-color: #62929E !important;
 }
 
-.Scholarship-navLinks:focus {
-    background-color: #62929E;
-    color: white;
-    border-color: #62929E !important;
+.card-header {
+    border-bottom: none !important;
 }
 
-.Scholarship-nav .Scholarship-navLinks.active {
-    background-color: #62929E !important;
-    color: white !important;
-    border-color: #62929E !important;
-} */
+.card {
+    border: none !important;
+}
 
 #Scholarship-titleRow {
     margin: 0 !important;
@@ -99,6 +88,12 @@
     padding-bottom: 1%;
 }
 
+.Scholarship-cardBody {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+}
+
 .Scholarship-tableColCon {
     padding-left: 0 !important;
     padding-right: 0 !important;
@@ -110,12 +105,12 @@
     max-width: 100%;
 }
 
-#Scholarship-editHeading {
-    width: 15%;
+#Scholarship-titleHeading {
+    width: 20%;
 }
 
-#Scholarship-LogoHeading {
-    width: 20%;
+#Scholarship-editHeading {
+    width: 15%;
 }
 
 #Scholarship-tableHeader {

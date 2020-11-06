@@ -3,7 +3,6 @@ import { Modal, Form, Button, Row, Col, FormControl, Container, InputGroup, Chec
 
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
-import firecreate from "../../../config/firebasecreate";
 
 import "../../../css/Marketing_Administrator/EditStudySIMProgModal.css";
 

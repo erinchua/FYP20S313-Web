@@ -3,14 +3,13 @@ import { Modal, Table } from "react-bootstrap";
 
 import fire from "../../../config/firebase";
 import history from "../../../config/history";
-import firecreate from "../../../config/firebasecreate";
 
 import "../../../css/Marketing_Administrator/ViewStudySIMProgDetailsModal.css";
 
 export default class ViewStudySIMProgDetailsModal extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(this.props);
+  constructor() {
+    super();
+    //console.log(this.props);
   }
 
 
