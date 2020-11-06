@@ -58,6 +58,14 @@ class Scholarship extends Component {
             scholarshipSix: "",
             scholarshipSeven: "",
             scholarshipEight: "",
+            //Below states are for previous states
+            previousData: "",
+            previousContent: "",
+            previousDescription: "",
+            previousPeriod: "",
+            previousProgrammes: "",
+            previousTitle: "",
+            previousExamples: "",
             //Below states are for the modals
             editOneModal: false,
             editTwoModal: false,
@@ -392,7 +400,7 @@ class Scholarship extends Component {
                 //         description: this.state.previousDescription,
                 //         period: this.state.previousPeriod,
                 //     }],
-                //     programmes: this.state.preivousProgrammes,
+                //     programmes: this.state.previousProgrammes,
                 // })
                 content: firebase.firestore.FieldValue.arrayUnion({
                     applicationPeriod: [{
@@ -564,7 +572,7 @@ class Scholarship extends Component {
                 scholarshipSevenProgrammes: scholarshipSeven.scholarshipSevenProgrammes,
                 previousPeriod: scholarshipSeven.scholarshipSevenPeriod,
                 previousDescription: scholarshipSeven.scholarshipSevenDescription,
-                preivousProgrammes: scholarshipSeven.scholarshipSevenProgrammes,
+                previousProgrammes: scholarshipSeven.scholarshipSevenProgrammes,
             });
         }
         else {
