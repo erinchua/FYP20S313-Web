@@ -1,6 +1,6 @@
 import { Container, Row, Col, Table, Button, Modal, Form, Tab, Nav } from 'react-bootstrap';
 import React, { Component } from "react";
-import fire from "../../config/firebase";
+import { auth, db, storage } from "../../config/firebase";
 import history from "../../config/history";
 import firebase from "firebase/app";
 
@@ -136,9 +136,8 @@ class GettingToSIMHQ extends Component {
     }
 
     authListener() {
-        fire.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
-                const db = fire.firestore();
 
                 var getrole = db.collection("Administrators").where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
@@ -192,7 +191,6 @@ class GettingToSIMHQ extends Component {
     }
 
     display() {
-        const db = fire.firestore();
 
         db.collection("CampusLocation").onSnapshot((snapshot) => {
             snapshot.forEach((doc) => {
@@ -341,7 +339,6 @@ class GettingToSIMHQ extends Component {
     }
 
     carupdate = (e, locationid) => {
-        const db = fire.firestore();
         db.collection("CampusLocation").doc("car")
         .update({
             carDescription: this.state.carDescription,
@@ -359,7 +356,6 @@ class GettingToSIMHQ extends Component {
         var title = this.state.busLocation
         
       if (title == "SIMHQbusNo") {
-            const db = fire.firestore();
             const userRef = db.collection("CampusLocation").doc("bus")
             .update({
                 "simHq.description": this.state.SIMHQbusDescription,
@@ -382,7 +378,6 @@ class GettingToSIMHQ extends Component {
                 this.display();
             });
         } else if(title == "OppSIMHQbusNo") {
-            const db = fire.firestore();
             const userRef = db.collection("CampusLocation").doc("bus")
             .update({
                 "oppSimHq.description": this.state.OppSIMHQbusDescription,
@@ -410,7 +405,6 @@ class GettingToSIMHQ extends Component {
             var title = this.state.mrtLine
                     
             if (title == "Downtown") {
-                const db = fire.firestore();
                 const userRef = db.collection("CampusLocation").doc("mrt")
                 .update({
                     "downtownLine.description": this.state.DowntownmrtDescription,
@@ -426,7 +420,6 @@ class GettingToSIMHQ extends Component {
                     this.display();
                 });
             } else if(title == "Eastwest") {
-                const db = fire.firestore();
                 const userRef = db.collection("CampusLocation").doc("mrt")
                 .update({
                     "eastwestLine.description": this.state.EastwestmrtDescription,
@@ -444,7 +437,6 @@ class GettingToSIMHQ extends Component {
     };
 
     carparkupdate = (e, locationid) => {
-        const db = fire.firestore();
         db.collection("CampusLocation").doc("car")
         .update({
             carParkingDescription: this.state.carParkDescription,
@@ -466,17 +458,16 @@ class GettingToSIMHQ extends Component {
 
     handleSave = (mapImage) => {
         // Create a reference to the file to delete
-        var desertRef = fire.storage().refFromURL(this.state.mapurl)
+        var desertRef = storage.refFromURL(this.state.mapurl)
 
         // Delete the file
         desertRef.delete();
         const parentthis = this;
-        const db = fire.firestore();
 
         if (this.state.files !== undefined) {
             const foldername = "CampusLocation";
             const file = this.state.files[0];
-            const storageRef = fire.storage().ref(foldername);
+            const storageRef = storage.ref(foldername);
             const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
             fileRef.on("state_changed", function (snapshot) {
                 fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {

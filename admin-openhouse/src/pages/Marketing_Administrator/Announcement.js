@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
 import history from "../../config/history";
 import { Container, Row, Col, Button, Table, Modal, Form, InputGroup, FormControl } from "react-bootstrap";
 
@@ -15,6 +15,15 @@ import Footer from "../../components/Footer";
 import SideNavBar from "../../components/SideNavbar";
 import DeleteAnnouncementModal from "../../components/Marketing_Administrator/DeleteAnnouncementModal";
 
+
+const initialStates = {
+  announcementTitleError: "",
+  announcementDetailsError: "",
+  dateError: "",
+  timehourError: "",
+  timeminutesError: "",
+  timeampmError: ""
+}
 
 class Announcement extends Component {
   constructor() {
@@ -40,9 +49,8 @@ class Announcement extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
 
         var getrole = db.collection("Administrators").where("email", "==", user.email);
 
@@ -61,18 +69,17 @@ class Announcement extends Component {
     });
   }
 
-  updateInput = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+  // updateInput = (e) => {
+  //   this.setState({
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
 
   componentDidMount() {
     this.authListener();
   }
 
   display() {
-    const db = fire.firestore();
     const userRef = db
     .collection("Announcements")
     .orderBy("id", "desc")
@@ -148,14 +155,13 @@ class Announcement extends Component {
     console.log(Date.now());
 
     if (this.state.scheduleAnnouncement === true) {
-      const db = fire.firestore();
 
       const userRef = db
       .collection("Announcements")
       .doc(Date.now().toString())
       .set({
-        title: this.state.announcementTitle,
-        details: this.state.announcementDetails,
+        title: this.state.title,
+        details: this.state.details,
         datePosted: this.formatDate(new Date()),
         id: Date.now(),
         date: this.formatDate(new Date()),
@@ -166,14 +172,13 @@ class Announcement extends Component {
         this.setState({ addAnnouncementModal: false });
       });
     } else {
-      const db = fire.firestore();
 
       const userRef = db
       .collection("Announcements")
       .doc(Date.now().toString())
       .set({
-        title: this.state.announcementTitle,
-        details: this.state.announcementDetails,
+        title: this.state.title,
+        details: this.state.details,
         datePosted: this.formatDate(new Date()),
         id: Date.now(),
         date: this.state.updateDate,
@@ -207,7 +212,6 @@ class Announcement extends Component {
   }
 
   DeleteAnnouncement() {
-    const db = fire.firestore();
     const userRef = db
     .collection("Announcements")
     .doc(this.state.id)
@@ -231,7 +235,6 @@ class Announcement extends Component {
     console.log(this.state.id);
 
     if (this.state.scheduleAnnouncement === true) {
-      const db = fire.firestore();
 
       const userRef = db
       .collection("Announcements")
@@ -247,7 +250,6 @@ class Announcement extends Component {
         this.setState({ editAnnouncementModal: false });
       });
     } else {
-      const db = fire.firestore();
 
       const userRef = db
       .collection("Announcements")
@@ -303,9 +305,6 @@ class Announcement extends Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
-
-    console.log(e.target.name);
-    console.log(e.target.value);
   };
 
   handleDateChange = (e) => {
@@ -546,7 +545,7 @@ class Announcement extends Component {
                 <Col md="10">
                   <Form.Label className="addAnnouncementFormLabel">Announcement Details</Form.Label>
 
-                  <FormControl as="textarea" rows="4" required noValidate className="addAnnouncementForm_Textarea" placeholder="Announcement Details*" name="announcementDetails" onChange={this.handleChange} />
+                  <FormControl as="textarea" rows="4" required noValidate className="addAnnouncementForm_Textarea" placeholder="Announcement Details*" name="details" onChange={this.handleChange} />
                 </Col>
               </Form.Row>
 
@@ -578,8 +577,8 @@ class Announcement extends Component {
                             </InputGroup.Prepend>
 
                             <Col style={{ width: "90%" }} className="text-center">
-                              <Form.Control as="select" name="scheduledDate" defaultValue="chooseScheduledDate" className="addAnnouncementFormSelect" required noValidate onChange={this.handleDateChange}>
-                                <option value="chooseScheduledDate" className="addAnnouncementFormSelectOption" disabled>Schedule Announcement Date</option>
+                              <Form.Control as="select" name="scheduledDate" defaultValue="" className="addAnnouncementFormSelect" required noValidate onChange={this.handleDateChange}>
+                                <option value="" className="addAnnouncementFormSelectOption">Schedule Announcement Date</option>
                                 
                                 {/* To be retrieved from open house dates */}
                                 {this.state.openhousedates && this.state.openhousedates.map((date) => {
@@ -604,8 +603,8 @@ class Announcement extends Component {
                             </InputGroup.Prepend>
 
                             <Col className="addAnnouncementInnerTimeCol_HrMin text-center">
-                              <Form.Control as="select" name="scheduledDate" defaultValue="" className="addAnnouncementFormSelect" required noValidate onChange={this.handleHourChange}>
-                                <option value="" className="addAnnouncementFormSelectOption" disabled>Hour</option>
+                              <Form.Control as="select" name="timehour" defaultValue="" className="addAnnouncementFormSelect" required noValidate onChange={this.handleHourChange}>
+                                <option value="" className="addAnnouncementFormSelectOption">Hour</option>
                                 
                                 {this.state.hours && this.state.hours.map((hours) => {
                                   return (
@@ -618,8 +617,8 @@ class Announcement extends Component {
                             <Form.Text id="addAnnouncementInnerTime_Text">:</Form.Text>
 
                             <Col className="addAnnouncementInnerTimeCol_HrMin text-center">
-                              <Form.Control as="select" name="scheduledDate" defaultValue="chooseScheduledDate" className="addAnnouncementFormSelect" required noValidate onChange={this.handleMinuteChange}>
-                                <option value="chooseScheduledDate" className="addAnnouncementFormSelectOption" disabled>Minute</option>
+                              <Form.Control as="select" name="timeminutes" defaultValue="" className="addAnnouncementFormSelect" required noValidate onChange={this.handleMinuteChange}>
+                                <option value="" className="addAnnouncementFormSelectOption">Minute</option>
                                 
                                 {this.state.minutes && this.state.minutes.map((minutes) => {
                                   return (
@@ -630,8 +629,9 @@ class Announcement extends Component {
                             </Col>
 
                             <Col className="addAnnouncementInnerTimeCol_HrMin text-center">
-                              <Form.Control as="select" name="scheduledDate" defaultValue="chooseScheduledDate" className="addAnnouncementFormSelect" required noValidate onChange={this.handleAMPMChange}>
-                                <option className="addAnnouncementFormSelectOption" hidden>AM/PM</option>
+                              <Form.Control as="select" name="timeampm" defaultValue="" className="addAnnouncementFormSelect" required noValidate onChange={this.handleAMPMChange}>
+                                <option value="" className="addAnnouncementFormSelectOption">AM/PM</option>
+
                                 <option value="AM" className="addAnnouncementFormSelectOption">AM</option>
                                 <option value="PM" className="addAnnouncementFormSelectOption">PM</option>
                               </Form.Control>
@@ -718,7 +718,8 @@ class Announcement extends Component {
                             </InputGroup.Prepend>
 
                             <Col style={{ width: "90%" }} className="text-center">
-                              <Form.Control as="select" name="date" defaultValue="chooseScheduledDate" className="editAnnouncementFormSelect" required noValidate value={this.state.date} onChange={this.handleEditDateChange}>
+                              <Form.Control as="select" name="date" defaultValue="" className="editAnnouncementFormSelect" required noValidate value={this.state.date} onChange={this.handleEditDateChange}>
+                                <option value="" className="addAnnouncementFormSelectOption">Schedule Announcement Date</option>
 
                                 {/* To be retrieved from open house dates */}
                                 {this.state.openhousedates && this.state.openhousedates.map((date) => {
@@ -743,8 +744,8 @@ class Announcement extends Component {
                             </InputGroup.Prepend>
 
                             <Col className="editAnnouncementInnerTimeCol_HrMin text-center">
-                              <Form.Control as="select" name="timehour" defaultValue="chooseScheduledDate" className="editAnnouncementFormSelect" required noValidate value={this.state.timehour} onChange={this.handleEditHourChange}>
-                                <option value="chooseScheduledDate" className="editAnnouncementFormSelectOption">Hour</option>
+                              <Form.Control as="select" name="timehour" defaultValue="" className="editAnnouncementFormSelect" required noValidate value={this.state.timehour} onChange={this.handleEditHourChange}>
+                                <option value="" className="editAnnouncementFormSelectOption">Hour</option>
                                 
                                 {/* To be retrieved from arrays - Hr Array */}
                                 {this.state.hours && this.state.hours.map((hours) => {
@@ -758,8 +759,8 @@ class Announcement extends Component {
                             <Form.Text id="editAnnouncementInnerTime_Text">:</Form.Text>
 
                             <Col className="editAnnouncementInnerTimeCol_HrMin text-center">
-                              <Form.Control as="select" name="timeminutes" defaultValue="chooseScheduledDate" className="editAnnouncementFormSelect" required noValidate value={this.state.timeminutes} onChange={this.handleEditMinuteChange}>
-                                <option value="chooseScheduledDate" className="editAnnouncementFormSelectOption">Minute</option>
+                              <Form.Control as="select" name="timeminutes" defaultValue="" className="editAnnouncementFormSelect" required noValidate value={this.state.timeminutes} onChange={this.handleEditMinuteChange}>
+                                <option value="" className="editAnnouncementFormSelectOption">Minute</option>
                                 
                                 {/* To be retrieved from arrays - Min Array */}
                                 {this.state.minutes && this.state.minutes.map((minutes) => {
@@ -771,8 +772,8 @@ class Announcement extends Component {
                             </Col>
 
                             <Col className="editAnnouncementInnerTimeCol_HrMin text-center">
-                              <Form.Control as="select" name="timeampm" defaultValue="chooseScheduledDate" className="editAnnouncementFormSelect" required noValidate value={this.state.timeampm} onChange={this.handleEditAMPMChange}>
-                                <option value="chooseScheduledDate" className="editAnnouncementFormSelectOption" hidden>AM/PM</option>
+                              <Form.Control as="select" name="timeampm" defaultValue="" className="editAnnouncementFormSelect" required noValidate value={this.state.timeampm} onChange={this.handleEditAMPMChange}>
+                                <option value="" className="editAnnouncementFormSelectOption" hidden>AM/PM</option>
                                 <option value="AM" className="addAnnouncementFormSelectOption">AM</option>
                                 <option value="PM" className="addAnnouncementFormSelectOption">PM</option>
                               </Form.Control>

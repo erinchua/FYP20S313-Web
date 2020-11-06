@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Form, Button, Row, Col, FormControl, Container, InputGroup, Checkbox } from "react-bootstrap";
 
-import fire from "../../../config/firebase";
+import { db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
 
 import "../../../css/Marketing_Administrator/EditStudySIMProgModal.css";
@@ -183,8 +183,6 @@ export default class EditStudySIMProgModal extends React.Component {
       entryqualification.push(data);
     }
     //console.log(entryqualification);
-
-    const db = fire.firestore();
 
     const Universityquery = db
     .collection("Programmes")
@@ -619,11 +617,10 @@ export default class EditStudySIMProgModal extends React.Component {
     console.log("programmestructureexaminati: " + this.state.programmestructureexamination);
 
     const parentthis = this;
-    const db = fire.firestore();
     if (this.state.files !== undefined) {
       const foldername = "Universities";
       const file = this.state.files[0];
-      const storageRef = fire.storage().ref(foldername);
+      const storageRef = storage.ref(foldername);
       const fileRef = storageRef.child(file.name).put(file);
       fileRef.on("state_changed", function (snapshot) {
         fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {

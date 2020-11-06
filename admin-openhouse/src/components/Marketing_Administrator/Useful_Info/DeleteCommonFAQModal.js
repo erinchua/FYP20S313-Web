@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal,Button, Col, Row } from 'react-bootstrap';
 
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

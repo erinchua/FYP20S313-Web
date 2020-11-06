@@ -1,6 +1,6 @@
 import { Container, Row, Col, Table, Button, Tab, Nav, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
-import fire from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
 import history from "../../config/history";
 
 import '../../css/Marketing_Administrator/GuidedTours.css';
@@ -44,9 +44,8 @@ class GuidedTour extends Component {
     }
 
     authListener() {
-        fire.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
-                const db = fire.firestore();
                 var getrole = db
                 .collection("Administrators")
                 .where("email", "==", user.email);
@@ -76,7 +75,6 @@ class GuidedTour extends Component {
     }
 
     display() {
-        const db = fire.firestore();
         const dates = [];
         var day1_counter = 1;
         var day2_counter = 1;
@@ -133,7 +131,6 @@ class GuidedTour extends Component {
     //Add tour when click on 'Submit' button in Add Modal - Integrated
     addGuidedTour = (e) => {
         e.preventDefault();
-        const db = fire.firestore();
 
         const isValid = this.validate();
         if (isValid) {
@@ -179,7 +176,6 @@ class GuidedTour extends Component {
 
     //Delete tour when click on 'Confirm' button in Delete Modal - Integrated
     DeleteGuidedTour(e, guidedTourId) {
-        const db = fire.firestore();
         db.collection("GuidedTours").doc(guidedTourId).delete()
         .then(dataSnapshot => {
             console.log("Deleted the tour");
@@ -192,7 +188,6 @@ class GuidedTour extends Component {
 
     //Update tour when click on 'Save Changes' button in Edit Modal - Integrated
     update(e, guidedTourId) {
-        const db = fire.firestore();
 
         const isValid = this.validate();
         if (isValid) {
