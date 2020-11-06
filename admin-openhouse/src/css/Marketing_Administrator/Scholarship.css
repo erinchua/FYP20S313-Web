@@ -91,6 +91,7 @@
 .Scholarship-cardBody {
     padding-left: 0 !important;
     padding-right: 0 !important;
+    padding-top: 0 !important;
 }
 
 .Scholarship-tableColCon {
@@ -102,6 +103,10 @@
     width: 100%;
     margin-bottom: 0;
     max-width: 100%;
+}
+
+#Scholarship-titleHeading {
+    width: 20%;
 }
 
 #Scholarship-editHeading {

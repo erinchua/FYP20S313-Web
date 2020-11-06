@@ -184,10 +184,10 @@ class SAHome extends Component {
       firecreate
       .auth() 
       .createUserWithEmailAndPassword(this.state.email, this.state.password) 
-      .then((useraction) => { 
+      .then((user) => { 
         const db = fire.firestore(); 
  
-        db.collection("Administrators").add({ 
+        db.collection("Administrators").doc(user.user?.uid).set({ 
           administratorType: this.state.administratorType, 
           email: this.state.email, 
           name: this.state.fullname, 
