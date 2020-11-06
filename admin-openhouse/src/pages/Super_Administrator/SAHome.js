@@ -82,9 +82,7 @@ class SAHome extends Component {
       if (user) { 
         const db = fire.firestore(); 
         var a  = this; 
-        var getrole = db 
-        .collection("Administrators") 
-        .where("email", "==", user.email); 
+        var getrole = db .collection("Administrators") .where("email", "==", user.email); 
         getrole.get().then((snapshot) => { 
           snapshot.forEach((doc) => { 
             if (doc.data().administratorType === "Super Administrator") { 
@@ -135,8 +133,7 @@ class SAHome extends Component {
     } 
  
     var counter = 1; 
-    const userRef = db 
-    .collection("Administrators").where("administratorType", "!=", "Super Administrator") 
+    db.collection("Administrators").where("administratorType", "!=", "Super Administrator") 
     .get() 
     .then((snapshot) => { 
       const users = []; 
@@ -190,9 +187,7 @@ class SAHome extends Component {
       .then((useraction) => { 
         const db = fire.firestore(); 
  
-        const userRef = db 
-        .collection("Administrators") 
-        .add({ 
+        db.collection("Administrators").add({ 
           administratorType: this.state.administratorType, 
           email: this.state.email, 
           name: this.state.fullname, 
