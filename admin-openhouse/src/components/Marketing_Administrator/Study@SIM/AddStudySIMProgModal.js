@@ -75,7 +75,7 @@ export default class AddStudySIMProgModal extends React.Component {
     const subDiscipline2 = [];
 
     const Universityquery = db
-    .collection("Programmes")
+    .collection("TestProgrammes")
     .onSnapshot((snapshot) => {
       snapshot.forEach((doc) => {
         University.push(doc.data().awardedBy);
