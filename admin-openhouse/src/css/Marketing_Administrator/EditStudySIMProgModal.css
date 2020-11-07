@@ -76,6 +76,17 @@
     height: 80%;
 }
 
+.editStudySIMProgForm_applicationPeriodCon {
+    padding: 0 0 2% 0 !important;
+}
+
+.editStudySIMProgForm_applicationPeriodMainCon {
+    padding: none;
+    overflow-y: auto;
+    max-height: 50vh;
+    overflow-x: hidden;
+}
+
 .editStudySIMProgModal .editStudySIMProgForm_MoSCon {
     background: #dff0ef;
     padding: 2%;
@@ -111,7 +122,7 @@
     padding: 2%;
     border-radius: 6px;
     overflow-y: auto;
-    max-height: 90vh;
+    max-height: 85vh;
     overflow-x: hidden;
     font-size: 85% !important;
 }

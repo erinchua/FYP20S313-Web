@@ -193,7 +193,6 @@ class StudySIM_ITComputerSciences extends Component {
                             <th className="studySIMProgHeader_ProgName">Programme Name</th>
                             <th className="studySIMProgHeader_AwardedBy">Awarded By</th>
                             <th className="studySIMProgHeader_LogoFile">Logo File</th>
-                            <th className="studySIMProgHeader_Category">Category</th>
                             <th className="studySIMProgHeader_MoS">Mode of Study</th>
                             <th className="studySIMProgHeader_Discipline">Disciplines</th>
                             <th className="studySIMProgHeader_AcademicLvl">Academic Level</th>
@@ -238,7 +237,7 @@ class StudySIM_ITComputerSciences extends Component {
                                 
                                 <td className="studySIMProgData_AwardedBy text-left">{ITComputerScience.awardBy}</td>
                                 <td className="studySIMProgData_LogoFile text-left">{ITComputerScience.Logofile}</td>
-                                <td className="studySIMProgData_Category text-left">{ITComputerScience.CategoryProgramme}</td>
+
                                 <td className="studySIMProgData_MoS text-left">
                                   <tr>
                                     {ITComputerScience.ModeOfStudy.fullTime === true && (

@@ -278,35 +278,7 @@ class Announcement extends Component {
   update = () => {
     var time = this.state.timehour + ":" + this.state.timeminutes + this.state.timeampm;
     console.log("updated: " + time)
-
-    // // Split time into hr, min and amPm
-    // var scheduledTimeArray = scheduledTime(this.state.time)
-    // var counter = 0;
-    // var hr = "";
-    // var min = "";
-    // var amPm = "";
     
-    // for (var i = 0; i < scheduledTimeArray.length; i++) {
-    //   if (i == 0) {
-    //     hr = scheduledTimeArray[0];
-    //   }
-    //   else if (i == 1) {
-    //     min = scheduledTimeArray[1];
-    //   }
-    //   else if (i == 2) {
-    //     amPm = scheduledTimeArray[2];
-    //   }
-
-    //   counter +=1;
-    // }
-
-    // console.log("ScheduledTimeArray Length: " + counter);
-    // console.log("hr: " + hr)
-    // console.log("min: " + min)
-    // console.log("amPm: " + amPm)
-
-
-    //var time = this.state.timehour + ":" + this.state.timeminutes + this.state.timeampm;
     console.log(this.state.title);
     console.log(this.state.details);
     console.log(this.state.date);
