@@ -1,6 +1,6 @@
 import { Container, Row, Col, Table, Button, Tab, Nav, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 
 import '../../../css/Marketing_Administrator/Performances.css';
@@ -43,9 +43,8 @@ class Performances extends Component {
     }
 
     authListener() {
-        fire.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
-                const db = fire.firestore();
                 var getrole = db
                 .collection("Administrators")
                 .where("email", "==", user.email);
@@ -75,7 +74,6 @@ class Performances extends Component {
     }
 
     display = () => {
-        const db = fire.firestore();
         const dates = []
         var day1_counter = 1;
         var day2_counter = 1;
@@ -136,7 +134,6 @@ class Performances extends Component {
     //Add performance when click on 'Submit' button in Add Modal - Integrated
     addPerformance = (e) => {
         e.preventDefault();
-        const db = fire.firestore();
         
         const isValid = this.validate();
         if (isValid) {
@@ -181,7 +178,6 @@ class Performances extends Component {
 
     //Delete performance when click on 'Confirm' button in Delete Modal - Integrated
     DeletePerformance(e, performanceId) {
-        const db = fire.firestore();
         db.collection("Performances").doc(performanceId).delete()
         .then(dataSnapshot => {
             console.log("Deleted the performance");
@@ -195,7 +191,6 @@ class Performances extends Component {
     //Update performance when click on 'Save Changes' button in Edit Modal - Integrated
     update(e, performanceid) {
        //Update respective data by their ids for Edit Modal - Integrated.
-        const db = fire.firestore();
 
         const isValid = this.validate();
         if (isValid) {

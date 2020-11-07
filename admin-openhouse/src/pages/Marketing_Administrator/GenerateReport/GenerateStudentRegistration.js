@@ -1,5 +1,5 @@
 import React, { Component, useReducer } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 import { Container, Row, Col, Button, Table } from "react-bootstrap";
 
@@ -37,9 +37,8 @@ class GenerateStudentRegistration extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
 
         var getrole = db
         .collection("Administrators")
@@ -71,7 +70,6 @@ class GenerateStudentRegistration extends Component {
   }
 
   display() {
-    const db = fire.firestore();
     var counter = 1;
     const userRef = db
     .collection("Students")
@@ -102,7 +100,6 @@ class GenerateStudentRegistration extends Component {
   }
 
   generateReport = () => {
-    const db = fire.firestore();
     var counter = 0;
     const total = db
     .collection("Students")

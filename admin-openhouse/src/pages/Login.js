@@ -1,6 +1,6 @@
 import { Tab, Nav, Row, Col, Form, Container, Button, Modal, Alert } from 'react-bootstrap';
 import React, { Component } from "react";
-import fire from "../config/firebase";
+import { auth, db } from "../config/firebase";
 import history from "../config/history";
 
 import '../css/Login.css';
@@ -48,14 +48,12 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        fire.auth().signOut();
+        auth.signOut();
     }
 
     marketingauthListener() {
-        fire.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
-                const db = fire.firestore();
-
                 var getrole = db
                 .collection("Administrators")
                 .where("email", "==", user.email);
@@ -90,10 +88,8 @@ class Login extends Component {
     }
 
     superauthListener() {
-        fire.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
-                const db = fire.firestore();
-
                 var getrole = db
                 .collection("Administrators")
                 .where("email", "==", user.email);
@@ -127,10 +123,8 @@ class Login extends Component {
     }
 
     crewauthListener() {
-        fire.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
-                const db = fire.firestore();
-
                 var getrole = db
                 .collection("Administrators")
                 .where("email", "==", user.email);
@@ -258,8 +252,7 @@ class Login extends Component {
             }
         }
 
-        fire
-        .auth()
+        auth
         .signInWithEmailAndPassword(this.state.email, this.state.password)
         .then((u) => {
             if (accounttype === "marketing") {

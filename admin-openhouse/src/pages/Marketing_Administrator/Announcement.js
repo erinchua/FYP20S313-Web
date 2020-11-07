@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
 import history from "../../config/history";
 import { Container, Row, Col, Button, Table, Modal, Form, InputGroup, FormControl } from "react-bootstrap";
 
@@ -98,9 +98,8 @@ class Announcement extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
 
         var getrole = db.collection("Administrators").where("email", "==", user.email);
 
@@ -130,7 +129,6 @@ class Announcement extends Component {
   }
 
   display() {
-    const db = fire.firestore();
     const userRef = db
     .collection("Announcements")
     .orderBy("id", "desc")
@@ -210,8 +208,6 @@ class Announcement extends Component {
       this.setState(initialStates);
 
       if (this.state.scheduleAnnouncement === true) {
-        const db = fire.firestore();
-
         const userRef = db
         .collection("Announcements")
         .doc(Date.now().toString())
@@ -228,8 +224,6 @@ class Announcement extends Component {
           this.setState({ addAnnouncementModal: false });
         });
       } else {
-        const db = fire.firestore();
-
         const userRef = db
         .collection("Announcements")
         .doc(Date.now().toString())
@@ -270,7 +264,6 @@ class Announcement extends Component {
   }
 
   DeleteAnnouncement() {
-    const db = fire.firestore();
     const userRef = db
     .collection("Announcements")
     .doc(this.state.id)
@@ -297,7 +290,6 @@ class Announcement extends Component {
 
     // If scheduling post
     if (this.state.scheduleAnnouncement === true) {
-      const db = fire.firestore();
 
       const userRef = db
       .collection("Announcements")
@@ -315,8 +307,6 @@ class Announcement extends Component {
     } 
     // If not scheduling 
     else {
-      const db = fire.firestore();
-
       const userRef = db
       .collection("Announcements")
       .doc(this.state.id)

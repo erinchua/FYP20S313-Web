@@ -1,6 +1,6 @@
 import { Container, Row, Col, Table, Button, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
-import fire from "../../config/firebase";
+import { auth, db, storage } from "../../config/firebase";
 import history from "../../config/history";
 import firebase from "firebase/app";
 
@@ -19,7 +19,6 @@ const initialStates = {
 }
 
 async function savePicture(blobURL, imageFile) {
-    const storage = fire.storage();
     const pictureRef = storage.ref(`/Openhouse/`).child(imageFile);
     const response = await fetch(blobURL);
     const blob = await response.blob(); //fetch blob object
@@ -57,9 +56,8 @@ class Openhouse extends Component {
     }
 
     authListener() {
-        fire.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
-                const db = fire.firestore();
                 var getrole = db
                 .collection("Administrators")
                 .where("email", "==", user.email);
@@ -103,7 +101,6 @@ class Openhouse extends Component {
     }
 
     display() {
-        const db = fire.firestore();
         const users = [];
         const images = [];
 
@@ -164,7 +161,7 @@ class Openhouse extends Component {
             });
             this.state.docid = openhouseid;
             this.state.day = day;
-            const db = fire.firestore();
+
             db.collection("Openhouse").doc(openhouseid).get()
             .then((doc) => {
                 const daydata = doc.get('day');
@@ -205,7 +202,6 @@ class Openhouse extends Component {
 
     update(e, openhouseid, day) {
         //Update respective data by their ids and day number for Edit Modal - Integrated
-        const db = fire.firestore();
         db.collection("Openhouse").doc(openhouseid).get()
         .then((doc) => {
             const daydata = doc.get('day');
@@ -268,7 +264,7 @@ class Openhouse extends Component {
             });
             this.state.docid = imageId;
             this.state.mobileHomeImage = imageFile;
-            const db = fire.firestore();
+            
             db.collection("Openhouse").doc(imageId).get()
             .then((doc) => {
                 this.setState({
@@ -292,7 +288,7 @@ class Openhouse extends Component {
             });
             this.state.docid = imageId;
             this.state.mobileOpenHouseProgImage = imageFile;
-            const db = fire.firestore();
+            
             db.collection("Openhouse").doc(imageId).get()
             .then((doc) => {
                 this.setState({
@@ -347,7 +343,6 @@ class Openhouse extends Component {
 
     //Upload image when click on "Save Changes" in Edit Modal
     uploadHomeImage = async() => {
-        const db = fire.firestore();
 
         if (this.state.mobileHomeImage.startsWith('blob:')) {
             const url = await savePicture(this.state.mobileHomeImage, this.state.mobileHomeImage_title);
@@ -364,7 +359,6 @@ class Openhouse extends Component {
 
     //Upload image when click on "Save Changes" in Edit Modal
     uploadProgrammeImage = async() => {
-        const db = fire.firestore();
 
         if (this.state.mobileOpenHouseProgImage.startsWith('blob:')) {
             const url = await savePicture(this.state.mobileOpenHouseProgImage, this.state.mobileOpenHouseProgImage_title);

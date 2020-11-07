@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
 import history from "../../config/history";
 import { Container, Row, Col, Button, Table, Modal, Form, InputGroup, FormControl } from 'react-bootstrap';
 
@@ -36,9 +36,8 @@ class CampusFacilitiesMap extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
 
         var getrole = db
         .collection("Administrators")
@@ -69,7 +68,6 @@ class CampusFacilitiesMap extends Component {
   }
 
   display() {
-    const db = fire.firestore();
 
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
@@ -104,7 +102,6 @@ class CampusFacilitiesMap extends Component {
     if (isValid) {
       this.setState(initialStates);
 
-      const db = fire.firestore();
       db
       .collection("CampusFacilities")
       .doc(this.state.id)

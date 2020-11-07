@@ -1,6 +1,6 @@
 import { Container, Row, Col, Table, Button, Modal } from "react-bootstrap";
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 
 import "../../../css/Marketing_Administrator/Forum.css";
@@ -28,9 +28,8 @@ class ForumFlagged extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
 
         var getrole = db
           .collection("Administrators")
@@ -60,7 +59,6 @@ class ForumFlagged extends Component {
   }
 
   display() {
-    const db = fire.firestore();
     var a = this;
     var counter = 1;
 
@@ -194,7 +192,6 @@ class ForumFlagged extends Component {
     }
 
     console.log(postid);
-    const db = fire.firestore();
     const userRef = db
       .collectionGroup(reporttype)
       .get()
@@ -242,7 +239,6 @@ class ForumFlagged extends Component {
     }
 
     console.log(postid);
-    const db = fire.firestore();
     const isHandled = db
       .collectionGroup("Reports")
       .get()

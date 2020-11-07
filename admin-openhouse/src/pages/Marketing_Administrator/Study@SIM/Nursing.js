@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 import { Container, Row, Col, Button, Table, Modal } from "react-bootstrap";
 
@@ -28,9 +28,8 @@ class StudySIM_Nursing extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
         var getrole = db
         .collection("Administrators")
         .where("email", "==", user.email);
@@ -55,7 +54,6 @@ class StudySIM_Nursing extends Component {
   }
 
   display() {
-    const db = fire.firestore();
 
     const userRe1 = db.collection("Programmes").onSnapshot((snapshot) => {
       const nursing = [];
