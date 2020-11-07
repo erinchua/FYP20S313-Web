@@ -5,8 +5,6 @@ import { Router, Route, Switch } from "react-router-dom";
 import * as serviceWorker from "./serviceWorker";
 import history from "./config/history";
 
-// import { AuthContext, useAuthInit } from "./modules/auth";
-
 import App from "./App";
 import Login from "./pages/Login";
 import SAHome from "./pages/Super_Administrator/SAHome";
@@ -59,12 +57,8 @@ import Scholarship from "./pages/Marketing_Administrator/StudentLife@SIM/Testing
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import { AuthContext, useAuthInit } from "./modules/auth";
-
-//const { auth } = useAuthInit();
 
 ReactDOM.render(
-  //<AuthContext.Provider value={!auth}>
     <Router history={history}>
       <Switch>
         <Route exact path="/" component={App} />
@@ -122,7 +116,6 @@ ReactDOM.render(
 
       </Switch>
     </Router>,
-  //</AuthContext.Provider>
   document.getElementById("root")
 );
 
