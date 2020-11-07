@@ -9,7 +9,7 @@ import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookReader, faCalendarAlt, faEdit, faFileAlt, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
+import { faBookReader, faCalendarAlt, faEdit, faEnvelopeOpen, faFileAlt, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 
 class Scholarship extends Component {
 
@@ -1145,7 +1145,7 @@ class Scholarship extends Component {
                                                 <Form.Group>
                                                     <Form.Group as={Row} className="Scholarship-formGroup">
                                                         <Form.Group as={Col} md="1">
-                                                            <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                                            <FontAwesomeIcon size="lg" icon={faEnvelopeOpen}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
                                                             <Form.Control id="Scholarship-textAreas" as="textarea" rows="2" type="text" name="scholarshipFiveEmail" placeholder="Application Documents & Procedures's Email" required defaultValue={this.state.scholarshipFiveEmail} onChange={this.updateInput} noValidate></Form.Control>
