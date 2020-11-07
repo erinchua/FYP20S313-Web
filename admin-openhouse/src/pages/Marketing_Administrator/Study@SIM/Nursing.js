@@ -12,7 +12,7 @@ import NavBar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import SideNavBar from "../../../components/SideNavbar";
 import AddStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/AddStudySIMProgModal";
-import EditStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/EditStudySIMProgModal";
+import EditStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/.testEditStudySIMProgModal";
 import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/DeleteStudySIMProgModal";
 import ViewStudySIMProgDetailsModal from "../../../components/Marketing_Administrator/Study@SIM/ViewStudySIMProgDetailsModal";
 

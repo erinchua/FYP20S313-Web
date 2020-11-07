@@ -54,6 +54,9 @@ import Sponsors from "./pages/Marketing_Administrator/StudentLife@SIM/Sponsors";
 import SIMGEScholarship from "./pages/Marketing_Administrator/StudentLife@SIM/SIMGEScholarship";
 import Scholarship from "./pages/Marketing_Administrator/StudentLife@SIM/TestingScholarship";
 
+// import test from "./temp/testing";
+
+
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -86,6 +89,7 @@ ReactDOM.render(
       <Route path="/Prizes" component={Prizes} />
       <Route path="/OpenHouseFeedback" component={OpenHouseFeedback} />
       <Route path="/CommonFAQs" component={CommonFAQs} />
+      {/* <Route path="/ArtsAndCulture" component={test} /> */}
       <Route path="/ArtsAndCulture" component={ArtsAndCulture} />
       <Route path="/InternationalStudentClub" component={InternationalStudentClub} />
       <Route path="/StudentCouncil" component={StudentCouncil} />

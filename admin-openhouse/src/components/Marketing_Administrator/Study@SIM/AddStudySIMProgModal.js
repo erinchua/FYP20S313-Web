@@ -77,7 +77,7 @@ export default class AddStudySIMProgModal extends React.Component {
     const db = fire.firestore();
 
     const Universityquery = db
-    .collection("Programmes")
+    .collection("TestProgrammes")
     .onSnapshot((snapshot) => {
       snapshot.forEach((doc) => {
         University.push(doc.data().awardedBy);
