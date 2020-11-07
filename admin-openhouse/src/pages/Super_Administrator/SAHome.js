@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { auth, db } from "../../config/firebase";
+import fire, { auth, db } from "../../config/firebase";
+import firecreate from "../../config/firebasecreate";
 import history from "../../config/history";
 import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
+
 
 import "../../css/Super_Administrator/SAHome.css";
 import "../../css/Super_Administrator/SAHomeModals.css";
@@ -21,6 +23,7 @@ const initialStates = {
   nameError: "",
   emailError: "",
   userTypeError: "",
+  firebaseListener: ""
 }
 
 /* Generate Random Password */
@@ -84,13 +87,10 @@ class SAHome extends Component {
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Super Administrator") {
-              a.setState(() => ({
-                Login: true,
-              })
-              )
+              a.setState(() => ({Login: true}))
               this.display();
-
-            } else {
+            } 
+            else {
               history.push("/Login");
             }
           });
@@ -123,35 +123,36 @@ class SAHome extends Component {
   }
 
   display() {
+    /* To filter administrator type */
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
     }
 
     var counter = 1;
     db.collection("Administrators").where("administratorType", "!=", "Super Administrator")
-      .get()
-      .then((snapshot) => {
-        const users = [];
-        const adminType = [];
-        snapshot.forEach((doc) => {
-          const data = {
-            administratorType: doc.data().administratorType,
-            name: doc.data().name,
-            email: doc.data().email,
-            password: doc.data.password,
-            id: doc.id,
-            counter: counter,
-          };
-          counter++;
-          users.push(data);
-          adminType.push(doc.data().administratorType);
-        });
-        this.setState({ adminType: adminType });
-        var filteredAdminType = adminType.filter(onlyUnique);
-
-        this.setState({ users: users });
-        this.setState({ filteredAdminType: filteredAdminType });
+    .get()
+    .then((snapshot) => {
+      const users = [];
+      const adminType = [];
+      snapshot.forEach((doc) => {
+        const data = {
+          administratorType: doc.data().administratorType,
+          name: doc.data().name,
+          email: doc.data().email,
+          password: doc.data.password,
+          id: doc.id,
+          counter: counter,
+        };
+        counter++;
+        users.push(data);
+        adminType.push(doc.data().administratorType);
       });
+      this.setState({ adminType: adminType });
+      var filteredAdminType = adminType.filter(onlyUnique);
+
+      this.setState({ users: users });
+      this.setState({ filteredAdminType: filteredAdminType });
+    });
   }
 
   logout() {
@@ -176,21 +177,21 @@ class SAHome extends Component {
       // const decryptPassword = bcrypt.compareSync(this.state.password, passwordHash); 
       // console.log("Decrypted: " + decryptPassword) 
 
-      auth
-        .createUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then((user) => {
+      firecreate.auth()
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then((user) => {
 
-          db.collection("Administrators").doc(user.user?.uid).set({
-            administratorType: this.state.administratorType,
-            email: this.state.email,
-            name: this.state.fullname,
-            password: passwordHash,
-          })
-            .then(dataSnapshot => {
-              this.setState({ addUserModal: false });
-              this.display();
-            });
-        });
+        db.collection("Administrators").doc(user.user?.uid).set({
+          administratorType: this.state.administratorType,
+          email: this.state.email,
+          name: this.state.fullname,
+          password: passwordHash,
+        })
+          .then(dataSnapshot => {
+            this.setState({ addUserModal: false });
+            this.display();
+          });
+      });
     }
   };
 
@@ -231,48 +232,48 @@ class SAHome extends Component {
     if (searchvalue == "" || searchvalue == null) {
 
       const userRef = db
-        .collection("Administrators").where("administratorType", "!=", "Super Administrator")
-        .get()
-        .then((snapshot) => {
-          const users = [];
-          snapshot.forEach((doc) => {
-            const data = {
-              administratorType: doc.data().administratorType,
-              name: doc.data().name,
-              email: doc.data().email,
-              password: doc.data.password,
-              id: doc.id,
-              counter: counter,
-            };
-            users.push(data);
-            counter++;
-          });
-
-          this.setState({ users: users });
+      .collection("Administrators").where("administratorType", "!=", "Super Administrator")
+      .get()
+      .then((snapshot) => {
+        const users = [];
+        snapshot.forEach((doc) => {
+          const data = {
+            administratorType: doc.data().administratorType,
+            name: doc.data().name,
+            email: doc.data().email,
+            password: doc.data.password,
+            id: doc.id,
+            counter: counter,
+          };
+          users.push(data);
+          counter++;
         });
+
+        this.setState({ users: users });
+      });
     } else {
       const userRef = db
-        .collection("Administrators").where("administratorType", "==", "Marketing Administrator") // Need to change to show crew also 
-        .orderBy("email")
-        .startAt(searchvalue)
-        .endAt(searchvalue + "\uf8ff")
-        .get()
-        .then((snapshot) => {
-          const users = [];
-          snapshot.forEach((doc) => {
-            const data = {
-              administratorType: doc.data().administratorType,
-              name: doc.data().name,
-              email: doc.data().email,
-              password: doc.data.password,
-              id: doc.id,
-              counter: counter,
-            };
-            counter++;
-            users.push(data);
-          });
-          this.setState({ users: users });
+      .collection("Administrators").where("administratorType", "==", "Marketing Administrator") // Need to change to show crew also 
+      .orderBy("email")
+      .startAt(searchvalue)
+      .endAt(searchvalue + "\uf8ff")
+      .get()
+      .then((snapshot) => {
+        const users = [];
+        snapshot.forEach((doc) => {
+          const data = {
+            administratorType: doc.data().administratorType,
+            name: doc.data().name,
+            email: doc.data().email,
+            password: doc.data.password,
+            id: doc.id,
+            counter: counter,
+          };
+          counter++;
+          users.push(data);
         });
+        this.setState({ users: users });
+      });
     }
   }
 
