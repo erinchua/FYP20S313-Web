@@ -75,7 +75,7 @@
 }
 
 .studySIMProgHeader_ProgName {
-    width: 11%;
+    width: 15%;
     color: #424242;
     font-size: 90%;
 }
@@ -87,7 +87,7 @@
 }
 
 .studySIMProgHeader_LogoFile {
-    width: 10%;
+    width: 13%;
     color: #424242;
     font-size: 90%;
 }
@@ -123,7 +123,7 @@
 }
 
 .studySIMProgHeader_SubDiscipline {
-    width: 10%;
+    width: 13%;
     color: #424242;
     font-size: 90%;
 }
@@ -150,7 +150,7 @@
 
 
 .studySIMProgData_ProgName {
-    width: 11%;
+    width: 15%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
@@ -173,7 +173,7 @@
 }
 
 .studySIMProgData_LogoFile {
-    width: 10%;
+    width: 13%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
@@ -216,7 +216,7 @@
 }
 
 .studySIMProgData_SubDiscipline {
-    width: 10%;
+    width: 13%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;

@@ -19,3 +19,4 @@ export default fire;
 export const auth = fire.auth();
 export const db = fire.firestore();
 export const storage = fire.storage();
+export const db = fire.firestore();

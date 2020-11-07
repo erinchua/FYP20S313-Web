@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
 
 //import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
@@ -17,9 +17,8 @@ class StudentLifeBrochure extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
         var getrole = db
           .collection("Administrators")
           .where("email", "==", user.email);
@@ -50,7 +49,6 @@ class StudentLifeBrochure extends Component {
   }
 
   display() {
-    const db = fire.firestore();
     var counter = 1;
     //Display of Scholarship Brochures
     const userRef = db
@@ -133,13 +131,12 @@ class StudentLifeBrochure extends Component {
 
 handleSave = (brochureid) => {
   const parentthis = this;
-  const db = fire.firestore();
 
 console.log(this.state.files);
 
 if (this.state.files !== undefined) {
     const foldername = "/Brochures/StudentLife";
-    const storageRef = fire.storage().ref(foldername);
+    const storageRef = storage.ref(foldername);
     const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
     fileRef.on("state_changed", function (snapshot) {
       fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {

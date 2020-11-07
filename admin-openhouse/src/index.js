@@ -59,66 +59,70 @@ import Scholarship from "./pages/Marketing_Administrator/StudentLife@SIM/Testing
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+//import { AuthContext, useAuthInit } from "./modules/auth";
+
+//const { auth } = useAuthInit();
 
 ReactDOM.render(
-  <Router history={history}>
-    <Switch>
-      <Route exact path="/" component={App} />
-      <Route path="/Login" component={Login} />
-      <Route path="/ResetPassword" component={ResetPassword} />
+  //<AuthContext.Provider value={!auth}>
+    <Router history={history}>
+      <Switch>
+        <Route exact path="/" component={App} />
+        <Route path="/Login" component={Login} />
+        <Route path="/ResetPassword" component={ResetPassword} />
 
-      {/* Routes for Crew */}
-      <Route path="/AttendanceMarkingScanner" component={AttendanceMarkingScanner} />
+        {/* Routes for Crew */}
+        <Route path="/AttendanceMarkingScanner" component={AttendanceMarkingScanner} />
 
-      {/* Routes for Super Admin */}
-      <Route path="/SAHome" component={SAHome} />
+        {/* Routes for Super Admin */}
+        <Route path="/SAHome" component={SAHome} />
 
-      {/* Routes for Marketing Admin */}
-      <Route path="/StudentAccounts" component={StudentAccounts} />
-      <Route path="/CampusFacilitiesMap" component={CampusFacilitiesMap} />
-      <Route path="/Openhouse" component={Openhouse} />
-      <Route path="/GettingToSIMHQ" component={GettingToSIMHQ} />
-      <Route path="/Announcement" component={Announcement} />
-      <Route path="/MAHome" component={MAHome} />
-      <Route path="/ProgrammeTalkSchedule" component={ProgrammeTalkSchedule} />
-      <Route path="/LiveTalk" component={LiveTalk} />
-      <Route path="/PastRecording" component={PastRecording} />
-      <Route path="/GuidedTour" component={GuidedTour} />
-      <Route path="/Performances" component={Performances} />
-      <Route path="/GameActivities" component={GameActivities} />
-      <Route path="/Prizes" component={Prizes} />
-      <Route path="/OpenHouseFeedback" component={OpenHouseFeedback} />
-      <Route path="/CommonFAQs" component={CommonFAQs} />
-      {/* <Route path="/ArtsAndCulture" component={test} /> */}
-      <Route path="/ArtsAndCulture" component={ArtsAndCulture} />
-      <Route path="/InternationalStudentClub" component={InternationalStudentClub} />
-      <Route path="/StudentCouncil" component={StudentCouncil} />
-      <Route path="/SpecialInterestClub" component={SpecialInterestClub} />
-      <Route path="/SportAndFitness" component={SportAndFitness} />
-      <Route path="/StudentCare" component={StudentCare} />
-      <Route path="/Forum" component={Forum} />
-      <Route path="/ForumFlagged" component={ForumFlagged} />
-      <Route path="/ForumSettings" component={ForumSettings} />
-      <Route path="/ViewForumQuestion" component={ViewForumQuestion} />
-      <Route path="/Arts&SocialSciences" component={ArtsSocialSciences} />
-      <Route path="/Business" component={Business} />
-      <Route path="/IT&ComputerSciences" component={ITComputerSciences} />
-      <Route path="/Nursing" component={Nursing} />
-      <Route path="/Specialty" component={Specialty} />
-      <Route path="/ContactInformation" component={ContactInformation} />
-      <Route path="/GenerateStudentRegistration" component={GenerateStudentRegistration} />
-      <Route path="/StudentLifeBrochure" component={StudentLifeBrochure} />
-      <Route path="/StudySIMBrochure" component={StudySIMBrochure} />
-      <Route path="/AdmissionApplication" component={AdmissionApplication} />
-      <Route path="/GenerateAttendance" component={GenerateAttendance} />
-      <Route path="/OtherFinancialAssistance" component={OtherFinancialAssistance} />
-      <Route path="/SIMGEBursary" component={SIMGEBursary} />
-      <Route path="/Sponsors" component={Sponsors} />
-      <Route path="/SIMGEScholarship" component={SIMGEScholarship} />
-      <Route path="/Scholarship" component={Scholarship} />
-      
-    </Switch>
-  </Router>,
+        {/* Routes for Marketing Admin */}
+        <Route path="/StudentAccounts" component={StudentAccounts} />
+        <Route path="/CampusFacilitiesMap" component={CampusFacilitiesMap} />
+        <Route path="/Openhouse" component={Openhouse} />
+        <Route path="/GettingToSIMHQ" component={GettingToSIMHQ} />
+        <Route path="/Announcement" component={Announcement} />
+        <Route path="/MAHome" component={MAHome} />
+        <Route path="/ProgrammeTalkSchedule" component={ProgrammeTalkSchedule} />
+        <Route path="/LiveTalk" component={LiveTalk} />
+        <Route path="/PastRecording" component={PastRecording} />
+        <Route path="/GuidedTour" component={GuidedTour} />
+        <Route path="/Performances" component={Performances} />
+        <Route path="/GameActivities" component={GameActivities} />
+        <Route path="/Prizes" component={Prizes} />
+        <Route path="/OpenHouseFeedback" component={OpenHouseFeedback} />
+        <Route path="/CommonFAQs" component={CommonFAQs} />
+        <Route path="/ArtsAndCulture" component={ArtsAndCulture} />
+        <Route path="/InternationalStudentClub" component={InternationalStudentClub} />
+        <Route path="/StudentCouncil" component={StudentCouncil} />
+        <Route path="/SpecialInterestClub" component={SpecialInterestClub} />
+        <Route path="/SportAndFitness" component={SportAndFitness} />
+        <Route path="/StudentCare" component={StudentCare} />
+        <Route path="/Forum" component={Forum} />
+        <Route path="/ForumFlagged" component={ForumFlagged} />
+        <Route path="/ForumSettings" component={ForumSettings} />
+        <Route path="/ViewForumQuestion" component={ViewForumQuestion} />
+        <Route path="/Arts&SocialSciences" component={ArtsSocialSciences} />
+        <Route path="/Business" component={Business} />
+        <Route path="/IT&ComputerSciences" component={ITComputerSciences} />
+        <Route path="/Nursing" component={Nursing} />
+        <Route path="/Specialty" component={Specialty} />
+        <Route path="/ContactInformation" component={ContactInformation} />
+        <Route path="/GenerateStudentRegistration" component={GenerateStudentRegistration} />
+        <Route path="/StudentLifeBrochure" component={StudentLifeBrochure} />
+        <Route path="/StudySIMBrochure" component={StudySIMBrochure} />
+        <Route path="/AdmissionApplication" component={AdmissionApplication} />
+        <Route path="/GenerateAttendance" component={GenerateAttendance} />
+        <Route path="/OtherFinancialAssistance" component={OtherFinancialAssistance} />
+        <Route path="/SIMGEBursary" component={SIMGEBursary} />
+        <Route path="/Sponsors" component={Sponsors} />
+        <Route path="/SIMGEScholarship" component={SIMGEScholarship} />
+        <Route path="/Scholarship" component={Scholarship} />
+
+      </Switch>
+    </Router>,
+  //</AuthContext.Provider>
   document.getElementById("root")
 );
 

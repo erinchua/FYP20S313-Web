@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
 import history from "../../config/history";
 import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
 
@@ -33,10 +33,8 @@ class StudentAccounts extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
-
         var getrole = db
         .collection("Administrators")
         .where("email", "==", user.email);
@@ -66,7 +64,6 @@ class StudentAccounts extends Component {
   }
 
   display() {
-    const db = fire.firestore();
     var counter = 1;
     db
     .collection("Students")
@@ -95,8 +92,6 @@ class StudentAccounts extends Component {
   }
 
   Unsuspend(e, studentdocid) {
-    const db = fire.firestore();
-
     db
     .collection("Students")
     .doc(studentdocid)
@@ -125,8 +120,6 @@ class StudentAccounts extends Component {
   }
 
   Suspend(e, studentdocid) {
-    const db = fire.firestore();
-
     db
     .collection("Students")
     .doc(studentdocid)
@@ -155,8 +148,6 @@ class StudentAccounts extends Component {
   }
 
   Search = (e) => {
-    const db = fire.firestore();
-
     var counter = 1;
     var searchvalue = document.getElementById("MAStudentAcctSearchBar").value;
 

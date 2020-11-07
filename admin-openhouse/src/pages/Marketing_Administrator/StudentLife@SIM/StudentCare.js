@@ -1,6 +1,6 @@
 import { Container, Row, Col, Table, Button, Modal, Form, Tab, Nav } from 'react-bootstrap';
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
 import firebase from "firebase/app";
 
@@ -12,7 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faFileImage, faFutbol, faBiking, faSpa, faUsers, faComments } from '@fortawesome/free-solid-svg-icons';
 
 async function savePicture(blobURL, imageName) {
-    const storage = fire.storage();
     const pictureRef = storage.ref(`/StudentCare/`).child(imageName);
     const response = await fetch(blobURL);
     const blob = await response.blob(); //fetch blob object
@@ -85,9 +84,8 @@ class StudentCare extends Component {
     }
 
     authListener() {
-        fire.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
-                const db = fire.firestore();
                 var getrole = db
                 .collection("Administrators")
                 .where("email", "==", user.email);
@@ -117,7 +115,6 @@ class StudentCare extends Component {
     }
 
     display() {
-        const db = fire.firestore();
 
         db.collection("StudentCare").get()
         .then((snapshot) => {
@@ -300,7 +297,6 @@ class StudentCare extends Component {
 
     //Update function for Student Wellness Centre, Counselling Service, SIM Peer Support and SIM Wellness Advocates
     handleUpdate = async(id) => {
-        const db = fire.firestore();
         const isStudentWellnessValid = this.validateStudentWellness();
         const isCounsellingServiceValid = this.validateCounsellingService();
         const isPeerSupportValid = this.validatePeerSupport();
@@ -540,7 +536,6 @@ class StudentCare extends Component {
     }
 
     handleWorkUpdate = async(id) => {
-        const db = fire.firestore();
         const isWorkValid = this.validateWork();
         const isActivityValid = this.validateActivity();
 

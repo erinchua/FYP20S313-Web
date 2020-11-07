@@ -1,6 +1,6 @@
 import { Container, Row, Col, Table, Button, Tab, Nav, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 
 import '../../../css/Marketing_Administrator/Prizes.css';
@@ -51,9 +51,8 @@ class Prizes extends Component {
     }
 
     authListener() {
-        fire.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
-                const db = fire.firestore();
                 var getrole = db
                 .collection("Administrators")
                 .where("email", "==", user.email);
@@ -83,7 +82,6 @@ class Prizes extends Component {
     }
 
     display = () => {
-        const db = fire.firestore();
         const venue = [];
         const prize = [];
         var counter = 1;
@@ -126,7 +124,6 @@ class Prizes extends Component {
     //Add prize when click on 'Submit' button in Add Modal - Integrated
     addPrize = (e) => {
         e.preventDefault();
-        const db = fire.firestore();
         
         const isValid = this.validate();
         if (isValid) {
@@ -168,7 +165,6 @@ class Prizes extends Component {
 
     //Delete prize when click on 'Confirm' button in Delete Modal - Integrated
     DeletePrize(e, prizeId) {
-        const db = fire.firestore();
         db.collection("Prizes").doc(prizeId).delete()
         .then(dataSnapshot => {
             console.log("Deleted the prize");
@@ -182,7 +178,6 @@ class Prizes extends Component {
     //Update prize when click on 'Save Changes' button in Edit Modal - Integrated
     updatePrize(e, prizeId) {
         //Update respective data by their ids for Edit Modal - Integrated.
-        const db = fire.firestore();
 
         const isValid = this.validate();
         if (isValid) {
@@ -208,7 +203,6 @@ class Prizes extends Component {
     
     updateVenue(e, venueId, venueDay) {
         //Update respective data by their ids and day number for Edit Modal - Integrated
-        const db = fire.firestore();
         db.collection("Prizes").doc(venueId).get()
         .then((doc) => {
             const daydata = doc.get('day');

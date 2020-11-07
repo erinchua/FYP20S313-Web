@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {db,auth} from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 import { Container, Row, Col, Button, Table, Modal } from "react-bootstrap";
 
@@ -16,6 +16,7 @@ import AddStudySIMProgModal from "../../../components/Marketing_Administrator/St
 import EditStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/EditStudySIMProgModal_Clean";
 import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/DeleteStudySIMProgModal";
 import ViewStudySIMProgDetailsModal from "../../../components/Marketing_Administrator/Study@SIM/ViewStudySIMProgDetailsModal";
+
 
 class StudySIM_ArtsSocialSciences extends Component {
   constructor() {

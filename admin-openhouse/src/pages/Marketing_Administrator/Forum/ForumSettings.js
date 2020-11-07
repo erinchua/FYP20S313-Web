@@ -1,6 +1,6 @@
 import { Container, Row, Col, Table, Form, Modal, Button } from "react-bootstrap";
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 
 import "../../../css/Marketing_Administrator/Forum.css";
@@ -25,9 +25,8 @@ class ForumSettings extends Component {
     }
 
     authListener() {
-        fire.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
-                const db = fire.firestore();
         
                 var getrole = db
                 .collection("Administrators")
@@ -49,7 +48,6 @@ class ForumSettings extends Component {
     }
 
     display() {
-        const db = fire.firestore();
     
         const userRe1 = db
         .collection("Openhouse")
@@ -108,7 +106,6 @@ class ForumSettings extends Component {
       this.confirmModal = this.state.confirmModal;
   
         if (this.text === "Enable") {
-            const db = fire.firestore();
 
             const userRef = db.collection("Openhouse").doc("openhouse");
     
@@ -117,7 +114,6 @@ class ForumSettings extends Component {
                 checked: false
             });
         } else {
-            const db = fire.firestore();
     
             const userRef = db.collection("Openhouse").doc("openhouse");
     

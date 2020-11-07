@@ -1,6 +1,6 @@
 import { Container, Row, Col, Table, Button, Tab, Nav, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 
 import '../../../css/Marketing_Administrator/GameActivities.css';
@@ -74,9 +74,8 @@ class GameActivities extends Component {
     }
 
     authListener() {
-        fire.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
-                const db = fire.firestore();
                 var getrole = db
                 .collection("Administrators")
                 .where("email", "==", user.email);
@@ -106,7 +105,6 @@ class GameActivities extends Component {
     }
 
     display= () => {
-        const db = fire.firestore();
         const dates = [];
 
         //Retrieve Open House Dates from Openhouse Collection
@@ -138,7 +136,6 @@ class GameActivities extends Component {
     //Add game/activity when click on 'Submit' button in Add Modal - Integrated
     addGameActivities = (e) => {
         e.preventDefault();
-        const db = fire.firestore();
         
         const isValid = this.validate();
         if (isValid) {
@@ -184,7 +181,6 @@ class GameActivities extends Component {
 
     //Delete game/activity when click on 'Confirm' button in Delete Modal - Integrated
     DeleteGameActivities(e, gamesActivitiesId) {
-        const db = fire.firestore();
         db.collection("GamesActivities").doc(gamesActivitiesId).delete()
         .then(dataSnapshot => {
             console.log("Deleted the Game/Activity");
@@ -198,7 +194,6 @@ class GameActivities extends Component {
     //Update game/activity when click on 'Save Changes' button in Edit Modal - Integrated
     update(e, gamesActivitiesId) {
         //Update respective data by their ids for Edit Modal - Integrated.
-        const db = fire.firestore();
 
         const isValid = this.validate();
         if (isValid) {

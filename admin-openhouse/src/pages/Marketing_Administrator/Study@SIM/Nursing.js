@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 import { Container, Row, Col, Button, Table, Modal } from "react-bootstrap";
 
@@ -28,9 +28,8 @@ class StudySIM_Nursing extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
         var getrole = db
         .collection("Administrators")
         .where("email", "==", user.email);
@@ -55,7 +54,6 @@ class StudySIM_Nursing extends Component {
   }
 
   display() {
-    const db = fire.firestore();
 
     const userRe1 = db.collection("Programmes").onSnapshot((snapshot) => {
       const nursing = [];
@@ -196,7 +194,6 @@ class StudySIM_Nursing extends Component {
                             <th className="studySIMProgHeader_ProgName">Programme Name</th>
                             <th className="studySIMProgHeader_AwardedBy">Awarded By</th>
                             <th className="studySIMProgHeader_LogoFile">Logo File</th>
-                            <th className="studySIMProgHeader_Category">Category</th>
                             <th className="studySIMProgHeader_MoS">Mode of Study</th>
                             <th className="studySIMProgHeader_Discipline">Disciplines</th>
                             <th className="studySIMProgHeader_AcademicLvl">Academic Level</th>
@@ -241,7 +238,6 @@ class StudySIM_Nursing extends Component {
 
                                 <td className="studySIMProgData_AwardedBy text-left">{nursing.awardBy}</td>
                                 <td className="studySIMProgData_LogoFile text-left">{nursing.Logofile}</td>
-                                <td className="studySIMProgData_Category text-left">{nursing.CategoryProgramme}</td>
 
                                 <td className="studySIMProgData_MoS text-left">
                                   <tr>
