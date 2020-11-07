@@ -54,6 +54,9 @@ import Sponsors from "./pages/Marketing_Administrator/StudentLife@SIM/Sponsors";
 import SIMGEScholarship from "./pages/Marketing_Administrator/StudentLife@SIM/SIMGEScholarship";
 import Scholarship from "./pages/Marketing_Administrator/StudentLife@SIM/TestingScholarship";
 
+// import test from "./temp/testing";
+
+
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import { AuthContext, useAuthInit } from "./modules/auth";

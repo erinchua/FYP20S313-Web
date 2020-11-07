@@ -72,6 +72,11 @@
     box-shadow: none;
 }
 
+#Sponsors-modalTitle {
+    color: #424242;
+    text-align: center;
+}
+
 .Sponsors-formGroup {
     display: flex;
     justify-content: center;
@@ -124,6 +129,17 @@
 
 #Sponsors-inputFields:focus {
     box-shadow: none;
+}
+
+#Sponsors-textAreas {
+    color: #434343;    
+    font-size: 85%;
+    border: 1px solid #c8c8c8;
+}
+
+#Sponsors-textAreas:focus {
+    box-shadow: none;
+    border: 1px solid #c8c8c8;
 }
 
 .errorMessage {
