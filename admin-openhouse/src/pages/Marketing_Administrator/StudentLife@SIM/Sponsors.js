@@ -1,89 +1,127 @@
+import { Container, Row, Col, Table, Button, Modal, Form, Tab, Nav, Accordion, Card } from 'react-bootstrap';
 import React, { Component } from "react";
 import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
+import firebase from "firebase/app";
 
-//import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
+import '../../../css/Marketing_Administrator/Sponsors.css';
+import NavBar from '../../../components/Navbar';
+import Footer from '../../../components/Footer';
+import SideNavBar from '../../../components/SideNavbar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faFileAlt } from '@fortawesome/free-solid-svg-icons';
 
 class Sponsors extends Component {
-  constructor() {
-    super();
-    this.state = {
-      description: "",
-      description1: "",
-      description2: "",
-      id: "",
-      period1: "",
-      period2: "",
+    constructor() {
+        super();
+        this.state = {
+            id: "",
+            description: "",
+            email: "",
+            website: "",
+            applicationPeriods: "",
+            //Below states are for the functions
+            sponsors: "",
+            applicationPeriodsFunc: "",
+            //Below states are for the modals
+            editModal: false,
+        };
+    }
 
-    };
-  }
-
-  authListener() {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
-        getrole.get().then((snapshot) => {
-          snapshot.forEach((doc) => {
-            if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
+    authListener() {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                var getrole = db
+                .collection("Administrators")
+                .where("email", "==", user.email);
+                getrole.get().then((snapshot) => {
+                    snapshot.forEach((doc) => {
+                        if (doc.data().administratorType === "Marketing Administrator") {
+                            this.display();
+                        } else {
+                            history.push("/Login");
+                        }
+                    });
+                });
             } else {
-              history.push("/Login");
+                history.push("/Login");
             }
-          });
         });
-      } else {
-        history.push("/Login");
-      }
-    });
-  }
-  updateInput = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+    }
 
-  componentDidMount() {
-    this.authListener();
-  }
+    updateInput = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+    };
 
-  display() {
+    componentDidMount() {
+        this.authListener();
+    }
 
-    //Sponsors
-    const otherfinancialassistance = db
-      .collection("Scholarship")
-      .onSnapshot((snapshot) => {
-        snapshot.forEach((doc) => {
+    display() {
+        db.collection("Scholarship").get()
+        .then((snapshot) => {
+            snapshot.forEach((doc) => {
+                if (doc.id == "scholarship-09") {
+                    const applicationPeriods = [];
+                    const sponsors = [];
 
-        if(doc.id === "sponsors"){
-        const sponsorarray = [];
-        const data = {
-            description: doc.data().description,
-            id: doc.data().id,
-          };
-          sponsorarray.push(data);
-          this.setState({ sponsorarray: sponsorarray });
-        }
+                    for (var i = 0; i < doc.data().applicationPeriods.length; i++) {
+                        const appData = {
+                            applicationPeriods: doc.data().applicationPeriods[i]
+                        }
+                        applicationPeriods.push(appData);
+                    }
 
-        //SAFRA-SIM GE SPONSORSHIP
-        if(doc.id === "safraSIMGESponsorship"){
-            const safraSIMGEarray = [];
-            const data = {
-                description1: doc.data().description1,
-                description2: doc.data().description2,
-                id: doc.data().id,
-                period1: doc.data().period1,
-                period2: doc.data().period2,
-              };
-              safraSIMGEarray.push(data);
-              this.setState({ safraSIMGEarray: safraSIMGEarray });
-        }
-        
-      });
+                    const sponsorsData = {
+                        description: doc.data().description,
+                        email: doc.data().email,
+                        website: doc.data().website,
+                        id: doc.id,
+                    }
+                    sponsors.push(sponsorsData);
 
-    })
-}
+                    this.setState({
+                        applicationPeriodsFunc: applicationPeriods,
+                        sponsors: sponsors
+                    });
+                }
+            });
+        });
+
+        // //Sponsors
+        // const otherfinancialassistance = db.collection("Scholarship")
+        // .onSnapshot((snapshot) => {
+        //     snapshot.forEach((doc) => {
+
+        //         if(doc.id === "sponsors"){
+        //             const sponsorarray = [];
+        //             const data = {
+        //                 description: doc.data().description,
+        //                 id: doc.data().id,
+        //             };
+        //             sponsorarray.push(data);
+        //             this.setState({ sponsorarray: sponsorarray });
+        //         }
+
+        //         //SAFRA-SIM GE SPONSORSHIP
+        //         if(doc.id === "safraSIMGESponsorship"){
+        //             const safraSIMGEarray = [];
+        //             const data = {
+        //                 description1: doc.data().description1,
+        //                 description2: doc.data().description2,
+        //                 id: doc.data().id,
+        //                 period1: doc.data().period1,
+        //                 period2: doc.data().period2,
+        //             };
+        //             safraSIMGEarray.push(data);
+        //             this.setState({ safraSIMGEarray: safraSIMGEarray });
+        //         }
+            
+        //     });
+        // });
+    }
 
   /*editStudentCare(e, studentcareid, type) {
     if (type === "workPlayLiveWell") {
@@ -209,71 +247,82 @@ class Sponsors extends Component {
     }
   }*/
 
+    render() {
+        return (
+            <div>
+                <Container fluid className="Sponsors-container">
+                    <NavBar isMA={true} />
 
-  render() {
-    return (
-      <div className="home">
-        <div>
-          <table id="users" class="table table-bordered">
-            <tbody>
-              <p>
-                <h1><b>Sponsors</b><br/></h1>
-                <h5>Sponsorship<br/></h5>
-              </p>
-              <tr>
-                <th scope="col">Description</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.sponsorarray &&
-                this.state.sponsorarray.map((sponsorarray) => {
-                  return (
-                    <tr>
-                      <td>{sponsorarray.description}</td>
-                      
-                      <td>
-                        <button
-                          id={sponsorarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                        <Container fluid className="Sponsors-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                            <Row>
+                                <Col md={2} style={{paddingRight: 0}}>
+                                    <SideNavBar />
+                                </Col>
 
-                    </td>
-                    </tr>
-                  );
-                })}
-              <p>
-                <h1><b>Our Sponsors</b><br/></h1>
-                <h5>SAFRA-SIM GE SPONSORSHIP<br/></h5>
-              </p>
-              <tr>
-                <th scope="col">Description</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.safraSIMGEarray &&
-                this.state.safraSIMGEarray.map((safraSIMGEarray) => {
-                  return (
-                    <tr>
-                      <td>{safraSIMGEarray.description1}
-                      <tr>{safraSIMGEarray.period1}</tr>
-                      <tr>{safraSIMGEarray.period2}</tr>
-                      <tr>{safraSIMGEarray.description2}</tr>
-                      </td>
-                      <td>
-                        <button
-                          id={safraSIMGEarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                                <Col md={10} style={{paddingLeft: 0}}>
+                                    <Container fluid id="Sponsors-topContentContainer">
+                                        <Row id="Sponsors-firstRow">
+                                            <Col md={12} className="text-left" id="Sponsors-firstRowCol">
+                                                <h4 id="Sponsors-title">Sponsors</h4>
+                                            </Col>
+                                        </Row>
 
-                    </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
-  }
+                                        <Row id="Sponsors-secondRow">
+                                            <Col md={12} className="text-center" id="Sponsors-secondRowCol">
+                                                <Table responsive="sm" bordered id="Sponsors-tableContainer">
+                                                    <thead id="Sponsors-tableHeader">
+                                                        <tr>
+                                                            <th colSpan="2">SAFRA-SIM GE Sponsorship</th>
+                                                            <th id="Sponsors-editHeading">Edit</th>
+                                                        </tr>
+                                                    </thead>
+                                                        {this.state.sponsors && this.state.sponsors.map((sponsor) => {
+                                                            return (
+                                                                <tbody id="Sponsors-tableBody">
+                                                                    <tr>
+                                                                        <td id="Sponsors-titleHeading"><b>Email</b></td>
+                                                                        <td className="text-left">{sponsor.email}</td>
+                                                                        <td><Button size="sm" id="Sponsors-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td id="Sponsors-titleHeading"><b>Website</b></td>
+                                                                        <td className="text-left">{sponsor.website}</td>
+                                                                        <td><Button size="sm" id="Sponsors-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td id="Sponsors-titleHeading"><b>Description</b></td>
+                                                                        <td className="text-left">{sponsor.description}</td>
+                                                                        <td><Button size="sm" id="Sponsors-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colSpan="3"><b>Application Period</b></td>
+                                                                    </tr>
+                                                                    {this.state.applicationPeriodsFunc && this.state.applicationPeriodsFunc.map((appPeriod) => {
+                                                                        return (
+                                                                            <tr>
+                                                                                <td colSpan="2">{appPeriod.applicationPeriods}</td>
+                                                                                <td><Button size="sm" id="Sponsors-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                            </tr>
+                                                                        )
+                                                                    })}
+                                                                </tbody>
+                                                            )
+                                                        })}
+                                                        
+                                                </Table>
+                                            </Col>
+                                        </Row>
+                                    </Container>
+                                </Col>
+                            </Row>    
+                        </Container>                    
+
+                    <Footer />
+                </Container>
+
+            </div>
+
+        );
+    }
 }
 export default Sponsors;

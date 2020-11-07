@@ -104,7 +104,6 @@ class Scholarship extends Component {
     }
 
     display() {
-
         db.collection("Scholarship").get()
         .then((snapshot) => {
             snapshot.forEach((doc) => {
@@ -259,8 +258,6 @@ class Scholarship extends Component {
     };
 
     updateScholarships = (id) => {
-        const db = fire.firestore();
-
         if (id == this.state.scholarshipOneId) {
             db.collection("Scholarship").doc(id)
             .update({

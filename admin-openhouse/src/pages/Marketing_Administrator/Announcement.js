@@ -208,7 +208,7 @@ class Announcement extends Component {
       this.setState(initialStates);
 
       if (this.state.scheduleAnnouncement === true) {
-        const db = fire.firestore();
+        // const db = fire.firestore();
 
         const userRef = db
         .collection("Announcements")
@@ -226,7 +226,7 @@ class Announcement extends Component {
           this.setState({ addAnnouncementModal: false });
         });
       } else {
-        const db = fire.firestore();
+        // const db = fire.firestore();
 
         const userRef = db
         .collection("Announcements")
@@ -339,7 +339,7 @@ class Announcement extends Component {
     } 
     // If not scheduling 
     else {
-      const db = fire.firestore();
+    //   const db = fire.firestore();
 
       const userRef = db
       .collection("Announcements")
