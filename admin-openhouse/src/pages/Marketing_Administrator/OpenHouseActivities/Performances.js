@@ -79,9 +79,7 @@ class Performances extends Component {
         var day2_counter = 1;
 
         //Retrieve Open House Dates from Openhouse Collection
-        const retrieveDate = db
-        .collection("Openhouse")
-        .get()
+        db.collection("Openhouse").get()
         .then((snapshot) => {
             snapshot.forEach((doc) => {
                 const data = doc.get('day')
@@ -95,9 +93,7 @@ class Performances extends Component {
             this.setState({openHouseDates: dates})
         })
 
-        const userRef = db
-        .collection("Performances").orderBy("endTime", "asc")
-        .get()
+        db.collection("Performances").orderBy("endTime", "asc").get()
         .then((snapshot) => {
             const performance = [];
             snapshot.forEach((doc) => {
@@ -139,7 +135,7 @@ class Performances extends Component {
         if (isValid) {
             this.setState(initialStates);
 
-            var lastdoc = db.collection("Performances").orderBy('id','desc')
+            db.collection("Performances").orderBy('id','desc')
             .limit(1).get().then((snapshot) =>  {
                 snapshot.forEach((doc) => {
                     var docid= "";
