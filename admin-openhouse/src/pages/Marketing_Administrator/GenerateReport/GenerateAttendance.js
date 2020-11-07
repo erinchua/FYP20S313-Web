@@ -28,8 +28,9 @@ class GenerateAttendance extends Component {
       totalNumber: 0,
       date: "",
       userEmail:"",
-      universityValue:"",
-      programmeNameValue:""
+      universityValue:"All",
+      programmeNameValue:"All",
+      attendance: []
     };
   }
 
@@ -155,50 +156,74 @@ display() {
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
     }
-
-    var getProgrammeName="";
     var counter = 1;
     this.state.universityName = this.state.universityValue;
 
-    //Retrieve Attendance
-    const userRef = db
-    .collection("Attendance").where("universityName","==",this.state.universityValue)
-    .onSnapshot((snapshot) => {
-      const attendance = [];
-      snapshot.forEach((doc) => {
-        getProgrammeName = doc.data().programmeName
-        const data = {
-          firstName: doc.data().firstName,
-          lastName: doc.data().lastName,
-          email: doc.data().email,
-          date: doc.data().date,
-          programmeName: doc.data().programmeName,
-          universityName: doc.data().universityName,
-          id: doc.id,
-          counter : counter,
-        };
-        counter++;
-        attendance.push(data);
-        console.log(data)
-      });
-      this.setState({ 
-        programmeName : getProgrammeName,
-        attendance: attendance 
-      });
-    })
+    if(this.state.universityValue === "All") {
+      db
+      .collection("Attendance")
+      .onSnapshot((snapshot) => {
+        const attendance = [];
+        snapshot.forEach((doc) => {
+          const data = {
+            firstName: doc.data().firstName,
+            lastName: doc.data().lastName,
+            email: doc.data().email,
+            date: doc.data().date,
+            programmeName: doc.data().programmeName,
+            universityName: doc.data().universityName,
+            id: doc.id,
+            counter : counter,
+          };
+          counter++;
+          attendance.push(data);
+          console.log(data)
+        });
+        this.setState({ 
+          attendance: attendance 
+        });
+      })
+    } 
+    else {
+      db
+      .collection("Attendance").where("universityName","==",this.state.universityValue)
+      .onSnapshot((snapshot) => {
+        const attendance = [];
+        snapshot.forEach((doc) => {
+          const data = {
+            firstName: doc.data().firstName,
+            lastName: doc.data().lastName,
+            email: doc.data().email,
+            date: doc.data().date,
+            programmeName: doc.data().programmeName,
+            universityName: doc.data().universityName,
+            id: doc.id,
+            counter : counter,
+          };
+          counter++;
+          attendance.push(data);
+          console.log(data)
+        });
+        this.setState({ 
+          attendance: attendance 
+        });
+      })
 
-    const programmename = [];
-    const programmeNamequery = db
-    .collection("Attendance").where("universityName","==",this.state.universityValue)
-    .onSnapshot((snapshot) => {     
-      snapshot.forEach((doc) => {
-        programmename.push(doc.data().programmeName);
+      const programmename = [];
+      const programmeNamequery = db
+      .collection("Attendance").where("universityName","==",this.state.universityValue)
+      .onSnapshot((snapshot) => {     
+        snapshot.forEach((doc) => {
+          programmename.push(doc.data().programmeName);
+        });
+        var uniqueProgName = programmename.filter(onlyUnique);
+        uniqueProgName = uniqueProgName.filter((val) => val !== undefined);
+        uniqueProgName = uniqueProgName.filter((val) => val !== "");
+        this.setState({ programmename: uniqueProgName });
       });
-      var uniqueProgName = programmename.filter(onlyUnique);
-      uniqueProgName = uniqueProgName.filter((val) => val !== undefined);
-      uniqueProgName = uniqueProgName.filter((val) => val !== "");
-      this.setState({ programmename: uniqueProgName });
-    });
+      }
+    //Retrieve Attendance
+    
   }
 
   programmenameFiltered(){
@@ -211,64 +236,89 @@ display() {
     var counter = 1;
     //Retrieve Attendance
 
-    const userRef = db
-    .collection("Attendance").where("programmeName","==",this.state.programmeNameValue)
-    .onSnapshot((snapshot) => {
-      const attendance = [];
-      snapshot.forEach((doc) => {
-        getProgrammeName = doc.data().programmeName
-        getUniversityName =doc.data().universityName
+    if (this.state.programmeNameValue === "All") {
+      db
+      .collection("Attendance")
+      .onSnapshot((snapshot) => {
+        const attendance = [];
+        snapshot.forEach((doc) => {
+          getProgrammeName = doc.data().programmeName
+          getUniversityName =doc.data().universityName
 
-        const data = {
-          firstName: doc.data().firstName,
-          lastName: doc.data().lastName,
-          email: doc.data().email,
-          date: doc.data().date,
-          programmeName: doc.data().programmeName,
-          universityName: doc.data().universityName,
-          id: doc.id,
-          counter : counter,
-        };
-        counter++;
-        attendance.push(data);
-        console.log(data)
-      });
-      this.setState({ 
-        universityName : getUniversityName,
-        programmeName : getProgrammeName,
-        attendance: attendance 
-      });
-    })
-  }
+          const data = {
+            firstName: doc.data().firstName,
+            lastName: doc.data().lastName,
+            email: doc.data().email,
+            date: doc.data().date,
+            programmeName: doc.data().programmeName,
+            universityName: doc.data().universityName,
+            id: doc.id,
+            counter : counter,
+          };
+          counter++;
+          attendance.push(data);
+          console.log(data)
+        });
+        this.setState({ 
+          attendance: attendance 
+        });
+      })
 
-  generateReport = () => {
-    console.log("attendance: " + this.state.attendance)
-    var id ="";
-    if(this.state.attendance.length > 0){
-      id = this.state.attendance[0].id;
-    }
+      db
+      .collection("Attendance")
+      .onSnapshot((snapshot) => {
+        const attendance = [];
+        snapshot.forEach((doc) => {
+          getProgrammeName = doc.data().programmeName
+          getUniversityName =doc.data().universityName
 
-    var counter = 0;
-    
-    const total = db
-    .collection("Attendance")
-    .where("id","==",id)
-    // .where("universityName", "==", this.state.universityName)
-    // .where("programmeName", "==", this.state.programmeName)
-    .onSnapshot((snapshot) => {
-      counter = snapshot.size
-      this.setState(
-        {
-          totalNumber: counter
-        },
-        () => {
-          console.log(this.state.totalNumber);
-          this.generatePDF();
-        }
-      );
-    });
-    counter++;
-    console.log(counter);
+          const data = {
+            firstName: doc.data().firstName,
+            lastName: doc.data().lastName,
+            email: doc.data().email,
+            date: doc.data().date,
+            programmeName: doc.data().programmeName,
+            universityName: doc.data().universityName,
+            id: doc.id,
+            counter : counter,
+          };
+          counter++;
+          attendance.push(data);
+          console.log(data)
+        });
+        this.setState({ 
+          attendance: attendance 
+        });
+      })
+    } 
+    else {
+      db
+      .collection("Attendance").where("programmeName","==",this.state.programmeNameValue)
+      .onSnapshot((snapshot) => {
+        const attendance = [];
+        snapshot.forEach((doc) => {
+          getProgrammeName = doc.data().programmeName
+          getUniversityName =doc.data().universityName
+
+          const data = {
+            firstName: doc.data().firstName,
+            lastName: doc.data().lastName,
+            email: doc.data().email,
+            date: doc.data().date,
+            programmeName: doc.data().programmeName,
+            universityName: doc.data().universityName,
+            id: doc.id,
+            counter : counter,
+          };
+          counter++;
+          attendance.push(data);
+          console.log(data)
+        });
+        this.setState({ 
+          attendance: attendance 
+        });
+      })
+    } 
   }
 
   generatePDF(){
@@ -280,9 +330,9 @@ display() {
       "November", "December"
     ];
 
-    var user = this.state.userEmail;
-    var adminuser = "\nRequested by: " + user;
-    doc.setFontSize(11);   
+    // var user = this.state.userEmail;
+    var adminuser = "\nRequested by: " + this.state.userEmail;
+    doc.setFontSize(10);   
     doc.text(14, 25, adminuser);
 
     var today = new Date();    
@@ -290,8 +340,7 @@ display() {
     var monthIndex = today.getMonth();
     var year = today.getFullYear();
     var date = day + ' ' + monthNames[monthIndex] + ' ' + year;
-    var newdate = "\nDate Requested: "+ date;
-    doc.setFontSize(11);   
+    var newdate = "\nDate Requested: "+ date; 
     doc.text(132, 25, newdate);
 
     // Line Separator
@@ -299,20 +348,22 @@ display() {
     doc.line(14, 35, 196, 35);
 
     var universityName = "\nUniversity Name: " + this.state.universityName;
-    doc.setFontSize(12);
+    doc.setFontSize(11);
     doc.text(14, 38, universityName); 
     
-    var programmeName = "\nProgramme Name: " + this.state.programmeName;
+    var programmeName = "\nProgramme Name: " + this.state.programmeNameValue;
     doc.text(14, 46, programmeName);
 
-    var totalNumber = "\nTotal Number: " + this.state.totalNumber; 
-    doc.text(158, 42, totalNumber);
+    // var totalNumber = "\nTotal Number: " + this.state.attendance.length; 
+    // doc.text(158, 38, totalNumber);
+    var totalNumber = "\nTotal Number: " + this.state.attendance.length; 
+    doc.text(14, 54, totalNumber);
 
     // Line Separator
-    doc.line(14, 55, 196, 55);
+    doc.line(14, 63, 196, 63);
 
-    doc.setFontSize(11);
-    doc.text(14, 64, "List of Registrants");
+    doc.setFontSize(10);
+    doc.text(14, 72, "List of Registrants");
 
     doc.autoTable({
       html: "#attendance",
@@ -324,13 +375,13 @@ display() {
       },
       columnStyles: { 
         0: { halign: 'center'},
-        1: { halign: 'center'},
-        2: { halign: 'center'},
-        3: { halign: 'center'},
+        1: { halign: 'left'},
+        2: { halign: 'left'},
+        3: { halign: 'left'},
         4: { halign: 'center'},
         5: { halign: 'left'},
       },
-      startY: 70,
+      startY: 78,
       pageBreak: "auto"
     });
 
@@ -365,7 +416,7 @@ display() {
                     </Col>
 
                     <Col md="3" className="text-right generateAttendanceContentHeaderCol">
-                      <Button className="generateReportBtn" onClick={this.generateReport}>
+                      <Button className="generateReportBtn" onClick={() => {this.generatePDF()}}>
                         <FontAwesomeIcon size="lg" className="generateReportBtnIcon" icon={faPlus} />
                         <span className="generateReportBtnText">Generate Report</span>
                       </Button>
@@ -377,8 +428,8 @@ display() {
                     <Col md="6" className="generateAttendanceFilterCol">
                       <Form.Label className="generateAttendanceFormLabel text-left">Choose University:</Form.Label>                                     
                           
-                      <Form.Control as="select" name="universityName" defaultValue="" onChange={this.handleUniversityChange} className="generateAttendanceFormSelect text-center" required noValidate>
-                        <option value="" className="generateAttendanceFormSelectOption" disabled="disabled">Choose University</option>
+                      <Form.Control as="select" name="universityName" defaultValue="All" onChange={this.handleUniversityChange} className="generateAttendanceFormSelect text-center" required noValidate>
+                        <option value="All" className="generateAttendanceFormSelectOption">All</option>
 
                         {this.state.university && this.state.university.map((uni) => {
                           return (
@@ -393,8 +444,8 @@ display() {
                     <Col md="6" className="generateAttendanceFilterCol">
                       <Form.Label className="generateAttendanceFormLabel text-left">Choose Programme:</Form.Label>                                     
                           
-                      <Form.Control as="select" name="programmeName" defaultValue="" onChange={this.handleProgrammeChange} className="generateAttendanceFormSelect text-center" required noValidate>
-                        <option value="" className="generateAttendanceFormSelectOption" disabled="disabled">Choose Programme</option>
+                      <Form.Control as="select" name="programmeName" defaultValue="All" onChange={this.handleProgrammeChange} className="generateAttendanceFormSelect text-center" required noValidate>
+                        <option value="All" className="generateAttendanceFormSelectOption">All</option>
 
                         {this.state.programmename && this.state.programmename.map((programmeName) => {
                           return (
@@ -449,70 +500,6 @@ display() {
           <Footer />
         </Container>
 
-
-
-
-        {/* <label>
-          Choose a University:
-          <select onChange={this.handleUniversityChange}>
-          <option selected="true" disabled="disabled">Choose a University</option>    
-
-          {this.state.university &&
-                this.state.university.map((university) => {
-                  return (
-                    <option value={university}>{university}</option>
-                  );
-                })}          
-          </select>
-        </label>
-        <label>
-          Choose a Programme Name:
-          <select onChange={this.handleProgrammeChange}>
-          <option selected="true" disabled="disabled">Choose Programme Name</option>    
-
-          {this.state.programmename &&
-                this.state.programmename.map((programmename) => {
-               
-                  return (
-                    <option value={programmename}>{programmename}</option>
-                  );
-                })}          
-          </select>
-        </label> */}
-
-        {/* Do not change the id below*/}
-        {/* <div>
-          <table id="attendance" class="table table-bordered">
-            <tbody>
-              <tr>
-                <th scope="col">S/N</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Date</th>
-                <th scope="col">Name of University</th>
-                <th scope="col">Programme Name</th>
-              </tr>
-              {this.state.attendance &&
-                this.state.attendance.map((attendance) => {
-              
-               console.log(this.state.universityName)
-                  return (
-                    <tr>
-                      <td>{attendance.counter}</td>
-                      <td>{attendance.firstName} </td>
-                      <td>{attendance.lastName} </td>
-                      <td>{attendance.email} </td>
-                      <td>{attendance.date} </td>
-                      <td>{attendance.universityName} </td>
-                      <td>{attendance.programmeName} </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-        <button onClick={this.generateReport}>Generate PDF</button> */}
       </div>
     );
   }
