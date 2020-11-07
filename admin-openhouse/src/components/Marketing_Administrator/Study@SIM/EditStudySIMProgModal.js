@@ -1146,7 +1146,7 @@ export default class EditStudySIMProgModal extends React.Component {
           <Container>
             <Row>
               <Col md="6" className="text-right">
-                <Button id="saveChangesEditProgFormBtn" onClick={() => {this.props.handleSaveChanges(); this.test();}}>
+                <Button id="saveChangesEditProgFormBtn" onClick={() => {this.props.handleCancelEdit(); this.test();}}>
                   Save Changes
                 </Button>
               </Col>
