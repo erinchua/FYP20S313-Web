@@ -1,6 +1,6 @@
 import { Container, Row, Col, Table, Button } from 'react-bootstrap';
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 
 import '../../../css/Marketing_Administrator/Forum.css';
@@ -26,9 +26,8 @@ class Forum extends Component {
       }
     
       authListener() {
-        fire.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
           if (user) {
-            const db = fire.firestore();
     
             var getrole = db
               .collection("Administrators")
@@ -58,7 +57,6 @@ class Forum extends Component {
       }
     
       display() {
-        const db = fire.firestore();
         var a = this;
         var counter = 1;
         const userRef = db.collection("Forum");

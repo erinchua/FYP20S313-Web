@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire from "../../config/firebase";
+import { auth } from "../../config/firebase";
 import history from "../../config/history";
 
 //import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
@@ -19,8 +19,6 @@ class ResetPassword extends Component {
       url: "http://localhost:3000/",
       handleCodeInApp: false,
     };
-
-    var auth = fire.auth();
 
     auth
       .sendPasswordResetEmail(this.state.email, actionCodeSettings)

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 import { Container, Row, Col, Button, Table, Modal, Tab, Nav, Form, FormControl, InputGroup } from 'react-bootstrap';
 
@@ -112,9 +112,8 @@ class ProgrammeTalkSchedule extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
         var getrole = db
         .collection("Administrators")
         .where("email", "==", user.email);
@@ -148,7 +147,6 @@ class ProgrammeTalkSchedule extends Component {
     var getYear = new Date().getFullYear();
     console.log(getYear);
     
-    const db = fire.firestore();
     const progtalk = [];
 
     // Get All Universities
@@ -279,7 +277,6 @@ class ProgrammeTalkSchedule extends Component {
     if (isValid) {
       this.setState(initialStates);
       
-      const db = fire.firestore();
       var lastdoc = db.collection("ProgrammeTalks").orderBy('id','desc')
       .limit(1).get().then((snapshot) =>  {
         snapshot.forEach((doc) => {
@@ -327,7 +324,6 @@ class ProgrammeTalkSchedule extends Component {
   };
 
   DeleteProgrammeTalk(e, progtalkid) {
-    const db = fire.firestore();
     const userRef = db
     .collection("ProgrammeTalks")
     .doc(progtalkid)
@@ -342,8 +338,6 @@ class ProgrammeTalkSchedule extends Component {
     const isValid = this.validate();
     if (isValid) {
       this.setState(initialStates);
-
-      const db = fire.firestore();
 
       db
       .collection("ProgrammeTalks")

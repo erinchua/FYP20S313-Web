@@ -1,0 +1,132 @@
+.Sponsors-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.Sponsors-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#Sponsors-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#Sponsors-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#Sponsors-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#Sponsors-title {
+    color: #424242;
+}
+
+#Sponsors-secondRow {
+    margin: 0 !important;
+}
+
+#Sponsors-secondRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#Sponsors-tableHeader {
+    color: #424242;
+    font-size: 90%;
+}
+
+#Sponsors-tableBody {
+    color: #434343;
+    font-size: 85%;
+}
+
+#Sponsors-titleHeading  {
+    width: 20%;
+}
+
+#Sponsors-editHeading  {
+    width: 15%;
+}
+
+#Sponsors-editBtn {
+    background: none;
+    color: #434343;
+    border: none;
+}
+
+#Sponsors-editBtn:focus {
+    box-shadow: none;
+}
+
+.Sponsors-formGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Sponsors-editFooter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Sponsors-editCol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Sponsors-saveBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#Sponsors-saveBtn:focus {
+    box-shadow: none;   
+}
+
+#Sponsors-cancelBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: #60c6d9;
+}
+
+#Sponsors-cancelBtn:focus {
+    box-shadow: none;   
+}
+
+#Sponsors-inputFields {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;    
+    font-size: 85%;
+}
+
+#Sponsors-inputFields:focus {
+    box-shadow: none;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 85%;
+}

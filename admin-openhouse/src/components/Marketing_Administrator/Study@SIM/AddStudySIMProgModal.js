@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Form, Button, Row, Col, FormControl, Container, InputGroup } from "react-bootstrap";
 
-import fire from "../../../config/firebase";
+import { db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
 
 import "../../../css/Marketing_Administrator/AddStudySIMProgModal.css";
@@ -74,10 +74,8 @@ export default class AddStudySIMProgModal extends React.Component {
     const subDiscipline = [];
     const subDiscipline2 = [];
 
-    const db = fire.firestore();
-
     const Universityquery = db
-    .collection("Programmes")
+    .collection("TestProgrammes")
     .onSnapshot((snapshot) => {
       snapshot.forEach((doc) => {
         University.push(doc.data().awardedBy);
@@ -315,7 +313,6 @@ export default class AddStudySIMProgModal extends React.Component {
 
   test() {
     var a = this;
-    const db = fire.firestore();
 
     var lastdoc = db
     .collection("Programmes")
@@ -437,11 +434,10 @@ export default class AddStudySIMProgModal extends React.Component {
     );
 
     const parentthis = this;
-    const db = fire.firestore();
     if (this.state.files !== undefined) {
       const foldername = "Universities";
       const file = this.state.files[0];
-      const storageRef = fire.storage().ref(foldername);
+      const storageRef = storage.ref(foldername);
       const fileRef = storageRef.child(file.name).put(file);
       fileRef.on("state_changed", function (snapshot) {
         fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {

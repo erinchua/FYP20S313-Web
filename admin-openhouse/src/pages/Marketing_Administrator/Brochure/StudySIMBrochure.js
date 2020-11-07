@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
 
 //import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
@@ -17,9 +17,8 @@ class StudySIMBrochure extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
         var getrole = db
           .collection("Administrators")
           .where("email", "==", user.email);
@@ -48,7 +47,6 @@ class StudySIMBrochure extends Component {
   }
 
   display() {
-    const db = fire.firestore();
     var counter = 1;
     //Display of Prospectus Brochures
     const userRef = db
@@ -114,7 +112,6 @@ class StudySIMBrochure extends Component {
   update(brochureid) {
     const description = document.getElementById(brochureid + "description").value
 
-    const db = fire.firestore();
     if (description != null) {
       const userRef = db
       .collection("Brochures")
@@ -196,13 +193,12 @@ class StudySIMBrochure extends Component {
 
   handleProspectSavePDF = (brochureid) => {
     const parentthis = this;
-    const db = fire.firestore();
 
     console.log(this.state.files);
 
     if (this.state.brochurefiles !== undefined) {
       const foldername = "/Brochures/Prospectus";
-      const storageRef = fire.storage().ref(foldername);
+      const storageRef = storage.ref(foldername);
       const fileRef = storageRef
         .child(this.state.brochurefiles[0].name)
         .put(this.state.brochurefiles[0]);
@@ -234,13 +230,12 @@ class StudySIMBrochure extends Component {
 
   handleProspectSaveImage = (brochureid) => {
     const parentthis = this;
-    const db = fire.firestore();
 
     console.log(this.state.files);
 
     if (this.state.imagefiles !== undefined) {
       const foldername = "/Brochures/Prospectus";
-      const storageRef = fire.storage().ref(foldername);
+      const storageRef = storage.ref(foldername);
       const fileRef = storageRef
         .child(this.state.imagefiles[0].name)
         .put(this.state.imagefiles[0]);
@@ -316,13 +311,12 @@ class StudySIMBrochure extends Component {
     }
     console.log(path)
     const parentthis = this;
-    const db = fire.firestore();
 
     console.log(this.state.files);
 
     if (this.state.brochurefiles !== undefined) {
       
-      const storageRef = fire.storage().ref(path);
+      const storageRef = storage.ref(path);
       const fileRef = storageRef
         .child(this.state.brochurefiles[0].name)
         .put(this.state.brochurefiles[0]);
@@ -398,13 +392,12 @@ class StudySIMBrochure extends Component {
     }
     console.log(path)
     const parentthis = this;
-    const db = fire.firestore();
 
     console.log(this.state.files);
 
     if (this.state.imagefiles !== undefined) {
      // const foldername = "/Brochures/Prospectus";
-      const storageRef = fire.storage().ref(path);
+      const storageRef = storage.ref(path);
       const fileRef = storageRef
         .child(this.state.imagefiles[0].name)
         .put(this.state.imagefiles[0]);

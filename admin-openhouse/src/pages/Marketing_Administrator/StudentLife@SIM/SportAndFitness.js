@@ -1,6 +1,6 @@
 import { Container, Row, Col, Table, Button, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 import firebase from "firebase/app";
 
@@ -36,9 +36,8 @@ class SportAndFitness extends Component {
     }
 
     authListener() {
-        fire.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
-                const db = fire.firestore();
                 var getrole = db
                 .collection("Administrators")
                 .where("email", "==", user.email);
@@ -62,7 +61,6 @@ class SportAndFitness extends Component {
     }
 
     display() {
-        const db = fire.firestore();
         var counter = 1;
         db.collection("ClubsAndCouncils").where("categoryType", "==", "SportsFitness").get()
         .then((snapshot) => {

@@ -1,6 +1,6 @@
 import { Container, Row, Col, Table, Button, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { db } from "../../../config/firebase";
 import history from "../../../config/history";
 import firebase from "firebase/app";
 
@@ -18,7 +18,6 @@ class DeleteClubsAndCouncilsModal extends Component {
     }
 
     deleteClubsCouncils() {
-        const db = fire.firestore();
 
         var title = this.props.clubsAndCouncilsLogo.split(/\%2..*%2F(.*?)\?alt/)[1].split(".")[0]
         var res = this.props.clubsAndCouncilsLogo.split("?alt=")[0];
@@ -26,7 +25,7 @@ class DeleteClubsAndCouncilsModal extends Component {
 
         if (!extension.includes('.png') && !extension.includes('.jpg') && !extension.includes('.PNG') && !extension.includes('.JPG')) {
             var fileName = title;
-            const storage = fire.storage().ref(`/ClubsAndCouncil/${this.props.categoryType}`).child(fileName);
+            const storage = storage.ref(`/ClubsAndCouncil/${this.props.categoryType}`).child(fileName);
 
             db.collection("ClubsAndCouncils").doc(this.props.id).delete()
             .then(dataSnapshot => {
@@ -39,7 +38,7 @@ class DeleteClubsAndCouncilsModal extends Component {
             
         } else {
             var fileName = title + extension;
-            const storage = fire.storage().ref(`/ClubsAndCouncil/${this.props.categoryType}`).child(fileName);
+            const storage = storage.ref(`/ClubsAndCouncil/${this.props.categoryType}`).child(fileName);
 
             db.collection("ClubsAndCouncils").doc(this.props.id).delete()
             .then(dataSnapshot => {

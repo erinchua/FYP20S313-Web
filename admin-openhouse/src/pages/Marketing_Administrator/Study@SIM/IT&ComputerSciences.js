@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 import { Container, Row, Col, Button, Table, Modal } from "react-bootstrap";
 
@@ -12,7 +12,8 @@ import NavBar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import SideNavBar from "../../../components/SideNavbar";
 import AddStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/AddStudySIMProgModal";
-import EditStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/EditStudySIMProgModal";
+//import EditStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/.testEditStudySIMProgModal";
+import EditStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/EditStudySIMProgModal_Clean";
 import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/DeleteStudySIMProgModal";
 import ViewStudySIMProgDetailsModal from "../../../components/Marketing_Administrator/Study@SIM/ViewStudySIMProgDetailsModal";
 
@@ -29,9 +30,8 @@ class StudySIM_ITComputerSciences extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
         var getrole = db
         .collection("Administrators")
         .where("email", "==", user.email);
@@ -56,7 +56,6 @@ class StudySIM_ITComputerSciences extends Component {
   }
 
   display() {
-    const db = fire.firestore();
 
     const userRe1 = db.collection("Programmes").onSnapshot((snapshot) => {
       const ITComputerScience = [];
@@ -195,7 +194,6 @@ class StudySIM_ITComputerSciences extends Component {
                             <th className="studySIMProgHeader_ProgName">Programme Name</th>
                             <th className="studySIMProgHeader_AwardedBy">Awarded By</th>
                             <th className="studySIMProgHeader_LogoFile">Logo File</th>
-                            <th className="studySIMProgHeader_Category">Category</th>
                             <th className="studySIMProgHeader_MoS">Mode of Study</th>
                             <th className="studySIMProgHeader_Discipline">Disciplines</th>
                             <th className="studySIMProgHeader_AcademicLvl">Academic Level</th>
@@ -240,7 +238,7 @@ class StudySIM_ITComputerSciences extends Component {
                                 
                                 <td className="studySIMProgData_AwardedBy text-left">{ITComputerScience.awardBy}</td>
                                 <td className="studySIMProgData_LogoFile text-left">{ITComputerScience.Logofile}</td>
-                                <td className="studySIMProgData_Category text-left">{ITComputerScience.CategoryProgramme}</td>
+
                                 <td className="studySIMProgData_MoS text-left">
                                   <tr>
                                     {ITComputerScience.ModeOfStudy.fullTime === true && (

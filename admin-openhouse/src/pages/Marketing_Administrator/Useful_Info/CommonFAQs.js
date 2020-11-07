@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire from "../../../config/firebase";
+import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
 
 import { Container, Row, Col, Button, Table, Modal, Tab, Nav, Form, FormControl } from 'react-bootstrap';
@@ -43,9 +43,8 @@ class CommonFAQs extends Component {
   }
 
   authListener() {
-    fire.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        const db = fire.firestore();
         var getrole = db
           .collection("Administrators")
           .where("email", "==", user.email);
@@ -79,7 +78,6 @@ class CommonFAQs extends Component {
       return self.indexOf(value) === index;
     }
 
-    const db = fire.firestore();
     var openhouse_counter = 1;
     var general_counter = 1;
     const userRef = db
@@ -130,7 +128,6 @@ class CommonFAQs extends Component {
     if (isValid) {
       this.setState(initialStates);
 
-      const db = fire.firestore();
       var lastdoc = db
       .collection("CommonFAQ")
       .orderBy("id", "desc")
@@ -172,7 +169,6 @@ class CommonFAQs extends Component {
   };
 
   DeleteCommonFAQ(e, commonfaqid) {
-    const db = fire.firestore();
     const userRef = db
     .collection("CommonFAQ")
     .doc(commonfaqid)
@@ -188,7 +184,6 @@ class CommonFAQs extends Component {
     if (isValid) {
       this.setState(initialStates);
 
-      const db = fire.firestore();
       db
       .collection("CommonFAQ")
       .doc(this.state.id)
