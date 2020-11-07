@@ -16,6 +16,7 @@ import EditStudySIMProgModal from "../../../components/Marketing_Administrator/S
 import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/DeleteStudySIMProgModal";
 import ViewStudySIMProgDetailsModal from "../../../components/Marketing_Administrator/Study@SIM/ViewStudySIMProgDetailsModal";
 
+
 class StudySIM_ArtsSocialSciences extends Component {
   constructor() {
     super();
@@ -194,7 +195,6 @@ class StudySIM_ArtsSocialSciences extends Component {
                             <th className="studySIMProgHeader_ProgName">Programme Name</th>
                             <th className="studySIMProgHeader_AwardedBy">Awarded By</th>
                             <th className="studySIMProgHeader_LogoFile">Logo File</th>
-                            <th className="studySIMProgHeader_Category">Category</th>
                             <th className="studySIMProgHeader_MoS">Mode of Study</th>
                             <th className="studySIMProgHeader_Discipline">Disciplines</th>
                             <th className="studySIMProgHeader_AcademicLvl">Academic Level</th>
@@ -239,7 +239,6 @@ class StudySIM_ArtsSocialSciences extends Component {
 
                                 <td className="studySIMProgData_AwardedBy text-left">{artsocialscience.awardBy}</td>
                                 <td className="studySIMProgData_LogoFile text-left">{artsocialscience.Logofile}</td>
-                                <td className="studySIMProgData_Category text-left">{artsocialscience.CategoryProgramme}</td>
                                 <td className="studySIMProgData_MoS text-left">
                                   <tr>
                                     {artsocialscience.ModeOfStudy.fullTime === true && (
