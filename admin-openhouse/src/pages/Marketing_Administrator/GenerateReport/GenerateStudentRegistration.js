@@ -133,7 +133,7 @@ class GenerateStudentRegistration extends Component {
 
     var user = this.state.useremail;
     var adminuser = "\nRequested by: " + user;
-    doc.setFontSize(11);   
+    doc.setFontSize(10);   
     doc.text(14, 25, adminuser);
 
     var today = new Date();    
@@ -142,7 +142,6 @@ class GenerateStudentRegistration extends Component {
     var year = today.getFullYear();
     var date = day + ' ' + monthNames[monthIndex] + ' ' + year;
     var newdate = "\nDate Requested: "+ date;
-    doc.setFontSize(11);   
     doc.text(132, 25, newdate);
 
     // Line Separator
@@ -150,27 +149,27 @@ class GenerateStudentRegistration extends Component {
     doc.line(14, 35, 196, 35);
 
     var totalNumber = "\nTotal Number of Registrations: " + this.state.totalNumber;
-    doc.setFontSize(12);   
+    doc.setFontSize(11);   
     doc.text(14, 39, totalNumber);
 
     // Line Separator
     doc.line(14, 50, 196, 50);
 
-    doc.setFontSize(11);
+    doc.setFontSize(10);
     doc.text(14, 59, "List of Registrants");
 
     doc.autoTable({
       html: "#students",
-      styles: { 
+      headStyles: { 
         halign: 'center', 
-        fillColor: [136, 183, 181] ,
+        fillColor: [136, 183, 181],
         font: 'helvetica',
-        cellPadding: {top: 3, right: 3, bottom: 3, left: 3},
+        cellPadding: {top: 2, right: 2, bottom: 2, left: 2}
       },
       columnStyles: { 
         0: { halign: 'center'},
-        1: { halign: 'center'},
-        2: { halign: 'center'},
+        1: { halign: 'left'},
+        2: { halign: 'left'},
         3: { halign: 'center'},
         4: { halign: 'center'},
         5: { halign: 'center'},
