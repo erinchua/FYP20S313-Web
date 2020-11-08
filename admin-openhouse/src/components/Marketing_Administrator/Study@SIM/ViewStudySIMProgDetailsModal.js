@@ -1,9 +1,14 @@
 import React from "react";
 import { Modal, Table } from "react-bootstrap";
+
 import "../../../css/Marketing_Administrator/ViewStudySIMProgDetailsModal.css";
 
-
 export default class ViewStudySIMProgDetailsModal extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(this.props);
+  }
+
 
   render() {
     return (
@@ -11,7 +16,7 @@ export default class ViewStudySIMProgDetailsModal extends React.Component {
         <Modal.Header closeButton className="justify-content-center">
           {/* To be retrieved from db */}
           <Modal.Title id="viewStudySIMProgDetailsModalTitle" className="w-100">
-            {this.props.programme.programmeTitle}
+            {this.props.programmeName}
           </Modal.Title>
         </Modal.Header>
 
@@ -38,42 +43,72 @@ export default class ViewStudySIMProgDetailsModal extends React.Component {
             <tbody>
               <tr>
                 <td id="viewStudySIMProgDetailsData_AboutProg">
-                  {this.props.programme.programOverview.split('\n').map((overview)=>{return(<tr><p>{overview}</p></tr>) })}
+                  <tr>
+                    <p>{this.props.aboutprogramme1}</p>
+                  </tr>
+
+                  <tr>
+                    <p>{this.props.aboutprogramme2} </p>
+                  </tr>
+
+                  <tr>
+                    <p>{this.props.aboutprogramme3}</p>
+                  </tr>
                 </td>
 
                 <td id="viewStudySIMProgDetailsData_ApplicationPeriod">
-                  {this.props.programme.applicationPeriod.map((period)=>{return ( 
-                  <div><span>Intake: {period.intake}</span> 
-                  <br/> 
-                  <span>Period: {period.period}</span></div> )})}
+                  <tr>Period 1: {this.props.applicationperiod1}</tr>
+                  <tr>Period 2: {this.props.applicationperiod2}</tr>
                 </td>
 
                 <td id="viewStudySIMProgDetailsData_Coursework">
-                  {this.props.programme.programmeStructure.coursework? <span>Yes</span> : <span>No</span> }
+                  {this.props.programmestructurecoursework === true && (
+                    <span>Yes</span>
+                  )}
+
+                  {this.props.programmestructurecoursework !== true && (
+                    <span>No</span>
+                  )}
                 </td>
 
                 <td id="viewStudySIMProgDetailsData_Examination">
-                  {this.props.programme.programmeStructure.examination? <span>Yes</span> : <span>No</span> }
+                  {this.props.programmestructureexamination === true && (
+                    <span>Yes</span>
+                  )}
+
+                  {this.props.programmestructureexamination !== true && (
+                    <span>No</span>
+                  )}
                 </td>
 
                 <td id="viewStudySIMProgDetailsData_Exchange">
-                  {this.props.programme.overseaOpportunity.exchange? <span>Yes</span> : <span>No</span> }
+                  {this.props.overseaopportunityexchange === true && (
+                    <span>Yes</span>
+                  )}
+
+                  {this.props.overseaopportunityexchange !== true && (
+                    <span>No</span>
+                  )}
                 </td>
 
                 <td id="viewStudySIMProgDetailsData_Transfer">
-                  {this.props.programme.overseaOpportunity.transfer? <span>Yes</span> : <span>No</span> }
+                  {this.props.overseaopportunitytransfer === true && (
+                    <span>Yes</span>
+                  )}
+
+                  {this.props.overseaopportunitytransfer !== true && (
+                    <span>No</span>
+                  )}
                 </td>
 
                 <td id="viewStudySIMProgDetailsData_IntakeMonth">
-                <span>Full Time: {this.props.programme.intakeMonths.fullTime}</span>
-                  <br/> 
-                <span>Part Time: {this.props.programme.intakeMonths.partTime}</span>
+                  <tr>Full-Time: {this.props.intakemonthsfulltime}</tr>
+                  <tr>Part-Time: {this.props.intakemonthsparttime}</tr>
                 </td>
                 
                 <td id="viewStudySIMProgDetailsData_Duration">
-                <span>Full Time: {this.props.programme.duration.fullTime}</span>
-                  <br/> 
-                <span>Part Time: {this.props.programme.duration.partTime}</span>
+                  <tr>Full-Time: {this.props.durationfulltime}</tr>
+                  <tr>Part-Time: {this.props.durationparttime}</tr>
                 </td>
               </tr>
             </tbody>
