@@ -20,9 +20,10 @@ class StudySIM_Business extends Component {
   constructor() {
     super();
     this.state = {
-      disciplines : [],
-      subDiscplines : [],
-      universities : [],
+      programmes: [],
+      disciplines: [],
+      subDiscplines: [],
+      universities: [],
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
@@ -34,8 +35,8 @@ class StudySIM_Business extends Component {
     auth.onAuthStateChanged((user) => {
       if (user) {
         var getrole = db
-        .collection("Administrators")
-        .where("email", "==", user.email);
+          .collection("Administrators")
+          .where("email", "==", user.email);
 
         getrole.onSnapshot((snapshot) => {
           snapshot.forEach((doc) => {
@@ -56,9 +57,9 @@ class StudySIM_Business extends Component {
     this.authListener();
   }
 
-  display = async()=> {
+  display = async () => {
 
-    const userRe1 =  await db.collection("Programmes").onSnapshot((snapshot) => {
+    const userRe1 = await db.collection("ProgrammesWeb").onSnapshot((snapshot) => {
       const business = [];
       snapshot.forEach((doc) => {
         const getdiscipline = doc.get("discipline");
@@ -98,32 +99,39 @@ class StudySIM_Business extends Component {
     });
 
     const disciplines = []
-    await db.collection('Disciplines').get().then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{
+    await db.collection('Disciplines').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data()
         disciplines.push(data.name)
       })
-      this.setState({disciplines : disciplines})
+      this.setState({ disciplines: disciplines })
     })
 
     const subDisciplines = []
-    await db.collection('SubDisciplines').get().then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{
+    await db.collection('SubDisciplines').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data()
         subDisciplines.push(data.name)
       })
-      this.setState({subDisciplines : subDisciplines})
+      this.setState({ subDisciplines: subDisciplines })
     })
 
     const universities = []
-    await db.collection('Universities').get().then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{
+    await db.collection('Universities').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data()
         universities.push(data.universityName)
       })
-      this.setState({universities : universities})
+      this.setState({ universities: universities })
     })
-
+    const academicLvls = []
+    await db.collection('AcademicLevels').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        const data = doc.data()
+        academicLvls.push(data.level)
+      })
+      this.setState({ academicLvls: academicLvls })
+    })
   }
 
   /* Add Programme Talk Modal */
@@ -216,7 +224,7 @@ class StudySIM_Business extends Component {
                       <Table responsive="sm" hover bordered className="MAStudySIMTable">
                         <thead>
                           <tr>
-                          <th className="studySIMProgHeader_SNo">S/N</th>
+                            <th className="studySIMProgHeader_SNo">S/N</th>
                             <th className="studySIMProgHeader_ProgName">Programme Name</th>
                             <th className="studySIMProgHeader_AwardedBy">Awarded By</th>
                             <th className="studySIMProgHeader_LogoFile">Logo File</th>
@@ -261,7 +269,7 @@ class StudySIM_Business extends Component {
                                     {business.programmeName}
                                   </a>
                                 </td>
-                                
+
                                 <td className="studySIMProgData_AwardedBy text-left">{business.awardBy}</td>
                                 <td className="studySIMProgData_LogoFile text-left">
                                   <img src={business.Logofile} className="logoFileImg" alt="No Logo file"></img>
@@ -284,8 +292,13 @@ class StudySIM_Business extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_Discipline text-left">
-                                  <Row>{business.discipline1}</Row>
-                                  <Row>{business.discipline2}</Row>
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{business.discipline1}</Col>
+                                  </Row>
+
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{business.discipline2}</Col>
+                                  </Row>
                                 </td>
 
                                 <td className="studySIMProgData_EntryQual text-left">
@@ -315,11 +328,25 @@ class StudySIM_Business extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_SubDiscipline text-left">
-                                  <Row>{business.subDiscipline.subDisciplineName1}</Row>
-                                  <Row>{business.subDiscipline.subDisciplineName2}</Row>
-                                  <Row>{business.subDiscipline.subDisciplineName3}</Row>
-                                  <Row>{business.subDiscipline.subDisciplineName4}</Row>
-                                  <Row>{business.subDiscipline.subDisciplineName5}</Row>
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{business.subDiscipline.subDisciplineName1}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{business.subDiscipline.subDisciplineName2}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{business.subDiscipline.subDisciplineName3}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{business.subDiscipline.subDisciplineName4}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{business.subDiscipline.subDisciplineName5}</Col>
+                                  </Row>
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">
@@ -342,24 +369,24 @@ class StudySIM_Business extends Component {
                                         subdiscipline4: business.subDiscipline.subDisciplineName4,
                                         subdiscipline5: business.subDiscipline.subDisciplineName5,
 
-                                        //details
-                                        aboutprogramme1: business.aboutprogramme.aboutProgramme1,
-                                        aboutprogramme2: business.aboutprogramme.aboutProgramme2,
-                                        aboutprogramme3: business.aboutprogramme.aboutProgramme3,
-                                        applicationperiod1: business.applicationperiod.period1,
-                                        applicationperiod2: business.applicationperiod.period2,
-                                        programmestructurecoursework: business.programmestructure.coursework,
-                                        programmestructureexamination: business.programmestructure.examination,
-                                        overseaopportunityexchange: business.overseaopportunity.exchange,
-                                        overseaopportunitytransfer: business.overseaopportunity.transfer,
-                                        intakemonthsfulltime: business.intakemonths.fullTime,
-                                        intakemonthsparttime: business.intakemonths.partTime,
-                                        durationfulltime: business.duration.fullTime,
-                                        durationparttime: business.duration.partTime,
-                                        docid: business.docid,
-                                      });
-                                      this.handleEditStudySIMProgModal();
-                                    }}
+                                      //details
+                                      aboutprogramme1: business.aboutprogramme.aboutProgramme1,
+                                      aboutprogramme2: business.aboutprogramme.aboutProgramme2,
+                                      aboutprogramme3: business.aboutprogramme.aboutProgramme3,
+                                      applicationperiod1: business.applicationperiod.period1,
+                                      applicationperiod2: business.applicationperiod.period2,
+                                      programmestructurecoursework: business.programmestructure.coursework,
+                                      programmestructureexamination: business.programmestructure.examination,
+                                      overseaopportunityexchange: business.overseaopportunity.exchange,
+                                      overseaopportunitytransfer: business.overseaopportunity.transfer,
+                                      intakemonthsfulltime: business.intakemonths.fullTime,
+                                      intakemonthsparttime: business.intakemonths.partTime,
+                                      durationfulltime: business.duration.fullTime,
+                                      durationparttime: business.duration.partTime,
+                                      docid: business.docid,
+                                    });
+                                    this.handleEditStudySIMProgModal();
+                                  }}
                                   >
                                     <FontAwesomeIcon size="lg" className="editStudySIMProgBtnIcon" icon={faEdit} />
                                   </Button>
@@ -403,10 +430,13 @@ class StudySIM_Business extends Component {
           keyboard={false}
           className="addStudySIMProgModal"
         >
-          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} 
-            universities = {this.state.universities}
-            disciplines = {this.state.disciplines}
-            subDisciplines = {this.state.subDisciplines}
+          {/* For option values */}
+          <AddStudySIMProgModal handleAdd={() => { this.handleAddStudySIMProgModal() }}
+            universities={this.state.universities}
+            disciplines={this.state.disciplines}
+            subDisciplines={this.state.subDisciplines}
+            academicLvls={this.state.academicLvls}
+
           />
         </Modal>
 
@@ -456,14 +486,14 @@ class StudySIM_Business extends Component {
             durationparttime={this.state.durationparttime}
             docid={this.state.docid}
 
-            // List of options from DB
-            universities = {this.state.universities}
-            disciplines = {this.state.disciplines}
-            subDisciplines = {this.state.subDisciplines}
-
-            // Button props
-            handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
+            // For option values
+            handleSaveChanges={() => { this.handleEditStudySIMProgModal() }}
             handleCancelEdit={this.handleEditStudySIMProgModal}
+            universities={this.state.universities}
+            disciplines={this.state.disciplines}
+            subDisciplines={this.state.subDisciplines}
+            academicLvls={this.state.academicLvls}
+
           />
         </Modal>
 
@@ -478,7 +508,7 @@ class StudySIM_Business extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <DeleteStudySIMProgModal docid={this.state.docid} handleConfirmDelete={() => {this.handleDeleteStudySIMProgModal();}} handleCancelDelete={this.handleDeleteStudySIMProgModal} />
+          <DeleteStudySIMProgModal docid={this.state.docid} handleConfirmDelete={() => { this.handleDeleteStudySIMProgModal(); }} handleCancelDelete={this.handleDeleteStudySIMProgModal} />
         </Modal>
 
 
