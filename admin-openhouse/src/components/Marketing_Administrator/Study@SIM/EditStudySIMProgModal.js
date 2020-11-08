@@ -526,7 +526,7 @@ export default class EditStudySIMProgModal extends React.Component {
     }
   };
 
-  test() {
+  edit() {
     console.log("programme: " + this.state.programme);
     console.log("university: " + this.state.university);
     console.log("category: " + this.state.category);
@@ -1140,7 +1140,7 @@ export default class EditStudySIMProgModal extends React.Component {
           <Container>
             <Row>
               <Col md="6" className="text-right">
-                <Button id="saveChangesEditProgFormBtn" onClick={() => {this.props.handleCancelEdit(); this.test();}}>
+                <Button id="saveChangesEditProgFormBtn" onClick={() => {this.props.handleCancelEdit(); this.edit();}}>
                   Save Changes
                 </Button>
               </Col>
