@@ -12,8 +12,7 @@ import NavBar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import SideNavBar from "../../../components/SideNavbar";
 import AddStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/AddStudySIMProgModal";
-//import EditStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/.testEditStudySIMProgModal";
-import EditStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/EditStudySIMProgModal_Clean";
+import EditStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/EditStudySIMProgModal";
 import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/DeleteStudySIMProgModal";
 import ViewStudySIMProgDetailsModal from "../../../components/Marketing_Administrator/Study@SIM/ViewStudySIMProgDetailsModal";
 
@@ -21,6 +20,9 @@ class StudySIM_Nursing extends Component {
   constructor() {
     super();
     this.state = {
+      disciplines : [],
+      subDiscplines : [],
+      universities : [],
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
@@ -54,9 +56,9 @@ class StudySIM_Nursing extends Component {
     this.authListener();
   }
 
-  display() {
+  display = async()=> {
 
-    const userRe1 = db.collection("Programmes").onSnapshot((snapshot) => {
+    const userRe1 = await db.collection("Programmes").onSnapshot((snapshot) => {
       const nursing = [];
       snapshot.forEach((doc) => {
         const getdiscipline = doc.get("discipline");
@@ -74,7 +76,7 @@ class StudySIM_Nursing extends Component {
             docid: doc.id,
             programmeName: doc.data().programmeTitle,
             awardBy: doc.data().awardedBy,
-            Logofile: doc.data().logoFile,
+            Logofile: doc.data().logoUrl,
             CategoryProgramme: doc.data().category,
             ModeOfStudy: doc.data().modeOfStudy,
             discipline1: doc.data().discipline.disciplineName1,
@@ -99,6 +101,34 @@ class StudySIM_Nursing extends Component {
 
       this.setState({ nursing: nursing });
     });
+
+    const disciplines = []
+    await db.collection('Disciplines').get().then((snapshot)=>{
+      snapshot.docs.forEach((doc)=>{
+        const data = doc.data()
+        disciplines.push(data.name)
+      })
+      this.setState({disciplines : disciplines})
+    })
+
+    const subDisciplines = []
+    await db.collection('SubDisciplines').get().then((snapshot)=>{
+      snapshot.docs.forEach((doc)=>{
+        const data = doc.data()
+        subDisciplines.push(data.name)
+      })
+      this.setState({subDisciplines : subDisciplines})
+    })
+
+    const universities = []
+    await db.collection('Universities').get().then((snapshot)=>{
+      snapshot.docs.forEach((doc)=>{
+        const data = doc.data()
+        universities.push(data.universityName)
+      })
+      this.setState({universities : universities})
+    })
+
   }
 
   /* Add Programme Talk Modal */
@@ -191,13 +221,13 @@ class StudySIM_Nursing extends Component {
                       <Table responsive="sm" hover bordered className="MAStudySIMTable">
                         <thead>
                           <tr>
-                            <th className="studySIMProgHeader_SNo">S/N</th>
+                          <th className="studySIMProgHeader_SNo">S/N</th>
                             <th className="studySIMProgHeader_ProgName">Programme Name</th>
                             <th className="studySIMProgHeader_AwardedBy">Awarded By</th>
                             <th className="studySIMProgHeader_LogoFile">Logo File</th>
+                            <th className="studySIMProgHeader_AcademicLvl">Academic Level</th>
                             <th className="studySIMProgHeader_MoS">Mode of Study</th>
                             <th className="studySIMProgHeader_Discipline">Disciplines</th>
-                            <th className="studySIMProgHeader_AcademicLvl">Academic Level</th>
                             <th className="studySIMProgHeader_EntryQual">Entry Qualifications</th>
                             <th className="studySIMProgHeader_SubDiscipline">Sub-Disciplines</th>
                             <th className="studySIMProgHeader_Edit">Edit</th>
@@ -238,7 +268,8 @@ class StudySIM_Nursing extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_AwardedBy text-left">{nursing.awardBy}</td>
-                                <td className="studySIMProgData_LogoFile text-left">{nursing.Logofile}</td>
+                                <td className="studySIMProgData_LogoFile text-left"><img src={nursing.Logofile} alt="No Logo file"></img></td>
+                                <td className="studySIMProgData_AcademicLvl text-left">{nursing.AcademicLevel}</td>
 
                                 <td className="studySIMProgData_MoS text-left">
                                   <tr>
@@ -259,7 +290,6 @@ class StudySIM_Nursing extends Component {
                                   <tr>{nursing.discipline2}</tr>
                                 </td>
 
-                                <td className="studySIMProgData_AcademicLvl text-left">{nursing.AcademicLevel}</td>
                                 <td className="studySIMProgData_EntryQual text-left">
                                   <tr>
                                     {nursing.Qualification.aLevel === true && 
@@ -377,7 +407,11 @@ class StudySIM_Nursing extends Component {
           keyboard={false}
           className="addStudySIMProgModal"
         >
-          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} />
+          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} 
+          universities = {this.state.universities}
+          disciplines = {this.state.disciplines}
+          subDisciplines = {this.state.subDisciplines}
+          />
         </Modal>
 
         {/* Edit Programme Modal */}
@@ -426,6 +460,9 @@ class StudySIM_Nursing extends Component {
 
             handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
             handleCancelEdit={this.handleEditStudySIMProgModal}
+            universities = {this.state.universities}
+          disciplines = {this.state.disciplines}
+          subDisciplines = {this.state.subDisciplines}
           />
         </Modal>
 

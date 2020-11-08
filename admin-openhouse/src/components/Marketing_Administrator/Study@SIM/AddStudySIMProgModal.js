@@ -66,7 +66,7 @@ export default class AddStudySIMProgModal extends React.Component {
     }
 
     const University = [];
-    const Category = [];
+    // const Category = [];
     const Modeofstudy = [];
     const Discipline = [];
     const AcademicLevel = [];
@@ -79,7 +79,7 @@ export default class AddStudySIMProgModal extends React.Component {
     .onSnapshot((snapshot) => {
       snapshot.forEach((doc) => {
         University.push(doc.data().awardedBy);
-        Category.push(doc.data().category);
+        // Category.push(doc.data().category);
         Modeofstudy.push(doc.data().modeOfStudy);
         Discipline.push(doc.data().discipline.disciplineName1);
         Discipline.push(doc.data().discipline.disciplineName2);
@@ -96,7 +96,7 @@ export default class AddStudySIMProgModal extends React.Component {
 
       //   var unique = University.filter(onlyUnique);
       var uniqueUniversity = University.filter(onlyUnique);
-      var uniqueCategory = Category.filter(onlyUnique);
+      // var uniqueCategory = Category.filter(onlyUnique);
       var uniqueDiscipline = Discipline.filter(onlyUnique);
       var uniqueAcademicLevel = AcademicLevel.filter(onlyUnique);
       var uniquesubDiscipline = subDiscipline.filter(onlyUnique);
@@ -108,8 +108,8 @@ export default class AddStudySIMProgModal extends React.Component {
       //remove undefined
       uniqueUniversity = uniqueUniversity.filter((val) => val !== undefined);
       uniqueUniversity = uniqueUniversity.filter((val) => val !== "");
-      uniqueCategory = uniqueCategory.filter((val) => val !== undefined);
-      uniqueCategory = uniqueCategory.filter((val) => val !== "");
+      // uniqueCategory = uniqueCategory.filter((val) => val !== undefined);
+      // uniqueCategory = uniqueCategory.filter((val) => val !== "");
 
       uniqueDiscipline = uniqueDiscipline.filter((val) => val !== undefined);
       uniqueDiscipline = uniqueDiscipline.filter((val) => val !== "");
@@ -121,7 +121,7 @@ export default class AddStudySIMProgModal extends React.Component {
         
       this.setState({
         University: uniqueUniversity,
-        Category: uniqueCategory,
+        // Category: uniqueCategory,
         Modeofstudy: uniqueModeofstudy,
         Discipline: uniqueDiscipline,
         AcademicLevel: uniqueAcademicLevel,
@@ -619,7 +619,7 @@ export default class AddStudySIMProgModal extends React.Component {
                         <option value="" className="addStudySIMProgFormSelectOption" disabled={true}>Choose a University</option>
 
                         {/* To be retrieved from DB */}
-                        {this.state.University && this.state.University.map((University, index) => {
+                        {this.props.universities && this.props.universities.map((University, index) => {
                           return (
                             <option value={University} className="addStudySIMProgFormSelectOption">{University}</option>
                           );
@@ -630,14 +630,14 @@ export default class AddStudySIMProgModal extends React.Component {
                 </Form.Row>
 
                 {/* Category */}
-                <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
+                {/* <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-center">
                     <InputGroup className="addStudySIMProgFormColInputGrp">
                       <Form.Control as="select" name="category" defaultValue="" className="addStudySIMProgFormSelect" required noValidate placeholder="Choose a Category" onChange={this.handleChange}>
-                        <option value="" className="addStudySIMProgFormSelectOption" disabled={true}>Choose a Category</option>
+                        <option value="" className="addStudySIMProgFormSelectOption" disabled={true}>Choose a Category</option> */}
 
                         {/* To be retrieved from DB */}
-                        {this.state.Category && this.state.Category.map((Category, index) => {
+                        {/* {this.state.Category && this.state.Category.map((Category, index) => {
                           return (
                             <option value={Category} className="addStudySIMProgFormSelectOption">{Category}</option>
                           );
@@ -645,7 +645,7 @@ export default class AddStudySIMProgModal extends React.Component {
                       </Form.Control>
                     </InputGroup>
                   </Col>
-                </Form.Row>
+                </Form.Row> */}
 
                 {/* Academic Level */}
                 <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
@@ -716,7 +716,7 @@ export default class AddStudySIMProgModal extends React.Component {
                     <Container className="addStudySIMProgForm_DisciplineCon">
                       {/* To be retrieved from db - row is generated dynamically */}
                       <Form.Group controlId="exampleForm.ControlInput1">
-                        {this.state.Discipline && this.state.Discipline.map((Discipline) => {
+                        {this.props.disciplines && this.props.disciplines.map((Discipline) => {
                           {
                             return (
                               <Row>
@@ -796,7 +796,7 @@ export default class AddStudySIMProgModal extends React.Component {
 
                     <Container className="addStudySIMProgForm_SubDisciplineCon">
                       {/* To be retrieved from db - row is generated dynamically */}
-                      {this.state.subDiscipline && this.state.subDiscipline.map((subDiscipline, index) => {
+                      {this.props.subDisciplines && this.props.subDisciplines.map((subDiscipline, index) => {
                         index = index + 1;
                         return (
                           <Row>
