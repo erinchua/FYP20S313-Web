@@ -81,18 +81,12 @@
 }
 
 .studySIMProgHeader_AwardedBy {
-    width: 10%;
-    color: #424242;
-    font-size: 90%;
-}
-
-.studySIMProgHeader_LogoFile {
     width: 13%;
     color: #424242;
     font-size: 90%;
 }
 
-.studySIMProgHeader_Category {
+.studySIMProgHeader_LogoFile {
     width: 10%;
     color: #424242;
     font-size: 90%;
@@ -166,25 +160,22 @@
 }
 
 .studySIMProgData_AwardedBy {
-    width: 10%;
+    width: 13%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
 }
 
 .studySIMProgData_LogoFile {
-    width: 13%;
+    width: 10%;
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
     word-break: break-all;
 }
 
-.studySIMProgData_Category {
-    width: 10%;
-    color: #434343;
-    font-size: 85%;
-    word-wrap: break-word;
+.logoFileImg {
+    width: 100%;
 }
 
 .studySIMProgData_MoS {
