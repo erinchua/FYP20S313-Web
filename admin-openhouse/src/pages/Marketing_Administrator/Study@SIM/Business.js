@@ -284,8 +284,13 @@ class StudySIM_Business extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_Discipline text-left">
-                                  <Row>{business.discipline1}</Row>
-                                  <Row>{business.discipline2}</Row>
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{business.discipline1}</Col>
+                                  </Row>
+
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{business.discipline2}</Col>
+                                  </Row>
                                 </td>
 
                                 <td className="studySIMProgData_EntryQual text-left">
@@ -315,11 +320,25 @@ class StudySIM_Business extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_SubDiscipline text-left">
-                                  <Row>{business.subDiscipline.subDisciplineName1}</Row>
-                                  <Row>{business.subDiscipline.subDisciplineName2}</Row>
-                                  <Row>{business.subDiscipline.subDisciplineName3}</Row>
-                                  <Row>{business.subDiscipline.subDisciplineName4}</Row>
-                                  <Row>{business.subDiscipline.subDisciplineName5}</Row>
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{business.subDiscipline.subDisciplineName1}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{business.subDiscipline.subDisciplineName2}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{business.subDiscipline.subDisciplineName3}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{business.subDiscipline.subDisciplineName4}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{business.subDiscipline.subDisciplineName5}</Col>
+                                  </Row>
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">

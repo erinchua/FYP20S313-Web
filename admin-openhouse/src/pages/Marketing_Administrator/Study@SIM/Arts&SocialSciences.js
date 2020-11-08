@@ -60,7 +60,7 @@ class StudySIM_ArtsSocialSciences extends Component {
   fetchData = async() =>{
     const db = fire.firestore();
 
-    await db.collection("Programmes").onSnapshot((snapshot) => {
+    await db.collection("ProgrammesWeb").onSnapshot((snapshot) => {
       const artsocialscience = [];
       snapshot.forEach((doc) => {
         const getdiscipline = doc.get("discipline");
@@ -292,8 +292,13 @@ class StudySIM_ArtsSocialSciences extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_Discipline text-left">
-                                  <Row>{artsocialscience.discipline1}</Row>
-                                  <Row>{artsocialscience.discipline2}</Row>
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{artsocialscience.discipline1}</Col>
+                                  </Row>
+
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{artsocialscience.discipline2}</Col>
+                                  </Row>
                                 </td>
 
                                 <td className="studySIMProgData_EntryQual text-left">
@@ -323,11 +328,25 @@ class StudySIM_ArtsSocialSciences extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_SubDiscipline text-left">
-                                  <Row>{artsocialscience.subDiscipline.subDisciplineName1}</Row>
-                                  <Row>{artsocialscience.subDiscipline.subDisciplineName2}</Row>
-                                  <Row>{artsocialscience.subDiscipline.subDisciplineName3}</Row>
-                                  <Row>{artsocialscience.subDiscipline.subDisciplineName4}</Row>
-                                  <Row>{artsocialscience.subDiscipline.subDisciplineName5}</Row>
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{artsocialscience.subDiscipline.subDisciplineName1}</Col>
+                                  </Row>
+
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{artsocialscience.subDiscipline.subDisciplineName2}</Col>
+                                  </Row>
+
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{artsocialscience.subDiscipline.subDisciplineName3}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{artsocialscience.subDiscipline.subDisciplineName4}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{artsocialscience.subDiscipline.subDisciplineName5}</Col>
+                                  </Row>
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">
