@@ -242,7 +242,6 @@ class StudySIM_ITComputerSciences extends Component {
                           </tr>
                         </thead>
 
-                       
                         <tbody>
                           {this.state.ITComputerScience && this.state.ITComputerScience.map((ITComputerScience, index) => {
                             index = index + 1;
@@ -297,10 +296,14 @@ class StudySIM_ITComputerSciences extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_Discipline text-left">
-                                  <Row>{ITComputerScience.discipline1}</Row>
-                                  <Row>{ITComputerScience.discipline2}</Row>
-                                </td>
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{ITComputerScience.discipline1}</Col>
+                                  </Row>
 
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{ITComputerScience.discipline2}</Col>
+                                  </Row>
+                                </td>
 
                                 <td className="studySIMProgData_EntryQual text-left">
                                   {ITComputerScience.Qualification.aLevel === true && (
@@ -329,11 +332,25 @@ class StudySIM_ITComputerSciences extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_SubDiscipline text-left">
-                                  <Row>{ITComputerScience.subDiscipline.subDisciplineName1}</Row>
-                                  <Row>{ITComputerScience.subDiscipline.subDisciplineName2}</Row>
-                                  <Row>{ITComputerScience.subDiscipline.subDisciplineName3}</Row>
-                                  <Row>{ITComputerScience.subDiscipline.subDisciplineName4}</Row>
-                                  <Row>{ITComputerScience.subDiscipline.subDisciplineName5}</Row>
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{ITComputerScience.subDiscipline.subDisciplineName1}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{ITComputerScience.subDiscipline.subDisciplineName2}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{ITComputerScience.subDiscipline.subDisciplineName3}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{ITComputerScience.subDiscipline.subDisciplineName4}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{ITComputerScience.subDiscipline.subDisciplineName5}</Col>
+                                  </Row>
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">

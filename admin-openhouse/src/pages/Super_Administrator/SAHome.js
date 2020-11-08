@@ -79,9 +79,8 @@ class SAHome extends Component {
 
       //in here put the userID you got from emailjs 
       REACT_APP_EMAILJS_USERID: 'user_wvpEVGrbniS4sAZqjDk2S', 
-    //the template ID of the template you created in the emailjs
-      templateId: 'template_69tp24j',           
-
+      //the template ID of the template you created in the emailjs
+      templateId: 'template_69tp24j'
     };
     this.resetForm = this.resetForm.bind(this);
   }

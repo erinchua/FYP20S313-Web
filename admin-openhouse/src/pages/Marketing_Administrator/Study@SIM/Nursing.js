@@ -297,8 +297,13 @@ class StudySIM_Nursing extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_Discipline text-left">
-                                  <Row>{nursing.discipline1}</Row>
-                                  <Row>{nursing.discipline2}</Row>
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{nursing.discipline1}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{nursing.discipline2}</Col>
+                                  </Row>
                                 </td>
 
                                 <td className="studySIMProgData_EntryQual text-left">
@@ -328,11 +333,25 @@ class StudySIM_Nursing extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_SubDiscipline text-left">
-                                  <Row>{nursing.subDiscipline.subDisciplineName1}</Row>
-                                  <Row>{nursing.subDiscipline.subDisciplineName2}</Row>
-                                  <Row>{nursing.subDiscipline.subDisciplineName3}</Row>
-                                  <Row>{nursing.subDiscipline.subDisciplineName4}</Row>
-                                  <Row>{nursing.subDiscipline.subDisciplineName5}</Row>
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{nursing.subDiscipline.subDisciplineName1}</Col>
+                                  </Row>
+
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{nursing.subDiscipline.subDisciplineName2}</Col>
+                                  </Row>
+
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{nursing.subDiscipline.subDisciplineName3}</Col>
+                                  </Row>
+
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{nursing.subDiscipline.subDisciplineName4}</Col>
+                                  </Row>
+
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{nursing.subDiscipline.subDisciplineName5}</Col>
+                                  </Row>
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">

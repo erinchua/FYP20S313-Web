@@ -286,25 +286,27 @@ class StudySIM_ArtsSocialSciences extends Component {
                                 <td className="studySIMProgData_AcademicLvl text-left">{artsocialscience.AcademicLevel}</td>
                                 
                                 <td className="studySIMProgData_MoS text-left">
-                                  <tr>
-                                    {artsocialscience.ModeOfStudy.fullTime === true && (
-                                      <Row className="justify-content-center">
-                                        <Col className="text-left">- Full-Time</Col>
-                                      </Row>
-                                    )}
-                                  </tr>
-                                  <tr>
-                                    {artsocialscience.ModeOfStudy.partTime === true && (
-                                      <Row className="justify-content-center">
-                                        <Col className="text-left">- Part-Time</Col>
-                                      </Row>
-                                    )}
-                                  </tr>
+                                  {artsocialscience.ModeOfStudy.fullTime === true && (
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- Full-Time</Col>
+                                    </Row>
+                                  )}
+                                    
+                                  {artsocialscience.ModeOfStudy.partTime === true && (
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- Part-Time</Col>
+                                    </Row>
+                                  )}
                                 </td>
 
                                 <td className="studySIMProgData_Discipline text-left">
-                                  <Row>{artsocialscience.discipline1}</Row>
-                                  <Row>{artsocialscience.discipline2}</Row>
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{artsocialscience.discipline1}</Col>
+                                  </Row>
+
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{artsocialscience.discipline2}</Col>
+                                  </Row>
                                 </td>
 
                                 <td className="studySIMProgData_EntryQual text-left">
@@ -334,11 +336,25 @@ class StudySIM_ArtsSocialSciences extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_SubDiscipline text-left">
-                                  <Row>{artsocialscience.subDiscipline.subDisciplineName1}</Row>
-                                  <Row>{artsocialscience.subDiscipline.subDisciplineName2}</Row>
-                                  <Row>{artsocialscience.subDiscipline.subDisciplineName3}</Row>
-                                  <Row>{artsocialscience.subDiscipline.subDisciplineName4}</Row>
-                                  <Row>{artsocialscience.subDiscipline.subDisciplineName5}</Row>
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{artsocialscience.subDiscipline.subDisciplineName1}</Col>
+                                  </Row>
+
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{artsocialscience.subDiscipline.subDisciplineName2}</Col>
+                                  </Row>
+
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{artsocialscience.subDiscipline.subDisciplineName3}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{artsocialscience.subDiscipline.subDisciplineName4}</Col>
+                                  </Row>
+                                  
+                                  <Row className="justify-content-center">
+                                    <Col className="text-left">{artsocialscience.subDiscipline.subDisciplineName5}</Col>
+                                  </Row>
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">

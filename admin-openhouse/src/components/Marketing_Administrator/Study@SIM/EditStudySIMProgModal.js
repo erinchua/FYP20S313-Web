@@ -786,9 +786,9 @@ export default class EditStudySIMProgModal extends React.Component {
       disciplineError = "Please select at least 1 discipline!";
     }
 
-    if (this.state.entryqualificationcheckedItems.length == 0) {
-      entryQualError = "Please select at least 1 entry qualification!";
-    }
+    // if (this.state.entryqualificationcheckedItems.length == 0) {
+    //   entryQualError = "Please select at least 1 entry qualification!";
+    // }
 
     if (!this.state.subdisciplinecheckedItems.length == 0) {
       subDisciplineError = "Please select at least 1 sub-discipline!";
@@ -1129,14 +1129,14 @@ export default class EditStudySIMProgModal extends React.Component {
                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
                     <Form.Label className="editStudySIMProgFormLabel">Application Period 1</Form.Label>
-                    <FormControl as="textarea" rows="4" required noValidate name="applicationperiod1" className="editStudySIMProgForm_TextArea" placeholder="Application Period 1" defaultValue={this.state.applicationperiod1} onChange={this.handleChange} />
-
+                    <FormControl as="textarea" rows="2" required noValidate name="applicationperiod1" className="editStudySIMProgForm_TextArea" placeholder="Application Period 1" defaultValue={this.state.applicationperiod1} onChange={this.handleChange} />
+                  
                     <div className="errorMessage text-left">{this.state.applicationPeriodError}</div>
                   </Col>
 
-                  <Col md="9" className="text-left">
+                  <Col md="9" className="text-left" style={{ paddingTop: "2%" }}>
                     <Form.Label className="editStudySIMProgFormLabel">Application Period 2</Form.Label>
-                    <FormControl as="textarea" rows="4" required noValidate name="applicationperiod2" className="editStudySIMProgForm_TextArea" placeholder="Application Period 2" defaultValue={this.state.applicationperiod2} onChange={this.handleChange} />
+                    <FormControl as="textarea" rows="2" required noValidate name="applicationperiod2" className="editStudySIMProgForm_TextArea" placeholder="Application Period 2" defaultValue={this.state.applicationperiod2} onChange={this.handleChange} />
                   </Col>
                 </Form.Row>
               </Col>
