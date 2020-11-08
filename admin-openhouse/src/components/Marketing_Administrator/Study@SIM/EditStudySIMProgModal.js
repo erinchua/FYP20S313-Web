@@ -34,6 +34,9 @@ export default class EditStudySIMProgModal extends React.Component {
       disciplinecheckedItems: [],
       subdisciplinecheckedItems: [],
 
+      Modeofstudy: ['fullTime', 'partTime'],
+      entryqualification: ['oLevel', 'aLevel', 'diploma', 'degree'],
+
       programme: this.props.programmeName,
       university: this.props.University,
       category: this.props.category,
@@ -69,297 +72,290 @@ export default class EditStudySIMProgModal extends React.Component {
       return self.indexOf(value) === index;
     }
 
-    const University = [];
-    const Category = [];
-    const Modeofstudy = [];
-    const Discipline = [];
-    const AcademicLevel = [];
-    const entryqualification = [];
-    const subDiscipline = [];
 
-    //set modeofstudy value into Modeofstudy array
-    if (this.props.ModeOfStudy.partTime === true) {
-      const data = {
-        ModeOfStudy: "Part-Time",
-        checked: true,
-      };
+    // //set modeofstudy value into Modeofstudy array
+    // if (this.props.ModeOfStudy.partTime === true) {
+    //   const data = {
+    //     ModeOfStudy: "Part-Time",
+    //     checked: true,
+    //   };
 
-      this.setState({
-        parttime: true,
-      });
-      Modeofstudy.push(data);
-    } else {
-      const data = {
-        ModeOfStudy: "Part-Time",
-        checked: false,
-      };
-      this.setState({
-        parttime: false,
-      });
-      Modeofstudy.push(data);
-    }
+    //   this.setState({
+    //     parttime: true,
+    //   });
+    //   Modeofstudy.push(data);
+    // } else {
+    //   const data = {
+    //     ModeOfStudy: "Part-Time",
+    //     checked: false,
+    //   };
+    //   this.setState({
+    //     parttime: false,
+    //   });
+    //   Modeofstudy.push(data);
+    // }
 
-    if (this.props.ModeOfStudy.fullTime === true) {
-      const data = {
-        ModeOfStudy: "Full-Time",
-        checked: true,
-      };
-      Modeofstudy.push(data);
-      this.setState({
-        fulltime: true,
-      });
-    } else {
-      const data = {
-        ModeOfStudy: "Full-Time",
-        checked: false,
-      };
-      this.setState({
-        fulltime: false,
-      });
-      Modeofstudy.push(data);
-    }
+    // if (this.props.ModeOfStudy.fullTime === true) {
+    //   const data = {
+    //     ModeOfStudy: "Full-Time",
+    //     checked: true,
+    //   };
+    //   Modeofstudy.push(data);
+    //   this.setState({
+    //     fulltime: true,
+    //   });
+    // } else {
+    //   const data = {
+    //     ModeOfStudy: "Full-Time",
+    //     checked: false,
+    //   };
+    //   this.setState({
+    //     fulltime: false,
+    //   });
+    //   Modeofstudy.push(data);
+    // }
 
-    //set entryqualification value into entryqualification array
-    if (this.props.diploma === true) {
-      const data = {
-        entryqualification: "diploma",
-        checked: true,
-      };
-      this.setState({
-        diploma: true,
-      });
-      entryqualification.push(data);
-    } else {
-      const data = {
-        entryqualification: "diploma",
-        checked: false,
-      };
-      this.setState({
-        diploma: false,
-      });
-      entryqualification.push(data);
-    }
+    // //set entryqualification value into entryqualification array
+    // if (this.props.diploma === true) {
+    //   const data = {
+    //     entryqualification: "diploma",
+    //     checked: true,
+    //   };
+    //   this.setState({
+    //     diploma: true,
+    //   });
+    //   entryqualification.push(data);
+    // } else {
+    //   const data = {
+    //     entryqualification: "diploma",
+    //     checked: false,
+    //   };
+    //   this.setState({
+    //     diploma: false,
+    //   });
+    //   entryqualification.push(data);
+    // }
 
-    if (this.props.degree === true) {
-      const data = {
-        entryqualification: "degree",
-        checked: true,
-      };
-      this.setState({
-        degree: true,
-      });
-      entryqualification.push(data);
-    } else {
-      const data = {
-        entryqualification: "degree",
-        checked: false,
-      };
-      this.setState({
-        degree: false,
-      });
-      entryqualification.push(data);
-    }
+    // if (this.props.degree === true) {
+    //   const data = {
+    //     entryqualification: "degree",
+    //     checked: true,
+    //   };
+    //   this.setState({
+    //     degree: true,
+    //   });
+    //   entryqualification.push(data);
+    // } else {
+    //   const data = {
+    //     entryqualification: "degree",
+    //     checked: false,
+    //   };
+    //   this.setState({
+    //     degree: false,
+    //   });
+    //   entryqualification.push(data);
+    // }
 
-    if (this.props.aLevel === true) {
-      const data = {
-        entryqualification: "aLevel",
-        checked: true,
-      };
-      this.setState({
-        alevel: true,
-      });
-      entryqualification.push(data);
-    } else {
-      const data = {
-        entryqualification: "aLevel",
-        checked: false,
-      };
-      this.setState({
-        alevel: false,
-      });
-      entryqualification.push(data);
-    }
+    // if (this.props.aLevel === true) {
+    //   const data = {
+    //     entryqualification: "aLevel",
+    //     checked: true,
+    //   };
+    //   this.setState({
+    //     alevel: true,
+    //   });
+    //   entryqualification.push(data);
+    // } else {
+    //   const data = {
+    //     entryqualification: "aLevel",
+    //     checked: false,
+    //   };
+    //   this.setState({
+    //     alevel: false,
+    //   });
+    //   entryqualification.push(data);
+    // }
 
-    if (this.props.olevel === true) {
-      const data = {
-        entryqualification: "oLevel",
-        checked: true,
-      };
-      this.setState({
-        olevel: true,
-      });
-      entryqualification.push(data);
-    } else {
-      const data = {
-        entryqualification: "oLevel",
-        checked: false,
-      };
-      this.setState({
-        olevel: false,
-      });
-      entryqualification.push(data);
-    }
+    // if (this.props.olevel === true) {
+    //   const data = {
+    //     entryqualification: "oLevel",
+    //     checked: true,
+    //   };
+    //   this.setState({
+    //     olevel: true,
+    //   });
+    //   entryqualification.push(data);
+    // } else {
+    //   const data = {
+    //     entryqualification: "oLevel",
+    //     checked: false,
+    //   };
+    //   this.setState({
+    //     olevel: false,
+    //   });
+    //   entryqualification.push(data);
+    // }
     //console.log(entryqualification);
 
-    const Universityquery = db
-      .collection("Programmes")
-      .onSnapshot((snapshot) => {
-        snapshot.forEach((doc) => {
-          University.push(doc.data().awardedBy);
-          Category.push(doc.data().category);
+    // const Universityquery = db
+    //   .collection("Programmes")
+    //   .onSnapshot((snapshot) => {
+    //     snapshot.forEach((doc) => {
+    //       University.push(doc.data().awardedBy);
+    //       Category.push(doc.data().category);
 
-          //Modeofstudy.push(doc.data().modeOfStudy);
-          Discipline.push(doc.data().discipline.disciplineName1);
-          Discipline.push(doc.data().discipline.disciplineName2);
-          AcademicLevel.push(doc.data().academicLevel);
+    //       //Modeofstudy.push(doc.data().modeOfStudy);
+    //       Discipline.push(doc.data().discipline.disciplineName1);
+    //       Discipline.push(doc.data().discipline.disciplineName2);
+    //       AcademicLevel.push(doc.data().academicLevel);
 
-          //entryqualification.push(doc.data().entryqualificationifications);
-          subDiscipline.push(doc.data().subDiscipline.subDisciplineName1);
-          subDiscipline.push(doc.data().subDiscipline.subDisciplineName2);
-          subDiscipline.push(doc.data().subDiscipline.subDisciplineName3);
-          subDiscipline.push(doc.data().subDiscipline.subDisciplineName4);
-          subDiscipline.push(doc.data().subDiscipline.subDisciplineName5);
-        });
+    //       //entryqualification.push(doc.data().entryqualificationifications);
+    //       subDiscipline.push(doc.data().subDiscipline.subDisciplineName1);
+    //       subDiscipline.push(doc.data().subDiscipline.subDisciplineName2);
+    //       subDiscipline.push(doc.data().subDiscipline.subDisciplineName3);
+    //       subDiscipline.push(doc.data().subDiscipline.subDisciplineName4);
+    //       subDiscipline.push(doc.data().subDiscipline.subDisciplineName5);
+    //     });
 
-        //   var unique = University.filter(onlyUnique);
-        var uniqueUniversity = University.filter(onlyUnique);
-        var uniqueCategory = Category.filter(onlyUnique);
-        var uniqueDiscipline = Discipline.filter(onlyUnique);
-        var uniqueAcademicLevel = AcademicLevel.filter(onlyUnique);
-        var uniquesubDiscipline = subDiscipline.filter(onlyUnique);
+    //     //   var unique = University.filter(onlyUnique);
+    //     var uniqueUniversity = University.filter(onlyUnique);
+    //     var uniqueCategory = Category.filter(onlyUnique);
+    //     var uniqueDiscipline = Discipline.filter(onlyUnique);
+    //     var uniqueAcademicLevel = AcademicLevel.filter(onlyUnique);
+    //     var uniquesubDiscipline = subDiscipline.filter(onlyUnique);
 
-        //remove unfined and ""
-        uniqueUniversity = uniqueUniversity.filter((val) => val !== undefined);
-        uniqueUniversity = uniqueUniversity.filter((val) => val !== "");
-        uniqueCategory = uniqueCategory.filter((val) => val !== undefined);
-        uniqueCategory = uniqueCategory.filter((val) => val !== "");
+    //     //remove unfined and ""
+    //     uniqueUniversity = uniqueUniversity.filter((val) => val !== undefined);
+    //     uniqueUniversity = uniqueUniversity.filter((val) => val !== "");
+    //     uniqueCategory = uniqueCategory.filter((val) => val !== undefined);
+    //     uniqueCategory = uniqueCategory.filter((val) => val !== "");
 
-        uniqueDiscipline = uniqueDiscipline.filter((val) => val !== undefined);
-        uniqueDiscipline = uniqueDiscipline.filter((val) => val !== "");
-        uniqueAcademicLevel = uniqueAcademicLevel.filter(
-          (val) => val !== undefined
-        );
-        uniqueAcademicLevel = uniqueAcademicLevel.filter((val) => val !== "");
+    //     uniqueDiscipline = uniqueDiscipline.filter((val) => val !== undefined);
+    //     uniqueDiscipline = uniqueDiscipline.filter((val) => val !== "");
+    //     uniqueAcademicLevel = uniqueAcademicLevel.filter(
+    //       (val) => val !== undefined
+    //     );
+    //     uniqueAcademicLevel = uniqueAcademicLevel.filter((val) => val !== "");
 
-        uniquesubDiscipline = uniquesubDiscipline.filter(
-          (val) => val !== undefined
-        );
-        uniquesubDiscipline = uniquesubDiscipline.filter((val) => val !== "");
-        uniqueDiscipline.sort();
-        uniquesubDiscipline.sort();
-        var newuniquesubDiscipline = [];
-        var newuniqueDiscipline = [];
+    //     uniquesubDiscipline = uniquesubDiscipline.filter(
+    //       (val) => val !== undefined
+    //     );
+    //     uniquesubDiscipline = uniquesubDiscipline.filter((val) => val !== "");
+    //     uniqueDiscipline.sort();
+    //     uniquesubDiscipline.sort();
+    //     var newuniquesubDiscipline = [];
+    //     var newuniqueDiscipline = [];
 
-        // get uniquediscipline across 5 fields in db
-        for (var i = 0; i < uniqueDiscipline.length; i++) {
-          if (
-            uniqueDiscipline[i] === this.props.discipline1 ||
-            uniqueDiscipline[i] === this.props.discipline2
-          ) {
-            //ensure that uniquediscipline that is on db is checked that is used for display
-            const data = {
-              Name: uniqueDiscipline[i],
-              checked: true,
-            };
-            //store uniquediscipline that already exist in db
-            this.setState({
-              disciplinecheckedItems: [
-                ...this.state.disciplinecheckedItems,
-                uniqueDiscipline[i],
-              ],
-            },
-              () => { }
-            );
-            newuniqueDiscipline.push(data);
-          }
-          //console.log(newuniqueDiscipline);
+    //     // get uniquediscipline across 5 fields in db
+    //     for (var i = 0; i < uniqueDiscipline.length; i++) {
+    //       if (
+    //         uniqueDiscipline[i] === this.props.discipline1 ||
+    //         uniqueDiscipline[i] === this.props.discipline2
+    //       ) {
+    //         //ensure that uniquediscipline that is on db is checked that is used for display
+    //         const data = {
+    //           Name: uniqueDiscipline[i],
+    //           checked: true,
+    //         };
+    //         //store uniquediscipline that already exist in db
+    //         this.setState({
+    //           disciplinecheckedItems: [
+    //             ...this.state.disciplinecheckedItems,
+    //             uniqueDiscipline[i],
+    //           ],
+    //         },
+    //           () => { }
+    //         );
+    //         newuniqueDiscipline.push(data);
+    //       }
+    //       //console.log(newuniqueDiscipline);
 
-          // get uniquesubdiscipline across 5 fields in db
-          for (var i = 0; i < uniquesubDiscipline.length; i++) {
-            if (
-              uniquesubDiscipline[i] === this.props.subdisciplne1 ||
-              uniquesubDiscipline[i] === this.props.subdisciplne2 ||
-              uniquesubDiscipline[i] === this.props.subdisciplne3 ||
-              uniquesubDiscipline[i] === this.props.subdisciplne4 ||
-              uniquesubDiscipline[i] === this.props.subdisciplne5
-            ) {
-              //ensure that uniquesubdiscipline that is on db is checked that is used for display
-              const data = {
-                Name: uniquesubDiscipline[i],
-                checked: true,
-              };
+    //       // get uniquesubdiscipline across 5 fields in db
+    //       for (var i = 0; i < uniquesubDiscipline.length; i++) {
+    //         if (
+    //           uniquesubDiscipline[i] === this.props.subdisciplne1 ||
+    //           uniquesubDiscipline[i] === this.props.subdisciplne2 ||
+    //           uniquesubDiscipline[i] === this.props.subdisciplne3 ||
+    //           uniquesubDiscipline[i] === this.props.subdisciplne4 ||
+    //           uniquesubDiscipline[i] === this.props.subdisciplne5
+    //         ) {
+    //           //ensure that uniquesubdiscipline that is on db is checked that is used for display
+    //           const data = {
+    //             Name: uniquesubDiscipline[i],
+    //             checked: true,
+    //           };
 
-              //store uniquesubdiscipline that already exist in db
-              this.setState(
-                {
-                  subdisciplinecheckedItems: [
-                    ...this.state.subdisciplinecheckedItems,
-                    uniquesubDiscipline[i],
-                  ],
-                },
-                () => {
-                  console.log(this.state.subdisciplinecheckedItems);
-                }
-              );
-              newuniquesubDiscipline.push(data);
-            }
-            // ensure that uniquesubdiscipline that is not on db is unchecked that is used for display
-            else {
-              const data = {
-                Name: uniquesubDiscipline[i],
-                checked: false,
-              };
-              newuniquesubDiscipline.push(data);
-            }
-          }
+    //           //store uniquesubdiscipline that already exist in db
+    //           this.setState(
+    //             {
+    //               subdisciplinecheckedItems: [
+    //                 ...this.state.subdisciplinecheckedItems,
+    //                 uniquesubDiscipline[i],
+    //               ],
+    //             },
+    //             () => {
+    //               console.log(this.state.subdisciplinecheckedItems);
+    //             }
+    //           );
+    //           newuniquesubDiscipline.push(data);
+    //         }
+    //         // ensure that uniquesubdiscipline that is not on db is unchecked that is used for display
+    //         else {
+    //           const data = {
+    //             Name: uniquesubDiscipline[i],
+    //             checked: false,
+    //           };
+    //           newuniquesubDiscipline.push(data);
+    //         }
+    //       }
 
-          if (this.state.disciplinecheckedItems.length >= 2) {
-            for (var i = 0; i < newuniqueDiscipline.length; i++) {
-              if (
-                Object.values(this.state.disciplinecheckedItems).includes(
-                  newuniqueDiscipline[i].Name
-                )
-              ) {
-                this.setState({
-                  [newuniqueDiscipline[i].Name]: false,
-                });
-              } else {
-                this.setState({
-                  [newuniqueDiscipline[i].Name]: true,
-                });
-              }
-            }
-          }
+    //       if (this.state.disciplinecheckedItems.length >= 2) {
+    //         for (var i = 0; i < newuniqueDiscipline.length; i++) {
+    //           if (
+    //             Object.values(this.state.disciplinecheckedItems).includes(
+    //               newuniqueDiscipline[i].Name
+    //             )
+    //           ) {
+    //             this.setState({
+    //               [newuniqueDiscipline[i].Name]: false,
+    //             });
+    //           } else {
+    //             this.setState({
+    //               [newuniqueDiscipline[i].Name]: true,
+    //             });
+    //           }
+    //         }
+    //       }
 
-          if (this.state.subdisciplinecheckedItems.length >= 5) {
-            for (var i = 0; i < newuniquesubDiscipline.length; i++) {
-              if (
-                Object.values(this.state.subdisciplinecheckedItems).includes(
-                  newuniquesubDiscipline[i].Name
-                )
-              ) {
-                this.setState({
-                  ["sub" + newuniquesubDiscipline[i].Name]: false,
-                });
-              } else {
-                this.setState({
-                  ["sub" + newuniquesubDiscipline[i].Name]: true,
-                });
-              }
-            }
-          }
+    //       if (this.state.subdisciplinecheckedItems.length >= 5) {
+    //         for (var i = 0; i < newuniquesubDiscipline.length; i++) {
+    //           if (
+    //             Object.values(this.state.subdisciplinecheckedItems).includes(
+    //               newuniquesubDiscipline[i].Name
+    //             )
+    //           ) {
+    //             this.setState({
+    //               ["sub" + newuniquesubDiscipline[i].Name]: false,
+    //             });
+    //           } else {
+    //             this.setState({
+    //               ["sub" + newuniquesubDiscipline[i].Name]: true,
+    //             });
+    //           }
+    //         }
+    //       }
 
-          //console.log(uniqueAcademicLevel);
-          this.setState({
-            University: uniqueUniversity,
-            Category: uniqueCategory,
-            Modeofstudy: Modeofstudy,
-            Discipline: newuniqueDiscipline,
-            AcademicLevel: uniqueAcademicLevel,
-            entryqualification: entryqualification,
-            subDiscipline: newuniquesubDiscipline,
-          });
-        });
+    //       //console.log(uniqueAcademicLevel);
+    //       this.setState({
+    //         University: uniqueUniversity,
+    //         Category: uniqueCategory,
+    //         Modeofstudy: Modeofstudy,
+    //         Discipline: newuniqueDiscipline,
+    //         AcademicLevel: uniqueAcademicLevel,
+    //         entryqualification: entryqualification,
+    //         subDiscipline: newuniquesubDiscipline,
+    //       });
+    //     });
   }
 
   DisciplinehandleChange(event) {
@@ -949,7 +945,6 @@ export default class EditStudySIMProgModal extends React.Component {
                               <option value={AcademicLevel} className="editStudySIMProgFormSelectOption">{AcademicLevel}</option>
                             );
                           }
-                        }
                         }
                         )}
                       </Form.Control>

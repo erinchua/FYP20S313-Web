@@ -312,7 +312,7 @@ export default class AddStudySIMProgModal extends React.Component {
     }
   };
 
-  addProgramme() {
+  addProgramme = async () => {
     var a = this;
 
     var lastdoc = await db
