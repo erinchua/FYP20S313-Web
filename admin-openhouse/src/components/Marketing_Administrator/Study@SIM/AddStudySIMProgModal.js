@@ -19,7 +19,7 @@ const initialStates = {
 
 export default class AddStudySIMProgModal extends React.Component {
   state = initialStates;
-  
+
   constructor(props) {
     super(props);
 
@@ -30,6 +30,9 @@ export default class AddStudySIMProgModal extends React.Component {
       disciplinecheckedItems: [],
       subdisciplinecheckedItems: [],
       entryqualificationcheckedItems: [],
+      Modeofstudy: ['fullTime', 'partTime'],
+      entryQual: ['oLevel', 'aLevel', 'diploma', 'degree'],
+
       programme: "",
       university: "",
       category: "",
@@ -74,61 +77,61 @@ export default class AddStudySIMProgModal extends React.Component {
     const subDiscipline = [];
     const subDiscipline2 = [];
 
-    const Universityquery = db
-    .collection("TestProgrammes")
-    .onSnapshot((snapshot) => {
-      snapshot.forEach((doc) => {
-        University.push(doc.data().awardedBy);
-        // Category.push(doc.data().category);
-        Modeofstudy.push(doc.data().modeOfStudy);
-        Discipline.push(doc.data().discipline.disciplineName1);
-        Discipline.push(doc.data().discipline.disciplineName2);
-        AcademicLevel.push(doc.data().academicLevel);
-        entryQual.push(doc.data().entryQualifications);
-        subDiscipline.push(doc.data().subDiscipline.subDisciplineName1);
-        subDiscipline.push(doc.data().subDiscipline.subDisciplineName2);
-        subDiscipline.push(doc.data().subDiscipline.subDisciplineName3);
-        subDiscipline.push(doc.data().subDiscipline.subDisciplineName4);
-        subDiscipline.push(doc.data().subDiscipline.subDisciplineName5);
-        subDiscipline2.push(doc.id);
-        subDiscipline2.push(doc.data().discipline);
-      });
+    //   const Universityquery = db
+    //     .collection("Programmes")
+    //     .onSnapshot((snapshot) => {
+    //       snapshot.forEach((doc) => {
+    //         University.push(doc.data().awardedBy);
+    //         // Category.push(doc.data().category);
+    //         Modeofstudy.push(doc.data().modeOfStudy);
+    //         Discipline.push(doc.data().discipline.disciplineName1);
+    //         Discipline.push(doc.data().discipline.disciplineName2);
+    //         AcademicLevel.push(doc.data().academicLevel);
+    //         entryQual.push(doc.data().entryQualifications);
+    //         subDiscipline.push(doc.data().subDiscipline.subDisciplineName1);
+    //         subDiscipline.push(doc.data().subDiscipline.subDisciplineName2);
+    //         subDiscipline.push(doc.data().subDiscipline.subDisciplineName3);
+    //         subDiscipline.push(doc.data().subDiscipline.subDisciplineName4);
+    //         subDiscipline.push(doc.data().subDiscipline.subDisciplineName5);
+    //         subDiscipline2.push(doc.id);
+    //         subDiscipline2.push(doc.data().discipline);
+    //       });
 
-      //   var unique = University.filter(onlyUnique);
-      var uniqueUniversity = University.filter(onlyUnique);
-      // var uniqueCategory = Category.filter(onlyUnique);
-      var uniqueDiscipline = Discipline.filter(onlyUnique);
-      var uniqueAcademicLevel = AcademicLevel.filter(onlyUnique);
-      var uniquesubDiscipline = subDiscipline.filter(onlyUnique);
+    //       //   var unique = University.filter(onlyUnique);
+    //       var uniqueUniversity = University.filter(onlyUnique);
+    //       // var uniqueCategory = Category.filter(onlyUnique);
+    //       var uniqueDiscipline = Discipline.filter(onlyUnique);
+    //       var uniqueAcademicLevel = AcademicLevel.filter(onlyUnique);
+    //       var uniquesubDiscipline = subDiscipline.filter(onlyUnique);
 
-      let uniqueentryQuals = Object.keys(Object.assign({}, ...entryQual));
-      let uniqueModeofstudy = Object.keys(Object.assign({}, ...Modeofstudy));
-      console.log(uniqueModeofstudy);
+    //       let uniqueentryQuals = Object.keys(Object.assign({}, ...entryQual));
+    //       let uniqueModeofstudy = Object.keys(Object.assign({}, ...Modeofstudy));
+    //       console.log(uniqueModeofstudy);
 
-      //remove undefined
-      uniqueUniversity = uniqueUniversity.filter((val) => val !== undefined);
-      uniqueUniversity = uniqueUniversity.filter((val) => val !== "");
-      // uniqueCategory = uniqueCategory.filter((val) => val !== undefined);
-      // uniqueCategory = uniqueCategory.filter((val) => val !== "");
+    //       //remove undefined
+    //       uniqueUniversity = uniqueUniversity.filter((val) => val !== undefined);
+    //       uniqueUniversity = uniqueUniversity.filter((val) => val !== "");
+    //       // uniqueCategory = uniqueCategory.filter((val) => val !== undefined);
+    //       // uniqueCategory = uniqueCategory.filter((val) => val !== "");
 
-      uniqueDiscipline = uniqueDiscipline.filter((val) => val !== undefined);
-      uniqueDiscipline = uniqueDiscipline.filter((val) => val !== "");
-      uniqueAcademicLevel = uniqueAcademicLevel.filter((val) => val !== undefined);
-      uniqueAcademicLevel = uniqueAcademicLevel.filter((val) => val !== "");
+    //       uniqueDiscipline = uniqueDiscipline.filter((val) => val !== undefined);
+    //       uniqueDiscipline = uniqueDiscipline.filter((val) => val !== "");
+    //       uniqueAcademicLevel = uniqueAcademicLevel.filter((val) => val !== undefined);
+    //       uniqueAcademicLevel = uniqueAcademicLevel.filter((val) => val !== "");
 
-      uniquesubDiscipline = uniquesubDiscipline.filter((val) => val !== undefined);
-      uniquesubDiscipline = uniquesubDiscipline.filter((val) => val !== "");
-        
-      this.setState({
-        University: uniqueUniversity,
-        // Category: uniqueCategory,
-        Modeofstudy: uniqueModeofstudy,
-        Discipline: uniqueDiscipline,
-        AcademicLevel: uniqueAcademicLevel,
-        entryQual: uniqueentryQuals,
-        subDiscipline: uniquesubDiscipline,
-      });
-    });
+    //       uniquesubDiscipline = uniquesubDiscipline.filter((val) => val !== undefined);
+    //       uniquesubDiscipline = uniquesubDiscipline.filter((val) => val !== "");
+
+    //       this.setState({
+    //         University: uniqueUniversity,
+    //         // Category: uniqueCategory,
+    //         Modeofstudy: uniqueModeofstudy,
+    //         Discipline: uniqueDiscipline,
+    //         AcademicLevel: uniqueAcademicLevel,
+    //         entryQual: uniqueentryQuals,
+    //         subDiscipline: uniquesubDiscipline,
+    //       });
+    //     });
   }
 
   DisciplinehandleChange(event) {
@@ -311,41 +314,41 @@ export default class AddStudySIMProgModal extends React.Component {
     }
   };
 
-  test() {
+  addProgrames = async () => {
     var a = this;
 
-    var lastdoc = db
-    .collection("Programmes")
-    .orderBy("id", "desc")
-    .limit(1)
-    .get()
-    .then((snapshot) => {
-      snapshot.forEach((doc) => {
-        var docid = "";
+    var lastdoc = await db
+      .collection("ProgrammesWeb")
+      .orderBy("id", "desc")
+      .limit(1)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          var docid = "";
 
-        var res = doc.data().id.substring(10);
-        var id = parseInt(res);
-        if (id.toString().length <= 1) {
-          docid = "programme-00" + (id + 1);
-        } else if (id.toString().length <= 2) {
-          docid = "programme-0" + (id + 1);
-        } else {
-          docid = "programme-" + (id + 1);
-        }
-        this.setState(
-          {
-            docid: docid,
-          },
-          () => {
-            this.add();
-            console.log(this.state.docid);
+          var res = doc.data().id.substring(10);
+          var id = parseInt(res);
+          if (id.toString().length <= 1) {
+            docid = "programme-00" + (id + 1);
+          } else if (id.toString().length <= 2) {
+            docid = "programme-0" + (id + 1);
+          } else {
+            docid = "programme-" + (id + 1);
           }
-        );
+          this.setState(
+            {
+              docid: docid,
+            },
+            () => {
+              this.add();
+              console.log(this.state.docid);
+            }
+          );
+        });
       });
-    });
   }
 
-  add() {
+  add = async () => {
     console.log(this.state.id);
     console.log("programme: " + this.state.programme);
     console.log("university: " + this.state.university);
@@ -443,8 +446,8 @@ export default class AddStudySIMProgModal extends React.Component {
         fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
           console.log(downloadURL);
           const userRef = db
-          .collection("Programmes")
-          .doc(parentthis.state.docid);
+            .collection("ProgrammesWeb")
+            .doc(parentthis.state.docid);
 
           userRef.set({
             id: parentthis.state.docid,
@@ -512,7 +515,8 @@ export default class AddStudySIMProgModal extends React.Component {
         }
       });
     } else {
-      const userRef = db.collection("Programmes").doc(this.state.docid);
+      console.log("docid before error " + this.state.docid)
+      const userRef = db.collection("ProgrammesWeb").doc(this.state.docid);
       userRef.set({
         id: this.state.docid,
         entryQualifications: {
@@ -597,7 +601,7 @@ export default class AddStudySIMProgModal extends React.Component {
                 <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-center">
                     <InputGroup className="addStudySIMProgFormColInputGrp">
-                      <FormControl type="text" name="programme" id="addStudySIMProgForm_ProgName" placeholder="Name of Programme*" onChange={this.handleChange}required />
+                      <FormControl type="text" name="programme" id="addStudySIMProgForm_ProgName" placeholder="Name of Programme*" onChange={this.handleChange} required />
                     </InputGroup>
                   </Col>
                 </Form.Row>
@@ -606,7 +610,7 @@ export default class AddStudySIMProgModal extends React.Component {
                 <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
                     <InputGroup className="addStudySIMProgFormColInputGrp">
-                      <FormControl type="file" name="logoFile" id="addStudySIMProgForm_LogoFile" label="Logo File*" custom required onChange={(e) => {this.handleFileUpload(e.target.files);}} />
+                      <FormControl type="file" name="logoFile" id="addStudySIMProgForm_LogoFile" label="Logo File*" custom required onChange={(e) => { this.handleFileUpload(e.target.files); }} />
                     </InputGroup>
                   </Col>
                 </Form.Row>
@@ -629,24 +633,6 @@ export default class AddStudySIMProgModal extends React.Component {
                   </Col>
                 </Form.Row>
 
-                {/* Category */}
-                {/* <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
-                  <Col md="9" className="text-center">
-                    <InputGroup className="addStudySIMProgFormColInputGrp">
-                      <Form.Control as="select" name="category" defaultValue="" className="addStudySIMProgFormSelect" required noValidate placeholder="Choose a Category" onChange={this.handleChange}>
-                        <option value="" className="addStudySIMProgFormSelectOption" disabled={true}>Choose a Category</option> */}
-
-                        {/* To be retrieved from DB */}
-                        {/* {this.state.Category && this.state.Category.map((Category, index) => {
-                          return (
-                            <option value={Category} className="addStudySIMProgFormSelectOption">{Category}</option>
-                          );
-                        })}
-                      </Form.Control>
-                    </InputGroup>
-                  </Col>
-                </Form.Row> */}
-
                 {/* Academic Level */}
                 <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-center">
@@ -655,7 +641,7 @@ export default class AddStudySIMProgModal extends React.Component {
                         <option value="" className="addStudySIMProgFormSelectOption" disabled={true}>Choose an Academic Level</option>
 
                         {/* To be retrieved from DB */}
-                        {this.state.AcademicLevel && this.state.AcademicLevel.map((AcademicLevel, index) => {
+                        {this.props.academicLvls && this.props.academicLvls.map((AcademicLevel, index) => {
                           if (AcademicLevel === this.props.acadamiclevel) {
                             return (
                               <option value={AcademicLevel} className="addStudySIMProgFormSelectOption" selected>{AcademicLevel}</option>
@@ -663,9 +649,9 @@ export default class AddStudySIMProgModal extends React.Component {
                           } else {
                             return (
                               <option value={AcademicLevel} className="addStudySIMProgFormSelectOption">{AcademicLevel}</option>
-                              );
-                            }
+                            );
                           }
+                        }
                         )}
                       </Form.Control>
                     </InputGroup>
@@ -976,7 +962,7 @@ export default class AddStudySIMProgModal extends React.Component {
 
         <Modal.Footer className="justify-content-center">
           {/* Add Programme Submit Btn*/}
-          <Button type="submit" id="addStudySIMProgFormBtn" onClick={() => {this.test(); this.props.handleAdd();}}>Submit</Button>
+          <Button type="submit" id="addStudySIMProgFormBtn" onClick={() => { this.addProgrames(); this.props.handleAdd(); }}>Submit</Button>
         </Modal.Footer>
       </div>
     );

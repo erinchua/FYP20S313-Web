@@ -21,9 +21,10 @@ class StudySIM_Speciality extends Component {
   constructor() {
     super();
     this.state = {
-      disciplines : [],
-      subDiscplines : [],
-      universities : [],
+      programmes: [],
+      disciplines: [],
+      subDiscplines: [],
+      universities: [],
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
@@ -35,8 +36,8 @@ class StudySIM_Speciality extends Component {
     auth.onAuthStateChanged((user) => {
       if (user) {
         var getrole = db
-        .collection("Administrators")
-        .where("email", "==", user.email);
+          .collection("Administrators")
+          .where("email", "==", user.email);
 
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
@@ -57,9 +58,9 @@ class StudySIM_Speciality extends Component {
     this.authListener();
   }
 
-  display = async()=> {
+  display = async () => {
 
-    const userRe1 = await db.collection("Programmes").onSnapshot((snapshot) => {
+    const userRe1 = await db.collection("ProgrammesWeb").onSnapshot((snapshot) => {
       const Specialty = [];
       snapshot.forEach((doc) => {
         const getdiscipline = doc.get("discipline");
@@ -104,32 +105,40 @@ class StudySIM_Speciality extends Component {
     });
 
     const disciplines = []
-    await db.collection('Disciplines').get().then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{
+    await db.collection('Disciplines').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data()
         disciplines.push(data.name)
       })
-      this.setState({disciplines : disciplines})
+      this.setState({ disciplines: disciplines })
     })
 
     const subDisciplines = []
-    await db.collection('SubDisciplines').get().then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{
+    await db.collection('SubDisciplines').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data()
         subDisciplines.push(data.name)
       })
-      this.setState({subDisciplines : subDisciplines})
+      this.setState({ subDisciplines: subDisciplines })
     })
 
     const universities = []
-    await db.collection('Universities').get().then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{
+    await db.collection('Universities').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data()
         universities.push(data.universityName)
       })
-      this.setState({universities : universities})
+      this.setState({ universities: universities })
     })
 
+    const academicLvls = []
+    await db.collection('AcademicLevels').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        const data = doc.data()
+        academicLvls.push(data.level)
+      })
+      this.setState({ academicLvls: academicLvls })
+    })
   }
 
   /* Add Programme Talk Modal */
@@ -222,7 +231,7 @@ class StudySIM_Speciality extends Component {
                       <Table responsive="sm" hover bordered className="MAStudySIMTable">
                         <thead>
                           <tr>
-                          <th className="studySIMProgHeader_SNo">S/N</th>
+                            <th className="studySIMProgHeader_SNo">S/N</th>
                             <th className="studySIMProgHeader_ProgName">Programme Name</th>
                             <th className="studySIMProgHeader_AwardedBy">Awarded By</th>
                             <th className="studySIMProgHeader_LogoFile">Logo File</th>
@@ -243,26 +252,25 @@ class StudySIM_Speciality extends Component {
                               <tr>
                                 <td className="studySIMProgData_SNo text-center">{index}</td>
                                 <td className="studySIMProgData_ProgName text-left">
-                                  <a className="studySIMProgData_ProgNameLink" onClick={() => 
-                                    {
-                                      this.setState({
-                                        programmeName: Specialty.programmeName,
-                                        aboutprogramme1: Specialty.aboutprogramme.aboutProgramme1,
-                                        aboutprogramme2: Specialty.aboutprogramme.aboutProgramme2,
-                                        aboutprogramme3: Specialty.aboutprogramme.aboutProgramme3,
-                                        applicationperiod1: Specialty.applicationperiod.period1,
-                                        applicationperiod2: Specialty.applicationperiod.period2,
-                                        programmestructurecoursework: Specialty.programmestructure.coursework,
-                                        programmestructureexamination: Specialty.programmestructure.examination,
-                                        overseaopportunityexchange: Specialty.overseaopportunity.exchange,
-                                        overseaopportunitytransfer: Specialty.overseaopportunity.transfer,
-                                        intakemonthsfulltime: Specialty.intakemonths.fullTime,
-                                        intakemonthsparttime: Specialty.intakemonths.partTime,
-                                        durationfulltime: Specialty.duration.fullTime,
-                                        durationparttime: Specialty.duration.partTime,
-                                      });
-                                      this.handleViewStudySIMProgDetailsModal();
-                                    }}
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {
+                                    this.setState({
+                                      programmeName: Specialty.programmeName,
+                                      aboutprogramme1: Specialty.aboutprogramme.aboutProgramme1,
+                                      aboutprogramme2: Specialty.aboutprogramme.aboutProgramme2,
+                                      aboutprogramme3: Specialty.aboutprogramme.aboutProgramme3,
+                                      applicationperiod1: Specialty.applicationperiod.period1,
+                                      applicationperiod2: Specialty.applicationperiod.period2,
+                                      programmestructurecoursework: Specialty.programmestructure.coursework,
+                                      programmestructureexamination: Specialty.programmestructure.examination,
+                                      overseaopportunityexchange: Specialty.overseaopportunity.exchange,
+                                      overseaopportunitytransfer: Specialty.overseaopportunity.transfer,
+                                      intakemonthsfulltime: Specialty.intakemonths.fullTime,
+                                      intakemonthsparttime: Specialty.intakemonths.partTime,
+                                      durationfulltime: Specialty.duration.fullTime,
+                                      durationparttime: Specialty.duration.partTime,
+                                    });
+                                    this.handleViewStudySIMProgDetailsModal();
+                                  }}
                                   >
                                     {Specialty.programmeName}
                                   </a>
@@ -274,13 +282,13 @@ class StudySIM_Speciality extends Component {
 
                                 <td className="studySIMProgData_MoS text-left">
                                   <tr>
-                                    {Specialty.ModeOfStudy.fullTime === true && 
+                                    {Specialty.ModeOfStudy.fullTime === true &&
                                       <span>Full-Time</span>
                                     }
                                   </tr>
 
                                   <tr>
-                                    {Specialty.ModeOfStudy.partTime === true && 
+                                    {Specialty.ModeOfStudy.partTime === true &&
                                       <span>Part-Time</span>
                                     }
                                   </tr>
@@ -291,28 +299,28 @@ class StudySIM_Speciality extends Component {
                                   <tr>{Specialty.discipline2}</tr>
                                 </td>
 
-                                
+
                                 <td className="studySIMProgData_EntryQual text-left">
                                   <tr>
-                                    {Specialty.Qualification.aLevel === true && 
+                                    {Specialty.Qualification.aLevel === true &&
                                       <span>"A" level</span>
                                     }
                                   </tr>
 
                                   <tr>
-                                    {Specialty.Qualification.degree === true && 
+                                    {Specialty.Qualification.degree === true &&
                                       <span>Degree</span>
                                     }
                                   </tr>
 
                                   <tr>
-                                    {Specialty.Qualification.diploma === true && 
+                                    {Specialty.Qualification.diploma === true &&
                                       <span>Diploma</span>
                                     }
                                   </tr>
 
                                   <tr>
-                                    {Specialty.Qualification.oLevel === true && 
+                                    {Specialty.Qualification.oLevel === true &&
                                       <span>"O" Level</span>
                                     }
                                   </tr>
@@ -327,57 +335,55 @@ class StudySIM_Speciality extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">
-                                  <Button className="editStudySIMProgBtn" onClick={() => 
-                                    {
-                                      this.setState({
-                                        programmeName: Specialty.programmeName,
-                                        University: Specialty.awardBy,
-                                        category: Specialty.CategoryProgramme,
-                                        ModeOfStudy: Specialty.ModeOfStudy,
-                                        discipline1: Specialty.discipline1,
-                                        discipline2: Specialty.discipline2,
-                                        acadamiclevel: Specialty.AcademicLevel,
-                                        olevel: Specialty.Qualification.oLevel,
-                                        aLevel: Specialty.Qualification.aLevel,
-                                        degree: Specialty.Qualification.degree,
-                                        diploma: Specialty.Qualification.diploma,
-                                        subdiscipline1: Specialty.subDiscipline.subDisciplineName1,
-                                        subdiscipline2: Specialty.subDiscipline.subDisciplineName2,
-                                        subdiscipline3: Specialty.subDiscipline.subDisciplineName3,
-                                        subdiscipline4: Specialty.subDiscipline.subDisciplineName4,
-                                        subdiscipline5: Specialty.subDiscipline.subDisciplineName5,
-                                        
-                                        //details
-                                        aboutprogramme1: Specialty.aboutprogramme.aboutProgramme1,
-                                        aboutprogramme2: Specialty.aboutprogramme.aboutProgramme2,
-                                        aboutprogramme3: Specialty.aboutprogramme.aboutProgramme3,
-                                        applicationperiod1: Specialty.applicationperiod.period1,
-                                        applicationperiod2: Specialty.applicationperiod.period2,
-                                        programmestructurecoursework: Specialty.programmestructure.coursework,
-                                        programmestructureexamination: Specialty.programmestructure.examination,
-                                        overseaopportunityexchange: Specialty.overseaopportunity.exchange,
-                                        overseaopportunitytransfer: Specialty.overseaopportunity.transfer,
-                                        intakemonthsfulltime: Specialty.intakemonths.fullTime,
-                                        intakemonthsparttime: Specialty.intakemonths.partTime,
-                                        durationfulltime: Specialty.duration.fullTime,
-                                        durationparttime: Specialty.duration.partTime,
-                                        docid: Specialty.docid,
-                                      });
-                                      this.handleEditStudySIMProgModal();
-                                    }}
+                                  <Button className="editStudySIMProgBtn" onClick={() => {
+                                    this.setState({
+                                      programmeName: Specialty.programmeName,
+                                      University: Specialty.awardBy,
+                                      category: Specialty.CategoryProgramme,
+                                      ModeOfStudy: Specialty.ModeOfStudy,
+                                      discipline1: Specialty.discipline1,
+                                      discipline2: Specialty.discipline2,
+                                      acadamiclevel: Specialty.AcademicLevel,
+                                      olevel: Specialty.Qualification.oLevel,
+                                      aLevel: Specialty.Qualification.aLevel,
+                                      degree: Specialty.Qualification.degree,
+                                      diploma: Specialty.Qualification.diploma,
+                                      subdiscipline1: Specialty.subDiscipline.subDisciplineName1,
+                                      subdiscipline2: Specialty.subDiscipline.subDisciplineName2,
+                                      subdiscipline3: Specialty.subDiscipline.subDisciplineName3,
+                                      subdiscipline4: Specialty.subDiscipline.subDisciplineName4,
+                                      subdiscipline5: Specialty.subDiscipline.subDisciplineName5,
+
+                                      //details
+                                      aboutprogramme1: Specialty.aboutprogramme.aboutProgramme1,
+                                      aboutprogramme2: Specialty.aboutprogramme.aboutProgramme2,
+                                      aboutprogramme3: Specialty.aboutprogramme.aboutProgramme3,
+                                      applicationperiod1: Specialty.applicationperiod.period1,
+                                      applicationperiod2: Specialty.applicationperiod.period2,
+                                      programmestructurecoursework: Specialty.programmestructure.coursework,
+                                      programmestructureexamination: Specialty.programmestructure.examination,
+                                      overseaopportunityexchange: Specialty.overseaopportunity.exchange,
+                                      overseaopportunitytransfer: Specialty.overseaopportunity.transfer,
+                                      intakemonthsfulltime: Specialty.intakemonths.fullTime,
+                                      intakemonthsparttime: Specialty.intakemonths.partTime,
+                                      durationfulltime: Specialty.duration.fullTime,
+                                      durationparttime: Specialty.duration.partTime,
+                                      docid: Specialty.docid,
+                                    });
+                                    this.handleEditStudySIMProgModal();
+                                  }}
                                   >
                                     <FontAwesomeIcon size="lg" className="editStudySIMProgBtnIcon" icon={faEdit} />
                                   </Button>
                                 </td>
 
                                 <td className="studySIMProgData_Delete text-center">
-                                  <Button className="deleteStudySIMProgBtn" onClick={() => 
-                                    {
-                                      this.setState({
-                                        docid: Specialty.docid,
-                                      });
-                                      this.handleDeleteStudySIMProgModal();
-                                    }}
+                                  <Button className="deleteStudySIMProgBtn" onClick={() => {
+                                    this.setState({
+                                      docid: Specialty.docid,
+                                    });
+                                    this.handleDeleteStudySIMProgModal();
+                                  }}
                                   >
                                     <FontAwesomeIcon size="lg" className="deleteStudySIMProgBtnIcon" icon={faTrashAlt} />
                                   </Button>
@@ -409,10 +415,12 @@ class StudySIM_Speciality extends Component {
           keyboard={false}
           className="addStudySIMProgModal"
         >
-          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} 
-          universities = {this.state.universities}
-          disciplines = {this.state.disciplines}
-          subDisciplines = {this.state.subDisciplines}
+          <AddStudySIMProgModal handleAdd={() => { this.handleAddStudySIMProgModal() }}
+            universities={this.state.universities}
+            disciplines={this.state.disciplines}
+            subDisciplines={this.state.subDisciplines}
+            academicLvls={this.state.academicLvls}
+
           />
         </Modal>
 
@@ -460,12 +468,15 @@ class StudySIM_Speciality extends Component {
             intakemonthsparttime={this.state.intakemonthsparttime}
             durationfulltime={this.state.durationfulltime}
             durationparttime={this.state.durationparttime}
-            
-            handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
+
+            // Options Values
+            handleSaveChanges={() => { this.handleEditStudySIMProgModal() }}
             handleCancelEdit={this.handleEditStudySIMProgModal}
-            universities = {this.state.universities}
-          disciplines = {this.state.disciplines}
-          subDisciplines = {this.state.subDisciplines}
+            universities={this.state.universities}
+            disciplines={this.state.disciplines}
+            subDisciplines={this.state.subDisciplines}
+            academicLvls={this.state.academicLvls}
+
           />
         </Modal>
 
@@ -479,7 +490,7 @@ class StudySIM_Speciality extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <DeleteStudySIMProgModal docid={this.state.docid} handleConfirmDelete={() => {this.handleDeleteStudySIMProgModal();}} handleCancelDelete={this.handleDeleteStudySIMProgModal}
+          <DeleteStudySIMProgModal docid={this.state.docid} handleConfirmDelete={() => { this.handleDeleteStudySIMProgModal(); }} handleCancelDelete={this.handleDeleteStudySIMProgModal}
           />
         </Modal>
 
