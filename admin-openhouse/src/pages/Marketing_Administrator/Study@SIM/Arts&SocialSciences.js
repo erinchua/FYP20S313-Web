@@ -275,20 +275,17 @@ class StudySIM_ArtsSocialSciences extends Component {
                                 <td className="studySIMProgData_AcademicLvl text-left">{artsocialscience.AcademicLevel}</td>
                                 
                                 <td className="studySIMProgData_MoS text-left">
-                                  <tr>
-                                    {artsocialscience.ModeOfStudy.fullTime === true && (
-                                      <Row className="justify-content-center">
-                                        <Col className="text-left">- Full-Time</Col>
-                                      </Row>
-                                    )}
-                                  </tr>
-                                  <tr>
-                                    {artsocialscience.ModeOfStudy.partTime === true && (
-                                      <Row className="justify-content-center">
-                                        <Col className="text-left">- Part-Time</Col>
-                                      </Row>
-                                    )}
-                                  </tr>
+                                  {artsocialscience.ModeOfStudy.fullTime === true && (
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- Full-Time</Col>
+                                    </Row>
+                                  )}
+                                    
+                                  {artsocialscience.ModeOfStudy.partTime === true && (
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- Part-Time</Col>
+                                    </Row>
+                                  )}
                                 </td>
 
                                 <td className="studySIMProgData_Discipline text-left">

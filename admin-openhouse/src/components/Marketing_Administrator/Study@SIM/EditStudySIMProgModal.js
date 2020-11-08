@@ -798,9 +798,9 @@ export default class EditStudySIMProgModal extends React.Component {
       disciplineError = "Please select at least 1 discipline!";
     }
 
-    if (this.state.entryqualificationcheckedItems.length == 0) {
-      entryQualError = "Please select at least 1 entry qualification!";
-    }
+    // if (this.state.entryqualificationcheckedItems.length == 0) {
+    //   entryQualError = "Please select at least 1 entry qualification!";
+    // }
 
     if (!this.state.subdisciplinecheckedItems.length == 0) {
       subDisciplineError = "Please select at least 1 sub-discipline!";
