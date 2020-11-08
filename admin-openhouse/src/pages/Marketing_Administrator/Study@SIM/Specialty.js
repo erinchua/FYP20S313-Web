@@ -63,10 +63,7 @@ class StudySIM_Speciality extends Component {
       const Specialty = [];
       snapshot.forEach((doc) => {
         const getdiscipline = doc.get("discipline");
-        if (
-          getdiscipline.disciplineName1 === "Specialty" ||
-          getdiscipline.disciplineName2 === "Specialty"
-        ) {
+        if (getdiscipline.disciplineName1 === "Specialty" || getdiscipline.disciplineName2 === "Specialty") {
           function getKeyByValue(object, value) {
             return Object.keys(object).find((key) => object[key] === value);
           }
@@ -137,11 +134,11 @@ class StudySIM_Speciality extends Component {
     if (this.state.addStudySIMProgModal == false) {
       this.setState({
         addStudySIMProgModal: true,
-        test: "test",
+        addProgramme: "addProgramme"
       });
     } else {
       this.setState({
-        addStudySIMProgModal: false,
+        addStudySIMProgModal: false
       });
     }
   };
@@ -150,11 +147,11 @@ class StudySIM_Speciality extends Component {
   handleEditStudySIMProgModal = () => {
     if (this.state.editStudySIMProgModal == false) {
       this.setState({
-        editStudySIMProgModal: true,
+        editStudySIMProgModal: true
       });
     } else {
       this.setState({
-        editStudySIMProgModal: false,
+        editStudySIMProgModal: false
       });
     }
   };
@@ -163,11 +160,11 @@ class StudySIM_Speciality extends Component {
   handleDeleteStudySIMProgModal = () => {
     if (this.state.deleteStudySIMProgModal == false) {
       this.setState({
-        deleteStudySIMProgModal: true,
+        deleteStudySIMProgModal: true
       });
     } else {
       this.setState({
-        deleteStudySIMProgModal: false,
+        deleteStudySIMProgModal: false
       });
     }
   };
@@ -176,11 +173,11 @@ class StudySIM_Speciality extends Component {
   handleViewStudySIMProgDetailsModal = () => {
     if (this.state.viewStudySIMProgDetailsModal == false) {
       this.setState({
-        viewStudySIMProgDetailsModal: true,
+        viewStudySIMProgDetailsModal: true
       });
     } else {
       this.setState({
-        viewStudySIMProgDetailsModal: false,
+        viewStudySIMProgDetailsModal: false
       });
     }
   };
@@ -236,15 +233,14 @@ class StudySIM_Speciality extends Component {
                           </tr>
                         </thead>
 
-                        {this.state.Specialty && this.state.Specialty.map((Specialty, index) => {
-                          index = index + 1;
-                          return (
-                            <tbody>
-                              <tr>
+                        <tbody>
+                          {this.state.Specialty && this.state.Specialty.map((Specialty, index) => {
+                            index = index + 1;
+                            return (
+                              <tr key={index}>
                                 <td className="studySIMProgData_SNo text-center">{index}</td>
                                 <td className="studySIMProgData_ProgName text-left">
-                                  <a className="studySIMProgData_ProgNameLink" onClick={() => 
-                                    {
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {
                                       this.setState({
                                         programmeName: Specialty.programmeName,
                                         aboutprogramme1: Specialty.aboutprogramme.aboutProgramme1,
@@ -269,66 +265,69 @@ class StudySIM_Speciality extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_AwardedBy text-left">{Specialty.awardBy}</td>
-                                <td className="studySIMProgData_LogoFile text-left"><img src={Specialty.Logofile} alt="No Logo file"></img></td>
+
+                                <td className="studySIMProgData_LogoFile text-left">
+                                  <img src={Specialty.Logofile} className="logoFileImg" alt="No Logo file"></img>
+                                </td>
+                                
                                 <td className="studySIMProgData_AcademicLvl text-left">{Specialty.AcademicLevel}</td>
 
                                 <td className="studySIMProgData_MoS text-left">
-                                  <tr>
-                                    {Specialty.ModeOfStudy.fullTime === true && 
-                                      <span>Full-Time</span>
-                                    }
-                                  </tr>
+                                  {Specialty.ModeOfStudy.fullTime === true && 
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- Full-Time</Col>
+                                    </Row>
+                                  }
 
-                                  <tr>
-                                    {Specialty.ModeOfStudy.partTime === true && 
-                                      <span>Part-Time</span>
-                                    }
-                                  </tr>
+                                  {Specialty.ModeOfStudy.partTime === true && 
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- Part-Time</Col>
+                                    </Row>
+                                  }
                                 </td>
 
                                 <td className="studySIMProgData_Discipline text-left">
-                                  <tr>{Specialty.discipline1}</tr>
-                                  <tr>{Specialty.discipline2}</tr>
+                                  <Row>{Specialty.discipline1}</Row>
+                                  <Row>{Specialty.discipline2}</Row>
                                 </td>
 
                                 
                                 <td className="studySIMProgData_EntryQual text-left">
-                                  <tr>
-                                    {Specialty.Qualification.aLevel === true && 
-                                      <span>"A" level</span>
-                                    }
-                                  </tr>
-
-                                  <tr>
-                                    {Specialty.Qualification.degree === true && 
-                                      <span>Degree</span>
-                                    }
-                                  </tr>
-
-                                  <tr>
-                                    {Specialty.Qualification.diploma === true && 
-                                      <span>Diploma</span>
-                                    }
-                                  </tr>
-
-                                  <tr>
-                                    {Specialty.Qualification.oLevel === true && 
-                                      <span>"O" Level</span>
-                                    }
-                                  </tr>
+                                  {Specialty.Qualification.aLevel === true && 
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- "A" Level</Col>
+                                    </Row>
+                                  }
+                                  
+                                  {Specialty.Qualification.degree === true && 
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- Degree</Col>
+                                    </Row>
+                                  }
+                                  
+                                  {Specialty.Qualification.diploma === true && 
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- Diploma</Col>
+                                    </Row>
+                                  }
+                                  
+                                  {Specialty.Qualification.oLevel === true && 
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- "O" Level</Col>
+                                    </Row>
+                                  }
                                 </td>
 
                                 <td className="studySIMProgData_SubDiscipline text-left">
-                                  <tr>{Specialty.subDiscipline.subDisciplineName1}</tr>
-                                  <tr>{Specialty.subDiscipline.subDisciplineName2}</tr>
-                                  <tr>{Specialty.subDiscipline.subDisciplineName3}</tr>
-                                  <tr>{Specialty.subDiscipline.subDisciplineName4}</tr>
-                                  <tr>{Specialty.subDiscipline.subDisciplineName5}</tr>
+                                  <Row>{Specialty.subDiscipline.subDisciplineName1}</Row>
+                                  <Row>{Specialty.subDiscipline.subDisciplineName2}</Row>
+                                  <Row>{Specialty.subDiscipline.subDisciplineName3}</Row>
+                                  <Row>{Specialty.subDiscipline.subDisciplineName4}</Row>
+                                  <Row>{Specialty.subDiscipline.subDisciplineName5}</Row>
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">
-                                  <Button className="editStudySIMProgBtn" onClick={() => 
-                                    {
+                                  <Button className="editStudySIMProgBtn" onClick={() => {
                                       this.setState({
                                         programmeName: Specialty.programmeName,
                                         University: Specialty.awardBy,
@@ -336,7 +335,7 @@ class StudySIM_Speciality extends Component {
                                         ModeOfStudy: Specialty.ModeOfStudy,
                                         discipline1: Specialty.discipline1,
                                         discipline2: Specialty.discipline2,
-                                        acadamiclevel: Specialty.AcademicLevel,
+                                        academiclevel: Specialty.AcademicLevel,
                                         olevel: Specialty.Qualification.oLevel,
                                         aLevel: Specialty.Qualification.aLevel,
                                         degree: Specialty.Qualification.degree,
@@ -371,11 +370,8 @@ class StudySIM_Speciality extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_Delete text-center">
-                                  <Button className="deleteStudySIMProgBtn" onClick={() => 
-                                    {
-                                      this.setState({
-                                        docid: Specialty.docid,
-                                      });
+                                  <Button className="deleteStudySIMProgBtn" onClick={() => {
+                                      this.setState({docid: Specialty.docid});
                                       this.handleDeleteStudySIMProgModal();
                                     }}
                                   >
@@ -383,9 +379,10 @@ class StudySIM_Speciality extends Component {
                                   </Button>
                                 </td>
                               </tr>
-                            </tbody>
-                          );
-                        })}
+                            );
+                          })}
+                        </tbody>
+                          
                       </Table>
                     </Col>
                   </Row>
@@ -397,6 +394,7 @@ class StudySIM_Speciality extends Component {
 
           <Footer />
         </Container>
+
 
         {/* Add Programme Modal */}
         <Modal
@@ -410,9 +408,9 @@ class StudySIM_Speciality extends Component {
           className="addStudySIMProgModal"
         >
           <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} 
-          universities = {this.state.universities}
-          disciplines = {this.state.disciplines}
-          subDisciplines = {this.state.subDisciplines}
+            universities = {this.state.universities}
+            disciplines = {this.state.disciplines}
+            subDisciplines = {this.state.subDisciplines}
           />
         </Modal>
 
@@ -435,7 +433,7 @@ class StudySIM_Speciality extends Component {
             ModeOfStudy={this.state.ModeOfStudy}
             discipline1={this.state.discipline1}
             discipline2={this.state.discipline2}
-            acadamiclevel={this.state.acadamiclevel}
+            academiclevel={this.state.academiclevel}
             olevel={this.state.olevel}
             aLevel={this.state.aLevel}
             degree={this.state.degree}
@@ -461,13 +459,17 @@ class StudySIM_Speciality extends Component {
             durationfulltime={this.state.durationfulltime}
             durationparttime={this.state.durationparttime}
             
+            // List of options from DB
+            universities = {this.state.universities}
+            disciplines = {this.state.disciplines}
+            subDisciplines = {this.state.subDisciplines}
+
+            // Button props
             handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
             handleCancelEdit={this.handleEditStudySIMProgModal}
-            universities = {this.state.universities}
-          disciplines = {this.state.disciplines}
-          subDisciplines = {this.state.subDisciplines}
           />
         </Modal>
+
 
         {/* Delete Programme Talk Modal */}
         <Modal
@@ -482,6 +484,7 @@ class StudySIM_Speciality extends Component {
           <DeleteStudySIMProgModal docid={this.state.docid} handleConfirmDelete={() => {this.handleDeleteStudySIMProgModal();}} handleCancelDelete={this.handleDeleteStudySIMProgModal}
           />
         </Modal>
+
 
         {/* View Programme Details Modal */}
         <Modal
