@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import fire, { auth, db } from "../../config/firebase";
 import firecreate from "../../config/firebasecreate";
 import history from "../../config/history";
+import emailjs from "emailjs-com";
 import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
 
 
@@ -75,6 +76,12 @@ class SAHome extends Component {
 
       addUserModal: false,
       deleteAdminModal: false,
+
+      //in here put the userID you got from emailjs 
+      REACT_APP_EMAILJS_USERID: 'user_wvpEVGrbniS4sAZqjDk2S', 
+    //the template ID of the template you created in the emailjs
+      templateId: 'template_69tp24j',           
+
     };
     this.resetForm = this.resetForm.bind(this);
   }
@@ -162,6 +169,8 @@ class SAHome extends Component {
 
   addUser = (e) => {
     e.preventDefault();
+    var serviceId = "default_service";
+    var templateId = "template_69tp24j";
 
     const isValid = this.validate();
     if (isValid) {
@@ -169,6 +178,10 @@ class SAHome extends Component {
 
       this.state.password = randomGenPassword(10);
       console.log("Plain Pwd: " + this.state.password)
+      var password = this.state.password;
+      var email = this.state.email;
+      var name = this.state.fullname ;         
+      var administratorType = this.state.administratorType;
 
       /* Hash Password */
       const passwordHash = bcrypt.hashSync(this.state.password, 10);
@@ -188,6 +201,17 @@ class SAHome extends Component {
           password: passwordHash,
         })
           .then(dataSnapshot => {
+          emailjs.init("user_wvpEVGrbniS4sAZqjDk2S");
+          emailjs.send(serviceId, templateId, {
+            name,
+            email,
+          password,
+          administratorType,
+          })
+          .then(res => {
+          console.log('MAIL SENT!')
+          alert("Mail Sent")
+          })
             this.setState({ addUserModal: false });
             this.display();
           });
@@ -253,7 +277,8 @@ class SAHome extends Component {
       });
     } else {
       const userRef = db
-      .collection("Administrators").where("administratorType", "==", "Marketing Administrator") // Need to change to show crew also 
+      .collection("Administrators")
+      .where("administratorType", "in", ["Marketing Administrator","Crew"])
       .orderBy("email")
       .startAt(searchvalue)
       .endAt(searchvalue + "\uf8ff")

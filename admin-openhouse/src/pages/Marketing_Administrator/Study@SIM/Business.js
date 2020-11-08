@@ -63,10 +63,7 @@ class StudySIM_Business extends Component {
       const business = [];
       snapshot.forEach((doc) => {
         const getdiscipline = doc.get("discipline");
-        if (
-          getdiscipline.disciplineName1 === "Business" ||
-          getdiscipline.disciplineName2 === "Business"
-        ) {
+        if (getdiscipline.disciplineName1 === "Business" || getdiscipline.disciplineName2 === "Business") {
           function getKeyByValue(object, value) {
             return Object.keys(object).find((key) => object[key] === value);
           }
@@ -142,11 +139,11 @@ class StudySIM_Business extends Component {
     if (this.state.addStudySIMProgModal == false) {
       this.setState({
         addStudySIMProgModal: true,
-        test: "test",
+        addProgramme: "addProgramme"
       });
     } else {
       this.setState({
-        addStudySIMProgModal: false,
+        addStudySIMProgModal: false
       });
     }
   };
@@ -155,11 +152,11 @@ class StudySIM_Business extends Component {
   handleEditStudySIMProgModal = () => {
     if (this.state.editStudySIMProgModal == false) {
       this.setState({
-        editStudySIMProgModal: true,
+        editStudySIMProgModal: true
       });
     } else {
       this.setState({
-        editStudySIMProgModal: false,
+        editStudySIMProgModal: false
       });
     }
   };
@@ -168,11 +165,11 @@ class StudySIM_Business extends Component {
   handleDeleteStudySIMProgModal = () => {
     if (this.state.deleteStudySIMProgModal == false) {
       this.setState({
-        deleteStudySIMProgModal: true,
+        deleteStudySIMProgModal: true
       });
     } else {
       this.setState({
-        deleteStudySIMProgModal: false,
+        deleteStudySIMProgModal: false
       });
     }
   };
@@ -181,11 +178,11 @@ class StudySIM_Business extends Component {
   handleViewStudySIMProgDetailsModal = () => {
     if (this.state.viewStudySIMProgDetailsModal == false) {
       this.setState({
-        viewStudySIMProgDetailsModal: true,
+        viewStudySIMProgDetailsModal: true
       });
     } else {
       this.setState({
-        viewStudySIMProgDetailsModal: false,
+        viewStudySIMProgDetailsModal: false
       });
     }
   };
@@ -241,113 +238,117 @@ class StudySIM_Business extends Component {
                           </tr>
                         </thead>
 
-                        {this.state.business && this.state.business.map((business, index) => {
-                          index = index + 1;
-                          return (
-                            <tbody>
-                              <tr>
+                        
+                        <tbody>
+                          {this.state.business && this.state.business.map((business, index) => {
+                            index = index + 1;
+                            return (
+                              <tr key={index}>
                                 <td className="studySIMProgData_SNo text-center">{index}</td>
                                 <td className="studySIMProgData_ProgName text-left">
                                   <a className="studySIMProgData_ProgNameLink" onClick={() => {
-                                    this.setState({
-                                      programmeName: business.programmeName,
-                                      aboutprogramme1: business.aboutprogramme.aboutProgramme1,
-                                      aboutprogramme2: business.aboutprogramme.aboutProgramme2,
-                                      aboutprogramme3: business.aboutprogramme.aboutProgramme3,
-                                      applicationperiod1: business.applicationperiod.period1,
-                                      applicationperiod2: business.applicationperiod.period2,
-                                      programmestructurecoursework: business.programmestructure.coursework,
-                                      programmestructureexamination: business.programmestructur.examination,
-                                      overseaopportunityexchange: business.overseaopportunity.exchange,
-                                      overseaopportunitytransfer: business.overseaopportunity.transfer,
-                                      intakemonthsfulltime: business.intakemonths.fullTime,
-                                      intakemonthsparttime: business.intakemonths.partTime,
-                                      durationfulltime: business.duration.fullTime,
-                                      durationparttime: business.duration.partTime,
-                                    });
-                                    this.handleViewStudySIMProgDetailsModal();
-                                  }}
+                                      this.setState({
+                                        programmeName: business.programmeName,
+                                        aboutprogramme1: business.aboutprogramme.aboutProgramme1,
+                                        aboutprogramme2: business.aboutprogramme.aboutProgramme2,
+                                        aboutprogramme3: business.aboutprogramme.aboutProgramme3,
+                                        applicationperiod1: business.applicationperiod.period1,
+                                        applicationperiod2: business.applicationperiod.period2,
+                                        programmestructurecoursework: business.programmestructure.coursework,
+                                        programmestructureexamination: business.programmestructure.examination,
+                                        overseaopportunityexchange: business.overseaopportunity.exchange,
+                                        overseaopportunitytransfer: business.overseaopportunity.transfer,
+                                        intakemonthsfulltime: business.intakemonths.fullTime,
+                                        intakemonthsparttime: business.intakemonths.partTime,
+                                        durationfulltime: business.duration.fullTime,
+                                        durationparttime: business.duration.partTime,
+                                      });
+                                      this.handleViewStudySIMProgDetailsModal();
+                                    }}
                                   >
                                     {business.programmeName}
                                   </a>
                                 </td>
 
                                 <td className="studySIMProgData_AwardedBy text-left">{business.awardBy}</td>
-                                <td className="studySIMProgData_LogoFile text-left"><img src={business.Logofile} alt="No Logo file"></img></td>
+                                <td className="studySIMProgData_LogoFile text-left">
+                                  <img src={business.Logofile} className="logoFileImg" alt="No Logo file"></img>
+                                </td>
+
                                 <td className="studySIMProgData_AcademicLvl text-left">{business.AcademicLevel}</td>
 
                                 <td className="studySIMProgData_MoS text-left">
-                                  <tr>
-                                    {business.ModeOfStudy.fullTime === true &&
-                                      <span>Full-Time</span>
-                                    }
-                                  </tr>
-
-                                  <tr>
-                                    {business.ModeOfStudy.partTime === true &&
-                                      <span>Part-Time</span>
-                                    }
-                                  </tr>
+                                  {business.ModeOfStudy.fullTime === true && 
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- Full-Time</Col>
+                                    </Row>
+                                  }
+                                    
+                                  {business.ModeOfStudy.partTime === true && 
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- Part-Time</Col>
+                                    </Row>
+                                  }
                                 </td>
 
                                 <td className="studySIMProgData_Discipline text-left">
-                                  <tr>{business.discipline1}</tr>
-                                  <tr>{business.discipline2}</tr>
+                                  <Row>{business.discipline1}</Row>
+                                  <Row>{business.discipline2}</Row>
                                 </td>
 
                                 <td className="studySIMProgData_EntryQual text-left">
-                                  <tr>
-                                    {business.Qualification.aLevel === true &&
-                                      <span>"A" level</span>
-                                    }
-                                  </tr>
-
-                                  <tr>
-                                    {business.Qualification.degree === true &&
-                                      <span>Degree</span>
-                                    }
-                                  </tr>
-
-                                  <tr>
-                                    {business.Qualification.diploma === true &&
-                                      <span>Diploma</span>
-                                    }
-                                  </tr>
-
-                                  <tr>
-                                    {business.Qualification.oLevel === true &&
-                                      <span>"O" Level</span>
-                                    }
-                                  </tr>
+                                  {business.Qualification.aLevel === true && 
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- "A" Level</Col>
+                                    </Row>
+                                  }
+                                  
+                                  {business.Qualification.degree === true && 
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- Degree</Col>
+                                    </Row>
+                                  }
+                                  
+                                  {business.Qualification.diploma === true && 
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- Diploma</Col>
+                                    </Row>
+                                  }
+                                  
+                                  {business.Qualification.oLevel === true && 
+                                    <Row className="justify-content-center">
+                                      <Col className="text-left">- "O" Level</Col>
+                                    </Row>
+                                  }
                                 </td>
 
                                 <td className="studySIMProgData_SubDiscipline text-left">
-                                  <tr>{business.subDiscipline.subDisciplineName1}</tr>
-                                  <tr>{business.subDiscipline.subDisciplineName2}</tr>
-                                  <tr>{business.subDiscipline.subDisciplineName3}</tr>
-                                  <tr>{business.subDiscipline.subDisciplineName4}</tr>
-                                  <tr>{business.subDiscipline.subDisciplineName5}</tr>
+                                  <Row>{business.subDiscipline.subDisciplineName1}</Row>
+                                  <Row>{business.subDiscipline.subDisciplineName2}</Row>
+                                  <Row>{business.subDiscipline.subDisciplineName3}</Row>
+                                  <Row>{business.subDiscipline.subDisciplineName4}</Row>
+                                  <Row>{business.subDiscipline.subDisciplineName5}</Row>
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">
                                   <Button className="editStudySIMProgBtn" onClick={() => {
-                                    this.setState({
-                                      programmeName: business.programmeName,
-                                      University: business.awardBy,
-                                      category: business.CategoryProgramme,
-                                      ModeOfStudy: business.ModeOfStudy,
-                                      discipline1: business.discipline1,
-                                      discipline2: business.discipline2,
-                                      acadamiclevel: business.AcademicLevel,
-                                      olevel: business.Qualification.oLevel,
-                                      aLevel: business.Qualification.aLevel,
-                                      degree: business.Qualification.degree,
-                                      diploma: business.Qualification.diploma,
-                                      subdiscipline1: business.subDiscipline.subDisciplineName1,
-                                      subdiscipline2: business.subDiscipline.subDisciplineName2,
-                                      subdiscipline3: business.subDiscipline.subDisciplineName3,
-                                      subdiscipline4: business.subDiscipline.subDisciplineName4,
-                                      subdiscipline5: business.subDiscipline.subDisciplineName5,
+                                      this.setState({
+                                        programmeName: business.programmeName,
+                                        University: business.awardBy,
+                                        category: business.CategoryProgramme,
+                                        ModeOfStudy: business.ModeOfStudy,
+                                        discipline1: business.discipline1,
+                                        discipline2: business.discipline2,
+                                        academiclevel: business.AcademicLevel,
+                                        olevel: business.Qualification.oLevel,
+                                        aLevel: business.Qualification.aLevel,
+                                        degree: business.Qualification.degree,
+                                        diploma: business.Qualification.diploma,
+                                        subdiscipline1: business.subDiscipline.subDisciplineName1,
+                                        subdiscipline2: business.subDiscipline.subDisciplineName2,
+                                        subdiscipline3: business.subDiscipline.subDisciplineName3,
+                                        subdiscipline4: business.subDiscipline.subDisciplineName4,
+                                        subdiscipline5: business.subDiscipline.subDisciplineName5,
 
                                       //details
                                       aboutprogramme1: business.aboutprogramme.aboutProgramme1,
@@ -374,18 +375,18 @@ class StudySIM_Business extends Component {
 
                                 <td className="studySIMProgData_Delete text-center">
                                   <Button className="deleteStudySIMProgBtn" onClick={() => {
-                                    this.setState({ docid: business.docid, });
-                                    this.handleDeleteStudySIMProgModal();
-                                  }}
+                                      this.setState({ docid: business.docid, });
+                                      this.handleDeleteStudySIMProgModal();
+                                    }}
                                   >
                                     <FontAwesomeIcon size="lg" className="deleteStudySIMProgBtnIcon" icon={faTrashAlt} />
                                   </Button>
                                 </td>
                               </tr>
-                            </tbody>
-                          );
-                        })}
-
+                            );
+                          })}
+                        </tbody>
+                          
                       </Table>
                     </Col>
                   </Row>
@@ -397,6 +398,7 @@ class StudySIM_Business extends Component {
 
           <Footer />
         </Container>
+
 
         {/* Add Programme Modal */}
         <Modal
@@ -419,6 +421,7 @@ class StudySIM_Business extends Component {
           />
         </Modal>
 
+
         {/* Edit Programme Modal */}
         <Modal
           show={this.state.editStudySIMProgModal}
@@ -437,7 +440,7 @@ class StudySIM_Business extends Component {
             ModeOfStudy={this.state.ModeOfStudy}
             discipline1={this.state.discipline1}
             discipline2={this.state.discipline2}
-            acadamiclevel={this.state.acadamiclevel}
+            academiclevel={this.state.academiclevel}
             olevel={this.state.olevel}
             aLevel={this.state.aLevel}
             degree={this.state.degree}
@@ -475,6 +478,7 @@ class StudySIM_Business extends Component {
           />
         </Modal>
 
+
         {/* Delete Programme Talk Modal */}
         <Modal
           show={this.state.deleteStudySIMProgModal}
@@ -487,6 +491,7 @@ class StudySIM_Business extends Component {
         >
           <DeleteStudySIMProgModal docid={this.state.docid} handleConfirmDelete={() => { this.handleDeleteStudySIMProgModal(); }} handleCancelDelete={this.handleDeleteStudySIMProgModal} />
         </Modal>
+
 
         {/* View Programme Details Modal */}
         <Modal
