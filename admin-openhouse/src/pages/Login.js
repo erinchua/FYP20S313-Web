@@ -8,14 +8,14 @@ import simLogo from '../img/WebAppLogo.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAt, faLock } from '@fortawesome/free-solid-svg-icons';
 import ForgetPasswordModal from "../components/ForgetPasswordModal";
- 
+
 
 const bcrypt = require('bcryptjs')
 
 const marketingInitialState = {
     marketingEmailError: "",
     marketingPasswordError: "",
-    
+
 }
 
 const superInitialState = {
@@ -30,8 +30,8 @@ const crewInitialState = {
 
 class Login extends Component {
 
-    state = {marketingInitialState, superInitialState, crewInitialState};
-  
+    state = { marketingInitialState, superInitialState, crewInitialState };
+
     constructor() {
         super();
         this.login = this.login.bind(this);
@@ -55,28 +55,28 @@ class Login extends Component {
         auth.onAuthStateChanged((user) => {
             if (user) {
                 var getrole = db
-                .collection("Administrators")
-                .where("email", "==", user.email);
+                    .collection("Administrators")
+                    .where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
                     if (snapshot.empty) {
                         console.log("No such user!");
-                        this.setState({showAlert: true});
+                        this.setState({ showAlert: true });
                     } else {
                         snapshot.forEach((doc) => {
                             /* Decrypt password  */
                             // const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
-                                
+
                             // if(decryptPassword){
                             //     console.log("decrypt: " + decryptPassword)
-                                    
-                                if (doc.data().administratorType === "Marketing Administrator") {
-                                    this.setState({ user: "Marketing Administrator" });
-                                    history.push("/MAHome");
-                                    window.location.reload();
-                                } else {
-                                    history.push("/Login");
-                                    window.location.reload();
-                                }
+
+                            if (doc.data().administratorType === "Marketing Administrator") {
+                                this.setState({ user: "Marketing Administrator" });
+                                history.push("/MAHome");
+                                window.location.reload();
+                            } else {
+                                history.push("/Login");
+                                window.location.reload();
+                            }
                             // }
                         });
                     }
@@ -91,27 +91,27 @@ class Login extends Component {
         auth.onAuthStateChanged((user) => {
             if (user) {
                 var getrole = db
-                .collection("Administrators")
-                .where("email", "==", user.email);
+                    .collection("Administrators")
+                    .where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
                     if (snapshot.empty) {
                         console.log("No such user!");
-                        this.setState({showAlert: true});
+                        this.setState({ showAlert: true });
                     } else {
                         snapshot.forEach((doc) => {
                             /* Decrypt password  */
                             // const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
-                                
+
                             // if(decryptPassword){
                             //     console.log("decrypt: " + decryptPassword)
-                                if (doc.data().administratorType === "Super Administrator") {
-                                    this.setState({ user: "Super Administrator" });
-                                    history.push("/SAHome");
-                                    window.location.reload();
-                                }  else {
-                                    history.push("/Login");
-                                    window.location.reload();
-                                }
+                            if (doc.data().administratorType === "Super Administrator") {
+                                this.setState({ user: "Super Administrator" });
+                                history.push("/SAHome");
+                                window.location.reload();
+                            } else {
+                                history.push("/Login");
+                                window.location.reload();
+                            }
                             // }
                         });
                     }
@@ -126,28 +126,28 @@ class Login extends Component {
         auth.onAuthStateChanged((user) => {
             if (user) {
                 var getrole = db
-                .collection("Administrators")
-                .where("email", "==", user.email);
+                    .collection("Administrators")
+                    .where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
                     if (snapshot.empty) {
                         console.log("No such user!");
-                        this.setState({showAlert: true});
+                        this.setState({ showAlert: true });
                     } else {
                         snapshot.forEach((doc) => {
                             /* Decrypt password  */
                             // const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
-                                
+
                             // if(decryptPassword){
                             //     console.log("decrypt: " + decryptPassword)
 
-                                if (doc.data().administratorType === "Crew") {
-                                    this.setState({ user: "Crew" });
-                                    history.push("/AttendanceMarkingScanner");
-                                    window.location.reload();
-                                }  else {
-                                    history.push("/Login");
-                                    window.location.reload();
-                                }
+                            if (doc.data().administratorType === "Crew") {
+                                this.setState({ user: "Crew" });
+                                history.push("/AttendanceMarkingScanner");
+                                window.location.reload();
+                            } else {
+                                history.push("/Login");
+                                window.location.reload();
+                            }
                             //}
                         });
                     }
@@ -171,9 +171,9 @@ class Login extends Component {
         }
 
         if (marketingEmailError || marketingPasswordError) {
-            this.setState({marketingEmailError, marketingPasswordError});
+            this.setState({ marketingEmailError, marketingPasswordError });
             return false;
-        } 
+        }
 
         return true;
     }
@@ -191,7 +191,7 @@ class Login extends Component {
         }
 
         if (superEmailError || superPasswordError) {
-            this.setState({superEmailError, superPasswordError});
+            this.setState({ superEmailError, superPasswordError });
             return false;
         }
 
@@ -211,15 +211,15 @@ class Login extends Component {
         }
 
         if (crewEmailError || crewPasswordError) {
-            this.setState({crewEmailError, crewPasswordError});
+            this.setState({ crewEmailError, crewPasswordError });
             return false;
         }
 
         return true;
     }
 
-    resetForm () {
-        this.setState({email: '', password: ''});
+    resetForm() {
+        this.setState({ email: '', password: '' });
         this.setState(marketingInitialState);
         this.setState(superInitialState);
         this.setState(crewInitialState);
@@ -247,27 +247,27 @@ class Login extends Component {
         } else if (accounttype === "crew") {
             this.setState(marketingInitialState);
             this.setState(superInitialState);
-            if(isCrewValid) {
+            if (isCrewValid) {
                 this.setState(crewInitialState);
             }
         }
 
         auth
-        .signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then((u) => {
-            if (accounttype === "marketing") {
-                this.marketingauthListener();
-            } else if (accounttype === "super") {
-                this.superauthListener();
-            } else if (accounttype === "crew") {
-                this.crewauthListener();
-            }
-        })
-        .catch((error) => {
-            //Alert box for login failure
-            this.setState({showAlert: true});
-            console.log("Login Failure");
-        });
+            .signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then((u) => {
+                if (accounttype === "marketing") {
+                    this.marketingauthListener();
+                } else if (accounttype === "super") {
+                    this.superauthListener();
+                } else if (accounttype === "crew") {
+                    this.crewauthListener();
+                }
+            })
+            .catch((error) => {
+                //Alert box for login failure
+                this.setState({ showAlert: true });
+                console.log("Login Failure");
+            });
     }
 
     handleChange(e) {
@@ -286,8 +286,8 @@ class Login extends Component {
             this.setState({
                 forgetPasswordModal: true
             });
-            }
-            else {
+        }
+        else {
             this.setState({
                 forgetPasswordModal: false
             });
@@ -317,45 +317,45 @@ class Login extends Component {
                             </Nav>
 
                             <Tab.Content id="login-tabContent">
-                                
+
                                 <Tab.Pane eventKey="marketingAdministrator">
                                     <Container>
                                         <div id="simLogo-container">
-                                            <img src={simLogo} id="simLogo"/>
+                                            <img src={simLogo} id="simLogo" />
                                         </div>
                                         <Form id="login-form" noValidate onSubmit={this.login}>
                                             <Form.Group>
                                                 <Form.Group as={Row} className="login-formGroup">
                                                     <Form.Group as={Col} md="1">
                                                         <FontAwesomeIcon size="lg" icon={faAt} />
-                                                    </Form.Group> 
+                                                    </Form.Group>
                                                     <Form.Group as={Col} md="7">
                                                         <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
                                                         <div className="errorMessage">{this.state.marketingEmailError}</div>
                                                     </Form.Group>
-                                                </Form.Group>                     
+                                                </Form.Group>
                                             </Form.Group>
                                             <Form.Group>
                                                 <Form.Group as={Row} className="login-formGroup">
                                                     <Form.Group as={Col} md="1">
                                                         <FontAwesomeIcon size="lg" icon={faLock} />
-                                                    </Form.Group> 
+                                                    </Form.Group>
                                                     <Form.Group as={Col} md="7">
                                                         <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
                                                         <div className="errorMessage">{this.state.marketingPasswordError}</div>
                                                     </Form.Group>
-                                                </Form.Group>  
+                                                </Form.Group>
                                                 <Form.Group as={Row} id="login-forgetPassword">
                                                     <Form.Group as={Col} md="3"></Form.Group>
                                                     <Form.Group as={Col} md="7">
                                                         <div className="text-right">
                                                             <Button variant="link" size="sm" onClick={this.handleForgetPasswordModal.bind(this)}>Forget Password?</Button>
-                                                        </div>   
-                                                    </Form.Group> 
-                                                </Form.Group>                          
+                                                        </div>
+                                                    </Form.Group>
+                                                </Form.Group>
                                             </Form.Group>
                                             <Form.Group className="login-formGroup">
-                                                <Button onClick={(e) => {this.login(e, "marketing")}} type="submit" size="sm" id="login-button">Login</Button>
+                                                <Button onClick={(e) => { this.login(e, "marketing") }} type="submit" size="sm" id="login-button">Login</Button>
                                             </Form.Group>
                                         </Form>
                                     </Container>
@@ -364,42 +364,42 @@ class Login extends Component {
                                 <Tab.Pane eventKey="superAdministrator">
                                     <Container>
                                         <div id="simLogo-container">
-                                            <img src={simLogo} id="simLogo"/>
+                                            <img src={simLogo} id="simLogo" />
                                         </div>
                                         <Form id="login-form" noValidate onSubmit={this.login}>
                                             <Form.Group>
                                                 <Form.Group as={Row} className="login-formGroup">
                                                     <Form.Group as={Col} md="1">
                                                         <FontAwesomeIcon size="lg" icon={faAt} />
-                                                    </Form.Group> 
+                                                    </Form.Group>
                                                     <Form.Group as={Col} md="7">
                                                         <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
                                                         <div className="errorMessage">{this.state.superEmailError}</div>
                                                     </Form.Group>
-                                                </Form.Group>                     
+                                                </Form.Group>
                                             </Form.Group>
 
                                             <Form.Group>
                                                 <Form.Group as={Row} className="login-formGroup">
                                                     <Form.Group as={Col} md="1">
                                                         <FontAwesomeIcon size="lg" icon={faLock} />
-                                                    </Form.Group> 
+                                                    </Form.Group>
                                                     <Form.Group as={Col} md="7">
                                                         <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
                                                         <div className="errorMessage">{this.state.superPasswordError}</div>
                                                     </Form.Group>
-                                                </Form.Group>  
+                                                </Form.Group>
                                                 <Form.Group as={Row} id="login-forgetPassword">
                                                     <Form.Group as={Col} md="3"></Form.Group>
                                                     <Form.Group as={Col} md="7">
                                                         <div className="text-right">
                                                             <Button variant="link" size="sm" onClick={this.handleForgetPasswordModal.bind(this)}>Forget Password?</Button>
-                                                        </div>   
-                                                    </Form.Group> 
-                                                </Form.Group>                          
+                                                        </div>
+                                                    </Form.Group>
+                                                </Form.Group>
                                             </Form.Group>
                                             <Form.Group className="login-formGroup">
-                                                <Button onClick={(e) => {this.login(e, "super")}} type="submit" size="sm" id="login-button">Login</Button>
+                                                <Button onClick={(e) => { this.login(e, "super") }} type="submit" size="sm" id="login-button">Login</Button>
                                             </Form.Group>
                                         </Form>
                                     </Container>
@@ -409,35 +409,35 @@ class Login extends Component {
                                 <Tab.Pane eventKey="eventCrew">
                                     <Container>
                                         <div id="simLogo-container">
-                                            <img src={simLogo} id="simLogo"/>
+                                            <img src={simLogo} id="simLogo" />
                                         </div>
                                         <Form id="login-form" noValidate onSubmit={this.login}>
                                             <Form.Group>
                                                 <Form.Group as={Row} className="login-formGroup">
                                                     <Form.Group as={Col} md="1">
                                                         <FontAwesomeIcon size="lg" icon={faAt} />
-                                                    </Form.Group> 
+                                                    </Form.Group>
                                                     <Form.Group as={Col} md="7">
                                                         <Form.Control type="email" name="email" placeholder="Email" required value={this.state.email} onChange={this.handleChange} noValidate></Form.Control>
                                                         <div className="errorMessage">{this.state.crewEmailError}</div>
                                                     </Form.Group>
-                                                </Form.Group>                     
+                                                </Form.Group>
                                             </Form.Group>
 
                                             <Form.Group>
                                                 <Form.Group as={Row} className="login-formGroup">
                                                     <Form.Group as={Col} md="1">
                                                         <FontAwesomeIcon size="lg" icon={faLock} />
-                                                    </Form.Group> 
+                                                    </Form.Group>
                                                     <Form.Group as={Col} md="7">
                                                         <Form.Control type="password" name="password" placeholder="Password" required value={this.state.password} onChange={this.handleChange} noValidate></Form.Control>
                                                         <div className="errorMessage">{this.state.crewPasswordError}</div>
                                                     </Form.Group>
-                                                </Form.Group>                            
+                                                </Form.Group>
                                             </Form.Group>
 
                                             <Form.Group className="login-formGroup">
-                                                <Button onClick={(e) => {this.login(e, "crew")}} type="submit" size="sm" id="login-button">Login</Button>
+                                                <Button onClick={(e) => { this.login(e, "crew") }} type="submit" size="sm" id="login-button">Login</Button>
                                             </Form.Group>
                                         </Form>
                                     </Container>
@@ -458,12 +458,12 @@ class Login extends Component {
                     >
                         <ForgetPasswordModal />
                     </Modal>
-                    :''
+                    : ''
                 }
 
                 {this.state.showAlert == true ?
-                    <Modal show={this.state.showAlert} onHide={() => this.setState({showAlert: false})} size="sm" centered backdrop="static" keyboard={false}>
-                        <Alert show={this.state.showAlert} onClose={() => this.setState({showAlert: false})} dismissible>
+                    <Modal show={this.state.showAlert} onHide={() => this.setState({ showAlert: false })} size="sm" centered backdrop="static" keyboard={false}>
+                        <Alert show={this.state.showAlert} onClose={() => this.setState({ showAlert: false })} dismissible>
                             <Alert.Heading>Error Occurred!</Alert.Heading>
                             <p id="login-alertFail-data">Please enter the correct email and password.</p>
                         </Alert>

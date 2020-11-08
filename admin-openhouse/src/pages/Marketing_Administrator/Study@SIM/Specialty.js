@@ -21,9 +21,10 @@ class StudySIM_Speciality extends Component {
   constructor() {
     super();
     this.state = {
-      disciplines : [],
-      subDiscplines : [],
-      universities : [],
+      programmes: [],
+      disciplines: [],
+      subDiscplines: [],
+      universities: [],
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
@@ -35,8 +36,8 @@ class StudySIM_Speciality extends Component {
     auth.onAuthStateChanged((user) => {
       if (user) {
         var getrole = db
-        .collection("Administrators")
-        .where("email", "==", user.email);
+          .collection("Administrators")
+          .where("email", "==", user.email);
 
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
@@ -57,9 +58,9 @@ class StudySIM_Speciality extends Component {
     this.authListener();
   }
 
-  display = async()=> {
+  display = async () => {
 
-    const userRe1 = await db.collection("Programmes").onSnapshot((snapshot) => {
+    const userRe1 = await db.collection("ProgrammesWeb").onSnapshot((snapshot) => {
       const Specialty = [];
       snapshot.forEach((doc) => {
         const getdiscipline = doc.get("discipline");
@@ -101,32 +102,40 @@ class StudySIM_Speciality extends Component {
     });
 
     const disciplines = []
-    await db.collection('Disciplines').get().then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{
+    await db.collection('Disciplines').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data()
         disciplines.push(data.name)
       })
-      this.setState({disciplines : disciplines})
+      this.setState({ disciplines: disciplines })
     })
 
     const subDisciplines = []
-    await db.collection('SubDisciplines').get().then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{
+    await db.collection('SubDisciplines').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data()
         subDisciplines.push(data.name)
       })
-      this.setState({subDisciplines : subDisciplines})
+      this.setState({ subDisciplines: subDisciplines })
     })
 
     const universities = []
-    await db.collection('Universities').get().then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{
+    await db.collection('Universities').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data()
         universities.push(data.universityName)
       })
-      this.setState({universities : universities})
+      this.setState({ universities: universities })
     })
 
+    const academicLvls = []
+    await db.collection('AcademicLevels').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        const data = doc.data()
+        academicLvls.push(data.level)
+      })
+      this.setState({ academicLvls: academicLvls })
+    })
   }
 
   /* Add Programme Talk Modal */
@@ -219,7 +228,7 @@ class StudySIM_Speciality extends Component {
                       <Table responsive="sm" hover bordered className="MAStudySIMTable">
                         <thead>
                           <tr>
-                          <th className="studySIMProgHeader_SNo">S/N</th>
+                            <th className="studySIMProgHeader_SNo">S/N</th>
                             <th className="studySIMProgHeader_ProgName">Programme Name</th>
                             <th className="studySIMProgHeader_AwardedBy">Awarded By</th>
                             <th className="studySIMProgHeader_LogoFile">Logo File</th>
@@ -296,7 +305,7 @@ class StudySIM_Speciality extends Component {
                                   </Row>
                                 </td>
 
-                                
+
                                 <td className="studySIMProgData_EntryQual text-left">
                                   {Specialty.Qualification.aLevel === true && 
                                     <Row className="justify-content-center">
@@ -430,6 +439,7 @@ class StudySIM_Speciality extends Component {
             universities = {this.state.universities}
             disciplines = {this.state.disciplines}
             subDisciplines = {this.state.subDisciplines}
+            academicLvls={this.state.academicLvls}
           />
         </Modal>
 
@@ -477,15 +487,15 @@ class StudySIM_Speciality extends Component {
             intakemonthsparttime={this.state.intakemonthsparttime}
             durationfulltime={this.state.durationfulltime}
             durationparttime={this.state.durationparttime}
-            
-            // List of options from DB
-            universities = {this.state.universities}
-            disciplines = {this.state.disciplines}
-            subDisciplines = {this.state.subDisciplines}
 
-            // Button props
-            handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
+            // Options Values
+            handleSaveChanges={() => { this.handleEditStudySIMProgModal() }}
             handleCancelEdit={this.handleEditStudySIMProgModal}
+            universities={this.state.universities}
+            disciplines={this.state.disciplines}
+            subDisciplines={this.state.subDisciplines}
+            academicLvls={this.state.academicLvls}
+
           />
         </Modal>
 

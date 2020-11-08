@@ -21,9 +21,10 @@ class StudySIM_Nursing extends Component {
   constructor() {
     super();
     this.state = {
-      disciplines : [],
-      subDiscplines : [],
-      universities : [],
+      programmes: [],
+      disciplines: [],
+      subDiscplines: [],
+      universities: [],
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
@@ -35,8 +36,8 @@ class StudySIM_Nursing extends Component {
     auth.onAuthStateChanged((user) => {
       if (user) {
         var getrole = db
-        .collection("Administrators")
-        .where("email", "==", user.email);
+          .collection("Administrators")
+          .where("email", "==", user.email);
 
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
@@ -57,9 +58,9 @@ class StudySIM_Nursing extends Component {
     this.authListener();
   }
 
-  display = async()=> {
+  display = async () => {
 
-    const userRe1 = await db.collection("Programmes").onSnapshot((snapshot) => {
+    const userRe1 = await db.collection("ProgrammesWeb").onSnapshot((snapshot) => {
       const nursing = [];
       snapshot.forEach((doc) => {
         const getdiscipline = doc.get("discipline");
@@ -101,30 +102,39 @@ class StudySIM_Nursing extends Component {
     });
 
     const disciplines = []
-    await db.collection('Disciplines').get().then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{
+    await db.collection('Disciplines').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data()
         disciplines.push(data.name)
       })
-      this.setState({disciplines : disciplines})
+      this.setState({ disciplines: disciplines })
     })
 
     const subDisciplines = []
-    await db.collection('SubDisciplines').get().then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{
+    await db.collection('SubDisciplines').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data()
         subDisciplines.push(data.name)
       })
-      this.setState({subDisciplines : subDisciplines})
+      this.setState({ subDisciplines: subDisciplines })
     })
 
     const universities = []
-    await db.collection('Universities').get().then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{
+    await db.collection('Universities').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data()
         universities.push(data.universityName)
       })
-      this.setState({universities : universities})
+      this.setState({ universities: universities })
+    })
+
+    const academicLvls = []
+    await db.collection('AcademicLevels').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        const data = doc.data()
+        academicLvls.push(data.level)
+      })
+      this.setState({ academicLvls: academicLvls })
     })
 
   }
@@ -219,7 +229,7 @@ class StudySIM_Nursing extends Component {
                       <Table responsive="sm" hover bordered className="MAStudySIMTable">
                         <thead>
                           <tr>
-                          <th className="studySIMProgHeader_SNo">S/N</th>
+                            <th className="studySIMProgHeader_SNo">S/N</th>
                             <th className="studySIMProgHeader_ProgName">Programme Name</th>
                             <th className="studySIMProgHeader_AwardedBy">Awarded By</th>
                             <th className="studySIMProgHeader_LogoFile">Logo File</th>
@@ -364,24 +374,24 @@ class StudySIM_Nursing extends Component {
                                         subdiscipline4: nursing.subDiscipline.subDisciplineName4,
                                         subdiscipline5: nursing.subDiscipline.subDisciplineName5,
 
-                                        //details
-                                        aboutprogramme1: nursing.aboutprogramme.aboutProgramme1,
-                                        aboutprogramme2: nursing.aboutprogramme.aboutProgramme2,
-                                        aboutprogramme3: nursing.aboutprogramme.aboutProgramme3,
-                                        applicationperiod1: nursing.applicationperiod.period1,
-                                        applicationperiod2: nursing.applicationperiod.period2,
-                                        programmestructurecoursework: nursing.programmestructure.coursework,
-                                        programmestructureexamination: nursing.programmestructure.examination,
-                                        overseaopportunityexchange: nursing.overseaopportunity.exchange,
-                                        overseaopportunitytransfer: nursing.overseaopportunity.transfer,
-                                        intakemonthsfulltime: nursing.intakemonths.fullTime,
-                                        intakemonthsparttime: nursing.intakemonths.partTime,
-                                        durationfulltime: nursing.duration.fullTime,
-                                        durationparttime: nursing.duration.partTime,
-                                        docid: nursing.docid,
-                                      });
-                                      this.handleEditStudySIMProgModal();
-                                    }}
+                                      //details
+                                      aboutprogramme1: nursing.aboutprogramme.aboutProgramme1,
+                                      aboutprogramme2: nursing.aboutprogramme.aboutProgramme2,
+                                      aboutprogramme3: nursing.aboutprogramme.aboutProgramme3,
+                                      applicationperiod1: nursing.applicationperiod.period1,
+                                      applicationperiod2: nursing.applicationperiod.period2,
+                                      programmestructurecoursework: nursing.programmestructure.coursework,
+                                      programmestructureexamination: nursing.programmestructure.examination,
+                                      overseaopportunityexchange: nursing.overseaopportunity.exchange,
+                                      overseaopportunitytransfer: nursing.overseaopportunity.transfer,
+                                      intakemonthsfulltime: nursing.intakemonths.fullTime,
+                                      intakemonthsparttime: nursing.intakemonths.partTime,
+                                      durationfulltime: nursing.duration.fullTime,
+                                      durationparttime: nursing.duration.partTime,
+                                      docid: nursing.docid,
+                                    });
+                                    this.handleEditStudySIMProgModal();
+                                  }}
                                   >
                                     <FontAwesomeIcon size="lg" className="editStudySIMProgBtnIcon" icon={faEdit} />
                                   </Button>
@@ -425,10 +435,12 @@ class StudySIM_Nursing extends Component {
           keyboard={false}
           className="addStudySIMProgModal"
         >
-          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} 
-            universities = {this.state.universities}
-            disciplines = {this.state.disciplines}
-            subDisciplines = {this.state.subDisciplines}
+          <AddStudySIMProgModal handleAdd={() => { this.handleAddStudySIMProgModal() }}
+            universities={this.state.universities}
+            disciplines={this.state.disciplines}
+            subDisciplines={this.state.subDisciplines}
+            academicLvls={this.state.academicLvls}
+
           />
         </Modal>
 
@@ -477,14 +489,14 @@ class StudySIM_Nursing extends Component {
             durationparttime={this.state.durationparttime}
             docid={this.state.docid}
 
-            // List of options from DB
-            universities = {this.state.universities}
-            disciplines = {this.state.disciplines}
-            subDisciplines = {this.state.subDisciplines}
-
-            // Button props
-            handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
+            //Option Values
+            handleSaveChanges={() => { this.handleEditStudySIMProgModal() }}
             handleCancelEdit={this.handleEditStudySIMProgModal}
+            universities={this.state.universities}
+            disciplines={this.state.disciplines}
+            subDisciplines={this.state.subDisciplines}
+            academicLvls={this.state.academicLvls}
+
           />
         </Modal>
 
@@ -499,7 +511,7 @@ class StudySIM_Nursing extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <DeleteStudySIMProgModal docid={this.state.docid} handleConfirmDelete={() => {this.handleDeleteStudySIMProgModal();}} handleCancelDelete={this.handleDeleteStudySIMProgModal} />
+          <DeleteStudySIMProgModal docid={this.state.docid} handleConfirmDelete={() => { this.handleDeleteStudySIMProgModal(); }} handleCancelDelete={this.handleDeleteStudySIMProgModal} />
         </Modal>
 
 

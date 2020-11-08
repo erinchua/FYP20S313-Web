@@ -21,9 +21,11 @@ class StudySIM_ArtsSocialSciences extends Component {
   constructor() {
     super();
     this.state = {
-      disciplines : [],
-      subDiscplines : [],
-      universities : [],
+      programmes: [],
+      disciplines: [],
+      subDiscplines: [],
+      universities: [],
+      academicLvls: [],
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
@@ -36,8 +38,8 @@ class StudySIM_ArtsSocialSciences extends Component {
       if (user) {
         const db = fire.firestore();
         var getrole = db
-        .collection("Administrators")
-        .where("email", "==", user.email);
+          .collection("Administrators")
+          .where("email", "==", user.email);
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
@@ -57,7 +59,7 @@ class StudySIM_ArtsSocialSciences extends Component {
     this.authListener();
   }
 
-  fetchData = async() =>{
+  fetchData = async () => {
     const db = fire.firestore();
 
     await db.collection("ProgrammesWeb").onSnapshot((snapshot) => {
@@ -102,30 +104,39 @@ class StudySIM_ArtsSocialSciences extends Component {
     });
 
     const disciplines = []
-    await db.collection('Disciplines').get().then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{
+    await db.collection('Disciplines').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data()
         disciplines.push(data.name)
       })
-      this.setState({disciplines : disciplines})
+      this.setState({ disciplines: disciplines })
     })
 
     const subDisciplines = []
-    await db.collection('SubDisciplines').get().then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{
+    await db.collection('SubDisciplines').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data()
         subDisciplines.push(data.name)
       })
-      this.setState({subDisciplines : subDisciplines})
+      this.setState({ subDisciplines: subDisciplines })
     })
 
     const universities = []
-    await db.collection('Universities').get().then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{
+    await db.collection('Universities').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data()
         universities.push(data.universityName)
       })
-      this.setState({universities : universities})
+      this.setState({ universities: universities })
+    })
+
+    const academicLvls = []
+    await db.collection('AcademicLevels').get().then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        const data = doc.data()
+        academicLvls.push(data.level)
+      })
+      this.setState({ academicLvls: academicLvls })
     })
 
   }
@@ -426,10 +437,11 @@ class StudySIM_ArtsSocialSciences extends Component {
           keyboard={false}
           className="addStudySIMProgModal"
         >
-          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} 
-            universities = {this.state.universities}
-            disciplines = {this.state.disciplines}
-            subDisciplines = {this.state.subDisciplines}
+          <AddStudySIMProgModal handleAdd={() => { this.handleAddStudySIMProgModal() }}
+            universities={this.state.universities}
+            disciplines={this.state.disciplines}
+            subDisciplines={this.state.subDisciplines}
+            academicLvls={this.state.academicLvls}
           />
         </Modal>
 
@@ -483,10 +495,11 @@ class StudySIM_ArtsSocialSciences extends Component {
             universities = {this.state.universities}
             disciplines = {this.state.disciplines}
             subDisciplines = {this.state.subDisciplines}
-            
             // Button props
             handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
             handleCancelEdit={this.handleEditStudySIMProgModal}
+            academicLvls={this.state.academicLvls}
+            
           />
         </Modal>
 

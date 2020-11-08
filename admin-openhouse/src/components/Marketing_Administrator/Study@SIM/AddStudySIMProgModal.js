@@ -24,7 +24,7 @@ const initialStates = {
 
 export default class AddStudySIMProgModal extends React.Component {
   state = initialStates;
-  
+
   constructor(props) {
     super(props);
 
@@ -35,6 +35,9 @@ export default class AddStudySIMProgModal extends React.Component {
       disciplinecheckedItems: [],
       subdisciplinecheckedItems: [],
       entryqualificationcheckedItems: [],
+      Modeofstudy: ['fullTime', 'partTime'],
+      entryQual: ['oLevel', 'aLevel', 'diploma', 'degree'],
+
       programme: "",
       university: "",
       category: "",
@@ -80,61 +83,61 @@ export default class AddStudySIMProgModal extends React.Component {
     const subDiscipline = [];
     const subDiscipline2 = [];
 
-    const Universityquery = db
-    .collection("TestProgrammes")
-    .onSnapshot((snapshot) => {
-      snapshot.forEach((doc) => {
-        University.push(doc.data().awardedBy);
-        // Category.push(doc.data().category);
-        Modeofstudy.push(doc.data().modeOfStudy);
-        Discipline.push(doc.data().discipline.disciplineName1);
-        Discipline.push(doc.data().discipline.disciplineName2);
-        AcademicLevel.push(doc.data().academicLevel);
-        entryQual.push(doc.data().entryQualifications);
-        subDiscipline.push(doc.data().subDiscipline.subDisciplineName1);
-        subDiscipline.push(doc.data().subDiscipline.subDisciplineName2);
-        subDiscipline.push(doc.data().subDiscipline.subDisciplineName3);
-        subDiscipline.push(doc.data().subDiscipline.subDisciplineName4);
-        subDiscipline.push(doc.data().subDiscipline.subDisciplineName5);
-        subDiscipline2.push(doc.id);
-        subDiscipline2.push(doc.data().discipline);
-      });
+    //   const Universityquery = db
+    //     .collection("Programmes")
+    //     .onSnapshot((snapshot) => {
+    //       snapshot.forEach((doc) => {
+    //         University.push(doc.data().awardedBy);
+    //         // Category.push(doc.data().category);
+    //         Modeofstudy.push(doc.data().modeOfStudy);
+    //         Discipline.push(doc.data().discipline.disciplineName1);
+    //         Discipline.push(doc.data().discipline.disciplineName2);
+    //         AcademicLevel.push(doc.data().academicLevel);
+    //         entryQual.push(doc.data().entryQualifications);
+    //         subDiscipline.push(doc.data().subDiscipline.subDisciplineName1);
+    //         subDiscipline.push(doc.data().subDiscipline.subDisciplineName2);
+    //         subDiscipline.push(doc.data().subDiscipline.subDisciplineName3);
+    //         subDiscipline.push(doc.data().subDiscipline.subDisciplineName4);
+    //         subDiscipline.push(doc.data().subDiscipline.subDisciplineName5);
+    //         subDiscipline2.push(doc.id);
+    //         subDiscipline2.push(doc.data().discipline);
+    //       });
 
-      //   var unique = University.filter(onlyUnique);
-      var uniqueUniversity = University.filter(onlyUnique);
-      // var uniqueCategory = Category.filter(onlyUnique);
-      var uniqueDiscipline = Discipline.filter(onlyUnique);
-      var uniqueAcademicLevel = AcademicLevel.filter(onlyUnique);
-      var uniquesubDiscipline = subDiscipline.filter(onlyUnique);
+    //       //   var unique = University.filter(onlyUnique);
+    //       var uniqueUniversity = University.filter(onlyUnique);
+    //       // var uniqueCategory = Category.filter(onlyUnique);
+    //       var uniqueDiscipline = Discipline.filter(onlyUnique);
+    //       var uniqueAcademicLevel = AcademicLevel.filter(onlyUnique);
+    //       var uniquesubDiscipline = subDiscipline.filter(onlyUnique);
 
-      let uniqueentryQuals = Object.keys(Object.assign({}, ...entryQual));
-      let uniqueModeofstudy = Object.keys(Object.assign({}, ...Modeofstudy));
-      console.log(uniqueModeofstudy);
+    //       let uniqueentryQuals = Object.keys(Object.assign({}, ...entryQual));
+    //       let uniqueModeofstudy = Object.keys(Object.assign({}, ...Modeofstudy));
+    //       console.log(uniqueModeofstudy);
 
-      //remove undefined
-      uniqueUniversity = uniqueUniversity.filter((val) => val !== undefined);
-      uniqueUniversity = uniqueUniversity.filter((val) => val !== "");
-      // uniqueCategory = uniqueCategory.filter((val) => val !== undefined);
-      // uniqueCategory = uniqueCategory.filter((val) => val !== "");
+    //       //remove undefined
+    //       uniqueUniversity = uniqueUniversity.filter((val) => val !== undefined);
+    //       uniqueUniversity = uniqueUniversity.filter((val) => val !== "");
+    //       // uniqueCategory = uniqueCategory.filter((val) => val !== undefined);
+    //       // uniqueCategory = uniqueCategory.filter((val) => val !== "");
 
-      uniqueDiscipline = uniqueDiscipline.filter((val) => val !== undefined);
-      uniqueDiscipline = uniqueDiscipline.filter((val) => val !== "");
-      uniqueAcademicLevel = uniqueAcademicLevel.filter((val) => val !== undefined);
-      uniqueAcademicLevel = uniqueAcademicLevel.filter((val) => val !== "");
+    //       uniqueDiscipline = uniqueDiscipline.filter((val) => val !== undefined);
+    //       uniqueDiscipline = uniqueDiscipline.filter((val) => val !== "");
+    //       uniqueAcademicLevel = uniqueAcademicLevel.filter((val) => val !== undefined);
+    //       uniqueAcademicLevel = uniqueAcademicLevel.filter((val) => val !== "");
 
-      uniquesubDiscipline = uniquesubDiscipline.filter((val) => val !== undefined);
-      uniquesubDiscipline = uniquesubDiscipline.filter((val) => val !== "");
-        
-      this.setState({
-        University: uniqueUniversity,
-        // Category: uniqueCategory,
-        Modeofstudy: uniqueModeofstudy,
-        Discipline: uniqueDiscipline,
-        AcademicLevel: uniqueAcademicLevel,
-        entryQual: uniqueentryQuals,
-        subDiscipline: uniquesubDiscipline,
-      });
-    });
+    //       uniquesubDiscipline = uniquesubDiscipline.filter((val) => val !== undefined);
+    //       uniquesubDiscipline = uniquesubDiscipline.filter((val) => val !== "");
+
+    //       this.setState({
+    //         University: uniqueUniversity,
+    //         // Category: uniqueCategory,
+    //         Modeofstudy: uniqueModeofstudy,
+    //         Discipline: uniqueDiscipline,
+    //         AcademicLevel: uniqueAcademicLevel,
+    //         entryQual: uniqueentryQuals,
+    //         subDiscipline: uniquesubDiscipline,
+    //       });
+    //     });
   }
 
   DisciplinehandleChange(event) {
@@ -309,8 +312,7 @@ export default class AddStudySIMProgModal extends React.Component {
     }
   };
 
-  addProgramme() {
-    console.log("addProgramme called")
+  addProgramme = async () => {
     var a = this;
 
     var lastdoc = db
@@ -322,29 +324,29 @@ export default class AddStudySIMProgModal extends React.Component {
       snapshot.forEach((doc) => {
         var docid = "";
 
-        var res = doc.data().id.substring(10);
-        var id = parseInt(res);
-        if (id.toString().length <= 1) {
-          docid = "programme-00" + (id + 1);
-        } else if (id.toString().length <= 2) {
-          docid = "programme-0" + (id + 1);
-        } else {
-          docid = "programme-" + (id + 1);
-        }
-        this.setState(
-          {
-            docid: docid,
-          },
-          () => {
-            this.add();
-            console.log(this.state.docid);
+          var res = doc.data().id.substring(10);
+          var id = parseInt(res);
+          if (id.toString().length <= 1) {
+            docid = "programme-00" + (id + 1);
+          } else if (id.toString().length <= 2) {
+            docid = "programme-0" + (id + 1);
+          } else {
+            docid = "programme-" + (id + 1);
           }
-        );
+          this.setState(
+            {
+              docid: docid,
+            },
+            () => {
+              this.add();
+              console.log(this.state.docid);
+            }
+          );
+        });
       });
-    });
   }
 
-  add() {
+  add = async () => {
     console.log(this.state.id);
     console.log("programme: " + this.state.programme);
     console.log("university: " + this.state.university);
@@ -587,6 +589,7 @@ export default class AddStudySIMProgModal extends React.Component {
           // this.resetForm();
         });
       }
+      const userRef = db.collection("ProgrammesWeb").doc(this.state.docid);
     }
   }
 
@@ -611,10 +614,10 @@ export default class AddStudySIMProgModal extends React.Component {
     let intakeMonthsError = "";
     let durationError = "";
 
-    if ( !(this.state.programme && this.state.programme.length >= 4) ) {
+    if (!(this.state.programme && this.state.programme.length >= 4)) {
       progNameError = "Please enter a valid programme name!";
-    } 
-    
+    }
+
     if (!this.state.logoFile) {
       logoFileError = "Please upload a logo!";
     }
@@ -646,7 +649,7 @@ export default class AddStudySIMProgModal extends React.Component {
       subDisciplineError = "Please select at least 1 sub-discipline!";
     }
 
-    if ( !(this.state.aboutprogramme1 && this.state.aboutprogramme1.length >= 1) ) {
+    if (!(this.state.aboutprogramme1 && this.state.aboutprogramme1.length >= 1)) {
       aboutProgError = "Please enter programme details!";
     }
 
@@ -654,7 +657,7 @@ export default class AddStudySIMProgModal extends React.Component {
       aboutProgError = "Please enter programme details!";
     }
 
-    if ( !(this.state.applicationperiod1 && this.state.applicationperiod1.length >= 1) ) {
+    if (!(this.state.applicationperiod1 && this.state.applicationperiod1.length >= 1)) {
       applicationPeriodError = "Please enter application period details!";
     }
 
@@ -671,13 +674,13 @@ export default class AddStudySIMProgModal extends React.Component {
     }
 
     if (progNameError || logoFileError || universityError || academicLevelError || modeOfStudyError || disciplineError || entryQualError
-    || subDisciplineError || aboutProgError || applicationPeriodError || intakeMonthsError || durationError) {
+      || subDisciplineError || aboutProgError || applicationPeriodError || intakeMonthsError || durationError) {
       this.setState({
         progNameError, logoFileError, universityError, academicLevelError, modeOfStudyError, disciplineError, entryQualError, subDisciplineError,
         subDisciplineError, aboutProgError, applicationPeriodError, intakeMonthsError, durationError
       });
       return false;
-    } 
+    }
     return true;
   }
 
@@ -696,12 +699,12 @@ export default class AddStudySIMProgModal extends React.Component {
       applicationPeriodError: "",
       intakeMonthsError: "",
       durationError: "",
-      id: "", 
-      programme: "", 
-      logoFile: "", 
-      university: "", 
-      academiclevel: "", 
-      ModeOfStudy: "", 
+      id: "",
+      programme: "",
+      logoFile: "",
+      university: "",
+      academiclevel: "",
+      ModeOfStudy: "",
       disciplinecheckedItems: [],
       entryqualificationcheckedItems: [],
       subdisciplinecheckedItems: [],
@@ -748,7 +751,7 @@ export default class AddStudySIMProgModal extends React.Component {
                 <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
                     <InputGroup className="addStudySIMProgFormColInputGrp">
-                      <FormControl type="file" name="logoFile" id="addStudySIMProgForm_LogoFile" label="Logo File*" custom required onChange={(e) => {this.handleFileUpload(e.target.files);}} />
+                      <FormControl type="file" name="logoFile" id="addStudySIMProgForm_LogoFile" label="Logo File*" custom required onChange={(e) => { this.handleFileUpload(e.target.files); }} />
                     </InputGroup>
 
                     <div className="errorMessage text-left">{this.state.logoFileError}</div>
@@ -781,17 +784,18 @@ export default class AddStudySIMProgModal extends React.Component {
                       <Form.Control as="select" name="academiclevel" defaultValue="" className="addStudySIMProgFormSelect" required noValidate onChange={this.handleChange}>
                         <option value="" className="addStudySIMProgFormSelectOption">Choose an Academic Level</option>
 
-                        {this.state.AcademicLevel && this.state.AcademicLevel.map((AcademicLevel, index) => {
-                          if (AcademicLevel === this.props.academiclevel) {
+                        {/* To be retrieved from DB */}
+                        {this.props.academicLvls && this.props.academicLvls.map((AcademicLevel, index) => {
+                          if (AcademicLevel === this.props.acadamiclevel) {
                             return (
                               <option value={AcademicLevel} className="addStudySIMProgFormSelectOption">{AcademicLevel}</option>
                             );
                           } else {
                             return (
                               <option value={AcademicLevel} className="addStudySIMProgFormSelectOption">{AcademicLevel}</option>
-                              );
-                            }
+                            );
                           }
+                        }
                         )}
                       </Form.Control>
                     </InputGroup>
@@ -846,14 +850,16 @@ export default class AddStudySIMProgModal extends React.Component {
                     <Container className="addStudySIMProgForm_DisciplineCon">
                       {/* To be retrieved from db - row is generated dynamically */}
                       <Form.Group>
-                        {this.props.disciplines && this.props.disciplines.map((Discipline) => {{
-                          return (
-                            <Row>
-                              <Col>
-                                <Form.Check id={Discipline} name="discipline" value={Discipline} type="checkbox" label={Discipline} className="addStudySIMProgForm_CheckBox DisciplineCheckboxes" onChange={this.DisciplinehandleChange} disabled={this.state[Discipline]} />
-                              </Col>
-                            </Row>
-                          );}
+                        {this.props.disciplines && this.props.disciplines.map((Discipline) => {
+                          {
+                            return (
+                              <Row>
+                                <Col>
+                                  <Form.Check id={Discipline} name="discipline" value={Discipline} type="checkbox" label={Discipline} className="addStudySIMProgForm_CheckBox DisciplineCheckboxes" onChange={this.DisciplinehandleChange} disabled={this.state[Discipline]} />
+                                </Col>
+                              </Row>
+                            );
+                          }
                         })}
                       </Form.Group>
                     </Container>
@@ -962,7 +968,7 @@ export default class AddStudySIMProgModal extends React.Component {
                   <Col md="9" className="text-left">
                     <Form.Label className="addStudySIMProgFormLabel">About Programme 1</Form.Label>
                     <FormControl as="textarea" rows="4" required noValidate name="aboutprogramme1" className="addStudySIMProgForm_TextArea" placeholder="About Programme" onChange={this.handleChange} />
-                  
+
                     <div className="errorMessage text-left">{this.state.aboutProgError}</div>
                   </Col>
 
@@ -982,7 +988,7 @@ export default class AddStudySIMProgModal extends React.Component {
                   <Col md="9" className="text-left">
                     <Form.Label className="addStudySIMProgFormLabel">Application Period 1</Form.Label>
                     <FormControl as="textarea" rows="2" required noValidate name="applicationperiod1" className="addStudySIMProgForm_TextArea" placeholder="Application Period 1" onChange={this.handleChange} />
-                  
+
                     <div className="errorMessage text-left">{this.state.applicationPeriodError}</div>
                   </Col>
 
@@ -990,7 +996,7 @@ export default class AddStudySIMProgModal extends React.Component {
                     <Form.Label className="addStudySIMProgFormLabel">Application Period 2</Form.Label>
                     <FormControl as="textarea" rows="2" required noValidate name="applicationperiod2" className="addStudySIMProgForm_TextArea" placeholder="Application Period 2" onChange={this.handleChange} />
                   </Col>
-                </Form.Row>                
+                </Form.Row>
               </Col>
 
               {/* Right Col */}
@@ -1069,46 +1075,46 @@ export default class AddStudySIMProgModal extends React.Component {
 
                 {/* Intake Month(s) */}
                 <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
-                  <Col md="9" className="text-left"> 
-                    <Form.Label className="addStudySIMProgFormLabel">Intake Month(s)</Form.Label> 
+                  <Col md="9" className="text-left">
+                    <Form.Label className="addStudySIMProgFormLabel">Intake Month(s)</Form.Label>
 
-                    <Form.Row className="justify-content-center"> 
+                    <Form.Row className="justify-content-center">
                       {/* Full Time */}
-                      <Col md="6" className="text-left"> 
-                        <Form.Label className="addStudySIMProgFormLabel">Full-Time</Form.Label> 
-                        <FormControl as="textarea" rows="3" required noValidate name="intakemonthsfulltime" className="addStudySIMProgForm_TextArea" placeholder="Full-Time" onChange={this.handleChange} /> 
-                      </Col> 
+                      <Col md="6" className="text-left">
+                        <Form.Label className="addStudySIMProgFormLabel">Full-Time</Form.Label>
+                        <FormControl as="textarea" rows="3" required noValidate name="intakemonthsfulltime" className="addStudySIMProgForm_TextArea" placeholder="Full-Time" onChange={this.handleChange} />
+                      </Col>
 
                       {/* Part Time */}
-                      <Col md="6" className="text-left"> 
-                        <Form.Label className="addStudySIMProgFormLabel">Part-Time</Form.Label> 
-                        <FormControl as="textarea" rows="3" required noValidate name="intakemonthsparttime" className="addStudySIMProgForm_TextArea" placeholder="Part-Time" onChange={this.handleChange} /> 
-                      </Col> 
-                    </Form.Row> 
+                      <Col md="6" className="text-left">
+                        <Form.Label className="addStudySIMProgFormLabel">Part-Time</Form.Label>
+                        <FormControl as="textarea" rows="3" required noValidate name="intakemonthsparttime" className="addStudySIMProgForm_TextArea" placeholder="Part-Time" onChange={this.handleChange} />
+                      </Col>
+                    </Form.Row>
 
                     <div className="errorMessage text-left">{this.state.intakeMonthsError}</div>
-                  </Col> 
+                  </Col>
                 </Form.Row>
 
                 {/* Duration */}
                 <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
-                    <Form.Label className="addStudySIMProgFormLabel">Duration</Form.Label> 
+                    <Form.Label className="addStudySIMProgFormLabel">Duration</Form.Label>
 
-                    <Form.Row className="justify-content-center"> 
+                    <Form.Row className="justify-content-center">
                       {/* Full Time */}
-                      <Col md="6" className="text-left"> 
-                        <Form.Label className="addStudySIMProgFormLabel">Full-Time</Form.Label> 
+                      <Col md="6" className="text-left">
+                        <Form.Label className="addStudySIMProgFormLabel">Full-Time</Form.Label>
 
-                        <FormControl as="textarea" rows="3" required noValidate name="durationfulltime" className="addStudySIMProgForm_TextArea" placeholder="Full-Time" onChange={this.handleChange} /> 
-                      </Col> 
+                        <FormControl as="textarea" rows="3" required noValidate name="durationfulltime" className="addStudySIMProgForm_TextArea" placeholder="Full-Time" onChange={this.handleChange} />
+                      </Col>
 
                       {/* Part Time */}
-                      <Col md="6" className="text-left"> 
-                        <Form.Label className="addStudySIMProgFormLabel">Part-Time</Form.Label> 
-                        <FormControl as="textarea" rows="3" required noValidate name="durationparttime" className="addStudySIMProgForm_TextArea" placeholder="Part-Time" onChange={this.handleChange} /> 
-                      </Col> 
-                    </Form.Row> 
+                      <Col md="6" className="text-left">
+                        <Form.Label className="addStudySIMProgFormLabel">Part-Time</Form.Label>
+                        <FormControl as="textarea" rows="3" required noValidate name="durationparttime" className="addStudySIMProgForm_TextArea" placeholder="Part-Time" onChange={this.handleChange} />
+                      </Col>
+                    </Form.Row>
 
                     <div className="errorMessage text-left">{this.state.durationError}</div>
                   </Col>
