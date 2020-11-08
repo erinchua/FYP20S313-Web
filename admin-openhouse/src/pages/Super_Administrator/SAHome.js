@@ -275,7 +275,8 @@ class SAHome extends Component {
       });
     } else {
       const userRef = db
-      .collection("Administrators").where("administratorType", "==", "Marketing Administrator") // Need to change to show crew also 
+      .collection("Administrators")
+      .where("administratorType", "in", ["Marketing Administrator","Crew"])
       .orderBy("email")
       .startAt(searchvalue)
       .endAt(searchvalue + "\uf8ff")

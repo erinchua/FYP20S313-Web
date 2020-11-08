@@ -11,6 +11,7 @@ const firebaseConfig = {
     appId: "1:671429853263:web:71fb4fbeb23a4f74da6a3a", 
 }; 
 
+
 // Initialize Firebase 
 const firecreate = firebase.initializeApp(firebaseConfig, "openhouse-fyp"); 
  
