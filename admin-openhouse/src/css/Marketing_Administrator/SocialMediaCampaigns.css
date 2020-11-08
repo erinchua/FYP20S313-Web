@@ -1,0 +1,77 @@
+.SocialMedia-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.SocialMedia-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#SocialMedia-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#SocialMedia-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#SocialMedia-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#SocialMedia-title {
+    color: #424242;
+}
+
+#SocialMedia-secondRow {
+    margin: 0 !important;
+}
+
+#SocialMedia-secondTextRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-top: 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #434343;
+}
+
+#SocialMedia-secondRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.SocialMedia-fbBtn {
+    background-color: #1877f2 !important;
+    border-color: #1877f2 !important;
+    color: white;
+    margin-top: 15%;
+    width: 40%;
+    border-radius: 6px !important;
+}
+
+.SocialMedia-fbBtn:hover {
+    background-color: #056bef !important;
+    border-color: #056bef !important;
+    color: white;
+}
+
+.SocialMedia-fbBtn:focus {
+    box-shadow: none !important;
+}

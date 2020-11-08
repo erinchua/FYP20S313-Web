@@ -25,7 +25,6 @@ class ArtsAndCulture extends Component {
             clubsAndCouncilTitle: "",
             clubsAndCouncilsLogo: "",
             counter: "",
-            progress: "",
             //Below states are for functions
             artsCulture: "",
             //Below states are for modals
@@ -65,7 +64,6 @@ class ArtsAndCulture extends Component {
         db.collection("ClubsAndCouncils").where("categoryType", "==", "Arts & Culture").get()
         .then((snapshot) => {
             const artsculture = [];
-            var category = "";
             snapshot.forEach((doc) => {
 
                 const data = {
