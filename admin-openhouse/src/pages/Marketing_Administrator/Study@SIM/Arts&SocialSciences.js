@@ -485,10 +485,7 @@ class StudySIM_ArtsSocialSciences extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <DeleteStudySIMProgModal docid={this.state.docid} 
-            handleConfirmDelete={() => {this.handleDeleteStudySIMProgModal();}}
-            handleCancelDelete={this.handleDeleteStudySIMProgModal}
-          />
+          <DeleteStudySIMProgModal docid={this.state.docid} handleConfirmDelete={() => {this.handleDeleteStudySIMProgModal();}} handleCancelDelete={this.handleDeleteStudySIMProgModal} />
         </Modal>
 
 

@@ -333,7 +333,6 @@ class PastRecording extends Component {
     if (isValid) {
       this.setState(initialStates);
 
-
       db
       .collection("ProgrammeTalks")
       .doc(this.state.id)
