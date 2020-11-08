@@ -401,7 +401,11 @@ class StudySIM_ArtsSocialSciences extends Component {
           keyboard={false}
           className="addStudySIMProgModal"
         >
-          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} />
+          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} 
+          universities = {this.state.universities}
+          disciplines = {this.state.disciplines}
+          subDisciplines = {this.state.subDisciplines}
+          />
         </Modal>
 
         {/* Edit Programme Modal */}

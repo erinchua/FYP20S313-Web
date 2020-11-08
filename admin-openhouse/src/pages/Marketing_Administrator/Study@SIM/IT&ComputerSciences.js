@@ -21,6 +21,9 @@ class StudySIM_ITComputerSciences extends Component {
   constructor() {
     super();
     this.state = {
+      disciplines : [],
+      subDiscplines : [],
+      universities : [],
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
@@ -54,9 +57,9 @@ class StudySIM_ITComputerSciences extends Component {
     this.authListener();
   }
 
-  display() {
+  display = async()=> {
 
-    const userRe1 = db.collection("Programmes").onSnapshot((snapshot) => {
+    const userRe1 = await db.collection("Programmes").onSnapshot((snapshot) => {
       const ITComputerScience = [];
       snapshot.forEach((doc) => {
         const getdiscipline = doc.get("discipline");
@@ -98,6 +101,34 @@ class StudySIM_ITComputerSciences extends Component {
       });
       this.setState({ ITComputerScience: ITComputerScience });
     });
+
+    const disciplines = []
+    await db.collection('Disciplines').get().then((snapshot)=>{
+      snapshot.docs.forEach((doc)=>{
+        const data = doc.data()
+        disciplines.push(data.name)
+      })
+      this.setState({disciplines : disciplines})
+    })
+
+    const subDisciplines = []
+    await db.collection('SubDisciplines').get().then((snapshot)=>{
+      snapshot.docs.forEach((doc)=>{
+        const data = doc.data()
+        subDisciplines.push(data.name)
+      })
+      this.setState({subDisciplines : subDisciplines})
+    })
+
+    const universities = []
+    await db.collection('Universities').get().then((snapshot)=>{
+      snapshot.docs.forEach((doc)=>{
+        const data = doc.data()
+        universities.push(data.universityName)
+      })
+      this.setState({universities : universities})
+    })
+
   }
 
   /* Add Programme Talk Modal */
@@ -189,13 +220,13 @@ class StudySIM_ITComputerSciences extends Component {
                       <Table responsive="sm" hover bordered className="MAStudySIMTable">
                         <thead>
                           <tr>
-                            <th className="studySIMProgHeader_SNo">S/N</th>
+                          <th className="studySIMProgHeader_SNo">S/N</th>
                             <th className="studySIMProgHeader_ProgName">Programme Name</th>
                             <th className="studySIMProgHeader_AwardedBy">Awarded By</th>
                             <th className="studySIMProgHeader_LogoFile">Logo File</th>
+                            <th className="studySIMProgHeader_AcademicLvl">Academic Level</th>
                             <th className="studySIMProgHeader_MoS">Mode of Study</th>
                             <th className="studySIMProgHeader_Discipline">Disciplines</th>
-                            <th className="studySIMProgHeader_AcademicLvl">Academic Level</th>
                             <th className="studySIMProgHeader_EntryQual">Entry Qualifications</th>
                             <th className="studySIMProgHeader_SubDiscipline">Sub-Disciplines</th>
                             <th className="studySIMProgHeader_Edit">Edit</th>
@@ -236,7 +267,8 @@ class StudySIM_ITComputerSciences extends Component {
                                 </td>
                                 
                                 <td className="studySIMProgData_AwardedBy text-left">{ITComputerScience.awardBy}</td>
-                                <td className="studySIMProgData_LogoFile text-left">{ITComputerScience.Logofile}</td>
+                                <td className="studySIMProgData_LogoFile text-left"><img src={ITComputerScience.Logofile} alt="No Logo file"></img></td>
+                                <td className="studySIMProgData_AcademicLvl text-left">{ITComputerScience.AcademicLevel}</td>
 
                                 <td className="studySIMProgData_MoS text-left">
                                   <tr>
@@ -257,7 +289,6 @@ class StudySIM_ITComputerSciences extends Component {
                                   <tr>{ITComputerScience.discipline2}</tr>
                                 </td>
 
-                                <td className="studySIMProgData_AcademicLvl text-left">{ITComputerScience.AcademicLevel}</td>
                                 
                                 <td className="studySIMProgData_EntryQual text-left">
                                   <tr>
@@ -376,7 +407,11 @@ class StudySIM_ITComputerSciences extends Component {
           keyboard={false}
           className="addStudySIMProgModal"
         >
-          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} />
+          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} 
+          universities = {this.state.universities}
+          disciplines = {this.state.disciplines}
+          subDisciplines = {this.state.subDisciplines}
+          />
         </Modal>
 
         {/* Edit Programme Modal */}
@@ -426,6 +461,9 @@ class StudySIM_ITComputerSciences extends Component {
 
             handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
             handleCancelEdit={this.handleEditStudySIMProgModal}
+            universities = {this.state.universities}
+          disciplines = {this.state.disciplines}
+          subDisciplines = {this.state.subDisciplines}
           />
         </Modal>
 
