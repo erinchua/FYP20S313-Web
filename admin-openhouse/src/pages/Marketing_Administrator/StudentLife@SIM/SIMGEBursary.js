@@ -9,7 +9,7 @@ import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faEnvelopeOpen, faFileAlt, faLocationArrow, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEnvelopeOpen, faFileAlt, faLocationArrow, faPhone, faShoePrints } from '@fortawesome/free-solid-svg-icons';
 import { faInternetExplorer } from '@fortawesome/free-brands-svg-icons';
 
 class SIMGEBursary extends Component {
@@ -326,10 +326,13 @@ class SIMGEBursary extends Component {
     }
 
     //Edit How to Apply
-    handleApplyEditModal = () => {
+    handleApplyEditModal = (apply) => {
         if (this.state.howToApplyEditModal == false) {
             this.setState({
                 howToApplyEditModal: true,
+                applyId: apply.applyId,
+                applyDescription: apply.applyDescription,
+                applySteps: apply.applySteps,
             });
         }
         else {
@@ -513,7 +516,7 @@ class SIMGEBursary extends Component {
                                                                                         <tr>
                                                                                             <td className="text-left">{apply.applyDescription}</td>
                                                                                             <td className="text-left">{apply.applySteps}</td>
-                                                                                            <td><Button size="sm" id="Bursary-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><Button size="sm" id="Bursary-editBtn" onClick={() => this.handleApplyEditModal(apply)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                         </tr>
                                                                                     </tbody>
                                                                                 )
@@ -783,6 +786,55 @@ class SIMGEBursary extends Component {
                                         </Col>
                                         <Col md={6} className="Bursary-editCol">
                                             <Button id="Bursary-cancelBtn" onClick={this.handleRepaymentEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* How to Apply Edit Modal */}
+                {this.state.howToApplyEditModal == true ? 
+                    <Modal show={this.state.howToApplyEditModal} onHide={this.handleApplyEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Bursary-modalTitle" className="w-100">Edit How to Apply</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-textAreas" as="textarea" rows="4" type="text" name="applyDescription" placeholder="How to Apply's Description" required defaultValue={this.state.applyDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faShoePrints}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-textAreas" as="textarea" rows="4" type="text" name="applySteps" placeholder="How to Apply's Steps" required defaultValue={this.state.applySteps} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Bursary-editFooter">
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-saveBtn" type="submit">Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-cancelBtn" onClick={this.handleApplyEditModal}>Cancel</Button>
                                         </Col>
                                     </Row>
                                 </Container>
