@@ -20,7 +20,7 @@ export default class EditStudySIMProgModal extends React.Component {
       programme: this.props.programmeName,
       university: this.props.University,
       category: this.props.category,
-      acadamiclevel: this.props.acadamiclevel,
+      academiclevel: this.props.academiclevel,
       parttime: "",
       fulltime: "",
       diploma: "",
@@ -359,8 +359,7 @@ export default class EditStudySIMProgModal extends React.Component {
     //console.log(event.target.checked);
     var x = document.getElementsByClassName("DisciplineCheckboxes");
     if (event.target.checked) {
-      this.setState(
-        {
+      this.setState({
           disciplinecheckedItems: [
             ...this.state.disciplinecheckedItems,
             event.target.value,
@@ -394,80 +393,70 @@ export default class EditStudySIMProgModal extends React.Component {
         event.target.value
       );
 
-      this.setState(
-        {
-          disciplinecheckedItems: this.state.disciplinecheckedItems.filter(
-            (_, i) => i !== remove
-          ),
-        },
-        () => {
-          // console.log(this.state.disciplinecheckedItems);
-          if (this.state.disciplinecheckedItems.length <= 2) {
-            for (var i = 0; i < x.length; i++) {
-              this.setState({
-                [x[i].innerText]: false,
-              });
-            }
+      this.setState({
+        disciplinecheckedItems: this.state.disciplinecheckedItems.filter(
+          (_, i) => i !== remove
+        ),
+      },
+      () => {
+        // console.log(this.state.disciplinecheckedItems);
+        if (this.state.disciplinecheckedItems.length <= 2) {
+          for (var i = 0; i < x.length; i++) {
+            this.setState({
+              [x[i].innerText]: false,
+            });
           }
         }
-      );
+      });
     }
   }
 
   SubDisciplinehandleChange(event) {
     var x = document.getElementsByClassName("subDisciplineCheckboxes");
     if (event.target.checked) {
-      this.setState(
-        {
-          subdisciplinecheckedItems: [
-            ...this.state.subdisciplinecheckedItems,
-            event.target.value,
-          ],
-        },
-        () => {
-          //console.log(this.state.subdisciplinecheckedItems);
+      this.setState({
+        subdisciplinecheckedItems: [
+          ...this.state.subdisciplinecheckedItems,
+          event.target.value,
+        ],
+      },
+      () => {
+        //console.log(this.state.subdisciplinecheckedItems);
 
-          var dis = this.state.subdisciplinecheckedItems;
+        var dis = this.state.subdisciplinecheckedItems;
 
-          if (this.state.subdisciplinecheckedItems.length >= 5) {
-            // console.log(x);
-            for (var i = 0; i < x.length; i++) {
-              if (Object.values(dis).includes(x[i].innerText)) {
-                this.setState({
-                  [x[i].innerText]: false,
-                });
-              } else {
-                this.setState({
-                  ["sub" + x[i].innerText]: true,
-                });
-              }
-            }
-          }
-        }
-      );
-    } else {
-      let remove = this.state.subdisciplinecheckedItems.indexOf(
-        event.target.value
-      );
-
-      this.setState(
-        {
-          subdisciplinecheckedItems: this.state.subdisciplinecheckedItems.filter(
-            (_, i) => i !== remove
-          ),
-        },
-        () => {
-          //console.log(this.state.subdisciplinecheckedItems);
-          if (this.state.subdisciplinecheckedItems.length <= 5) {
-            for (var i = 0; i < x.length; i++) {
+        if (this.state.subdisciplinecheckedItems.length >= 5) {
+          // console.log(x);
+          for (var i = 0; i < x.length; i++) {
+            if (Object.values(dis).includes(x[i].innerText)) {
               this.setState({
-                ["sub" + x[i].innerText]: false,
+                [x[i].innerText]: false,
+              });
+            } else {
+              this.setState({
+                ["sub" + x[i].innerText]: true,
               });
             }
           }
         }
-      );
-    }
+      });
+    } else {
+      let remove = this.state.subdisciplinecheckedItems.indexOf(event.target.value);
+
+      this.setState({
+        subdisciplinecheckedItems: this.state.subdisciplinecheckedItems.filter((_, i) => i !== remove)
+      },
+      () => {
+        //console.log(this.state.subdisciplinecheckedItems);
+        if (this.state.subdisciplinecheckedItems.length <= 5) {
+          for (var i = 0; i < x.length; i++) {
+            this.setState({
+              ["sub" + x[i].innerText]: false,
+            });
+          }
+        }
+      }
+    );}
   }
 
   handleChange = (e) => {
@@ -478,61 +467,61 @@ export default class EditStudySIMProgModal extends React.Component {
     });
     if (e.target.value === "Part-Time") {
       this.setState({
-        parttime: e.target.checked,
+        parttime: e.target.checked
       });
     }
 
     if (e.target.value === "Full-Time") {
       this.setState({
-        fulltime: e.target.checked,
+        fulltime: e.target.checked
       });
     }
 
     if (e.target.value === "diploma") {
       this.setState({
-        diploma: e.target.checked,
+        diploma: e.target.checked
       });
     }
 
     if (e.target.value === "degree") {
       this.setState({
-        degree: e.target.checked,
+        degree: e.target.checked
       });
     }
 
     if (e.target.value === "aLevel") {
       this.setState({
-        alevel: e.target.checked,
+        alevel: e.target.checked
       });
     }
 
     if (e.target.value === "oLevel") {
       this.setState({
-        olevel: e.target.checked,
+        olevel: e.target.checked
       });
     }
 
     if (e.target.value === "Coursework") {
       this.setState({
-        programmestructurecoursework: e.target.checked,
+        programmestructurecoursework: e.target.checked
       });
     }
 
     if (e.target.value === "Examination") {
       this.setState({
-        programmestructureexamination: e.target.checked,
+        programmestructureexamination: e.target.checked
       });
     }
     
     if (e.target.value === "Exchange") {
       this.setState({
-        overseaopportunityexchange: e.target.checked,
+        overseaopportunityexchange: e.target.checked
       });
     }
 
     if (e.target.value === "Transfer") {
       this.setState({
-        overseaopportunitytransfer: e.target.checked,
+        overseaopportunitytransfer: e.target.checked
       });
     }
   };
@@ -1100,7 +1089,7 @@ export default class EditStudySIMProgModal extends React.Component {
                         <Container className="editStudySIMProgForm_StructureOverseasCon">
                           {/* To be retrieved from db - row is generated dynamically */}
                           <Row>
-                            <Col style={{ paddingLeft: "8%" }}>
+                            <Col style={{ paddingLeft: "10%" }}>
                               <Form.Check name="transfer" value="Transfer" type="checkbox" label="Yes" className="editStudySIMProgForm_CheckBox" defaultChecked={this.state.overseaopportunitytransfer} onChange={this.handleChange} />
                             </Col>
                           </Row>
