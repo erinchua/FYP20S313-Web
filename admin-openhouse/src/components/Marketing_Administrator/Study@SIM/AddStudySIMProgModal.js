@@ -311,7 +311,7 @@ export default class AddStudySIMProgModal extends React.Component {
     }
   };
 
-  test() {
+  addProg() {
     var a = this;
 
     var lastdoc = db
@@ -976,7 +976,7 @@ export default class AddStudySIMProgModal extends React.Component {
 
         <Modal.Footer className="justify-content-center">
           {/* Add Programme Submit Btn*/}
-          <Button type="submit" id="addStudySIMProgFormBtn" onClick={() => {this.test(); this.props.handleAdd();}}>Submit</Button>
+          <Button type="submit" id="addStudySIMProgFormBtn" onClick={() => {this.addProg(); this.props.handleAdd();}}>Submit</Button>
         </Modal.Footer>
       </div>
     );
