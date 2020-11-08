@@ -24,8 +24,6 @@ function scheduledTime(time) {
   var counter = 0;
   var delim = time.split(":")
 
-  console.log("Delim: " + delim)
-
   // For Hour
   for (var i = 0; i < delim[0].length; i++) {
     counter += 1;
@@ -44,13 +42,6 @@ function scheduledTime(time) {
 
   // Time
   var timeList = timeArray.concat(hrArray, minArray, amPmArray);
-
-  console.log("TimeArray: " + timeArray)
-  console.log("Counter for hour array: " + counter)
-  console.log("hrArray: " + hrArray)
-  console.log("minArray: " + minArray)
-  console.log("amPmArray: " + amPmArray)
-  console.log("time: " + time)
 
   return timeList;
 }
@@ -80,10 +71,10 @@ class Announcement extends Component {
       timeampm: "",
       minutes: "",
       hours: "",
-      updateDate: "",
-      updateHours: "",
-      updateMinutes: "",
-      updateAMPM: "",
+      scheduledDate: "",
+      scheduledHours: "",
+      scheduledMinutes: "",
+      scheduledAMPM: "",
 
       openhousedates: [],
       timeArray: [],
@@ -118,12 +109,6 @@ class Announcement extends Component {
     });
   }
 
-  // updateInput = (e) => {
-  //   this.setState({
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-
   componentDidMount() {
     this.authListener();
   }
@@ -155,13 +140,7 @@ class Announcement extends Component {
       const openhousedates = [];
       snapshot.forEach((doc) => {
         const daydata = doc.get("day");
-        if (Array.isArray(daydata)) {
-          for (var i = 0; i < Object.keys(daydata).length; i++) {
-            console.log(daydata[i].date);
-            console.log(daydata[i].startTime);
-            console.log(daydata[i].endTime);
-          }
-        }
+
         for (var i = 0; i < Object.keys(daydata).length; i++) {
           const data = {
             day: Object.keys(doc.data().day)[i],
@@ -191,17 +170,10 @@ class Announcement extends Component {
       hours.push(i.toString());
     }
     this.setState({ hours: hours, minutes: minutes });
-    console.log(hours);
-    console.log(minutes);
   }
 
   addAnnouncement = () => {
-    var time = this.state.updateHours + ":" + this.state.updateMinutes + this.state.updateAMPM;
-    console.log(this.state.scheduleAnnouncement);
-    // console.log(this.state.announcementTitle);
-    // console.log(this.state.announcementDetails);
-    console.log(this.state.updateDate);
-    console.log(Date.now());
+    var time = this.state.scheduledHours + ":" + this.state.scheduledMinutes + this.state.scheduledAMPM;
 
     const isValid = this.validate();
     if (isValid) {
@@ -216,11 +188,10 @@ class Announcement extends Component {
           details: this.state.details,
           datePosted: this.formatDate(new Date()),
           id: Date.now(),
-          date: this.state.updateDate,
+          date: this.state.scheduledDate,
           time: time,
         })
         .then((dataSnapshot) => {
-          console.log("Added the announcement");
           this.setState({ addAnnouncementModal: false });
         });
       } else {
@@ -236,7 +207,6 @@ class Announcement extends Component {
           time: this.formatAMPM(new Date()),
         })
         .then((dataSnapshot) => {
-          console.log("Added the announcement");
           this.setState({ addAnnouncementModal: false });
         });
       }
@@ -269,7 +239,6 @@ class Announcement extends Component {
     .doc(this.state.id)
     .delete()
     .then((dataSnapshot) => {
-      console.log("Deleted the announcement");
       this.setState({deleteAnnouncementModal: false,});
       this.display();
     });
@@ -277,16 +246,6 @@ class Announcement extends Component {
 
   update = () => {
     var time = this.state.timehour + ":" + this.state.timeminutes + this.state.timeampm;
-    console.log("updated: " + time)
-    
-    console.log(this.state.title);
-    console.log(this.state.details);
-    console.log(this.state.date);
-    console.log(this.state.timehour);
-    console.log(this.state.timeminutes);
-    console.log(this.state.timeampm);
-    console.log(this.state.scheduleAnnouncement);
-    console.log(this.state.id);
 
     // If scheduling post
     if (this.state.scheduleAnnouncement === true) {
@@ -298,10 +257,11 @@ class Announcement extends Component {
         title: this.state.title,
         details: this.state.details,
         datePosted: this.formatDate(new Date()),
-        
+        id: Date.now(), 
+        date: this.state.date,
+        time: time, 
       })
       .then((dataSnapshot) => {
-        console.log("Updated the announcement");
         this.setState({ editAnnouncementModal: false });
       });
     } 
@@ -314,47 +274,31 @@ class Announcement extends Component {
         title: this.state.title,
         details: this.state.details,
         datePosted: this.formatDate(new Date()),
-        date: this.state.date,
-        time: time,
+        date:  this.formatDate(new Date()),
+        time: this.formatAMPM(new Date()),
       })
       .then((dataSnapshot) => {
-        console.log("Updated the announcement");
         this.setState({ editAnnouncementModal: false });
       });
     }
   };
 
   handleHourChange = (e) => {
-    this.setState(
-      {
-        updateHours: e.target.value,
-      },
-      () => {
-        console.log(this.state.updateHours);
-      }
-    );
+    this.setState({
+      scheduledHours: e.target.value
+    });
   };
 
   handleMinuteChange = (e) => {
-    this.setState(
-      {
-        updateMinutes: e.target.value,
-      },
-      () => {
-        console.log(this.state.updateMinutes);
-      }
-    );
+    this.setState({
+      scheduledMinutes: e.target.value
+    });
   };
 
   handleAMPMChange = (e) => {
-    this.setState(
-      {
-        updateAMPM: e.target.value,
-      },
-      () => {
-        console.log(this.state.updateAMPM);
-      }
-    );
+    this.setState({
+      scheduledAMPM: e.target.value
+    });
   };
 
   handleChange = (e) => {
@@ -365,57 +309,33 @@ class Announcement extends Component {
 
   handleDateChange = (e) => {
     this.setState(
-      {
-        updateDate: e.target.value,
-      },
-      () => {
-        console.log(this.state.updateDate);
-      }
-    );
+    {
+      scheduledDate: e.target.value
+    });
   };
 
   handleEditHourChange = (e) => {
-    this.setState(
-      {
-        timehour: e.target.value,
-      },
-      () => {
-        console.log(this.state.timehour);
-      }
-    );
+    this.setState({
+      timehour: e.target.value
+    });
   };
 
   handleEditMinuteChange = (e) => {
-    this.setState(
-      {
-        timeminutes: e.target.value,
-      },
-      () => {
-        console.log(this.state.timeminutes);
-      }
-    );
+    this.setState({
+      timeminutes: e.target.value
+    });
   };
 
   handleEditAMPMChange = (e) => {
-    this.setState(
-      {
-        timeampm: e.target.value,
-      },
-      () => {
-        console.log(this.state.timeampm);
-      }
-    );
+    this.setState({
+      timeampm: e.target.value
+    });
   };
 
   handleEditDateChange = (e) => {
-    this.setState(
-      {
-        date: e.target.value,
-      },
-      () => {
-        console.log(this.state.date);
-      }
-    );
+    this.setState({
+      date: e.target.value,
+    });
   };
 
   /* Add Announcement Modal */
@@ -481,14 +401,20 @@ class Announcement extends Component {
         date: announcement.date,
         time: announcement.time,
         details: announcement.details,
-        scheduleAnnouncement: announcement.scheduleAnnouncement,
         timehour: hr,
         timeminutes: min,
         timeampm: amPm,
-        id: announcement.id,
-        scheduleAnnouncement: false,
-        scheduleAnnouncementLabel: "No"
+        id: announcement.id
       });
+
+      if (Date.parse(announcement.date) > Date.parse(announcement.datePosted)) {
+        this.state.scheduleAnnouncement = true
+        this.state.scheduleAnnouncementLabel = "Yes"
+      } 
+      else {
+        this.state.scheduleAnnouncement = false
+        this.state.scheduleAnnouncementLabel = "No"
+      }
     } else {
       this.setState({
         editAnnouncementModal: false,
@@ -527,11 +453,11 @@ class Announcement extends Component {
     } 
 
     if (this.state.scheduleAnnouncement == true) {
-      if (!this.state.date) {
+      if (!this.state.scheduledDate) {
         dateError = "Please select a valid scheduled date!";
       }
 
-      if (! (this.state.timehour || this.state.timeminutes || this.state.timeampm )) {
+      if (! (this.state.scheduledHours || this.state.scheduledMinutes || this.state.scheduledAMPM )) {
         timeError = "Please select a valid time!";
       }
     }
@@ -557,10 +483,10 @@ class Announcement extends Component {
       details: "", 
       scheduleAnnouncement: false,
       handleScheduleAnnouncementSwitch: false,
-      date: "", 
-      timehour: "",
-      timeminutes: "",
-      timeampm: ""
+      scheduledDate: "", 
+      scheduledHours: "",
+      scheduledMinutes: "",
+      scheduledAMPM: ""
     })
   }
 
@@ -709,7 +635,7 @@ class Announcement extends Component {
                             </InputGroup.Prepend>
 
                             <Col style={{ width: "90%" }} className="text-center">
-                              <Form.Control as="select" name="date" defaultValue="" className="addAnnouncementFormSelect" required noValidate onChange={this.handleDateChange}>
+                              <Form.Control as="select" name="scheduledDate" defaultValue="" className="addAnnouncementFormSelect" required noValidate onChange={this.handleDateChange}>
                                 <option value="" className="addAnnouncementFormSelectOption">Schedule Announcement Date</option>
                                 
                                 {this.state.openhousedates && this.state.openhousedates.map((date) => {
@@ -736,7 +662,7 @@ class Announcement extends Component {
                             </InputGroup.Prepend>
 
                             <Col className="addAnnouncementInnerTimeCol_HrMin text-center">
-                              <Form.Control as="select" name="timehour" defaultValue="" className="addAnnouncementFormSelect" required noValidate onChange={this.handleHourChange}>
+                              <Form.Control as="select" name="scheduledHours" defaultValue="" className="addAnnouncementFormSelect" required noValidate onChange={this.handleHourChange}>
                                 <option value="" className="addAnnouncementFormSelectOption" hidden>Hour</option>
                                 
                                 {this.state.hours && this.state.hours.map((hours) => {
@@ -750,7 +676,7 @@ class Announcement extends Component {
                             <Form.Text id="addAnnouncementInnerTime_Text">:</Form.Text>
 
                             <Col className="addAnnouncementInnerTimeCol_HrMin text-center">
-                              <Form.Control as="select" name="timeminutes" defaultValue="" className="addAnnouncementFormSelect" required noValidate onChange={this.handleMinuteChange}>
+                              <Form.Control as="select" name="scheduledMinutes" defaultValue="" className="addAnnouncementFormSelect" required noValidate onChange={this.handleMinuteChange}>
                                 <option value="" className="addAnnouncementFormSelectOption" hidden>Minute</option>
                                 
                                 {this.state.minutes && this.state.minutes.map((minutes) => {
@@ -762,7 +688,7 @@ class Announcement extends Component {
                             </Col>
 
                             <Col className="addAnnouncementInnerTimeCol_HrMin text-center">
-                              <Form.Control as="select" name="timeampm" defaultValue="" className="addAnnouncementFormSelect" required noValidate onChange={this.handleAMPMChange}>
+                              <Form.Control as="select" name="scheduledAMPM" defaultValue="" className="addAnnouncementFormSelect" required noValidate onChange={this.handleAMPMChange}>
                                 <option value="" className="addAnnouncementFormSelectOption" hidden>AM/PM</option>
 
                                 <option value="AM" className="addAnnouncementFormSelectOption">AM</option>
@@ -810,8 +736,9 @@ class Announcement extends Component {
               <Form.Row className="justify-content-center editAnnouncementFormRow">
                 <Col md="10">
                   <Form.Label className="editAnnouncementFormLabel">Announcement Title</Form.Label>
-
                   <FormControl as="textarea" defaultValue={this.state.title} rows="4" required noValidate className="editAnnouncementForm_Textarea" placeholder="Announcement Title*" name="title" onChange={this.handleChange} />
+                
+                  <div className="errorMessage text-left">{this.state.announcementTitleError}</div>
                 </Col>
               </Form.Row>
 
@@ -819,21 +746,25 @@ class Announcement extends Component {
               <Form.Row className="justify-content-center editAnnouncementFormRow">
                 <Col md="10">
                   <Form.Label className="editAnnouncementFormLabel">Announcement Details</Form.Label>
-
                   <FormControl as="textarea" defaultValue={this.state.details} rows="4" required noValidate className="editAnnouncementForm_Textarea" placeholder="Announcement Details*" name="details" onChange={this.handleChange} />
+                
+                  <div className="errorMessage text-left">{this.state.announcementDetailsError}</div>
                 </Col>
               </Form.Row>
 
               {/* Schedule Announcement */}
-              <Form.Row className="justify-content-center editAnnouncementFormRow">
-                <Col md="10">
-                  <InputGroup>
-                    <Form.Label className="editAnnouncementFormLabel">Schedule Announcement?</Form.Label>
+              {this.state.date > new Date() &&
+                <Form.Row className="justify-content-center editAnnouncementFormRow">
+                  <Col md="10">
+                    <InputGroup>
+                      <Form.Label className="editAnnouncementFormLabel">Schedule Announcement?</Form.Label>
 
-                    <Form.Check type="switch" id="custom-switch" className="scheduleAnnouncementSwitch" label={this.state.scheduleAnnouncementLabel} onClick={this.handleScheduleAnnouncementSwitch} />
-                  </InputGroup>
-                </Col>
-              </Form.Row>
+                      <Form.Check type="switch" defaultChecked={this.state.scheduleAnnouncement} id="custom-switch" className="scheduleAnnouncementSwitch" label={this.state.scheduleAnnouncementLabel} onClick={this.handleScheduleAnnouncementSwitch} />
+                    </InputGroup>
+                  </Col>
+                </Form.Row>
+              }
+              
               
               {/* Schedule Announcement Content */}
               {this.state.scheduleAnnouncement == true && (
@@ -852,16 +783,17 @@ class Announcement extends Component {
                             </InputGroup.Prepend>
 
                             <Col style={{ width: "90%" }} className="text-center">
-                              <Form.Control as="select" name="date" className="editAnnouncementFormSelect" required noValidate value={this.state.date} onChange={this.handleEditDateChange}>
+                              <Form.Control as="select" name="scheduledDate" className="editAnnouncementFormSelect" required noValidate value={this.state.date} onChange={this.handleEditDateChange}>
                                 <option value="" className="addAnnouncementFormSelectOption">Schedule Announcement Date</option>
 
-                                {/* To be retrieved from open house dates */}
                                 {this.state.openhousedates && this.state.openhousedates.map((date) => {
                                   return (
                                     <option value={date.date} className="editAnnouncementFormSelectOption">{date.date}</option>
                                   );
                                 })}
                               </Form.Control>
+
+                              <div className="errorMessage text-left">{this.state.dateError}</div>
                             </Col>
                           </Form.Row>
                         </Col>
@@ -878,10 +810,9 @@ class Announcement extends Component {
                             </InputGroup.Prepend>
 
                             <Col className="editAnnouncementInnerTimeCol_HrMin text-center">
-                              <Form.Control as="select" name="timehour" className="editAnnouncementFormSelect" required noValidate value={this.state.timehour} onChange={this.handleEditHourChange}>
+                              <Form.Control as="select" name="scheduledHours" className="editAnnouncementFormSelect" required noValidate value={this.state.timehour} onChange={this.handleEditHourChange}>
                                 <option value="" className="editAnnouncementFormSelectOption">Hour</option>
                                 
-                                {/* To be retrieved from arrays - Hr Array */}
                                 {this.state.hours && this.state.hours.map((hours) => {
                                   return (
                                     <option value={hours} className="editAnnouncementFormSelectOption">{hours}</option>
@@ -893,10 +824,9 @@ class Announcement extends Component {
                             <Form.Text id="editAnnouncementInnerTime_Text">:</Form.Text>
 
                             <Col className="editAnnouncementInnerTimeCol_HrMin text-center">
-                              <Form.Control as="select" name="timeminutes" className="editAnnouncementFormSelect" required noValidate value={this.state.timeminutes} onChange={this.handleEditMinuteChange}>
+                              <Form.Control as="select" name="scheduledMinutes" className="editAnnouncementFormSelect" required noValidate value={this.state.timeminutes} onChange={this.handleEditMinuteChange}>
                                 <option value="" className="editAnnouncementFormSelectOption">Minute</option>
                                 
-                                {/* To be retrieved from arrays - Min Array */}
                                 {this.state.minutes && this.state.minutes.map((minutes) => {
                                   return (
                                     <option value={minutes} className="editAnnouncementFormSelectOption">{minutes}</option>
@@ -906,7 +836,7 @@ class Announcement extends Component {
                             </Col>
 
                             <Col className="editAnnouncementInnerTimeCol_HrMin text-center">
-                              <Form.Control as="select" name="timeampm" className="editAnnouncementFormSelect" required noValidate value={this.state.timeampm} onChange={this.handleEditAMPMChange}>
+                              <Form.Control as="select" name="scheduledAMPM" className="editAnnouncementFormSelect" required noValidate value={this.state.timeampm} onChange={this.handleEditAMPMChange}>
                                 <option value="" className="editAnnouncementFormSelectOption" hidden>AM/PM</option>
                                 <option value="AM" className="addAnnouncementFormSelectOption">AM</option>
                                 <option value="PM" className="addAnnouncementFormSelectOption">PM</option>
@@ -914,12 +844,14 @@ class Announcement extends Component {
                             </Col>
                           </Form.Row>
 
+                          <div className="errorMessage text-left">{this.state.timeError}</div>
                         </Col>
                       </Form.Row>
                     </Container>
                   </Col>
                 </Form.Row>
               )}
+            
             </Form>
           </Modal.Body>
 
