@@ -788,30 +788,6 @@ export default class EditStudySIMProgModal extends React.Component {
                   </Col>
                 </Form.Row>
 
-                {/* Category */}
-                {/* <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
-                  <Col md="9" className="text-center">
-                    <InputGroup className="editStudySIMProgFormColInputGrp">
-                      <Form.Control as="select" name="category" defaultValue="" className="editStudySIMProgFormSelect" required noValidate placeholder="Choose a Category" onChange={this.handleChange}>
-                        <option value="" className="editStudySIMProgFormSelectOption" disabled={true}>Choose a Category</option> */}
-
-                        {/* To be retrieved from DB
-                        {this.state.Category && this.state.Category.map((Category, index) => {
-                          if (Category === this.props.category) {
-                            return (
-                              <option value={Category} className="editStudySIMProgFormSelectOption" selected>{Category}</option>
-                            );
-                          } else {
-                            return (
-                              <option value={Category} className="editStudySIMProgFormSelectOption">{Category}</option>
-                            );
-                          }
-                        })}
-                      </Form.Control>
-                    </InputGroup>
-                  </Col>
-                </Form.Row> */}
-
                 {/* Academic Level */}
                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-center">
