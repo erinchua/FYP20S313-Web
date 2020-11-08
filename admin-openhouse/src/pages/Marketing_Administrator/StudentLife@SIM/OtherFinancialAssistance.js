@@ -11,8 +11,32 @@ import SideNavBar from '../../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faEnvelopeOpen, faFileAlt, faLocationArrow, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faInternetExplorer } from '@fortawesome/free-brands-svg-icons';
+import { isNoSubstitutionTemplateLiteral } from 'typescript';
+
+const initialStates = {
+    ampEmailError: "",
+    ampWebsiteError: "",
+    ampDescriptionError: "",
+    ampContactError: "",
+    mtfaEmailError: "",
+    mtfaWebsiteError: "",
+    mtfaDescriptionError: "",
+    mtfaContactError: "",
+    mtfaAddressError: "",
+    lembagaEmailError: "",
+    lembagaWebsiteError: "",
+    lembagaDescriptionError: "",
+    lembagaContactError: "",
+    sivadasEmailError: "",
+    sivadasWebsiteError: "",
+    sivadasDescriptionError: "",
+    sivadasContactError: "",
+}
 
 class OtherFinancialAssistance extends Component {
+
+    state = initialStates;
+
     constructor() {
         super();
         this.state = {
@@ -81,7 +105,6 @@ class OtherFinancialAssistance extends Component {
         this.setState({
             [e.target.name]: e.target.value,
         });
-        console.log([e.target.name], e.target.value);
     };
 
     componentDidMount() {
@@ -192,178 +215,210 @@ class OtherFinancialAssistance extends Component {
     }
 
     updateFinancialAssistance = (id) => {
+        const isAmpValid = this.validateAmp();
+        const isMtfaValid = this.validateMtfa();
+        const isLembagaValid = this.validateLembaga();
+        const isSivadasValid = this.validateSivadas();
+
         //AMP Education Bursary
         if (id === this.state.ampId) {
+            var splitContact = this.state.ampEduContact.split(', ')
+            var splitPreviousContact = this.state.previousContact.split(', ');
+
             if (this.state.previousContact === this.state.ampEduContact) {
-                db.collection("Bursary").doc(id)
-                .update({
-                    email: this.state.ampEmail,
-                    website: this.state.ampWebsite,
-                    description: this.state.ampDescription,
-                })
-                .then(() => {
-                    console.log("Updated AMP Education Bursary!");
-                    this.setState({
-                        ampEditModal: false,
-                    });
-                    this.display();
-                });
-            } else {
-                db.collection("Bursary").doc(id)
-                .update({
-                    email: this.state.ampEmail,
-                    website: this.state.ampWebsite,
-                    description: this.state.ampDescription,
-                    contact: firebase.firestore.FieldValue.arrayRemove(this.state.previousContact)
-                })
-                .then(() => {
+                if (isAmpValid) {
+                    this.setState(initialStates);
+
                     db.collection("Bursary").doc(id)
                     .update({
-                        contact: firebase.firestore.FieldValue.arrayUnion(this.state.ampEduContact)
-                    }).then(() => {
+                        email: this.state.ampEmail,
+                        website: this.state.ampWebsite,
+                        description: this.state.ampDescription,
+                    })
+                    .then(() => {
                         console.log("Updated AMP Education Bursary!");
                         this.setState({
                             ampEditModal: false,
                         });
                         this.display();
                     });
-                });
-            }
-        }
+                }
+            } else {
+                if (isAmpValid) {
+                    this.setState(initialStates);
 
-        //MTFA Bursary - TBC
-        if (id === this.state.mtfaId) {
-            console.log("mtfa")
-            var splitContact = this.state.mtfaBursaryContact.split(', ')
-            console.log(splitContact);
-            var splitPreviousContact = this.state.previousContact.split(', ');
-            console.log(splitPreviousContact);
-
-            for (var i = 0; i < splitPreviousContact.length; i++) {
-                if (splitPreviousContact[i] !== splitContact[i]) {
-                    this.setState({
-                        previousContact: splitPreviousContact[i],
-                        mtfaBursaryContact: splitContact[i],
+                    db.collection("Bursary").doc(id)
+                    .update({
+                        email: this.state.ampEmail,
+                        website: this.state.ampWebsite,
+                        description: this.state.ampDescription,
+                        contact: firebase.firestore.FieldValue.arrayRemove(...splitPreviousContact)
+                    })
+                    .then(() => {
+                        db.collection("Bursary").doc(id)
+                        .update({
+                            contact: firebase.firestore.FieldValue.arrayUnion(...splitContact)
+                        }).then(() => {
+                            console.log("Updated AMP Education Bursary!");
+                            this.setState({
+                                ampEditModal: false,
+                            });
+                            this.display();
+                        });
                     });
                 }
             }
+        }
+
+        //MTFA Bursary
+        if (id === this.state.mtfaId) {
+            var splitContact = this.state.mtfaBursaryContact.split(', ')
+            var splitPreviousContact = this.state.previousContact.split(', ');
 
             if (this.state.previousContact === this.state.mtfaBursaryContact) {
-                db.collection("Bursary").doc(id)
-                .update({
-                    email: this.state.mtfaEmail,
-                    website: this.state.mtfaWebsite,
-                    address: this.state.mtfaAddress,
-                    description: this.state.mtfaDescription,
-                })
-                .then(() => {
-                    console.log("Updated MTFA!");
-                    this.setState({
-                        mtfaEditModal: false,
-                    });
-                    this.display();
-                });
-            } else {
-                console.log(this.state.previousContact)
-                console.log(this.state.mtfaBursaryContact)
-                db.collection("Bursary").doc(id)
-                .update({
-                    email: this.state.mtfaEmail,
-                    website: this.state.mtfaWebsite,
-                    address: this.state.mtfaAddress,
-                    description: this.state.mtfaDescription,
-                    contact: firebase.firestore.FieldValue.arrayRemove(this.state.previousContact)
-                })
-                .then(() => {
+                if (isMtfaValid) {
+                    this.setState(initialStates);
+
                     db.collection("Bursary").doc(id)
                     .update({
-                        contact: firebase.firestore.FieldValue.arrayUnion(this.state.mtfaBursaryContact)
-                    }).then(() => {
+                        email: this.state.mtfaEmail,
+                        website: this.state.mtfaWebsite,
+                        address: this.state.mtfaAddress,
+                        description: this.state.mtfaDescription,
+                    })
+                    .then(() => {
                         console.log("Updated MTFA!");
                         this.setState({
                             mtfaEditModal: false,
                         });
                         this.display();
                     });
-                });
+                }
+            } else {
+                if (isMtfaValid) {
+                    this.setState(initialStates);
+
+                    db.collection("Bursary").doc(id)
+                    .update({
+                        email: this.state.mtfaEmail,
+                        website: this.state.mtfaWebsite,
+                        address: this.state.mtfaAddress,
+                        description: this.state.mtfaDescription,
+                        contact: firebase.firestore.FieldValue.arrayRemove(...splitPreviousContact)
+                    })
+                    .then(() => {
+                        db.collection("Bursary").doc(id)
+                        .update({
+                            contact: firebase.firestore.FieldValue.arrayUnion(...splitContact)
+                        }).then(() => {
+                            console.log("Updated MTFA!");
+                            this.setState({
+                                mtfaEditModal: false,
+                            });
+                            this.display();
+                        });
+                    });
+                }
             }
         }
 
         //LBKM
         if (id === this.state.lembagaId) {
+            var splitContact = this.state.lembagaContact.split(', ')
+            var splitPreviousContact = this.state.previousContact.split(', ');
+
             if (this.state.previousContact === this.state.lembagaContact) {
-                db.collection("Bursary").doc(id)
-                .update({
-                    email: this.state.lembagaEmail,
-                    website: this.state.lembagaWebsite,
-                    description: this.state.lembagaDescription,
-                })
-                .then(() => {
-                    console.log("Updated LBKM!");
-                    this.setState({
-                        lembagaEditModal: false,
-                    });
-                    this.display();
-                });
-            } else {
-                db.collection("Bursary").doc(id)
-                .update({
-                    email: this.state.lembagaEmail,
-                    website: this.state.lembagaWebsite,
-                    description: this.state.lembagaDescription,
-                    contact: firebase.firestore.FieldValue.arrayRemove(this.state.previousContact)
-                })
-                .then(() => {
+                if (isLembagaValid) {
+                    this.setState(initialStates);
+
                     db.collection("Bursary").doc(id)
                     .update({
-                        contact: firebase.firestore.FieldValue.arrayUnion(this.state.lembagaContact)
-                    }).then(() => {
+                        email: this.state.lembagaEmail,
+                        website: this.state.lembagaWebsite,
+                        description: this.state.lembagaDescription,
+                    })
+                    .then(() => {
                         console.log("Updated LBKM!");
                         this.setState({
                             lembagaEditModal: false,
                         });
                         this.display();
                     });
-                });
+                }
+            } else {
+                if (isLembagaValid) {
+                    this.setState(initialStates);
+
+                    db.collection("Bursary").doc(id)
+                    .update({
+                        email: this.state.lembagaEmail,
+                        website: this.state.lembagaWebsite,
+                        description: this.state.lembagaDescription,
+                        contact: firebase.firestore.FieldValue.arrayRemove(...splitPreviousContact)
+                    })
+                    .then(() => {
+                        db.collection("Bursary").doc(id)
+                        .update({
+                            contact: firebase.firestore.FieldValue.arrayUnion(...splitContact)
+                        }).then(() => {
+                            console.log("Updated LBKM!");
+                            this.setState({
+                                lembagaEditModal: false,
+                            });
+                            this.display();
+                        });
+                    });
+                }
             }
         }
 
         //Sivades-HEB
         if (id === this.state.sivadasId) {
+            var splitContact = this.state.sivadasHebContact.split(', ')
+            var splitPreviousContact = this.state.previousContact.split(', ');
+
             if (this.state.previousContact === this.state.sivadasHebContact) {
-                db.collection("Bursary").doc(id)
-                .update({
-                    email: this.state.sivadasEmail,
-                    website: this.state.sivadasWebsite,
-                    description: this.state.sivadasDescription,
-                })
-                .then(() => {
-                    console.log("Updated Sivadas!");
-                    this.setState({
-                        sivadasEditModal: false,
-                    });
-                    this.display();
-                });
-            } else {
-                db.collection("Bursary").doc(id)
-                .update({
-                    email: this.state.sivadasEmail,
-                    website: this.state.sivadasWebsite,
-                    description: this.state.sivadasDescription,
-                    contact: firebase.firestore.FieldValue.arrayRemove(this.state.previousContact)
-                })
-                .then(() => {
+                if (isSivadasValid) {
+                    this.setState(initialStates);
+
                     db.collection("Bursary").doc(id)
                     .update({
-                        contact: firebase.firestore.FieldValue.arrayUnion(this.state.sivadasHebContact)
-                    }).then(() => {
+                        email: this.state.sivadasEmail,
+                        website: this.state.sivadasWebsite,
+                        description: this.state.sivadasDescription,
+                    })
+                    .then(() => {
                         console.log("Updated Sivadas!");
                         this.setState({
                             sivadasEditModal: false,
                         });
                         this.display();
                     });
-                });
+                }
+            } else {
+                if (isSivadasValid) {
+                    this.setState(initialStates);
+
+                    db.collection("Bursary").doc(id)
+                    .update({
+                        email: this.state.sivadasEmail,
+                        website: this.state.sivadasWebsite,
+                        description: this.state.sivadasDescription,
+                        contact: firebase.firestore.FieldValue.arrayRemove(...splitPreviousContact)
+                    })
+                    .then(() => {
+                        db.collection("Bursary").doc(id)
+                        .update({
+                            contact: firebase.firestore.FieldValue.arrayUnion(...splitContact)
+                        }).then(() => {
+                            console.log("Updated Sivadas!");
+                            this.setState({
+                                sivadasEditModal: false,
+                            });
+                            this.display();
+                        });
+                    });
+                }
             }
         }
 
@@ -444,6 +499,135 @@ class OtherFinancialAssistance extends Component {
                 sivadasEditModal: false
             });
         }
+    }
+
+    //Validate AMP Education Bursary
+    validateAmp = () => {
+        let ampEmailError = "";
+        let ampWebsiteError = "";
+        let ampDescriptionError = "";
+        let ampContactError = "";
+        
+        if (!this.state.ampEmail.includes('@')) {
+            ampEmailError = "Please enter a valid email address.";
+        }
+
+        if (!this.state.ampWebsite) {
+            ampWebsiteError = "Please enter a valid website.";
+        }
+
+        if (!this.state.ampDescription) {
+            ampDescriptionError = "Please enter a valid description.";
+        }
+
+        if (!((this.state.ampEduContact) && (this.state.ampEduContact.match(/^[0-9 ,]*$/gm)))) {
+            ampContactError = "Please enter a valid contact number.";
+        }
+
+        if (ampEmailError || ampWebsiteError || ampDescriptionError || ampContactError) {
+            this.setState({ampEmailError, ampWebsiteError, ampDescriptionError, ampContactError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validate MTFA Bursary
+    validateMtfa = () => {
+        let mtfaEmailError = "";
+        let mtfaWebsiteError = "";
+        let mtfaAddressError = "";
+        let mtfaDescriptionError = "";
+        let mtfaContactError = "";
+        
+        if (!this.state.mtfaEmail.includes('@')) {
+            mtfaEmailError = "Please enter a valid email address.";
+        }
+
+        if (!this.state.mtfaWebsite) {
+            mtfaWebsiteError = "Please enter a valid website.";
+        }
+
+        if (!this.state.mtfaAddress) {
+            mtfaAddressError = "Please enter a valid address.";
+        }
+
+        if (!this.state.mtfaDescription) {
+            mtfaDescriptionError = "Please enter a valid description.";
+        }
+
+        if (!((this.state.mtfaBursaryContact) && (this.state.mtfaBursaryContact.match(/^[0-9 ,]*$/gm)))) {
+            mtfaContactError = "Please enter a valid contact number.";
+        }
+
+        if (mtfaEmailError || mtfaWebsiteError || mtfaAddressError || mtfaDescriptionError || mtfaContactError) {
+            this.setState({mtfaEmailError, mtfaWebsiteError, mtfaAddressError, mtfaDescriptionError, mtfaContactError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validate LBKM
+    validateLembaga = () => {
+        let lembagaEmailError = "";
+        let lembagaWebsiteError = "";
+        let lembagaDescriptionError = "";
+        let lembagaContactError = "";
+        
+        if (!this.state.lembagaEmail.includes('@')) {
+            lembagaEmailError = "Please enter a valid email address.";
+        }
+
+        if (!this.state.lembagaWebsite) {
+            lembagaWebsiteError = "Please enter a valid website.";
+        }
+
+        if (!this.state.lembagaDescription) {
+            lembagaDescriptionError = "Please enter a valid description.";
+        }
+
+        if (!((this.state.lembagaContact) && (this.state.lembagaContact.match(/^[0-9 ,]*$/gm)))) {
+            lembagaContactError = "Please enter a valid contact number.";
+        }
+
+        if (lembagaEmailError || lembagaWebsiteError || lembagaDescriptionError || lembagaContactError) {
+            this.setState({lembagaEmailError, lembagaWebsiteError, lembagaDescriptionError, lembagaContactError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validate Sivadas
+    validateSivadas = () => {
+        let sivadasEmailError = "";
+        let sivadasWebsiteError = "";
+        let sivadasDescriptionError = "";
+        let sivadasContactError = "";
+        
+        if (!this.state.sivadasEmail.includes('@')) {
+            sivadasEmailError = "Please enter a valid email address.";
+        }
+
+        if (!this.state.sivadasWebsite) {
+            sivadasWebsiteError = "Please enter a valid website.";
+        }
+
+        if (!this.state.sivadasDescription) {
+            sivadasDescriptionError = "Please enter a valid description.";
+        }
+
+        if (!((this.state.sivadasHebContact) && (this.state.sivadasHebContact.match(/^[0-9 ,]*$/gm)))) {
+            sivadasContactError = "Please enter a valid contact number.";
+        }
+
+        if (sivadasEmailError || sivadasWebsiteError || sivadasDescriptionError || sivadasContactError) {
+            this.setState({sivadasEmailError, sivadasWebsiteError, sivadasDescriptionError, sivadasContactError});
+            return false;
+        }
+
+        return true;
     }
 
     render() {
@@ -622,8 +806,8 @@ class OtherFinancialAssistance extends Component {
                                                                                             {this.state.sivadasHebContact ? 
                                                                                                 <td key={sivadas.sivadasId}>{this.state.sivadasHebContact}</td>: ''
                                                                                             }
-                                                                                            <td>{sivadas.sivadasWebsite}</td>
-                                                                                            <td>{sivadas.sivadasDescription}</td>
+                                                                                            <td className="text-left">{sivadas.sivadasWebsite}</td>
+                                                                                            <td className="text-left">{sivadas.sivadasDescription}</td>
                                                                                             <td><Button size="sm" id="OFA-editBtn" onClick={() => this.handleSivadasEditModal(sivadas)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                         </tr>
                                                                                     </tbody>
@@ -664,7 +848,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-inputFields" type="text" name="ampEmail" placeholder="AMP Education Bursary's Email" required defaultValue={this.state.ampEmail} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.ampEmailError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -675,7 +859,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-inputFields" type="text" name="ampEduContact" placeholder="AMP Education Bursary's Contact Number" required defaultValue={this.state.ampEduContact} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.ampContactError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -686,7 +870,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-textAreas" as="textarea" rows="2" type="text" name="ampWebsite" placeholder="AMP Education Bursary's Website" required defaultValue={this.state.ampWebsite} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.ampWebsiteError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -697,7 +881,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-textAreas" as="textarea" rows="4" type="text" name="ampDescription" placeholder="Description of AMP Education Bursary" required defaultValue={this.state.ampDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.ampDescriptionError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -735,7 +919,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-inputFields" type="text" name="mtfaEmail" placeholder="MTFA Bursary's Email" required defaultValue={this.state.mtfaEmail} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.mtfaEmailError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -746,7 +930,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-inputFields" type="text" name="mtfaBursaryContact" placeholder="MTFA Bursary's Contact Number" required defaultValue={this.state.mtfaBursaryContact} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.mtfaContactError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -757,7 +941,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-textAreas" as="textarea" rows="2" type="text" name="mtfaAddress" placeholder="MTFA Bursary's Address" required defaultValue={this.state.mtfaAddress} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.mtfaAddressError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -768,7 +952,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-textAreas" as="textarea" rows="2" type="text" name="mtfaWebsite" placeholder="MTFA Bursary's Website" required defaultValue={this.state.mtfaWebsite} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.mtfaWebsiteError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -779,7 +963,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-textAreas" as="textarea" rows="4" type="text" name="mtfaDescription" placeholder="Description of MTFA Bursary" required defaultValue={this.state.mtfaDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.mtfaDescriptionError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -817,7 +1001,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-inputFields" type="text" name="lembagaEmail" placeholder="Lembaga Biasiswa Kenanga Maulud's Email" required defaultValue={this.state.lembagaEmail} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.lembagaEmailError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -828,7 +1012,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-inputFields" type="text" name="lembagaContact" placeholder="Lembaga Biasiswa Kenanga Maulud's Contact Number" required defaultValue={this.state.lembagaContact} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.lembagaContactError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -839,7 +1023,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-textAreas" as="textarea" rows="2" type="text" name="lembagaWebsite" placeholder="Lembaga Biasiswa Kenanga Maulud's Website" required defaultValue={this.state.lembagaWebsite} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.lembagaWebsiteError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -850,7 +1034,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-textAreas" as="textarea" rows="4" type="text" name="lembagaDescription" placeholder="Description of Lembaga Biasiswa Kenanga Maulud" required defaultValue={this.state.lembagaDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.lembagaDescriptionError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -888,7 +1072,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-inputFields" type="text" name="sivadasEmail" placeholder="Sivadas-HEB Education Fund's Email" required defaultValue={this.state.sivadasEmail} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.sivadasEmailError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -899,7 +1083,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-inputFields" type="text" name="sivadasHebContact" placeholder="Sivadas-HEB Education Fund's Contact Number" required defaultValue={this.state.sivadasHebContact} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.sivadasContactError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -910,7 +1094,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-textAreas" as="textarea" rows="2" type="text" name="sivadasWebsite" placeholder="Sivadas-HEB Education Fund's Website" required defaultValue={this.state.sivadasWebsite} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.sivadasWebsiteError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -921,7 +1105,7 @@ class OtherFinancialAssistance extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="OFA-textAreas" as="textarea" rows="4" type="text" name="sivadasDescription" placeholder="Description of Sivadas-HEB Education Fund" required defaultValue={this.state.sivadasDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.sivadasDescriptionError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
