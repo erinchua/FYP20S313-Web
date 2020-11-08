@@ -20,6 +20,9 @@ class StudySIM_ArtsSocialSciences extends Component {
   constructor() {
     super();
     this.state = {
+      disciplines : [],
+      subDiscplines : [],
+      universities : [],
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
@@ -37,7 +40,7 @@ class StudySIM_ArtsSocialSciences extends Component {
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
+              this.fetchData();
             } else {
               history.push("/Login");
             }
@@ -53,10 +56,10 @@ class StudySIM_ArtsSocialSciences extends Component {
     this.authListener();
   }
 
-  display() {
+  fetchData = async() =>{
     const db = fire.firestore();
 
-    const userRe1 = db.collection("Programmes").onSnapshot((snapshot) => {
+    await db.collection("Programmes").onSnapshot((snapshot) => {
       const artsocialscience = [];
       snapshot.forEach((doc) => {
         const getdiscipline = doc.get("discipline");
@@ -97,6 +100,34 @@ class StudySIM_ArtsSocialSciences extends Component {
 
       this.setState({ artsocialscience: artsocialscience });
     });
+
+    const disciplines = []
+    await db.collection('Disciplines').get().then((snapshot)=>{
+      snapshot.docs.forEach((doc)=>{
+        const data = doc.data()
+        disciplines.push(data.name)
+      })
+      this.setState({disciplines : disciplines})
+    })
+
+    const subDisciplines = []
+    await db.collection('SubDisciplines').get().then((snapshot)=>{
+      snapshot.docs.forEach((doc)=>{
+        const data = doc.data()
+        subDisciplines.push(data.name)
+      })
+      this.setState({subDisciplines : subDisciplines})
+    })
+
+    const universities = []
+    await db.collection('Universities').get().then((snapshot)=>{
+      snapshot.docs.forEach((doc)=>{
+        const data = doc.data()
+        universities.push(data.universityName)
+      })
+      this.setState({universities : universities})
+    })
+
   }
 
   /* Add Programme Talk Modal */
@@ -194,10 +225,9 @@ class StudySIM_ArtsSocialSciences extends Component {
                             <th className="studySIMProgHeader_ProgName">Programme Name</th>
                             <th className="studySIMProgHeader_AwardedBy">Awarded By</th>
                             <th className="studySIMProgHeader_LogoFile">Logo File</th>
-                            <th className="studySIMProgHeader_Category">Category</th>
+                            <th className="studySIMProgHeader_AcademicLvl">Academic Level</th>
                             <th className="studySIMProgHeader_MoS">Mode of Study</th>
                             <th className="studySIMProgHeader_Discipline">Disciplines</th>
-                            <th className="studySIMProgHeader_AcademicLvl">Academic Level</th>
                             <th className="studySIMProgHeader_EntryQual">Entry Qualifications</th>
                             <th className="studySIMProgHeader_SubDiscipline">Sub-Disciplines</th>
                             <th className="studySIMProgHeader_Edit">Edit</th>
@@ -239,7 +269,7 @@ class StudySIM_ArtsSocialSciences extends Component {
 
                                 <td className="studySIMProgData_AwardedBy text-left">{artsocialscience.awardBy}</td>
                                 <td className="studySIMProgData_LogoFile text-left"><img src={artsocialscience.Logofile} alt="No Logo file"></img></td>
-                                <td className="studySIMProgData_Category text-left">{artsocialscience.CategoryProgramme}</td>
+                                <td className="studySIMProgData_Category text-left">{artsocialscience.AcademicLevel}</td>
                                 <td className="studySIMProgData_MoS text-left">
                                   <tr>
                                     {artsocialscience.ModeOfStudy.fullTime === true && (
@@ -258,7 +288,7 @@ class StudySIM_ArtsSocialSciences extends Component {
                                   <tr>{artsocialscience.discipline2}</tr>
                                 </td>
 
-                                <td className="studySIMProgData_AcademicLvl text-left">{artsocialscience.AcademicLevel}</td>
+                                {/* <td className="studySIMProgData_AcademicLvl text-left">{artsocialscience.AcademicLevel}</td> */}
                                   <td className="studySIMProgData_EntryQual text-left">
                                     <tr>
                                       {artsocialscience.Qualification.aLevel === true && (
@@ -421,6 +451,11 @@ class StudySIM_ArtsSocialSciences extends Component {
             
             handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
             handleCancelEdit={this.handleEditStudySIMProgModal}
+
+            //List of options fromm DB
+            universities = {this.state.universities}
+            disciplines = {this.state.disciplines}
+            subDisciplines = {this.state.subDisciplines}
           />
         </Modal>
 

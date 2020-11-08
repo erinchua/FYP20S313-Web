@@ -779,11 +779,11 @@ export default class EditStudySIMProgModal extends React.Component {
                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-center">
                     <InputGroup className="editStudySIMProgFormColInputGrp">
-                      <Form.Control as="select" name="university" defaultValue="" className="editStudySIMProgFormSelect" required noValidate placeholder="Choose a University" onChange={this.handleChange}>
+                      <Form.Control as="select" name="university" defaultValue={this.props.University} className="editStudySIMProgFormSelect" required noValidate placeholder="Choose a University" onChange={this.handleChange}>
                         <option value="" className="editStudySIMProgFormSelectOption" disabled={true}>Choose a University</option>
 
                         {/* To be retrieved from DB */}
-                        {this.state.University && this.state.University.map((University, index) => {
+                        {this.props.universities && this.props.universities.map((University, index) => {
                           if (University === this.props.University) {
                             return (
                               <option value={University} className="editStudySIMProgFormSelectOption" selected>{University}</option>
@@ -881,12 +881,14 @@ export default class EditStudySIMProgModal extends React.Component {
                     <Container className="editStudySIMProgForm_DisciplineCon">
                       {/* To be retrieved from db - row is generated dynamically */}
                       <Form.Group controlId="exampleForm.ControlInput1">
-                        {this.state.Discipline && this.state.Discipline.map((Discipline) => {
+                        {this.props.disciplines && this.props.disciplines.map((Discipline) => {
                           {
                             return (
                               <Row>
                                 <Col>
-                                  <Form.Check id={Discipline.Name} name="entryqualification" value={Discipline.Name} type="checkbox" label={Discipline.Name} className="editStudySIMProgForm_CheckBox DisciplineCheckboxes" defaultChecked={Discipline.checked} onChange={this.DisciplinehandleChange} disabled={this.state[Discipline.Name]} />
+                                  <Form.Check id={Discipline} name="entryqualification" value={Discipline} type="checkbox" label={Discipline} className="editStudySIMProgForm_CheckBox DisciplineCheckboxes" 
+                                  defaultChecked={Discipline == this.props.discipline1 || Discipline == this.props.discipline2 ? true:false} 
+                                  onChange={this.DisciplinehandleChange} disabled={this.state[Discipline]} />
                                 </Col>
                               </Row>
                             );
@@ -962,12 +964,15 @@ export default class EditStudySIMProgModal extends React.Component {
 
                     <Container className="editStudySIMProgForm_SubDisciplineCon">
                       {/* To be retrieved from db - row is generated dynamically */}
-                      {this.state.subDiscipline && this.state.subDiscipline.map((subDiscipline, index) => {
+                      {this.props.subDisciplines && this.props.subDisciplines.map((subDiscipline, index) => {
                         index = index + 1;
                         return (
                           <Row>
                             <Col>
-                              <Form.Check name={subDiscipline.Name} value={subDiscipline.Name} type="checkbox" label={subDiscipline.Name} className="editStudySIMProgForm_CheckBox subDisciplineCheckboxes" defaultChecked={subDiscipline.checked} onChange={this.SubDisciplinehandleChange} disabled={this.state["sub" + subDiscipline.Name]} />
+                              <Form.Check name={subDiscipline} value={subDiscipline} type="checkbox" label={subDiscipline} className="editStudySIMProgForm_CheckBox subDisciplineCheckboxes" 
+                              defaultChecked={subDiscipline == this.props.subdiscipline1 || subDiscipline == this.props.subdiscipline2 || subDiscipline == this.props.subdiscipline3 || 
+                                subDiscipline == this.props.subdiscipline4 || subDiscipline == this.props.subdiscipline5 ? true: false} 
+                              onChange={this.SubDisciplinehandleChange} disabled={this.state["sub" + subDiscipline]} />
                             </Col>
                           </Row>
                         );
