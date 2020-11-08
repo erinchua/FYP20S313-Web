@@ -51,6 +51,7 @@ import SIMGEBursary from "./pages/Marketing_Administrator/StudentLife@SIM/SIMGEB
 import Sponsors from "./pages/Marketing_Administrator/StudentLife@SIM/Sponsors";
 import SIMGEScholarship from "./pages/Marketing_Administrator/StudentLife@SIM/SIMGEScholarship";
 import Scholarship from "./pages/Marketing_Administrator/StudentLife@SIM/TestingScholarship";
+import SocialMediaCampaigns from "./pages/Marketing_Administrator/SocialMediaCampaigns";
 
 // import test from "./temp/testing";
 
@@ -113,6 +114,7 @@ ReactDOM.render(
         <Route path="/Sponsors" component={Sponsors} />
         <Route path="/SIMGEScholarship" component={SIMGEScholarship} />
         <Route path="/Scholarship" component={Scholarship} />
+        <Route path="/SocialMediaCampaigns" component={SocialMediaCampaigns} />
 
       </Switch>
     </Router>,

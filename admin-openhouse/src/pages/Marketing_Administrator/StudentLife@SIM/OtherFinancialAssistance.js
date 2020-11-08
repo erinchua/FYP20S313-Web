@@ -1,4 +1,4 @@
-import { Container, Row, Col, Table, Button, Modal, Form, Tab, Nav, Accordion, Card } from 'react-bootstrap';
+import { Container, Row, Col, Table, Button, Modal, Form, Tab, Nav } from 'react-bootstrap';
 import React, { Component } from "react";
 import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
@@ -11,7 +11,6 @@ import SideNavBar from '../../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faEnvelopeOpen, faFileAlt, faLocationArrow, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faInternetExplorer } from '@fortawesome/free-brands-svg-icons';
-import { isNoSubstitutionTemplateLiteral } from 'typescript';
 
 const initialStates = {
     ampEmailError: "",
@@ -209,7 +208,6 @@ class OtherFinancialAssistance extends Component {
                         sivadasHebContact: sivadasContact.join(', '),
                     });
                 }
-
             })
         });
     }
@@ -242,6 +240,8 @@ class OtherFinancialAssistance extends Component {
                         });
                         this.display();
                     });
+                } else {
+                    this.state.ampEduContact = this.state.previousContact;
                 }
             } else {
                 if (isAmpValid) {
@@ -266,6 +266,8 @@ class OtherFinancialAssistance extends Component {
                             this.display();
                         });
                     });
+                } else {
+                    this.state.ampEduContact = this.state.previousContact;
                 }
             }
         }
@@ -293,6 +295,8 @@ class OtherFinancialAssistance extends Component {
                         });
                         this.display();
                     });
+                } else {
+                    this.state.mtfaBursaryContact = this.state.previousContact;
                 }
             } else {
                 if (isMtfaValid) {
@@ -318,6 +322,8 @@ class OtherFinancialAssistance extends Component {
                             this.display();
                         });
                     });
+                } else {
+                    this.state.mtfaBursaryContact = this.state.previousContact;
                 }
             }
         }
@@ -344,6 +350,8 @@ class OtherFinancialAssistance extends Component {
                         });
                         this.display();
                     });
+                } else {
+                    this.state.lembagaContact = this.state.previousContact;
                 }
             } else {
                 if (isLembagaValid) {
@@ -368,6 +376,8 @@ class OtherFinancialAssistance extends Component {
                             this.display();
                         });
                     });
+                } else {
+                    this.state.lembagaContact = this.state.previousContact;
                 }
             }
         }
@@ -394,6 +404,8 @@ class OtherFinancialAssistance extends Component {
                         });
                         this.display();
                     });
+                } else {
+                    this.state.sivadasHebContact = this.state.previousContact;
                 }
             } else {
                 if (isSivadasValid) {
@@ -418,10 +430,11 @@ class OtherFinancialAssistance extends Component {
                             this.display();
                         });
                     });
+                } else {
+                    this.state.sivadasHebContact = this.state.previousContact;
                 }
             }
         }
-
     }
 
     //Edit AMP Education Bursary
@@ -438,8 +451,9 @@ class OtherFinancialAssistance extends Component {
         }
         else {
             this.setState({
-                ampEditModal: false
+                ampEditModal: false,
             });
+            this.setState(initialStates);
         }
     }
 
@@ -460,6 +474,7 @@ class OtherFinancialAssistance extends Component {
             this.setState({
                 mtfaEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -479,6 +494,7 @@ class OtherFinancialAssistance extends Component {
             this.setState({
                 lembagaEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -498,6 +514,7 @@ class OtherFinancialAssistance extends Component {
             this.setState({
                 sivadasEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -705,9 +722,7 @@ class OtherFinancialAssistance extends Component {
                                                                                     <tbody id="OFA-tableBody" key={amp.ampId}>
                                                                                         <tr>
                                                                                             <td>{amp.ampEmail}</td>
-                                                                                            {this.state.ampEduContact ?
-                                                                                                <td key={amp.ampId}>{this.state.ampEduContact}</td>: ''
-                                                                                            }
+                                                                                            <td key={amp.ampId}>{this.state.ampEduContact}</td>
                                                                                             <td className="text-left">{amp.ampWebsite}</td>
                                                                                             <td className="text-left">{amp.ampDescription}</td>
                                                                                             <td><Button size="sm" id="OFA-editBtn" onClick={() => this.handleAmpEditModal(amp)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
@@ -738,9 +753,7 @@ class OtherFinancialAssistance extends Component {
                                                                                     <tbody id="OFA-tableBody" key={mtfa.mtfaId}>
                                                                                         <tr>
                                                                                             <td>{mtfa.mtfaEmail}</td>
-                                                                                            {this.state.mtfaBursaryContact ? 
-                                                                                                <td>{this.state.mtfaBursaryContact}</td>: ''
-                                                                                            }
+                                                                                            <td>{this.state.mtfaBursaryContact}</td>
                                                                                             <td className="text-left">{mtfa.mtfaAddress}</td>
                                                                                             <td className="text-left">{mtfa.mtfaWebsite}</td>
                                                                                             <td className="text-left">{mtfa.mtfaDescription}</td>
@@ -771,9 +784,7 @@ class OtherFinancialAssistance extends Component {
                                                                                     <tbody id="OFA-tableBody" key={lembaga.lembagaId}>
                                                                                         <tr>
                                                                                             <td>{lembaga.lembagaEmail}</td>
-                                                                                            {this.state.lembagaContact ?
-                                                                                                <td key={lembaga.lembagaId}>{this.state.lembagaContact}</td>: ''
-                                                                                            }
+                                                                                            <td key={lembaga.lembagaId}>{this.state.lembagaContact}</td>
                                                                                             <td className="text-left">{lembaga.lembagaWebsite}</td>
                                                                                             <td className="text-left">{lembaga.lembagaDescription}</td>
                                                                                             <td><Button size="sm" id="OFA-editBtn" onClick={() => this.handleLembagaEditModal(lembaga)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
@@ -803,9 +814,7 @@ class OtherFinancialAssistance extends Component {
                                                                                     <tbody id="OFA-tableBody" key={sivadas.sivadasId}>
                                                                                         <tr>
                                                                                             <td>{sivadas.sivadasEmail}</td>
-                                                                                            {this.state.sivadasHebContact ? 
-                                                                                                <td key={sivadas.sivadasId}>{this.state.sivadasHebContact}</td>: ''
-                                                                                            }
+                                                                                            <td key={sivadas.sivadasId}>{this.state.sivadasHebContact}</td>
                                                                                             <td className="text-left">{sivadas.sivadasWebsite}</td>
                                                                                             <td className="text-left">{sivadas.sivadasDescription}</td>
                                                                                             <td><Button size="sm" id="OFA-editBtn" onClick={() => this.handleSivadasEditModal(sivadas)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
@@ -1126,9 +1135,7 @@ class OtherFinancialAssistance extends Component {
                         </div>
                     </Modal>: ''
                 }
-
             </div>
-
         );
     }
 }

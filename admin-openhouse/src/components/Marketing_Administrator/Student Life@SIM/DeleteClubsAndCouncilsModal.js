@@ -1,6 +1,6 @@
 import { Container, Row, Col, Table, Button, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
-import { db } from "../../../config/firebase";
+import { db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
 import firebase from "firebase/app";
 
@@ -25,12 +25,12 @@ class DeleteClubsAndCouncilsModal extends Component {
 
         if (!extension.includes('.png') && !extension.includes('.jpg') && !extension.includes('.PNG') && !extension.includes('.JPG')) {
             var fileName = title;
-            const storage = storage.ref(`/ClubsAndCouncil/${this.props.categoryType}`).child(fileName);
+            const store = storage.ref(`/ClubsAndCouncil/${this.props.categoryType}`).child(fileName);
 
             db.collection("ClubsAndCouncils").doc(this.props.id).delete()
             .then(dataSnapshot => {
                 console.log("Deleted the Club/Council");
-                storage.delete().then(dataSnapshot => {
+                store.delete().then(dataSnapshot => {
                     console.log("Deleted Image in Storage");
                     this.props.handleDelete();
                 });
@@ -38,12 +38,12 @@ class DeleteClubsAndCouncilsModal extends Component {
             
         } else {
             var fileName = title + extension;
-            const storage = storage.ref(`/ClubsAndCouncil/${this.props.categoryType}`).child(fileName);
+            const store = storage.ref(`/ClubsAndCouncil/${this.props.categoryType}`).child(fileName);
 
             db.collection("ClubsAndCouncils").doc(this.props.id).delete()
             .then(dataSnapshot => {
                 console.log("Deleted the Club/Council");
-                storage.delete().then(dataSnapshot => {
+                store.delete().then(dataSnapshot => {
                     console.log("Deleted Image in Storage");
                     this.props.handleDelete();
                 });

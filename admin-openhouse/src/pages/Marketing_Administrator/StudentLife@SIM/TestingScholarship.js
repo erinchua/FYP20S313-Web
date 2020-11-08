@@ -611,138 +611,287 @@ class Scholarship extends Component {
                                     <Container fluid id="Scholarship-topContentContainer">
                                         <Row id="Scholarship-firstRow">
                                             <Col md={12} className="text-left" id="Scholarship-firstRowCol">
-                                                <h4 id="Scholarship-title">SIMGE Scholarship</h4>
+                                                <h4 id="Scholarship-title">SIM GE Scholarship</h4>
                                             </Col>
                                         </Row>
 
                                         <Row id="Scholarship-secondRow">
                                             <Col md={12} id="Scholarship-secondRowCol">
-                                            <Accordion defaultActiveKey="categoriesOfScholarships">
-                                                <Card>
-                                                    <div className="Scholarship-Header">
-                                                        <Accordion.Toggle as={Card.Header} eventKey="categoriesOfScholarships">Categories of Scholarships</Accordion.Toggle>
-                                                    </div>
-                                                    <Accordion.Collapse eventKey="categoriesOfScholarships">
-                                                        <Card.Body className="Scholarship-cardBody">
-                                                            <Col md={12} className="text-center Scholarship-tableColCon">
-                                                                <Table responsive="sm" bordered hover className="Scholarship-tableCon">
-                                                                    <thead id="Scholarship-tableHeader">
-                                                                        <tr>
-                                                                            <th id="Scholarship-titleHeading">Title</th>
-                                                                            <th>Description</th>
-                                                                            <th id="Scholarship-editHeading">Edit</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    {this.state.scholarshipOne && this.state.scholarshipOne.map((one) => {
-                                                                        return (
-                                                                            <tbody id="Scholarship-tableBody">
+                                                <Accordion defaultActiveKey="categoriesOfScholarships">
+                                                    <Card>
+                                                        <div className="Scholarship-Header">
+                                                            <Accordion.Toggle as={Card.Header} eventKey="categoriesOfScholarships">Categories of Scholarships</Accordion.Toggle>
+                                                        </div>
+                                                        <Accordion.Collapse eventKey="categoriesOfScholarships">
+                                                            <Card.Body className="Scholarship-cardBody">
+                                                                <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                    <Table responsive="sm" bordered hover className="Scholarship-tableCon">
+                                                                        <thead id="Scholarship-tableHeader">
+                                                                            <tr>
+                                                                                <th id="Scholarship-titleHeading">Title</th>
+                                                                                <th>Description</th>
+                                                                                <th id="Scholarship-editHeading">Edit</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        {this.state.scholarshipOne && this.state.scholarshipOne.map((one) => {
+                                                                            return (
+                                                                                <tbody id="Scholarship-tableBody">
+                                                                                    <tr>
+                                                                                        <td>{one.scholarshipOneTitle}</td>
+                                                                                        <td className="text-left">{one.scholarshipOneDescription}</td>
+                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditOne(one)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            )
+                                                                        })}
+                                                                    </Table>
+                                                                </Col>
+                                                            </Card.Body>
+                                                        </Accordion.Collapse>
+                                                    </Card>
+                                                    <Card>
+                                                        <div className="Scholarship-Header">
+                                                            <Accordion.Toggle as={Card.Header} eventKey="eligibility">Eligibility</Accordion.Toggle>
+                                                        </div>
+                                                        <Accordion.Collapse eventKey="eligibility">
+                                                            <Card.Body className="Scholarship-cardBody">
+                                                                <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                    <Table responsive="sm" bordered hover className="Scholarship-tableCon">
+                                                                        <thead id="Scholarship-tableHeader">
+                                                                            <tr>
+                                                                                <th>Description</th>
+                                                                                <th id="Scholarship-editHeading">Edit</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        {this.state.scholarshipTwo && this.state.scholarshipTwo.map((two) => {
+                                                                            return (
+                                                                                <tbody id="Scholarship-tableBody">
+                                                                                    <tr>
+                                                                                        <td className="text-left">{two.scholarshipTwoContent}</td>
+                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditTwo(two)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            )
+                                                                        })}
+                                                                    </Table>
+                                                                </Col>
+                                                            </Card.Body>
+                                                        </Accordion.Collapse>
+                                                    </Card>
+                                                    <Card>
+                                                        <div className="Scholarship-Header">
+                                                            <Accordion.Toggle as={Card.Header} eventKey="valueOfScholarship">Value of Scholarship</Accordion.Toggle>
+                                                        </div>
+                                                        <Accordion.Collapse eventKey="valueOfScholarship">
+                                                            <Card.Body className="Scholarship-cardBody">
+                                                                <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                    <Table responsive="sm" bordered hover className="Scholarship-tableCon">
+                                                                        <thead id="Scholarship-tableHeader">
+                                                                            <tr>
+                                                                                <th>Covers</th>
+                                                                                <th id="Scholarship-editHeading">Edit</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        {this.state.scholarshipThree && this.state.scholarshipThree.map((three) => {
+                                                                            return (
+                                                                                <tbody id="Scholarship-tableBody">
+                                                                                    <tr>
+                                                                                        <td className="text-left">{three.scholarshipThreeCovers}</td>
+                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditThree(three)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            )
+                                                                        })}
+                                                                    </Table>
+                                                                </Col>
+                                                            </Card.Body>
+                                                        </Accordion.Collapse>
+                                                    </Card>
+                                                    <Card>
+                                                        <div className="Scholarship-Header">
+                                                            <Accordion.Toggle as={Card.Header} eventKey="application">Application</Accordion.Toggle>
+                                                        </div>
+                                                        <Accordion.Collapse eventKey="application">
+                                                            <Card.Body className="Scholarship-cardBody">
+                                                                <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                    <Table responsive="sm" bordered hover className="Scholarship-tableCon">
+                                                                        <thead id="Scholarship-tableHeader">
+                                                                            <tr>
+                                                                                <th>Application Periods</th>
+                                                                                <th id="Scholarship-editHeading">Edit</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        {this.state.scholarshipFour && this.state.scholarshipFour.map((four) => {
+                                                                            return (
+                                                                                <tbody id="Scholarship-tableBody">
+                                                                                    <tr>
+                                                                                        <td className="text-left">{four.scholarshipFourApplicationPeriods}</td>
+                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFour(four)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            )
+                                                                        })}
+                                                                    </Table>
+                                                                </Col>
+                                                            </Card.Body>
+                                                        </Accordion.Collapse>
+                                                    </Card>
+                                                    <Card>
+                                                        <div className="Scholarship-Header">
+                                                            <Accordion.Toggle as={Card.Header} eventKey="applicationDocumentsProcedures">Application Documents & Procedures</Accordion.Toggle>
+                                                        </div>
+                                                        <Accordion.Collapse eventKey="applicationDocumentsProcedures">
+                                                            <Card.Body className="Scholarship-cardBody">
+                                                                <Row id="Scholarship-secondRow">
+                                                                    <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                        <Table responsive="sm" bordered hover className="Scholarship-tableCon">
+                                                                            <thead id="Scholarship-tableHeader">
                                                                                 <tr>
-                                                                                    <td>{one.scholarshipOneTitle}</td>
-                                                                                    <td className="text-left">{one.scholarshipOneDescription}</td>
-                                                                                    <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditOne(one)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    <th>Content</th>
+                                                                                    <th id="Scholarship-editHeading">Edit</th>
                                                                                 </tr>
-                                                                            </tbody>
-                                                                        )
-                                                                    })}
-                                                                </Table>
-                                                            </Col>
-                                                        </Card.Body>
-                                                    </Accordion.Collapse>
-                                                </Card>
-                                                <Card>
-                                                    <div className="Scholarship-Header">
-                                                        <Accordion.Toggle as={Card.Header} eventKey="eligibility">Eligibility</Accordion.Toggle>
-                                                    </div>
-                                                    <Accordion.Collapse eventKey="eligibility">
-                                                        <Card.Body className="Scholarship-cardBody">
-                                                            <Col md={12} className="text-center Scholarship-tableColCon">
-                                                                <Table responsive="sm" bordered hover className="Scholarship-tableCon">
-                                                                    <thead id="Scholarship-tableHeader">
-                                                                        <tr>
-                                                                            <th>Description</th>
-                                                                            <th id="Scholarship-editHeading">Edit</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    {this.state.scholarshipTwo && this.state.scholarshipTwo.map((two) => {
-                                                                        return (
-                                                                            <tbody id="Scholarship-tableBody">
+                                                                            </thead>
+                                                                            {this.state.scholarshipFiveContentArray && this.state.scholarshipFiveContentArray.map((fiveContent) => {
+                                                                                return (
+                                                                                    <tbody id="Scholarship-tableBody">
+                                                                                        <tr>
+                                                                                            <td className="text-left">{fiveContent.scholarshipFiveContent}</td>
+                                                                                            <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFive(fiveContent)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                )
+                                                                            })}
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Row>
+
+                                                                <Row id="Scholarship-secondRow">
+                                                                    <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                        <Table responsive="sm" bordered hover className="Scholarship-tableCon">
+                                                                            <thead id="Scholarship-tableHeader">
                                                                                 <tr>
-                                                                                    <td className="text-left">{two.scholarshipTwoContent}</td>
-                                                                                    <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditTwo(two)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    <th>Examples</th>
+                                                                                    <th id="Scholarship-editHeading">Edit</th>
                                                                                 </tr>
-                                                                            </tbody>
-                                                                        )
-                                                                    })}
-                                                                </Table>
-                                                            </Col>
-                                                        </Card.Body>
-                                                    </Accordion.Collapse>
-                                                </Card>
-                                                <Card>
-                                                    <div className="Scholarship-Header">
-                                                        <Accordion.Toggle as={Card.Header} eventKey="valueOfScholarship">Value of Scholarship</Accordion.Toggle>
-                                                    </div>
-                                                    <Accordion.Collapse eventKey="valueOfScholarship">
-                                                        <Card.Body className="Scholarship-cardBody">
-                                                            <Col md={12} className="text-center Scholarship-tableColCon">
-                                                                <Table responsive="sm" bordered hover className="Scholarship-tableCon">
-                                                                    <thead id="Scholarship-tableHeader">
-                                                                        <tr>
-                                                                            <th>Covers</th>
-                                                                            <th id="Scholarship-editHeading">Edit</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    {this.state.scholarshipThree && this.state.scholarshipThree.map((three) => {
-                                                                        return (
-                                                                            <tbody id="Scholarship-tableBody">
+                                                                            </thead>
+                                                                            {this.state.scholarshipFiveExamplesArray && this.state.scholarshipFiveExamplesArray.map((fiveExamples) => {
+                                                                                return (
+                                                                                    <tbody id="Scholarship-tableBody">
+                                                                                        <tr>
+                                                                                            <td className="text-left">{fiveExamples.scholarshipFiveExamples}</td>
+                                                                                            <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFive(fiveExamples)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                )
+                                                                            })}
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Row>
+
+                                                                <Row id="Scholarship-secondRow">
+                                                                    <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                        <Table responsive="sm" bordered hover className="Scholarship-tableCon">
+                                                                            <thead id="Scholarship-tableHeader">
                                                                                 <tr>
-                                                                                    <td className="text-left">{three.scholarshipThreeCovers}</td>
-                                                                                    <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditThree(three)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    <th colSpan="2">Email/ PDPA Policy</th>
+                                                                                    <th id="Scholarship-editHeading">Edit</th>
                                                                                 </tr>
-                                                                            </tbody>
-                                                                        )
-                                                                    })}
-                                                                </Table>
-                                                            </Col>
-                                                        </Card.Body>
-                                                    </Accordion.Collapse>
-                                                </Card>
-                                                <Card>
-                                                    <div className="Scholarship-Header">
-                                                        <Accordion.Toggle as={Card.Header} eventKey="application">Application</Accordion.Toggle>
-                                                    </div>
-                                                    <Accordion.Collapse eventKey="application">
-                                                        <Card.Body className="Scholarship-cardBody">
-                                                            <Col md={12} className="text-center Scholarship-tableColCon">
-                                                                <Table responsive="sm" bordered hover className="Scholarship-tableCon">
-                                                                    <thead id="Scholarship-tableHeader">
-                                                                        <tr>
-                                                                            <th>Application Periods</th>
-                                                                            <th id="Scholarship-editHeading">Edit</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    {this.state.scholarshipFour && this.state.scholarshipFour.map((four) => {
-                                                                        return (
-                                                                            <tbody id="Scholarship-tableBody">
-                                                                                <tr>
-                                                                                    <td className="text-left">{four.scholarshipFourApplicationPeriods}</td>
-                                                                                    <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFour(four)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        )
-                                                                    })}
-                                                                </Table>
-                                                            </Col>
-                                                        </Card.Body>
-                                                    </Accordion.Collapse>
-                                                </Card>
-                                                <Card>
-                                                    <div className="Scholarship-Header">
-                                                        <Accordion.Toggle as={Card.Header} eventKey="applicationDocumentsProcedures">Application Documents & Procedures</Accordion.Toggle>
-                                                    </div>
-                                                    <Accordion.Collapse eventKey="applicationDocumentsProcedures">
-                                                        <Card.Body className="Scholarship-cardBody">
-                                                            <Row id="Scholarship-secondRow">
+                                                                            </thead>
+                                                                            {this.state.scholarshipFiveOthers && this.state.scholarshipFiveOthers.map((fiveOthers) => {
+                                                                                return (
+                                                                                    <tbody id="Scholarship-tableBody">
+                                                                                        <tr>
+                                                                                            <td id="Scholarship-titleHeading"><b>Email</b></td>
+                                                                                            <td className="text-left">{fiveOthers.scholarshipFiveEmail}</td>
+                                                                                            <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFive(fiveOthers.scholarshipFiveEmail)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td id="Scholarship-titleHeading"><b>Email Format</b></td>
+                                                                                            <td className="text-left">{fiveOthers.scholarshipFiveEmailFormat}</td>
+                                                                                            <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFive(fiveOthers.scholarshipFiveEmailFormat)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td id="Scholarship-titleHeading"><b>SIM PDPA Policy</b></td>
+                                                                                            <td className="text-left">{fiveOthers.scholarshipFiveSimPdpaPolicy}</td>
+                                                                                            <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFive(fiveOthers.scholarshipFiveSimPdpaPolicy)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                )
+                                                                            })}
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Row>
+                                                            </Card.Body>
+                                                        </Accordion.Collapse>
+                                                    </Card>
+                                                    <Card>
+                                                        <div className="Scholarship-Header">
+                                                            <Accordion.Toggle as={Card.Header} eventKey="selectionProcess">Selection Process</Accordion.Toggle>
+                                                        </div>
+                                                        <Accordion.Collapse eventKey="selectionProcess">
+                                                            <Card.Body className="Scholarship-cardBody">
+                                                                <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                    <Table responsive="sm" bordered hover className="Scholarship-tableCon">
+                                                                        <thead id="Scholarship-tableHeader">
+                                                                            <tr>
+                                                                                <th>Description</th>
+                                                                                <th id="Scholarship-editHeading">Edit</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        {this.state.scholarshipSix && this.state.scholarshipSix.map((six) => {
+                                                                            return (
+                                                                                <tbody id="Scholarship-tableBody">
+                                                                                    <tr>
+                                                                                        <td className="text-left">{six.scholarshipSixDescription}</td>
+                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditSix(six)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            )
+                                                                        })}
+                                                                    </Table>
+                                                                </Col>
+                                                            </Card.Body>
+                                                        </Accordion.Collapse>
+                                                    </Card>
+                                                    <Card>
+                                                        <div className="Scholarship-Header">
+                                                            <Accordion.Toggle as={Card.Header} eventKey="tenureOfScholarship">Tenure of Scholarship</Accordion.Toggle>
+                                                        </div>
+                                                        <Accordion.Collapse eventKey="tenureOfScholarship">
+                                                            <Card.Body className="Scholarship-cardBody">
+                                                                <Col md={12} className="text-center Scholarship-tableColCon">
+                                                                    <Table responsive="sm" bordered hover className="Scholarship-tableCon">
+                                                                        <thead id="Scholarship-tableHeader">
+                                                                            <tr>
+                                                                                <th id="Scholarship-titleHeading">Period</th>
+                                                                                <th>Description</th>
+                                                                                <th id="Scholarship-titleHeading">Programmes</th>
+                                                                                <th id="Scholarship-editHeading">Edit</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        {this.state.scholarshipSeven && this.state.scholarshipSeven.map((seven) => {
+                                                                            return (
+                                                                                <tbody id="Scholarship-tableBody">
+                                                                                    <tr>
+                                                                                        <td><b>{seven.scholarshipSevenPeriod}</b></td>
+                                                                                        <td className="text-left">{seven.scholarshipSevenDescription}</td>
+                                                                                        <td className="text-left">{seven.scholarshipSevenProgrammes}</td>
+                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditSeven(seven)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            )
+                                                                        })}
+                                                                    </Table>
+                                                                </Col>
+                                                            </Card.Body>
+                                                        </Accordion.Collapse>
+                                                    </Card>
+                                                    <Card>
+                                                        <div className="Scholarship-Header">
+                                                            <Accordion.Toggle as={Card.Header} eventKey="termsAndConditions">Terms and Conditions</Accordion.Toggle>
+                                                        </div>
+                                                        <Accordion.Collapse eventKey="termsAndConditions">
+                                                            <Card.Body className="Scholarship-cardBody">
                                                                 <Col md={12} className="text-center Scholarship-tableColCon">
                                                                     <Table responsive="sm" bordered hover className="Scholarship-tableCon">
                                                                         <thead id="Scholarship-tableHeader">
@@ -751,170 +900,21 @@ class Scholarship extends Component {
                                                                                 <th id="Scholarship-editHeading">Edit</th>
                                                                             </tr>
                                                                         </thead>
-                                                                        {this.state.scholarshipFiveContentArray && this.state.scholarshipFiveContentArray.map((fiveContent) => {
+                                                                        {this.state.scholarshipEight && this.state.scholarshipEight.map((eight) => {
                                                                             return (
                                                                                 <tbody id="Scholarship-tableBody">
                                                                                     <tr>
-                                                                                        <td className="text-left">{fiveContent.scholarshipFiveContent}</td>
-                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFive(fiveContent)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        <td className="text-left">{eight.scholarshipEightContent}</td>
+                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditEight(eight)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             )
                                                                         })}
                                                                     </Table>
                                                                 </Col>
-                                                            </Row>
-
-                                                            <Row id="Scholarship-secondRow">
-                                                                <Col md={12} className="text-center Scholarship-tableColCon">
-                                                                    <Table responsive="sm" bordered hover className="Scholarship-tableCon">
-                                                                        <thead id="Scholarship-tableHeader">
-                                                                            <tr>
-                                                                                <th>Examples</th>
-                                                                                <th id="Scholarship-editHeading">Edit</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        {this.state.scholarshipFiveExamplesArray && this.state.scholarshipFiveExamplesArray.map((fiveExamples) => {
-                                                                            return (
-                                                                                <tbody id="Scholarship-tableBody">
-                                                                                    <tr>
-                                                                                        <td className="text-left">{fiveExamples.scholarshipFiveExamples}</td>
-                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFive(fiveExamples)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            )
-                                                                        })}
-                                                                    </Table>
-                                                                </Col>
-                                                            </Row>
-
-                                                            <Row id="Scholarship-secondRow">
-                                                                <Col md={12} className="text-center Scholarship-tableColCon">
-                                                                    <Table responsive="sm" bordered hover className="Scholarship-tableCon">
-                                                                        <thead id="Scholarship-tableHeader">
-                                                                            <tr>
-                                                                                <th colSpan="2">Email/ PDPA Policy</th>
-                                                                                <th id="Scholarship-editHeading">Edit</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        {this.state.scholarshipFiveOthers && this.state.scholarshipFiveOthers.map((fiveOthers) => {
-                                                                            return (
-                                                                                <tbody id="Scholarship-tableBody">
-                                                                                    <tr>
-                                                                                        <td id="Scholarship-titleHeading"><b>Email</b></td>
-                                                                                        <td className="text-left">{fiveOthers.scholarshipFiveEmail}</td>
-                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFive(fiveOthers.scholarshipFiveEmail)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td id="Scholarship-titleHeading"><b>Email Format</b></td>
-                                                                                        <td className="text-left">{fiveOthers.scholarshipFiveEmailFormat}</td>
-                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFive(fiveOthers.scholarshipFiveEmailFormat)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td id="Scholarship-titleHeading"><b>SIM PDPA Policy</b></td>
-                                                                                        <td className="text-left">{fiveOthers.scholarshipFiveSimPdpaPolicy}</td>
-                                                                                        <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditFive(fiveOthers.scholarshipFiveSimPdpaPolicy)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            )
-                                                                        })}
-                                                                    </Table>
-                                                                </Col>
-                                                            </Row>
-                                                        </Card.Body>
-                                                    </Accordion.Collapse>
-                                                </Card>
-                                                <Card>
-                                                    <div className="Scholarship-Header">
-                                                        <Accordion.Toggle as={Card.Header} eventKey="selectionProcess">Selection Process</Accordion.Toggle>
-                                                    </div>
-                                                    <Accordion.Collapse eventKey="selectionProcess">
-                                                        <Card.Body className="Scholarship-cardBody">
-                                                            <Col md={12} className="text-center Scholarship-tableColCon">
-                                                                <Table responsive="sm" bordered hover className="Scholarship-tableCon">
-                                                                    <thead id="Scholarship-tableHeader">
-                                                                        <tr>
-                                                                            <th>Description</th>
-                                                                            <th id="Scholarship-editHeading">Edit</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    {this.state.scholarshipSix && this.state.scholarshipSix.map((six) => {
-                                                                        return (
-                                                                            <tbody id="Scholarship-tableBody">
-                                                                                <tr>
-                                                                                    <td className="text-left">{six.scholarshipSixDescription}</td>
-                                                                                    <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditSix(six)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        )
-                                                                    })}
-                                                                </Table>
-                                                            </Col>
-                                                        </Card.Body>
-                                                    </Accordion.Collapse>
-                                                </Card>
-                                                <Card>
-                                                    <div className="Scholarship-Header">
-                                                        <Accordion.Toggle as={Card.Header} eventKey="tenureOfScholarship">Tenure of Scholarship</Accordion.Toggle>
-                                                    </div>
-                                                    <Accordion.Collapse eventKey="tenureOfScholarship">
-                                                        <Card.Body className="Scholarship-cardBody">
-                                                            <Col md={12} className="text-center Scholarship-tableColCon">
-                                                                <Table responsive="sm" bordered hover className="Scholarship-tableCon">
-                                                                    <thead id="Scholarship-tableHeader">
-                                                                        <tr>
-                                                                            <th id="Scholarship-titleHeading">Period</th>
-                                                                            <th>Description</th>
-                                                                            <th id="Scholarship-titleHeading">Programmes</th>
-                                                                            <th id="Scholarship-editHeading">Edit</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    {this.state.scholarshipSeven && this.state.scholarshipSeven.map((seven) => {
-                                                                        return (
-                                                                            <tbody id="Scholarship-tableBody">
-                                                                                <tr>
-                                                                                    <td><b>{seven.scholarshipSevenPeriod}</b></td>
-                                                                                    <td className="text-left">{seven.scholarshipSevenDescription}</td>
-                                                                                    <td className="text-left">{seven.scholarshipSevenProgrammes}</td>
-                                                                                    <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditSeven(seven)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        )
-                                                                    })}
-                                                                </Table>
-                                                            </Col>
-                                                        </Card.Body>
-                                                    </Accordion.Collapse>
-                                                </Card>
-                                                <Card>
-                                                    <div className="Scholarship-Header">
-                                                        <Accordion.Toggle as={Card.Header} eventKey="termsAndConditions">Terms and Conditions</Accordion.Toggle>
-                                                    </div>
-                                                    <Accordion.Collapse eventKey="termsAndConditions">
-                                                        <Card.Body className="Scholarship-cardBody">
-                                                            <Col md={12} className="text-center Scholarship-tableColCon">
-                                                                <Table responsive="sm" bordered hover className="Scholarship-tableCon">
-                                                                    <thead id="Scholarship-tableHeader">
-                                                                        <tr>
-                                                                            <th>Content</th>
-                                                                            <th id="Scholarship-editHeading">Edit</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    {this.state.scholarshipEight && this.state.scholarshipEight.map((eight) => {
-                                                                        return (
-                                                                            <tbody id="Scholarship-tableBody">
-                                                                                <tr>
-                                                                                    <td className="text-left">{eight.scholarshipEightContent}</td>
-                                                                                    <td><Button size="sm" id="Scholarship-editBtn" onClick={() => this.handleEditEight(eight)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        )
-                                                                    })}
-                                                                </Table>
-                                                            </Col>
-                                                        </Card.Body>
-                                                    </Accordion.Collapse>
-                                                </Card>
+                                                            </Card.Body>
+                                                        </Accordion.Collapse>
+                                                    </Card>
                                                 </Accordion>
                                             </Col>
                                         </Row>
@@ -1355,7 +1355,6 @@ class Scholarship extends Component {
                 }
 
             </div>
-
         );
     }
 }

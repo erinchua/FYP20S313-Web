@@ -116,7 +116,7 @@ class AddClubsAndCouncilsModal extends Component {
                         docid = "club-" + (id) 
                     }
 
-                    if (this.state.categoryType === "StudentLife"){
+                    if (this.state.categoryType === "ArtsCulture"){
                         this.setState({
                             categoryType: "Arts & Culture"
                         });
