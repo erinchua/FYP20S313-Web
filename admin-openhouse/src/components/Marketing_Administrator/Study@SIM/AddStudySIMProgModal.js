@@ -803,7 +803,7 @@ export default class AddStudySIMProgModal extends React.Component {
 
                     <Container className="addStudySIMProgForm_MoSCon">
                       {/* To be retrieved from db - row is generated dynamically */}
-                      <Form.Group controlId="exampleForm.ControlInput1">
+                      <Form.Group>
                         {this.state.Modeofstudy && this.state.Modeofstudy.map((Modeofstudy) => {
                           {
                             if (Modeofstudy == "fullTime") {
@@ -841,7 +841,7 @@ export default class AddStudySIMProgModal extends React.Component {
 
                     <Container className="addStudySIMProgForm_DisciplineCon">
                       {/* To be retrieved from db - row is generated dynamically */}
-                      <Form.Group controlId="exampleForm.ControlInput1">
+                      <Form.Group>
                         {this.props.disciplines && this.props.disciplines.map((Discipline) => {{
                           return (
                             <Row>
@@ -1072,7 +1072,6 @@ export default class AddStudySIMProgModal extends React.Component {
                       {/* Full Time */}
                       <Col md="6" className="text-left"> 
                         <Form.Label className="addStudySIMProgFormLabel">Full-Time</Form.Label> 
-
                         <FormControl as="textarea" rows="3" required noValidate name="intakemonthsfulltime" className="addStudySIMProgForm_TextArea" placeholder="Full-Time" onChange={this.handleChange} /> 
                       </Col> 
 
@@ -1090,25 +1089,25 @@ export default class AddStudySIMProgModal extends React.Component {
                 {/* Duration */}
                 <Form.Row className="justify-content-center addStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
-                      <Form.Label className="addStudySIMProgFormLabel">Duration</Form.Label> 
+                    <Form.Label className="addStudySIMProgFormLabel">Duration</Form.Label> 
 
-                      <Form.Row className="justify-content-center"> 
-                        {/* Full Time */}
-                        <Col md="6" className="text-left"> 
-                          <Form.Label className="addStudySIMProgFormLabel">Full-Time</Form.Label> 
+                    <Form.Row className="justify-content-center"> 
+                      {/* Full Time */}
+                      <Col md="6" className="text-left"> 
+                        <Form.Label className="addStudySIMProgFormLabel">Full-Time</Form.Label> 
 
-                          <FormControl as="textarea" rows="3" required noValidate name="durationfulltime" className="addStudySIMProgForm_TextArea" placeholder="Full-Time" onChange={this.handleChange} /> 
-                        </Col> 
+                        <FormControl as="textarea" rows="3" required noValidate name="durationfulltime" className="addStudySIMProgForm_TextArea" placeholder="Full-Time" onChange={this.handleChange} /> 
+                      </Col> 
 
-                        {/* Part Time */}
-                        <Col md="6" className="text-left"> 
-                          <Form.Label className="addStudySIMProgFormLabel">Part-Time</Form.Label> 
-                          <FormControl as="textarea" rows="3" required noValidate name="durationparttime" className="addStudySIMProgForm_TextArea" placeholder="Part-Time" onChange={this.handleChange} /> 
-                        </Col> 
-                      </Form.Row> 
+                      {/* Part Time */}
+                      <Col md="6" className="text-left"> 
+                        <Form.Label className="addStudySIMProgFormLabel">Part-Time</Form.Label> 
+                        <FormControl as="textarea" rows="3" required noValidate name="durationparttime" className="addStudySIMProgForm_TextArea" placeholder="Part-Time" onChange={this.handleChange} /> 
+                      </Col> 
+                    </Form.Row> 
 
-                      <div className="errorMessage text-left">{this.state.durationError}</div>
-                    </Col>
+                    <div className="errorMessage text-left">{this.state.durationError}</div>
+                  </Col>
                 </Form.Row>
               </Col>
             </Form.Row>

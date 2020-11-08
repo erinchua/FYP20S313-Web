@@ -7,7 +7,24 @@ import history from "../../../config/history";
 import "../../../css/Marketing_Administrator/EditStudySIMProgModal.css";
 
 
+const initialStates = {
+  progNameError: "",
+  logoFileError: "",
+  universityError: "",
+  academicLevelError: "",
+  modeOfStudyError: "",
+  disciplineError: "",
+  entryQualError: "",
+  subDisciplineError: "",
+  aboutProgError: "",
+  applicationPeriodError: "",
+  intakeMonthsError: "",
+  durationError: ""
+}
+
 export default class EditStudySIMProgModal extends React.Component {
+  state = initialStates;
+
   constructor(props) {
     super(props);
 
@@ -245,8 +262,7 @@ export default class EditStudySIMProgModal extends React.Component {
             checked: true,
           };
           //store uniquediscipline that already exist in db
-          this.setState(
-            {
+          this.setState({
               disciplinecheckedItems: [
                 ...this.state.disciplinecheckedItems,
                 uniqueDiscipline[i],
@@ -530,7 +546,7 @@ export default class EditStudySIMProgModal extends React.Component {
     console.log("programme: " + this.state.programme);
     console.log("university: " + this.state.university);
     console.log("category: " + this.state.category);
-    console.log("acadamiclevel: " + this.state.acadamiclevel);
+    console.log("academiclevel: " + this.state.academiclevel);
 
     console.log("PT: " + this.state.parttime);
     console.log("FT: " + this.state.fulltime);
@@ -618,52 +634,57 @@ export default class EditStudySIMProgModal extends React.Component {
           .collection("Programmes")
           .doc(parentthis.props.docid);
 
-          userRef
-          .update({
-            academicLevel: parentthis.state.acadamiclevel.toString(),
-            "applicationPeriod.period1": parentthis.state.applicationperiod1.toString(),
+          // Validation
+          const isValid = this.validate();
+          if (isValid) {
+            this.setState(initialStates);
 
-            "applicationPeriod.period2": 
-              parentthis.state.applicationperiod2.toString(),
-              awardedBy: parentthis.state.university.toString(),
-              category: parentthis.state.category.toString(),
+            userRef.update({
+              academicLevel: parentthis.state.academiclevel.toString(),
+              "applicationPeriod.period1": parentthis.state.applicationperiod1.toString(),
 
-            "discipline.disciplineName1": discipline1,
-            "discipline.disciplineName2": discipline2,
-            "duration.fullTime": parentthis.state.durationfulltime.toString(),
-            "duration.partTime": parentthis.state.durationparttime.toString(),
-            "entryQualifications.aLevel": parentthis.state.alevel,
-            "entryQualifications.degree": parentthis.state.degree,
-            "entryQualifications.diploma": parentthis.state.diploma,
-            "entryQualifications.oLevel": parentthis.state.olevel,
-            "intakeMonths.fullTime": parentthis.state.intakemonthsfulltime.toString(),
+              "applicationPeriod.period2": 
+                parentthis.state.applicationperiod2.toString(),
+                awardedBy: parentthis.state.university.toString(),
+                category: parentthis.state.category.toString(),
 
-            "intakeMonths.partTime": 
-              parentthis.state.intakemonthsparttime.toString(),
-              logoFile: downloadURL,
+              "discipline.disciplineName1": discipline1,
+              "discipline.disciplineName2": discipline2,
+              "duration.fullTime": parentthis.state.durationfulltime.toString(),
+              "duration.partTime": parentthis.state.durationparttime.toString(),
+              "entryQualifications.aLevel": parentthis.state.alevel,
+              "entryQualifications.degree": parentthis.state.degree,
+              "entryQualifications.diploma": parentthis.state.diploma,
+              "entryQualifications.oLevel": parentthis.state.olevel,
+              "intakeMonths.fullTime": parentthis.state.intakemonthsfulltime.toString(),
 
-            "modeOfStudy.fullTime": parentthis.state.fulltime,
-            "modeOfStudy.partTime": parentthis.state.parttime,
-            "overseaOpportunity.exchange": parentthis.state.overseaopportunityexchange,
-            "overseaOpportunity.transfer": parentthis.state.overseaopportunitytransfer,
-            "programmeOverview.aboutProgramme1": parentthis.state.aboutprogramme1.toString(),
-            "programmeOverview.aboutProgramme2": parentthis.state.aboutprogramme2.toString(),
-            "programmeOverview.aboutProgramme3": parentthis.state.aboutprogramme3.toString(),
-            "programmeStructure.coursework": parentthis.state.programmestructurecoursework,
+              "intakeMonths.partTime": 
+                parentthis.state.intakemonthsparttime.toString(),
+                logoFile: downloadURL,
 
-            "programmeStructure.examination": 
-              parentthis.state.programmestructureexamination,
-              programmeTitle: parentthis.state.programme.toString(),
+              "modeOfStudy.fullTime": parentthis.state.fulltime,
+              "modeOfStudy.partTime": parentthis.state.parttime,
+              "overseaOpportunity.exchange": parentthis.state.overseaopportunityexchange,
+              "overseaOpportunity.transfer": parentthis.state.overseaopportunitytransfer,
+              "programmeOverview.aboutProgramme1": parentthis.state.aboutprogramme1.toString(),
+              "programmeOverview.aboutProgramme2": parentthis.state.aboutprogramme2.toString(),
+              "programmeOverview.aboutProgramme3": parentthis.state.aboutprogramme3.toString(),
+              "programmeStructure.coursework": parentthis.state.programmestructurecoursework,
 
-            "subDiscipline.subDisciplineName1": subdiscipline1,
-            "subDiscipline.subDisciplineName2": subdiscipline2,
-            "subDiscipline.subDisciplineName3": subdiscipline3,
-            "subDiscipline.subDisciplineName4": subdiscipline4,
-            "subDiscipline.subDisciplineName5": subdiscipline5,
-          })
-          .then(function () {
-            // alert("Updated");
-          });
+              "programmeStructure.examination": 
+                parentthis.state.programmestructureexamination,
+                programmeTitle: parentthis.state.programme.toString(),
+
+              "subDiscipline.subDisciplineName1": subdiscipline1,
+              "subDiscipline.subDisciplineName2": subdiscipline2,
+              "subDiscipline.subDisciplineName3": subdiscipline3,
+              "subDiscipline.subDisciplineName4": subdiscipline4,
+              "subDiscipline.subDisciplineName5": subdiscipline5
+            })
+            .then(dataSnapshot => {
+              this.props.handleSaveChanges();
+            });
+          }
         });
 
         /* const progress = Math.round(
@@ -676,50 +697,56 @@ export default class EditStudySIMProgModal extends React.Component {
         }*/
       });
     } else {
-      const userRef = db.collection("Programmes").doc(parentthis.props.docid);
-      userRef
-      .update({
-        academicLevel: parentthis.state.acadamiclevel.toString(),
-        "applicationPeriod.period1": parentthis.state.applicationperiod1.toString(),
+      // Validation
+      const isValid = this.validate();
+      if (isValid) {
+        this.setState(initialStates);
 
-        "applicationPeriod.period2": 
-          parentthis.state.applicationperiod2.toString(),
-          awardedBy: parentthis.state.university.toString(),
-          category: parentthis.state.category.toString(),
+        const userRef = db.collection("Programmes").doc(parentthis.props.docid);
+        userRef
+        .update({
+          academicLevel: parentthis.state.academiclevel.toString(),
+          "applicationPeriod.period1": parentthis.state.applicationperiod1.toString(),
 
-        "discipline.disciplineName1": discipline1,
-        "discipline.disciplineName2": discipline2,
-        "duration.fullTime": parentthis.state.durationfulltime.toString(),
-        "duration.partTime": parentthis.state.durationparttime.toString(),
-        "entryQualifications.aLevel": parentthis.state.alevel,
-        "entryQualifications.degree": parentthis.state.degree,
-        "entryQualifications.diploma": parentthis.state.diploma,
-        "entryQualifications.oLevel": parentthis.state.olevel,
-        "intakeMonths.fullTime": parentthis.state.intakemonthsfulltime.toString(),
-        "intakeMonths.partTime": parentthis.state.intakemonthsparttime.toString(),
+          "applicationPeriod.period2": 
+            parentthis.state.applicationperiod2.toString(),
+            awardedBy: parentthis.state.university.toString(),
+            category: parentthis.state.category.toString(),
 
-        "modeOfStudy.fullTime": parentthis.state.fulltime,
-        "modeOfStudy.partTime": parentthis.state.parttime,
-        "overseaOpportunity.exchange": parentthis.state.overseaopportunityexchange,
-        "overseaOpportunity.transfer": parentthis.state.overseaopportunitytransfer,
-        "programmeOverview.aboutProgramme1": parentthis.state.aboutprogramme1.toString(),
-        "programmeOverview.aboutProgramme2": parentthis.state.aboutprogramme2.toString(),
-        "programmeOverview.aboutProgramme3": parentthis.state.aboutprogramme3.toString(),
-        "programmeStructure.coursework": parentthis.state.programmestructurecoursework,
+          "discipline.disciplineName1": discipline1,
+          "discipline.disciplineName2": discipline2,
+          "duration.fullTime": parentthis.state.durationfulltime.toString(),
+          "duration.partTime": parentthis.state.durationparttime.toString(),
+          "entryQualifications.aLevel": parentthis.state.alevel,
+          "entryQualifications.degree": parentthis.state.degree,
+          "entryQualifications.diploma": parentthis.state.diploma,
+          "entryQualifications.oLevel": parentthis.state.olevel,
+          "intakeMonths.fullTime": parentthis.state.intakemonthsfulltime.toString(),
+          "intakeMonths.partTime": parentthis.state.intakemonthsparttime.toString(),
 
-        "programmeStructure.examination":
-          parentthis.state.programmestructureexamination,
-          programmeTitle: parentthis.state.programme.toString(),
+          "modeOfStudy.fullTime": parentthis.state.fulltime,
+          "modeOfStudy.partTime": parentthis.state.parttime,
+          "overseaOpportunity.exchange": parentthis.state.overseaopportunityexchange,
+          "overseaOpportunity.transfer": parentthis.state.overseaopportunitytransfer,
+          "programmeOverview.aboutProgramme1": parentthis.state.aboutprogramme1.toString(),
+          "programmeOverview.aboutProgramme2": parentthis.state.aboutprogramme2.toString(),
+          "programmeOverview.aboutProgramme3": parentthis.state.aboutprogramme3.toString(),
+          "programmeStructure.coursework": parentthis.state.programmestructurecoursework,
 
-        "subDiscipline.subDisciplineName1": subdiscipline1,
-        "subDiscipline.subDisciplineName2": subdiscipline2,
-        "subDiscipline.subDisciplineName3": subdiscipline3,
-        "subDiscipline.subDisciplineName4": subdiscipline4,
-        "subDiscipline.subDisciplineName5": subdiscipline5,
-      })
-      .then(function () {
-        // alert("Updated");
-      });
+          "programmeStructure.examination":
+            parentthis.state.programmestructureexamination,
+            programmeTitle: parentthis.state.programme.toString(),
+
+          "subDiscipline.subDisciplineName1": subdiscipline1,
+          "subDiscipline.subDisciplineName2": subdiscipline2,
+          "subDiscipline.subDisciplineName3": subdiscipline3,
+          "subDiscipline.subDisciplineName4": subdiscipline4,
+          "subDiscipline.subDisciplineName5": subdiscipline5,
+        })
+        .then(dataSnapshot => {
+          this.props.handleSaveChanges();
+        });
+      }
     }
   }
   
@@ -728,6 +755,127 @@ export default class EditStudySIMProgModal extends React.Component {
       files: files,
     });
   };
+
+  //Validations for the Forms in Modals
+  validate = () => {
+    let progNameError = "";
+    let logoFileError = "";
+    let universityError = "";
+    let academicLevelError = "";
+    let modeOfStudyError = "";
+    let disciplineError = "";
+    let entryQualError = "";
+    let subDisciplineError = "";
+    let aboutProgError = "";
+    let applicationPeriodError = "";
+    let intakeMonthsError = "";
+    let durationError = "";
+
+    if ( !(this.state.programme && this.state.programme.length >= 4) ) {
+      progNameError = "Please enter a valid programme name!";
+    } 
+    
+    if (!this.state.logoFile) {
+      logoFileError = "Please upload a logo!";
+    }
+    else if (this.state.logoFile.includes(".exe")) {
+      logoFileError = "File uploaded is executable. Please upload a valid image file!"
+    }
+
+    if (!this.state.university) {
+      universityError = "Please select a valid university!";
+    }
+
+    if (!this.state.academiclevel) {
+      academicLevelError = "Please select a valid academic level!";
+    }
+
+    if (!this.state.ModeOfStudy) {
+      modeOfStudyError = "Please select a valid mode of study!";
+    }
+
+    if (this.state.disciplinecheckedItems.length == 0) {
+      disciplineError = "Please select at least 1 discipline!";
+    }
+
+    if (this.state.entryqualificationcheckedItems.length == 0) {
+      entryQualError = "Please select at least 1 entry qualification!";
+    }
+
+    if (!this.state.subdisciplinecheckedItems.length == 0) {
+      subDisciplineError = "Please select at least 1 sub-discipline!";
+    }
+
+    if ( !(this.state.aboutprogramme1 && this.state.aboutprogramme1.length >= 1) ) {
+      aboutProgError = "Please enter programme details!";
+    }
+
+    if ( !(this.state.aboutprogramme1 && this.state.aboutprogramme2 && this.state.aboutprogramme3) ) {
+      aboutProgError = "Please enter programme details!";
+    }
+
+    if ( !(this.state.applicationperiod1 && this.state.applicationperiod1.length >= 1) ) {
+      applicationPeriodError = "Please enter application period details!";
+    }
+
+    if ( !(this.state.applicationperiod1 && this.state.applicationperiod2) ) {
+      applicationPeriodError = "Please enter application period details!";
+    }
+
+    if ( !(this.state.intakemonthsfulltime && this.state.intakemonthsparttime) ) {
+      intakeMonthsError = "Please enter intake month(s) details!";
+    }
+
+    if ( !(this.state.durationfulltime && this.state.durationparttime) ) {
+      durationError = "Please enter duration details!";
+    }
+
+    if (progNameError || logoFileError || universityError || academicLevelError || modeOfStudyError || disciplineError || entryQualError
+    || subDisciplineError || aboutProgError || applicationPeriodError || intakeMonthsError || durationError) {
+      this.setState({
+        progNameError, logoFileError, universityError, academicLevelError, modeOfStudyError, disciplineError, entryQualError, subDisciplineError,
+        subDisciplineError, aboutProgError, applicationPeriodError, intakeMonthsError, durationError
+      });
+      return false;
+    } 
+    return true;
+  }
+
+  //Reset Forms
+  resetForm = () => {
+    this.setState({
+      progNameError: "",
+      logoFileError: "",
+      universityError: "",
+      academicLevelError: "",
+      modeOfStudyError: "",
+      disciplineError: "",
+      entryQualError: "",
+      subDisciplineError: "",
+      aboutProgError: "",
+      applicationPeriodError: "",
+      intakeMonthsError: "",
+      durationError: "",
+      id: "", 
+      programme: "", 
+      logoFile: "", 
+      university: "", 
+      academiclevel: "", 
+      ModeOfStudy: "", 
+      disciplinecheckedItems: [],
+      entryqualificationcheckedItems: [],
+      subdisciplinecheckedItems: [],
+      aboutprogramme1: "",
+      aboutprogramme2: "",
+      aboutprogramme3: "",
+      applicationperiod1: "",
+      applicationperiod2: "",
+      intakemonthsfulltime: "",
+      intakemonthsparttime: "",
+      durationfulltime: "",
+      durationparttime: ""
+    })
+  }
 
 
   render() {
@@ -740,7 +888,6 @@ export default class EditStudySIMProgModal extends React.Component {
         </Modal.Header>
 
         <Form noValidate>
-          {/* Need to add onSubmit later */}
           <Modal.Body id="editStudySIMProgModalBody">
             {/* Main Row */}
             <Form.Row className="justify-content-center editStudySIMProgFormRow">
@@ -752,6 +899,8 @@ export default class EditStudySIMProgModal extends React.Component {
                     <InputGroup className="editStudySIMProgFormColInputGrp">
                       <FormControl type="text" name="programme" id="editStudySIMProgForm_ProgName" placeholder="Name of Programme*" defaultValue={this.state.programme} onChange={this.handleChange} required />
                     </InputGroup>
+
+                    <div className="errorMessage text-left">{this.state.progNameError}</div>
                   </Col>
                 </Form.Row>
 
@@ -761,6 +910,8 @@ export default class EditStudySIMProgModal extends React.Component {
                     <InputGroup className="editStudySIMProgFormColInputGrp">
                       <FormControl type="file" name="logoFile" id="editStudySIMProgForm_LogoFile" label="Logo File*" custom required onChange={(e) => {this.handleFileUpload(e.target.files);}} />
                     </InputGroup>
+
+                    <div className="errorMessage text-left">{this.state.logoFileError}</div>
                   </Col>
                 </Form.Row>
 
@@ -771,7 +922,6 @@ export default class EditStudySIMProgModal extends React.Component {
                       <Form.Control as="select" name="university" defaultValue={this.props.University} className="editStudySIMProgFormSelect" required noValidate placeholder="Choose a University" onChange={this.handleChange}>
                         <option value="" className="editStudySIMProgFormSelectOption" disabled={true}>Choose a University</option>
 
-                        {/* To be retrieved from DB */}
                         {this.props.universities && this.props.universities.map((University, index) => {
                           if (University === this.props.University) {
                             return (
@@ -785,6 +935,8 @@ export default class EditStudySIMProgModal extends React.Component {
                           })}
                       </Form.Control>
                     </InputGroup>
+
+                    <div className="errorMessage text-left">{this.state.universityError}</div>
                   </Col>
                 </Form.Row>
 
@@ -792,12 +944,11 @@ export default class EditStudySIMProgModal extends React.Component {
                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-center">
                     <InputGroup className="editStudySIMProgFormColInputGrp">
-                      <Form.Control as="select" name="acadamiclevel" defaultValue="" className="editStudySIMProgFormSelect" required noValidate onChange={this.handleChange}>
-                        <option value="" className="editStudySIMProgFormSelectOption" disabled={true}>Choose an Academic Level</option>
+                      <Form.Control as="select" name="academiclevel" defaultValue={this.props.academiclevel} className="editStudySIMProgFormSelect" required noValidate onChange={this.handleChange}>
+                        <option value="" className="editStudySIMProgFormSelectOption">Choose an Academic Level</option>
 
-                        {/* To be retrieved from DB */}
                         {this.state.AcademicLevel && this.state.AcademicLevel.map((AcademicLevel, index) => {
-                            if (AcademicLevel === this.props.acadamiclevel) {
+                            if (AcademicLevel === this.props.academiclevel) {
                               return (
                                 <option value={AcademicLevel} className="editStudySIMProgFormSelectOption" selected>{AcademicLevel}</option>
                               );
@@ -810,6 +961,8 @@ export default class EditStudySIMProgModal extends React.Component {
                         )}
                       </Form.Control>
                     </InputGroup>
+
+                    <div className="errorMessage text-left">{this.state.academicLevelError}</div>
                   </Col>
                 </Form.Row>
 
@@ -819,8 +972,7 @@ export default class EditStudySIMProgModal extends React.Component {
                     <Form.Label className="editStudySIMProgFormLabel">Choose Mode of Study:</Form.Label>
 
                     <Container className="editStudySIMProgForm_MoSCon">
-                      {/* To be retrieved from db - row is generated dynamically */}
-                      <Form.Group controlId="exampleForm.ControlInput1">
+                      <Form.Group>
                         {this.state.Modeofstudy && this.state.Modeofstudy.map((Modeofstudy) => {
                           {
                             return (
@@ -835,6 +987,8 @@ export default class EditStudySIMProgModal extends React.Component {
                         })}
                       </Form.Group>
                     </Container>
+
+                    <div className="errorMessage text-left">{this.state.modeOfStudyError}</div>
                   </Col>
                 </Form.Row>
 
@@ -844,14 +998,13 @@ export default class EditStudySIMProgModal extends React.Component {
                     <Form.Label className="editStudySIMProgFormLabel">Choose Discipline(s):</Form.Label>
 
                     <Container className="editStudySIMProgForm_DisciplineCon">
-                      {/* To be retrieved from db - row is generated dynamically */}
-                      <Form.Group controlId="exampleForm.ControlInput1">
+                      <Form.Group>
                         {this.props.disciplines && this.props.disciplines.map((Discipline) => {
                           {
                             return (
                               <Row>
                                 <Col>
-                                  <Form.Check id={Discipline} name="entryqualification" value={Discipline} type="checkbox" label={Discipline} className="editStudySIMProgForm_CheckBox DisciplineCheckboxes" 
+                                  <Form.Check id={Discipline} name="discipline" value={Discipline} type="checkbox" label={Discipline} className="editStudySIMProgForm_CheckBox DisciplineCheckboxes" 
                                   defaultChecked={Discipline == this.props.discipline1 || Discipline == this.props.discipline2 ? true:false} 
                                   onChange={this.DisciplinehandleChange} disabled={this.state[Discipline]} />
                                 </Col>
@@ -861,6 +1014,8 @@ export default class EditStudySIMProgModal extends React.Component {
                         })}
                       </Form.Group>
                     </Container>
+
+                    <div className="errorMessage text-left">{this.state.disciplineError}</div>
                   </Col>
                 </Form.Row>
 
@@ -870,52 +1025,52 @@ export default class EditStudySIMProgModal extends React.Component {
                     <Form.Label className="editStudySIMProgFormLabel">Choose Entry Qualification(s):</Form.Label>
 
                     <Container className="editStudySIMProgForm_EntryQualCon">
-                      {/* To be retrieved from db - row is generated dynamically */}
                       {this.state.entryqualification && this.state.entryqualification.map((entryqualification) => {
-                          {
-                            if (entryqualification.entryqualification === "diploma") {
-                              return (
-                                <Row>
-                                  <Col>
-                                    <Form.Check name={entryqualification.entryqualification} value={entryqualification.entryqualification} type="checkbox" label="Diploma" className="editStudySIMProgForm_CheckBox" defaultChecked={entryqualification.checked} onChange={this.handleChange} />
-                                  </Col>
-                                </Row>
-                              );
-                            }
+                        {
+                          if (entryqualification.entryqualification === "diploma") {
+                            return (
+                              <Row>
+                                <Col>
+                                  <Form.Check name={entryqualification.entryqualification} value={entryqualification.entryqualification} type="checkbox" label="Diploma" className="editStudySIMProgForm_CheckBox" defaultChecked={entryqualification.checked} onChange={this.handleChange} />
+                                </Col>
+                              </Row>
+                            );
+                          }
 
-                            if (entryqualification.entryqualification === "degree") {
-                              return (
-                                <Row>
-                                  <Col>
-                                    <Form.Check name={entryqualification.entryqualification} value={entryqualification.entryqualification} type="checkbox" label="Degree" className="editStudySIMProgForm_CheckBox" defaultChecked={entryqualification.checked} onChange={this.handleChange} />
-                                  </Col>
-                                </Row>
-                              );
-                            }
+                          if (entryqualification.entryqualification === "degree") {
+                            return (
+                              <Row>
+                                <Col>
+                                  <Form.Check name={entryqualification.entryqualification} value={entryqualification.entryqualification} type="checkbox" label="Degree" className="editStudySIMProgForm_CheckBox" defaultChecked={entryqualification.checked} onChange={this.handleChange} />
+                                </Col>
+                              </Row>
+                            );
+                          }
 
-                            if ( entryqualification.entryqualification === "aLevel") {
-                              return (
-                                <Row>
-                                  <Col>
-                                    <Form.Check name={entryqualification.entryqualification} value={entryqualification.entryqualification} type="checkbox" label="'A' Level" className="editStudySIMProgForm_CheckBox" defaultChecked={entryqualification.checked} onChange={this.handleChange} />
-                                  </Col>
-                                </Row>
-                              );
-                            }
+                          if ( entryqualification.entryqualification === "aLevel") {
+                            return (
+                              <Row>
+                                <Col>
+                                  <Form.Check name={entryqualification.entryqualification} value={entryqualification.entryqualification} type="checkbox" label="'A' Level" className="editStudySIMProgForm_CheckBox" defaultChecked={entryqualification.checked} onChange={this.handleChange} />
+                                </Col>
+                              </Row>
+                            );
+                          }
 
-                            if (entryqualification.entryqualification === "oLevel") {
-                              return (
-                                <Row>
-                                  <Col>
-                                    <Form.Check name={entryqualification.entryqualification} value={entryqualification.entryqualification} type="checkbox" label="'O' Level" className="editStudySIMProgForm_CheckBox" defaultChecked={entryqualification.checked} onChange={this.handleChange} />
-                                  </Col>
-                                </Row>
-                              );
-                            }
+                          if (entryqualification.entryqualification === "oLevel") {
+                            return (
+                              <Row>
+                                <Col>
+                                  <Form.Check name={entryqualification.entryqualification} value={entryqualification.entryqualification} type="checkbox" label="'O' Level" className="editStudySIMProgForm_CheckBox" defaultChecked={entryqualification.checked} onChange={this.handleChange} />
+                                </Col>
+                              </Row>
+                            );
                           }
                         }
-                      )}
+                      })}
                     </Container>
+
+                    <div className="errorMessage text-left">{this.state.entryQualError}</div>
                   </Col>
                 </Form.Row>
               </Col>
@@ -928,11 +1083,10 @@ export default class EditStudySIMProgModal extends React.Component {
                     <Form.Label className="editStudySIMProgFormLabel">Choose Sub-Discipline(s):</Form.Label>
 
                     <Container className="editStudySIMProgForm_SubDisciplineCon">
-                      {/* To be retrieved from db - row is generated dynamically */}
                       {this.props.subDisciplines && this.props.subDisciplines.map((subDiscipline, index) => {
                         index = index + 1;
                         return (
-                          <Row>
+                          <Row key={index}>
                             <Col>
                               <Form.Check name={subDiscipline} value={subDiscipline} type="checkbox" label={subDiscipline} className="editStudySIMProgForm_CheckBox subDisciplineCheckboxes" 
                               defaultChecked={subDiscipline == this.props.subdiscipline1 || subDiscipline == this.props.subdiscipline2 || subDiscipline == this.props.subdiscipline3 || 
@@ -943,6 +1097,8 @@ export default class EditStudySIMProgModal extends React.Component {
                         );
                       })}
                     </Container>
+
+                    <div className="errorMessage text-left">{this.state.subDisciplineError}</div>
                   </Col>
                 </Form.Row>
               </Col>
@@ -965,20 +1121,19 @@ export default class EditStudySIMProgModal extends React.Component {
                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
                     <Form.Label className="editStudySIMProgFormLabel">About Programme 1</Form.Label>
-
-                    <FormControl as="textarea" name="aboutprogramme1" rows="4" required noValidate className="editStudySIMProgForm_TextArea" placeholder="About Programme" defaultValue={this.state.aboutprogramme1} onChange={this.handleChange} />
+                    <FormControl as="textarea" name="aboutprogramme1" rows="4" required noValidate className="editStudySIMProgForm_TextArea" placeholder="About Programme 1" defaultValue={this.state.aboutprogramme1} onChange={this.handleChange} />
+                  
+                    <div className="errorMessage text-left">{this.state.aboutProgError}</div>
                   </Col>
 
-                  <Col md="9" className="text-left">
+                  <Col md="9" className="text-left" style={{ paddingTop: "2%" }}>
                     <Form.Label className="editStudySIMProgFormLabel">About Programme 2</Form.Label>
-
-                    <FormControl as="textarea" rows="4" required noValidate name="aboutprogramme2" className="editStudySIMProgForm_TextArea" placeholder="About Programme" defaultValue={this.state.aboutprogramme2} onChange={this.handleChange} />
+                    <FormControl as="textarea" rows="4" required noValidate name="aboutprogramme2" className="editStudySIMProgForm_TextArea" placeholder="About Programme 2" defaultValue={this.state.aboutprogramme2} onChange={this.handleChange} />
                   </Col>
 
-                  <Col md="9" className="text-left">
+                  <Col md="9" className="text-left" style={{ paddingTop: "2%" }}>
                     <Form.Label className="editStudySIMProgFormLabel">About Programme 3</Form.Label>
-
-                    <FormControl as="textarea" rows="4" required noValidate name="aboutprogramme3" className="editStudySIMProgForm_TextArea" placeholder="About Programme" defaultValue={this.state.aboutprogramme3} onChange={this.handleChange} />
+                    <FormControl as="textarea" rows="4" required noValidate name="aboutprogramme3" className="editStudySIMProgForm_TextArea" placeholder="About Programme 3" defaultValue={this.state.aboutprogramme3} onChange={this.handleChange} />
                   </Col>
                 </Form.Row>
 
@@ -986,17 +1141,20 @@ export default class EditStudySIMProgModal extends React.Component {
                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
                     <Form.Label className="editStudySIMProgFormLabel">Application Period 1</Form.Label>
-
-                    <FormControl as="textarea" rows="4" required noValidate name="applicationperiod1" className="editStudySIMProgForm_TextArea" placeholder="Application Period" defaultValue={this.state.applicationperiod1} onChange={this.handleChange} />
+                    <FormControl as="textarea" rows="4" required noValidate name="applicationperiod1" className="editStudySIMProgForm_TextArea" placeholder="Application Period 1" defaultValue={this.state.applicationperiod1} onChange={this.handleChange} />
+                  
+                    <div className="errorMessage text-left">{this.state.applicationPeriodError}</div>
                   </Col>
 
                   <Col md="9" className="text-left">
                     <Form.Label className="editStudySIMProgFormLabel">Application Period 2</Form.Label>
-
-                    <FormControl as="textarea" rows="4" required noValidate name="applicationperiod2" className="editStudySIMProgForm_TextArea" placeholder="Application Period" defaultValue={this.state.applicationperiod2} onChange={this.handleChange} />
+                    <FormControl as="textarea" rows="4" required noValidate name="applicationperiod2" className="editStudySIMProgForm_TextArea" placeholder="Application Period 2" defaultValue={this.state.applicationperiod2} onChange={this.handleChange} />
                   </Col>
                 </Form.Row>
+              </Col>
 
+              {/* Right Col */}
+              <Col md="6" className="editStudySIMProgFormCol text-center">
                 {/* Programme Structure */}
                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
@@ -1008,7 +1166,6 @@ export default class EditStudySIMProgModal extends React.Component {
                         <Form.Label className="editStudySIMProgFormLabel">Coursework</Form.Label>
 
                         <Container className="editStudySIMProgForm_StructureOverseasCon">
-                          {/* To be retrieved from db - row is generated dynamically */}
                           <Row>
                             <Col style={{ paddingLeft: "10%" }}>
                               <Form.Check name="programmestructurecoursework" value="Coursework" type="checkbox" label="Yes" className="editStudySIMProgForm_CheckBox" onChange={this.handleChange} defaultChecked={this.state.programmestructurecoursework} />
@@ -1022,7 +1179,6 @@ export default class EditStudySIMProgModal extends React.Component {
                         <Form.Label className="editStudySIMProgFormLabel">Examination</Form.Label>
 
                         <Container className="editStudySIMProgForm_StructureOverseasCon">
-                          {/* To be retrieved from db - row is generated dynamically */}
                           <Row>
                             <Col style={{ paddingLeft: "10%" }}>
                               <Form.Check name="programmestructureexamination" value="Examination" type="checkbox" label="Yes" className="editStudySIMProgForm_CheckBox" defaultChecked={this.state.programmestructureexamination} onChange={this.handleChange} />
@@ -1034,10 +1190,7 @@ export default class EditStudySIMProgModal extends React.Component {
 
                   </Col>
                 </Form.Row>
-              </Col>
 
-              {/* Right Col */}
-              <Col md="6" className="editStudySIMProgFormCol text-center">
                 {/* Overseas Opportunity */}
                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
@@ -1049,7 +1202,6 @@ export default class EditStudySIMProgModal extends React.Component {
                         <Form.Label className="editStudySIMProgFormLabel">Exchange</Form.Label>
 
                         <Container className="editStudySIMProgForm_StructureOverseasCon">
-                          {/* To be retrieved from db - row is generated dynamically */}
                           <Row>
                             <Col style={{ paddingLeft: "10%" }}>
                               <Form.Check name="exchange" value="Exchange" type="checkbox" label="Yes" className="editStudySIMProgForm_CheckBox" defaultChecked={this.state.overseaopportunityexchange} onChange={this.handleChange} />
@@ -1063,7 +1215,6 @@ export default class EditStudySIMProgModal extends React.Component {
                         <Form.Label className="editStudySIMProgFormLabel">Transfer</Form.Label>
 
                         <Container className="editStudySIMProgForm_StructureOverseasCon">
-                          {/* To be retrieved from db - row is generated dynamically */}
                           <Row>
                             <Col style={{ paddingLeft: "10%" }}>
                               <Form.Check name="transfer" value="Transfer" type="checkbox" label="Yes" className="editStudySIMProgForm_CheckBox" defaultChecked={this.state.overseaopportunitytransfer} onChange={this.handleChange} />
@@ -1078,31 +1229,48 @@ export default class EditStudySIMProgModal extends React.Component {
 
                 {/* Intake Month(s) */}
                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
-                  <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">Full-Time Intake Month(s)</Form.Label>
+                  <Col md="9" className="text-left"> 
+                    <Form.Label className="editStudySIMProgFormLabel">Intake Month(s)</Form.Label> 
 
-                    <FormControl as="textarea" rows="4" required noValidate name="intakemonthsfulltime" className="editStudySIMProgForm_TextArea" placeholder="Intake Month(s)" defaultValue={this.state.intakemonthsfulltime} onChange={this.handleChange} />
-                  </Col>
+                    <Form.Row className="justify-content-center"> 
+                      {/* Full Time */}
+                      <Col md="6" className="text-left"> 
+                        <Form.Label className="editStudySIMProgFormLabel">Full-Time</Form.Label> 
+                        <FormControl as="textarea" rows="3" required noValidate name="intakemonthsfulltime" className="editStudySIMProgForm_TextArea" placeholder="Full-Time" defaultValue={this.state.intakemonthsfulltime} onChange={this.handleChange} /> 
+                      </Col> 
 
-                  <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">Part-Time Intake Month(s)</Form.Label>
+                      {/* Part Time */}
+                      <Col md="6" className="text-left"> 
+                        <Form.Label className="editStudySIMProgFormLabel">Part-Time</Form.Label> 
+                        <FormControl as="textarea" rows="3" required noValidate name="intakemonthsparttime" className="editStudySIMProgForm_TextArea" placeholder="Part-Time" defaultValue={this.state.intakemonthsparttime} onChange={this.handleChange} /> 
+                      </Col> 
+                    </Form.Row> 
 
-                    <FormControl as="textarea" rows="4" required noValidate name="intakemonthsparttime" className="editStudySIMProgForm_TextArea" placeholder="Intake Month(s)" defaultValue={this.state.intakemonthsparttime} onChange={this.handleChange} />
-                  </Col>
+                    <div className="errorMessage text-left">{this.state.intakeMonthsError}</div>
+                  </Col> 
                 </Form.Row>
 
                 {/* Duration */}
                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">Full-Time Duration</Form.Label>
+                    <Form.Label className="editStudySIMProgFormLabel">Duration</Form.Label> 
 
-                    <FormControl as="textarea" rows="4" required noValidate name="durationfulltime" className="editStudySIMProgForm_TextArea" placeholder="Duration" defaultValue={this.state.durationfulltime} onChange={this.handleChange} />
-                  </Col>
+                    <Form.Row className="justify-content-center"> 
+                      {/* Full Time */}
+                      <Col md="6" className="text-left"> 
+                        <Form.Label className="editStudySIMProgFormLabel">Full-Time</Form.Label> 
 
-                  <Col md="9" className="text-left">
-                    <Form.Label className="editStudySIMProgFormLabel">Part-Time Duration</Form.Label>
+                        <FormControl as="textarea" rows="3" required noValidate name="durationfulltime" className="editStudySIMProgForm_TextArea" placeholder="Full-Time" defaultValue={this.state.durationfulltime} onChange={this.handleChange} /> 
+                      </Col> 
 
-                    <FormControl as="textarea" rows="4" required noValidate name="durationparttime" className="editStudySIMProgForm_TextArea" placeholder="Duration" defaultValue={this.state.durationparttime} onChange={this.handleChange} />
+                      {/* Part Time */}
+                      <Col md="6" className="text-left"> 
+                        <Form.Label className="editStudySIMProgFormLabel">Part-Time</Form.Label> 
+                        <FormControl as="textarea" rows="3" required noValidate name="durationparttime" className="editStudySIMProgForm_TextArea" placeholder="Part-Time" defaultValue={this.state.durationparttime} onChange={this.handleChange} /> 
+                      </Col> 
+                    </Form.Row> 
+
+                    <div className="errorMessage text-left">{this.state.durationError}</div>
                   </Col>
                 </Form.Row>
 
@@ -1116,15 +1284,11 @@ export default class EditStudySIMProgModal extends React.Component {
           <Container>
             <Row>
               <Col md="6" className="text-right">
-                <Button id="saveChangesEditProgFormBtn" onClick={() => {this.props.handleCancelEdit(); this.edit();}}>
-                  Save Changes
-                </Button>
+                <Button id="saveChangesEditProgFormBtn" onClick={() => {this.edit();}}>Save Changes</Button>
               </Col>
               
               <Col md="6" className="text-left">
-                <Button id="cancelEditProgFormBtn" onClick={this.props.handleCancelEdit}>
-                  Cancel
-                </Button>
+                <Button id="cancelEditProgFormBtn" onClick={this.props.handleCancelEdit}>Cancel</Button>
               </Col>
             </Row>
           </Container>
