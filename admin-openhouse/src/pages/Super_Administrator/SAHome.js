@@ -180,7 +180,8 @@ class SAHome extends Component {
       console.log("Plain Pwd: " + this.state.password)
       var password = this.state.password;
       var email = this.state.email;
-      var name = this.state.fullname
+      var name = this.state.fullname ;         
+      var administratorType = this.state.administratorType;
 
       /* Hash Password */
       const passwordHash = bcrypt.hashSync(this.state.password, 10);
@@ -205,6 +206,7 @@ class SAHome extends Component {
             name,
             email,
           password,
+          administratorType,
           })
           .then(res => {
           console.log('MAIL SENT!')
