@@ -75,7 +75,7 @@ class StudySIM_ArtsSocialSciences extends Component {
             docid: doc.id,
             programmeName: doc.data().programmeTitle,
             awardBy: doc.data().awardedBy,
-            Logofile: doc.data().logoFile,
+            Logofile: doc.data().logoUrl,
             CategoryProgramme: doc.data().category,
             ModeOfStudy: doc.data().modeOfStudy,
             discipline1: doc.data().discipline.disciplineName1,
@@ -401,7 +401,11 @@ class StudySIM_ArtsSocialSciences extends Component {
           keyboard={false}
           className="addStudySIMProgModal"
         >
-          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} />
+          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} 
+          universities = {this.state.universities}
+          disciplines = {this.state.disciplines}
+          subDisciplines = {this.state.subDisciplines}
+          />
         </Modal>
 
         {/* Edit Programme Modal */}
