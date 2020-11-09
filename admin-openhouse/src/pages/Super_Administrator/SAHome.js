@@ -72,8 +72,6 @@ class SAHome extends Component {
       password: "",
       id: "",
 
-      filteredAdminType: [],
-
       addUserModal: false,
       deleteAdminModal: false,
 
@@ -129,17 +127,11 @@ class SAHome extends Component {
   }
 
   display() {
-    /* To filter administrator type */
-    function onlyUnique(value, index, self) {
-      return self.indexOf(value) === index;
-    }
-
     var counter = 1;
     db.collection("Administrators").where("administratorType", "!=", "Super Administrator")
     .get()
     .then((snapshot) => {
       const users = [];
-      const adminType = [];
       snapshot.forEach((doc) => {
         const data = {
           administratorType: doc.data().administratorType,
@@ -151,13 +143,8 @@ class SAHome extends Component {
         };
         counter++;
         users.push(data);
-        adminType.push(doc.data().administratorType);
       });
-      this.setState({ adminType: adminType });
-      var filteredAdminType = adminType.filter(onlyUnique);
-
       this.setState({ users: users });
-      this.setState({ filteredAdminType: filteredAdminType });
     });
   }
 
@@ -185,10 +172,6 @@ class SAHome extends Component {
       /* Hash Password */
       const passwordHash = bcrypt.hashSync(this.state.password, 10);
 
-      /* Decrypt Password Hash */
-      // const decryptPassword = bcrypt.compareSync(this.state.password, passwordHash); 
-      // console.log("Decrypted: " + decryptPassword) 
-
       firecreate.auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((user) => {
@@ -199,21 +182,21 @@ class SAHome extends Component {
           name: this.state.fullname,
           password: passwordHash,
         })
-          .then(dataSnapshot => {
+        .then(dataSnapshot => {
           emailjs.init("user_wvpEVGrbniS4sAZqjDk2S");
           emailjs.send(serviceId, templateId, {
             name,
             email,
-          password,
-          administratorType,
-          })
-          .then(res => {
-          console.log('MAIL SENT!')
-          alert("Mail Sent")
-          })
-            this.setState({ addUserModal: false });
-            this.display();
-          });
+            password,
+            administratorType
+        })
+        .then(res => {
+          // console.log('MAIL SENT!')
+          // alert("Mail Sent")
+        })
+          this.setState({ addUserModal: false });
+          this.display();
+        });
       });
     }
   };
@@ -484,14 +467,8 @@ class SAHome extends Component {
                 <Col md="5">
                   <Form.Control as="select" name="administratorType" defaultValue="" className="addAdminFormText" id="addAdminFormSelect" required onChange={this.updateInput} noValidate>
                     <option value="" className="addAdminFormSelectOption">Choose User Type</option>
-
-                    {this.state.filteredAdminType && this.state.filteredAdminType.map((userType) => {
-                      return (
-                        <>
-                          <option value={userType} className="addAdminFormSelectOption">{userType}</option>
-                        </>
-                      );
-                    })}
+                    <option value="Crew" className="addAdminFormSelectOption">Crew</option>
+                    <option value="Marketing Administrator" className="addAdminFormSelectOption">Marketing Administrator</option>
                   </Form.Control>
 
                   <div className="errorMessage text-left">{this.state.userTypeError}</div>
@@ -502,7 +479,7 @@ class SAHome extends Component {
 
               <Form.Row className="justify-content-center addAdminFormBtnRow">
                 <Col className="text-center">
-                  <Button type="submit" id="addAdminFormBtn" onClick={this.addUser}>Add Administrator</Button>
+                  <Button type="submit" id="addAdminFormBtn" onClick={this.addUser}>Add Staff</Button>
                 </Col>
               </Form.Row>
 
