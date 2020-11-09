@@ -204,6 +204,7 @@ class Sponsors extends Component {
             this.setState({
                 editEmailModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -219,6 +220,7 @@ class Sponsors extends Component {
             this.setState({
                 editWebsiteModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -234,6 +236,7 @@ class Sponsors extends Component {
             this.setState({
                 editDescriptionModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -250,6 +253,7 @@ class Sponsors extends Component {
             this.setState({
                 editApplicationPeriodsModal: false
             });
+            this.setState(initialStates);
         }
     }
 

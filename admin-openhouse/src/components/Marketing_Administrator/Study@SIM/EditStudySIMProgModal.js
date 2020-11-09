@@ -618,15 +618,13 @@ export default class EditStudySIMProgModal extends React.Component {
       fileRef.on("state_changed", function (snapshot) {
         fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
           console.log(downloadURL);
-          const userRef = db
-            .collection("ProgrammesWeb")
-            .doc(parentthis.props.docid);
 
           // Validation
           const isValid = this.validate();
           if (isValid) {
             this.setState(initialStates);
 
+            const userRef = db.collection("Programmes").doc(parentthis.props.docid);
             userRef.update({
               academicLevel: parentthis.state.academiclevel.toString(),
               "applicationPeriod.period1": parentthis.state.applicationperiod1.toString(),
@@ -779,7 +777,7 @@ export default class EditStudySIMProgModal extends React.Component {
     }
 
     if (!this.state.ModeOfStudy) {
-      modeOfStudyError = "Please select a valid mode of study!";
+      modeOfStudyError = "Please select at least 1 mode of study!";
     }
 
     if (this.state.disciplinecheckedItems.length == 0) {
@@ -798,7 +796,7 @@ export default class EditStudySIMProgModal extends React.Component {
       aboutProgError = "Please enter programme details!";
     }
 
-    if (!(this.state.aboutprogramme1 && this.state.aboutprogramme2 && this.state.aboutprogramme3)) {
+    if ( !(this.state.aboutprogramme1 || this.state.aboutprogramme2 || this.state.aboutprogramme3) ) {
       aboutProgError = "Please enter programme details!";
     }
 
@@ -806,15 +804,15 @@ export default class EditStudySIMProgModal extends React.Component {
       applicationPeriodError = "Please enter application period details!";
     }
 
-    if (!(this.state.applicationperiod1 && this.state.applicationperiod2)) {
+    if ( !(this.state.applicationperiod1 || this.state.applicationperiod2) ) {
       applicationPeriodError = "Please enter application period details!";
     }
 
-    if (!(this.state.intakemonthsfulltime && this.state.intakemonthsparttime)) {
+    if ( !(this.state.intakemonthsfulltime || this.state.intakemonthsparttime) ) {
       intakeMonthsError = "Please enter intake month(s) details!";
     }
 
-    if (!(this.state.durationfulltime && this.state.durationparttime)) {
+    if ( !(this.state.durationfulltime || this.state.durationparttime) ) {
       durationError = "Please enter duration details!";
     }
 
@@ -908,7 +906,7 @@ export default class EditStudySIMProgModal extends React.Component {
                   <Col md="9" className="text-center">
                     <InputGroup className="editStudySIMProgFormColInputGrp">
                       <Form.Control as="select" name="university" defaultValue={this.props.University} className="editStudySIMProgFormSelect" required noValidate placeholder="Choose a University" onChange={this.handleChange}>
-                        <option value="" className="editStudySIMProgFormSelectOption" disabled={true}>Choose a University</option>
+                        <option value="" className="editStudySIMProgFormSelectOption">Choose a University</option>
 
                         {this.props.universities && this.props.universities.map((University, index) => {
                           if (University === this.props.University) {
@@ -1076,10 +1074,10 @@ export default class EditStudySIMProgModal extends React.Component {
                         return (
                           <Row key={index}>
                             <Col>
-                              <Form.Check name={subDiscipline} value={subDiscipline} type="checkbox" label={subDiscipline} className="editStudySIMProgForm_CheckBox subDisciplineCheckboxes"
-                                defaultChecked={subDiscipline == this.props.subdiscipline1 || subDiscipline == this.props.subdiscipline2 || subDiscipline == this.props.subdiscipline3 ||
-                                  subDiscipline == this.props.subdiscipline4 || subDiscipline == this.props.subdiscipline5 ? true : false}
-                                onChange={this.SubDisciplinehandleChange} disabled={this.state["sub" + subDiscipline]} />
+                              <Form.Check name={subDiscipline} value={subDiscipline} type="checkbox" label={subDiscipline} className="editStudySIMProgForm_CheckBox subDisciplineCheckboxes" 
+                              defaultChecked={subDiscipline == this.props.subdiscipline1 || subDiscipline == this.props.subdiscipline2 || subDiscipline == this.props.subdiscipline3 || 
+                              subDiscipline == this.props.subdiscipline4 || subDiscipline == this.props.subdiscipline5 ? true: false} 
+                              onChange={this.SubDisciplinehandleChange} disabled={this.state["sub" + subDiscipline]} />
                             </Col>
                           </Row>
                         );

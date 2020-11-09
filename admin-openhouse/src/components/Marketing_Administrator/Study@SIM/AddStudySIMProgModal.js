@@ -315,14 +315,14 @@ export default class AddStudySIMProgModal extends React.Component {
   addProgramme = async () => {
     var a = this;
 
-    var lastdoc = await db
-      .collection("ProgrammesWeb")
-      .orderBy("id", "desc")
-      .limit(1)
-      .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          var docid = "";
+    var lastdoc = db
+    .collection("ProgrammesWeb")
+    .orderBy("id", "desc")
+    .limit(1)
+    .get()
+    .then((snapshot) => {
+      snapshot.forEach((doc) => {
+        var docid = "";
 
           var res = doc.data().id.substring(10);
           var id = parseInt(res);
@@ -444,15 +444,13 @@ export default class AddStudySIMProgModal extends React.Component {
       fileRef.on("state_changed", function (snapshot) {
         fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
           console.log(downloadURL);
-          const userRef = db
-            .collection("ProgrammesWeb")
-            .doc(parentthis.state.docid);
-
+          
           // Validation
           const isValid = this.validate();
           if (isValid) {
             this.setState(initialStates);
 
+            const userRef = db.collection("ProgrammesWeb").doc(parentthis.state.docid);
             userRef.set({
               id: parentthis.state.docid,
               entryQualifications: {
@@ -507,9 +505,10 @@ export default class AddStudySIMProgModal extends React.Component {
                 aboutProgramme2: parentthis.state.aboutprogramme2.toString()
               }
             })
-              .then(dataSnapshot => {
-                this.props.handleAdd();
-              });
+            .then(dataSnapshot => {
+              this.props.handleAdd();
+              // this.resetForm();
+            });
           }
         });
 
@@ -523,11 +522,15 @@ export default class AddStudySIMProgModal extends React.Component {
         }
       });
     } else {
+      // Validation
       const isValid = this.validate();
 
       if (isValid) {
         this.setState(initialStates);
-        userRef.set({
+
+        db.collection("ProgrammesWeb")
+        .doc(this.state.docid)
+        .set({
           id: this.state.docid,
           entryQualifications: {
             diploma: parentthis.state.diploma,
@@ -581,9 +584,10 @@ export default class AddStudySIMProgModal extends React.Component {
             aboutProgramme2: parentthis.state.aboutprogramme2.toString()
           }
         })
-          .then(dataSnapshot => {
-            this.props.handleAdd();
-          });
+        .then(dataSnapshot => {
+          this.props.handleAdd();
+          // this.resetForm();
+        });
       }
       const userRef = db.collection("ProgrammesWeb").doc(this.state.docid);
     }
@@ -629,8 +633,8 @@ export default class AddStudySIMProgModal extends React.Component {
       academicLevelError = "Please select a valid academic level!";
     }
 
-    if (!this.state.ModeOfStudy) {
-      modeOfStudyError = "Please select a valid mode of study!";
+    if (!this.state.modeOfStudy) {
+      modeOfStudyError = "Please select at least 1 mode of study!";
     }
 
     if (this.state.disciplinecheckedItems.length == 0) {
@@ -649,7 +653,7 @@ export default class AddStudySIMProgModal extends React.Component {
       aboutProgError = "Please enter programme details!";
     }
 
-    if (!(this.state.aboutprogramme1 && this.state.aboutprogramme2 && this.state.aboutprogramme3)) {
+    if ( !(this.state.aboutprogramme1 || this.state.aboutprogramme2 || this.state.aboutprogramme3) ) {
       aboutProgError = "Please enter programme details!";
     }
 
@@ -657,15 +661,15 @@ export default class AddStudySIMProgModal extends React.Component {
       applicationPeriodError = "Please enter application period details!";
     }
 
-    if (!(this.state.applicationperiod1 && this.state.applicationperiod2)) {
+    if ( !(this.state.applicationperiod1 || this.state.applicationperiod2) ) {
       applicationPeriodError = "Please enter application period details!";
     }
 
-    if (!(this.state.intakemonthsfulltime && this.state.intakemonthsparttime)) {
+    if ( !(this.state.intakemonthsfulltime || this.state.intakemonthsparttime) ) {
       intakeMonthsError = "Please enter intake month(s) details!";
     }
 
-    if (!(this.state.durationfulltime && this.state.durationparttime)) {
+    if ( !(this.state.durationfulltime || this.state.durationparttime) ) {
       durationError = "Please enter duration details!";
     }
 
@@ -824,7 +828,7 @@ export default class AddStudySIMProgModal extends React.Component {
                               return (
                                 <Row>
                                   <Col>
-                                    <Form.Check name="ModeOfStudy" id={Modeofstudy} value={Modeofstudy} type="checkbox" label="Part-Time" className="addStudySIMProgForm_CheckBox" onChange={this.handleChange} />
+                                    <Form.Check name="modeOfStudy" id={Modeofstudy} value={Modeofstudy} type="checkbox" label="Part-Time" className="addStudySIMProgForm_CheckBox" onChange={this.handleChange} />
                                   </Col>
                                 </Row>
                               );
@@ -1122,7 +1126,7 @@ export default class AddStudySIMProgModal extends React.Component {
 
         <Modal.Footer className="justify-content-center">
           {/* Add Programme Submit Btn*/}
-          <Button type="submit" id="addStudySIMProgFormBtn" onClick={() => { this.addProgramme(); this.resetForm(); }}>Submit</Button>
+          <Button type="submit" id="addStudySIMProgFormBtn" onClick={() => {this.addProgramme();}}>Submit</Button>
         </Modal.Footer>
       </div>
     );
