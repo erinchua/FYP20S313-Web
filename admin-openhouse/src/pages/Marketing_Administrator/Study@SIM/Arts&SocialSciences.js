@@ -62,7 +62,7 @@ class StudySIM_ArtsSocialSciences extends Component {
   fetchData = async () => {
     const db = fire.firestore();
 
-    await db.collection("ProgrammesWeb").onSnapshot((snapshot) => {
+    await db.collection("Programmes").onSnapshot((snapshot) => {
       const artsocialscience = [];
       snapshot.forEach((doc) => {
         const getdiscipline = doc.get("discipline");
