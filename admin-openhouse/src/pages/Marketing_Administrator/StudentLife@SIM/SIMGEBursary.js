@@ -1,744 +1,850 @@
+import { Container, Row, Col, Table, Button, Modal, Form, Tab, Nav, Accordion, Card } from 'react-bootstrap';
 import React, { Component } from "react";
 import { auth, db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
+import firebase from "firebase/app";
 
-//import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
+import '../../../css/Marketing_Administrator/Bursary.css';
+import NavBar from '../../../components/Navbar';
+import Footer from '../../../components/Footer';
+import SideNavBar from '../../../components/SideNavbar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faEnvelopeOpen, faFileAlt, faLocationArrow, faPhone, faShoePrints } from '@fortawesome/free-solid-svg-icons';
+import { faInternetExplorer } from '@fortawesome/free-brands-svg-icons';
 
 class SIMGEBursary extends Component {
-  constructor() {
-    super();
-    this.state = {
-      aboutBursary: "",
-      closingDate: "",
-      notificationPeriod: "",
-      processingPeriod: "",
-      eligibility1: "",
-      eligibility2: "",
-      eligibility3: "",
-      eligibility4: "",
-      eligibility5: "",
-      eligibility6: "",
-      eligibility7: "",
-      faqFile: "",
-      howApply: "",
-      id: "",
-      repayment: "",
-
-      householdDoc1: "",
-      householdDoc2: "",
-      householdDoc3: "",
-      householdDoc4: "",
-      householdDoc5: "",
-      householdDoc6: "",
-
-      NRIC: "",
-
-      description1: "",
-      description2: "",
-
-      expensesDocument1: "",
-      expensesDocument2: "",
-
-      personalDocument1: "",
-      personalDocument2: "",
-      personalDocument3: "",
-      personalDocument4: "",
-      personalDocument5: "",
-      personalDocument6: "",
-      personalDocument7: "",
-
-      resultTranscript: "",
-
-      thingsToNote1: "",
-      thingsToNote2: "",
-      thingsToNote3: "",
-      thingsToNote4: "",
-
-      valueTenure: "",
-      progress: "",
-
-    };
-  }
-
-  authListener() {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
-        getrole.get().then((snapshot) => {
-          snapshot.forEach((doc) => {
-            if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
-            } else {
-              history.push("/Login");
-            }
-          });
-        });
-      } else {
-        history.push("/Login");
-      }
-    });
-  }
-  updateInput = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  componentDidMount() {
-    this.authListener();
-  }
-
-  display() {
-
-    //SIM GE Bursary
-    const simgebursary = db
-      .collection("Bursary")
-      .doc("simGlobalEducationBursary")
-      .onSnapshot((snapshot) => {
-        const bursaryarray = [];
-        const gebursary = snapshot.data();
-        const data = {
-          aboutBursary: gebursary.aboutBursary,
-          applicationPeriod1: gebursary.applicationPeriod1,
-          applicationPeriod2: gebursary.applicationPeriod2,
-          applicationPeriod3: gebursary.applicationPeriod3,
-          applicationPeriod4: gebursary.applicationPeriod4,
-          eligibility: gebursary.eligibility,
-          faqFile: gebursary.faqFile,
-          howApply: gebursary.howApply,
-          repayment: gebursary.repayment,
-          requiredDocuments: gebursary.requiredDocuments,
-          thingsToNote: gebursary.thingsToNote,
-          valueTenure: gebursary.valueTenure,
-          id: gebursary.id,
+    constructor() {
+        super();
+        this.state = {
+            //Value and Tenure of Bursary
+            valueId: "",
+            valueDescription: "",
+            //Eligibility
+            eligibilityId: "",
+            eligibilityContent: "",
+            //Repayment
+            repaymentId: "",
+            repaymentDescription: "",
+            //How to Apply
+            applyId: "",
+            applySteps: "",
+            applyDescription: "",
+            applyApplicationPeriod: "",
+            applyClosingDate: "",
+            applyNotificationPeriod: "",
+            applyProcessingPeriod: "",
+            //Required Supporting Documents
+            supportDocsId: "",
+            supportDocsSimPdpaPolicy: "",
+            supportDocsDescription: "",
+            supportDocsTitle: "",
+            //Things to Note
+            noteId: "",
+            noteContent: "",
+            //Contact Information
+            contactInfoId: "",
+            contactInfoEmail: "",
+            //Below states are for the functions
+            valueTenureBursary: "",
+            eligibility: "",
+            repayment: "",
+            howToApply: "",
+            howToApplyContent: "",
+            requiredSupportingDocs: "",
+            requiredSupportingDocsContent: "",
+            thingsToNote: "",
+            contactInformation: "",
+            //Below states are for the modals
+            valueTenureEditModal: false,
+            eligibilityEditModal: false,
+            repaymentEditModal: false,
+            howToApplyEditModal: false,
+            supportingDocsEditModal: false,
+            thingsToNoteEditModal: false,
+            contactInfoEditModal: false,
         };
-        bursaryarray.push(data);
-        console.log(bursaryarray)
-        this.setState({ bursaryarray: bursaryarray });
-      });
-
-}
-
-  /*editStudentCare(e, studentcareid, type) {
-    if (type === "workPlayLiveWell") {
-      document
-        .getElementById(studentcareid + "spanactivitiesdes")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "upload")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "editbutton")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "updatebutton")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "cancelbutton")
-        .removeAttribute("hidden");
-      var texttohide = document.getElementsByClassName(studentcareid + "text");
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }
     }
 
-    if (type === "studentWellnessCentre") {
-      document
-        .getElementById(studentcareid + "upload")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spanwelldes")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spanwelllogo")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "editbutton")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "updatebutton")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "cancelbutton")
-        .removeAttribute("hidden");
-      var texttohide = document.getElementsByClassName(studentcareid + "text");
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }
-    }
-
-    if (type === "counsellingService") {
-      document
-        .getElementById(studentcareid + "upload")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spancounseldes")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spancounsellogo")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "editbutton")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "updatebutton")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "cancelbutton")
-        .removeAttribute("hidden");
-      var texttohide = document.getElementsByClassName(studentcareid + "text");
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }
-    }
-
-    if (type === "simPeerSupport") {
-      document
-        .getElementById(studentcareid + "upload")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spanpeerdes")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spanpeerlogo")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "editbutton")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "updatebutton")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "cancelbutton")
-        .removeAttribute("hidden");
-      var texttohide = document.getElementsByClassName(studentcareid + "text");
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }
-    }
-
-    if (type === "simWellnessAdvocates") {
-      document
-        .getElementById(studentcareid + "upload")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spanadvocatesdes")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "spanadvocateslogo")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "editbutton")
-        .setAttribute("hidden", "");
-      document
-        .getElementById(studentcareid + "updatebutton")
-        .removeAttribute("hidden");
-      document
-        .getElementById(studentcareid + "cancelbutton")
-        .removeAttribute("hidden");
-      var texttohide = document.getElementsByClassName(studentcareid + "text");
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }
-    }
-  }*/
-
-  handleFileUpload = (files) => {
-    this.setState({
-        files: files,
-    });
-};
-
-handleSave = (mapImage) => {
-    const parentthis = this;
-
-    if (this.state.files !== undefined) {
-        const foldername = "Bursary";
-        const file = this.state.files[0];
-        const storageRef = storage.ref(foldername);
-        const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
-        fileRef.on("state_changed", function (snapshot) {
-            fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-                console.log("File available at", downloadURL);
-
-                const userRef = db.collection("Bursary").doc("simGlobalEducationBursary")
-                .update({
-                    faqFile: downloadURL,
-                })
-                .then(function () {
-                    alert("Updated");
-                    window.location.reload();
+    authListener() {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                var getrole = db
+                .collection("Administrators")
+                .where("email", "==", user.email);
+                getrole.get().then((snapshot) => {
+                    snapshot.forEach((doc) => {
+                        if (doc.data().administratorType === "Marketing Administrator") {
+                            this.display();
+                        } else {
+                            history.push("/Login");
+                        }
+                    });
                 });
-            });
-            const progress = Math.round(
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            if (progress != "100") {
-                parentthis.setState({ progress: progress });
             } else {
-                parentthis.setState({ progress: "Uploaded!" });
+                history.push("/Login");
             }
         });
-        console.log();
-    } else {
-        alert("No Files Selected");
     }
-};
 
+    updateInput = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+    };
 
-  render() {
-    return (
-      <div className="home">
-        <div>
-          <table id="users" class="table table-bordered">
-            <tbody>
-              <p>
-                <h1>SIM GE Bursary<br/></h1>
-                <h5>Main Description<br/></h5>
-              </p>
-              <tr>
-                <th scope="col">Description</th>
-                <th scope="col">FAQ Download File</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>{bursaryarray.aboutBursary}</td>
-                      <td><span class={bursaryarray.id + "text"}>
-                          {bursaryarray.faqFile}
-                        </span>
-                        <span id={bursaryarray.id + "upload"} hidden>
-                          <input
-                            type="file"
-                            onChange={(e) => {
-                              this.handleFileUpload(e.target.files);
-                            }}
-                          />
-                          {this.state.progress}
-                          <div>
-                            <progress value={this.state.progress} max="100" />
-                          </div>
-                        </span>
-                        </td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+    componentDidMount() {
+        this.authListener();
+    }
 
-                    </td>
-                    </tr>
-                  );
-                })}
-              <p>
-                <h5>Value and Tenure of Bursary<br/></h5>
-              </p>
-              <tr>
-                <th scope="col">Description</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>{bursaryarray.valueTenure}</td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+    display() {
+        db.collection("Bursary").get()
+        .then((snapshot) => {
+            snapshot.forEach((doc) => {
 
-                    </td>
-                    </tr>
-                  );
-                })}
-              <tr>
-                <th scope="col">Eligibility</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>
-                          <tr>{bursaryarray.eligibility.eligibility1}</tr>
-                          <tr>{bursaryarray.eligibility.eligibility2}</tr>
-                          <tr>{bursaryarray.eligibility.eligibility3}</tr>
-                          <tr>{bursaryarray.eligibility.eligibility4}</tr>
-                          <tr>{bursaryarray.eligibility.eligibility5}</tr>
-                          <tr>{bursaryarray.eligibility.eligibility6}</tr>
-                          <tr>{bursaryarray.eligibility.eligibility7}</tr>
-                      </td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                //Get Value and Tenure Bursary
+                if (doc.id === "bursary-01") {
+                    const valueTenureBursary = [];
 
-                    </td>
-                    </tr>
-                  );
-                })}
-              
-              <tr>
-                <th scope="col">Repayment</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>{bursaryarray.repayment}</td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                    const data = {
+                        valueId: doc.id,
+                        valueDescription: doc.data().description,
+                    }
+                    valueTenureBursary.push(data);
+                    this.setState({
+                        valueTenureBursary: valueTenureBursary
+                    });
+                }
 
-                    </td>
-                    </tr>
-                  );
-                })}
-              
-              <tr>
-                <th scope="col">How to Apply</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>{bursaryarray.howApply}</td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                //Get Eligibility
+                if (doc.id === "bursary-02") {
+                    const eligibility = [];
 
-                    </td>
-                    </tr>
-                  );
-                })}
-                
-              <tr>
-                <th scope="col">Application Period (Quarter 1 - Jan to Mar)</th>
-                <th scope="col"> </th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>Closing Date</td>
-                      <td>{bursaryarray.applicationPeriod1.closingDate}</td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                    for (var i = 0; i < doc.data().content.length; i++) {
+                        const data = {
+                            eligibilityId: doc.id,
+                            eligibilityContent: doc.data().content[i],
+                        }
+                        eligibility.push(data);
+                    }
+                    this.setState({
+                        eligibility: eligibility
+                    });
+                }
 
-                    </td>
-                    </tr>
-                  );
-                })} 
-              {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>Processing Period</td>
-                      <td>{bursaryarray.applicationPeriod1.processingPeriod}</td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                //Get Repayment
+                if (doc.id === "bursary-03") {
+                    const repayment = [];
 
-                    </td>
-                    </tr>
-                  );
-                })}
-                {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>Notification Period</td>
-                      <td>{bursaryarray.applicationPeriod1.notificationPeriod}</td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                    const data = {
+                        repaymentId: doc.id,
+                        repaymentDescription: doc.data().description,
+                    }
+                    repayment.push(data);
+                    this.setState({
+                        repayment: repayment
+                    });
+                }
 
-                    </td>
-                    </tr>
-                  );
-                })}
-                <tr>
-                <th scope="col">Application Period (Quarter 2 - Apr to Jun)</th>
-                <th scope="col"> </th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>Closing Date</td>
-                      <td>{bursaryarray.applicationPeriod2.closingDate}</td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                //Get How to Apply
+                if (doc.id === "bursary-04") {
+                    const applyContent = [];
+                    const applyOthers = [];
 
-                    </td>
-                    </tr>
-                  );
-                })} 
-              {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>Processing Period</td>
-                      <td>{bursaryarray.applicationPeriod2.processingPeriod}</td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                    for (var i = 0; i < doc.data().content.length; i++) {
+                        const data = {
+                            applyApplicationPeriod: doc.data().content[i].applicationPeriod,
+                            applyClosingDate: doc.data().content[i].closingDate,
+                            applyNotificationPeriod: doc.data().content[i].notificationPeriod,
+                            applyProcessingPeriod: doc.data().content[i].processingPeriod,
+                        }
+                        applyContent.push(data);
+                    }
 
-                    </td>
-                    </tr>
-                  );
-                })}
-                {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>Notification Period</td>
-                      <td>{bursaryarray.applicationPeriod2.notificationPeriod}</td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                    const otherData = {
+                        applyId: doc.id,
+                        applyDescription: doc.data().description,
+                        applySteps: doc.data().steps,
+                    }
+                    applyOthers.push(otherData);
 
-                    </td>
-                    </tr>
-                  );
-                })}
-                <tr>
-                <th scope="col">Application Period (Quarter 3 - Jul to Sep)</th>
-                <th scope="col"> </th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>Closing Date</td>
-                      <td>{bursaryarray.applicationPeriod3.closingDate}</td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                    this.setState({
+                        howToApply: applyOthers,
+                        howToApplyContent: applyContent
+                    });
+                }
 
-                    </td>
-                    </tr>
-                  );
-                })} 
-              {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>Processing Period</td>
-                      <td>{bursaryarray.applicationPeriod3.processingPeriod}</td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                //Get Required Supporting Documents
+                if (doc.id === "bursary-05") {
+                    const supportOthers = [];
+                    const supportContent = [];
 
-                    </td>
-                    </tr>
-                  );
-                })}
-                {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>Notification Period</td>
-                      <td>{bursaryarray.applicationPeriod3.notificationPeriod}</td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                    const otherData = {
+                        supportDocsId: doc.id,
+                        supportDocsSimPdpaPolicy: doc.data().simPdpaPolicy,
+                    }
+                    supportOthers.push(otherData);
 
-                    </td>
-                    </tr>
-                  );
-                })}
-                <tr>
-                <th scope="col">Application Period (Quarter 4 - Oct to Dec)</th>
-                <th scope="col"> </th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>Closing Date</td>
-                      <td>{bursaryarray.applicationPeriod4.closingDate}</td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                    for (var i = 0; i < doc.data().content.length; i++) {
+                        for (var j = 0; j < doc.data().content[i].description.length; j++) {
+                            const data = {
+                                supportDocsDescription: doc.data().content[i].description[j],
+                                supportDocsTitle: doc.data().content[i].title,
+                            }
+                            supportContent.push(data);
+                        }
+                    }
 
-                    </td>
-                    </tr>
-                  );
-                })} 
-              {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>Processing Period</td>
-                      <td>{bursaryarray.applicationPeriod4.processingPeriod}</td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                    this.setState({
+                        requiredSupportingDocs: supportOthers,
+                        requiredSupportingDocsContent: supportContent
+                    });
+                }
 
-                    </td>
-                    </tr>
-                  );
-                })}
-                {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>Notification Period</td>
-                      <td>{bursaryarray.applicationPeriod4.notificationPeriod}</td>
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+                //Get Things to Note
+                if (doc.id === "bursary-06") {
+                    const thingsToNote = [];
 
-                    </td>
-                    </tr>
-                  );
-                })}
-               
-              <tr>
-                <th scope="col">Required Supporting Documents</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>{bursaryarray.requiredDocuments.description1}
-                        <tr><br/><b>Household Income-related Documents:</b></tr>
-                        <tr>{bursaryarray.requiredDocuments.HouseholdIncomeDocuments.householdDoc1}</tr>
-                        <tr>{bursaryarray.requiredDocuments.HouseholdIncomeDocuments.householdDoc2}</tr>
-                        <tr>{bursaryarray.requiredDocuments.HouseholdIncomeDocuments.householdDoc3}</tr>
-                        <tr>{bursaryarray.requiredDocuments.HouseholdIncomeDocuments.householdDoc4}</tr>
-                        <tr>{bursaryarray.requiredDocuments.HouseholdIncomeDocuments.householdDoc5}</tr>
-                        <tr>{bursaryarray.requiredDocuments.HouseholdIncomeDocuments.householdDoc6}</tr>
+                    for (var i = 0; i < doc.data().content.length; i++) {
+                        const data = {
+                            noteId: doc.id,
+                            noteContent: doc.data().content[i],
+                        }
+                        thingsToNote.push(data);
+                    }
+                    
+                    this.setState({
+                        thingsToNote: thingsToNote
+                    });
+                }
 
-                        <tr><br/><b>Results / Official Transcript:</b></tr>
-                        <tr>{bursaryarray.requiredDocuments.resultTranscript}</tr>
+                //Get Contact Information
+                if (doc.id === "bursary-07") {
+                    const contactInfo = [];
 
-                        <tr><br/><b>NRIC:</b></tr>
-                        <tr>{bursaryarray.requiredDocuments.NRIC}</tr>
+                    const data = {
+                        contactInfoId: doc.id,
+                        contactInfoEmail: doc.data().email,
+                    }
+                    contactInfo.push(data);
 
-                        <tr><br/><b>Expenses-related Documents:</b></tr>
-                        <tr>{bursaryarray.requiredDocuments.expensesDocument.expensesDocument1}</tr>
-                        <tr>{bursaryarray.requiredDocuments.expensesDocument.expensesDocument2}</tr>
+                    this.setState({
+                        contactInformation: contactInfo
+                    });
+                }
+            });
+        });
+    }
 
-                        <tr><br/><b>Personal Documents (If applicable):</b></tr>
-                        <tr>{bursaryarray.requiredDocuments.personalDocument.personalDocument1}</tr>
-                        <tr>{bursaryarray.requiredDocuments.personalDocument.personalDocument2}</tr>
-                        <tr>{bursaryarray.requiredDocuments.personalDocument.personalDocument3}</tr>
-                        <tr>{bursaryarray.requiredDocuments.personalDocument.personalDocument4}</tr>
-                        <tr>{bursaryarray.requiredDocuments.personalDocument.personalDocument5}</tr>
-                        <tr>{bursaryarray.requiredDocuments.personalDocument.personalDocument6}</tr>
-                        <tr>{bursaryarray.requiredDocuments.personalDocument.personalDocument7}</tr>
+    // handleFileUpload = (files) => {
+    //     this.setState({
+    //         files: files,
+    //     });
+    // };
 
-                        <tr><br/></tr>
-                        <tr>{bursaryarray.requiredDocuments.description2}</tr>                       
-                      
-                      </td>
-                      
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+    // handleSave = (mapImage) => {
+    //     const parentthis = this;
 
-                    </td>
-                    </tr>
-                  );
-                })}
+    //     if (this.state.files !== undefined) {
+    //         const foldername = "Bursary";
+    //         const file = this.state.files[0];
+    //         const storageRef = storage.ref(foldername);
+    //         const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
+    //         fileRef.on("state_changed", function (snapshot) {
+    //             fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+    //                 console.log("File available at", downloadURL);
 
-    
-              <tr>
-                <th scope="col">Things to Note</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.bursaryarray &&
-                this.state.bursaryarray.map((bursaryarray) => {
-                  return (
-                    <tr>
-                      <td>{bursaryarray.thingsToNote.thingsToNote1}
-                      <tr>{bursaryarray.thingsToNote.thingsToNote2}</tr>
-                      <tr>{bursaryarray.thingsToNote.thingsToNote3}</tr>
-                      <tr>{bursaryarray.thingsToNote.thingsToNote4}</tr>
-                      </td>
-                      
-                      <td>
-                        <button
-                          id={bursaryarray.id + "editbutton"}
-                        >
-                          Edit
-                        </button>
+    //                 const userRef = db.collection("Bursary").doc("simGlobalEducationBursary")
+    //                 .update({
+    //                     faqFile: downloadURL,
+    //                 })
+    //                 .then(function () {
+    //                     alert("Updated");
+    //                     window.location.reload();
+    //                 });
+    //             });
+    //             const progress = Math.round(
+    //                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+    //             );
+    //             if (progress != "100") {
+    //                 parentthis.setState({ progress: progress });
+    //             } else {
+    //                 parentthis.setState({ progress: "Uploaded!" });
+    //             }
+    //         });
+    //         console.log();
+    //     } else {
+    //         alert("No Files Selected");
+    //     }
+    // };
 
-                    </td>
-                    </tr>
-                  );
-                })}
+    //Edit Venue and Tenure of Bursary
+    handleValueTenureEditModal = (valueTenure) => {
+        if (this.state.valueTenureEditModal == false) {
+            this.setState({
+                valueTenureEditModal: true,
+                valueId: valueTenure.valueId,
+                valueDescription: valueTenure.valueDescription,
+            });
+        }
+        else {
+            this.setState({
+                valueTenureEditModal: false
+            });
+        }
+    }
 
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
-  }
+    //Edit Eligibility
+    handleEligibilityEditModal = (eligibility) => {
+        if (this.state.eligibilityEditModal == false) {
+            this.setState({
+                eligibilityEditModal: true,
+                eligibilityId: eligibility.eligibilityId,
+                eligibilityContent: eligibility.eligibilityContent,
+            });
+        }
+        else {
+            this.setState({
+                eligibilityEditModal: false
+            });
+        }
+    }
+
+    //Edit Repayment
+    handleRepaymentEditModal = (repayment) => {
+        if (this.state.repaymentEditModal == false) {
+            this.setState({
+                repaymentEditModal: true,
+                repaymentId: repayment.repaymentId,
+                repaymentDescription: repayment.repaymentDescription,
+            });
+        }
+        else {
+            this.setState({
+                repaymentEditModal: false
+            });
+        }
+    }
+
+    //Edit How to Apply
+    handleApplyEditModal = (apply) => {
+        if (this.state.howToApplyEditModal == false) {
+            this.setState({
+                howToApplyEditModal: true,
+                applyId: apply.applyId,
+                applyDescription: apply.applyDescription,
+                applySteps: apply.applySteps,
+            });
+        }
+        else {
+            this.setState({
+                howToApplyEditModal: false
+            });
+        }
+    }
+
+    //Edit Required Supporting Documents
+    handleSupportingDocsEditModal = () => {
+        if (this.state.supportingDocsEditModal == false) {
+            this.setState({
+                supportingDocsEditModal: true,
+            });
+        }
+        else {
+            this.setState({
+                supportingDocsEditModal: false
+            });
+        }
+    }
+
+    //Edit Things to Note
+    handleThingsToNoteEditModal = () => {
+        if (this.state.thingsToNoteEditModal == false) {
+            this.setState({
+                thingsToNoteEditModal: true,
+            });
+        }
+        else {
+            this.setState({
+                thingsToNoteEditModal: false
+            });
+        }
+    }
+
+    //Edit Contact Information
+    handleContactInfoEditModal = () => {
+        if (this.state.contactInfoEditModal == false) {
+            this.setState({
+                contactInfoEditModal: true,
+            });
+        }
+        else {
+            this.setState({
+                contactInfoEditModal: false
+            });
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <Container fluid className="Bursary-container">
+                    <NavBar isMA={true} />
+
+                        <Container fluid className="Bursary-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                            <Row>
+                                <Col md={2} style={{paddingRight: 0}}>
+                                    <SideNavBar />
+                                </Col>
+
+                                <Col md={10} style={{paddingLeft: 0}}>
+                                    <Container fluid id="Bursary-topContentContainer">
+                                        <Row id="Bursary-firstRow">
+                                            <Col md={12} className="text-left" id="Bursary-firstRowCol">
+                                                <h4 id="Bursary-title">SIM GE Bursary</h4>
+                                            </Col>
+                                        </Row>
+
+                                        <Row id="Bursary-secondRow">
+                                            <Col md={12} id="Bursary-secondRowCol">
+                                                <Accordion defaultActiveKey="valueTenureBursary">
+                                                    <Card>
+                                                        <div className="Bursary-Header">
+                                                            <Accordion.Toggle as={Card.Header} eventKey="valueTenureBursary">Value and Tenure of Bursary</Accordion.Toggle>
+                                                        </div>
+                                                        <Accordion.Collapse eventKey="valueTenureBursary">
+                                                            <Card.Body className="Bursary-cardBody">
+                                                                <Col md={12} className="text-center Bursary-tableColCon">
+                                                                    <Table responsive="sm" bordered hover className="Bursary-tableCon">
+                                                                        <thead id="Bursary-tableHeader">
+                                                                            <tr>
+                                                                                <th>Description</th>
+                                                                                <th id="Bursary-editHeading">Edit</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        {this.state.valueTenureBursary && this.state.valueTenureBursary.map((valueTenure) => {
+                                                                            return (
+                                                                                <tbody id="Bursary-tableBody" key={valueTenure.valueId}>
+                                                                                    <tr>
+                                                                                        <td className="text-left">{valueTenure.valueDescription}</td>
+                                                                                        <td><Button size="sm" id="Bursary-editBtn" onClick={() => this.handleValueTenureEditModal(valueTenure)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            )
+                                                                        })}
+                                                                    </Table>
+                                                                </Col>
+                                                            </Card.Body>
+                                                        </Accordion.Collapse>
+                                                    </Card>
+                                                    <Card>
+                                                        <div className="Bursary-Header">
+                                                            <Accordion.Toggle as={Card.Header} eventKey="eligibility">Eligibility</Accordion.Toggle>
+                                                        </div>
+                                                        <Accordion.Collapse eventKey="eligibility">
+                                                            <Card.Body className="Bursary-cardBody">
+                                                                <Col md={12} className="text-center Bursary-tableColCon">
+                                                                    <Table responsive="sm" bordered hover className="Bursary-tableCon">
+                                                                        <thead id="Bursary-tableHeader">
+                                                                            <tr>
+                                                                                <th>Content</th>
+                                                                                <th id="Bursary-editHeading">Edit</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        {this.state.eligibility && this.state.eligibility.map((eligibility) => {
+                                                                            return (
+                                                                                <tbody id="Bursary-tableBody">
+                                                                                    <tr>
+                                                                                        <td className="text-left">{eligibility.eligibilityContent}</td>
+                                                                                        <td><Button size="sm" id="Bursary-editBtn" onClick={() => this.handleEligibilityEditModal(eligibility)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            )
+                                                                        })}
+                                                                    </Table>
+                                                                </Col>
+                                                            </Card.Body>
+                                                        </Accordion.Collapse>
+                                                    </Card>
+                                                    <Card>
+                                                        <div className="Bursary-Header">
+                                                            <Accordion.Toggle as={Card.Header} eventKey="repayment">Repayment</Accordion.Toggle>
+                                                        </div>
+                                                        <Accordion.Collapse eventKey="repayment">
+                                                            <Card.Body className="Bursary-cardBody">
+                                                                <Col md={12} className="text-center Bursary-tableColCon">
+                                                                    <Table responsive="sm" bordered hover className="Bursary-tableCon">
+                                                                        <thead id="Bursary-tableHeader">
+                                                                            <tr>
+                                                                                <th>Description</th>
+                                                                                <th id="Bursary-editHeading">Edit</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        {this.state.repayment && this.state.repayment.map((repayment) => {
+                                                                            return (
+                                                                                <tbody id="Bursary-tableBody" key={repayment.repaymentId}>
+                                                                                    <tr>
+                                                                                        <td className="text-left">{repayment.repaymentDescription}</td>
+                                                                                        <td><Button size="sm" id="Bursary-editBtn" onClick={() => this.handleRepaymentEditModal(repayment)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            )
+                                                                        })}
+                                                                    </Table>
+                                                                </Col>
+                                                            </Card.Body>
+                                                        </Accordion.Collapse>
+                                                    </Card>
+                                                    <Card>
+                                                        <div className="Bursary-Header">
+                                                            <Accordion.Toggle as={Card.Header} eventKey="howToApply">How to Apply</Accordion.Toggle>
+                                                        </div>
+                                                        <Accordion.Collapse eventKey="howToApply">
+                                                            <Card.Body className="Bursary-cardBody">
+                                                                <Row id="Bursary-secondRow">
+                                                                    <Col md={12} className="text-center Bursary-tableColCon">
+                                                                        <Table responsive="sm" bordered hover className="Bursary-tableCon">
+                                                                            <thead id="Bursary-tableHeader">
+                                                                                <tr>
+                                                                                    <th>Description</th>
+                                                                                    <th>Steps</th>
+                                                                                    <th id="Bursary-editHeading">Edit</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            {this.state.howToApply && this.state.howToApply.map((apply) => {
+                                                                                return (
+                                                                                    <tbody id="Bursary-tableBody" key={apply.applyId}>
+                                                                                        <tr>
+                                                                                            <td className="text-left">{apply.applyDescription}</td>
+                                                                                            <td className="text-left">{apply.applySteps}</td>
+                                                                                            <td><Button size="sm" id="Bursary-editBtn" onClick={() => this.handleApplyEditModal(apply)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                )
+                                                                            })}
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Row>
+                                                                <Row id="Bursary-secondRow">
+                                                                    <Col md={12} className="text-center Bursary-tableColCon">
+                                                                        <Table responsive="sm" bordered hover className="Bursary-tableCon">
+                                                                            <thead id="Bursary-tableHeader">
+                                                                                <tr>
+                                                                                    <th>Application Period</th>
+                                                                                    <th>Closing Date</th>
+                                                                                    <th>Notification Period</th>
+                                                                                    <th>Processing Period</th>
+                                                                                    <th id="Bursary-editHeading">Edit</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            {this.state.howToApplyContent && this.state.howToApplyContent.map((applyContent) => {
+                                                                                return (
+                                                                                    <tbody id="Bursary-tableBody">
+                                                                                        <tr>
+                                                                                            <td>{applyContent.applyApplicationPeriod}</td>
+                                                                                            <td>{applyContent.applyClosingDate}</td>
+                                                                                            <td>{applyContent.applyNotificationPeriod}</td>
+                                                                                            <td>{applyContent.applyProcessingPeriod}</td>
+                                                                                            <td><Button size="sm" id="Bursary-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                )
+                                                                            })}
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Row>
+                                                            </Card.Body>
+                                                        </Accordion.Collapse>
+                                                    </Card>
+                                                    <Card>
+                                                        <div className="Bursary-Header">
+                                                            <Accordion.Toggle as={Card.Header} eventKey="requiredSupportingDocs">Required Supporting Documents</Accordion.Toggle>
+                                                        </div>
+                                                        <Accordion.Collapse eventKey="requiredSupportingDocs">
+                                                            <Card.Body className="Bursary-cardBody">
+                                                                <Row id="Bursary-secondRow">
+                                                                    <Col md={12} className="text-center Bursary-tableColCon">
+                                                                        <Table responsive="sm" bordered hover className="Bursary-tableCon">
+                                                                            <thead id="Bursary-tableHeader">
+                                                                                <tr>
+                                                                                    <th>SIM PDPA Policy</th>
+                                                                                    <th id="Bursary-editHeading">Edit</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            {this.state.requiredSupportingDocs && this.state.requiredSupportingDocs.map((requiredDocs) => {
+                                                                                return (
+                                                                                    <tbody id="Bursary-tableBody" key={requiredDocs.supportDocsId}>
+                                                                                        <tr>
+                                                                                            <td className="text-left">{requiredDocs.supportDocsSimPdpaPolicy}</td>
+                                                                                            <td><Button size="sm" id="Bursary-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                )
+                                                                            })}
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Row>
+                                                                <Row id="Bursary-secondRow">
+                                                                    <Col md={12} className="text-center Bursary-tableColCon">
+                                                                        <Table responsive="sm" bordered hover className="Bursary-tableCon">
+                                                                            <thead id="Bursary-tableHeader">
+                                                                                <tr>
+                                                                                    <th id="Bursary-titleHeading">Title</th>
+                                                                                    <th>Description</th>
+                                                                                    <th id="Bursary-editHeading">Edit</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            {this.state.requiredSupportingDocsContent && this.state.requiredSupportingDocsContent.map((requiredDocsContent) => {
+                                                                                return (
+                                                                                    <tbody id="Bursary-tableBody">
+                                                                                        <tr>
+                                                                                            <td><b>{requiredDocsContent.supportDocsTitle}</b></td>
+                                                                                            <td className="text-left">{requiredDocsContent.supportDocsDescription}</td>
+                                                                                            <td><Button size="sm" id="Bursary-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                )
+                                                                            })}
+                                                                        </Table>
+                                                                    </Col>
+                                                                </Row>
+                                                            </Card.Body>
+                                                        </Accordion.Collapse>
+                                                    </Card>
+                                                    <Card>
+                                                        <div className="Bursary-Header">
+                                                            <Accordion.Toggle as={Card.Header} eventKey="thingsToNote">Things to Note</Accordion.Toggle>
+                                                        </div>
+                                                        <Accordion.Collapse eventKey="thingsToNote">
+                                                            <Card.Body className="Bursary-cardBody">
+                                                                <Col md={12} className="text-center Bursary-tableColCon">
+                                                                    <Table responsive="sm" bordered hover className="Bursary-tableCon">
+                                                                        <thead id="Bursary-tableHeader">
+                                                                            <tr>
+                                                                                <th>Content</th>
+                                                                                <th id="Bursary-editHeading">Edit</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        {this.state.thingsToNote && this.state.thingsToNote.map((note) => {
+                                                                            return (
+                                                                                <tbody id="Bursary-tableBody">
+                                                                                    <tr>
+                                                                                        <td className="text-left">{note.noteContent}</td>
+                                                                                        <td><Button size="sm" id="Bursary-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            )
+                                                                        })}
+                                                                    </Table>
+                                                                </Col>
+                                                            </Card.Body>
+                                                        </Accordion.Collapse>
+                                                    </Card>
+                                                    <Card>
+                                                        <div className="Bursary-Header">
+                                                            <Accordion.Toggle as={Card.Header} eventKey="contactInfo">Contact Information</Accordion.Toggle>
+                                                        </div>
+                                                        <Accordion.Collapse eventKey="contactInfo">
+                                                            <Card.Body className="Bursary-cardBody">
+                                                                <Col md={12} className="text-center Bursary-tableColCon">
+                                                                    <Table responsive="sm" bordered hover className="Bursary-tableCon">
+                                                                        <thead id="Bursary-tableHeader">
+                                                                            <tr>
+                                                                                <th>Email</th>
+                                                                                <th id="Bursary-editHeading">Edit</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        {this.state.contactInformation && this.state.contactInformation.map((contactInfo) => {
+                                                                            return (
+                                                                                <tbody id="Bursary-tableBody" key={contactInfo.contactInfoId}>
+                                                                                    <tr>
+                                                                                        <td>{contactInfo.contactInfoEmail}</td>
+                                                                                        <td><Button size="sm" id="Bursary-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            )
+                                                                        })}
+                                                                    </Table>
+                                                                </Col>
+                                                            </Card.Body>
+                                                        </Accordion.Collapse>
+                                                    </Card>
+                                                </Accordion>
+                                            </Col>
+                                        </Row>
+
+                                    </Container>
+                                </Col>
+                            </Row>    
+                        </Container>                    
+
+                    <Footer />
+                </Container>
+
+                {/* Venue and Tenure of Bursary Edit Modal */}
+                {this.state.valueTenureEditModal == true ? 
+                    <Modal show={this.state.valueTenureEditModal} onHide={this.handleValueTenureEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Bursary-modalTitle" className="w-100">Edit Value and Tenure of Bursary</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-textAreas" as="textarea" rows="4" type="text" name="valueDescription" placeholder="Value and Tenure of Bursary's Description" required defaultValue={this.state.valueDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Bursary-editFooter">
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-saveBtn" type="submit">Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-cancelBtn" onClick={this.handleValueTenureEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Eligibility Edit Modal */}
+                {this.state.eligibilityEditModal == true ? 
+                    <Modal show={this.state.eligibilityEditModal} onHide={this.handleEligibilityEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Bursary-modalTitle" className="w-100">Edit Eligibility</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-textAreas" as="textarea" rows="4" type="text" name="eligibilityContent" placeholder="Eligibility's Content" required defaultValue={this.state.eligibilityContent} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Bursary-editFooter">
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-saveBtn" type="submit">Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-cancelBtn" onClick={this.handleEligibilityEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Repayment Edit Modal */}
+                {this.state.repaymentEditModal == true ? 
+                    <Modal show={this.state.repaymentEditModal} onHide={this.handleRepaymentEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Bursary-modalTitle" className="w-100">Edit Repayment</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-textAreas" as="textarea" rows="4" type="text" name="repaymentDescription" placeholder="Repayment's Description" required defaultValue={this.state.repaymentDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Bursary-editFooter">
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-saveBtn" type="submit">Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-cancelBtn" onClick={this.handleRepaymentEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* How to Apply Edit Modal */}
+                {this.state.howToApplyEditModal == true ? 
+                    <Modal show={this.state.howToApplyEditModal} onHide={this.handleApplyEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Bursary-modalTitle" className="w-100">Edit How to Apply</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-textAreas" as="textarea" rows="4" type="text" name="applyDescription" placeholder="How to Apply's Description" required defaultValue={this.state.applyDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faShoePrints}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-textAreas" as="textarea" rows="4" type="text" name="applySteps" placeholder="How to Apply's Steps" required defaultValue={this.state.applySteps} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage"></div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Bursary-editFooter">
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-saveBtn" type="submit">Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-cancelBtn" onClick={this.handleApplyEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+            </div>
+        );
+    }
 }
 export default SIMGEBursary;

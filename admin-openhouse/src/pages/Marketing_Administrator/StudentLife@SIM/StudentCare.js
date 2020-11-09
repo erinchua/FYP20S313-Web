@@ -685,6 +685,7 @@ class StudentCare extends Component {
             this.setState({
                 workEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -702,6 +703,7 @@ class StudentCare extends Component {
             this.setState({
                 activityEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -719,6 +721,7 @@ class StudentCare extends Component {
             this.setState({
                 studentWellnessEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -736,6 +739,7 @@ class StudentCare extends Component {
             this.setState({
                 counsellingServiceEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -753,6 +757,7 @@ class StudentCare extends Component {
             this.setState({
                 peerSupportEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -770,6 +775,7 @@ class StudentCare extends Component {
             this.setState({
                 wellnessAdvocatesEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 

@@ -671,7 +671,7 @@ class ProgrammeTalkSchedule extends Component {
                                             <td className="progTalkScheduleData_Venue text-left">{day2.venue}</td>
                                             <td className="progTalkScheduleData_Capacity text-center">{day2.capacityLimit}</td>
                                             <td className="progTalkScheduleData_Discipline text-center">
-                                            {day2.discipline && day2.discipline.map((discipline) => {
+                                              {day2.discipline && day2.discipline.map((discipline) => {
                                                 return(
                                                   <Row className="justify-content-center">
                                                     <Col className="text-left">- {discipline}</Col>
