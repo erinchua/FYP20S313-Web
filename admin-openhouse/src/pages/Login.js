@@ -64,20 +64,18 @@ class Login extends Component {
                     } else {
                         snapshot.forEach((doc) => {
                             /* Decrypt password  */
-                            // const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
+                            const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
 
-                            // if(decryptPassword){
-                            //     console.log("decrypt: " + decryptPassword)
-
-                            if (doc.data().administratorType === "Marketing Administrator") {
-                                this.setState({ user: "Marketing Administrator" });
-                                history.push("/MAHome");
-                                window.location.reload();
-                            } else {
-                                history.push("/Login");
-                                window.location.reload();
+                            if(decryptPassword){
+                                if (doc.data().administratorType === "Marketing Administrator") {
+                                    this.setState({ user: "Marketing Administrator" });
+                                    history.push("/MAHome");
+                                    window.location.reload();
+                                } else {
+                                    history.push("/Login");
+                                    window.location.reload();
+                                }
                             }
-                            // }
                         });
                     }
                 });
@@ -100,19 +98,19 @@ class Login extends Component {
                     } else {
                         snapshot.forEach((doc) => {
                             /* Decrypt password  */
-                            // const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
+                            const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
 
-                            // if(decryptPassword){
-                            //     console.log("decrypt: " + decryptPassword)
-                            if (doc.data().administratorType === "Super Administrator") {
-                                this.setState({ user: "Super Administrator" });
-                                history.push("/SAHome");
-                                window.location.reload();
-                            } else {
-                                history.push("/Login");
-                                window.location.reload();
+                            if(decryptPassword){
+
+                                if (doc.data().administratorType === "Super Administrator") {
+                                    this.setState({ user: "Super Administrator" });
+                                    history.push("/SAHome");
+                                    window.location.reload();
+                                } else {
+                                    history.push("/Login");
+                                    window.location.reload();
+                                }
                             }
-                            // }
                         });
                     }
                 });
@@ -135,20 +133,19 @@ class Login extends Component {
                     } else {
                         snapshot.forEach((doc) => {
                             /* Decrypt password  */
-                            // const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
+                            const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
 
-                            // if(decryptPassword){
-                            //     console.log("decrypt: " + decryptPassword)
+                            if(decryptPassword){
 
-                            if (doc.data().administratorType === "Crew") {
-                                this.setState({ user: "Crew" });
-                                history.push("/AttendanceMarkingScanner");
-                                window.location.reload();
-                            } else {
-                                history.push("/Login");
-                                window.location.reload();
+                                if (doc.data().administratorType === "Crew") {
+                                    this.setState({ user: "Crew" });
+                                    history.push("/AttendanceMarkingScanner");
+                                    window.location.reload();
+                                } else {
+                                    history.push("/Login");
+                                    window.location.reload();
+                                }
                             }
-                            //}
                         });
                     }
                 });
@@ -253,21 +250,21 @@ class Login extends Component {
         }
 
         auth
-            .signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then((u) => {
-                if (accounttype === "marketing") {
-                    this.marketingauthListener();
-                } else if (accounttype === "super") {
-                    this.superauthListener();
-                } else if (accounttype === "crew") {
-                    this.crewauthListener();
-                }
-            })
-            .catch((error) => {
-                //Alert box for login failure
-                this.setState({ showAlert: true });
-                console.log("Login Failure");
-            });
+        .signInWithEmailAndPassword(this.state.email, this.state.password)
+        .then((u) => {
+            if (accounttype === "marketing") {
+                this.marketingauthListener();
+            } else if (accounttype === "super") {
+                this.superauthListener();
+            } else if (accounttype === "crew") {
+                this.crewauthListener();
+            }
+        })
+        .catch((error) => {
+            //Alert box for login failure
+            this.setState({ showAlert: true });
+            console.log("Login Failure");
+        });
     }
 
     handleChange(e) {
