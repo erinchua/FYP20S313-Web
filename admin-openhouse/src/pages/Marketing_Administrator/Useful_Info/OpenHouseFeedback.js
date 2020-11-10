@@ -133,7 +133,6 @@ class OpenHouseFeedback extends Component {
               </Col>
             </Row>
 
-
           </Container>
 
           <Footer />
