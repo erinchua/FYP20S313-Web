@@ -1,4 +1,4 @@
-import { Container, Row, Col, Table, Button, Modal, Form, Tab, Nav, Accordion, Card } from 'react-bootstrap';
+import { Container, Row, Col, Table, Button, Modal, Form, Accordion, Card } from 'react-bootstrap';
 import React, { Component } from "react";
 import { auth, db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
@@ -9,8 +9,7 @@ import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faCalendarAlt, faCalendarCheck, faEdit, faEnvelopeOpen, faFileAlt, faHeading, faHourglassHalf, faPhone, faShoePrints, faStickyNote } from '@fortawesome/free-solid-svg-icons';
-import { faInternetExplorer } from '@fortawesome/free-brands-svg-icons';
+import { faBell, faCalendarAlt, faCalendarCheck, faEdit, faEnvelopeOpen, faFileAlt, faHeading, faHourglassHalf, faShoePrints, faStickyNote } from '@fortawesome/free-solid-svg-icons';
 
 const initialStates = {
     valueDescriptionError: "",
@@ -406,10 +405,12 @@ class SIMGEBursary extends Component {
 
                 var splitDescription = this.state.description.split('\n- ');
                 var splitPreviousDescription = this.state.previousSupportDocsDescription.split('\n- ');
+                
                 var previous = {
                     title: this.state.previousSupportDocsTitle,
                     description: splitPreviousDescription,
                 }
+
                 var current = {
                     title: this.state.title,
                     description: splitDescription,
@@ -766,7 +767,7 @@ class SIMGEBursary extends Component {
         let supportTitleError = "";
 
         if (!this.state.description) {
-            supportDescriptionError = "Please enter a valid description. Do enter a line break for next link and include '- ' at the start of the sentence. ";
+            supportDescriptionError = "Please enter a valid description. Do enter a line break for next link and include '- ' at the start of the sentence.";
         }
 
         if (!this.state.title) {
