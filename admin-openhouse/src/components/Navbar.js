@@ -53,6 +53,7 @@ export default class NavBar extends React.Component {
 
     /* Change Password Modal */
     handleChangePasswordModal = () => {
+        console.log("Open")
         if (this.state.changePasswordModal == false) {
             this.setState({
                 changePasswordModal: true,
@@ -62,7 +63,6 @@ export default class NavBar extends React.Component {
             this.setState({
                 changePasswordModal: false
             });
-            //this.resetForm();
         }
     };
 
