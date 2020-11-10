@@ -68,7 +68,7 @@ const renderClubs_Councils_SIM = (props) => (
 //Tooltip for Scholarships
 const renderScholarships = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-        <Nav.Link href="/Scholarship" className="sideNavBar-navLinks">SIM GE Scholarship</Nav.Link>
+        <Nav.Link href="/SIMGEScholarship" className="sideNavBar-navLinks">SIM GE Scholarship</Nav.Link>
         <Nav.Link href="/Sponsors" className="sideNavBar-navLinks">Sponsors</Nav.Link>
     </Tooltip>
 );
