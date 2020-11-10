@@ -231,6 +231,7 @@
     color: #434343;
     font-size: 85%;
     word-wrap: break-word;
+    word-break: break-all;
 }
 
 .pastRecData_FileUrl {
