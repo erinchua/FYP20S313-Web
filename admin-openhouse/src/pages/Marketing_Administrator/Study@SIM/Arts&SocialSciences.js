@@ -460,7 +460,8 @@ class StudySIM_ArtsSocialSciences extends Component {
           <EditStudySIMProgModal
             programmeName={this.state.programmeName}
             University={this.state.University}
-            category={this.state.category}
+            // category={this.state.category}
+            logoUrl={this.state.Logofile}
             ModeOfStudy={this.state.ModeOfStudy}
             discipline1={this.state.discipline1}
             discipline2={this.state.discipline2}
@@ -495,11 +496,11 @@ class StudySIM_ArtsSocialSciences extends Component {
             universities = {this.state.universities}
             disciplines = {this.state.disciplines}
             subDisciplines = {this.state.subDisciplines}
+
             // Button props
             handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
             handleCancelEdit={this.handleEditStudySIMProgModal}
             academicLvls={this.state.academicLvls}
-            
           />
         </Modal>
 

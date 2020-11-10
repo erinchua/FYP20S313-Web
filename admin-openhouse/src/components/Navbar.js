@@ -104,7 +104,7 @@ export default class NavBar extends React.Component {
                                             <Nav.Link id="MAEmail" className="text-center">{this.state.useremail}</Nav.Link>
                                         </Nav.Item>
                                         
-                                        <NavDropdown id="navDropdown" alignRight>
+                                        <NavDropdown id="navDropdown" alignRight title=''>
                                             <NavDropdown.Item className="navDropdownItem" onClick={this.handleChangePasswordModal}>
                                                 <FontAwesomeIcon className="dropdownNavIcon" icon={faLock} /> Change Password
                                             </NavDropdown.Item>

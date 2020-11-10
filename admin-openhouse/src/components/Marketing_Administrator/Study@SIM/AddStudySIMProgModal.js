@@ -553,7 +553,7 @@ export default class AddStudySIMProgModal extends React.Component {
       progNameError = "Please enter a valid programme name!";
     }
 
-    if (!this.state.logoUrl && this.state.logoUrl.includes(".exe")) {
+    if (!this.state.logoUrl) {
       logoUrlError = "Please upload a logo!";
     }
 
