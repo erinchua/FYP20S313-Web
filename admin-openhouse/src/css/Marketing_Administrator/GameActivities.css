@@ -120,11 +120,13 @@
 .GamesActivities-tableHeader {
     color: #424242;
     font-size: 90%;
+    background-color: white;
 }
 
 .GamesActivities-tableBody {
     color: #434343;
     font-size: 85%;
+    background-color: white;
 }
 
 #GamesActivities-editBtn {

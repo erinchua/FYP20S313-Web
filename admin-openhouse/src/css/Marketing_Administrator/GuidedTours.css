@@ -120,11 +120,13 @@
 .GuidedTours-tableHeader {
     color: #424242;
     font-size: 90%;
+    background-color: white;
 }
 
 .GuidedTours-tableBody {
     color: #434343;
     font-size: 85%;
+    background-color: white;
 }
 
 #GuidedTours-editBtn {

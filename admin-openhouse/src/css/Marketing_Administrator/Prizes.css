@@ -120,11 +120,13 @@
 .Prizes-tableHeader {
     color: #424242;
     font-size: 90%;
+    background-color: white;
 }
 
 .Prizes-tableBody {
     color: #434343;
     font-size: 85%;
+    background-color: white;
 }
 
 #Prizes-editBtn {

@@ -118,11 +118,13 @@
 #Bursary-tableHeader {
     color: #424242;
     font-size: 90%;
+    background-color: white;
 }
 
 #Bursary-tableBody {
     color: #434343;
     font-size: 85%;
+    background-color: white;
 }
 
 #Bursary-editBtn {

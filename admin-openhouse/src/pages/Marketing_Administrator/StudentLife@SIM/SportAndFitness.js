@@ -118,11 +118,15 @@ class SportAndFitness extends Component {
     }
 
     //Delete Modal
-    handleDelete = () => {
+    handleDelete = (sportsFitness) => {
         this.deleteModal = this.state.deleteModal;
         if (this.deleteModal == false) {
             this.setState({
                 deleteModal: true,
+                id: sportsFitness.id, 
+                clubsAndCouncilTitle: sportsFitness.clubsAndCouncilTitle,
+                categoryType: sportsFitness.categoryType, 
+                clubsAndCouncilsLogo: sportsFitness.clubsAndCouncilsLogo,
             });
         } else {
             this.setState({
@@ -177,7 +181,7 @@ class SportAndFitness extends Component {
                                                                     <td className="text-left">{sportsFitness.clubsAndCouncilDescription}</td>
                                                                     <td className="text-left">{sportsFitness.clubsAndCouncilTitle} Logo</td>
                                                                     <td><Button size="sm" id="SportsFitness-editBtn" onClick={() => this.handleEdit(sportsFitness)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                    <td><Button size="sm" id="SportsFitness-deleteBtn" onClick={() => [this.setState({id: sportsFitness.id, clubsAndCouncilTitle: sportsFitness.clubsAndCouncilTitle, categoryType: sportsFitness.categoryType, clubsAndCouncilsLogo: sportsFitness.clubsAndCouncilsLogo}), this.handleDelete()]}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                    <td><Button size="sm" id="SportsFitness-deleteBtn" onClick={() => this.handleDelete(sportsFitness)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
                                                                 </tr>
                                                             </tbody>
                                                         )
