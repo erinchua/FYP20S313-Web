@@ -1,4 +1,6 @@
 import React from 'react';
+import { auth } from "../config/firebase";
+import history from "../config/history";
 import { Modal, Form, Button, Col, Row } from 'react-bootstrap';
 
 import "../css/ForgetPasswordModal.css";
@@ -30,6 +32,34 @@ export default class ForgetPasswordModal extends React.Component {
 
         this.handleEmailChange = this.handleEmailChange.bind(this);
     }
+
+    ResetPassword = (e) => {
+        e.preventDefault();
+        var actionCodeSettings = {
+            // After password reset, the user will be give the ability to go back
+            // to this page.
+            url: "http://localhost:3000/",
+            handleCodeInApp: false
+        };
+    
+        auth
+        .sendPasswordResetEmail(this.state.email, actionCodeSettings)
+        .then(function () {
+            //alert("OK");
+            console.log("Reset email sent")
+            history.push("/Login");
+        })
+        .catch(function (error) {
+            //alert("No Such Email");
+            console.log("Email does not exist")
+        });
+    };
+
+    updateInput = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+    };
 
     /* Forget Password Modal Validations */
     handleEmailChange = (e) => {
@@ -85,17 +115,14 @@ export default class ForgetPasswordModal extends React.Component {
 
                         <Form.Row className="justify-content-center forgetPasswordModalEmailRow">
                             <Col size="12" className="text-left forgetPasswordModalEmailCol">
-                                <Form.Control name="email" type="email" placeholder="Email*" className="forgetPasswordFormText" required onFocus={this.handleEmailChange} onChange={this.handleEmailChange} value={this.state.email} noValidate />
+                                <Form.Control name="email" type="email" placeholder="Email*" className="forgetPasswordFormText" required onFocus={this.handleEmailChange} onChange={(e) => {this.handleEmailChange(e); this.updateInput(e);}} value={this.state.email} noValidate />
                                 {errors.email.length > 0 && <span className='error errorText'>{errors.email}</span>}
                             </Col>
                         </Form.Row>
 
                         <Form.Row className="justify-content-center">
                             <Col size="12" className="text-center forgetPasswordModalCol">
-                                {/* Add Send Email onclick function here */}
-                                <Button id="forgetPasswordModalSendEmailBtn" type="submit"> {/* onClick={ } */}
-                                    Send Email
-                                </Button>
+                                <Button id="forgetPasswordModalSendEmailBtn" type="submit" onClick={this.ResetPassword}>Send Email</Button>
                             </Col>
                         </Form.Row>
                     </Form>
