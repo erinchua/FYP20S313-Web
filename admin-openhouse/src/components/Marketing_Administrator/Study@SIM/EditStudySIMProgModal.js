@@ -9,7 +9,7 @@ import "../../../css/Marketing_Administrator/EditStudySIMProgModal.css";
 
 const initialStates = {
   progNameError: "",
-  logoFileError: "",
+  logoUrlError: "",
   universityError: "",
   academicLevelError: "",
   modeOfStudyError: "",
@@ -745,7 +745,7 @@ export default class EditStudySIMProgModal extends React.Component {
   //Validations for the Forms in Modals
   validate = () => {
     let progNameError = "";
-    let logoFileError = "";
+    let logoUrlError = "";
     let universityError = "";
     let academicLevelError = "";
     let modeOfStudyError = "";
@@ -757,15 +757,15 @@ export default class EditStudySIMProgModal extends React.Component {
     let intakeMonthsError = "";
     let durationError = "";
 
-    if (!(this.state.programme && this.state.programme.length >= 4)) {
+    if (!(String(this.state.programme).length >= 4)) {
       progNameError = "Please enter a valid programme name!";
     }
 
     if (!this.state.logoFile) {
-      logoFileError = "Please upload a logo!";
+      logoUrlError = "Please upload a logo!";
     }
     else if (this.state.logoFile.includes(".exe")) {
-      logoFileError = "File uploaded is executable. Please upload a valid image file!"
+      logoUrlError = "File uploaded is executable. Please upload a valid image file!"
     }
 
     if (!this.state.university) {
@@ -788,7 +788,7 @@ export default class EditStudySIMProgModal extends React.Component {
     //   entryQualError = "Please select at least 1 entry qualification!";
     // }
 
-    if (!this.state.subdisciplinecheckedItems.length == 0) {
+    if (this.state.subdisciplinecheckedItems.length == 0) {
       subDisciplineError = "Please select at least 1 sub-discipline!";
     }
 
@@ -816,10 +816,10 @@ export default class EditStudySIMProgModal extends React.Component {
       durationError = "Please enter duration details!";
     }
 
-    if (progNameError || logoFileError || universityError || academicLevelError || modeOfStudyError || disciplineError || entryQualError
+    if (progNameError || logoUrlError || universityError || academicLevelError || modeOfStudyError || disciplineError || entryQualError
       || subDisciplineError || aboutProgError || applicationPeriodError || intakeMonthsError || durationError) {
       this.setState({
-        progNameError, logoFileError, universityError, academicLevelError, modeOfStudyError, disciplineError, entryQualError, subDisciplineError,
+        progNameError, logoUrlError, universityError, academicLevelError, modeOfStudyError, disciplineError, entryQualError, subDisciplineError,
         subDisciplineError, aboutProgError, applicationPeriodError, intakeMonthsError, durationError
       });
       return false;
@@ -831,7 +831,7 @@ export default class EditStudySIMProgModal extends React.Component {
   resetForm = () => {
     this.setState({
       progNameError: "",
-      logoFileError: "",
+      logoUrlError: "",
       universityError: "",
       academicLevelError: "",
       modeOfStudyError: "",
@@ -893,11 +893,13 @@ export default class EditStudySIMProgModal extends React.Component {
                 {/* Logo File */}
                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-left">
+                    <Form.Label className="editStudySIMProgFormLabel">Logo File:</Form.Label>
+
                     <InputGroup className="editStudySIMProgFormColInputGrp">
                       <FormControl type="file" name="logoFile" id="editStudySIMProgForm_LogoFile" label="Logo File*" custom required onChange={(e) => { this.handleFileUpload(e.target.files); }} />
                     </InputGroup>
 
-                    <div className="errorMessage text-left">{this.state.logoFileError}</div>
+                    <div className="errorMessage text-left">{this.state.logoUrlError}</div>
                   </Col>
                 </Form.Row>
 

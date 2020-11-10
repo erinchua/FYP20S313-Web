@@ -101,7 +101,6 @@ class Login extends Component {
                             const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
 
                             if(decryptPassword){
-
                                 if (doc.data().administratorType === "Super Administrator") {
                                     this.setState({ user: "Super Administrator" });
                                     history.push("/SAHome");
@@ -136,7 +135,6 @@ class Login extends Component {
                             const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
 
                             if(decryptPassword){
-
                                 if (doc.data().administratorType === "Crew") {
                                     this.setState({ user: "Crew" });
                                     history.push("/AttendanceMarkingScanner");
