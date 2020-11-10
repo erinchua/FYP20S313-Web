@@ -163,7 +163,7 @@ class SAHome extends Component {
       this.setState(initialStates);
 
       this.state.password = randomGenPassword(10);
-      console.log("Plain Pwd: " + this.state.password)
+
       var password = this.state.password;
       var email = this.state.email;
       var name = this.state.fullname ;         
@@ -180,7 +180,7 @@ class SAHome extends Component {
           administratorType: this.state.administratorType,
           email: this.state.email,
           name: this.state.fullname,
-          password: passwordHash,
+          password: passwordHash
         })
         .then(dataSnapshot => {
           emailjs.init("user_wvpEVGrbniS4sAZqjDk2S");

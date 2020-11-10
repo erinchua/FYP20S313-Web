@@ -9,10 +9,30 @@ import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faEnvelopeOpen, faFileAlt, faLocationArrow, faPhone, faShoePrints } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faCalendarAlt, faCalendarCheck, faEdit, faEnvelopeOpen, faFileAlt, faHeading, faHourglassHalf, faPhone, faShoePrints, faStickyNote } from '@fortawesome/free-solid-svg-icons';
 import { faInternetExplorer } from '@fortawesome/free-brands-svg-icons';
 
+const initialStates = {
+    valueDescriptionError: "",
+    eligibilityContentError: "",
+    repaymentDescriptionError: "",
+    applyDescriptionError: "",
+    applyStepsError: "",
+    applyApplicationPeriodError: "",
+    applyNotificationPeriodError: "",
+    applyClosingDateError: "",
+    applyProcessingPeriodError: "",
+    supportDocsSimPdpaPolicyError: "",
+    supportDescriptionError: "",
+    supportTitleError: "",
+    noteContentError: "",
+    contactInfoEmailError: "",
+}
+
 class SIMGEBursary extends Component {
+
+    state = initialStates;
+
     constructor() {
         super();
         this.state = {
@@ -36,14 +56,22 @@ class SIMGEBursary extends Component {
             //Required Supporting Documents
             supportDocsId: "",
             supportDocsSimPdpaPolicy: "",
-            supportDocsDescription: "",
-            supportDocsTitle: "",
+            description: "",
+            title: "",
             //Things to Note
             noteId: "",
             noteContent: "",
             //Contact Information
             contactInfoId: "",
             contactInfoEmail: "",
+            //Others
+            previousData: "",
+            previousApplicationPeriod: "",
+            previousClosingDate: "",
+            previousNotificationPeriod: "",
+            previousProcessingPeriod: "",
+            previousSupportDocsTitle: "",
+            previousSupportDocsDescription: "",
             //Below states are for the functions
             valueTenureBursary: "",
             eligibility: "",
@@ -59,7 +87,9 @@ class SIMGEBursary extends Component {
             eligibilityEditModal: false,
             repaymentEditModal: false,
             howToApplyEditModal: false,
+            howToApplyContentEditModal: false,
             supportingDocsEditModal: false,
+            supportingDocsContentEditModal: false,
             thingsToNoteEditModal: false,
             contactInfoEditModal: false,
         };
@@ -176,7 +206,6 @@ class SIMGEBursary extends Component {
                 //Get Required Supporting Documents
                 if (doc.id === "bursary-05") {
                     const supportOthers = [];
-                    const supportContent = [];
 
                     const otherData = {
                         supportDocsId: doc.id,
@@ -184,19 +213,9 @@ class SIMGEBursary extends Component {
                     }
                     supportOthers.push(otherData);
 
-                    for (var i = 0; i < doc.data().content.length; i++) {
-                        for (var j = 0; j < doc.data().content[i].description.length; j++) {
-                            const data = {
-                                supportDocsDescription: doc.data().content[i].description[j],
-                                supportDocsTitle: doc.data().content[i].title,
-                            }
-                            supportContent.push(data);
-                        }
-                    }
-
                     this.setState({
                         requiredSupportingDocs: supportOthers,
-                        requiredSupportingDocsContent: supportContent
+                        requiredSupportingDocsContent: doc.data().content,
                     });
                 }
 
@@ -235,47 +254,231 @@ class SIMGEBursary extends Component {
         });
     }
 
-    // handleFileUpload = (files) => {
-    //     this.setState({
-    //         files: files,
-    //     });
-    // };
+    updateBursary = (parameter) => {
+        const isValueValid = this.validateValue();
+        const isEligibilityValid = this.validateEligibility();
+        const isRepaymentValid = this.validateRepayment();
+        const isApplyValid = this.validateApply();
+        const isApplyContentValid = this.validateApplyContent();
+        const isSupportValid = this.validateSupport();
+        const isSupportContentValid = this.validateSupportContent();
+        const isNoteValid = this.validateNote();
+        const isContactInfoValid = this.validateContactInfo();
 
-    // handleSave = (mapImage) => {
-    //     const parentthis = this;
+        //Value and Tenure of Bursary
+        if (parameter === this.state.valueId) {
+            if (isValueValid) {
+                this.setState(initialStates);
 
-    //     if (this.state.files !== undefined) {
-    //         const foldername = "Bursary";
-    //         const file = this.state.files[0];
-    //         const storageRef = storage.ref(foldername);
-    //         const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
-    //         fileRef.on("state_changed", function (snapshot) {
-    //             fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-    //                 console.log("File available at", downloadURL);
+                db.collection("Bursary").doc(parameter)
+                .update({
+                    description: this.state.valueDescription
+                })
+                .then(() => {
+                    console.log("Updated Description for Value and Tenure of Bursary!");
+                    this.setState({
+                        valueTenureEditModal: false
+                    });
+                    this.display();
+                });
+            }
+        }
 
-    //                 const userRef = db.collection("Bursary").doc("simGlobalEducationBursary")
-    //                 .update({
-    //                     faqFile: downloadURL,
-    //                 })
-    //                 .then(function () {
-    //                     alert("Updated");
-    //                     window.location.reload();
-    //                 });
-    //             });
-    //             const progress = Math.round(
-    //                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-    //             );
-    //             if (progress != "100") {
-    //                 parentthis.setState({ progress: progress });
-    //             } else {
-    //                 parentthis.setState({ progress: "Uploaded!" });
-    //             }
-    //         });
-    //         console.log();
-    //     } else {
-    //         alert("No Files Selected");
-    //     }
-    // };
+        //Eligibility
+        if (parameter === this.state.eligibilityId) {          
+            if (isEligibilityValid) {
+                this.setState(initialStates);
+
+                db.collection("Bursary").doc(parameter)
+                .update({
+                    content: firebase.firestore.FieldValue.arrayRemove(this.state.previousData)
+                })
+                .then(() => {
+                    db.collection("Bursary").doc(parameter)
+                    .update({
+                        content: firebase.firestore.FieldValue.arrayUnion(this.state.eligibilityContent)
+                    }).then(() => {
+                        console.log("Updated Eligibility Content!");
+                        this.setState({
+                            eligibilityEditModal: false,
+                        });
+                        this.display();
+                    });
+                });
+            }
+        }
+
+        //Repayment
+        if (parameter === this.state.repaymentId) {
+            if (isRepaymentValid) {
+                this.setState(initialStates);
+
+                db.collection("Bursary").doc(parameter)
+                .update({
+                    description: this.state.repaymentDescription
+                })
+                .then(() => {
+                    console.log("Updated Description for Repayment!");
+                    this.setState({
+                        repaymentEditModal: false
+                    });
+                    this.display();
+                });
+            }
+        }
+
+        //How to Apply
+        if (parameter === this.state.applyId) {
+            if (isApplyValid) {
+                this.setState(initialStates);
+
+                db.collection("Bursary").doc(parameter)
+                .update({
+                    description: this.state.applyDescription,
+                    steps: this.state.applySteps
+                })
+                .then(() => {
+                    console.log("Updated How to Apply!");
+                    this.setState({
+                        howToApplyEditModal: false
+                    });
+                    this.display();
+                });
+            }
+        }
+
+        if (parameter === "howToApplyContent") {
+            if (isApplyContentValid) {
+                this.setState(initialStates);
+
+                db.collection("Bursary").doc("bursary-04")
+                .update({
+                    content: firebase.firestore.FieldValue.arrayRemove({
+                        applicationPeriod: this.state.previousApplicationPeriod,
+                        closingDate: this.state.previousClosingDate,
+                        notificationPeriod: this.state.previousNotificationPeriod,
+                        processingPeriod: this.state.previousProcessingPeriod
+                    })
+                })
+                .then(() => {
+                    db.collection("Bursary").doc("bursary-04")
+                    .update({
+                        content: firebase.firestore.FieldValue.arrayUnion({
+                            applicationPeriod: this.state.applyApplicationPeriod,
+                            closingDate: this.state.applyClosingDate,
+                            notificationPeriod: this.state.applyNotificationPeriod,
+                            processingPeriod: this.state.applyProcessingPeriod
+                        })
+                    })
+                    .then(() => {
+                        console.log("Updated How to Apply's Content!");
+                        this.setState({
+                            howToApplyContentEditModal: false
+                        });
+                        this.display();
+                    });
+                });
+            }
+        }
+
+        //Required Supporting Documents
+        if (parameter === this.state.supportDocsId) {
+            if (isSupportValid) {
+                this.setState(initialStates);
+
+                db.collection("Bursary").doc(this.state.supportDocsId)
+                .update({
+                    simPdpaPolicy: this.state.supportDocsSimPdpaPolicy
+                })
+                .then(() => {
+                    console.log("Updated Required Supporting Documents' SIM PDPA Policy!");
+                    this.setState({
+                        supportingDocsEditModal: false
+                    });
+                    this.display();
+                });
+            }
+        }
+
+        if (parameter === "requiredSupportingDocuments") {
+            if (isSupportContentValid) {
+                this.setState(initialStates);
+
+                var splitDescription = this.state.description.split('\n- ');
+                var splitPreviousDescription = this.state.previousSupportDocsDescription.split('\n- ');
+                var previous = {
+                    title: this.state.previousSupportDocsTitle,
+                    description: splitPreviousDescription,
+                }
+                var current = {
+                    title: this.state.title,
+                    description: splitDescription,
+                }
+
+                db.collection("Bursary").doc("bursary-05")
+                .update({
+                    content: firebase.firestore.FieldValue.arrayRemove(previous)
+                })
+                .then(() => {
+                    db.collection("Bursary").doc("bursary-05")
+                    .update({
+                        content: firebase.firestore.FieldValue.arrayUnion(current)
+                    }).then(() => {
+                        console.log("Updated Required Supporting Documents!");
+                        this.setState({
+                            supportingDocsContentEditModal: false,
+                        });
+                        this.display();
+                    });
+                });
+            }
+        }
+
+        //Things to Note
+        if (parameter === this.state.noteId) {
+            if (isNoteValid) {
+                this.setState(initialStates);
+
+                db.collection("Bursary").doc(parameter)
+                .update({
+                    content: firebase.firestore.FieldValue.arrayRemove(this.state.previousData)
+                })
+                .then(() => {
+                    db.collection("Bursary").doc(parameter)
+                    .update({
+                        content: firebase.firestore.FieldValue.arrayUnion(this.state.noteContent)
+                    })
+                    .then(() => {
+                        console.log("Updated Thing to Note's Content!");
+                        this.setState({
+                            thingsToNoteEditModal: false
+                        });
+                        this.display();
+                    });
+                });
+            }
+        }
+
+        //Contact Information
+        if (parameter === this.state.contactInfoId) {
+            if (isContactInfoValid) {
+                this.setState(initialStates);
+
+                db.collection("Bursary").doc(parameter)
+                .update({
+                    email: this.state.contactInfoEmail
+                })
+                .then(() => {
+                    console.log("Updated Contact Information's Email!");
+                    this.setState({
+                        contactInfoEditModal: false
+                    });
+                    this.display();
+                });
+            }
+        }
+
+    }
 
     //Edit Venue and Tenure of Bursary
     handleValueTenureEditModal = (valueTenure) => {
@@ -290,6 +493,7 @@ class SIMGEBursary extends Component {
             this.setState({
                 valueTenureEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -300,12 +504,14 @@ class SIMGEBursary extends Component {
                 eligibilityEditModal: true,
                 eligibilityId: eligibility.eligibilityId,
                 eligibilityContent: eligibility.eligibilityContent,
+                previousData: eligibility.eligibilityContent,
             });
         }
         else {
             this.setState({
                 eligibilityEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -322,6 +528,7 @@ class SIMGEBursary extends Component {
             this.setState({
                 repaymentEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -339,49 +546,271 @@ class SIMGEBursary extends Component {
             this.setState({
                 howToApplyEditModal: false
             });
+            this.setState(initialStates);
+        }
+    }
+
+    //Edit How to Apply Content
+    handleApplyContentEditModal = (applyContent) => {
+        if (this.state.howToApplyContentEditModal == false) {
+            this.setState({
+                howToApplyContentEditModal: true,
+                applyApplicationPeriod: applyContent.applyApplicationPeriod,
+                applyNotificationPeriod: applyContent.applyNotificationPeriod,
+                applyClosingDate: applyContent.applyClosingDate,
+                applyProcessingPeriod: applyContent.applyProcessingPeriod,
+                previousApplicationPeriod: applyContent.applyApplicationPeriod,
+                previousNotificationPeriod: applyContent.applyNotificationPeriod,
+                previousClosingDate: applyContent.applyClosingDate,
+                previousProcessingPeriod: applyContent.applyProcessingPeriod,
+            });
+        }
+        else {
+            this.setState({
+                howToApplyContentEditModal: false
+            });
+            this.setState(initialStates);
         }
     }
 
     //Edit Required Supporting Documents
-    handleSupportingDocsEditModal = () => {
+    handleSupportingDocsEditModal = (supportDocs) => {
         if (this.state.supportingDocsEditModal == false) {
             this.setState({
                 supportingDocsEditModal: true,
+                supportDocsId: supportDocs.supportDocsId,
+                supportDocsSimPdpaPolicy: supportDocs.supportDocsSimPdpaPolicy,
             });
         }
         else {
             this.setState({
                 supportingDocsEditModal: false
             });
+            this.setState(initialStates);
+        }
+    }
+
+    //Edit Required Supporting Documents Content
+    handleSupportingDocsContentEditModal = (supportContent) => {
+        if (this.state.supportingDocsContentEditModal == false) {
+            this.setState({
+                supportingDocsContentEditModal: true,
+                title: supportContent.title,
+                description: supportContent.description.join('\n- '),
+                previousSupportDocsTitle: supportContent.title,
+                previousSupportDocsDescription: supportContent.description.join('\n- '),
+            });
+        }
+        else {
+            this.setState({
+                supportingDocsContentEditModal: false
+            });
+            this.setState(initialStates);
         }
     }
 
     //Edit Things to Note
-    handleThingsToNoteEditModal = () => {
+    handleThingsToNoteEditModal = (note) => {
         if (this.state.thingsToNoteEditModal == false) {
             this.setState({
                 thingsToNoteEditModal: true,
+                noteId: note.noteId,
+                noteContent: note.noteContent,
+                previousData: note.noteContent,
             });
         }
         else {
             this.setState({
                 thingsToNoteEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
     //Edit Contact Information
-    handleContactInfoEditModal = () => {
+    handleContactInfoEditModal = (contactInfo) => {
         if (this.state.contactInfoEditModal == false) {
             this.setState({
                 contactInfoEditModal: true,
+                contactInfoId: contactInfo.contactInfoId,
+                contactInfoEmail: contactInfo.contactInfoEmail,
             });
         }
         else {
             this.setState({
                 contactInfoEditModal: false
             });
+            this.setState(initialStates);
         }
+    }
+
+    //Validate Value and Tenure of Bursary
+    validateValue = () => {
+        let valueDescriptionError = "";
+
+        if (!this.state.valueDescription) {
+            valueDescriptionError = "Please enter a valid description.";
+        }
+
+        if (valueDescriptionError) {
+            this.setState({valueDescriptionError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validate Eligibility
+    validateEligibility = () => {
+        let eligibilityContentError = "";
+
+        if (!this.state.eligibilityContent) {
+            eligibilityContentError = "Please enter a valid description.";
+        }
+
+        if (eligibilityContentError) {
+            this.setState({eligibilityContentError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validate Repayment
+    validateRepayment = () => {
+        let repaymentDescriptionError = "";
+
+        if (!this.state.repaymentDescription) {
+            repaymentDescriptionError = "Please enter a valid description.";
+        }
+
+        if (repaymentDescriptionError) {
+            this.setState({repaymentDescriptionError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validate How to Apply
+    validateApply = () => {
+        let applyDescriptionError = "";
+        let applyStepsError = "";
+
+        if (!this.state.applyDescription) {
+            applyDescriptionError = "Please enter a valid description.";
+        }
+
+        if (!this.state.applySteps) {
+            applyStepsError = "Please enter the valid steps.";
+        }
+
+        if (applyDescriptionError || applyStepsError) {
+            this.setState({applyDescriptionError, applyStepsError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validate How to Apply
+    validateApplyContent = () => {
+        let applyApplicationPeriodError = "";
+        let applyClosingDateError = "";
+        let applyNotificationPeriodError = "";
+        let applyProcessingPeriodError = "";
+
+        if (!this.state.applyApplicationPeriod) {
+            applyApplicationPeriodError = "Please enter a valid application period. E.g. Quarter 1 - Jan to Mar";
+        }
+
+        if (!this.state.applyClosingDate) {
+            applyClosingDateError = "Please enter the valid closing date. E.g. 31 March";
+        }
+
+        if (!this.state.applyNotificationPeriod) {
+            applyNotificationPeriodError = "Please select a valid notification period.";
+        }
+
+        if (!this.state.applyProcessingPeriod) {
+            applyProcessingPeriodError = "Please enter a valid process period.";
+        }
+
+        if (applyApplicationPeriodError || applyClosingDateError || applyNotificationPeriodError || applyProcessingPeriodError) {
+            this.setState({applyApplicationPeriodError, applyClosingDateError, applyNotificationPeriodError, applyProcessingPeriodError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validate Required Supporting Documents
+    validateSupport = () => {
+        let supportDocsSimPdpaPolicyError = "";
+
+        if (!this.state.supportDocsSimPdpaPolicy) {
+            supportDocsSimPdpaPolicyError = "Please enter a valid link.";
+        }
+
+        if (supportDocsSimPdpaPolicyError) {
+            this.setState({supportDocsSimPdpaPolicyError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validate Required Supporting Documents
+    validateSupportContent = () => {
+        let supportDescriptionError = "";
+        let supportTitleError = "";
+
+        if (!this.state.description) {
+            supportDescriptionError = "Please enter a valid description. Do enter a line break for next link and include '- ' at the start of the sentence. ";
+        }
+
+        if (!this.state.title) {
+            supportTitleError = "Please select a valid title.";
+        }
+
+        if (supportDescriptionError || supportTitleError) {
+            this.setState({supportDescriptionError, supportTitleError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validate Things to Note
+    validateNote = () => {
+        let noteContentError = "";
+
+        if (!this.state.noteContent) {
+            noteContentError = "Please enter a valid description.";
+        }
+
+        if (noteContentError) {
+            this.setState({noteContentError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validate Contact Information
+    validateContactInfo = () => {
+        let contactInfoEmailError = "";
+
+        if (!this.state.contactInfoEmail.includes('@')) {
+            contactInfoEmailError = "Please enter a valid email.";
+        }
+
+        if (contactInfoEmailError) {
+            this.setState({contactInfoEmailError});
+            return false;
+        }
+
+        return true;
     }
 
     render() {
@@ -544,7 +973,7 @@ class SIMGEBursary extends Component {
                                                                                             <td>{applyContent.applyClosingDate}</td>
                                                                                             <td>{applyContent.applyNotificationPeriod}</td>
                                                                                             <td>{applyContent.applyProcessingPeriod}</td>
-                                                                                            <td><Button size="sm" id="Bursary-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><Button size="sm" id="Bursary-editBtn" onClick={() => this.handleApplyContentEditModal(applyContent)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                         </tr>
                                                                                     </tbody>
                                                                                 )
@@ -575,7 +1004,7 @@ class SIMGEBursary extends Component {
                                                                                     <tbody id="Bursary-tableBody" key={requiredDocs.supportDocsId}>
                                                                                         <tr>
                                                                                             <td className="text-left">{requiredDocs.supportDocsSimPdpaPolicy}</td>
-                                                                                            <td><Button size="sm" id="Bursary-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><Button size="sm" id="Bursary-editBtn" onClick={() => this.handleSupportingDocsEditModal(requiredDocs)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                         </tr>
                                                                                     </tbody>
                                                                                 )
@@ -593,13 +1022,21 @@ class SIMGEBursary extends Component {
                                                                                     <th id="Bursary-editHeading">Edit</th>
                                                                                 </tr>
                                                                             </thead>
-                                                                            {this.state.requiredSupportingDocsContent && this.state.requiredSupportingDocsContent.map((requiredDocsContent) => {
+                                                                            {this.state.requiredSupportingDocsContent && this.state.requiredSupportingDocsContent.map((content) => {
                                                                                 return (
                                                                                     <tbody id="Bursary-tableBody">
                                                                                         <tr>
-                                                                                            <td><b>{requiredDocsContent.supportDocsTitle}</b></td>
-                                                                                            <td className="text-left">{requiredDocsContent.supportDocsDescription}</td>
-                                                                                            <td><Button size="sm" id="Bursary-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><b>{content.title}</b></td>
+                                                                                            <td>
+                                                                                                <ul>
+                                                                                                    {content.description.map((desc) => {
+                                                                                                        return(
+                                                                                                            <li className="text-left">{desc}</li>
+                                                                                                        )
+                                                                                                    })}
+                                                                                                </ul>
+                                                                                            </td>
+                                                                                            <td><Button size="sm" id="Bursary-editBtn" onClick={() => this.handleSupportingDocsContentEditModal(content)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                         </tr>
                                                                                     </tbody>
                                                                                 )
@@ -629,7 +1066,7 @@ class SIMGEBursary extends Component {
                                                                                 <tbody id="Bursary-tableBody">
                                                                                     <tr>
                                                                                         <td className="text-left">{note.noteContent}</td>
-                                                                                        <td><Button size="sm" id="Bursary-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        <td><Button size="sm" id="Bursary-editBtn" onClick={() => this.handleThingsToNoteEditModal(note)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             )
@@ -658,7 +1095,7 @@ class SIMGEBursary extends Component {
                                                                                 <tbody id="Bursary-tableBody" key={contactInfo.contactInfoId}>
                                                                                     <tr>
                                                                                         <td>{contactInfo.contactInfoEmail}</td>
-                                                                                        <td><Button size="sm" id="Bursary-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                        <td><Button size="sm" id="Bursary-editBtn" onClick={() => this.handleContactInfoEditModal(contactInfo)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             )
@@ -696,7 +1133,7 @@ class SIMGEBursary extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Bursary-textAreas" as="textarea" rows="4" type="text" name="valueDescription" placeholder="Value and Tenure of Bursary's Description" required defaultValue={this.state.valueDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.valueDescriptionError}</div>
                                             </Form.Group>
                                         </Form.Group>                     
                                     </Form.Group>
@@ -706,7 +1143,7 @@ class SIMGEBursary extends Component {
                                 <Container>
                                     <Row id="Bursary-editFooter">
                                         <Col md={6} className="Bursary-editCol">
-                                            <Button id="Bursary-saveBtn" type="submit">Save Changes</Button>
+                                            <Button id="Bursary-saveBtn" type="submit" onClick={() => this.updateBursary(this.state.valueId)}>Save Changes</Button>
                                         </Col>
                                         <Col md={6} className="Bursary-editCol">
                                             <Button id="Bursary-cancelBtn" onClick={this.handleValueTenureEditModal}>Cancel</Button>
@@ -734,7 +1171,7 @@ class SIMGEBursary extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Bursary-textAreas" as="textarea" rows="4" type="text" name="eligibilityContent" placeholder="Eligibility's Content" required defaultValue={this.state.eligibilityContent} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.eligibilityContentError}</div>
                                             </Form.Group>
                                         </Form.Group>                     
                                     </Form.Group>
@@ -744,7 +1181,7 @@ class SIMGEBursary extends Component {
                                 <Container>
                                     <Row id="Bursary-editFooter">
                                         <Col md={6} className="Bursary-editCol">
-                                            <Button id="Bursary-saveBtn" type="submit">Save Changes</Button>
+                                            <Button id="Bursary-saveBtn" type="submit" onClick={() => this.updateBursary(this.state.eligibilityId)}>Save Changes</Button>
                                         </Col>
                                         <Col md={6} className="Bursary-editCol">
                                             <Button id="Bursary-cancelBtn" onClick={this.handleEligibilityEditModal}>Cancel</Button>
@@ -772,7 +1209,7 @@ class SIMGEBursary extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Bursary-textAreas" as="textarea" rows="4" type="text" name="repaymentDescription" placeholder="Repayment's Description" required defaultValue={this.state.repaymentDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.repaymentDescriptionError}</div>
                                             </Form.Group>
                                         </Form.Group>                     
                                     </Form.Group>
@@ -782,7 +1219,7 @@ class SIMGEBursary extends Component {
                                 <Container>
                                     <Row id="Bursary-editFooter">
                                         <Col md={6} className="Bursary-editCol">
-                                            <Button id="Bursary-saveBtn" type="submit">Save Changes</Button>
+                                            <Button id="Bursary-saveBtn" type="submit" onClick={() => this.updateBursary(this.state.repaymentId)}>Save Changes</Button>
                                         </Col>
                                         <Col md={6} className="Bursary-editCol">
                                             <Button id="Bursary-cancelBtn" onClick={this.handleRepaymentEditModal}>Cancel</Button>
@@ -810,7 +1247,7 @@ class SIMGEBursary extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Bursary-textAreas" as="textarea" rows="4" type="text" name="applyDescription" placeholder="How to Apply's Description" required defaultValue={this.state.applyDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.applyDescriptionError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -821,7 +1258,7 @@ class SIMGEBursary extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Bursary-textAreas" as="textarea" rows="4" type="text" name="applySteps" placeholder="How to Apply's Steps" required defaultValue={this.state.applySteps} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.applyStepsError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -831,10 +1268,265 @@ class SIMGEBursary extends Component {
                                 <Container>
                                     <Row id="Bursary-editFooter">
                                         <Col md={6} className="Bursary-editCol">
-                                            <Button id="Bursary-saveBtn" type="submit">Save Changes</Button>
+                                            <Button id="Bursary-saveBtn" type="submit" onClick={() => this.updateBursary(this.state.applyId)}>Save Changes</Button>
                                         </Col>
                                         <Col md={6} className="Bursary-editCol">
                                             <Button id="Bursary-cancelBtn" onClick={this.handleApplyEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* How to Apply Content Edit Modal */}
+                {this.state.howToApplyContentEditModal == true ? 
+                    <Modal show={this.state.howToApplyContentEditModal} onHide={this.handleApplyContentEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Bursary-modalTitle" className="w-100">Edit How to Apply</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faCalendarAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-textAreas" as="textarea" rows="2" type="text" name="applyApplicationPeriod" placeholder="How to Apply's Application Period" required defaultValue={this.state.applyApplicationPeriod} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.applyApplicationPeriodError}</div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faCalendarCheck}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-textAreas" as="textarea" rows="2" type="text" name="applyClosingDate" placeholder="How to Apply's Closing Date" required defaultValue={this.state.applyClosingDate} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.applyClosingDateError}</div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faBell}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-inputFields" as="select" name="applyNotificationPeriod" required defaultValue={this.state.applyNotificationPeriod} onChange={this.updateInput} noValidate>
+                                                    <option value="">Select a Period</option>
+                                                    <option value="January">January</option>
+                                                    <option value="February">February</option>
+                                                    <option value="March">March</option>
+                                                    <option value="April">April</option>
+                                                    <option value="May">May</option>
+                                                    <option value="June">June</option>
+                                                    <option value="July">July</option>
+                                                    <option value="August">August</option>
+                                                    <option value="September">September</option>
+                                                    <option value="October">October</option>
+                                                    <option value="November">November</option>
+                                                    <option value="December">December</option>
+                                                </Form.Control>
+                                                <div className="errorMessage">{this.state.applyNotificationPeriodError}</div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faHourglassHalf}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-textAreas" as="textarea" rows="2" type="text" name="applyProcessingPeriod" placeholder="How to Apply's Processing Period" required defaultValue={this.state.applyProcessingPeriod} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.applyProcessingPeriodError}</div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Bursary-editFooter">
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-saveBtn" type="submit" onClick={() => this.updateBursary("howToApplyContent")}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-cancelBtn" onClick={this.handleApplyContentEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Required Supporting Documents Edit Modal */}
+                {this.state.supportingDocsEditModal == true ? 
+                    <Modal show={this.state.supportingDocsEditModal} onHide={this.handleSupportingDocsEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Bursary-modalTitle" className="w-100">Edit Required Supporting Documents</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-textAreas" as="textarea" rows="2" type="text" name="supportDocsSimPdpaPolicy" placeholder="Required Supporting Documents' SIM PDPA Policy" required defaultValue={this.state.supportDocsSimPdpaPolicy} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.supportDocsSimPdpaPolicyError}</div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Bursary-editFooter">
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-saveBtn" type="submit" onClick={() => this.updateBursary(this.state.supportDocsId)}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-cancelBtn" onClick={this.handleSupportingDocsEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Required Supporting Documents Content Edit Modal */}
+                {this.state.supportingDocsContentEditModal == true ? 
+                    <Modal show={this.state.supportingDocsContentEditModal} onHide={this.handleSupportingDocsContentEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Bursary-modalTitle" className="w-100">Edit Required Supporting Documents</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faHeading}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-inputFields" as="select" name="title" placeholder="Required Supporting Documents' Title" required defaultValue={this.state.title} onChange={this.updateInput} noValidate>
+                                                    <option value="">Select a Title</option>
+                                                    <option value="Household Income-related Documents">Household Income-related Documents</option>
+                                                    <option value="Results / Official Transcript">Results / Official Transcript</option>
+                                                    <option value="NRIC">NRIC</option>
+                                                    <option value="Expenses-related Documents">Expenses-related Documents</option>
+                                                    <option value="Personal-related Documents (If applicable)">Personal-related Documents (If applicable)</option>
+                                                </Form.Control>
+                                                <div className="errorMessage">{this.state.supportTitleError}</div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faFileAlt}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-textAreas" as="textarea" rows="6" type="text" name="description" placeholder="Required Supporting Documents' Description" required defaultValue={this.state.description} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.supportDescriptionError}</div>
+                                            </Form.Group>
+                                        </Form.Group>
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Bursary-editFooter">
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-saveBtn" type="submit" onClick={() => this.updateBursary("requiredSupportingDocuments")}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-cancelBtn" onClick={this.handleSupportingDocsContentEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Things to Note Edit Modal */}
+                {this.state.thingsToNoteEditModal == true ? 
+                    <Modal show={this.state.thingsToNoteEditModal} onHide={this.handleThingsToNoteEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Bursary-modalTitle" className="w-100">Edit Things to Note</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faStickyNote}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-textAreas" as="textarea" rows="3" type="text" name="noteContent" placeholder="Things to Note's Content" required defaultValue={this.state.noteContent} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.noteContentError}</div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Bursary-editFooter">
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-saveBtn" type="submit" onClick={() => this.updateBursary(this.state.noteId)}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-cancelBtn" onClick={this.handleThingsToNoteEditModal}>Cancel</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </Modal.Footer>
+                        </div>
+                    </Modal>: ''
+                }
+
+                {/* Contact Information Edit Modal */}
+                {this.state.contactInfoEditModal == true ? 
+                    <Modal show={this.state.contactInfoEditModal} onHide={this.handleContactInfoEditModal} size="lg" centered keyboard={false}>
+                        <Modal.Header closeButton className="justify-content-center">
+                            <Modal.Title id="Bursary-modalTitle" className="w-100">Edit Contact Information</Modal.Title>
+                        </Modal.Header>
+                        <div>
+                            <Modal.Body>
+                                <Form noValidate>
+                                    <Form.Group>
+                                        <Form.Group as={Row} className="Bursary-formGroup">
+                                            <Form.Group as={Col} md="1">
+                                                <FontAwesomeIcon size="lg" icon={faEnvelopeOpen}/>
+                                            </Form.Group> 
+                                            <Form.Group as={Col} md="7">
+                                                <Form.Control id="Bursary-textAreas" as="textarea" rows="2" type="text" name="contactInfoEmail" placeholder="Contact Information's Email" required defaultValue={this.state.contactInfoEmail} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.contactInfoEmailError}</div>
+                                            </Form.Group>
+                                        </Form.Group>                     
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Container>
+                                    <Row id="Bursary-editFooter">
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-saveBtn" type="submit" onClick={() => this.updateBursary(this.state.contactInfoId)}>Save Changes</Button>
+                                        </Col>
+                                        <Col md={6} className="Bursary-editCol">
+                                            <Button id="Bursary-cancelBtn" onClick={this.handleContactInfoEditModal}>Cancel</Button>
                                         </Col>
                                     </Row>
                                 </Container>

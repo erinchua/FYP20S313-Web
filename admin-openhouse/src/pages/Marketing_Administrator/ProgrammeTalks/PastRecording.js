@@ -102,9 +102,6 @@ class PastRecording extends Component {
       disciplineName: "",
       disciplineList: [],
 
-      // File Upload
-      fileLabel: this.state.url,
-
       addPastRecModal: false,
       editPastRecModal: false,
       deletePastRecModal: false
