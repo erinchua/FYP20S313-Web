@@ -7,6 +7,7 @@ import '../../../css/Marketing_Administrator/Brochures.css';
 import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
+import EditBrochuresModal from '../../../components/Marketing_Administrator/Brochures/EditBrochuresModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookReader, faCalendarAlt, faEdit, faEnvelopeOpen, faFileAlt, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import { faInternetExplorer } from '@fortawesome/free-brands-svg-icons';
@@ -25,6 +26,7 @@ class StudySIMBrochure extends Component {
             prospectusBrochures: "",
             programmeBrochures: "",
             //Below states are for the modals
+            editModal: false,
         };
     }
 
@@ -60,10 +62,9 @@ class StudySIMBrochure extends Component {
     }
 
     display() {
-
         //Display Prospectus Brochures
         db.collection("Brochures").where("id", ">=", "prospect-").where("id", "<=", "prospect-" + "\uf8ff")
-        .get().then((snapshot) => {
+        .onSnapshot((snapshot) => {
             const prospectusBrochures = [];
 
             snapshot.forEach((doc) => {
@@ -82,7 +83,7 @@ class StudySIMBrochure extends Component {
 
         //Display University Brochures
         db.collection("Brochures").where("university", "!=", "")
-        .get().then((snapshot) => {
+        .onSnapshot((snapshot) => {
             const programmeBrochures = [];
 
             snapshot.forEach((doc) => {
@@ -393,6 +394,25 @@ class StudySIMBrochure extends Component {
             console.log();
         } 
     };
+
+    handleEdit = (parameter) => {
+        this.editModal = this.state.editModal;
+        if (this.editModal == false) {
+            this.setState({
+                editModal: true,
+                id: parameter.id,
+                description: parameter.description,
+                brochureUrl: parameter.brochureUrl,
+                imageUrl: parameter.imageUrl,
+                university: parameter.university,
+            });
+        } else {
+            this.setState({
+                editModal: false
+            });
+            this.display();
+        }
+    }
   
 
     render() {
@@ -458,10 +478,10 @@ class StudySIMBrochure extends Component {
                                                                                         <tr>
                                                                                             <td>{prospectus.description}</td>
                                                                                             <td>
-                                                                                                <img src={prospectus.imageUrl} height="100" width="80"/>
+                                                                                                <img src={prospectus.imageUrl} height="120px" width="90px"/>
                                                                                             </td>
                                                                                             <td className="text-left">{prospectus.brochureUrl}</td>
-                                                                                            <td><Button size="sm" id="Brochures-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                            <td><Button size="sm" id="Brochures-editBtn" onClick={() => this.handleEdit(prospectus)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                         </tr>
                                                                                     </tbody>
                                                                                 )
@@ -497,10 +517,10 @@ class StudySIMBrochure extends Component {
                                                                                                                 <tr>
                                                                                                                     <td>{programme.description}</td>
                                                                                                                     <td>
-                                                                                                                        <img src={programme.imageUrl} height="100" width="80"/>
+                                                                                                                        <img src={programme.imageUrl} height="120px" width="90px"/>
                                                                                                                     </td>
                                                                                                                     <td className="text-left">{programme.brochureUrl}</td>
-                                                                                                                    <td><Button size="sm" id="Brochures-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                                    <td><Button size="sm" id="Brochures-editBtn" onClick={() => this.handleEdit(programme)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                                                                 </tr>
                                                                                                             </tbody>
                                                                                                         )
@@ -521,22 +541,28 @@ class StudySIMBrochure extends Component {
                                                                                             <Table responsive="sm" bordered hover className="Brochures-tableCon">
                                                                                                 <thead id="Brochures-tableHeader">
                                                                                                     <tr>
-                                                                                                        <th id="Brochures-SNoHeading">S/N</th>
                                                                                                         <th id="Brochures-descHeading">Description</th>
                                                                                                         <th id="Brochures-imageHeading">Image</th>
                                                                                                         <th>Brochure</th>
                                                                                                         <th id="Brochures-editHeading">Edit</th>
                                                                                                     </tr>
                                                                                                 </thead>
-                                                                                                <tbody id="Brochures-tableBody">
-                                                                                                    <tr>
-                                                                                                        <td></td>
-                                                                                                        <td></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td><Button size="sm" id="Brochures-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                                    </tr>
-                                                                                                </tbody>
+                                                                                                {this.state.programmeBrochures && this.state.programmeBrochures.map((programme) => {
+                                                                                                    if (programme.university === "University of Buffalo") {
+                                                                                                        return (
+                                                                                                            <tbody id="Brochures-tableBody" key={programme.id}>
+                                                                                                                <tr>
+                                                                                                                    <td>{programme.description}</td>
+                                                                                                                    <td>
+                                                                                                                        <img src={programme.imageUrl} height="120px" width="90px"/>
+                                                                                                                    </td>
+                                                                                                                    <td className="text-left">{programme.brochureUrl}</td>
+                                                                                                                    <td><Button size="sm" id="Brochures-editBtn" onClick={() => this.handleEdit(programme)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        )
+                                                                                                    }
+                                                                                                })}
                                                                                             </Table>
                                                                                         </Col>
                                                                                     </Card.Body>
@@ -552,22 +578,28 @@ class StudySIMBrochure extends Component {
                                                                                             <Table responsive="sm" bordered hover className="Brochures-tableCon">
                                                                                                 <thead id="Brochures-tableHeader">
                                                                                                     <tr>
-                                                                                                        <th id="Brochures-SNoHeading">S/N</th>
                                                                                                         <th id="Brochures-descHeading">Description</th>
                                                                                                         <th id="Brochures-imageHeading">Image</th>
                                                                                                         <th>Brochure</th>
                                                                                                         <th id="Brochures-editHeading">Edit</th>
                                                                                                     </tr>
                                                                                                 </thead>
-                                                                                                <tbody id="Brochures-tableBody">
-                                                                                                    <tr>
-                                                                                                        <td></td>
-                                                                                                        <td></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td><Button size="sm" id="Brochures-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                                    </tr>
-                                                                                                </tbody>
+                                                                                                {this.state.programmeBrochures && this.state.programmeBrochures.map((programme) => {
+                                                                                                    if (programme.university === "La Trobe University") {
+                                                                                                        return (
+                                                                                                            <tbody id="Brochures-tableBody" key={programme.id}>
+                                                                                                                <tr>
+                                                                                                                    <td>{programme.description}</td>
+                                                                                                                    <td>
+                                                                                                                        <img src={programme.imageUrl} height="120px" width="90px"/>
+                                                                                                                    </td>
+                                                                                                                    <td className="text-left">{programme.brochureUrl}</td>
+                                                                                                                    <td><Button size="sm" id="Brochures-editBtn" onClick={() => this.handleEdit(programme)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        )
+                                                                                                    }
+                                                                                                })}
                                                                                             </Table>
                                                                                         </Col>
                                                                                     </Card.Body>
@@ -583,22 +615,28 @@ class StudySIMBrochure extends Component {
                                                                                             <Table responsive="sm" bordered hover className="Brochures-tableCon">
                                                                                                 <thead id="Brochures-tableHeader">
                                                                                                     <tr>
-                                                                                                        <th id="Brochures-emailHeading">Email</th>
-                                                                                                        <th id="Brochures-contactHeading">Contact</th>
-                                                                                                        <th>Website</th>
-                                                                                                        <th>Description</th>
+                                                                                                        <th id="Brochures-descHeading">Description</th>
+                                                                                                        <th id="Brochures-imageHeading">Image</th>
+                                                                                                        <th>Brochure</th>
                                                                                                         <th id="Brochures-editHeading">Edit</th>
                                                                                                     </tr>
                                                                                                 </thead>
-                                                                                                <tbody id="Brochures-tableBody">
-                                                                                                    <tr>
-                                                                                                        <td></td>
-                                                                                                        <td></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td><Button size="sm" id="Brochures-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                                    </tr>
-                                                                                                </tbody>
+                                                                                                {this.state.programmeBrochures && this.state.programmeBrochures.map((programme) => {
+                                                                                                    if (programme.university === "RMIT University") {
+                                                                                                        return (
+                                                                                                            <tbody id="Brochures-tableBody" key={programme.id}>
+                                                                                                                <tr>
+                                                                                                                    <td>{programme.description}</td>
+                                                                                                                    <td>
+                                                                                                                        <img src={programme.imageUrl} height="120px" width="90px"/>
+                                                                                                                    </td>
+                                                                                                                    <td className="text-left">{programme.brochureUrl}</td>
+                                                                                                                    <td><Button size="sm" id="Brochures-editBtn" onClick={() => this.handleEdit(programme)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        )
+                                                                                                    }
+                                                                                                })}
                                                                                             </Table>
                                                                                         </Col>
                                                                                     </Card.Body>
@@ -615,22 +653,28 @@ class StudySIMBrochure extends Component {
                                                                                                 <Table responsive="sm" bordered hover className="Brochures-tableCon">
                                                                                                     <thead id="Brochures-tableHeader">
                                                                                                         <tr>
-                                                                                                            <th id="Brochures-emailHeading">Email</th>
-                                                                                                            <th id="Brochures-contactHeading">Contact</th>
-                                                                                                            <th>Website</th>
-                                                                                                            <th>Description</th>
+                                                                                                            <th id="Brochures-descHeading">Description</th>
+                                                                                                            <th id="Brochures-imageHeading">Image</th>
+                                                                                                            <th>Brochure</th>
                                                                                                             <th id="Brochures-editHeading">Edit</th>
                                                                                                         </tr>
                                                                                                     </thead>
-                                                                                                    <tbody id="Brochures-tableBody">
-                                                                                                        <tr>
-                                                                                                            <td></td>
-                                                                                                            <td></td>
-                                                                                                            <td className="text-left"></td>
-                                                                                                            <td className="text-left"></td>
-                                                                                                            <td><Button size="sm" id="Brochures-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                                        </tr>
-                                                                                                    </tbody>
+                                                                                                    {this.state.programmeBrochures && this.state.programmeBrochures.map((programme) => {
+                                                                                                        if (programme.university === "Singapore Institute of Management") {
+                                                                                                            return (
+                                                                                                                <tbody id="Brochures-tableBody" key={programme.id}>
+                                                                                                                    <tr>
+                                                                                                                        <td>{programme.description}</td>
+                                                                                                                        <td>
+                                                                                                                            <img src={programme.imageUrl} height="120px" width="90px"/>
+                                                                                                                        </td>
+                                                                                                                        <td className="text-left">{programme.brochureUrl}</td>
+                                                                                                                        <td><Button size="sm" id="Brochures-editBtn" onClick={() => this.handleEdit(programme)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                                    </tr>
+                                                                                                                </tbody>
+                                                                                                            )
+                                                                                                        }
+                                                                                                    })}
                                                                                                 </Table>
                                                                                             </Col>
                                                                                         </Row>
@@ -647,22 +691,28 @@ class StudySIMBrochure extends Component {
                                                                                             <Table responsive="sm" bordered hover className="Brochures-tableCon">
                                                                                                 <thead id="Brochures-tableHeader">
                                                                                                     <tr>
-                                                                                                        <th id="Brochures-emailHeading">Email</th>
-                                                                                                        <th id="Brochures-contactHeading">Contact</th>
-                                                                                                        <th>Website</th>
-                                                                                                        <th>Description</th>
+                                                                                                        <th id="Brochures-descHeading">Description</th>
+                                                                                                        <th id="Brochures-imageHeading">Image</th>
+                                                                                                        <th>Brochure</th>
                                                                                                         <th id="Brochures-editHeading">Edit</th>
                                                                                                     </tr>
                                                                                                 </thead>
-                                                                                                <tbody id="Brochures-tableBody">
-                                                                                                    <tr>
-                                                                                                        <td></td>
-                                                                                                        <td></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td><Button size="sm" id="Brochures-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                                    </tr>
-                                                                                                </tbody>
+                                                                                                {this.state.programmeBrochures && this.state.programmeBrochures.map((programme) => {
+                                                                                                    if (programme.university === "University of Stirling") {
+                                                                                                        return (
+                                                                                                            <tbody id="Brochures-tableBody" key={programme.id}>
+                                                                                                                <tr>
+                                                                                                                    <td>{programme.description}</td>
+                                                                                                                    <td>
+                                                                                                                        <img src={programme.imageUrl} height="120px" width="90px"/>
+                                                                                                                    </td>
+                                                                                                                    <td className="text-left">{programme.brochureUrl}</td>
+                                                                                                                    <td><Button size="sm" id="Brochures-editBtn" onClick={() => this.handleEdit(programme)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        )
+                                                                                                    }
+                                                                                                })}
                                                                                             </Table>
                                                                                         </Col>
                                                                                     </Card.Body>
@@ -670,7 +720,7 @@ class StudySIMBrochure extends Component {
                                                                             </Card>
                                                                             <Card>
                                                                                 <div className="Brochures-Header">
-                                                                                    <Accordion.Toggle as={Card.Header} eventKey="sydney">The University of Sydney</Accordion.Toggle>
+                                                                                    <Accordion.Toggle as={Card.Header} eventKey="sydney">University of Sydney</Accordion.Toggle>
                                                                                 </div>
                                                                                 <Accordion.Collapse eventKey="sydney">
                                                                                     <Card.Body className="Brochures-cardBody">
@@ -678,22 +728,28 @@ class StudySIMBrochure extends Component {
                                                                                             <Table responsive="sm" bordered hover className="Brochures-tableCon">
                                                                                                 <thead id="Brochures-tableHeader">
                                                                                                     <tr>
-                                                                                                        <th id="Brochures-emailHeading">Email</th>
-                                                                                                        <th id="Brochures-contactHeading">Contact</th>
-                                                                                                        <th>Website</th>
-                                                                                                        <th>Description</th>
+                                                                                                        <th id="Brochures-descHeading">Description</th>
+                                                                                                        <th id="Brochures-imageHeading">Image</th>
+                                                                                                        <th>Brochure</th>
                                                                                                         <th id="Brochures-editHeading">Edit</th>
                                                                                                     </tr>
                                                                                                 </thead>
-                                                                                                <tbody id="Brochures-tableBody">
-                                                                                                    <tr>
-                                                                                                        <td></td>
-                                                                                                        <td></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td><Button size="sm" id="Brochures-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                                    </tr>
-                                                                                                </tbody>
+                                                                                                {this.state.programmeBrochures && this.state.programmeBrochures.map((programme) => {
+                                                                                                    if (programme.university === "University of Sydney") {
+                                                                                                        return (
+                                                                                                            <tbody id="Brochures-tableBody" key={programme.id}>
+                                                                                                                <tr>
+                                                                                                                    <td>{programme.description}</td>
+                                                                                                                    <td>
+                                                                                                                        <img src={programme.imageUrl} height="120px" width="90px"/>
+                                                                                                                    </td>
+                                                                                                                    <td className="text-left">{programme.brochureUrl}</td>
+                                                                                                                    <td><Button size="sm" id="Brochures-editBtn" onClick={() => this.handleEdit(programme)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        )
+                                                                                                    }
+                                                                                                })}
                                                                                             </Table>
                                                                                         </Col>
                                                                                     </Card.Body>
@@ -709,22 +765,28 @@ class StudySIMBrochure extends Component {
                                                                                             <Table responsive="sm" bordered hover className="Brochures-tableCon">
                                                                                                 <thead id="Brochures-tableHeader">
                                                                                                     <tr>
-                                                                                                        <th id="Brochures-emailHeading">Email</th>
-                                                                                                        <th id="Brochures-contactHeading">Contact</th>
-                                                                                                        <th>Website</th>
-                                                                                                        <th>Description</th>
+                                                                                                        <th id="Brochures-descHeading">Description</th>
+                                                                                                        <th id="Brochures-imageHeading">Image</th>
+                                                                                                        <th>Brochure</th>
                                                                                                         <th id="Brochures-editHeading">Edit</th>
                                                                                                     </tr>
                                                                                                 </thead>
-                                                                                                <tbody id="Brochures-tableBody">
-                                                                                                    <tr>
-                                                                                                        <td></td>
-                                                                                                        <td></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td><Button size="sm" id="Brochures-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                                    </tr>
-                                                                                                </tbody>
+                                                                                                {this.state.programmeBrochures && this.state.programmeBrochures.map((programme) => {
+                                                                                                    if (programme.university === "University of London") {
+                                                                                                        return (
+                                                                                                            <tbody id="Brochures-tableBody" key={programme.id}>
+                                                                                                                <tr>
+                                                                                                                    <td>{programme.description}</td>
+                                                                                                                    <td>
+                                                                                                                        <img src={programme.imageUrl} height="120px" width="90px"/>
+                                                                                                                    </td>
+                                                                                                                    <td className="text-left">{programme.brochureUrl}</td>
+                                                                                                                    <td><Button size="sm" id="Brochures-editBtn" onClick={() => this.handleEdit(programme)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        )
+                                                                                                    }
+                                                                                                })}
                                                                                             </Table>
                                                                                         </Col>
                                                                                     </Card.Body>
@@ -732,7 +794,7 @@ class StudySIMBrochure extends Component {
                                                                             </Card>
                                                                             <Card>
                                                                                 <div className="Brochures-Header">
-                                                                                    <Accordion.Toggle as={Card.Header} eventKey="warwick">The University of Warwick</Accordion.Toggle>
+                                                                                    <Accordion.Toggle as={Card.Header} eventKey="warwick">University of Warwick</Accordion.Toggle>
                                                                                 </div>
                                                                                 <Accordion.Collapse eventKey="warwick">
                                                                                     <Card.Body className="Brochures-cardBody">
@@ -740,22 +802,28 @@ class StudySIMBrochure extends Component {
                                                                                             <Table responsive="sm" bordered hover className="Brochures-tableCon">
                                                                                                 <thead id="Brochures-tableHeader">
                                                                                                     <tr>
-                                                                                                        <th id="Brochures-emailHeading">Email</th>
-                                                                                                        <th id="Brochures-contactHeading">Contact</th>
-                                                                                                        <th>Website</th>
-                                                                                                        <th>Description</th>
+                                                                                                        <th id="Brochures-descHeading">Description</th>
+                                                                                                        <th id="Brochures-imageHeading">Image</th>
+                                                                                                        <th>Brochure</th>
                                                                                                         <th id="Brochures-editHeading">Edit</th>
                                                                                                     </tr>
                                                                                                 </thead>
-                                                                                                <tbody id="Brochures-tableBody">
-                                                                                                    <tr>
-                                                                                                        <td></td>
-                                                                                                        <td></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td><Button size="sm" id="Brochures-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                                    </tr>
-                                                                                                </tbody>
+                                                                                                {this.state.programmeBrochures && this.state.programmeBrochures.map((programme) => {
+                                                                                                    if (programme.university === "University of Warwick") {
+                                                                                                        return (
+                                                                                                            <tbody id="Brochures-tableBody" key={programme.id}>
+                                                                                                                <tr>
+                                                                                                                    <td>{programme.description}</td>
+                                                                                                                    <td>
+                                                                                                                        <img src={programme.imageUrl} height="120px" width="90px"/>
+                                                                                                                    </td>
+                                                                                                                    <td className="text-left">{programme.brochureUrl}</td>
+                                                                                                                    <td><Button size="sm" id="Brochures-editBtn" onClick={() => this.handleEdit(programme)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        )
+                                                                                                    }
+                                                                                                })}
                                                                                             </Table>
                                                                                         </Col>
                                                                                     </Card.Body>
@@ -771,22 +839,28 @@ class StudySIMBrochure extends Component {
                                                                                             <Table responsive="sm" bordered hover className="Brochures-tableCon">
                                                                                                 <thead id="Brochures-tableHeader">
                                                                                                     <tr>
-                                                                                                        <th id="Brochures-emailHeading">Email</th>
-                                                                                                        <th id="Brochures-contactHeading">Contact</th>
-                                                                                                        <th>Website</th>
-                                                                                                        <th>Description</th>
+                                                                                                        <th id="Brochures-descHeading">Description</th>
+                                                                                                        <th id="Brochures-imageHeading">Image</th>
+                                                                                                        <th>Brochure</th>
                                                                                                         <th id="Brochures-editHeading">Edit</th>
                                                                                                     </tr>
                                                                                                 </thead>
-                                                                                                <tbody id="Brochures-tableBody">
-                                                                                                    <tr>
-                                                                                                        <td></td>
-                                                                                                        <td></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td className="text-left"></td>
-                                                                                                        <td><Button size="sm" id="Brochures-editBtn"><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                                    </tr>
-                                                                                                </tbody>
+                                                                                                {this.state.programmeBrochures && this.state.programmeBrochures.map((programme) => {
+                                                                                                    if (programme.university === "University of Wollongong") {
+                                                                                                        return (
+                                                                                                            <tbody id="Brochures-tableBody" key={programme.id}>
+                                                                                                                <tr>
+                                                                                                                    <td>{programme.description}</td>
+                                                                                                                    <td>
+                                                                                                                        <img src={programme.imageUrl} height="120px" width="90px"/>
+                                                                                                                    </td>
+                                                                                                                    <td className="text-left">{programme.brochureUrl}</td>
+                                                                                                                    <td><Button size="sm" id="Brochures-editBtn" onClick={() => this.handleEdit(programme)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        )
+                                                                                                    }
+                                                                                                })}
                                                                                             </Table>
                                                                                         </Col>
                                                                                     </Card.Body>
@@ -811,1488 +885,12 @@ class StudySIMBrochure extends Component {
                     <Footer />
                 </Container>
 
+                {/* Edit Modal */}
+                <Modal show={this.state.editModal} onHide={this.handleEdit} size="lg" centered keyboard={false}>
+                    <EditBrochuresModal handleEdit={this.handleEdit} id={this.state.id} description={this.state.description} imageUrl={this.state.imageUrl} brochureUrl={this.state.brochureUrl} university={this.state.university} />
+                </Modal>
+
             </div>
-
-
-            // <div className="home">
-            //     <h2>Study@SIM Brochures</h2>
-            //     <div>
-            //     <table id="users" class="table table-bordered">
-            //         <tbody>
-            //         <h4>Prospectus</h4>
-            //         <tr>
-            //             <th scope="col">Brochure Cover Image</th>
-            //             <th scope="col">Brochure File</th>
-            //             <th scope="col">Edit</th>
-            //         </tr>
-            //         {this.state.prospectbrochures &&
-            //             this.state.prospectbrochures.map((prospectbrochures) => {
-            //             return (
-            //                 <tr>
-            //                 <td>
-            //                     <span class={prospectbrochures.id + "text"}>
-            //                     {prospectbrochures.imageUrl}
-            //                     </span>
-            //                     <span
-            //                     id={prospectbrochures.id + "spanimagefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={prospectbrochures.id + "imagefile"}
-            //                         defaultValue={prospectbrochures.imageUrl}
-            //                         type="text"
-            //                         name={prospectbrochures.id + "imagefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={prospectbrochures.imageUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={prospectbrochures.id + "upload"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleImageFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={prospectbrochures.id + "text"}>
-            //                     {prospectbrochures.brochureUrl}
-            //                     </span>
-            //                     <span
-            //                     id={prospectbrochures.id + "spanbrochurefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={prospectbrochures.id + "brochurefile"}
-            //                         defaultValue={prospectbrochures.brochureUrl}
-            //                         type="text"
-            //                         name={prospectbrochures.id + "brochurefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={prospectbrochures.brochureUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={prospectbrochures.id + "upload1"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleBrochureFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <button
-            //                     id={prospectbrochures.id + "editbutton"}
-            //                     onClick={(e) => {
-            //                         this.editBrochure(e, prospectbrochures.id, prospectbrochures.description);
-            //                     }}
-            //                     >
-            //                     Edit
-            //                     </button>
-
-            //                     <button
-            //                     id={prospectbrochures.id + "updatebutton"}
-            //                     hidden
-            //                     onClick={(e) => {
-            //                         this.handleProspectSavePDF(prospectbrochures.id);
-            //                         this.handleProspectSaveImage(prospectbrochures.id);
-            //                     }}
-            //                     >
-            //                     Update
-            //                     </button>
-            //                     <button
-            //                     hidden
-            //                     id={prospectbrochures.id + "cancelbutton"}
-            //                     onClick={(e) => {
-            //                         this.CancelEdit(e, prospectbrochures.id,prospectbrochures.description);
-            //                     }}
-            //                     >
-            //                     Cancel
-            //                     </button>
-            //                 </td>
-            //                 </tr>
-            //             );
-            //             })}
-            //         <br/>
-            //         <h4>La Trobe University</h4>
-            //         <tr>
-            //             <th scope="col">Brochure Description</th>
-            //             <th scope="col">Brochure Cover Image</th>
-            //             <th scope="col">Brochure File</th>
-            //             <th scope="col">Edit</th>
-            //         </tr>
-            //         {this.state.unibrochures &&
-            //             this.state.unibrochures.map((unibrochures) => {
-            //             if(unibrochures.university === "La Trobe University")
-            //             return (
-            //                 <tr>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.description}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spandescription"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "description"}
-            //                         defaultValue={unibrochures.description}
-            //                         type="text"
-            //                         name={unibrochures.id + "description"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.description}
-            //                         required
-            //                     />
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.imageUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanimagefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "imagefile"}
-            //                         defaultValue={unibrochures.imageUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "imagefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.imageUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleImageFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.brochureUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanbrochurefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "brochurefile"}
-            //                         defaultValue={unibrochures.brochureUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "brochurefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.brochureUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload1"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleBrochureFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <button
-            //                     id={unibrochures.id + "editbutton"}
-            //                     onClick={(e) => {
-            //                         this.editBrochure(e, unibrochures.id, unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Edit
-            //                     </button>
-
-            //                     <button
-            //                     id={unibrochures.id + "updatebutton"}
-            //                     hidden
-            //                     onClick={(e) => {
-            //                         this.update(unibrochures.id);
-            //                         this.handleUniSavePDF(unibrochures.id,unibrochures.university );
-            //                         this.handleUniSaveImage(unibrochures.id,unibrochures.university);
-            //                     }}
-            //                     >
-            //                     Update
-            //                     </button>
-            //                     <button
-            //                     hidden
-            //                     id={unibrochures.id + "cancelbutton"}
-            //                     onClick={(e) => {
-            //                         this.CancelEdit(e, unibrochures.id,unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Cancel
-            //                     </button>
-            //                 </td>
-            //                 </tr>
-            //             );
-            //             })}
-
-            //             <br/>
-            //         <h4>RMIT University</h4>
-            //         <tr>
-            //             <th scope="col">Brochure Description</th>
-            //             <th scope="col">Brochure Cover Image</th>
-            //             <th scope="col">Brochure File</th>
-            //             <th scope="col">Edit</th>
-            //         </tr>
-            //         {this.state.unibrochures &&
-            //             this.state.unibrochures.map((unibrochures) => {
-            //             if(unibrochures.university === "RMIT University")
-            //             return (
-            //                 <tr>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.description}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spandescription"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "description"}
-            //                         defaultValue={unibrochures.description}
-            //                         type="text"
-            //                         name={unibrochures.id + "description"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.description}
-            //                         required
-            //                     />
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.imageUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanimagefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "imagefile"}
-            //                         defaultValue={unibrochures.imageUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "imagefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.imageUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleImageFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.brochureUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanbrochurefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "brochurefile"}
-            //                         defaultValue={unibrochures.brochureUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "brochurefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.brochureUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload1"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleBrochureFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <button
-            //                     id={unibrochures.id + "editbutton"}
-            //                     onClick={(e) => {
-            //                         this.editBrochure(e, unibrochures.id, unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Edit
-            //                     </button>
-
-            //                     <button
-            //                     id={unibrochures.id + "updatebutton"}
-            //                     hidden
-            //                     onClick={(e) => {
-            //                         this.update(unibrochures.id);
-            //                         this.handleUniSavePDF(unibrochures.id,unibrochures.university );
-            //                         this.handleUniSaveImage(unibrochures.id,unibrochures.university);
-            //                     }}
-            //                     >
-            //                     Update
-            //                     </button>
-            //                     <button
-            //                     hidden
-            //                     id={unibrochures.id + "cancelbutton"}
-            //                     onClick={(e) => {
-            //                     this.CancelEdit(e, unibrochures.id,unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Cancel
-            //                     </button>
-            //                 </td>
-            //                 </tr>
-            //             );
-            //             })}
-
-            //             <br/>
-            //         <h4>Singapore Institute of Management</h4>
-            //         <tr>
-            //             <th scope="col">Brochure Description</th>
-            //             <th scope="col">Brochure Cover Image</th>
-            //             <th scope="col">Brochure File</th>
-            //             <th scope="col">Edit</th>
-            //         </tr>
-            //         {this.state.unibrochures &&
-            //             this.state.unibrochures.map((unibrochures) => {
-            //             if(unibrochures.university === "Singapore Institute of Management")
-            //             return (
-            //                 <tr>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.description}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spandescription"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "description"}
-            //                         defaultValue={unibrochures.description}
-            //                         type="text"
-            //                         name={unibrochures.id + "description"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.description}
-            //                         required
-            //                     />
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.imageUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanimagefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "imagefile"}
-            //                         defaultValue={unibrochures.imageUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "imagefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.imageUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleImageFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.brochureUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanbrochurefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "brochurefile"}
-            //                         defaultValue={unibrochures.brochureUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "brochurefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.brochureUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload1"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleBrochureFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <button
-            //                     id={unibrochures.id + "editbutton"}
-            //                     onClick={(e) => {
-            //                         this.editBrochure(e, unibrochures.id, unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Edit
-            //                     </button>
-
-            //                     <button
-            //                     id={unibrochures.id + "updatebutton"}
-            //                     hidden
-            //                     onClick={(e) => {
-            //                         this.update(unibrochures.id);
-            //                         this.handleUniSavePDF(unibrochures.id,unibrochures.university );
-            //                         this.handleUniSaveImage(unibrochures.id,unibrochures.university);
-            //                     }}
-            //                     >
-            //                     Update
-            //                     </button>
-            //                     <button
-            //                     hidden
-            //                     id={unibrochures.id + "cancelbutton"}
-            //                     onClick={(e) => {
-            //                     this.CancelEdit(e, unibrochures.id,unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Cancel
-            //                     </button>
-            //                 </td>
-            //                 </tr>
-            //             );
-            //             })} 
-
-            //             <br/>
-            //         <h4>University of Stirling</h4>
-            //         <tr>
-            //             <th scope="col">Brochure Description</th>
-            //             <th scope="col">Brochure Cover Image</th>
-            //             <th scope="col">Brochure File</th>
-            //             <th scope="col">Edit</th>
-            //         </tr>
-            //         {this.state.unibrochures &&
-            //             this.state.unibrochures.map((unibrochures) => {
-            //             if(unibrochures.university === "University of Stirling")
-            //             return (
-            //                 <tr>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.description}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spandescription"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "description"}
-            //                         defaultValue={unibrochures.description}
-            //                         type="text"
-            //                         name={unibrochures.id + "description"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.description}
-            //                         required
-            //                     />
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.imageUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanimagefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "imagefile"}
-            //                         defaultValue={unibrochures.imageUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "imagefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.imageUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleImageFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.brochureUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanbrochurefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "brochurefile"}
-            //                         defaultValue={unibrochures.brochureUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "brochurefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.brochureUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload1"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleBrochureFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <button
-            //                     id={unibrochures.id + "editbutton"}
-            //                     onClick={(e) => {
-            //                         this.editBrochure(e, unibrochures.id, unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Edit
-            //                     </button>
-
-            //                     <button
-            //                     id={unibrochures.id + "updatebutton"}
-            //                     hidden
-            //                     onClick={(e) => {
-            //                         this.update(unibrochures.id);
-            //                         this.handleUniSavePDF(unibrochures.id,unibrochures.university );
-            //                         this.handleUniSaveImage(unibrochures.id,unibrochures.university);
-            //                     }}
-            //                     >
-            //                     Update
-            //                     </button>
-            //                     <button
-            //                     hidden
-            //                     id={unibrochures.id + "cancelbutton"}
-            //                     onClick={(e) => {
-            //                     this.CancelEdit(e, unibrochures.id,unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Cancel
-            //                     </button>
-            //                 </td>
-            //                 </tr>
-            //             );
-            //             })}
-
-            //             <br/>
-            //         <h4>University of Buffalo</h4>
-            //         <tr>
-            //             <th scope="col">Brochure Description</th>
-            //             <th scope="col">Brochure Cover Image</th>
-            //             <th scope="col">Brochure File</th>
-            //             <th scope="col">Edit</th>
-            //         </tr>
-            //         {this.state.unibrochures &&
-            //             this.state.unibrochures.map((unibrochures) => {
-            //             if(unibrochures.university === "University of Buffalo")
-            //             return (
-            //                 <tr>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.description}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spandescription"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "description"}
-            //                         defaultValue={unibrochures.description}
-            //                         type="text"
-            //                         name={unibrochures.id + "description"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.description}
-            //                         required
-            //                     />
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.imageUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanimagefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "imagefile"}
-            //                         defaultValue={unibrochures.imageUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "imagefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.imageUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleImageFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.brochureUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanbrochurefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "brochurefile"}
-            //                         defaultValue={unibrochures.brochureUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "brochurefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.brochureUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload1"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleBrochureFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <button
-            //                     id={unibrochures.id + "editbutton"}
-            //                     onClick={(e) => {
-            //                         this.editBrochure(e, unibrochures.id, unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Edit
-            //                     </button>
-
-            //                     <button
-            //                     id={unibrochures.id + "updatebutton"}
-            //                     hidden
-            //                     onClick={(e) => {
-            //                         this.update(unibrochures.id);
-            //                         this.handleUniSavePDF(unibrochures.id,unibrochures.university );
-            //                         this.handleUniSaveImage(unibrochures.id,unibrochures.university);
-            //                     }}
-            //                     >
-            //                     Update
-            //                     </button>
-            //                     <button
-            //                     hidden
-            //                     id={unibrochures.id + "cancelbutton"}
-            //                     onClick={(e) => {
-            //                     this.CancelEdit(e, unibrochures.id,unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Cancel
-            //                     </button>
-            //                 </td>
-            //                 </tr>
-            //             );
-            //             })} 
-
-            //             <br/>
-            //         <h4>University of Birmingham</h4>
-            //         <tr>
-            //             <th scope="col">Brochure Description</th>
-            //             <th scope="col">Brochure Cover Image</th>
-            //             <th scope="col">Brochure File</th>
-            //             <th scope="col">Edit</th>
-            //         </tr>
-            //         {this.state.unibrochures &&
-            //             this.state.unibrochures.map((unibrochures) => {
-            //             if(unibrochures.university === "University of Birmingham")
-            //             return (
-            //                 <tr>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.description}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spandescription"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "description"}
-            //                         defaultValue={unibrochures.description}
-            //                         type="text"
-            //                         name={unibrochures.id + "description"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.description}
-            //                         required
-            //                     />
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.imageUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanimagefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "imagefile"}
-            //                         defaultValue={unibrochures.imageUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "imagefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.imageUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleImageFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.brochureUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanbrochurefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "brochurefile"}
-            //                         defaultValue={unibrochures.brochureUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "brochurefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.brochureUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload1"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleBrochureFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <button
-            //                     id={unibrochures.id + "editbutton"}
-            //                     onClick={(e) => {
-            //                         this.editBrochure(e, unibrochures.id, unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Edit
-            //                     </button>
-
-            //                     <button
-            //                     id={unibrochures.id + "updatebutton"}
-            //                     hidden
-            //                     onClick={(e) => {
-            //                         this.update(unibrochures.id);
-            //                         this.handleUniSavePDF(unibrochures.id,unibrochures.university );
-            //                         this.handleUniSaveImage(unibrochures.id,unibrochures.university);
-            //                     }}
-            //                     >
-            //                     Update
-            //                     </button>
-            //                     <button
-            //                     hidden
-            //                     id={unibrochures.id + "cancelbutton"}
-            //                     onClick={(e) => {
-            //                     this.CancelEdit(e, unibrochures.id,unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Cancel
-            //                     </button>
-            //                 </td>
-            //                 </tr>
-            //             );
-            //             })}  
-
-            //             <br/>
-            //         <h4>University of London</h4>
-            //         <tr>
-            //             <th scope="col">Brochure Description</th>
-            //             <th scope="col">Brochure Cover Image</th>
-            //             <th scope="col">Brochure File</th>
-            //             <th scope="col">Edit</th>
-            //         </tr>
-            //         {this.state.unibrochures &&
-            //             this.state.unibrochures.map((unibrochures) => {
-            //             if(unibrochures.university === "University of London")
-            //             return (
-            //                 <tr>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.description}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spandescription"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "description"}
-            //                         defaultValue={unibrochures.description}
-            //                         type="text"
-            //                         name={unibrochures.id + "description"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.description}
-            //                         required
-            //                     />
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.imageUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanimagefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "imagefile"}
-            //                         defaultValue={unibrochures.imageUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "imagefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.imageUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleImageFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.brochureUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanbrochurefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "brochurefile"}
-            //                         defaultValue={unibrochures.brochureUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "brochurefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.brochureUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload1"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleBrochureFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <button
-            //                     id={unibrochures.id + "editbutton"}
-            //                     onClick={(e) => {
-            //                         this.editBrochure(e, unibrochures.id, unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Edit
-            //                     </button>
-
-            //                     <button
-            //                     id={unibrochures.id + "updatebutton"}
-            //                     hidden
-            //                     onClick={(e) => {
-            //                         this.update(unibrochures.id);
-            //                         this.handleUniSavePDF(unibrochures.id,unibrochures.university );
-            //                         this.handleUniSaveImage(unibrochures.id,unibrochures.university);
-            //                     }}
-            //                     >
-            //                     Update
-            //                     </button>
-            //                     <button
-            //                     hidden
-            //                     id={unibrochures.id + "cancelbutton"}
-            //                     onClick={(e) => {
-            //                     this.CancelEdit(e, unibrochures.id,unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Cancel
-            //                     </button>
-            //                 </td>
-            //                 </tr>
-            //             );
-            //             })} 
-
-            //             <br/>
-            //         <h4>University of Wollongong</h4>
-            //         <tr>
-            //             <th scope="col">Brochure Description</th>
-            //             <th scope="col">Brochure Cover Image</th>
-            //             <th scope="col">Brochure File</th>
-            //             <th scope="col">Edit</th>
-            //         </tr>
-            //         {this.state.unibrochures &&
-            //             this.state.unibrochures.map((unibrochures) => {
-            //             if(unibrochures.university === "University of Wollongong")
-            //             return (
-            //                 <tr>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.description}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spandescription"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "description"}
-            //                         defaultValue={unibrochures.description}
-            //                         type="text"
-            //                         name={unibrochures.id + "description"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.description}
-            //                         required
-            //                     />
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.imageUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanimagefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "imagefile"}
-            //                         defaultValue={unibrochures.imageUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "imagefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.imageUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleImageFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.brochureUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanbrochurefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "brochurefile"}
-            //                         defaultValue={unibrochures.brochureUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "brochurefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.brochureUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload1"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleBrochureFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <button
-            //                     id={unibrochures.id + "editbutton"}
-            //                     onClick={(e) => {
-            //                         this.editBrochure(e, unibrochures.id, unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Edit
-            //                     </button>
-
-            //                     <button
-            //                     id={unibrochures.id + "updatebutton"}
-            //                     hidden
-            //                     onClick={(e) => {
-            //                         this.update(unibrochures.id);
-            //                         this.handleUniSavePDF(unibrochures.id,unibrochures.university );
-            //                         this.handleUniSaveImage(unibrochures.id,unibrochures.university);
-            //                     }}
-            //                     >
-            //                     Update
-            //                     </button>
-            //                     <button
-            //                     hidden
-            //                     id={unibrochures.id + "cancelbutton"}
-            //                     onClick={(e) => {
-            //                     this.CancelEdit(e, unibrochures.id,unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Cancel
-            //                     </button>
-            //                 </td>
-            //                 </tr>
-            //             );
-            //             })} 
-
-            //             <br/>
-            //         <h4>University of Sydney</h4>
-            //         <tr>
-            //             <th scope="col">Brochure Description</th>
-            //             <th scope="col">Brochure Cover Image</th>
-            //             <th scope="col">Brochure File</th>
-            //             <th scope="col">Edit</th>
-            //         </tr>
-            //         {this.state.unibrochures &&
-            //             this.state.unibrochures.map((unibrochures) => {
-            //             if(unibrochures.university === "University of Sydney")
-            //             return (
-            //                 <tr>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.description}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spandescription"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "description"}
-            //                         defaultValue={unibrochures.description}
-            //                         type="text"
-            //                         name={unibrochures.id + "description"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.description}
-            //                         required
-            //                     />
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.imageUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanimagefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "imagefile"}
-            //                         defaultValue={unibrochures.imageUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "imagefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.imageUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleImageFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.brochureUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanbrochurefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "brochurefile"}
-            //                         defaultValue={unibrochures.brochureUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "brochurefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.brochureUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload1"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleBrochureFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <button
-            //                     id={unibrochures.id + "editbutton"}
-            //                     onClick={(e) => {
-            //                         this.editBrochure(e, unibrochures.id, unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Edit
-            //                     </button>
-
-            //                     <button
-            //                     id={unibrochures.id + "updatebutton"}
-            //                     hidden
-            //                     onClick={(e) => {
-            //                         this.update(unibrochures.id);
-            //                         this.handleUniSavePDF(unibrochures.id,unibrochures.university );
-            //                         this.handleUniSaveImage(unibrochures.id,unibrochures.university);
-            //                     }}
-            //                     >
-            //                     Update
-            //                     </button>
-            //                     <button
-            //                     hidden
-            //                     id={unibrochures.id + "cancelbutton"}
-            //                     onClick={(e) => {
-            //                     this.CancelEdit(e, unibrochures.id,unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Cancel
-            //                     </button>
-            //                 </td>
-            //                 </tr>
-            //             );
-            //             })} 
-
-            //             <br/>
-            //         <h4>University of Warwick</h4>
-            //         <tr>
-            //             <th scope="col">Brochure Description</th>
-            //             <th scope="col">Brochure Cover Image</th>
-            //             <th scope="col">Brochure File</th>
-            //             <th scope="col">Edit</th>
-            //         </tr>
-            //         {this.state.unibrochures &&
-            //             this.state.unibrochures.map((unibrochures) => {
-            //             if(unibrochures.university === "University of Warwick")
-            //             return (
-            //                 <tr>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.description}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spandescription"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "description"}
-            //                         defaultValue={unibrochures.description}
-            //                         type="text"
-            //                         name={unibrochures.id + "description"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.description}
-            //                         required
-            //                     />
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.imageUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanimagefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "imagefile"}
-            //                         defaultValue={unibrochures.imageUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "imagefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.imageUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleImageFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <span class={unibrochures.id + "text"}>
-            //                     {unibrochures.brochureUrl}
-            //                     </span>
-            //                     <span
-            //                     id={unibrochures.id + "spanbrochurefile"}
-            //                     hidden
-            //                     >
-            //                     <input
-            //                         id={unibrochures.id + "brochurefile"}
-            //                         defaultValue={unibrochures.brochureUrl}
-            //                         type="text"
-            //                         name={unibrochures.id + "brochurefile"}
-            //                         class="form-control"
-            //                         aria-describedby="emailHelp"
-            //                         placeholder={unibrochures.brochureUrl}
-            //                         required
-            //                         disabled={"disabled"}
-            //                     />
-            //                     </span>
-            //                     <span id={unibrochures.id + "upload1"} hidden>
-            //                     <input
-            //                         type="file"
-            //                         onChange={(e) => {
-            //                         this.handleBrochureFileUpload(e.target.files);
-            //                         }}
-            //                     />
-
-            //                     {this.state.progress}
-            //                     <div>
-            //                         <progress value={this.state.progress} max="100" />
-            //                     </div>
-            //                     </span>
-            //                 </td>
-            //                 <td>
-            //                     <button
-            //                     id={unibrochures.id + "editbutton"}
-            //                     onClick={(e) => {
-            //                         this.editBrochure(e, unibrochures.id, unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Edit
-            //                     </button>
-
-            //                     <button
-            //                     id={unibrochures.id + "updatebutton"}
-            //                     hidden
-            //                     onClick={(e) => {
-            //                         this.update(unibrochures.id);
-            //                         this.handleUniSavePDF(unibrochures.id,unibrochures.university );
-            //                         this.handleUniSaveImage(unibrochures.id,unibrochures.university);
-            //                     }}
-            //                     >
-            //                     Update
-            //                     </button>
-            //                     <button
-            //                     hidden
-            //                     id={unibrochures.id + "cancelbutton"}
-            //                     onClick={(e) => {
-            //                     this.CancelEdit(e, unibrochures.id,unibrochures.description);
-            //                     }}
-            //                     >
-            //                     Cancel
-            //                     </button>
-            //                 </td>
-            //                 </tr>
-            //             );
-            //             })}       
-            //         </tbody>
-            //     </table>
-            //     </div>
-            // </div>
         );
     }
 }

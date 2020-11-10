@@ -150,6 +150,18 @@
     text-align: center;
 }
 
+.Brochures-formLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
+}
+
+.Brochures-formLabelGroup {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
 .Brochures-formGroup {
     display: flex;
     justify-content: center;
@@ -249,4 +261,32 @@
     padding-right: 0 !important;
     padding-top: 0 !important;
     background-color: #b5cfd8;
+}
+
+.Brochures-imgFile .custom-file-input {
+    border: 1px solid #c8c8c8;
+    border-radius: 6px;
+    font-size: 85% !important;
+    color: #434343;
+}
+
+.Brochures-imgFile .custom-file-label {
+    color: #434343;
+    overflow: hidden;
+    font-size: 90% !important;
+}
+
+.Brochures-imgFile:focus {
+    box-shadow: none;
+}
+
+.Brochures-imageUrl {
+    transition: transform .2s;
+}
+
+.Brochures-imageUrl:hover {
+    -ms-transform: scale(3); /* IE 9 */
+    -webkit-transform: scale(3); /* Safari 3-8 */
+    transform: scale(3); 
+    z-index: 9999;
 }
