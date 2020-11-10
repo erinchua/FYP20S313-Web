@@ -15,8 +15,8 @@ class SocialMediaCampaigns extends Component {
         auth.onAuthStateChanged((user) => {
             if (user) {
                 var getrole = db
-                .collection("Administrators")
-                .where("email", "==", user.email);
+                    .collection("Administrators")
+                    .where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
                     snapshot.forEach((doc) => {
                         if (doc.data().administratorType === "Marketing Administrator") {
@@ -38,36 +38,36 @@ class SocialMediaCampaigns extends Component {
                 <Container fluid className="SocialMedia-container">
                     <NavBar isMA={true} />
 
-                        <Container fluid className="SocialMedia-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
-                            <Row>
-                                <Col md={2} style={{paddingRight: 0}}>
-                                    <SideNavBar />
-                                </Col>
+                    <Container fluid className="SocialMedia-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                        <Row>
+                            <Col md={2} style={{ paddingRight: 0 }}>
+                                <SideNavBar />
+                            </Col>
 
-                                <Col md={10} style={{paddingLeft: 0}}>
-                                    <Container fluid id="SocialMedia-topContentContainer">
-                                        <Row id="SocialMedia-firstRow">
-                                            <Col md={12} className="text-left" id="SocialMedia-firstRowCol">
-                                                <h4 id="SocialMedia-title">Social Media Campaigns</h4>
-                                            </Col>
-                                        </Row>
+                            <Col md={10} style={{ paddingLeft: 0 }}>
+                                <Container fluid id="SocialMedia-topContentContainer">
+                                    <Row id="SocialMedia-firstRow">
+                                        <Col md={12} className="text-left" id="SocialMedia-firstRowCol">
+                                            <h4 id="SocialMedia-title">Social Media Campaigns</h4>
+                                        </Col>
+                                    </Row>
 
-                                        <Row id="SocialMedia-secondRow">
-                                            <Col md={12} id="SocialMedia-secondTextRowCol">
-                                                <h6>Click on the button below to be connected to Facebook for posting SIM's campaigns to the students!</h6>
-                                            </Col>
-                                        </Row>
+                                    <Row id="SocialMedia-secondRow">
+                                        <Col md={12} id="SocialMedia-secondTextRowCol">
+                                            <h6>Click on the button below to be connected to Facebook for posting SIM's campaigns to the students!</h6>
+                                        </Col>
+                                    </Row>
 
-                                        <Row id="SocialMedia-secondRow">
-                                            <Col md={12} id="SocialMedia-secondRowCol">
-                                                <Button className="SocialMedia-fbBtn">Connect to Facebook</Button>
-                                            </Col>
-                                        </Row>
+                                    <Row id="SocialMedia-secondRow">
+                                        <Col md={12} id="SocialMedia-secondRowCol">
+                                            <Button className="SocialMedia-fbBtn" href="https://www.facebook.com/FYP20S313-University-of-Wollongong-109981057544096/" target="_blank">Connect to Facebook</Button>
+                                        </Col>
+                                    </Row>
 
-                                    </Container>
-                                </Col>
-                            </Row>    
-                        </Container>                    
+                                </Container>
+                            </Col>
+                        </Row>
+                    </Container>
 
                     <Footer />
                 </Container>
