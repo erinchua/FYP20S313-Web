@@ -1,4 +1,4 @@
-import { Container, Row, Col, Table, Button, Modal, Form } from 'react-bootstrap';
+import { Container, Row, Col, Button, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
 import { db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
@@ -18,7 +18,15 @@ async function savePicture(blobURL, folderName, fileName) {
     return url;
 }
 
+const initialStates = {
+    descriptionError: "",
+    brochureUrlError: "",
+    imageUrlError: "",
+}
+
 class EditStudentLifeBrochuresModal extends Component {
+
+    state = initialStates;
 
     constructor(props) {
         super(props);
@@ -27,7 +35,6 @@ class EditStudentLifeBrochuresModal extends Component {
             description: this.props.description,
             brochureUrl: this.props.brochureUrl,
             document: "",
-            onClickBrochures: "",
             //Below states are for the modals
             handleEdit: "",
         }
@@ -37,10 +44,101 @@ class EditStudentLifeBrochuresModal extends Component {
         this.setState({
             [e.target.name]: e.target.value,
         });
-        console.log([e.target.name], e.target.value)
     };
 
-   
+    handleFileUpload = (e) => {
+        if (e.target.files?.length > 0){
+            const file = e.target.files?.item(0);
+            const fileURL = URL.createObjectURL(file);
+
+            console.log("Create:", fileURL);
+            this.setState({
+                brochureUrl: fileURL,
+            });            
+        }
+    };
+
+    //When click on "Save Changes" in edit modal
+    handleSave = async() => {
+        var brochureTitle = "";
+        var brochureRes = "";
+        var brochureExtension = "";
+        var brochureName = "";
+        const isValid = this.validate();
+
+        //When upload a new brochure and state will starts with "blob:"
+        if (this.state.brochureUrl.startsWith("blob:")) {   
+
+            brochureTitle = this.props.brochureUrl.split(/\%2..*%2F(.*?)\?alt/)[1].split(".")[0]
+            brochureRes = this.props.brochureUrl.split("?alt=")[0];
+            brochureExtension = brochureRes.substr(brochureRes.length - 4);
+
+            if (!brochureExtension.includes('.pdf') && !brochureExtension.includes('.PDF')) {
+                brochureName = brochureTitle;
+                const document = await savePicture(this.state.brochureUrl, "Study", brochureName);
+                this.setState({
+                    document: document
+                });
+            } else {
+                brochureName = brochureTitle + brochureExtension;
+                const document = await savePicture(this.state.brochureUrl, "Study", brochureName);
+                this.setState({
+                    document: document
+                });
+            } 
+
+            if (isValid) {
+                this.setState(initialStates);
+
+                db.collection("Brochures").doc(this.props.id)
+                .update({
+                    description: this.state.description,
+                    brochureUrl: this.state.document,
+                })
+                .then(() => {
+                    console.log("Updated the Student Life Brochures");
+                    this.props.handleEdit();
+                });
+            }
+
+        //When never upload a new brochure and edit description only
+        } else {
+            if (isValid) {
+                this.setState(initialStates);
+
+                db.collection("Brochures").doc(this.props.id)
+                .update({
+                    description: this.state.description,
+                })
+                .then(() => {
+                    console.log("Updated the Student Life Brochures' Description");
+                    this.props.handleEdit();
+                });
+            }
+        }
+
+    }
+
+    //Validations for the edit modal fields
+    validate = () => {
+        let descriptionError = "";
+        let brochureUrlError = "";
+
+        if (!this.state.description) {
+            descriptionError = "Please enter a valid description name for the brochure.";
+        }
+
+        if (!this.state.brochureUrl) {
+            brochureUrlError = "Please browse a valid brochure document.";
+        }
+
+        if (descriptionError || brochureUrlError) {
+            this.setState({descriptionError, brochureUrlError});
+            return false;
+        } 
+
+        return true;
+    }
 
     render(){
         return(
@@ -57,7 +155,7 @@ class EditStudentLifeBrochuresModal extends Component {
                                 </Form.Group> 
                                 <Form.Group as={Col} md="7">
                                     <Form.Control id="Brochures-inputFields" type="text" name="description" placeholder="Description" defaultValue={this.props.description} onChange={this.updateInput} required noValidate></Form.Control>
-                                    <div className="errorMessage"></div>
+                                    <div className="errorMessage">{this.state.descriptionError}</div>
                                 </Form.Group>
                             </Form.Group>                     
                         </Form.Group>
@@ -73,8 +171,8 @@ class EditStudentLifeBrochuresModal extends Component {
                                 </Form.Group> 
                                 
                                 <Form.Group as={Col} md="7">
-                                    <Form.File name="brochureUrl" className="Brochures-imgFile" label={this.props.brochureUrl} onChange={this.handleFileUpload} onClick={() => this.setState({onClickBrochures: "brochures"})} custom required></Form.File>
-                                    <div className="errorMessage"></div>
+                                    <Form.File name="brochureUrl" className="Brochures-imgFile" label={this.props.brochureUrl} onChange={this.handleFileUpload} custom required></Form.File>
+                                    <div className="errorMessage">{this.state.brochureUrlError}</div>
                                 </Form.Group>
                             </Form.Group>
                         </Form.Group>
