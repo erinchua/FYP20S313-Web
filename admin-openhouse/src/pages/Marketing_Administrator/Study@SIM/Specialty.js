@@ -153,10 +153,44 @@ class StudySIM_Speciality extends Component {
   };
 
   /* Edit Programme Talk Modal */
-  handleEditStudySIMProgModal = () => {
+  handleEditStudySIMProgModal = (prog) => {
     if (this.state.editStudySIMProgModal == false) {
       this.setState({
-        editStudySIMProgModal: true
+        editStudySIMProgModal: true,
+
+        // Edit Modal Props
+        programmeName: prog.programmeName,
+        University: prog.awardBy,
+        ModeOfStudy: prog.ModeOfStudy,
+        discipline1: prog.discipline1,
+        discipline2: prog.discipline2,
+        academiclevel: prog.AcademicLevel,
+        olevel: prog.Qualification.oLevel,
+        aLevel: prog.Qualification.aLevel,
+        degree: prog.Qualification.degree,
+        diploma: prog.Qualification.diploma,
+        subdiscipline1: prog.subDiscipline.subDisciplineName1,
+        subdiscipline2: prog.subDiscipline.subDisciplineName2,
+        subdiscipline3: prog.subDiscipline.subDisciplineName3,
+        subdiscipline4: prog.subDiscipline.subDisciplineName4,
+        subdiscipline5: prog.subDiscipline.subDisciplineName5,
+        logoUrl: prog.logoUrl,
+            
+        //details
+        aboutprogramme1: prog.aboutprogramme.aboutProgramme1,
+        aboutprogramme2: prog.aboutprogramme.aboutProgramme2,
+        aboutprogramme3: prog.aboutprogramme.aboutProgramme3,
+        applicationperiod1: prog.applicationperiod.period1,
+        applicationperiod2: prog.applicationperiod.period2,
+        programmestructurecoursework: prog.programmestructure.coursework,
+        programmestructureexamination: prog.programmestructure.examination,
+        overseaopportunityexchange: prog.overseaopportunity.exchange,
+        overseaopportunitytransfer: prog.overseaopportunity.transfer,
+        intakemonthsfulltime: prog.intakemonths.fullTime,
+        intakemonthsparttime: prog.intakemonths.partTime,
+        durationfulltime: prog.duration.fullTime,
+        durationparttime: prog.duration.partTime,
+        docid: prog.docid
       });
     } else {
       this.setState({
@@ -164,25 +198,42 @@ class StudySIM_Speciality extends Component {
       });
     }
   };
-
+  
   /* Delete Programme Modal */
-  handleDeleteStudySIMProgModal = () => {
+  handleDeleteStudySIMProgModal = (id) => {
     if (this.state.deleteStudySIMProgModal == false) {
       this.setState({
         deleteStudySIMProgModal: true
       });
+      this.state.docid = id;
     } else {
       this.setState({
         deleteStudySIMProgModal: false
       });
     }
   };
-
+  
   /* View Programme Details Modal */
-  handleViewStudySIMProgDetailsModal = () => {
+  handleViewStudySIMProgDetailsModal = (prog) => {
     if (this.state.viewStudySIMProgDetailsModal == false) {
       this.setState({
-        viewStudySIMProgDetailsModal: true
+        viewStudySIMProgDetailsModal: true,
+
+        // View Modal Props
+        programmeName: prog.programmeName,
+        aboutprogramme1: prog.aboutprogramme.aboutProgramme1,
+        aboutprogramme2: prog.aboutprogramme.aboutProgramme2,
+        aboutprogramme3: prog.aboutprogramme.aboutProgramme3,
+        applicationperiod1: prog.applicationperiod.period1,
+        applicationperiod2: prog.applicationperiod.period2,
+        programmestructurecoursework: prog.programmestructure.coursework,
+        programmestructureexamination: prog.programmestructure.examination,
+        overseaopportunityexchange: prog.overseaopportunity.exchange,
+        overseaopportunitytransfer: prog.overseaopportunity.transfer,
+        intakemonthsfulltime: prog.intakemonths.fullTime,
+        intakemonthsparttime: prog.intakemonths.partTime,
+        durationfulltime: prog.duration.fullTime,
+        durationparttime: prog.duration.partTime
       });
     } else {
       this.setState({
@@ -249,26 +300,7 @@ class StudySIM_Speciality extends Component {
                               <tr key={index}>
                                 <td className="studySIMProgData_SNo text-center">{index}</td>
                                 <td className="studySIMProgData_ProgName text-left">
-                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {
-                                      this.setState({
-                                        programmeName: Specialty.programmeName,
-                                        aboutprogramme1: Specialty.aboutprogramme.aboutProgramme1,
-                                        aboutprogramme2: Specialty.aboutprogramme.aboutProgramme2,
-                                        aboutprogramme3: Specialty.aboutprogramme.aboutProgramme3,
-                                        applicationperiod1: Specialty.applicationperiod.period1,
-                                        applicationperiod2: Specialty.applicationperiod.period2,
-                                        programmestructurecoursework: Specialty.programmestructure.coursework,
-                                        programmestructureexamination: Specialty.programmestructure.examination,
-                                        overseaopportunityexchange: Specialty.overseaopportunity.exchange,
-                                        overseaopportunitytransfer: Specialty.overseaopportunity.transfer,
-                                        intakemonthsfulltime: Specialty.intakemonths.fullTime,
-                                        intakemonthsparttime: Specialty.intakemonths.partTime,
-                                        durationfulltime: Specialty.duration.fullTime,
-                                        durationparttime: Specialty.duration.partTime,
-                                      });
-                                      this.handleViewStudySIMProgDetailsModal();
-                                    }}
-                                  >
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {this.handleViewStudySIMProgDetailsModal(Specialty)}}>
                                     {Specialty.programmeName}
                                   </a>
                                 </td>
@@ -355,54 +387,13 @@ class StudySIM_Speciality extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">
-                                  <Button className="editStudySIMProgBtn" onClick={() => {
-                                      this.setState({
-                                        programmeName: Specialty.programmeName,
-                                        University: Specialty.awardBy,
-                                        category: Specialty.CategoryProgramme,
-                                        ModeOfStudy: Specialty.ModeOfStudy,
-                                        discipline1: Specialty.discipline1,
-                                        discipline2: Specialty.discipline2,
-                                        academiclevel: Specialty.AcademicLevel,
-                                        olevel: Specialty.Qualification.oLevel,
-                                        aLevel: Specialty.Qualification.aLevel,
-                                        degree: Specialty.Qualification.degree,
-                                        diploma: Specialty.Qualification.diploma,
-                                        subdiscipline1: Specialty.subDiscipline.subDisciplineName1,
-                                        subdiscipline2: Specialty.subDiscipline.subDisciplineName2,
-                                        subdiscipline3: Specialty.subDiscipline.subDisciplineName3,
-                                        subdiscipline4: Specialty.subDiscipline.subDisciplineName4,
-                                        subdiscipline5: Specialty.subDiscipline.subDisciplineName5,
-                                        
-                                        //details
-                                        aboutprogramme1: Specialty.aboutprogramme.aboutProgramme1,
-                                        aboutprogramme2: Specialty.aboutprogramme.aboutProgramme2,
-                                        aboutprogramme3: Specialty.aboutprogramme.aboutProgramme3,
-                                        applicationperiod1: Specialty.applicationperiod.period1,
-                                        applicationperiod2: Specialty.applicationperiod.period2,
-                                        programmestructurecoursework: Specialty.programmestructure.coursework,
-                                        programmestructureexamination: Specialty.programmestructure.examination,
-                                        overseaopportunityexchange: Specialty.overseaopportunity.exchange,
-                                        overseaopportunitytransfer: Specialty.overseaopportunity.transfer,
-                                        intakemonthsfulltime: Specialty.intakemonths.fullTime,
-                                        intakemonthsparttime: Specialty.intakemonths.partTime,
-                                        durationfulltime: Specialty.duration.fullTime,
-                                        durationparttime: Specialty.duration.partTime,
-                                        docid: Specialty.docid,
-                                      });
-                                      this.handleEditStudySIMProgModal();
-                                    }}
-                                  >
+                                  <Button className="editStudySIMProgBtn" onClick={() => {this.handleEditStudySIMProgModal(Specialty)}}>
                                     <FontAwesomeIcon size="lg" className="editStudySIMProgBtnIcon" icon={faEdit} />
                                   </Button>
                                 </td>
 
                                 <td className="studySIMProgData_Delete text-center">
-                                  <Button className="deleteStudySIMProgBtn" onClick={() => {
-                                      this.setState({docid: Specialty.docid});
-                                      this.handleDeleteStudySIMProgModal();
-                                    }}
-                                  >
+                                  <Button className="deleteStudySIMProgBtn" onClick={() => {this.handleDeleteStudySIMProgModal(Specialty.docid)}}>
                                     <FontAwesomeIcon size="lg" className="deleteStudySIMProgBtnIcon" icon={faTrashAlt} />
                                   </Button>
                                 </td>
@@ -458,7 +449,8 @@ class StudySIM_Speciality extends Component {
             docid={this.state.docid}
             programmeName={this.state.programmeName}
             University={this.state.University}
-            category={this.state.category}
+            // category={this.state.category}
+            logoUrl={this.state.logoUrl}
             ModeOfStudy={this.state.ModeOfStudy}
             discipline1={this.state.discipline1}
             discipline2={this.state.discipline2}
@@ -488,14 +480,15 @@ class StudySIM_Speciality extends Component {
             durationfulltime={this.state.durationfulltime}
             durationparttime={this.state.durationparttime}
 
-            // Options Values
-            handleSaveChanges={() => { this.handleEditStudySIMProgModal() }}
-            handleCancelEdit={this.handleEditStudySIMProgModal}
-            universities={this.state.universities}
-            disciplines={this.state.disciplines}
-            subDisciplines={this.state.subDisciplines}
+            // List of options from DB
+            universities = {this.state.universities}
+            disciplines = {this.state.disciplines}
+            subDisciplines = {this.state.subDisciplines}
             academicLvls={this.state.academicLvls}
 
+            // Button props
+            handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
+            handleCancelEdit={this.handleEditStudySIMProgModal}
           />
         </Modal>
 
