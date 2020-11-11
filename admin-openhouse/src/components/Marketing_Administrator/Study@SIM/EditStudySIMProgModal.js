@@ -298,11 +298,11 @@ export default class EditStudySIMProgModal extends React.Component {
       }
     }
 
-    console.log(subdiscipline1);
-    console.log(subdiscipline2);
-    console.log(subdiscipline3);
-    console.log(subdiscipline4);
-    console.log(subdiscipline5);
+    console.log("Subdisc1" + subdiscipline1);
+    console.log("Subdisc2" + subdiscipline2);
+    console.log("Subdisc3" + subdiscipline3);
+    console.log("Subdisc4" + subdiscipline4);
+    console.log("Subdisc5" + subdiscipline5);
 
     console.log("aboutprogramme1: " + this.state.aboutprogramme1);
     console.log("aboutprogramme2: " + this.state.aboutprogramme2);
@@ -353,7 +353,7 @@ export default class EditStudySIMProgModal extends React.Component {
     if (isValid) {
       this.setState(initialStates);
 
-      const userRef = db.collection("Programmes").doc(this.props.docid);
+      const userRef = db.collection("ProgrammesWeb").doc(this.props.docid);
       userRef.update({
         id: this.props.docid,
         entryQualifications: {
@@ -369,7 +369,7 @@ export default class EditStudySIMProgModal extends React.Component {
           subDisciplineName4: subdiscipline4,
           subDisciplineName5: subdiscipline5
         },
-        logoUrl: this.state.url,
+        logoUrl: this.state.logoUrl,
         discipline: {
           disciplineName1: discipline1,
           disciplineName2: discipline2
@@ -806,7 +806,7 @@ export default class EditStudySIMProgModal extends React.Component {
                         <Container className="editStudySIMProgForm_StructureOverseasCon">
                           <Row>
                             <Col style={{ paddingLeft: "10%" }}>
-                              <Form.Check name="programmestructurecoursework" value="Coursework" type="checkbox" label="Yes" className="editStudySIMProgForm_CheckBox" onChange={this.handleChange} defaultChecked={this.state.programmestructurecoursework} />
+                              <Form.Check name="programmestructurecoursework" value="Coursework" type="checkbox" label="Yes" className="editStudySIMProgForm_CheckBox" onChange={this.handleChange} defaultChecked={this.props.programmestructurecoursework} />
                             </Col>
                           </Row>
                         </Container>
