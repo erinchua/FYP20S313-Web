@@ -1,328 +1,225 @@
+import { Container, Row, Col, Table, Button, Modal, Accordion, Card, Nav, Tab } from 'react-bootstrap';
 import React, { Component } from "react";
 import { auth, db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
 
-//import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
+import '../../../css/Marketing_Administrator/Brochures.css';
+import NavBar from '../../../components/Navbar';
+import Footer from '../../../components/Footer';
+import SideNavBar from '../../../components/SideNavbar';
+import EditStudentLifeBrochuresModal from '../../../components/Marketing_Administrator/Brochures/EditStudentLifeBrochuresModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 class StudentLifeBrochure extends Component {
-  constructor() {
-    super();
-    this.state = {
-      brochureUrl: "",
-      description: "",
-      imageUrl: "",
-      university: "",
-      progress: "",
-    };
-  }
-
-  authListener() {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        var getrole = db
-          .collection("Administrators")
-          .where("email", "==", user.email);
-        getrole.get().then((snapshot) => {
-          snapshot.forEach((doc) => {
-            if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
-            } else {
-              history.push("/Login");
-            }
-          });
-        });
-      } else {
-        history.push("/Login");
-      }
-    });
-  }
-  updateInput = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  componentDidMount() {
-    
-    this.authListener();
- 
-  }
-
-  display() {
-    var counter = 1;
-    //Display of Scholarship Brochures
-    const userRef = db
-      .collection("Brochures")
-      .doc("study-001")
-      .onSnapshot((snapshot) => {
-        const scholarshipbrochures = [];
-          const data = {
-            brochureUrl: snapshot.data().brochureUrl,
-            description: snapshot.data().description,
-            imageUrl: snapshot.data().imageUrl,
-            university: snapshot.data().university,
-            id: snapshot.id,
-            counter: counter,
-          };
-          counter++;
-          scholarshipbrochures.push(data);
-        
-
-        this.setState({ scholarshipbrochures: scholarshipbrochures });
-      });
-
-      //Display of Bursary Brochures
-    const userRef1 = db
-    .collection("Brochures")
-    .doc("study-002")
-    .onSnapshot((snapshot) => {
-      const bursarybrochures = [];
-        const data = {
-          brochureUrl: snapshot.data().brochureUrl,
-          description: snapshot.data().description,
-          imageUrl: snapshot.data().imageUrl,
-          university: snapshot.data().university,
-          id: snapshot.id,
-          counter: counter,
+    constructor() {
+        super();
+        this.state = {
+            id: "",
+            brochureUrl: "",
+            description: "",
+            progress: "",
+            //Below states are for the functions
+            studentLifeBrochure: "",
+            //Below states are for the modals
+            editModal: false,
         };
-        counter++;
-        bursarybrochures.push(data);
-      
+    }
 
-      this.setState({ bursarybrochures: bursarybrochures });
-    });
-  }
-  handleFileUpload = (files) => {
-    this.setState({
-      files: files,
-    });
-  
-  };
-  
-
-  editBrochure(e, brochureid) {
-    document.getElementById(brochureid + "upload").removeAttribute("hidden");
-    document.getElementById(brochureid + "spanbrochurefile").removeAttribute("hidden");
-    document.getElementById(brochureid + "editbutton").setAttribute("hidden", "");
-    document.getElementById(brochureid + "updatebutton").removeAttribute("hidden");
-    document.getElementById(brochureid + "cancelbutton").removeAttribute("hidden");
-    var texttohide = document.getElementsByClassName(
-        brochureid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].setAttribute("hidden", "");
-      }  
-}
-
-  CancelEdit(e, brochureid) {
-    document.getElementById(brochureid + "upload").setAttribute("hidden", "");
-    document.getElementById(brochureid + "spanbrochurefile").setAttribute("hidden", "");
-    document.getElementById(brochureid + "editbutton").removeAttribute("hidden");
-    document.getElementById(brochureid + "updatebutton").setAttribute("hidden", "");
-    document.getElementById(brochureid + "cancelbutton").setAttribute("hidden", "");
-    var texttohide = document.getElementsByClassName(
-        brochureid + "text"
-      );
-      for (var i = 0; i < texttohide.length; i++) {
-        texttohide[i].removeAttribute("hidden", "");
-      }
-}
-
-
-handleSave = (brochureid) => {
-  const parentthis = this;
-
-console.log(this.state.files);
-
-if (this.state.files !== undefined) {
-    const foldername = "/Brochures/StudentLife";
-    const storageRef = storage.ref(foldername);
-    const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
-    fileRef.on("state_changed", function (snapshot) {
-      fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-
-        const userRef = db
-        .collection("Brochures")
-        .doc(brochureid)
-        .update({
-            brochureUrl: downloadURL, 
-        })
-        .then(function () {
-          alert("Updated");
-          window.location.reload();
+    authListener() {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                var getrole = db
+                .collection("Administrators")
+                .where("email", "==", user.email);
+                getrole.get().then((snapshot) => {
+                    snapshot.forEach((doc) => {
+                        if (doc.data().administratorType === "Marketing Administrator") {
+                            this.display();
+                        } else {
+                            history.push("/Login");
+                        }
+                    });
+                });
+            } else {
+                history.push("/Login");
+            }
         });
+    }
 
-      });
-      const progress = Math.round(
-        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-      );
-      if (progress != "100") {
-        parentthis.setState({ progress: progress });
-      } else {
-        parentthis.setState({ progress: "Uploaded!" });
-      }
-    });
-    console.log();
-  } else {
-    alert("No Files Selected");
-  }
-};
+    updateInput = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+    };
 
-  render() {
-    return (
-      <div className="home">
-          <h2>Student Life@SIM Brochures</h2>
-        <div>
-          <table id="users" class="table table-bordered"> 
-            <tbody>
-                <h4>SIM GE Scholarship</h4>
-              <tr>
-                <th scope="col">Brochure File</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.scholarshipbrochures &&
-                this.state.scholarshipbrochures.map((scholarshipbrochures) => {
-                  return (
-                    <tr>
-                      <td>
-                      <span class={scholarshipbrochures.id + "text"}>
-                      {scholarshipbrochures.brochureUrl}
-                        </span>
-                          <span id={scholarshipbrochures.id + "spanbrochurefile"} hidden>
-                          <input
-                            id={scholarshipbrochures.id + "brochurefile"}
-                            defaultValue={scholarshipbrochures.brochureUrl}
-                            type="text"
-                            name={scholarshipbrochures.id + "brochurefile"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={scholarshipbrochures.brochureUrl}
-                            required
-                            disabled={"disabled"}
-                          />
-                        </span>
-                       <span id= {scholarshipbrochures.id+ "upload" } hidden ><input
-            type="file"
-            onChange={(e) => {
-              this.handleFileUpload(e.target.files);
-            }}
-          />
-         
-       {this.state.progress}
-       <div>
-         <progress value={this.state.progress} max="100" />
-       </div>
-       </span> 
-                      </td>
-                      <td>
-                        <button
-                          id={scholarshipbrochures.id + "editbutton"}
-                          onClick={(e) => {
-                            this.editBrochure(e, scholarshipbrochures.id);
-                          }}
-                        >
-                          Edit
-                        </button>
+    componentDidMount() {
+        this.authListener();
+    }
 
-                        <button
-                          id={scholarshipbrochures.id + "updatebutton"}
-                          hidden
-                          onClick={(e) => {
-                            this.handleSave(scholarshipbrochures.id);
-                          }}
-                        >
-                          Update
-                        </button>
-                        <button
-                          hidden
-                          id={scholarshipbrochures.id + "cancelbutton"}
-                          onClick={(e) => {
-                            this.CancelEdit(e, scholarshipbrochures.id);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                    </tr>
-                  );
-            })}
+    display() {
+        db.collection("Brochures").where("id", ">=", "study-").where("id", "<=", "study-" + "\uf8ff")
+        .onSnapshot((snapshot) => {
+            const studentLifeBrochure = [];
+            
+            snapshot.forEach((doc) => {
+                const data = {
+                    id: doc.id,
+                    description: doc.data().description,
+                    brochureUrl: doc.data().brochureUrl,
+                }
+                studentLifeBrochure.push(data);     
+            });
+            this.setState({
+                studentLifeBrochure: studentLifeBrochure
+            }); 
+        });
+    }
 
-                <h4>SIM GE Bursary</h4>
-              <tr>
-                <th scope="col">Brochure File</th>
-                <th scope="col">Edit</th>
-              </tr>
-              {this.state.bursarybrochures &&
-                this.state.bursarybrochures.map((bursarybrochures) => {
-                  return (
-                    <tr>
-                      <td>
-                      <span class={bursarybrochures.id + "text"}>
-                      {bursarybrochures.brochureUrl}
-                        </span>
-                          <span id={bursarybrochures.id + "spanbrochurefile"} hidden>
-                          <input
-                            id={bursarybrochures.id + "brochurefile"}
-                            defaultValue={bursarybrochures.brochureUrl}
-                            type="text"
-                            name={bursarybrochures.id + "brochurefile"}
-                            class="form-control"
-                            aria-describedby="emailHelp"
-                            placeholder={bursarybrochures.brochureUrl}
-                            required
-                            disabled={"disabled"}
-                          />
-                        </span>
-                       <span id= {bursarybrochures.id+ "upload" } hidden ><input
-            type="file"
-            onChange={(e) => {
-              this.handleFileUpload(e.target.files);
-            }}
-          />
-         
-       {this.state.progress}
-       <div>
-         <progress value={this.state.progress} max="100" />
-       </div>
-       </span> 
-                      </td>
-                      <td>
-                        <button
-                          id={bursarybrochures.id + "editbutton"}
-                          onClick={(e) => {
-                            this.editBrochure(e, bursarybrochures.id);
-                          }}
-                        >
-                          Edit
-                        </button>
+    handleFileUpload = (files) => {
+        this.setState({
+            files: files,
+        });
+    };
+  
 
-                        <button
-                          id={bursarybrochures.id + "updatebutton"}
-                          hidden
-                          onClick={(e) => {
-                            this.handleSave(bursarybrochures.id);
-                          }}
-                        >
-                          Update
-                        </button>
-                        <button
-                          hidden
-                          id={bursarybrochures.id + "cancelbutton"}
-                          onClick={(e) => {
-                            this.CancelEdit(e, bursarybrochures.id);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                    </tr>
-                  );
-            })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
-  }
+    editBrochure(e, brochureid) {
+        document.getElementById(brochureid + "upload").removeAttribute("hidden");
+        document.getElementById(brochureid + "spanbrochurefile").removeAttribute("hidden");
+        document.getElementById(brochureid + "editbutton").setAttribute("hidden", "");
+        document.getElementById(brochureid + "updatebutton").removeAttribute("hidden");
+        document.getElementById(brochureid + "cancelbutton").removeAttribute("hidden");
+        var texttohide = document.getElementsByClassName(
+            brochureid + "text"
+        );
+        for (var i = 0; i < texttohide.length; i++) {
+            texttohide[i].setAttribute("hidden", "");
+        }  
+    }
+
+    CancelEdit(e, brochureid) {
+        document.getElementById(brochureid + "upload").setAttribute("hidden", "");
+        document.getElementById(brochureid + "spanbrochurefile").setAttribute("hidden", "");
+        document.getElementById(brochureid + "editbutton").removeAttribute("hidden");
+        document.getElementById(brochureid + "updatebutton").setAttribute("hidden", "");
+        document.getElementById(brochureid + "cancelbutton").setAttribute("hidden", "");
+        var texttohide = document.getElementsByClassName(
+            brochureid + "text"
+        );
+        for (var i = 0; i < texttohide.length; i++) {
+            texttohide[i].removeAttribute("hidden", "");
+        }
+    }
+
+
+    handleSave = (brochureid) => {
+    const parentthis = this;
+    console.log(this.state.files);
+        if (this.state.files !== undefined) {
+            const foldername = "/Brochures/Study";
+            const storageRef = storage.ref(foldername);
+            const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
+            fileRef.on("state_changed", function (snapshot) {
+                fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+                    db.collection("Brochures").doc(brochureid)
+                    .update({
+                        brochureUrl: downloadURL, 
+                    })
+                    .then(function () {
+                        console.log("Updated");
+                        window.location.reload();
+                    });
+                });
+                const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                if (progress != "100") {
+                    parentthis.setState({ progress: progress });
+                } else {
+                    parentthis.setState({ progress: "Uploaded!" });
+                }
+            });
+            console.log();
+        } else {
+            alert("No Files Selected");
+        }
+    };
+
+    handleEdit = (parameter) => {
+        this.editModal = this.state.editModal;
+        if (this.editModal == false) {
+            this.setState({
+                editModal: true,
+                id: parameter.id,
+                description: parameter.description,
+                brochureUrl: parameter.brochureUrl,
+            });
+        } else {
+            this.setState({
+                editModal: false
+            });
+            this.display();
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <Container fluid className="Brochures-container">
+                    <NavBar isMA={true} />
+
+                        <Container fluid className="Brochures-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                            <Row>
+                                <Col md={2} style={{paddingRight: 0}}>
+                                    <SideNavBar />
+                                </Col>
+
+                                <Col md={10} style={{paddingLeft: 0}}>
+                                    <Container fluid id="Brochures-topContentContainer">
+                                        <Row id="Brochures-firstRow">
+                                            <Col md={12} className="text-left" id="Brochures-firstRowCol">
+                                                <h4 id="Brochures-title">Student Life@SIM Brochures</h4>
+                                            </Col>
+                                        </Row>
+
+                                        <Row id="Brochures-secondRow">
+                                            <Col md={12} className="text-center" id="Brochures-secondRowCol">
+                                                <Table responsive="sm" bordered hover className="Brochures-tableCon">
+                                                    <thead id="Brochures-tableHeader">
+                                                        <tr>
+                                                            <th id="Brochures-descHeading">Description</th>
+                                                            <th>Brochure</th>
+                                                            <th id="Brochures-editHeading">Edit</th>
+                                                        </tr>
+                                                    </thead>
+                                                    {this.state.studentLifeBrochure && this.state.studentLifeBrochure.map((studentLife) => {
+                                                        return (
+                                                            <tbody id="Brochures-tableBody" key={studentLife.id}>
+                                                                <tr>
+                                                                    <td>{studentLife.description}</td>
+                                                                    <td className="text-left">{studentLife.brochureUrl}</td>
+                                                                    <td><Button size="sm" id="Brochures-editBtn" onClick={() => this.handleEdit(studentLife)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        )
+                                                    })}
+                                                </Table>
+                                            </Col>
+                                        </Row>
+
+                                    </Container>
+                                </Col>
+                            </Row>    
+                        </Container>                    
+
+                    <Footer />
+                </Container>
+
+                {/* Edit Modal */}
+                <Modal show={this.state.editModal} onHide={this.handleEdit} size="lg" centered keyboard={false}>
+                    <EditStudentLifeBrochuresModal handleEdit={this.handleEdit} id={this.state.id} description={this.state.description} brochureUrl={this.state.brochureUrl} />
+                </Modal>
+
+            </div>
+        );
+    }
 }
 export default StudentLifeBrochure;
