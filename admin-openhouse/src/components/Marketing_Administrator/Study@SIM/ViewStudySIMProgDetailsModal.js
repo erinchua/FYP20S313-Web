@@ -1,12 +1,11 @@
 import React from "react";
-import { Modal, Table } from "react-bootstrap";
+import { Modal, Table, Row, Col } from "react-bootstrap";
 
 import "../../../css/Marketing_Administrator/ViewStudySIMProgDetailsModal.css";
 
 export default class ViewStudySIMProgDetailsModal extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
   }
 
 
@@ -14,7 +13,6 @@ export default class ViewStudySIMProgDetailsModal extends React.Component {
     return (
       <div>
         <Modal.Header closeButton className="justify-content-center">
-          {/* To be retrieved from db */}
           <Modal.Title id="viewStudySIMProgDetailsModalTitle" className="w-100">
             {this.props.programmeName}
           </Modal.Title>
@@ -43,72 +41,113 @@ export default class ViewStudySIMProgDetailsModal extends React.Component {
             <tbody>
               <tr>
                 <td id="viewStudySIMProgDetailsData_AboutProg">
-                  <tr>
-                    <p>{this.props.aboutprogramme1}</p>
-                  </tr>
+                  <Row className="justify-content-center">
+                    <Col className="text-left">{this.props.aboutprogramme1}</Col>
+                  </Row>
 
-                  <tr>
-                    <p>{this.props.aboutprogramme2} </p>
-                  </tr>
+                  <br/>
 
-                  <tr>
-                    <p>{this.props.aboutprogramme3}</p>
-                  </tr>
+                  <Row className="justify-content-center">
+                    <Col className="text-left">{this.props.aboutprogramme2}</Col>
+                  </Row>
+
+                  <br/>
+
+                  <Row className="justify-content-center">
+                    <Col className="text-left">{this.props.aboutprogramme3}</Col>
+                  </Row>
                 </td>
 
                 <td id="viewStudySIMProgDetailsData_ApplicationPeriod">
-                  <tr>Period 1: {this.props.applicationperiod1}</tr>
-                  <tr>Period 2: {this.props.applicationperiod2}</tr>
+                  <Row className="justify-content-center">
+                    <Col className="text-left"><b>Period 1: </b><br/>{this.props.applicationperiod1}</Col>
+                  </Row>
+
+                  <br/>
+
+                  <Row className="justify-content-center">
+                    <Col className="text-left"><b>Period 2: </b><br/>{this.props.applicationperiod2}</Col>
+                  </Row>
                 </td>
 
                 <td id="viewStudySIMProgDetailsData_Coursework">
                   {this.props.programmestructurecoursework === true && (
-                    <span>Yes</span>
+                    <Row className="justify-content-center">
+                      <Col className="text-left">Yes</Col>
+                    </Row>
                   )}
 
                   {this.props.programmestructurecoursework !== true && (
-                    <span>No</span>
+                    <Row className="justify-content-center">
+                      <Col className="text-left">No</Col>
+                    </Row>
                   )}
                 </td>
 
                 <td id="viewStudySIMProgDetailsData_Examination">
                   {this.props.programmestructureexamination === true && (
-                    <span>Yes</span>
+                    <Row className="justify-content-center">
+                      <Col className="text-left">Yes</Col>
+                    </Row>
                   )}
 
                   {this.props.programmestructureexamination !== true && (
-                    <span>No</span>
+                    <Row className="justify-content-center">
+                      <Col className="text-left">No</Col>
+                    </Row>
                   )}
                 </td>
 
                 <td id="viewStudySIMProgDetailsData_Exchange">
                   {this.props.overseaopportunityexchange === true && (
-                    <span>Yes</span>
+                    <Row className="justify-content-center">
+                      <Col className="text-left">Yes</Col>
+                    </Row>
                   )}
 
                   {this.props.overseaopportunityexchange !== true && (
-                    <span>No</span>
+                    <Row className="justify-content-center">
+                      <Col className="text-left">No</Col>
+                    </Row>
                   )}
                 </td>
 
                 <td id="viewStudySIMProgDetailsData_Transfer">
                   {this.props.overseaopportunitytransfer === true && (
-                    <span>Yes</span>
+                    <Row className="justify-content-center">
+                      <Col className="text-left">Yes</Col>
+                    </Row>
                   )}
 
                   {this.props.overseaopportunitytransfer !== true && (
-                    <span>No</span>
+                    <Row className="justify-content-center">
+                      <Col className="text-left">No</Col>
+                    </Row>
                   )}
                 </td>
 
                 <td id="viewStudySIMProgDetailsData_IntakeMonth">
-                  <tr>Full-Time: {this.props.intakemonthsfulltime}</tr>
-                  <tr>Part-Time: {this.props.intakemonthsparttime}</tr>
+                  <Row className="justify-content-center">
+                    <Col className="text-left"><b>Full-Time: </b><br/>{this.props.intakemonthsfulltime}</Col>
+                  </Row>
+
+                  <br/>
+
+                  <Row className="justify-content-center">
+                    <Col className="text-left"><b>Part-Time: </b><br/>{this.props.intakemonthsparttime}</Col>
+                  </Row>
                 </td>
                 
                 <td id="viewStudySIMProgDetailsData_Duration">
-                  <tr>Full-Time: {this.props.durationfulltime}</tr>
-                  <tr>Part-Time: {this.props.durationparttime}</tr>
+                  <Row className="justify-content-center">
+                    <Col className="text-left"><b>Full-Time: </b><br/>{this.props.durationfulltime}</Col>
+                  </Row>
+
+                  <br/>
+
+                  <Row className="justify-content-center">
+                    <Col className="text-left"><b>Part-Time: </b><br/>{this.props.durationparttime}</Col>
+                  </Row>
                 </td>
               </tr>
             </tbody>
