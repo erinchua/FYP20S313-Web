@@ -131,7 +131,7 @@ export default class EditStudySIMProgModal extends React.Component {
         });
     }
   }
-  
+
   SubDisciplinehandleChange(event) {
     var x = document.getElementsByClassName("subDisciplineCheckboxes");
     if (event.target.checked) {
@@ -488,6 +488,10 @@ export default class EditStudySIMProgModal extends React.Component {
     }
 
     if (!(this.state.aboutprogramme1 || this.state.aboutprogramme2 || this.state.aboutprogramme3)) {
+      aboutProgError = "Please enter programme details!";
+    }
+    
+    if ((!this.state.aboutprogramme2) && this.state.aboutprogramme3) {
       aboutProgError = "Please enter programme details!";
     }
 
