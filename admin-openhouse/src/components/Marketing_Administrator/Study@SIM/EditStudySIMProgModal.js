@@ -81,7 +81,7 @@ export default class EditStudySIMProgModal extends React.Component {
   }
 
   componentDidMount() {
-
+    //Removing the empty strings in filter, otherwise checkbox disabled bug will occur. 
     this.setState(
       {
         disciplinecheckedItems: this.state.disciplinecheckedItems.filter(e => e),
