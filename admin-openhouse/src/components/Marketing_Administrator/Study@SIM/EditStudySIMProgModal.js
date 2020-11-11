@@ -80,6 +80,16 @@ export default class EditStudySIMProgModal extends React.Component {
     this.SubDisciplinehandleChange = this.SubDisciplinehandleChange.bind(this);
   }
 
+  componentDidMount() {
+    //Removing the empty strings in filter, otherwise checkbox disabled bug will occur. 
+    this.setState(
+      {
+        disciplinecheckedItems: this.state.disciplinecheckedItems.filter(e => e),
+        subdisciplinecheckedItems: this.state.subdisciplinecheckedItems.filter(e => e)
+      }
+    )
+
+  }
 
   DisciplinehandleChange(event) {
     //console.log(event.target.checked);
@@ -408,9 +418,9 @@ export default class EditStudySIMProgModal extends React.Component {
           aboutProgramme3: parentthis.state.aboutprogramme3.toString()
         }
       })
-      .then(dataSnapshot => {
-        this.props.handleSaveChanges();
-      });
+        .then(dataSnapshot => {
+          this.props.handleSaveChanges();
+        });
 
     }
 
@@ -570,10 +580,10 @@ export default class EditStudySIMProgModal extends React.Component {
                         <option value="" className="editStudySIMProgFormSelectOption">Choose a University</option>
 
                         {this.props.universities && this.props.universities.map((uni, index) => {
-                            index = index + 1;
-                            return (
-                              <option key={index} value={uni} className="editStudySIMProgFormSelectOption">{uni}</option>
-                            );
+                          index = index + 1;
+                          return (
+                            <option key={index} value={uni} className="editStudySIMProgFormSelectOption">{uni}</option>
+                          );
                         })}
                       </Form.Control>
                     </InputGroup>
@@ -627,7 +637,8 @@ export default class EditStudySIMProgModal extends React.Component {
                                     <Form.Check name="parttime" id={mos} value={mos} type="checkbox" label="Part-Time" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.ModeOfStudy.partTime} onChange={this.handleChange} />
                                   </Col>
                                 </Row>
-                              )}
+                              )
+                            }
                           }
                         })}
                       </Form.Group>
@@ -736,7 +747,7 @@ export default class EditStudySIMProgModal extends React.Component {
                             <Col>
                               <Form.Check name={subDiscipline} value={subDiscipline} type="checkbox" label={subDiscipline} className="editStudySIMProgForm_CheckBox subDisciplineCheckboxes"
                                 defaultChecked={subDiscipline == this.props.subdiscipline1 || subDiscipline == this.props.subdiscipline2 || subDiscipline == this.props.subdiscipline3 ||
-                                subDiscipline == this.props.subdiscipline4 || subDiscipline == this.props.subdiscipline5 ? true : false}
+                                  subDiscipline == this.props.subdiscipline4 || subDiscipline == this.props.subdiscipline5 ? true : false}
                                 onChange={this.SubDisciplinehandleChange} disabled={this.state["sub" + subDiscipline]} />
                             </Col>
                           </Row>
