@@ -31,9 +31,7 @@ export default class DeleteStudySIMProgModal extends React.Component {
       db.collection("ProgrammesWeb")
       .doc(this.props.docid).delete()
       .then(dataSnapshot => {
-          // console.log("Deleted programme");
           store.delete().then(dataSnapshot => {
-              // console.log("Deleted Image in Storage");
               this.props.handleConfirmDelete();
           });
       }); 
@@ -45,9 +43,7 @@ export default class DeleteStudySIMProgModal extends React.Component {
       db.collection("ProgrammesWeb")
       .doc(this.props.docid).delete()
       .then(dataSnapshot => {
-        // console.log("Deleted programme");
         store.delete().then(dataSnapshot => {
-            // console.log("Deleted Image in Storage");
             this.props.handleConfirmDelete();
         });
       });

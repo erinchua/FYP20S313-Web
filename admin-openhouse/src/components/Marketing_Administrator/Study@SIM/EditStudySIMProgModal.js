@@ -13,7 +13,6 @@ async function savePicture(blobURL, imageName) {
   const blob = await response.blob(); //fetch blob object
   const snapshot = await pictureRef.put(blob); //upload
   const url = await snapshot.ref.getDownloadURL(); //url in storage
-  console.log("image URL:", url);
   return url;
 }
 
@@ -92,7 +91,6 @@ export default class EditStudySIMProgModal extends React.Component {
   }
 
   DisciplinehandleChange(event) {
-    //console.log(event.target.checked);
     var x = document.getElementsByClassName("DisciplineCheckboxes");
     if (event.target.checked) {
       this.setState({
@@ -336,11 +334,12 @@ export default class EditStudySIMProgModal extends React.Component {
     var res = "";
     var extension = "";
     var fileName = "";
+    const parentthis = this;
 
     console.log("props.logoUrl: " + this.props.logoUrl)
 
-    if (this.props.logoUrl.startsWith("blob:")) {
-      title = this.props.logoUrl.split(/\%2..*%2F(.*?)\?alt/)[1].split(".")[0]
+    if (this.state.logoUrl.startsWith("blob:")) {
+      title = this.props.logoUrl.split(/\%2F(.*?)\?alt/)[1].split(".")[0]
       res = this.props.logoUrl.split("?alt=")[0];
       extension = res.substr(res.length - 4);
 
@@ -357,82 +356,138 @@ export default class EditStudySIMProgModal extends React.Component {
           url: url
         });
       }
-    }
+    
+      if (isValid) {
+        this.setState(initialStates);
 
-    const parentthis = this;
-
-    if (isValid) {
-      this.setState(initialStates);
-
-      const userRef = db.collection("ProgrammesWeb").doc(this.props.docid);
-      userRef.update({
-        id: this.props.docid,
-        entryQualifications: {
-          diploma: parentthis.state.diploma,
-          oLevel: parentthis.state.olevel,
-          degree: parentthis.state.degree,
-          aLevel: parentthis.state.alevel
-        },
-        subDiscipline: {
-          subDisciplineName1: subdiscipline1,
-          subDisciplineName2: subdiscipline2,
-          subDisciplineName3: subdiscipline3,
-          subDisciplineName4: subdiscipline4,
-          subDisciplineName5: subdiscipline5
-        },
-        logoUrl: this.state.logoUrl,
-        discipline: {
-          disciplineName1: discipline1,
-          disciplineName2: discipline2
-        },
-        programmeStructure: {
-          coursework: parentthis.state.programmestructurecoursework,
-          examination: parentthis.state.programmestructureexamination
-        },
-        awardedBy: parentthis.state.university.toString(),
-        academicLevel: parentthis.state.academiclevel.toString(),
-        intakeMonths: {
-          fullTime: parentthis.state.intakemonthsfulltime.toString(),
-          partTime: parentthis.state.intakemonthsparttime.toString()
-        },
-        duration: {
-          partTime: parentthis.state.durationparttime.toString(),
-          fullTime: parentthis.state.durationfulltime.toString()
-        },
-        applicationPeriod: {
-          period1: parentthis.state.applicationperiod1.toString(),
-          period2: parentthis.state.applicationperiod2.toString()
-        },
-        overseaOpportunity: {
-          exchange: parentthis.state.overseaopportunityexchange,
-          transfer: parentthis.state.overseaopportunitytransfer
-        },
-        programmeTitle: parentthis.state.programme.toString(),
-        modeOfStudy: {
-          partTime: parentthis.state.ModeOfStudy.partTime,
-          fullTime: parentthis.state.ModeOfStudy.fullTime
-        },
-        programmeOverview: {
-          aboutProgramme1: parentthis.state.aboutprogramme1.toString(),
-          aboutProgramme2: parentthis.state.aboutprogramme2.toString(),
-          aboutProgramme3: parentthis.state.aboutprogramme3.toString()
-        }
-      })
+        const userRef = db.collection("ProgrammesWeb").doc(this.props.docid);
+        userRef.update({
+          id: this.props.docid,
+          entryQualifications: {
+            diploma: parentthis.state.diploma,
+            oLevel: parentthis.state.olevel,
+            degree: parentthis.state.degree,
+            aLevel: parentthis.state.alevel
+          },
+          subDiscipline: {
+            subDisciplineName1: subdiscipline1,
+            subDisciplineName2: subdiscipline2,
+            subDisciplineName3: subdiscipline3,
+            subDisciplineName4: subdiscipline4,
+            subDisciplineName5: subdiscipline5
+          },
+          logoUrl: this.state.url,
+          discipline: {
+            disciplineName1: discipline1,
+            disciplineName2: discipline2
+          },
+          programmeStructure: {
+            coursework: parentthis.state.programmestructurecoursework,
+            examination: parentthis.state.programmestructureexamination
+          },
+          awardedBy: parentthis.state.university.toString(),
+          academicLevel: parentthis.state.academiclevel.toString(),
+          intakeMonths: {
+            fullTime: parentthis.state.intakemonthsfulltime.toString(),
+            partTime: parentthis.state.intakemonthsparttime.toString()
+          },
+          duration: {
+            partTime: parentthis.state.durationparttime.toString(),
+            fullTime: parentthis.state.durationfulltime.toString()
+          },
+          applicationPeriod: {
+            period1: parentthis.state.applicationperiod1.toString(),
+            period2: parentthis.state.applicationperiod2.toString()
+          },
+          overseaOpportunity: {
+            exchange: parentthis.state.overseaopportunityexchange,
+            transfer: parentthis.state.overseaopportunitytransfer
+          },
+          programmeTitle: parentthis.state.programme.toString(),
+          modeOfStudy: {
+            partTime: parentthis.state.ModeOfStudy.partTime,
+            fullTime: parentthis.state.ModeOfStudy.fullTime
+          },
+          programmeOverview: {
+            aboutProgramme1: parentthis.state.aboutprogramme1.toString(),
+            aboutProgramme2: parentthis.state.aboutprogramme2.toString(),
+            aboutProgramme3: parentthis.state.aboutprogramme3.toString()
+          }
+        })
         .then(dataSnapshot => {
           this.props.handleSaveChanges();
         });
+      }
+    } else {
+      if (isValid) {
+        this.setState(initialStates);
+
+        db.collection("ProgrammesWeb").doc(this.props.docid)
+        .update({
+          id: this.props.docid,
+          entryQualifications: {
+            diploma: parentthis.state.diploma,
+            oLevel: parentthis.state.olevel,
+            degree: parentthis.state.degree,
+            aLevel: parentthis.state.alevel
+          },
+          subDiscipline: {
+            subDisciplineName1: subdiscipline1,
+            subDisciplineName2: subdiscipline2,
+            subDisciplineName3: subdiscipline3,
+            subDisciplineName4: subdiscipline4,
+            subDisciplineName5: subdiscipline5
+          },
+          discipline: {
+            disciplineName1: discipline1,
+            disciplineName2: discipline2
+          },
+          programmeStructure: {
+            coursework: parentthis.state.programmestructurecoursework,
+            examination: parentthis.state.programmestructureexamination
+          },
+          awardedBy: parentthis.state.university.toString(),
+          academicLevel: parentthis.state.academiclevel.toString(),
+          intakeMonths: {
+            fullTime: parentthis.state.intakemonthsfulltime.toString(),
+            partTime: parentthis.state.intakemonthsparttime.toString()
+          },
+          duration: {
+            partTime: parentthis.state.durationparttime.toString(),
+            fullTime: parentthis.state.durationfulltime.toString()
+          },
+          applicationPeriod: {
+            period1: parentthis.state.applicationperiod1.toString(),
+            period2: parentthis.state.applicationperiod2.toString()
+          },
+          overseaOpportunity: {
+            exchange: parentthis.state.overseaopportunityexchange,
+            transfer: parentthis.state.overseaopportunitytransfer
+          },
+          programmeTitle: parentthis.state.programme.toString(),
+          modeOfStudy: {
+            partTime: parentthis.state.ModeOfStudy.partTime,
+            fullTime: parentthis.state.ModeOfStudy.fullTime
+          },
+          programmeOverview: {
+            aboutProgramme1: parentthis.state.aboutprogramme1.toString(),
+            aboutProgramme2: parentthis.state.aboutprogramme2.toString(),
+            aboutProgramme3: parentthis.state.aboutprogramme3.toString()
+          }
+        })
+        .then(dataSnapshot => {
+          this.props.handleSaveChanges();
+        });
+      }
 
     }
-
   }
-
 
   handleFileUpload = (e) => {
     if (e.target.files?.length > 0) {
       const file = e.target.files?.item(0);
       const logoURL = URL.createObjectURL(file);
 
-      console.log("Create:", logoURL);
       this.setState({
         logoUrl: logoURL,
       })
@@ -619,11 +674,12 @@ export default class EditStudySIMProgModal extends React.Component {
 
                     <Container className="editStudySIMProgForm_MoSCon">
                       <Form.Group>
-                        {this.state.Modeofstudy && this.state.Modeofstudy.map((mos) => {
+                        {this.state.Modeofstudy && this.state.Modeofstudy.map((mos, index) => {
+                          index = index+1
                           {
                             if (mos == 'fullTime') {
                               return (
-                                <Row>
+                                <Row key={index}>
                                   <Col>
                                     <Form.Check name="fulltime" id={mos} value={mos} type="checkbox" label="Full-Time" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.ModeOfStudy.fullTime} onChange={this.handleChange} />
                                   </Col>
@@ -632,7 +688,7 @@ export default class EditStudySIMProgModal extends React.Component {
                             }
                             else if (mos == 'partTime') {
                               return (
-                                <Row>
+                                <Row key={index}>
                                   <Col>
                                     <Form.Check name="parttime" id={mos} value={mos} type="checkbox" label="Part-Time" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.ModeOfStudy.partTime} onChange={this.handleChange} />
                                   </Col>
@@ -682,11 +738,12 @@ export default class EditStudySIMProgModal extends React.Component {
                     <Form.Label className="editStudySIMProgFormLabel">Choose Entry Qualification(s):</Form.Label>
 
                     <Container className="editStudySIMProgForm_EntryQualCon">
-                      {this.state.entryQualification && this.state.entryQualification.map((entry) => {
+                      {this.state.entryQualification && this.state.entryQualification.map((entry, index) => {
+                        index = index + 1
                         {
                           if (entry === "diploma") {
                             return (
-                              <Row>
+                              <Row key={index}>
                                 <Col>
                                   <Form.Check name={entry} value={entry} type="checkbox" label="Diploma" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.diploma} onChange={this.handleChange} />
                                 </Col>
@@ -696,7 +753,7 @@ export default class EditStudySIMProgModal extends React.Component {
 
                           if (entry === "degree") {
                             return (
-                              <Row>
+                              <Row key={index}>
                                 <Col>
                                   <Form.Check name={entry} value={entry} type="checkbox" label="Degree" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.degree} onChange={this.handleChange} />
                                 </Col>
@@ -706,7 +763,7 @@ export default class EditStudySIMProgModal extends React.Component {
 
                           if (entry === "aLevel") {
                             return (
-                              <Row>
+                              <Row key={index}>
                                 <Col>
                                   <Form.Check name={entry} value={entry} type="checkbox" label="'A' Level" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.aLevel} onChange={this.handleChange} />
                                 </Col>
@@ -716,7 +773,7 @@ export default class EditStudySIMProgModal extends React.Component {
 
                           if (entry === "oLevel") {
                             return (
-                              <Row>
+                              <Row key={index}>
                                 <Col>
                                   <Form.Check name={entry} value={entry} type="checkbox" label="'O' Level" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.oLevel} onChange={this.handleChange} />
                                 </Col>
