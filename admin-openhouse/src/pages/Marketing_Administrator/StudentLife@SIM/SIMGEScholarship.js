@@ -12,7 +12,27 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookReader, faCalendarAlt, faEdit, faEnvelopeOpen, faFileAlt, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import { faInternetExplorer } from '@fortawesome/free-brands-svg-icons';
 
+const initialStates = {
+    scholarshipOneTitleError: "",
+    scholarshipOneDescriptionError: "",
+    scholarshipTwoContentError: "",
+    scholarshipThreeCoversError: "",
+    scholarshipFourApplicationPeriodsError: "",
+    scholarshipFiveContentError: "",
+    scholarshipFiveExamplesError: "",
+    scholarshipFiveEmailError: "",
+    scholarshipFiveEmailFormatError: "",
+    scholarshipFiveSimPdpaPolicyError: "",
+    scholarshipSixDescriptionError: "",
+    scholarshipSevenProgrammesError: "",
+    scholarshipSevenDescriptionError: "",
+    scholarshipSevenPeriodError: "",
+    scholarshipEightContentError: "",
+}
+
 class SIMGEScholarship extends Component {
+
+    state = initialStates;
 
     constructor() {
         super();
@@ -42,9 +62,9 @@ class SIMGEScholarship extends Component {
             scholarshipSixDescription: "",
             //Scholarship07
             scholarshipSevenId: "",
-            scholarshipSevenDescription: "",
-            scholarshipSevenPeriod: "",
-            scholarshipSevenProgrammes: "",
+            description: "",
+            period: "",
+            programmes: "",
             //Scholarship08
             scholarshipEightId: "",
             scholarshipEightContent: "",
@@ -221,19 +241,10 @@ class SIMGEScholarship extends Component {
                 //Get Scholarship-07
                 if (doc.id === "scholarship-07"){
                     const scholarshipSeven = [];
-
-                    for (var i = 0; i < doc.data().content.length; i++) {
-                        for (var j = 0; j < doc.data().content[i].applicationPeriod.length; j++) {
-                            const data = {
-                                scholarshipSevenId: doc.id,
-                                scholarshipSevenDescription: doc.data().content[i].applicationPeriod[j].description,
-                                scholarshipSevenPeriod: doc.data().content[i].applicationPeriod[j].period,
-                                scholarshipSevenProgrammes: doc.data().content[i].programmes,
-                            }
-                            scholarshipSeven.push(data);
-                        }
-                    }
-                    this.setState({scholarshipSeven: doc.data().content});
+                    this.setState({
+                        scholarshipSeven: doc.data().content,
+                        scholarshipSevenId: doc.id,
+                    });
                 }
 
                 //Get Scholarship-08
@@ -257,191 +268,289 @@ class SIMGEScholarship extends Component {
         this.setState({
             [e.target.name]: e.target.value,
         });
-        console.log([e.target.name], e.target.value)
     };
 
     updateScholarships = (id) => {
+        const isOneValid = this.validateOne();
+        const isTwoValid = this.validateTwo();
+        const isThreeValid = this.validateThree();
+        const isFourValid = this.validateFour();
+        const isFiveContentValid = this.validateFiveContent();
+        const isFiveExamplesValid = this.validateFiveExamples();
+        const isFiveOthersValid = this.validateFiveOthers();
+        const isSixValid = this.validateSix();
+        const isSevenValid = this.validateSeven();
+        const isEightValid = this.validateEight();
 
+        //Update Scholarship-01
         if (id == this.state.scholarshipOneId) {
-            db.collection("Scholarship").doc(id)
-            .update({
-                content: firebase.firestore.FieldValue.arrayRemove({
-                    title: this.state.previousTitle,
-                    description: this.state.previousData
-                })
-            })
-            .then(() => {
-                console.log("Removed Scholarship-01");
+            if (isOneValid) {
+                this.setState(initialStates);
+
                 db.collection("Scholarship").doc(id)
                 .update({
-                    content: firebase.firestore.FieldValue.arrayUnion({
-                        title: this.state.scholarshipOneTitle,
-                        description: this.state.scholarshipOneDescription
+                    content: firebase.firestore.FieldValue.arrayRemove({
+                        title: this.state.previousTitle,
+                        description: this.state.previousData
                     })
-                }).then(() => {
-                    console.log("Updated Scholarship-01")
-                    this.setState({
-                        editOneModal: false,
+                })
+                .then(() => {
+                    db.collection("Scholarship").doc(id)
+                    .update({
+                        content: firebase.firestore.FieldValue.arrayUnion({
+                            title: this.state.scholarshipOneTitle,
+                            description: this.state.scholarshipOneDescription
+                        })
+                    }).then(() => {
+                        console.log("Updated Scholarship-01!")
+                        this.setState({
+                            editOneModal: false,
+                        });
+                        this.display();
                     });
-                    this.display();
                 });
-            });
+            }
         }
 
+        //Update Scholarship-02
         if (id == this.state.scholarshipTwoId) {
-            db.collection("Scholarship").doc(id)
-            .update({
-                content: firebase.firestore.FieldValue.arrayRemove(this.state.previousData)
-            })
-            .then(() => {
-                console.log("Removed Scholarship-02");
+            if (isTwoValid) {
+                this.setState(initialStates);
+
                 db.collection("Scholarship").doc(id)
                 .update({
-                    content: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipTwoContent)
-                }).then(() => {
-                    console.log("Updated Scholarship-02")
-                    this.setState({
-                        editTwoModal: false,
+                    content: firebase.firestore.FieldValue.arrayRemove(this.state.previousData)
+                })
+                .then(() => {
+                    db.collection("Scholarship").doc(id)
+                    .update({
+                        content: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipTwoContent)
+                    }).then(() => {
+                        console.log("Updated Scholarship-02!")
+                        this.setState({
+                            editTwoModal: false,
+                        });
+                        this.display();
                     });
-                    this.display();
                 });
-            });
+            }
         }
 
+        //Update Scholarship-03
         if (id == this.state.scholarshipThreeId) {
-            db.collection("Scholarship").doc(id)
-            .update({
-                covers: firebase.firestore.FieldValue.arrayRemove(this.state.previousData)
-            })
-            .then(() => {
-                console.log("Removed Scholarship-03");
+            if (isThreeValid) {
+                this.setState(initialStates);
+
                 db.collection("Scholarship").doc(id)
                 .update({
-                    covers: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipThreeCovers)
-                }).then(() => {
-                    console.log("Updated Scholarship-03")
-                    this.setState({
-                        editThreeModal: false,
+                    covers: firebase.firestore.FieldValue.arrayRemove(this.state.previousData)
+                })
+                .then(() => {
+                    db.collection("Scholarship").doc(id)
+                    .update({
+                        covers: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipThreeCovers)
+                    }).then(() => {
+                        console.log("Updated Scholarship-03!")
+                        this.setState({
+                            editThreeModal: false,
+                        });
+                        this.display();
                     });
-                    this.display();
                 });
-            });
+            }
         }
 
+        //Update Scholarship-04
         if (id == this.state.scholarshipFourId) {
-            db.collection("Scholarship").doc(id)
-            .update({
-                applicationPeriods: firebase.firestore.FieldValue.arrayRemove(this.state.previousData)
-            })
-            .then(() => {
-                console.log("Removed Scholarship-04");
+            if (isFourValid) {
+                this.setState(initialStates);
+
                 db.collection("Scholarship").doc(id)
                 .update({
-                    applicationPeriods: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipFourApplicationPeriods)
-                }).then(() => {
-                    console.log("Updated Scholarship-04")
-                    this.setState({
-                        editFourModal: false,
+                    applicationPeriods: firebase.firestore.FieldValue.arrayRemove(this.state.previousData)
+                })
+                .then(() => {
+                    db.collection("Scholarship").doc(id)
+                    .update({
+                        applicationPeriods: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipFourApplicationPeriods)
+                    }).then(() => {
+                        console.log("Updated Scholarship-04!")
+                        this.setState({
+                            editFourModal: false,
+                        });
+                        this.display();
                     });
-                    this.display();
                 });
-            });
+            }
         }
 
+        //Udpate Scholarship-05 Email, Email Format and SIM PDPA Policy
         if (id == this.state.scholarshipFiveId) {
-            db.collection("Scholarship").doc(id)
-            .update({
-                email: this.state.scholarshipFiveEmail,
-                emailFormat: this.state.scholarshipFiveEmailFormat,
-                simPdpaPolicy: this.state.scholarshipFiveSimPdpaPolicy
-            })
-            .then(() => {
-                console.log("Updated Scholarship-05");
-                this.setState({
-                    editFiveOthersModal: false,
-                });
-                this.display();
-            });
-        }
+            if (isFiveOthersValid) {
+                this.setState(initialStates);
 
-        if (id == this.state.scholarshipFiveContent) {
-            db.collection("Scholarship").doc("scholarship-05")
-            .update({
-                content: firebase.firestore.FieldValue.arrayRemove(this.state.previousContent)
-            })
-            .then(() => {
-                console.log("Removed Scholarship-05 Content");
-                db.collection("Scholarship").doc("scholarship-05")
-                .update({
-                    content: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipFiveContent)
-                }).then(() => {
-                    console.log("Updated Scholarship-05 Content")
-                    this.setState({
-                        editFiveModal: false,
-                    });
-                    this.display();
-                });
-            });
-        }
-
-        if (id == this.state.scholarshipFiveExamples) {
-            console.log("examples")
-            db.collection("Scholarship").doc("scholarship-05")
-            .update({
-                examples: firebase.firestore.FieldValue.arrayRemove(this.state.previousExamples)
-            })
-            .then(() => {
-                console.log("Removed Scholarship-05 Examples");
-                db.collection("Scholarship").doc("scholarship-05")
-                .update({
-                    examples: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipFiveExamples)
-                }).then(() => {
-                    console.log("Updated Scholarship-05 Examples")
-                    this.setState({
-                        editFiveExamplesModal: false,
-                    });
-                    this.display();
-                });
-            });
-        }
-
-        if (id == this.state.scholarshipSixId) {
-            db.collection("Scholarship").doc(id)
-            .update({
-                description: this.state.scholarshipSixDescription, 
-            })
-            .then(() => {
-                console.log("Updated Scholarship-06")
-                this.setState({
-                    editSixModal: false,
-                });
-                this.display();
-            });
-        }
-
-        if (id == this.state.scholarshipSevenId) {
-
-        }
-
-        if (id == this.state.scholarshipEightId) {
-            db.collection("Scholarship").doc(id)
-            .update({
-                content: firebase.firestore.FieldValue.arrayRemove(this.state.previousData)
-            })
-            .then(() => {
-                console.log("Removed Scholarship-08");
                 db.collection("Scholarship").doc(id)
                 .update({
-                    content: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipEightContent)
-                }).then(() => {
-                    console.log("Updated Scholarship-08")
+                    email: this.state.scholarshipFiveEmail,
+                    emailFormat: this.state.scholarshipFiveEmailFormat,
+                    simPdpaPolicy: this.state.scholarshipFiveSimPdpaPolicy
+                })
+                .then(() => {
+                    console.log("Updated Scholarship-05!");
                     this.setState({
-                        editEightModal: false,
+                        editFiveOthersModal: false,
                     });
                     this.display();
                 });
-                
-            });
+            }
+        }
+
+        //Update Scholarship-05 Content
+        if (id == this.state.scholarshipFiveContent) {
+            if (isFiveContentValid){
+                this.setState(initialStates);
+
+                db.collection("Scholarship").doc("scholarship-05")
+                .update({
+                    content: firebase.firestore.FieldValue.arrayRemove(this.state.previousContent)
+                })
+                .then(() => {
+                    db.collection("Scholarship").doc("scholarship-05")
+                    .update({
+                        content: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipFiveContent)
+                    }).then(() => {
+                        console.log("Updated Scholarship-05 Content!")
+                        this.setState({
+                            editFiveModal: false,
+                        });
+                        this.display();
+                    });
+                });
+            }
+        }
+
+        //Update Scholarship-05 Examples
+        if (id == this.state.scholarshipFiveExamples) {
+            if (isFiveExamplesValid) {
+                this.setState(initialStates);
+
+                db.collection("Scholarship").doc("scholarship-05")
+                .update({
+                    examples: firebase.firestore.FieldValue.arrayRemove(this.state.previousExamples)
+                })
+                .then(() => {
+                    db.collection("Scholarship").doc("scholarship-05")
+                    .update({
+                        examples: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipFiveExamples)
+                    }).then(() => {
+                        console.log("Updated Scholarship-05 Examples!")
+                        this.setState({
+                            editFiveExamplesModal: false,
+                        });
+                        this.display();
+                    });
+                });
+            }
+        }
+
+        //Update Scholarship-06
+        if (id == this.state.scholarshipSixId) {
+            if (isSixValid) {
+                this.setState(initialStates);
+
+                db.collection("Scholarship").doc(id)
+                .update({
+                    description: this.state.scholarshipSixDescription, 
+                })
+                .then(() => {
+                    console.log("Updated Scholarship-06!")
+                    this.setState({
+                        editSixModal: false,
+                    });
+                    this.display();
+                });
+            }
+        }
+
+        //Update Scholarship-07
+        if (id == this.state.scholarshipSevenId) {
+            if (isSevenValid) {
+                this.setState(initialStates);
+
+                var splitPeriod = this.state.period.split('\n- ');
+                var splitDescription = this.state.description.split('\n- ');
+                var splitPreviousPeriod = this.state.previousPeriod.split('\n- ');
+                var splitPreviousDescription = this.state.previousDescription.split('\n- ');
+
+                var previous = {
+                    applicationPeriod: [
+                        {
+                            description: splitPreviousDescription[0],
+                            period: splitPreviousPeriod[0],
+                        },
+                        {
+                            description: splitPreviousDescription[1],
+                            period: splitPreviousPeriod[1],
+                        }
+                    ],
+                    programmes: this.state.previousProgrammes,
+                }
+
+                var current = {
+                    applicationPeriod: [
+                        {
+                            description: splitDescription[0],
+                            period: splitPeriod[0],
+                        },
+                        {
+                            description: splitDescription[1],
+                            period: splitPeriod[1],
+                        }
+                    ],
+                    programmes: this.state.programmes,
+                }
+
+                db.collection("Scholarship").doc(id)
+                .update({
+                    content: firebase.firestore.FieldValue.arrayRemove(previous)
+                })
+                .then(() => {
+                    db.collection("Scholarship").doc(id)
+                    .update({
+                        content: firebase.firestore.FieldValue.arrayUnion(current)
+                    }).then(() => {
+                        console.log("Updated Scholarship-07!");
+                        this.setState({
+                            editSevenModal: false,
+                        });
+                        this.display();
+                    });
+                });
+            }
+        }
+
+        //Update Scholarship-08
+        if (id == this.state.scholarshipEightId) {
+            if (isEightValid) {
+                this.setState(initialStates);
+
+                db.collection("Scholarship").doc(id)
+                .update({
+                    content: firebase.firestore.FieldValue.arrayRemove(this.state.previousData)
+                })
+                .then(() => {
+                    db.collection("Scholarship").doc(id)
+                    .update({
+                        content: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipEightContent)
+                    }).then(() => {
+                        console.log("Updated Scholarship-08!")
+                        this.setState({
+                            editEightModal: false,
+                        });
+                        this.display();
+                    });
+                });
+            }
         }
     }
 
@@ -460,6 +569,7 @@ class SIMGEScholarship extends Component {
             this.setState({
                 editOneModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -476,6 +586,7 @@ class SIMGEScholarship extends Component {
             this.setState({
                 editTwoModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -492,6 +603,7 @@ class SIMGEScholarship extends Component {
             this.setState({
                 editThreeModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -509,6 +621,7 @@ class SIMGEScholarship extends Component {
             this.setState({
                 editFourModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -524,6 +637,7 @@ class SIMGEScholarship extends Component {
             this.setState({
                 editFiveModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -539,6 +653,7 @@ class SIMGEScholarship extends Component {
             this.setState({
                 editFiveExamplesModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -556,6 +671,7 @@ class SIMGEScholarship extends Component {
             this.setState({
                 editFiveOthersModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -571,26 +687,33 @@ class SIMGEScholarship extends Component {
             this.setState({
                 editSixModal: false
             });
+            this.setState(initialStates);
         }
     }
 
     handleEditSeven = (scholarshipSeven) => {
         if (this.state.editSevenModal == false) {
+            const period = [];
+            const description = [];
+            for (var i = 0; i < scholarshipSeven.applicationPeriod.length; i++) {
+                period.push(scholarshipSeven.applicationPeriod[i].period)
+                description.push(scholarshipSeven.applicationPeriod[i].description)
+            }
             this.setState({
                 editSevenModal: true,
-                scholarshipSevenId: scholarshipSeven.scholarshipSevenId,
-                scholarshipSevenPeriod: scholarshipSeven.scholarshipSevenPeriod,
-                scholarshipSevenDescription: scholarshipSeven.scholarshipSevenDescription,
-                scholarshipSevenProgrammes: scholarshipSeven.scholarshipSevenProgrammes,
-                previousPeriod: scholarshipSeven.scholarshipSevenPeriod,
-                previousDescription: scholarshipSeven.scholarshipSevenDescription,
-                previousProgrammes: scholarshipSeven.scholarshipSevenProgrammes,
+                programmes: scholarshipSeven.programmes,
+                period: period.join('\n- '),
+                description: description.join('\n- '),
+                previousPeriod: period.join('\n- '),
+                previousDescription: description.join('\n- '),
+                previousProgrammes: scholarshipSeven.programmes,
             });
         }
         else {
             this.setState({
                 editSevenModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -607,7 +730,193 @@ class SIMGEScholarship extends Component {
             this.setState({
                 editEightModal: false
             });
+            this.setState(initialStates);
         }
+    }
+
+    //Validation for Scholarship-01
+    validateOne = () => {
+        let scholarshipOneTitleError = "";
+        let scholarshipOneDescriptionError = "";
+
+        if (!this.state.scholarshipOneTitle) {
+            scholarshipOneTitleError = "Please enter a valid title.";
+        }
+
+        if (!this.state.scholarshipOneDescription) {
+            scholarshipOneDescriptionError = "Please enter a valid description.";
+        }
+
+        if (scholarshipOneTitleError || scholarshipOneDescriptionError) {
+            this.setState({scholarshipOneTitleError, scholarshipOneDescriptionError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validation for Scholarship-02
+    validateTwo = () => {
+        let scholarshipTwoContentError = "";
+
+        if (!this.state.scholarshipTwoContent) {
+            scholarshipTwoContentError = "Please enter a valid description.";
+        }
+
+        if (scholarshipTwoContentError) {
+            this.setState({scholarshipTwoContentError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validation for Scholarship-03
+    validateThree = () => {
+        let scholarshipThreeCoversError = "";
+
+        if (!this.state.scholarshipThreeCovers) {
+            scholarshipThreeCoversError = "Please enter a valid information.";
+        }
+
+        if (scholarshipThreeCoversError) {
+            this.setState({scholarshipThreeCoversError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validation for Scholarship-04
+    validateFour = () => {
+        let scholarshipFourApplicationPeriodsError = "";
+
+        if (!this.state.scholarshipFourApplicationPeriods) {
+            scholarshipFourApplicationPeriodsError = "Please select a valid application period.";
+        }
+
+        if (scholarshipFourApplicationPeriodsError) {
+            this.setState({scholarshipFourApplicationPeriodsError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validation for Scholarship-05 Content
+    validateFiveContent = () => {
+        let scholarshipFiveContentError = "";
+
+        if (!this.state.scholarshipFiveContent) {
+            scholarshipFiveContentError = "Please enter a valid description.";
+        }
+
+        if (scholarshipFiveContentError) {
+            this.setState({scholarshipFiveContentError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validation for Scholarship-05 Examples
+    validateFiveExamples = () => {
+        let scholarshipFiveExamplesError = "";
+
+        if (!this.state.scholarshipFiveExamples) {
+            scholarshipFiveExamplesError = "Please select a valid description.";
+        }
+
+        if (scholarshipFiveExamplesError) {
+            this.setState({scholarshipFiveExamplesError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validation for Scholarship-05 Others
+    validateFiveOthers = () => {
+        let scholarshipFiveEmailError = "";
+        let scholarshipFiveEmailFormatError = "";
+        let scholarshipFiveSimPdpaPolicyError = "";
+
+        if (!this.state.scholarshipFiveEmail.includes('@')) {
+            scholarshipFiveEmailError = "Please enter a valid email address.";
+        }
+
+        if (!this.state.scholarshipFiveEmailFormat) {
+            scholarshipFiveEmailFormatError = "Please enter a valid email format.";
+        }
+        
+        if (!this.state.scholarshipFiveSimPdpaPolicy) {
+            scholarshipFiveSimPdpaPolicyError = "Please enter a valid link";
+        }
+
+        if (scholarshipFiveEmailError || scholarshipFiveEmailFormatError || scholarshipFiveSimPdpaPolicyError) {
+            this.setState({scholarshipFiveEmailError, scholarshipFiveEmailFormatError, scholarshipFiveSimPdpaPolicyError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validation for Scholarship-06
+    validateSix = () => {
+        let scholarshipSixDescriptionError = "";
+
+        if (!this.state.scholarshipSixDescription) {
+            scholarshipSixDescriptionError = "Please select a valid description.";
+        }
+
+        if (scholarshipSixDescriptionError) {
+            this.setState({scholarshipSixDescriptionError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validation for Scholarship-07
+    validateSeven = () => {
+        let scholarshipSevenProgrammesError = "";
+        let scholarshipSevenDescriptionError = "";
+        let scholarshipSevenPeriodError = "";
+
+        if (!this.state.programmes) {
+            scholarshipSevenProgrammesError = "Please enter a valid programme. Do enter a line break for next link and include '- ' at the start of the sentence.";
+        }
+
+        if (!this.state.description) {
+            scholarshipSevenDescriptionError = "Please enter a valid description. Do enter a line break for next link and include '- ' at the start of the sentence.";
+        }
+
+        if (!this.state.period) {
+            scholarshipSevenPeriodError = "Please enter a valid period. Do enter a line break for next link and include '- ' at the start of the sentence.";
+        }
+
+        if (scholarshipSevenProgrammesError || scholarshipSevenDescriptionError || scholarshipSevenPeriodError) {
+            this.setState({scholarshipSevenProgrammesError, scholarshipSevenDescriptionError, scholarshipSevenPeriodError});
+            return false;
+        }
+
+        return true;
+    }
+
+    //Validation for Scholarship-08
+    validateEight = () => {
+        let scholarshipEightContentError = "";
+
+        if (!this.state.scholarshipEightContent) {
+            scholarshipEightContentError = "Please select a valid description.";
+        }
+
+        if (scholarshipEightContentError) {
+            this.setState({scholarshipEightContentError});
+            return false;
+        }
+
+        return true;
     }
 
     render() {
@@ -967,7 +1276,7 @@ class SIMGEScholarship extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Scholarship-inputFields" type="text" name="scholarshipOneTitle" placeholder="Title for Categories of Scholarships" required value={this.state.scholarshipOneTitle} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.scholarshipOneTitleError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -978,7 +1287,7 @@ class SIMGEScholarship extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Scholarship-textAreas" as="textarea" rows="4" type="text" name="scholarshipOneDescription" placeholder="Description for Categories of Scholarships" required defaultValue={this.state.scholarshipOneDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.scholarshipOneDescriptionError}</div>
                                             </Form.Group>
                                         </Form.Group>                     
                                     </Form.Group>
@@ -1016,7 +1325,7 @@ class SIMGEScholarship extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Scholarship-textAreas" as="textarea" rows="4" type="text" name="scholarshipTwoContent" placeholder="Content for Eligibility's Description" required defaultValue={this.state.scholarshipTwoContent} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.scholarshipTwoContentError}</div>
                                             </Form.Group>
                                         </Form.Group>                     
                                     </Form.Group>
@@ -1054,7 +1363,7 @@ class SIMGEScholarship extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Scholarship-textAreas" as="textarea" rows="2" type="text" name="scholarshipThreeCovers" placeholder="Value of Scholarship's Covers" required defaultValue={this.state.scholarshipThreeCovers} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.scholarshipThreeCoversError}</div>
                                             </Form.Group>
                                         </Form.Group>                     
                                     </Form.Group>
@@ -1106,7 +1415,7 @@ class SIMGEScholarship extends Component {
                                                     <option value="November">November</option>
                                                     <option value="December">December</option>
                                                 </Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.scholarshipFourApplicationPeriodsError}</div>
                                             </Form.Group>
                                         </Form.Group>                     
                                     </Form.Group>
@@ -1144,7 +1453,7 @@ class SIMGEScholarship extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Scholarship-textAreas" as="textarea" rows="4" type="text" name="scholarshipFiveContent" placeholder="Application Documents & Procedures's Content" required defaultValue={this.state.scholarshipFiveContent} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.scholarshipFiveContentError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -1182,7 +1491,7 @@ class SIMGEScholarship extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Scholarship-textAreas" as="textarea" rows="2" type="text" name="scholarshipFiveExamples" placeholder="Application Documents & Procedures's Examples" required defaultValue={this.state.scholarshipFiveExamples} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.scholarshipFiveExamplesError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -1220,7 +1529,7 @@ class SIMGEScholarship extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Scholarship-textAreas" as="textarea" rows="2" type="text" name="scholarshipFiveEmail" placeholder="Application Documents & Procedures's Email" required defaultValue={this.state.scholarshipFiveEmail} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.scholarshipFiveEmailError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -1231,7 +1540,7 @@ class SIMGEScholarship extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Scholarship-textAreas" as="textarea" rows="2" type="text" name="scholarshipFiveEmailFormat" placeholder="Application Documents & Procedures's Email Format" required defaultValue={this.state.scholarshipFiveEmailFormat} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.scholarshipFiveEmailFormatError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -1242,7 +1551,7 @@ class SIMGEScholarship extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Scholarship-textAreas" as="textarea" rows="2" type="text" name="scholarshipFiveSimPdpaPolicy" placeholder="Application Documents & Procedures's SIM PDPA Policy" required defaultValue={this.state.scholarshipFiveSimPdpaPolicy} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.scholarshipFiveSimPdpaPolicyError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -1280,7 +1589,7 @@ class SIMGEScholarship extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Scholarship-textAreas" as="textarea" rows="4" type="text" name="scholarshipSixDescription" placeholder="Selection Process's Description" required defaultValue={this.state.scholarshipSixDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.scholarshipSixDescriptionError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -1317,22 +1626,8 @@ class SIMGEScholarship extends Component {
                                                 <FontAwesomeIcon size="lg" icon={faCalendarAlt}/>
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
-                                                <Form.Control id="Scholarship-inputFields" name="scholarshipSevenPeriod" as="select" required defaultValue={this.state.scholarshipSevenPeriod} onChange={this.updateInput} noValidate>
-                                                    <option value="">Select a Period</option>
-                                                    <option value="January">January</option>
-                                                    <option value="February">February</option>
-                                                    <option value="March">March</option>
-                                                    <option value="April">April</option>
-                                                    <option value="May">May</option>
-                                                    <option value="June">June</option>
-                                                    <option value="July">July</option>
-                                                    <option value="August">August</option>
-                                                    <option value="September">September</option>
-                                                    <option value="October">October</option>
-                                                    <option value="November">November</option>
-                                                    <option value="December">December</option>
-                                                </Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <Form.Control id="Scholarship-textAreas" name="period" as="textarea" rows="2" type="text" placeholder="Tenure of Scholarship's Period" required defaultValue={this.state.period} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.scholarshipSevenPeriodError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -1342,8 +1637,8 @@ class SIMGEScholarship extends Component {
                                                 <FontAwesomeIcon size="lg" icon={faFileAlt}/>
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
-                                                <Form.Control id="Scholarship-textAreas" as="textarea" rows="2" type="text" name="scholarshipSevenDescription" placeholder="Tenure of Scholarship's Description" required defaultValue={this.state.scholarshipSevenDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <Form.Control id="Scholarship-textAreas" as="textarea" rows="4" type="text" name="description" placeholder="Tenure of Scholarship's Description" required defaultValue={this.state.description} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.scholarshipSevenDescriptionError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -1353,8 +1648,8 @@ class SIMGEScholarship extends Component {
                                                 <FontAwesomeIcon size="lg" icon={faBookReader}/>
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
-                                                <Form.Control id="Scholarship-textAreas" as="textarea" rows="2" type="text" name="scholarshipSevenProgrammes" placeholder="Tenure of Scholarship's Programmes" required defaultValue={this.state.scholarshipSevenProgrammes} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <Form.Control id="Scholarship-textAreas" as="textarea" rows="2" type="text" name="programmes" placeholder="Tenure of Scholarship's Programmes" required defaultValue={this.state.programmes} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.scholarshipSevenProgrammesError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>
@@ -1392,7 +1687,7 @@ class SIMGEScholarship extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="Scholarship-textAreas" as="textarea" rows="4" type="text" name="scholarshipEightContent" placeholder="Terms and Conditions's Description" required defaultValue={this.state.scholarshipEightContent} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.scholarshipEightContentError}</div>
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>

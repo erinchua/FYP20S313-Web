@@ -40,7 +40,6 @@ export default class AddStudySIMProgModal extends React.Component {
 
     this.state = {
       docid: "",
-      handleAdd: "",
 
       disciplinecheckedItems: [],
       subdisciplinecheckedItems: [],
@@ -50,14 +49,14 @@ export default class AddStudySIMProgModal extends React.Component {
 
       programme: "",
       university: "",
-      category: "",
+      // category: "",
       academiclevel: "",
-      parttime: "",
-      fulltime: "",
-      diploma: "",
-      degree: "",
-      alevel: "",
-      olevel: "",
+      parttime: false,
+      fulltime: false,
+      diploma: false,
+      degree: false,
+      alevel: false,
+      olevel: false,
       logoUrl: "",
 
       //details
@@ -70,18 +69,16 @@ export default class AddStudySIMProgModal extends React.Component {
       durationparttime: "",
       intakemonthsfulltime: "",
       intakemonthsparttime: "",
-      overseaopportunityexchange: "",
-      overseaopportunitytransfer: "",
-      programmestructurecoursework: "",
-      programmestructureexamination: "",
+      overseaopportunityexchange: false,
+      overseaopportunitytransfer: false,
+      programmestructurecoursework: false,
+      programmestructureexamination: false,
 
-      logoLabel: "Logo File*",
-      // For validations
-      
+      // Modal Btn Prop
+      handleAdd: ""
     };
     this.DisciplinehandleChange = this.DisciplinehandleChange.bind(this);
     this.SubDisciplinehandleChange = this.SubDisciplinehandleChange.bind(this);
-    this.resetForm = this.resetForm.bind(this);
   }
 
   componentDidMount() {
@@ -335,8 +332,8 @@ export default class AddStudySIMProgModal extends React.Component {
     console.log("category: " + this.state.category);
     console.log("academiclevel: " + this.state.academiclevel);
 
-    console.log("PT: " + this.state.parttime);
     console.log("FT: " + this.state.fulltime);
+    console.log("PT: " + this.state.parttime);
     console.log("alevel: " + this.state.alevel);
     console.log("degree: " + this.state.degree);
     console.log("diploma: " + this.state.diploma);
@@ -430,7 +427,7 @@ export default class AddStudySIMProgModal extends React.Component {
     if (isValid) {
       this.setState(initialStates);
 
-      db.collection("Programmes").orderBy("id", "desc").limit(1)
+      db.collection("ProgrammesWeb").orderBy("id", "desc").limit(1)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -450,7 +447,7 @@ export default class AddStudySIMProgModal extends React.Component {
               console.log(docid)
           }
 
-          db.collection("Programmes")
+          db.collection("ProgrammesWeb")
           .doc(docid)
           .set({
             id: docid,
@@ -499,7 +496,7 @@ export default class AddStudySIMProgModal extends React.Component {
               partTime: parentthis.state.parttime,
               fullTime: parentthis.state.fulltime
             },
-            category: parentthis.state.category.toString(),
+            // category: parentthis.state.category.toString(),
             programmeOverview: {
               aboutProgramme1: parentthis.state.aboutprogramme1.toString(),
               aboutProgramme3: parentthis.state.aboutprogramme3.toString(),
@@ -528,17 +525,12 @@ export default class AddStudySIMProgModal extends React.Component {
     }
   };
 
-   /* Checkbox - MOS */
-  //  handleCheckbox = (event) => {
-  //   let modeOfStudyArray = this.state.modeOfStudy
-  //   if (modeOfStudyArray.includes(event.target.value)) {
-  //     modeOfStudyArray = modeOfStudyArray.filter(modeOfStudy => modeOfStudy !== event.target.value)
-  //   } else {
-  //     modeOfStudyArray.push(event.target.value);
-  //   }
-  //   this.setState({modeOfStudy: modeOfStudyArray});
-  //   console.log("MOS Array: " + modeOfStudy)
-  // }
+  // Handle Checkbox Validations
+  handleCheckbox = (e) => {
+    this.setState({
+      [e.target.name]: e.target.checked
+    })
+  }
 
   //Validations for the Forms in Modals
   validate = () => {
@@ -559,12 +551,8 @@ export default class AddStudySIMProgModal extends React.Component {
       progNameError = "Please enter a valid programme name!";
     }
 
-    // In progress
     if (!this.state.logoUrl) {
       logoUrlError = "Please upload a logo!";
-    }
-    else if (this.state.logoUrl.includes(".exe")) {
-      logoUrlError = "File uploaded is executable. Please upload a valid image file!"
     }
 
     if (!this.state.university) {
@@ -575,19 +563,17 @@ export default class AddStudySIMProgModal extends React.Component {
       academicLevelError = "Please select a valid academic level!";
     }
 
-    // In progress
-    // if (this.state.Modeofstudy.length == 0) {
-    //   modeOfStudyError = "Please select at least 1 mode of study!";
-    // }
+    if (this.state.fulltime === false && this.state.parttime === false) {
+      modeOfStudyError = "Please select at least 1 mode of study!";
+    }
 
     if (this.state.disciplinecheckedItems.length == 0) {
       disciplineError = "Please select at least 1 discipline!";
     }
 
-    // In progress
-    // if (this.state.entryqualificationcheckedItems.length == 0) {
-    //   entryQualError = "Please select at least 1 entry qualification!";
-    // }
+    if (this.state.alevel === false && this.state.olevel === false && this.state.diploma === false && this.state.degree === false) {
+      entryQualError = "Please select at least 1 entry qualification!";
+    }
 
     if (this.state.subdisciplinecheckedItems.length == 0) {
       subDisciplineError = "Please select at least 1 sub-discipline!";
@@ -628,42 +614,6 @@ export default class AddStudySIMProgModal extends React.Component {
     return true;
   }
 
-  //Reset Forms
-  resetForm = () => {
-    this.setState({
-      progNameError: "",
-      logoUrlError: "",
-      universityError: "",
-      academicLevelError: "",
-      modeOfStudyError: "",
-      disciplineError: "",
-      entryQualError: "",
-      subDisciplineError: "",
-      aboutProgError: "",
-      applicationPeriodError: "",
-      intakeMonthsError: "",
-      durationError: "",
-      id: "",
-      programme: "",
-      logoUrl: "",
-      university: "",
-      academiclevel: "",
-      ModeOfStudy: "",
-      disciplinecheckedItems: [],
-      entryqualificationcheckedItems: [],
-      subdisciplinecheckedItems: [],
-      aboutprogramme1: "",
-      aboutprogramme2: "",
-      aboutprogramme3: "",
-      applicationperiod1: "",
-      applicationperiod2: "",
-      intakemonthsfulltime: "",
-      intakemonthsparttime: "",
-      durationfulltime: "",
-      durationparttime: ""
-    })
-  }
-
 
   render() {
     return (
@@ -696,9 +646,7 @@ export default class AddStudySIMProgModal extends React.Component {
                   <Col md="9" className="text-left">
                     <Form.Label className="addStudySIMProgFormLabel">Logo File:</Form.Label>
 
-                    <InputGroup className="addStudySIMProgFormColInputGrp">
-                      {/* <FormControl type="file" name="files" id="addStudySIMProgForm_LogoFile" label="Logo File*" custom required onChange={(e) => { this.handleFileUpload(e.target.files); }} /> */}
-                    
+                    <InputGroup className="addStudySIMProgFormColInputGrp">                 
                       <Form.File name="logoUrl" id="addStudySIMProgForm_LogoFile" className="addStudySIMProgForm_LogoFile" label={this.state.logoUrl} onChange={this.handleFileUpload} custom required />
                     </InputGroup>
 
@@ -733,17 +681,10 @@ export default class AddStudySIMProgModal extends React.Component {
                         <option value="" className="addStudySIMProgFormSelectOption">Choose an Academic Level</option>
 
                         {this.props.academicLvls && this.props.academicLvls.map((AcademicLevel, index) => {
-                          if (AcademicLevel === this.props.acadamiclevel) {
-                            return (
-                              <option value={AcademicLevel} className="addStudySIMProgFormSelectOption">{AcademicLevel}</option>
-                            );
-                          } else {
-                            return (
-                              <option value={AcademicLevel} className="addStudySIMProgFormSelectOption">{AcademicLevel}</option>
-                            );
-                          }
-                        }
-                        )}
+                          return (
+                            <option value={AcademicLevel} className="addStudySIMProgFormSelectOption">{AcademicLevel}</option>
+                          );
+                        })}
                       </Form.Control>
                     </InputGroup>
 
@@ -764,7 +705,7 @@ export default class AddStudySIMProgModal extends React.Component {
                               return (
                                 <Row>
                                   <Col>
-                                    <Form.Check name="modeOfStudy" id={Modeofstudy} value={Modeofstudy} type="checkbox" label="Full-Time" className="addStudySIMProgForm_CheckBox" onChange={this.handleChange} />
+                                    <Form.Check name="fulltime" id={Modeofstudy} value={Modeofstudy} type="checkbox" label="Full-Time" className="addStudySIMProgForm_CheckBox" onChange={this.handleCheckbox} />
                                   </Col>
                                 </Row>
                               );
@@ -773,8 +714,8 @@ export default class AddStudySIMProgModal extends React.Component {
                             if (Modeofstudy == "partTime") {
                               return (
                                 <Row>
-                                  <Col>
-                                    <Form.Check name="modeOfStudy" id={Modeofstudy} value={Modeofstudy} type="checkbox" label="Part-Time" className="addStudySIMProgForm_CheckBox" onChange={this.handleChange} />
+                                  <Col> 
+                                    <Form.Check name="parttime" id={Modeofstudy} value={Modeofstudy} type="checkbox" label="Part-Time" className="addStudySIMProgForm_CheckBox" onChange={this.handleCheckbox} />
                                   </Col>
                                 </Row>
                               );
@@ -784,7 +725,7 @@ export default class AddStudySIMProgModal extends React.Component {
                       </Form.Group>
                     </Container>
 
-                    {/* <div className="errorMessage text-left">{this.state.modeOfStudyError}</div> */}
+                    <div className="errorMessage text-left">{this.state.modeOfStudyError}</div>
                   </Col>
                 </Form.Row>
 
@@ -825,7 +766,7 @@ export default class AddStudySIMProgModal extends React.Component {
                             return (
                               <Row>
                                 <Col>
-                                  <Form.Check name={entryQual} value={entryQual} type="checkbox" label="&#34;A&#34; Level" className="addStudySIMProgForm_CheckBox" onChange={this.handleChange} />
+                                  <Form.Check name="alevel" value={entryQual} type="checkbox" label="&#34;A&#34; Level" className="addStudySIMProgForm_CheckBox" onChange={this.handleCheckbox} />
                                 </Col>
                               </Row>
                             );
@@ -835,7 +776,7 @@ export default class AddStudySIMProgModal extends React.Component {
                             return (
                               <Row>
                                 <Col>
-                                  <Form.Check name={entryQual} value={entryQual} type="checkbox" label="Degree" className="addStudySIMProgForm_CheckBox" onChange={this.handleChange} />
+                                  <Form.Check name="degree" value={entryQual} type="checkbox" label="Degree" className="addStudySIMProgForm_CheckBox" onChange={this.handleCheckbox} />
                                 </Col>
                               </Row>
                             );
@@ -845,7 +786,7 @@ export default class AddStudySIMProgModal extends React.Component {
                             return (
                               <Row>
                                 <Col>
-                                  <Form.Check name={entryQual} value={entryQual} type="checkbox" label="Diploma" className="addStudySIMProgForm_CheckBox" onChange={this.handleChange} />
+                                  <Form.Check name="diploma" value={entryQual} type="checkbox" label="Diploma" className="addStudySIMProgForm_CheckBox" onChange={this.handleCheckbox} />
                                 </Col>
                               </Row>
                             );
@@ -855,7 +796,7 @@ export default class AddStudySIMProgModal extends React.Component {
                             return (
                               <Row>
                                 <Col>
-                                  <Form.Check name={entryQual} value={entryQual} type="checkbox" label="&#34;O&#34; Level" className="addStudySIMProgForm_CheckBox" onChange={this.handleChange} />
+                                  <Form.Check name="olevel" value={entryQual} type="checkbox" label="&#34;O&#34; Level" className="addStudySIMProgForm_CheckBox" onChange={this.handleCheckbox} />
                                 </Col>
                               </Row>
                             );
@@ -864,7 +805,7 @@ export default class AddStudySIMProgModal extends React.Component {
                       })}
                     </Container>
 
-                    {/* <div className="errorMessage text-left">{this.state.entryQualError}</div> */}
+                    <div className="errorMessage text-left">{this.state.entryQualError}</div>
                   </Col>
                 </Form.Row>
               </Col>
@@ -995,7 +936,7 @@ export default class AddStudySIMProgModal extends React.Component {
                         <Container className="addStudySIMProgForm_StructureOverseasCon">
                           <Row>
                             <Col style={{ paddingLeft: "10%" }}>
-                              <Form.Check name="exchange" value="Exchange" type="checkbox" label="Yes" className="addStudySIMProgForm_CheckBox" onChange={this.handleChange} />
+                              <Form.Check name="overseaopportunityexchange" value="Exchange" type="checkbox" label="Yes" className="addStudySIMProgForm_CheckBox" onChange={this.handleChange} />
                             </Col>
                           </Row>
                         </Container>
@@ -1008,7 +949,7 @@ export default class AddStudySIMProgModal extends React.Component {
                         <Container className="addStudySIMProgForm_StructureOverseasCon">
                           <Row>
                             <Col style={{ paddingLeft: "10%" }}>
-                              <Form.Check name="transfer" value="Transfer" type="checkbox" label="Yes" className="addStudySIMProgForm_CheckBox" onChange={this.handleChange} />
+                              <Form.Check name="overseaopportunitytransfer" value="Transfer" type="checkbox" label="Yes" className="addStudySIMProgForm_CheckBox" onChange={this.handleChange} />
                             </Col>
                           </Row>
                         </Container>

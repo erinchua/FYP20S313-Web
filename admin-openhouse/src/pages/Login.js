@@ -63,10 +63,12 @@ class Login extends Component {
                         this.setState({ showAlert: true });
                     } else {
                         snapshot.forEach((doc) => {
+                            history.push("/MAHome");
+                            window.location.reload();
                             /* Decrypt password  */
-                            const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
+                        //    const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
 
-                            if(decryptPassword){
+                         /*   if(decryptPassword){
                                 if (doc.data().administratorType === "Marketing Administrator") {
                                     this.setState({ user: "Marketing Administrator" });
                                     history.push("/MAHome");
@@ -75,7 +77,7 @@ class Login extends Component {
                                     history.push("/Login");
                                     window.location.reload();
                                 }
-                            }
+                            }*/
                         });
                     }
                 });
@@ -88,6 +90,7 @@ class Login extends Component {
     superauthListener() {
         auth.onAuthStateChanged((user) => {
             if (user) {
+                console.log(user.email)
                 var getrole = db
                     .collection("Administrators")
                     .where("email", "==", user.email);
@@ -97,10 +100,12 @@ class Login extends Component {
                         this.setState({ showAlert: true });
                     } else {
                         snapshot.forEach((doc) => {
+                            history.push("/SAHome");
+                            window.location.reload();
                             /* Decrypt password  */
-                            const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
-
-                            if(decryptPassword){
+                            //const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
+                   
+                            /*if(decryptPassword){
                                 if (doc.data().administratorType === "Super Administrator") {
                                     this.setState({ user: "Super Administrator" });
                                     history.push("/SAHome");
@@ -109,7 +114,7 @@ class Login extends Component {
                                     history.push("/Login");
                                     window.location.reload();
                                 }
-                            }
+                            }*/
                         });
                     }
                 });
@@ -131,10 +136,12 @@ class Login extends Component {
                         this.setState({ showAlert: true });
                     } else {
                         snapshot.forEach((doc) => {
+                            history.push("/AttendanceMarkingScanner");
+                            window.location.reload();
                             /* Decrypt password  */
-                            const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
+                            //const decryptPassword = bcrypt.compareSync(this.state.password, doc.data().password);
 
-                            if(decryptPassword){
+                            /*if(decryptPassword){
                                 if (doc.data().administratorType === "Crew") {
                                     this.setState({ user: "Crew" });
                                     history.push("/AttendanceMarkingScanner");
@@ -143,7 +150,7 @@ class Login extends Component {
                                     history.push("/Login");
                                     window.location.reload();
                                 }
-                            }
+                            }*/
                         });
                     }
                 });
@@ -250,6 +257,7 @@ class Login extends Component {
         auth
         .signInWithEmailAndPassword(this.state.email, this.state.password)
         .then((u) => {
+           console.log(accounttype)
             if (accounttype === "marketing") {
                 this.marketingauthListener();
             } else if (accounttype === "super") {

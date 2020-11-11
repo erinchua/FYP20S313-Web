@@ -672,7 +672,7 @@ class OtherFinancialAssistance extends Component {
                                                 <Tab.Container defaultActiveKey="ampEducationBursary">
                                                     <Row className="OFA-secondInnerRow">
                                                         <Col md={12} className="OFA-secondInnerCol">
-                                                            <Nav defaultActiveKey="workPlayLive" className="OFA-nav" variant="tabs">
+                                                            <Nav defaultActiveKey="ampEducationBursary" className="OFA-nav" variant="tabs">
                                                                 <Col md={3} className="text-center OFA-navItemCon">
                                                                     <Nav.Item className="OFA-navItems">
                                                                         <Nav.Link eventKey="ampEducationBursary" className="OFA-navLinks">AMP Education<br/> Bursary</Nav.Link>

@@ -75,7 +75,7 @@ class StudySIM_ITComputerSciences extends Component {
             docid: doc.id,
             programmeName: doc.data().programmeTitle,
             awardBy: doc.data().awardedBy,
-            Logofile: doc.data().logoUrl,
+            logoUrl: doc.data().logoUrl,
             CategoryProgramme: doc.data().category,
             ModeOfStudy: doc.data().modeOfStudy,
             discipline1: doc.data().discipline.disciplineName1,
@@ -153,10 +153,44 @@ class StudySIM_ITComputerSciences extends Component {
   };
 
   /* Edit Programme Talk Modal */
-  handleEditStudySIMProgModal = () => {
+  handleEditStudySIMProgModal = (prog) => {
     if (this.state.editStudySIMProgModal == false) {
       this.setState({
-        editStudySIMProgModal: true
+        editStudySIMProgModal: true,
+
+        // Edit Modal Props
+        programmeName: prog.programmeName,
+        University: prog.awardBy,
+        ModeOfStudy: prog.ModeOfStudy,
+        discipline1: prog.discipline1,
+        discipline2: prog.discipline2,
+        academiclevel: prog.AcademicLevel,
+        olevel: prog.Qualification.oLevel,
+        aLevel: prog.Qualification.aLevel,
+        degree: prog.Qualification.degree,
+        diploma: prog.Qualification.diploma,
+        subdiscipline1: prog.subDiscipline.subDisciplineName1,
+        subdiscipline2: prog.subDiscipline.subDisciplineName2,
+        subdiscipline3: prog.subDiscipline.subDisciplineName3,
+        subdiscipline4: prog.subDiscipline.subDisciplineName4,
+        subdiscipline5: prog.subDiscipline.subDisciplineName5,
+        logoUrl: prog.logoUrl,
+            
+        //details
+        aboutprogramme1: prog.aboutprogramme.aboutProgramme1,
+        aboutprogramme2: prog.aboutprogramme.aboutProgramme2,
+        aboutprogramme3: prog.aboutprogramme.aboutProgramme3,
+        applicationperiod1: prog.applicationperiod.period1,
+        applicationperiod2: prog.applicationperiod.period2,
+        programmestructurecoursework: prog.programmestructure.coursework,
+        programmestructureexamination: prog.programmestructure.examination,
+        overseaopportunityexchange: prog.overseaopportunity.exchange,
+        overseaopportunitytransfer: prog.overseaopportunity.transfer,
+        intakemonthsfulltime: prog.intakemonths.fullTime,
+        intakemonthsparttime: prog.intakemonths.partTime,
+        durationfulltime: prog.duration.fullTime,
+        durationparttime: prog.duration.partTime,
+        docid: prog.docid
       });
     } else {
       this.setState({
@@ -166,11 +200,12 @@ class StudySIM_ITComputerSciences extends Component {
   };
 
   /* Delete Programme Modal */
-  handleDeleteStudySIMProgModal = () => {
+  handleDeleteStudySIMProgModal = (id) => {
     if (this.state.deleteStudySIMProgModal == false) {
       this.setState({
         deleteStudySIMProgModal: true
       });
+      this.state.docid = id;
     } else {
       this.setState({
         deleteStudySIMProgModal: false
@@ -179,10 +214,26 @@ class StudySIM_ITComputerSciences extends Component {
   };
 
   /* View Programme Details Modal */
-  handleViewStudySIMProgDetailsModal = () => {
+  handleViewStudySIMProgDetailsModal = (prog) => {
     if (this.state.viewStudySIMProgDetailsModal == false) {
       this.setState({
-        viewStudySIMProgDetailsModal: true
+        viewStudySIMProgDetailsModal: true,
+
+        // View Modal Props
+        programmeName: prog.programmeName,
+        aboutprogramme1: prog.aboutprogramme.aboutProgramme1,
+        aboutprogramme2: prog.aboutprogramme.aboutProgramme2,
+        aboutprogramme3: prog.aboutprogramme.aboutProgramme3,
+        applicationperiod1: prog.applicationperiod.period1,
+        applicationperiod2: prog.applicationperiod.period2,
+        programmestructurecoursework: prog.programmestructure.coursework,
+        programmestructureexamination: prog.programmestructure.examination,
+        overseaopportunityexchange: prog.overseaopportunity.exchange,
+        overseaopportunitytransfer: prog.overseaopportunity.transfer,
+        intakemonthsfulltime: prog.intakemonths.fullTime,
+        intakemonthsparttime: prog.intakemonths.partTime,
+        durationfulltime: prog.duration.fullTime,
+        durationparttime: prog.duration.partTime
       });
     } else {
       this.setState({
@@ -249,26 +300,7 @@ class StudySIM_ITComputerSciences extends Component {
                               <tr key={index}>
                                 <td className="studySIMProgData_SNo text-center">{index}</td>
                                 <td className="studySIMProgData_ProgName text-left">
-                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {
-                                      this.setState({
-                                        programmeName: ITComputerScience.programmeName,
-                                        aboutprogramme1: ITComputerScience.aboutprogramme.aboutProgramme1,
-                                        aboutprogramme2: ITComputerScience.aboutprogramme.aboutProgramme2,
-                                        aboutprogramme3: ITComputerScience.aboutprogramme.aboutProgramme3,
-                                        applicationperiod1: ITComputerScience.applicationperiod.period1,
-                                        applicationperiod2: ITComputerScience.applicationperiod.period2,
-                                        programmestructurecoursework: ITComputerScience.programmestructure.coursework,
-                                        programmestructureexamination: ITComputerScience.programmestructure.examination,
-                                        overseaopportunityexchange: ITComputerScience.overseaopportunity.exchange,
-                                        overseaopportunitytransfer: ITComputerScience.overseaopportunity.transfer,
-                                        intakemonthsfulltime: ITComputerScience.intakemonths.fullTime,
-                                        intakemonthsparttime: ITComputerScience.intakemonths.partTime,
-                                        durationfulltime: ITComputerScience.duration.fullTime,
-                                        durationparttime: ITComputerScience.duration.partTime,
-                                      });
-                                      this.handleViewStudySIMProgDetailsModal();
-                                    }}
-                                  >
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {this.handleViewStudySIMProgDetailsModal(ITComputerScience)}}>
                                     {ITComputerScience.programmeName}
                                   </a>
                                 </td>
@@ -276,7 +308,7 @@ class StudySIM_ITComputerSciences extends Component {
                                 <td className="studySIMProgData_AwardedBy text-left">{ITComputerScience.awardBy}</td>
                                 
                                 <td className="studySIMProgData_LogoFile text-left">
-                                  <img src={ITComputerScience.Logofile} className="logoFileImg" alt="No Logo file"></img>
+                                  <img src={ITComputerScience.logoUrl} className="logoFileImg" alt="No Logo file"></img>
                                 </td>
 
                                 <td className="studySIMProgData_AcademicLvl text-left">{ITComputerScience.AcademicLevel}</td>
@@ -354,54 +386,13 @@ class StudySIM_ITComputerSciences extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">
-                                  <Button className="editStudySIMProgBtn" onClick={() => {
-                                      this.setState({
-                                        programmeName: ITComputerScience.programmeName,
-                                        University: ITComputerScience.awardBy,
-                                        category: ITComputerScience.CategoryProgramme,
-                                        ModeOfStudy: ITComputerScience.ModeOfStudy,
-                                        discipline1: ITComputerScience.discipline1,
-                                        discipline2: ITComputerScience.discipline2,
-                                        acadamiclevel: ITComputerScience.AcademicLevel,
-                                        olevel: ITComputerScience.Qualification.oLevel,
-                                        aLevel: ITComputerScience.Qualification.aLevel,
-                                        degree: ITComputerScience.Qualification.degree,
-                                        diploma: ITComputerScience.Qualification.diploma,
-                                        subdiscipline1: ITComputerScience.subDiscipline.subDisciplineName1,
-                                        subdiscipline2: ITComputerScience.subDiscipline.subDisciplineName2,
-                                        subdiscipline3: ITComputerScience.subDiscipline.subDisciplineName3,
-                                        subdiscipline4: ITComputerScience.subDiscipline.subDisciplineName4,
-                                        subdiscipline5: ITComputerScience.subDiscipline.subDisciplineName5,
-                                        
-                                        //details
-                                        aboutprogramme1: ITComputerScience.aboutprogramme.aboutProgramme1,
-                                        aboutprogramme2: ITComputerScience.aboutprogramme.aboutProgramme2,
-                                        aboutprogramme3: ITComputerScience.aboutprogramme.aboutProgramme3,
-                                        applicationperiod1: ITComputerScience.applicationperiod.period1,
-                                        applicationperiod2: ITComputerScience.applicationperiod.period2,
-                                        programmestructurecoursework: ITComputerScience.programmestructure.coursework,
-                                        programmestructureexamination:ITComputerScience.programmestructure.examination,
-                                        overseaopportunityexchange: ITComputerScience.overseaopportunity.exchange,
-                                        overseaopportunitytransfer: ITComputerScience.overseaopportunity.transfer,
-                                        intakemonthsfulltime: ITComputerScience.intakemonths.fullTime,
-                                        intakemonthsparttime: ITComputerScience.intakemonths.partTime,
-                                        durationfulltime: ITComputerScience.duration.fullTime,
-                                        durationparttime: ITComputerScience.duration.partTime,
-                                        docid: ITComputerScience.docid,
-                                      });
-                                      this.handleEditStudySIMProgModal();
-                                    }}
-                                  >
+                                  <Button className="editStudySIMProgBtn" onClick={() => {this.handleEditStudySIMProgModal(ITComputerScience)}}>
                                     <FontAwesomeIcon size="lg" className="editStudySIMProgBtnIcon" icon={faEdit} />
                                   </Button>
                                 </td>
 
                                 <td className="studySIMProgData_Delete text-center">
-                                  <Button className="deleteStudySIMProgBtn" onClick={() => {
-                                      this.setState({docid: ITComputerScience.docid,});
-                                      this.handleDeleteStudySIMProgModal();
-                                    }}
-                                  >
+                                  <Button className="deleteStudySIMProgBtn" onClick={() => {this.handleDeleteStudySIMProgModal(ITComputerScience.docid)}}>
                                     <FontAwesomeIcon size="lg" className="deleteStudySIMProgBtnIcon" icon={faTrashAlt} />
                                   </Button>
                                 </td>
@@ -440,7 +431,6 @@ class StudySIM_ITComputerSciences extends Component {
             disciplines={this.state.disciplines}
             subDisciplines={this.state.subDisciplines}
             academicLvls={this.state.academicLvls}
-
           />
         </Modal>
 
@@ -459,11 +449,12 @@ class StudySIM_ITComputerSciences extends Component {
           <EditStudySIMProgModal
             programmeName={this.state.programmeName}
             University={this.state.University}
-            category={this.state.category}
+            // category={this.state.category}
+            logoUrl={this.state.logoUrl}
             ModeOfStudy={this.state.ModeOfStudy}
             discipline1={this.state.discipline1}
             discipline2={this.state.discipline2}
-            acadamiclevel={this.state.acadamiclevel}
+            academiclevel={this.state.academiclevel}
             olevel={this.state.olevel}
             aLevel={this.state.aLevel}
             degree={this.state.degree}
@@ -490,14 +481,15 @@ class StudySIM_ITComputerSciences extends Component {
             durationparttime={this.state.durationparttime}
             docid={this.state.docid}
 
-            //Option Values
-            handleSaveChanges={() => { this.handleEditStudySIMProgModal() }}
-            handleCancelEdit={this.handleEditStudySIMProgModal}
-            universities={this.state.universities}
-            disciplines={this.state.disciplines}
-            subDisciplines={this.state.subDisciplines}
+            // List of options from DB
+            universities = {this.state.universities}
+            disciplines = {this.state.disciplines}
+            subDisciplines = {this.state.subDisciplines}
             academicLvls={this.state.academicLvls}
 
+            // Button props
+            handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
+            handleCancelEdit={this.handleEditStudySIMProgModal}
           />
         </Modal>
 
