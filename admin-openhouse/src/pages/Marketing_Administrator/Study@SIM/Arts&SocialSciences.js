@@ -26,6 +26,9 @@ class StudySIM_ArtsSocialSciences extends Component {
       subDiscplines: [],
       universities: [],
       academicLvls: [],
+
+      ModeOfStudy: "",
+
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
@@ -77,8 +80,8 @@ class StudySIM_ArtsSocialSciences extends Component {
             docid: doc.id,
             programmeName: doc.data().programmeTitle,
             awardBy: doc.data().awardedBy,
-            Logofile: doc.data().logoUrl,
-            CategoryProgramme: doc.data().category,
+            logoUrl: doc.data().logoUrl,
+            // CategoryProgramme: doc.data().category,
             ModeOfStudy: doc.data().modeOfStudy,
             discipline1: doc.data().discipline.disciplineName1,
             discipline2: doc.data().discipline.disciplineName2,
@@ -156,10 +159,44 @@ class StudySIM_ArtsSocialSciences extends Component {
   };
 
   /* Edit Programme Talk Modal */
-  handleEditStudySIMProgModal = () => {
+  handleEditStudySIMProgModal = (prog) => {
     if (this.state.editStudySIMProgModal == false) {
       this.setState({
-        editStudySIMProgModal: true
+        editStudySIMProgModal: true,
+
+        // Edit Modal Props
+        programmeName: prog.programmeName,
+        University: prog.awardBy,
+        ModeOfStudy: prog.ModeOfStudy,
+        discipline1: prog.discipline1,
+        discipline2: prog.discipline2,
+        academiclevel: prog.AcademicLevel,
+        olevel: prog.Qualification.oLevel,
+        aLevel: prog.Qualification.aLevel,
+        degree: prog.Qualification.degree,
+        diploma: prog.Qualification.diploma,
+        subdiscipline1: prog.subDiscipline.subDisciplineName1,
+        subdiscipline2: prog.subDiscipline.subDisciplineName2,
+        subdiscipline3: prog.subDiscipline.subDisciplineName3,
+        subdiscipline4: prog.subDiscipline.subDisciplineName4,
+        subdiscipline5: prog.subDiscipline.subDisciplineName5,
+        logoUrl: prog.logoUrl,
+            
+        //details
+        aboutprogramme1: prog.aboutprogramme.aboutProgramme1,
+        aboutprogramme2: prog.aboutprogramme.aboutProgramme2,
+        aboutprogramme3: prog.aboutprogramme.aboutProgramme3,
+        applicationperiod1: prog.applicationperiod.period1,
+        applicationperiod2: prog.applicationperiod.period2,
+        programmestructurecoursework: prog.programmestructure.coursework,
+        programmestructureexamination: prog.programmestructure.examination,
+        overseaopportunityexchange: prog.overseaopportunity.exchange,
+        overseaopportunitytransfer: prog.overseaopportunity.transfer,
+        intakemonthsfulltime: prog.intakemonths.fullTime,
+        intakemonthsparttime: prog.intakemonths.partTime,
+        durationfulltime: prog.duration.fullTime,
+        durationparttime: prog.duration.partTime,
+        docid: prog.docid
       });
     } else {
       this.setState({
@@ -169,11 +206,14 @@ class StudySIM_ArtsSocialSciences extends Component {
   };
 
   /* Delete Programme Modal */
-  handleDeleteStudySIMProgModal = () => {
+  handleDeleteStudySIMProgModal = (id) => {
     if (this.state.deleteStudySIMProgModal == false) {
       this.setState({
-        deleteStudySIMProgModal: true
+        deleteStudySIMProgModal: true,
+        logoUrl: id.logoUrl
       });
+      this.state.docid = id;
+      console.log("logo url:" + this.state.logoUrl)
     } else {
       this.setState({
         deleteStudySIMProgModal: false
@@ -182,10 +222,26 @@ class StudySIM_ArtsSocialSciences extends Component {
   };
 
   /* View Programme Details Modal */
-  handleViewStudySIMProgDetailsModal = () => {
+  handleViewStudySIMProgDetailsModal = (prog) => {
     if (this.state.viewStudySIMProgDetailsModal == false) {
       this.setState({
-        viewStudySIMProgDetailsModal: true
+        viewStudySIMProgDetailsModal: true,
+
+        // View Modal Props
+        programmeName: prog.programmeName,
+        aboutprogramme1: prog.aboutprogramme.aboutProgramme1,
+        aboutprogramme2: prog.aboutprogramme.aboutProgramme2,
+        aboutprogramme3: prog.aboutprogramme.aboutProgramme3,
+        applicationperiod1: prog.applicationperiod.period1,
+        applicationperiod2: prog.applicationperiod.period2,
+        programmestructurecoursework: prog.programmestructure.coursework,
+        programmestructureexamination: prog.programmestructure.examination,
+        overseaopportunityexchange: prog.overseaopportunity.exchange,
+        overseaopportunitytransfer: prog.overseaopportunity.transfer,
+        intakemonthsfulltime: prog.intakemonths.fullTime,
+        intakemonthsparttime: prog.intakemonths.partTime,
+        durationfulltime: prog.duration.fullTime,
+        durationparttime: prog.duration.partTime
       });
     } else {
       this.setState({
@@ -253,26 +309,7 @@ class StudySIM_ArtsSocialSciences extends Component {
                               <tr key={index}>
                                 <td className="studySIMProgData_SNo text-center">{index}</td>
                                 <td className="studySIMProgData_ProgName text-left">
-                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {
-                                      this.setState({
-                                        programmeName: artsocialscience.programmeName,
-                                        aboutprogramme1: artsocialscience.aboutprogramme.aboutProgramme1,
-                                        aboutprogramme2: artsocialscience.aboutprogramme.aboutProgramme2,
-                                        aboutprogramme3: artsocialscience.aboutprogramme.aboutProgramme3,
-                                        applicationperiod1: artsocialscience.applicationperiod.period1,
-                                        applicationperiod2: artsocialscience.applicationperiod.period2,
-                                        programmestructurecoursework: artsocialscience.programmestructure.coursework,
-                                        programmestructureexamination: artsocialscience.programmestructure.examination,
-                                        overseaopportunityexchange: artsocialscience.overseaopportunity.exchange,
-                                        overseaopportunitytransfer: artsocialscience.overseaopportunity.transfer,
-                                        intakemonthsfulltime: artsocialscience.intakemonths.fullTime,
-                                        intakemonthsparttime: artsocialscience.intakemonths.partTime,
-                                        durationfulltime: artsocialscience.duration.fullTime,
-                                        durationparttime: artsocialscience.duration.partTime,
-                                      });
-                                      this.handleViewStudySIMProgDetailsModal();
-                                    }}
-                                  >
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {this.handleViewStudySIMProgDetailsModal(artsocialscience)}}>
                                     {artsocialscience.programmeName}
                                   </a>
                                 </td>
@@ -280,7 +317,7 @@ class StudySIM_ArtsSocialSciences extends Component {
                                 <td className="studySIMProgData_AwardedBy text-left">{artsocialscience.awardBy}</td>
 
                                 <td className="studySIMProgData_LogoFile text-left">
-                                  <img src={artsocialscience.Logofile} className="logoFileImg" alt="No Logo file"></img>
+                                  <img src={artsocialscience.logoUrl} className="logoFileImg" alt="No Logo file"></img>
                                 </td>
 
                                 <td className="studySIMProgData_AcademicLvl text-left">{artsocialscience.AcademicLevel}</td>
@@ -358,54 +395,13 @@ class StudySIM_ArtsSocialSciences extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">
-                                  <Button className="editStudySIMProgBtn" onClick={() => {
-                                    this.setState({
-                                      programmeName: artsocialscience.programmeName,
-                                      University: artsocialscience.awardBy,
-                                      category: artsocialscience.CategoryProgramme,
-                                      ModeOfStudy: artsocialscience.ModeOfStudy,
-                                      discipline1: artsocialscience.discipline1,
-                                      discipline2: artsocialscience.discipline2,
-                                      academiclevel: artsocialscience.AcademicLevel,
-                                      olevel: artsocialscience.Qualification.oLevel,
-                                      aLevel: artsocialscience.Qualification.aLevel,
-                                      degree: artsocialscience.Qualification.degree,
-                                      diploma: artsocialscience.Qualification.diploma,
-                                      subdiscipline1: artsocialscience.subDiscipline.subDisciplineName1,
-                                      subdiscipline2: artsocialscience.subDiscipline.subDisciplineName2,
-                                      subdiscipline3: artsocialscience.subDiscipline.subDisciplineName3,
-                                      subdiscipline4: artsocialscience.subDiscipline.subDisciplineName4,
-                                      subdiscipline5: artsocialscience.subDiscipline.subDisciplineName5,
-                                          
-                                      //details
-                                      aboutprogramme1: artsocialscience.aboutprogramme.aboutProgramme1,
-                                      aboutprogramme2: artsocialscience.aboutprogramme.aboutProgramme2,
-                                      aboutprogramme3: artsocialscience.aboutprogramme.aboutProgramme3,
-                                      applicationperiod1: artsocialscience.applicationperiod.period1,
-                                      applicationperiod2: artsocialscience.applicationperiod.period2,
-                                      programmestructurecoursework: artsocialscience.programmestructure.coursework,
-                                      programmestructureexamination: artsocialscience.programmestructure.examination,
-                                      overseaopportunityexchange: artsocialscience.overseaopportunity.exchange,
-                                      overseaopportunitytransfer: artsocialscience.overseaopportunity.transfer,
-                                      intakemonthsfulltime: artsocialscience.intakemonths.fullTime,
-                                      intakemonthsparttime: artsocialscience.intakemonths.partTime,
-                                      durationfulltime: artsocialscience.duration.fullTime,
-                                      durationparttime: artsocialscience.duration.partTime,
-                                      docid: artsocialscience.docid,
-                                      });
-                                      this.handleEditStudySIMProgModal();
-                                    }}
-                                  >
+                                  <Button className="editStudySIMProgBtn" onClick={() => {this.handleEditStudySIMProgModal(artsocialscience)}}>
                                     <FontAwesomeIcon size="lg" className="editStudySIMProgBtnIcon" icon={faEdit} />
                                   </Button>
                                 </td>
 
                                 <td className="studySIMProgData_Delete text-center">
-                                  <Button className="deleteStudySIMProgBtn" onClick={() => {
-                                      this.setState({docid: artsocialscience.docid}); 
-                                      this.handleDeleteStudySIMProgModal();
-                                    }}
-                                  >
+                                  <Button className="deleteStudySIMProgBtn" onClick={() => {this.handleDeleteStudySIMProgModal(artsocialscience.docid);}}>
                                     <FontAwesomeIcon size="lg" className="deleteStudySIMProgBtnIcon" icon={faTrashAlt} />
                                   </Button>
                                 </td>
@@ -461,7 +457,7 @@ class StudySIM_ArtsSocialSciences extends Component {
             programmeName={this.state.programmeName}
             University={this.state.University}
             // category={this.state.category}
-            logoUrl={this.state.Logofile}
+            logoUrl={this.state.logoUrl}
             ModeOfStudy={this.state.ModeOfStudy}
             discipline1={this.state.discipline1}
             discipline2={this.state.discipline2}
@@ -496,11 +492,11 @@ class StudySIM_ArtsSocialSciences extends Component {
             universities = {this.state.universities}
             disciplines = {this.state.disciplines}
             subDisciplines = {this.state.subDisciplines}
+            academicLvls={this.state.academicLvls}
 
             // Button props
             handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
             handleCancelEdit={this.handleEditStudySIMProgModal}
-            academicLvls={this.state.academicLvls}
           />
         </Modal>
 
@@ -515,7 +511,12 @@ class StudySIM_ArtsSocialSciences extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <DeleteStudySIMProgModal docid={this.state.docid} handleConfirmDelete={() => {this.handleDeleteStudySIMProgModal();}} handleCancelDelete={this.handleDeleteStudySIMProgModal} />
+          <DeleteStudySIMProgModal 
+            docid={this.state.docid} 
+            logoUrl={this.state.logoUrl}
+            handleConfirmDelete={() => {this.handleDeleteStudySIMProgModal()}} 
+            handleCancelDelete={this.handleDeleteStudySIMProgModal}
+          />
         </Modal>
 
 
@@ -531,19 +532,6 @@ class StudySIM_ArtsSocialSciences extends Component {
         >
           <ViewStudySIMProgDetailsModal
             programmeName={this.state.programmeName}
-            aboutprogramme1={this.state.aboutprogramme1}
-            aboutprogramme2={this.state.aboutprogramme2}
-            aboutprogramme3={this.state.aboutprogramme3}
-            applicationperiod1={this.state.applicationperiod1}
-            applicationperiod2={this.state.applicationperiod2}
-            programmestructurecoursework={this.state.programmestructurecoursework}
-            programmestructureexamination={this.state.programmestructureexamination}
-            overseaopportunityexchange={this.state.overseaopportunityexchange}
-            overseaopportunitytransfer={this.state.overseaopportunitytransfer}
-            intakemonthsfulltime={this.state.intakemonthsfulltime}
-            intakemonthsparttime={this.state.intakemonthsparttime}
-            durationfulltime={this.state.durationfulltime}
-            durationparttime={this.state.durationparttime}
             aboutprogramme1={this.state.aboutprogramme1}
             aboutprogramme2={this.state.aboutprogramme2}
             aboutprogramme3={this.state.aboutprogramme3}

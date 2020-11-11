@@ -40,7 +40,6 @@ export default class AddStudySIMProgModal extends React.Component {
 
     this.state = {
       docid: "",
-      handleAdd: "",
 
       disciplinecheckedItems: [],
       subdisciplinecheckedItems: [],
@@ -75,12 +74,11 @@ export default class AddStudySIMProgModal extends React.Component {
       programmestructurecoursework: false,
       programmestructureexamination: false,
 
-      // For validations
-      entryQualification: []
+      // Modal Btn Prop
+      handleAdd: ""
     };
     this.DisciplinehandleChange = this.DisciplinehandleChange.bind(this);
     this.SubDisciplinehandleChange = this.SubDisciplinehandleChange.bind(this);
-    this.resetForm = this.resetForm.bind(this);
   }
 
   componentDidMount() {
@@ -429,7 +427,7 @@ export default class AddStudySIMProgModal extends React.Component {
     if (isValid) {
       this.setState(initialStates);
 
-      db.collection("Programmes").orderBy("id", "desc").limit(1)
+      db.collection("ProgrammesWeb").orderBy("id", "desc").limit(1)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -449,7 +447,7 @@ export default class AddStudySIMProgModal extends React.Component {
               console.log(docid)
           }
 
-          db.collection("Programmes")
+          db.collection("ProgrammesWeb")
           .doc(docid)
           .set({
             id: docid,
@@ -616,162 +614,6 @@ export default class AddStudySIMProgModal extends React.Component {
     return true;
   }
 
-  //Reset Forms
-  resetForm = () => {
-    this.setState({
-      progNameError: "",
-      logoUrlError: "",
-      universityError: "",
-      academicLevelError: "",
-      modeOfStudyError: "",
-      disciplineError: "",
-      entryQualError: "",
-      subDisciplineError: "",
-      aboutProgError: "",
-      applicationPeriodError: "",
-      intakeMonthsError: "",
-      durationError: "",
-      id: "",
-      programme: "",
-      logoUrl: "",
-      university: "",
-      academiclevel: "",
-      disciplinecheckedItems: [],
-      entryqualificationcheckedItems: [],
-      subdisciplinecheckedItems: [],
-      aboutprogramme1: "",
-      aboutprogramme2: "",
-      aboutprogramme3: "",
-      applicationperiod1: "",
-      applicationperiod2: "",
-      intakemonthsfulltime: "",
-      intakemonthsparttime: "",
-      durationfulltime: "",
-      durationparttime: ""
-    })
-  }
-
-  //Validations for the Forms in Modals
-  validate = () => {
-    let progNameError = "";
-    let logoFileError = "";
-    let universityError = "";
-    let academicLevelError = "";
-    let modeOfStudyError = "";
-    let disciplineError = "";
-    let entryQualError = "";
-    let subDisciplineError = "";
-    let aboutProgError = "";
-    let applicationPeriodError = "";
-    let intakeMonthsError = "";
-    let durationError = "";
-
-    if (!(this.state.programme && this.state.programme.length >= 4)) {
-      progNameError = "Please enter a valid programme name!";
-    }
-
-    if (!this.state.logoFile) {
-      logoFileError = "Please upload a logo!";
-    }
-    else if (this.state.logoFile.includes(".exe")) {
-      logoFileError = "File uploaded is executable. Please upload a valid image file!"
-    }
-
-    if (!this.state.university) {
-      universityError = "Please select a valid university!";
-    }
-
-    if (!this.state.academiclevel) {
-      academicLevelError = "Please select a valid academic level!";
-    }
-
-    if (!this.state.modeOfStudy) {
-      modeOfStudyError = "Please select at least 1 mode of study!";
-    }
-
-    if (this.state.disciplinecheckedItems.length == 0) {
-      disciplineError = "Please select at least 1 discipline!";
-    }
-
-    if (this.state.entryqualificationcheckedItems.length == 0) {
-      entryQualError = "Please select at least 1 entry qualification!";
-    }
-
-    if (!this.state.subdisciplinecheckedItems.length == 0) {
-      subDisciplineError = "Please select at least 1 sub-discipline!";
-    }
-
-    if (!(this.state.aboutprogramme1 && this.state.aboutprogramme1.length >= 1)) {
-      aboutProgError = "Please enter programme details!";
-    }
-
-    if ( !(this.state.aboutprogramme1 || this.state.aboutprogramme2 || this.state.aboutprogramme3) ) {
-      aboutProgError = "Please enter programme details!";
-    }
-
-    if (!(this.state.applicationperiod1 && this.state.applicationperiod1.length >= 1)) {
-      applicationPeriodError = "Please enter application period details!";
-    }
-
-    if ( !(this.state.applicationperiod1 || this.state.applicationperiod2) ) {
-      applicationPeriodError = "Please enter application period details!";
-    }
-
-    if ( !(this.state.intakemonthsfulltime || this.state.intakemonthsparttime) ) {
-      intakeMonthsError = "Please enter intake month(s) details!";
-    }
-
-    if ( !(this.state.durationfulltime || this.state.durationparttime) ) {
-      durationError = "Please enter duration details!";
-    }
-
-    if (progNameError || logoFileError || universityError || academicLevelError || modeOfStudyError || disciplineError || entryQualError
-      || subDisciplineError || aboutProgError || applicationPeriodError || intakeMonthsError || durationError) {
-      this.setState({
-        progNameError, logoFileError, universityError, academicLevelError, modeOfStudyError, disciplineError, entryQualError, subDisciplineError,
-        subDisciplineError, aboutProgError, applicationPeriodError, intakeMonthsError, durationError
-      });
-      return false;
-    }
-    return true;
-  }
-
-  //Reset Forms
-  resetForm = () => {
-    this.setState({
-      progNameError: "",
-      logoFileError: "",
-      universityError: "",
-      academicLevelError: "",
-      modeOfStudyError: "",
-      disciplineError: "",
-      entryQualError: "",
-      subDisciplineError: "",
-      aboutProgError: "",
-      applicationPeriodError: "",
-      intakeMonthsError: "",
-      durationError: "",
-      id: "",
-      programme: "",
-      logoFile: "",
-      university: "",
-      academiclevel: "",
-      ModeOfStudy: "",
-      disciplinecheckedItems: [],
-      entryqualificationcheckedItems: [],
-      subdisciplinecheckedItems: [],
-      aboutprogramme1: "",
-      aboutprogramme2: "",
-      aboutprogramme3: "",
-      applicationperiod1: "",
-      applicationperiod2: "",
-      intakemonthsfulltime: "",
-      intakemonthsparttime: "",
-      durationfulltime: "",
-      durationparttime: ""
-    })
-  }
-
 
   render() {
     return (
@@ -839,17 +681,10 @@ export default class AddStudySIMProgModal extends React.Component {
                         <option value="" className="addStudySIMProgFormSelectOption">Choose an Academic Level</option>
 
                         {this.props.academicLvls && this.props.academicLvls.map((AcademicLevel, index) => {
-                          if (AcademicLevel === this.props.acadamiclevel) {
-                            return (
-                              <option value={AcademicLevel} className="addStudySIMProgFormSelectOption">{AcademicLevel}</option>
-                            );
-                          } else {
-                            return (
-                              <option value={AcademicLevel} className="addStudySIMProgFormSelectOption">{AcademicLevel}</option>
-                            );
-                          }
-                        }
-                        )}
+                          return (
+                            <option value={AcademicLevel} className="addStudySIMProgFormSelectOption">{AcademicLevel}</option>
+                          );
+                        })}
                       </Form.Control>
                     </InputGroup>
 

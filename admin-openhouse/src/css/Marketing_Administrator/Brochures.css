@@ -1,4 +1,4 @@
-.OFA-container {
+.Brochures-container {
     min-height: 100vh;
     overflow-y: auto;
     flex: 1 0 auto;
@@ -6,169 +6,181 @@
     padding: 0 !important;
 }
 
-.OFA-content {
+.Brochures-content {
     background-color: #ffffff;
     min-height: 84vh;
     padding: 0 !important;
 }
 
-#OFA-topContentContainer {
+#Brochures-topContentContainer {
     background-color: #ffffff;
     min-height: 84vh;
     padding: 0 !important;
 }
 
-#OFA-firstRow {
+#Brochures-firstRow {
     background-color: #88B7B5;
     height: 13vh;
     margin: 0 !important;
 }
 
-#OFA-firstRowCol {
+#Brochures-firstRowCol {
     height: 100%;
     width: 100%;
     padding-top: 2%;
     padding-bottom: 2%;
 }
 
-#OFA-title {
+#Brochures-title {
     color: #424242;
 }
 
-#OFA-secondRow {
+#Brochures-secondRow {
     margin: 0 !important;
 }
 
-#OFA-secondRowCol {
+#Brochures-secondRowCol {
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
 
-.OFA-secondInnerRow {
+.Brochures-secondInnerRow {
     margin: 0 !important;
 }
 
-.OFA-secondInnerCol {
+.Brochures-secondInnerCol {
     padding: 0 !important;
 }
 
-.OFA-navItemCon {
+.Brochures-navItemCon {
     padding: 0 !important;
     width: 20%;
 }
 
-.OFA-navItems {
+.Brochures-navItems {
     background-color: #e4f2f0;
 }
 
-.OFA-navLinks {
+.Brochures-navLinks {
     color: #424242;
     font-weight: bold;
 }
 
-.OFA-navLinks:hover {
+.Brochures-navLinks:hover {
     background-color: #62929E;
     color: white;
     border-color: #62929E !important;
 }
 
-.OFA-navLinks:focus {
+.Brochures-navLinks:focus {
     background-color: #62929E;
     color: white;
     border-color: #62929E !important;
 }
 
-.OFA-nav .OFA-navLinks.active {
+.Brochures-nav .Brochures-navLinks.active {
     background-color: #62929E !important;
     color: white !important;
     border-color: #62929E !important;
 }
 
-#OFA-titleRow {
+#Brochures-titleRow {
     margin: 0 !important;
 }
 
-#OFA-thirdRowCol {
+#Brochures-thirdRowCol {
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
 
-#OFA-titleRowCol {
+#Brochures-titleRowCol {
     height: 100%;
     width: 100%;
     padding-top: 1%;
     padding-bottom: 1%;
 }
 
-.OFA-tableColCon {
+.Brochures-tableColCon {
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
 
-.OFA-tableCon {
+.Brochures-tableCon {
     width: 100%;
     margin-bottom: 0;
     max-width: 100%;
 }
 
-#OFA-emailHeading, #OFA-contactHeading {
+#Brochures-SNoHeading {
+    width: 3%;
+}
+
+#Brochures-imageHeading, #Brochures-descHeading {
     width: 15%;
 }
 
-#OFA-editHeading {
+#Brochures-editHeading {
     width: 10%;
 }
 
-#OFA-heading {
-    width: 20%;
-}
-
-#OFA-tableHeader {
+#Brochures-tableHeader {
     color: #424242;
     font-size: 90%;
     background-color: white;
 }
 
-#OFA-tableBody {
+#Brochures-tableBody {
     color: #434343;
     font-size: 85%;
     background-color: white;
 }
 
-#OFA-editBtn {
+#Brochures-editBtn {
     background: none;
     color: #434343;
     border: none;
 }
 
-#OFA-editBtn:focus {
+#Brochures-editBtn:focus {
     box-shadow: none;
 }
 
-#OFA-modalTitle {
+#Brochures-modalTitle {
     color: #424242;
     text-align: center;
 }
 
-.OFA-formGroup {
+.Brochures-formLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
+}
+
+.Brochures-formLabelGroup {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.Brochures-formGroup {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#OFA-editFooter {
+#Brochures-editFooter {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.OFA-editCol {
+.Brochures-editCol {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#OFA-saveBtn {
+#Brochures-saveBtn {
     width: 40%;
     background: #60c6d9;
     border: 1px solid #60c6d9;
@@ -176,11 +188,11 @@
     color: white;    
 }
 
-#OFA-saveBtn:focus {
+#Brochures-saveBtn:focus {
     box-shadow: none;   
 }
 
-#OFA-cancelBtn {
+#Brochures-cancelBtn {
     width: 40%;
     background: none;
     border: 1px solid #60c6d9;
@@ -188,11 +200,11 @@
     color: #60c6d9;
 }
 
-#OFA-cancelBtn:focus {
+#Brochures-cancelBtn:focus {
     box-shadow: none;   
 }
 
-#OFA-inputFields {
+#Brochures-inputFields {
     border: none;
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0;
@@ -200,17 +212,17 @@
     font-size: 85%;
 }
 
-#OFA-inputFields:focus {
+#Brochures-inputFields:focus {
     box-shadow: none;
 }
 
-#OFA-textAreas {
+#Brochures-textAreas {
     color: #434343;    
     font-size: 85%;
     border: 1px solid #c8c8c8;
 }
 
-#OFA-textAreas:focus {
+#Brochures-textAreas:focus {
     box-shadow: none;
     border: 1px solid #c8c8c8;
 }
@@ -223,4 +235,58 @@
 #border {
     border: 0.5px solid #e8e8e8;
     margin: 2% 0% 1% 0%;
+}
+
+.Brochures-Header {
+    background-color: #f1f6f9;
+    font-weight: bold;
+    color: #424242;
+    font-size: 90%;
+}
+
+.card-header {
+    border-bottom: none !important;
+}
+
+.card {
+    border: none !important;
+}
+
+#Brochures-titleRow {
+    margin: 0 !important;
+}
+
+.Brochures-cardBody {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    background-color: #b5cfd8;
+}
+
+.Brochures-imgFile .custom-file-input {
+    border: 1px solid #c8c8c8;
+    border-radius: 6px;
+    font-size: 85% !important;
+    color: #434343;
+}
+
+.Brochures-imgFile .custom-file-label {
+    color: #434343;
+    overflow: hidden;
+    font-size: 90% !important;
+}
+
+.Brochures-imgFile:focus {
+    box-shadow: none;
+}
+
+.Brochures-imageUrl {
+    transition: transform .2s;
+}
+
+.Brochures-imageUrl:hover {
+    -ms-transform: scale(3); /* IE 9 */
+    -webkit-transform: scale(3); /* Safari 3-8 */
+    transform: scale(3); 
+    z-index: 9999;
 }
