@@ -1,4 +1,4 @@
-import { Container, Row, Col, Table, Button, Modal, Form, Accordion, Card, Nav, Tab } from 'react-bootstrap';
+import { Container, Row, Col, Table, Button, Modal, Accordion, Card, Nav, Tab } from 'react-bootstrap';
 import React, { Component } from "react";
 import { auth, db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
@@ -9,8 +9,7 @@ import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
 import EditBrochuresModal from '../../../components/Marketing_Administrator/Brochures/EditBrochuresModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookReader, faCalendarAlt, faEdit, faEnvelopeOpen, faFileAlt, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
-import { faInternetExplorer } from '@fortawesome/free-brands-svg-icons';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 class StudySIMBrochure extends Component {
     constructor() {
@@ -73,11 +72,12 @@ class StudySIMBrochure extends Component {
                     brochureUrl: doc.data().brochureUrl,
                     description: doc.data().description,
                     imageUrl: doc.data().imageUrl,
+                    university: "",
                 };
                 prospectusBrochures.push(data);
             });
             this.setState({
-                prospectusBrochures: prospectusBrochures 
+                prospectusBrochures: prospectusBrochures,
             });
         });
 
@@ -87,7 +87,6 @@ class StudySIMBrochure extends Component {
             const programmeBrochures = [];
 
             snapshot.forEach((doc) => {
-                console.log(doc.data());
                 const data = {
                     id: doc.id,
                     brochureUrl: doc.data().brochureUrl,
@@ -98,7 +97,7 @@ class StudySIMBrochure extends Component {
                 programmeBrochures.push(data);
             });
             this.setState({ 
-                programmeBrochures: programmeBrochures 
+                programmeBrochures: programmeBrochures,
             });
         });
     }
@@ -413,7 +412,6 @@ class StudySIMBrochure extends Component {
             this.display();
         }
     }
-  
 
     render() {
         return (
