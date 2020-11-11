@@ -1,4 +1,4 @@
-import { Container, Row, Col, Table, Button, Modal, Accordion, Card, Nav, Tab } from 'react-bootstrap';
+import { Container, Row, Col, Table, Button, Modal } from 'react-bootstrap';
 import React, { Component } from "react";
 import { auth, db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
@@ -47,12 +47,6 @@ class StudentLifeBrochure extends Component {
         });
     }
 
-    updateInput = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value,
-        });
-    };
-
     componentDidMount() {
         this.authListener();
     }
@@ -75,73 +69,6 @@ class StudentLifeBrochure extends Component {
             }); 
         });
     }
-
-    handleFileUpload = (files) => {
-        this.setState({
-            files: files,
-        });
-    };
-  
-
-    editBrochure(e, brochureid) {
-        document.getElementById(brochureid + "upload").removeAttribute("hidden");
-        document.getElementById(brochureid + "spanbrochurefile").removeAttribute("hidden");
-        document.getElementById(brochureid + "editbutton").setAttribute("hidden", "");
-        document.getElementById(brochureid + "updatebutton").removeAttribute("hidden");
-        document.getElementById(brochureid + "cancelbutton").removeAttribute("hidden");
-        var texttohide = document.getElementsByClassName(
-            brochureid + "text"
-        );
-        for (var i = 0; i < texttohide.length; i++) {
-            texttohide[i].setAttribute("hidden", "");
-        }  
-    }
-
-    CancelEdit(e, brochureid) {
-        document.getElementById(brochureid + "upload").setAttribute("hidden", "");
-        document.getElementById(brochureid + "spanbrochurefile").setAttribute("hidden", "");
-        document.getElementById(brochureid + "editbutton").removeAttribute("hidden");
-        document.getElementById(brochureid + "updatebutton").setAttribute("hidden", "");
-        document.getElementById(brochureid + "cancelbutton").setAttribute("hidden", "");
-        var texttohide = document.getElementsByClassName(
-            brochureid + "text"
-        );
-        for (var i = 0; i < texttohide.length; i++) {
-            texttohide[i].removeAttribute("hidden", "");
-        }
-    }
-
-
-    handleSave = (brochureid) => {
-    const parentthis = this;
-    console.log(this.state.files);
-        if (this.state.files !== undefined) {
-            const foldername = "/Brochures/Study";
-            const storageRef = storage.ref(foldername);
-            const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
-            fileRef.on("state_changed", function (snapshot) {
-                fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-                    db.collection("Brochures").doc(brochureid)
-                    .update({
-                        brochureUrl: downloadURL, 
-                    })
-                    .then(function () {
-                        console.log("Updated");
-                        window.location.reload();
-                    });
-                });
-                const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-                if (progress != "100") {
-                    parentthis.setState({ progress: progress });
-                } else {
-                    parentthis.setState({ progress: "Uploaded!" });
-                }
-            });
-            console.log();
-        } else {
-            alert("No Files Selected");
-        }
-    };
 
     handleEdit = (parameter) => {
         this.editModal = this.state.editModal;
