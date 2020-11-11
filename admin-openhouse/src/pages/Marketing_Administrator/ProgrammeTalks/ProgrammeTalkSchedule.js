@@ -419,7 +419,7 @@ class ProgrammeTalkSchedule extends Component {
   };
 
   /* Delete Programme Talk Modal */
-  handleDeleteProgTalkModal(id) {
+  handleDeleteProgTalkModal = (id) => {
     if (this.state.deleteProgTalkModal == false) {
       this.setState({
         deleteProgTalkModal: true,

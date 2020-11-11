@@ -49,7 +49,7 @@ export default class EditStudySIMProgModal extends React.Component {
 
       programme: this.props.programmeName,
       university: this.props.University,
-      category: this.props.category,
+      // category: this.props.category,
       academiclevel: this.props.academiclevel,
       logoUrl: this.props.logoUrl,
       url: "",
@@ -74,6 +74,7 @@ export default class EditStudySIMProgModal extends React.Component {
       overseaopportunitytransfer: this.props.overseaopportunitytransfer,
       programmestructurecoursework: this.props.programmestructurecoursework,
       programmestructureexamination: this.props.programmestructureexamination,
+      ModeOfStudy: this.props.ModeOfStudy
     };
     this.DisciplinehandleChange = this.DisciplinehandleChange.bind(this);
     this.SubDisciplinehandleChange = this.SubDisciplinehandleChange.bind(this);
@@ -130,7 +131,7 @@ export default class EditStudySIMProgModal extends React.Component {
         });
     }
   }
-
+  
   SubDisciplinehandleChange(event) {
     var x = document.getElementsByClassName("subDisciplineCheckboxes");
     if (event.target.checked) {
@@ -398,8 +399,8 @@ export default class EditStudySIMProgModal extends React.Component {
         },
         programmeTitle: parentthis.state.programme.toString(),
         modeOfStudy: {
-          partTime: parentthis.state.parttime,
-          fullTime: parentthis.state.fulltime
+          partTime: parentthis.state.ModeOfStudy.partTime,
+          fullTime: parentthis.state.ModeOfStudy.fullTime
         },
         programmeOverview: {
           aboutProgramme1: parentthis.state.aboutprogramme1.toString(),
@@ -407,9 +408,9 @@ export default class EditStudySIMProgModal extends React.Component {
           aboutProgramme3: parentthis.state.aboutprogramme3.toString()
         }
       })
-        .then(dataSnapshot => {
-          this.props.handleSaveChanges();
-        });
+      .then(dataSnapshot => {
+        this.props.handleSaveChanges();
+      });
 
     }
 
@@ -564,10 +565,11 @@ export default class EditStudySIMProgModal extends React.Component {
                       <Form.Control as="select" name="university" defaultValue={this.props.University} className="editStudySIMProgFormSelect" required noValidate placeholder="Choose a University" onChange={this.handleChange}>
                         <option value="" className="editStudySIMProgFormSelectOption">Choose a University</option>
 
-                        {this.props.universities && this.props.universities.map((uni) => {
-                          return (
-                            <option value={uni} className="editStudySIMProgFormSelectOption">{uni}</option>
-                          );
+                        {this.props.universities && this.props.universities.map((uni, index) => {
+                            index = index + 1;
+                            return (
+                              <option key={index} value={uni} className="editStudySIMProgFormSelectOption">{uni}</option>
+                            );
                         })}
                       </Form.Control>
                     </InputGroup>
@@ -583,9 +585,10 @@ export default class EditStudySIMProgModal extends React.Component {
                       <Form.Control as="select" name="academiclevel" defaultValue={this.props.academiclevel} className="editStudySIMProgFormSelect" required noValidate onChange={this.handleChange}>
                         <option value="" className="editStudySIMProgFormSelectOption">Choose an Academic Level</option>
 
-                        {this.props.academicLvls && this.props.academicLvls.map((AcademicLevel) => {
+                        {this.props.academicLvls && this.props.academicLvls.map((AcademicLevel, index) => {
+                          index = index + 1;
                           return (
-                            <option value={AcademicLevel} className="editStudySIMProgFormSelectOption">{AcademicLevel}</option>
+                            <option key={index} value={AcademicLevel} className="editStudySIMProgFormSelectOption">{AcademicLevel}</option>
                           );
                         })}
                       </Form.Control>
@@ -608,7 +611,7 @@ export default class EditStudySIMProgModal extends React.Component {
                               return (
                                 <Row>
                                   <Col>
-                                    <Form.Check name="ModeOfStudy" id={mos} value={mos} type="checkbox" label="Full Time" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.ModeOfStudy.fullTime} onChange={this.handleChange} />
+                                    <Form.Check name="fulltime" id={mos} value={mos} type="checkbox" label="Full-Time" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.ModeOfStudy.fullTime} onChange={this.handleChange} />
                                   </Col>
                                 </Row>
                               )
@@ -617,10 +620,10 @@ export default class EditStudySIMProgModal extends React.Component {
                               return (
                                 <Row>
                                   <Col>
-                                    <Form.Check name="ModeOfStudy" id={mos} value={mos} type="checkbox" label="Part Time" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.ModeOfStudy.partTime} onChange={this.handleChange} />
+                                    <Form.Check name="parttime" id={mos} value={mos} type="checkbox" label="Part-Time" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.ModeOfStudy.partTime} onChange={this.handleChange} />
                                   </Col>
-                                </Row>)
-                            }
+                                </Row>
+                              )}
                           }
                         })}
                       </Form.Group>
@@ -637,10 +640,11 @@ export default class EditStudySIMProgModal extends React.Component {
 
                     <Container className="editStudySIMProgForm_DisciplineCon">
                       <Form.Group>
-                        {this.props.disciplines && this.props.disciplines.map((Discipline) => {
+                        {this.props.disciplines && this.props.disciplines.map((Discipline, index) => {
                           {
+                            index = index + 1;
                             return (
-                              <Row>
+                              <Row key={index}>
                                 <Col>
                                   <Form.Check id={Discipline} name="discipline" value={Discipline} type="checkbox" label={Discipline} className="editStudySIMProgForm_CheckBox DisciplineCheckboxes"
                                     defaultChecked={Discipline == this.props.discipline1 || Discipline == this.props.discipline2 ? true : false}
@@ -728,7 +732,7 @@ export default class EditStudySIMProgModal extends React.Component {
                             <Col>
                               <Form.Check name={subDiscipline} value={subDiscipline} type="checkbox" label={subDiscipline} className="editStudySIMProgForm_CheckBox subDisciplineCheckboxes"
                                 defaultChecked={subDiscipline == this.props.subdiscipline1 || subDiscipline == this.props.subdiscipline2 || subDiscipline == this.props.subdiscipline3 ||
-                                  subDiscipline == this.props.subdiscipline4 || subDiscipline == this.props.subdiscipline5 ? true : false}
+                                subDiscipline == this.props.subdiscipline4 || subDiscipline == this.props.subdiscipline5 ? true : false}
                                 onChange={this.SubDisciplinehandleChange} disabled={this.state["sub" + subDiscipline]} />
                             </Col>
                           </Row>
@@ -842,7 +846,7 @@ export default class EditStudySIMProgModal extends React.Component {
                         <Container className="editStudySIMProgForm_StructureOverseasCon">
                           <Row>
                             <Col style={{ paddingLeft: "10%" }}>
-                              <Form.Check name="overseaopportunityExchange" value="Exchange" type="checkbox" label="Yes" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.overseaopportunityexchange} onChange={this.handleChange} />
+                              <Form.Check name="overseaopportunityexchange" value="Exchange" type="checkbox" label="Yes" className="editStudySIMProgForm_CheckBox" defaultChecked={this.state.overseaopportunityexchange} onChange={this.handleChange} />
                             </Col>
                           </Row>
                         </Container>

@@ -7,7 +7,7 @@ import firebase from 'firebase';
 import "../css/Marketing_Administrator/ChangePasswordModal.css";
 
 
-//const firebase = require("firebase");
+const bcrypt = require('bcryptjs')
 
 const initialStates = {
   currentPwdError: "",
@@ -44,7 +44,6 @@ export default class ChangePasswordModal extends React.Component {
 
   handleChangeCurrentPassword = async function (e) {
     await this.setState({ currentPassword: e.target.value });
-    console.log(this.state.currentPassword);
   };
 
   handleChangeNewPassword = async function (e) {
@@ -73,11 +72,13 @@ export default class ChangePasswordModal extends React.Component {
             } 
             else {
               history.push("/Login");
+              window.location.reload();
             }
           });
         });
       } else {
         history.push("/Login");
+        window.location.reload();
       }
     });
   }
@@ -95,8 +96,6 @@ export default class ChangePasswordModal extends React.Component {
   }
 
   ChangePassword = () => {
-    console.log("ChangePassword Btn Clicked")
-
     const isValid = this.validate();
     if (isValid) {
       this.setState(initialStates);
@@ -104,15 +103,14 @@ export default class ChangePasswordModal extends React.Component {
         var currentpassword = this.state.currentPassword;
         var newPassword = this.state.newPassword;
         var user = auth.currentUser;
-        var credential = firebase.auth.EmailAuthProvider.credential(
-          user.email,
-          currentpassword
-        );
+        var credential = firebase.auth.EmailAuthProvider.credential(user.email, currentpassword);
+
+        // Hash password
+        const passwordHash = bcrypt.hashSync(newPassword, 10);
 
         user
         .reauthenticateWithCredential(credential)
         .then(function () {
-          //alert("ayuth"); Update password in authentication
           user
           .updatePassword(newPassword)
           .then(function () {
@@ -121,20 +119,17 @@ export default class ChangePasswordModal extends React.Component {
             .where("email", "==", user.email)
             .get()
             .then((query) => {
-              alert("changed");
               const thing = query.docs[0];
-              thing.ref.update({ password: newPassword });
+              thing.ref.update({ password: passwordHash });
             });
-            // alert("Updated"); //Update password in Firestore table
             history.push("/Login");
+            window.location.reload();
           })
           .catch(function (error) {});
         })
         .catch(function (error) {
-          alert(error[Object.keys(error)[1]]);
         });
       } else {
-        // alert("check your fields");
       }
     }
   };
@@ -157,8 +152,6 @@ export default class ChangePasswordModal extends React.Component {
     if (! (this.state.newPassword && validPassword.test(this.state.newPassword) && (this.state.newPassword !== this.state.currentPassword)) ) {
       newPwdError = "Please enter your new password! Password should have minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character!";
     }
-    console.log("new password" + this.state.newPassword)
-    console.log("veryify new password" + this.state.verifyNewPassword)
 
     if (! (this.state.verifyNewPassword && validPassword.test(this.state.verifyNewPassword) && (this.state.verifyNewPassword === this.state.newPassword)) ) {
       confirmNewPwdError = "Passwords do not match!";

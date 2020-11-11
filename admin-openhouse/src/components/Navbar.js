@@ -28,7 +28,8 @@ export default class NavBar extends React.Component {
             useremail: null,
             isMA: false,
 
-            handleChangePasswordModal: false,
+            changePasswordModal: false,
+            handleChangePasswordModal: false
         }
     }
 
@@ -53,7 +54,6 @@ export default class NavBar extends React.Component {
 
     /* Change Password Modal */
     handleChangePasswordModal = () => {
-        console.log("Open")
         if (this.state.changePasswordModal == false) {
             this.setState({
                 changePasswordModal: true,
