@@ -659,7 +659,7 @@ export default class EditStudySIMProgModal extends React.Component {
                                 <Col>
                                   <Form.Check id={Discipline} name="discipline" value={Discipline} type="checkbox" label={Discipline} className="editStudySIMProgForm_CheckBox DisciplineCheckboxes"
                                     defaultChecked={Discipline == this.props.discipline1 || Discipline == this.props.discipline2 ? true : false}
-                                    onChange={this.DisciplinehandleChange} disabled={this.state[Discipline]} />
+                                    onChange={this.DisciplinehandleChange} disabled={this.state.disciplinecheckedItems.length == 2 && !this.state.disciplinecheckedItems.includes(Discipline)} />
                                 </Col>
                               </Row>
                             );
@@ -744,7 +744,7 @@ export default class EditStudySIMProgModal extends React.Component {
                               <Form.Check name={subDiscipline} value={subDiscipline} type="checkbox" label={subDiscipline} className="editStudySIMProgForm_CheckBox subDisciplineCheckboxes"
                                 defaultChecked={subDiscipline == this.props.subdiscipline1 || subDiscipline == this.props.subdiscipline2 || subDiscipline == this.props.subdiscipline3 ||
                                   subDiscipline == this.props.subdiscipline4 || subDiscipline == this.props.subdiscipline5 ? true : false}
-                                onChange={this.SubDisciplinehandleChange} disabled={this.state["sub" + subDiscipline]} />
+                                onChange={this.SubDisciplinehandleChange} disabled={this.state.subdisciplinecheckedItems.length == 5 && !this.state.subdisciplinecheckedItems.includes(subDiscipline)} />
                             </Col>
                           </Row>
                         );
