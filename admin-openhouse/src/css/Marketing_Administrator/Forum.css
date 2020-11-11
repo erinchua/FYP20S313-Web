@@ -49,12 +49,14 @@
 #Forum-tableHeader {
     color: #424242;
     font-size: 90%;
+    background-color: white;
 }
 
 #Forum-tableBody {
     color: #434343;
     font-size: 85% !important;
     padding: 0 !important;
+    background-color: white;
 }
 
 .Forum-question {

@@ -100,7 +100,6 @@ export default class ChangePasswordModal extends React.Component {
     const isValid = this.validate();
     if (isValid) {
       this.setState(initialStates);
-
       if (this.state.error == "Password OK.") {
         var currentpassword = this.state.currentPassword;
         var newPassword = this.state.newPassword;
@@ -122,6 +121,7 @@ export default class ChangePasswordModal extends React.Component {
             .where("email", "==", user.email)
             .get()
             .then((query) => {
+              alert("changed");
               const thing = query.docs[0];
               thing.ref.update({ password: newPassword });
             });
@@ -157,6 +157,8 @@ export default class ChangePasswordModal extends React.Component {
     if (! (this.state.newPassword && validPassword.test(this.state.newPassword) && (this.state.newPassword !== this.state.currentPassword)) ) {
       newPwdError = "Please enter your new password! Password should have minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character!";
     }
+    console.log("new password" + this.state.newPassword)
+    console.log("veryify new password" + this.state.verifyNewPassword)
 
     if (! (this.state.verifyNewPassword && validPassword.test(this.state.verifyNewPassword) && (this.state.verifyNewPassword === this.state.newPassword)) ) {
       confirmNewPwdError = "Passwords do not match!";
@@ -218,7 +220,7 @@ export default class ChangePasswordModal extends React.Component {
               <Form.Row className="justify-content-center changePasswordFormRow">
                 <Col md="10">
                   <Form.Label className="changePasswordFormLabel">New Password</Form.Label>
-                  <Form.Control type="password" name="newPassword" required noValidate className="currentPasswordForm_Text" placeholder="New Password*" />                                       
+                  <Form.Control type="password" name="newPassword" required noValidate className="currentPasswordForm_Text" placeholder="New Password*" onChange={(e) => {this.handleChangeNewPassword(e);}}/>                                       
                  
                   <div className="errorMessage text-left">{this.state.newPwdError}</div>
                 </Col>
@@ -228,7 +230,7 @@ export default class ChangePasswordModal extends React.Component {
               <Form.Row className="justify-content-center changePasswordFormRow">
                 <Col md="10">
                   <Form.Label className="changePasswordFormLabel">Confirm New Password</Form.Label>
-                  <Form.Control type="password" name="verifyNewPassword" required noValidate className="currentPasswordForm_Text" placeholder="Confirm New Password*" />                                       
+                  <Form.Control type="password" name="verifyNewPassword" required noValidate className="currentPasswordForm_Text" placeholder="Confirm New Password*" onChange={(e) => {this.handleChangeVerifyNewPassword(e);}}/>                                       
                 
                   <div className="errorMessage text-left">{this.state.confirmNewPwdError}</div>
                 </Col>

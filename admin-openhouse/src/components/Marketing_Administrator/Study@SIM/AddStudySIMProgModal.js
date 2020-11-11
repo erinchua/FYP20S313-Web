@@ -40,7 +40,6 @@ export default class AddStudySIMProgModal extends React.Component {
 
     this.state = {
       docid: "",
-      handleAdd: "",
 
       disciplinecheckedItems: [],
       subdisciplinecheckedItems: [],
@@ -75,12 +74,11 @@ export default class AddStudySIMProgModal extends React.Component {
       programmestructurecoursework: false,
       programmestructureexamination: false,
 
-      // For validations
-      entryQualification: []
+      // Modal Btn Prop
+      handleAdd: ""
     };
     this.DisciplinehandleChange = this.DisciplinehandleChange.bind(this);
     this.SubDisciplinehandleChange = this.SubDisciplinehandleChange.bind(this);
-    this.resetForm = this.resetForm.bind(this);
   }
 
   componentDidMount() {
@@ -429,7 +427,7 @@ export default class AddStudySIMProgModal extends React.Component {
     if (isValid) {
       this.setState(initialStates);
 
-      db.collection("Programmes").orderBy("id", "desc").limit(1)
+      db.collection("ProgrammesWeb").orderBy("id", "desc").limit(1)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -449,7 +447,7 @@ export default class AddStudySIMProgModal extends React.Component {
               console.log(docid)
           }
 
-          db.collection("Programmes")
+          db.collection("ProgrammesWeb")
           .doc(docid)
           .set({
             id: docid,
@@ -616,41 +614,6 @@ export default class AddStudySIMProgModal extends React.Component {
     return true;
   }
 
-  //Reset Forms
-  resetForm = () => {
-    this.setState({
-      progNameError: "",
-      logoUrlError: "",
-      universityError: "",
-      academicLevelError: "",
-      modeOfStudyError: "",
-      disciplineError: "",
-      entryQualError: "",
-      subDisciplineError: "",
-      aboutProgError: "",
-      applicationPeriodError: "",
-      intakeMonthsError: "",
-      durationError: "",
-      id: "",
-      programme: "",
-      logoUrl: "",
-      university: "",
-      academiclevel: "",
-      disciplinecheckedItems: [],
-      entryqualificationcheckedItems: [],
-      subdisciplinecheckedItems: [],
-      aboutprogramme1: "",
-      aboutprogramme2: "",
-      aboutprogramme3: "",
-      applicationperiod1: "",
-      applicationperiod2: "",
-      intakemonthsfulltime: "",
-      intakemonthsparttime: "",
-      durationfulltime: "",
-      durationparttime: ""
-    })
-  }
-
 
   render() {
     return (
@@ -718,17 +681,10 @@ export default class AddStudySIMProgModal extends React.Component {
                         <option value="" className="addStudySIMProgFormSelectOption">Choose an Academic Level</option>
 
                         {this.props.academicLvls && this.props.academicLvls.map((AcademicLevel, index) => {
-                          if (AcademicLevel === this.props.acadamiclevel) {
-                            return (
-                              <option value={AcademicLevel} className="addStudySIMProgFormSelectOption">{AcademicLevel}</option>
-                            );
-                          } else {
-                            return (
-                              <option value={AcademicLevel} className="addStudySIMProgFormSelectOption">{AcademicLevel}</option>
-                            );
-                          }
-                        }
-                        )}
+                          return (
+                            <option value={AcademicLevel} className="addStudySIMProgFormSelectOption">{AcademicLevel}</option>
+                          );
+                        })}
                       </Form.Control>
                     </InputGroup>
 
