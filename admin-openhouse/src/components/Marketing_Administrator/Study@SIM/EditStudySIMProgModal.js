@@ -42,10 +42,10 @@ export default class EditStudySIMProgModal extends React.Component {
       handleSaveChanges: "",
       handleCancelEdit: "",
 
-      disciplinecheckedItems: [],
-      subdisciplinecheckedItems: [],
-      // Modeofstudy: ['fullTime', 'partTime'],
-      entryqualification: ['oLevel', 'aLevel', 'diploma', 'degree'],
+      disciplinecheckedItems: [this.props.discipline1, this.props.discipline2],
+      subdisciplinecheckedItems: [this.props.subdiscipline1, this.props.subdiscipline2, this.props.subdiscipline3, this.props.subdiscipline4, this.props.subdiscipline5],
+      Modeofstudy: ['fullTime', 'partTime'],
+      entryQualification: ['oLevel', 'aLevel', 'diploma', 'degree'],
 
       programme: this.props.programmeName,
       university: this.props.University,
@@ -53,8 +53,8 @@ export default class EditStudySIMProgModal extends React.Component {
       academiclevel: this.props.academiclevel,
       logoUrl: this.props.logoUrl,
       url: "",
-      parttime: "",
-      fulltime: "",
+      parttime: this.props.ModeOfStudy.partTime,
+      fulltime: this.props.ModeOfStudy.fullTime,
       diploma: this.props.diploma,
       degree: this.props.degree,
       alevel: this.props.aLevel,
@@ -141,26 +141,6 @@ export default class EditStudySIMProgModal extends React.Component {
         });
     }
   }
-
-  // handleDisciplineCheckBox = (event) => {
-  //   let dArray = this.state.disciplinecheckedItems
-  //   if (dArray.includes(event.target.value)) {
-  //     dArray = dArray.filter(discipline => discipline !== event.target.value)
-  //   } else {
-  //     dArray.push(event.target.value);
-  //   }
-  //   this.setState({disciplinecheckedItems: dArray});
-  // }
-
-  // handleSubDisciplineCheckBox = (event) => {
-  //   let dArray = this.state.subdisciplinecheckedItems
-  //   if (dArray.includes(event.target.value)) {
-  //     dArray = dArray.filter(discipline => discipline !== event.target.value)
-  //   } else {
-  //     dArray.push(event.target.value);
-  //   }
-  //   this.setState({subdisciplinecheckedItems: dArray});
-  // }
 
   SubDisciplinehandleChange(event) {
     var x = document.getElementsByClassName("subDisciplineCheckboxes");
@@ -704,42 +684,41 @@ export default class EditStudySIMProgModal extends React.Component {
                     <Container className="editStudySIMProgForm_EntryQualCon">
                       {this.state.entryQualification && this.state.entryQualification.map((entry) => {
                         {
-                          console.log("entry Qual: " + entryqualification)
-                          if (entryqualification === "diploma") {
+                          if (entry === "diploma") {
                             return (
                               <Row>
                                 <Col>
-                                  <Form.Check name="diploma" value={entryqualification} type="checkbox" label="Diploma" className="editStudySIMProgForm_CheckBox" defaultChecked={this.state.diploma} onChange={this.handleChange} />
+                                  <Form.Check name={entry} value={entry} type="checkbox" label="Diploma" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.diploma} onChange={this.handleChange} />
                                 </Col>
                               </Row>
                             );
                           }
 
-                          if (entryqualification === "degree") {
+                          if (entry === "degree") {
                             return (
                               <Row>
                                 <Col>
-                                  <Form.Check name="degree" value={entryqualification} type="checkbox" label="Degree" className="editStudySIMProgForm_CheckBox" defaultChecked={this.state.degree} onChange={this.handleChange} />
+                                  <Form.Check name={entry} value={entry} type="checkbox" label="Degree" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.degree} onChange={this.handleChange} />
                                 </Col>
                               </Row>
                             );
                           }
 
-                          if (entryqualification === "aLevel") {
+                          if (entry === "aLevel") {
                             return (
                               <Row>
                                 <Col>
-                                  <Form.Check name="alevel" value={entryqualification} type="checkbox" label="&#34;A&#34; Level" className="editStudySIMProgForm_CheckBox" defaultChecked={this.state.alevel} onChange={this.handleChange} />
+                                  <Form.Check name={entry} value={entry} type="checkbox" label="'A' Level" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.aLevel} onChange={this.handleChange} />
                                 </Col>
                               </Row>
                             );
                           }
 
-                          if (entryqualification === "oLevel") {
+                          if (entry === "oLevel") {
                             return (
                               <Row>
                                 <Col>
-                                  <Form.Check name="olevel" value={entryqualification} type="checkbox" label="&#34;O&#34; Level" className="editStudySIMProgForm_CheckBox" defaultChecked={this.state.olevel} onChange={this.handleChange} />
+                                  <Form.Check name={entry} value={entry} type="checkbox" label="'O' Level" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.oLevel} onChange={this.handleChange} />
                                 </Col>
                               </Row>
                             );
