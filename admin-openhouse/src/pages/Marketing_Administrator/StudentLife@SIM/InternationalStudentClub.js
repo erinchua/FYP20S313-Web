@@ -117,11 +117,15 @@ class InternationalStudentClub extends Component {
     }
 
     //Delete Modal
-    handleDelete = () => {
+    handleDelete = (internationalStudent) => {
         this.deleteModal = this.state.deleteModal;
         if (this.deleteModal == false) {
             this.setState({
                 deleteModal: true,
+                id: internationalStudent.id, 
+                clubsAndCouncilTitle: internationalStudent.clubsAndCouncilTitle, 
+                categoryType: internationalStudent.categoryType, 
+                clubsAndCouncilsLogo: internationalStudent.clubsAndCouncilsLogo, 
             });
         } else {
             this.setState({
@@ -176,7 +180,7 @@ class InternationalStudentClub extends Component {
                                                                     <td className="text-left">{internationalStudent.clubsAndCouncilDescription}</td>
                                                                     <td className="text-left">{internationalStudent.clubsAndCouncilTitle} Logo</td>
                                                                     <td><Button size="sm" id="InternationalStudent-editBtn" onClick={() => this.handleEdit(internationalStudent)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                    <td><Button size="sm" id="InternationalStudent-deleteBtn" onClick={() => [this.setState({id: internationalStudent.id, clubsAndCouncilTitle: internationalStudent.clubsAndCouncilTitle, categoryType: internationalStudent.categoryType, clubsAndCouncilsLogo: internationalStudent.clubsAndCouncilsLogo}), this.handleDelete()]}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                    <td><Button size="sm" id="InternationalStudent-deleteBtn" onClick={() => this.handleDelete(internationalStudent)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
                                                                 </tr>
                                                             </tbody>
                                                         )

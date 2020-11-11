@@ -117,11 +117,15 @@ class StudentCouncil extends Component {
     }
 
     //Delete Modal
-    handleDelete = () => {
+    handleDelete = (studentCouncil) => {
         this.deleteModal = this.state.deleteModal;
         if (this.deleteModal == false) {
             this.setState({
                 deleteModal: true,
+                id: studentCouncil.id, 
+                clubsAndCouncilTitle: studentCouncil.clubsAndCouncilTitle, 
+                categoryType: studentCouncil.categoryType, 
+                clubsAndCouncilsLogo: studentCouncil.clubsAndCouncilsLogo,
             });
         } else {
             this.setState({
@@ -176,7 +180,7 @@ class StudentCouncil extends Component {
                                                                     <td className="text-left">{studentCouncil.clubsAndCouncilDescription}</td>
                                                                     <td className="text-left">{studentCouncil.clubsAndCouncilTitle} Logo</td>
                                                                     <td><Button size="sm" id="StudentCouncil-editBtn" onClick={() => this.handleEdit(studentCouncil)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                    <td><Button size="sm" id="StudentCouncil-deleteBtn" onClick={() => [this.setState({id: studentCouncil.id, clubsAndCouncilTitle: studentCouncil.clubsAndCouncilTitle, categoryType: studentCouncil.categoryType, clubsAndCouncilsLogo: studentCouncil.clubsAndCouncilsLogo}), this.handleDelete()]}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
+                                                                    <td><Button size="sm" id="StudentCouncil-deleteBtn" onClick={() => this.handleDelete(studentCouncil)}><FontAwesomeIcon size="lg" icon={faTrash}/></Button></td>
                                                                 </tr>
                                                             </tbody>
                                                         )
