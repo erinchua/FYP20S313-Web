@@ -43,3 +43,145 @@
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
+
+.AttendanceMarking-secondInnerRow {
+    margin: 0 !important;
+}
+
+.AttendanceMarking-secondInnerCol {
+    padding: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#AttendanceMarking-scannerBtn {
+    background: none;
+    border: 1px solid #424242;
+    color: #424242;
+    min-width: 20%;
+    border-radius: 6px;
+}
+
+#AttendanceMarking-scannerBtn:hover {
+    background: #424242;
+    border-color: #424242;
+    color: white;
+}
+
+#AttendanceMarking-scannerBtn:focus {
+    box-shadow: none;
+}
+
+#AttendanceMarking-scannerBtnText {
+    margin-left: 10%;
+}
+
+.AttendanceMarking-tableCon {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+#AttendanceMarking-nameHeading {
+    width: 14%;
+}
+
+#AttendanceMarketing-programmeHeading {
+    width: 20%;
+}
+
+#AttendanceMarking-dateHeading, #AttendanceMarking-emailHeading {
+    width: 15%;
+}
+
+#AttendanceMarking-tableHeader {
+    color: #424242;
+    font-size: 90%;
+    background-color: white;
+}
+
+#AttendanceMarking-tableBody {
+    color: #434343;
+    font-size: 85%;
+    background-color: white;
+}
+
+#AttendanceMarking-alertFail-data {
+    font-size: 90%;
+}
+
+#AttendanceMarking-modalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.AttendanceMarking-formGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#AttendanceMarking-editFooter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.AttendanceMarking-editCol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#AttendanceMarking-saveBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#AttendanceMarking-saveBtn:focus {
+    box-shadow: none;   
+}
+
+#AttendanceMarking-cancelBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: #60c6d9;
+}
+
+#AttendanceMarking-cancelBtn:focus {
+    box-shadow: none;   
+}
+
+#AttendanceMarking-inputFields {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;    
+    font-size: 85%;
+}
+
+#AttendanceMarking-inputFields:focus {
+    box-shadow: none;
+}
+
+#AttendanceMarking-textAreas {
+    color: #434343;    
+    font-size: 85%;
+    border: 1px solid #c8c8c8;
+}
+
+#AttendanceMarking-textAreas:focus {
+    box-shadow: none;
+    border: 1px solid #c8c8c8;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 85%;
+}
