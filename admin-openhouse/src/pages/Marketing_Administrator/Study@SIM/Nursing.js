@@ -42,7 +42,7 @@ class StudySIM_Nursing extends Component {
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
+              this.fetchData();
             } else {
               history.push("/Login");
             }
@@ -58,9 +58,9 @@ class StudySIM_Nursing extends Component {
     this.authListener();
   }
 
-  display = async () => {
+  fetchData = async () => {
 
-    const userRe1 = await db.collection("ProgrammesWeb").onSnapshot((snapshot) => {
+    await db.collection("ProgrammesWeb").onSnapshot((snapshot) => {
       const nursing = [];
       snapshot.forEach((doc) => {
         const getdiscipline = doc.get("discipline");
@@ -176,7 +176,7 @@ class StudySIM_Nursing extends Component {
         subdiscipline4: prog.subDiscipline.subDisciplineName4,
         subdiscipline5: prog.subDiscipline.subDisciplineName5,
         logoUrl: prog.logoUrl,
-            
+
         //details
         aboutprogramme1: prog.aboutprogramme.aboutProgramme1,
         aboutprogramme2: prog.aboutprogramme.aboutProgramme2,
@@ -199,7 +199,7 @@ class StudySIM_Nursing extends Component {
       });
     }
   };
-  
+
   /* Delete Programme Modal */
   handleDeleteStudySIMProgModal = (id) => {
     if (this.state.deleteStudySIMProgModal == false) {
@@ -213,7 +213,7 @@ class StudySIM_Nursing extends Component {
       });
     }
   };
-  
+
   /* View Programme Details Modal */
   handleViewStudySIMProgDetailsModal = (prog) => {
     if (this.state.viewStudySIMProgDetailsModal == false) {
@@ -301,7 +301,7 @@ class StudySIM_Nursing extends Component {
                               <tr key={index}>
                                 <td className="studySIMProgData_SNo text-center">{index}</td>
                                 <td className="studySIMProgData_ProgName text-left">
-                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {this.handleViewStudySIMProgDetailsModal(nursing)}}>
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => { this.handleViewStudySIMProgDetailsModal(nursing) }}>
                                     {nursing.programmeName}
                                   </a>
                                 </td>
@@ -315,13 +315,13 @@ class StudySIM_Nursing extends Component {
                                 <td className="studySIMProgData_AcademicLvl text-left">{nursing.AcademicLevel}</td>
 
                                 <td className="studySIMProgData_MoS text-left">
-                                  {nursing.ModeOfStudy.fullTime === true && 
+                                  {nursing.ModeOfStudy.fullTime === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Full-Time</Col>
                                     </Row>
                                   }
-                                  
-                                  {nursing.ModeOfStudy.partTime === true && 
+
+                                  {nursing.ModeOfStudy.partTime === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Part-Time</Col>
                                     </Row>
@@ -332,32 +332,32 @@ class StudySIM_Nursing extends Component {
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{nursing.discipline1}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{nursing.discipline2}</Col>
                                   </Row>
                                 </td>
 
                                 <td className="studySIMProgData_EntryQual text-left">
-                                  {nursing.Qualification.aLevel === true && 
+                                  {nursing.Qualification.aLevel === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- "A" Level</Col>
                                     </Row>
                                   }
-                                    
-                                  {nursing.Qualification.degree === true && 
+
+                                  {nursing.Qualification.degree === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Degree</Col>
                                     </Row>
                                   }
 
-                                  {nursing.Qualification.diploma === true && 
+                                  {nursing.Qualification.diploma === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Diploma</Col>
                                     </Row>
                                   }
 
-                                  {nursing.Qualification.oLevel === true && 
+                                  {nursing.Qualification.oLevel === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- "O" Level</Col>
                                     </Row>
@@ -387,13 +387,13 @@ class StudySIM_Nursing extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">
-                                  <Button className="editStudySIMProgBtn" onClick={() => {this.handleEditStudySIMProgModal(nursing)}}>
+                                  <Button className="editStudySIMProgBtn" onClick={() => { this.handleEditStudySIMProgModal(nursing) }}>
                                     <FontAwesomeIcon size="lg" className="editStudySIMProgBtnIcon" icon={faEdit} />
                                   </Button>
                                 </td>
 
                                 <td className="studySIMProgData_Delete text-center">
-                                  <Button className="deleteStudySIMProgBtn" onClick={() => {this.handleDeleteStudySIMProgModal(nursing.docid)}}>
+                                  <Button className="deleteStudySIMProgBtn" onClick={() => { this.handleDeleteStudySIMProgModal(nursing.docid) }}>
                                     <FontAwesomeIcon size="lg" className="deleteStudySIMProgBtnIcon" icon={faTrashAlt} />
                                   </Button>
                                 </td>
@@ -401,7 +401,7 @@ class StudySIM_Nursing extends Component {
                             );
                           })}
                         </tbody>
-                          
+
                       </Table>
                     </Col>
                   </Row>
@@ -483,13 +483,13 @@ class StudySIM_Nursing extends Component {
             docid={this.state.docid}
 
             // List of options from DB
-            universities = {this.state.universities}
-            disciplines = {this.state.disciplines}
-            subDisciplines = {this.state.subDisciplines}
+            universities={this.state.universities}
+            disciplines={this.state.disciplines}
+            subDisciplines={this.state.subDisciplines}
             academicLvls={this.state.academicLvls}
 
             // Button props
-            handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
+            handleSaveChanges={() => { this.handleEditStudySIMProgModal() }}
             handleCancelEdit={this.handleEditStudySIMProgModal}
           />
         </Modal>

@@ -41,7 +41,7 @@ class StudySIM_Business extends Component {
         getrole.onSnapshot((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
+              this.fetchData();
             } else {
               history.push("/Login");
             }
@@ -57,7 +57,7 @@ class StudySIM_Business extends Component {
     this.authListener();
   }
 
-  display = async () => {
+  fetchData = async () => {
 
     const userRe1 = await db.collection("ProgrammesWeb").onSnapshot((snapshot) => {
       const business = [];
@@ -171,7 +171,7 @@ class StudySIM_Business extends Component {
         subdiscipline4: prog.subDiscipline.subDisciplineName4,
         subdiscipline5: prog.subDiscipline.subDisciplineName5,
         logoUrl: prog.logoUrl,
-            
+
         //details
         aboutprogramme1: prog.aboutprogramme.aboutProgramme1,
         aboutprogramme2: prog.aboutprogramme.aboutProgramme2,
@@ -289,7 +289,7 @@ class StudySIM_Business extends Component {
                           </tr>
                         </thead>
 
-                        
+
                         <tbody>
                           {this.state.business && this.state.business.map((business, index) => {
                             index = index + 1;
@@ -297,7 +297,7 @@ class StudySIM_Business extends Component {
                               <tr key={index}>
                                 <td className="studySIMProgData_SNo text-center">{index}</td>
                                 <td className="studySIMProgData_ProgName text-left">
-                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {this.handleViewStudySIMProgDetailsModal(business)}}>
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => { this.handleViewStudySIMProgDetailsModal(business) }}>
                                     {business.programmeName}
                                   </a>
                                 </td>
@@ -310,13 +310,13 @@ class StudySIM_Business extends Component {
                                 <td className="studySIMProgData_AcademicLvl text-left">{business.AcademicLevel}</td>
 
                                 <td className="studySIMProgData_MoS text-left">
-                                  {business.ModeOfStudy.fullTime === true && 
+                                  {business.ModeOfStudy.fullTime === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Full-Time</Col>
                                     </Row>
                                   }
-                                    
-                                  {business.ModeOfStudy.partTime === true && 
+
+                                  {business.ModeOfStudy.partTime === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Part-Time</Col>
                                     </Row>
@@ -334,25 +334,25 @@ class StudySIM_Business extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_EntryQual text-left">
-                                  {business.Qualification.aLevel === true && 
+                                  {business.Qualification.aLevel === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- "A" Level</Col>
                                     </Row>
                                   }
-                                  
-                                  {business.Qualification.degree === true && 
+
+                                  {business.Qualification.degree === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Degree</Col>
                                     </Row>
                                   }
-                                  
-                                  {business.Qualification.diploma === true && 
+
+                                  {business.Qualification.diploma === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Diploma</Col>
                                     </Row>
                                   }
-                                  
-                                  {business.Qualification.oLevel === true && 
+
+                                  {business.Qualification.oLevel === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- "O" Level</Col>
                                     </Row>
@@ -363,32 +363,32 @@ class StudySIM_Business extends Component {
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{business.subDiscipline.subDisciplineName1}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{business.subDiscipline.subDisciplineName2}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{business.subDiscipline.subDisciplineName3}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{business.subDiscipline.subDisciplineName4}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{business.subDiscipline.subDisciplineName5}</Col>
                                   </Row>
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">
-                                  <Button className="editStudySIMProgBtn" onClick={() => {this.handleEditStudySIMProgModal(business)}}>
+                                  <Button className="editStudySIMProgBtn" onClick={() => { this.handleEditStudySIMProgModal(business) }}>
                                     <FontAwesomeIcon size="lg" className="editStudySIMProgBtnIcon" icon={faEdit} />
                                   </Button>
                                 </td>
 
                                 <td className="studySIMProgData_Delete text-center">
-                                  <Button className="deleteStudySIMProgBtn" onClick={() => {this.handleDeleteStudySIMProgModal(business.docid)}}>
+                                  <Button className="deleteStudySIMProgBtn" onClick={() => { this.handleDeleteStudySIMProgModal(business.docid) }}>
                                     <FontAwesomeIcon size="lg" className="deleteStudySIMProgBtnIcon" icon={faTrashAlt} />
                                   </Button>
                                 </td>
@@ -396,7 +396,7 @@ class StudySIM_Business extends Component {
                             );
                           })}
                         </tbody>
-                          
+
                       </Table>
                     </Col>
                   </Row>
@@ -478,13 +478,13 @@ class StudySIM_Business extends Component {
             docid={this.state.docid}
 
             // List of options from DB
-            universities = {this.state.universities}
-            disciplines = {this.state.disciplines}
-            subDisciplines = {this.state.subDisciplines}
+            universities={this.state.universities}
+            disciplines={this.state.disciplines}
+            subDisciplines={this.state.subDisciplines}
             academicLvls={this.state.academicLvls}
 
             // Button props
-            handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
+            handleSaveChanges={() => { this.handleEditStudySIMProgModal() }}
             handleCancelEdit={this.handleEditStudySIMProgModal}
           />
         </Modal>
