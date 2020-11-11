@@ -165,7 +165,7 @@ class StudySIM_Speciality extends Component {
         discipline1: prog.discipline1,
         discipline2: prog.discipline2,
         academiclevel: prog.AcademicLevel,
-        olevel: prog.Qualification.oLevel,
+        oLevel: prog.Qualification.oLevel,
         aLevel: prog.Qualification.aLevel,
         degree: prog.Qualification.degree,
         diploma: prog.Qualification.diploma,
@@ -200,12 +200,15 @@ class StudySIM_Speciality extends Component {
   };
   
   /* Delete Programme Modal */
-  handleDeleteStudySIMProgModal = (id) => {
+  handleDeleteStudySIMProgModal = (prog) => {
     if (this.state.deleteStudySIMProgModal == false) {
       this.setState({
-        deleteStudySIMProgModal: true
+        deleteStudySIMProgModal: true,
+        logoUrl: prog.logoUrl,
+        docid: prog.docid
       });
-      this.state.docid = id;
+      this.state.logoUrl = prog.logoUrl;
+      this.state.docid = prog.docid;
     } else {
       this.setState({
         deleteStudySIMProgModal: false
@@ -393,7 +396,7 @@ class StudySIM_Speciality extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_Delete text-center">
-                                  <Button className="deleteStudySIMProgBtn" onClick={() => {this.handleDeleteStudySIMProgModal(Specialty.docid)}}>
+                                  <Button className="deleteStudySIMProgBtn" onClick={() => {this.handleDeleteStudySIMProgModal(Specialty)}}>
                                     <FontAwesomeIcon size="lg" className="deleteStudySIMProgBtnIcon" icon={faTrashAlt} />
                                   </Button>
                                 </td>
@@ -426,10 +429,14 @@ class StudySIM_Speciality extends Component {
           keyboard={false}
           className="addStudySIMProgModal"
         >
-          <AddStudySIMProgModal handleAdd={() => {this.handleAddStudySIMProgModal()}} 
-            universities = {this.state.universities}
-            disciplines = {this.state.disciplines}
-            subDisciplines = {this.state.subDisciplines}
+          <AddStudySIMProgModal 
+            // Button Props
+            handleAdd={() => { this.handleAddStudySIMProgModal() }}
+              
+            // Option values
+            universities={this.state.universities}
+            disciplines={this.state.disciplines}
+            subDisciplines={this.state.subDisciplines}
             academicLvls={this.state.academicLvls}
           />
         </Modal>
@@ -455,7 +462,7 @@ class StudySIM_Speciality extends Component {
             discipline1={this.state.discipline1}
             discipline2={this.state.discipline2}
             academiclevel={this.state.academiclevel}
-            olevel={this.state.olevel}
+            oLevel={this.state.oLevel}
             aLevel={this.state.aLevel}
             degree={this.state.degree}
             diploma={this.state.diploma}
@@ -486,7 +493,7 @@ class StudySIM_Speciality extends Component {
             subDisciplines = {this.state.subDisciplines}
             academicLvls={this.state.academicLvls}
 
-            // Button props
+            // Button Props
             handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
             handleCancelEdit={this.handleEditStudySIMProgModal}
           />
@@ -503,7 +510,14 @@ class StudySIM_Speciality extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <DeleteStudySIMProgModal docid={this.state.docid} handleConfirmDelete={() => {this.handleDeleteStudySIMProgModal();}} handleCancelDelete={this.handleDeleteStudySIMProgModal} />
+          <DeleteStudySIMProgModal 
+            docid={this.state.docid} 
+            logoUrl={this.state.logoUrl}
+
+            // Button Props
+            handleConfirmDelete={() => {this.handleDeleteStudySIMProgModal()}} 
+            handleCancelDelete={this.handleDeleteStudySIMProgModal}
+          />
         </Modal>
 
 
