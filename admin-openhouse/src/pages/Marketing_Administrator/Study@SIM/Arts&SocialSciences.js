@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire, { auth, db } from "../../../config/firebase";
+import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import { Container, Row, Col, Button, Table, Modal } from "react-bootstrap";
 
@@ -85,7 +85,6 @@ class StudySIM_ArtsSocialSciences extends Component {
             programmeName: doc.data().programmeTitle,
             awardBy: doc.data().awardedBy,
             logoUrl: doc.data().logoUrl,
-            // CategoryProgramme: doc.data().category,
             ModeOfStudy: doc.data().modeOfStudy,
             discipline1: doc.data().discipline.disciplineName1,
             discipline2: doc.data().discipline.disciplineName2,

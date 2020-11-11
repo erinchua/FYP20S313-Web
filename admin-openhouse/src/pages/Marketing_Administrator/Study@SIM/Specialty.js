@@ -42,7 +42,7 @@ class StudySIM_Speciality extends Component {
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
+              this.fetchData();
             } else {
               history.push("/Login");
             }
@@ -58,9 +58,9 @@ class StudySIM_Speciality extends Component {
     this.authListener();
   }
 
-  display = async () => {
+  fetchData = async () => {
 
-    const userRe1 = await db.collection("ProgrammesWeb").onSnapshot((snapshot) => {
+    await db.collection("ProgrammesWeb").onSnapshot((snapshot) => {
       const Specialty = [];
       snapshot.forEach((doc) => {
         const getdiscipline = doc.get("discipline");
@@ -175,7 +175,7 @@ class StudySIM_Speciality extends Component {
         subdiscipline4: prog.subDiscipline.subDisciplineName4,
         subdiscipline5: prog.subDiscipline.subDisciplineName5,
         logoUrl: prog.logoUrl,
-            
+
         //details
         aboutprogramme1: prog.aboutprogramme.aboutProgramme1,
         aboutprogramme2: prog.aboutprogramme.aboutProgramme2,
@@ -198,7 +198,7 @@ class StudySIM_Speciality extends Component {
       });
     }
   };
-  
+
   /* Delete Programme Modal */
   handleDeleteStudySIMProgModal = (prog) => {
     if (this.state.deleteStudySIMProgModal == false) {
@@ -215,7 +215,7 @@ class StudySIM_Speciality extends Component {
       });
     }
   };
-  
+
   /* View Programme Details Modal */
   handleViewStudySIMProgDetailsModal = (prog) => {
     if (this.state.viewStudySIMProgDetailsModal == false) {
@@ -303,7 +303,7 @@ class StudySIM_Speciality extends Component {
                               <tr key={index}>
                                 <td className="studySIMProgData_SNo text-center">{index}</td>
                                 <td className="studySIMProgData_ProgName text-left">
-                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {this.handleViewStudySIMProgDetailsModal(Specialty)}}>
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => { this.handleViewStudySIMProgDetailsModal(Specialty) }}>
                                     {Specialty.programmeName}
                                   </a>
                                 </td>
@@ -313,17 +313,17 @@ class StudySIM_Speciality extends Component {
                                 <td className="studySIMProgData_LogoFile text-left">
                                   <img src={Specialty.Logofile} className="logoFileImg" alt="No Logo file"></img>
                                 </td>
-                                
+
                                 <td className="studySIMProgData_AcademicLvl text-left">{Specialty.AcademicLevel}</td>
 
                                 <td className="studySIMProgData_MoS text-left">
-                                  {Specialty.ModeOfStudy.fullTime === true && 
+                                  {Specialty.ModeOfStudy.fullTime === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Full-Time</Col>
                                     </Row>
                                   }
 
-                                  {Specialty.ModeOfStudy.partTime === true && 
+                                  {Specialty.ModeOfStudy.partTime === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Part-Time</Col>
                                     </Row>
@@ -334,7 +334,7 @@ class StudySIM_Speciality extends Component {
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{Specialty.discipline1}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{Specialty.discipline2}</Col>
                                   </Row>
@@ -342,25 +342,25 @@ class StudySIM_Speciality extends Component {
 
 
                                 <td className="studySIMProgData_EntryQual text-left">
-                                  {Specialty.Qualification.aLevel === true && 
+                                  {Specialty.Qualification.aLevel === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- "A" Level</Col>
                                     </Row>
                                   }
-                                  
-                                  {Specialty.Qualification.degree === true && 
+
+                                  {Specialty.Qualification.degree === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Degree</Col>
                                     </Row>
                                   }
-                                  
-                                  {Specialty.Qualification.diploma === true && 
+
+                                  {Specialty.Qualification.diploma === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Diploma</Col>
                                     </Row>
                                   }
-                                  
-                                  {Specialty.Qualification.oLevel === true && 
+
+                                  {Specialty.Qualification.oLevel === true &&
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- "O" Level</Col>
                                     </Row>
@@ -371,26 +371,26 @@ class StudySIM_Speciality extends Component {
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{Specialty.subDiscipline.subDisciplineName1}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{Specialty.subDiscipline.subDisciplineName2}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{Specialty.subDiscipline.subDisciplineName3}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{Specialty.subDiscipline.subDisciplineName4}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{Specialty.subDiscipline.subDisciplineName5}</Col>
                                   </Row>
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">
-                                  <Button className="editStudySIMProgBtn" onClick={() => {this.handleEditStudySIMProgModal(Specialty)}}>
+                                  <Button className="editStudySIMProgBtn" onClick={() => { this.handleEditStudySIMProgModal(Specialty) }}>
                                     <FontAwesomeIcon size="lg" className="editStudySIMProgBtnIcon" icon={faEdit} />
                                   </Button>
                                 </td>
@@ -404,7 +404,7 @@ class StudySIM_Speciality extends Component {
                             );
                           })}
                         </tbody>
-                          
+
                       </Table>
                     </Col>
                   </Row>
@@ -488,9 +488,9 @@ class StudySIM_Speciality extends Component {
             durationparttime={this.state.durationparttime}
 
             // List of options from DB
-            universities = {this.state.universities}
-            disciplines = {this.state.disciplines}
-            subDisciplines = {this.state.subDisciplines}
+            universities={this.state.universities}
+            disciplines={this.state.disciplines}
+            subDisciplines={this.state.subDisciplines}
             academicLvls={this.state.academicLvls}
 
             // Button Props

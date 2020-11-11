@@ -43,7 +43,7 @@ class StudySIM_ITComputerSciences extends Component {
         getrole.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
+              this.fetchData();
             } else {
               history.push("/Login");
             }
@@ -59,8 +59,7 @@ class StudySIM_ITComputerSciences extends Component {
     this.authListener();
   }
 
-  display = async () => {
-
+  fetchData = async () => {
     const userRe1 = await db.collection("ProgrammesWeb").onSnapshot((snapshot) => {
       const ITComputerScience = [];
       snapshot.forEach((doc) => {
@@ -176,7 +175,7 @@ class StudySIM_ITComputerSciences extends Component {
         subdiscipline4: prog.subDiscipline.subDisciplineName4,
         subdiscipline5: prog.subDiscipline.subDisciplineName5,
         logoUrl: prog.logoUrl,
-            
+
         //details
         aboutprogramme1: prog.aboutprogramme.aboutProgramme1,
         aboutprogramme2: prog.aboutprogramme.aboutProgramme2,
@@ -304,13 +303,13 @@ class StudySIM_ITComputerSciences extends Component {
                               <tr key={index}>
                                 <td className="studySIMProgData_SNo text-center">{index}</td>
                                 <td className="studySIMProgData_ProgName text-left">
-                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {this.handleViewStudySIMProgDetailsModal(ITComputerScience)}}>
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => { this.handleViewStudySIMProgDetailsModal(ITComputerScience) }}>
                                     {ITComputerScience.programmeName}
                                   </a>
                                 </td>
 
                                 <td className="studySIMProgData_AwardedBy text-left">{ITComputerScience.awardBy}</td>
-                                
+
                                 <td className="studySIMProgData_LogoFile text-left">
                                   <img src={ITComputerScience.logoUrl} className="logoFileImg" alt="No Logo file"></img>
                                 </td>
@@ -323,7 +322,7 @@ class StudySIM_ITComputerSciences extends Component {
                                       <Col className="text-left">- Full-Time</Col>
                                     </Row>
                                   )}
-                                  
+
                                   {ITComputerScience.ModeOfStudy.partTime === true && (
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Part-Time</Col>
@@ -353,13 +352,13 @@ class StudySIM_ITComputerSciences extends Component {
                                       <Col className="text-left">- Degree</Col>
                                     </Row>
                                   )}
-                                  
+
                                   {ITComputerScience.Qualification.diploma === true && (
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Diploma</Col>
                                     </Row>
                                   )}
-                                  
+
                                   {ITComputerScience.Qualification.oLevel === true && (
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- "O" Level</Col>
@@ -371,26 +370,26 @@ class StudySIM_ITComputerSciences extends Component {
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{ITComputerScience.subDiscipline.subDisciplineName1}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{ITComputerScience.subDiscipline.subDisciplineName2}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{ITComputerScience.subDiscipline.subDisciplineName3}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{ITComputerScience.subDiscipline.subDisciplineName4}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{ITComputerScience.subDiscipline.subDisciplineName5}</Col>
                                   </Row>
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">
-                                  <Button className="editStudySIMProgBtn" onClick={() => {this.handleEditStudySIMProgModal(ITComputerScience)}}>
+                                  <Button className="editStudySIMProgBtn" onClick={() => { this.handleEditStudySIMProgModal(ITComputerScience) }}>
                                     <FontAwesomeIcon size="lg" className="editStudySIMProgBtnIcon" icon={faEdit} />
                                   </Button>
                                 </td>
@@ -404,7 +403,7 @@ class StudySIM_ITComputerSciences extends Component {
                             );
                           })}
                         </tbody>
-                            
+
                       </Table>
                     </Col>
                   </Row>
@@ -489,9 +488,9 @@ class StudySIM_ITComputerSciences extends Component {
             docid={this.state.docid}
 
             // List of options from DB
-            universities = {this.state.universities}
-            disciplines = {this.state.disciplines}
-            subDisciplines = {this.state.subDisciplines}
+            universities={this.state.universities}
+            disciplines={this.state.disciplines}
+            subDisciplines={this.state.subDisciplines}
             academicLvls={this.state.academicLvls}
 
             // Button Props

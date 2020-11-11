@@ -81,306 +81,14 @@ export default class EditStudySIMProgModal extends React.Component {
   }
 
   componentDidMount() {
-    function onlyUnique(value, index, self) {
-      return self.indexOf(value) === index;
-    }
-    const University = [];
-    const Modeofstudy = [];
-    const Discipline = [];
-    const AcademicLevel = [];
-    const entryqualification = [];
-    const subDiscipline = [];
+    //Removing the empty strings in filter, otherwise checkbox disabled bug will occur. 
+    this.setState(
+      {
+        disciplinecheckedItems: this.state.disciplinecheckedItems.filter(e => e),
+        subdisciplinecheckedItems: this.state.subdisciplinecheckedItems.filter(e => e)
+      }
+    )
 
-    // //set modeofstudy value into Modeofstudy array
-    // if (this.props.ModeOfStudy.partTime === true) {
-    //   const data = {
-    //     ModeOfStudy: "Part-Time",
-    //     checked: true,
-    //   };
-
-    //   this.setState({
-    //     parttime: true,
-    //   });
-    //   Modeofstudy.push(data);
-    // } else {
-    //   const data = {
-    //     ModeOfStudy: "Part-Time",
-    //     checked: false,
-    //   };
-    //   this.setState({
-    //     parttime: false,
-    //   });
-    //   Modeofstudy.push(data);
-    // }
-
-    // if (this.props.ModeOfStudy.fullTime === true) {
-    //   const data = {
-    //     ModeOfStudy: "Full-Time",
-    //     checked: true,
-    //   };
-    //   Modeofstudy.push(data);
-    //   this.setState({
-    //     fulltime: true,
-    //   });
-    // } else {
-    //   const data = {
-    //     ModeOfStudy: "Full-Time",
-    //     checked: false,
-    //   };
-    //   this.setState({
-    //     fulltime: false,
-    //   });
-    //   Modeofstudy.push(data);
-    // }
-
-    // //set entryqualification value into entryqualification array
-    // if (this.props.diploma === true) {
-    //   const data = {
-    //     entryqualification: "diploma",
-    //     checked: true,
-    //   };
-    //   this.setState({
-    //     diploma: true,
-    //   });
-    //   entryqualification.push(data);
-    // } else {
-    //   const data = {
-    //     entryqualification: "diploma",
-    //     checked: false,
-    //   };
-    //   this.setState({
-    //     diploma: false,
-    //   });
-    //   entryqualification.push(data);
-    // }
-
-    // if (this.props.degree === true) {
-    //   const data = {
-    //     entryqualification: "degree",
-    //     checked: true,
-    //   };
-    //   this.setState({
-    //     degree: true,
-    //   });
-    //   entryqualification.push(data);
-    // } else {
-    //   const data = {
-    //     entryqualification: "degree",
-    //     checked: false,
-    //   };
-    //   this.setState({
-    //     degree: false,
-    //   });
-    //   entryqualification.push(data);
-    // }
-
-    // if (this.props.aLevel === true) {
-    //   const data = {
-    //     entryqualification: "aLevel",
-    //     checked: true,
-    //   };
-    //   this.setState({
-    //     alevel: true,
-    //   });
-    //   entryqualification.push(data);
-    // } else {
-    //   const data = {
-    //     entryqualification: "aLevel",
-    //     checked: false,
-    //   };
-    //   this.setState({
-    //     alevel: false,
-    //   });
-    //   entryqualification.push(data);
-    // }
-
-    // if (this.props.olevel === true) {
-    //   const data = {
-    //     entryqualification: "oLevel",
-    //     checked: true,
-    //   };
-    //   this.setState({
-    //     olevel: true,
-    //   });
-    //   entryqualification.push(data);
-    // } else {
-    //   const data = {
-    //     entryqualification: "oLevel",
-    //     checked: false,
-    //   };
-    //   this.setState({
-    //     olevel: false,
-    //   });
-    //   entryqualification.push(data);
-    // }
-    // console.log(entryqualification);
-
-    // const Universityquery = db
-    //   .collection("Programmes")
-    //   .onSnapshot((snapshot) => {
-    //     snapshot.forEach((doc) => {
-    //       University.push(doc.data().awardedBy);
-    //       Category.push(doc.data().category);
-
-    //       //Modeofstudy.push(doc.data().modeOfStudy);
-    //       Discipline.push(doc.data().discipline.disciplineName1);
-    //       Discipline.push(doc.data().discipline.disciplineName2);
-    //       AcademicLevel.push(doc.data().academicLevel);
-
-    //       //entryqualification.push(doc.data().entryqualificationifications);
-    //       subDiscipline.push(doc.data().subDiscipline.subDisciplineName1);
-    //       subDiscipline.push(doc.data().subDiscipline.subDisciplineName2);
-    //       subDiscipline.push(doc.data().subDiscipline.subDisciplineName3);
-    //       subDiscipline.push(doc.data().subDiscipline.subDisciplineName4);
-    //       subDiscipline.push(doc.data().subDiscipline.subDisciplineName5);
-    //     });
-
-    //     //   var unique = University.filter(onlyUnique);
-    //     var uniqueUniversity = University.filter(onlyUnique);
-    //     var uniqueCategory = Category.filter(onlyUnique);
-    //     var uniqueDiscipline = Discipline.filter(onlyUnique);
-    //     var uniqueAcademicLevel = AcademicLevel.filter(onlyUnique);
-    //     var uniquesubDiscipline = subDiscipline.filter(onlyUnique);
-
-    //     //remove unfined and ""
-    //     uniqueUniversity = uniqueUniversity.filter((val) => val !== undefined);
-    //     uniqueUniversity = uniqueUniversity.filter((val) => val !== "");
-    //     uniqueCategory = uniqueCategory.filter((val) => val !== undefined);
-    //     uniqueCategory = uniqueCategory.filter((val) => val !== "");
-
-    //     uniqueDiscipline = uniqueDiscipline.filter((val) => val !== undefined);
-    //     uniqueDiscipline = uniqueDiscipline.filter((val) => val !== "");
-    //     uniqueAcademicLevel = uniqueAcademicLevel.filter(
-    //       (val) => val !== undefined
-    //     );
-    //     uniqueAcademicLevel = uniqueAcademicLevel.filter((val) => val !== "");
-
-    //     uniquesubDiscipline = uniquesubDiscipline.filter(
-    //       (val) => val !== undefined
-    //     );
-    //     uniquesubDiscipline = uniquesubDiscipline.filter((val) => val !== "");
-    //     uniqueDiscipline.sort();
-    //     uniquesubDiscipline.sort();
-    //     var newuniquesubDiscipline = [];
-    //     var newuniqueDiscipline = [];
-
-    //     // get uniquediscipline across 5 fields in db
-    //     for (var i = 0; i < uniqueDiscipline.length; i++) {
-    //       if (
-    //         uniqueDiscipline[i] === this.props.discipline1 ||
-    //         uniqueDiscipline[i] === this.props.discipline2
-    //       ) {
-    //         //ensure that uniquediscipline that is on db is checked that is used for display
-    //         const data = {
-    //           Name: uniqueDiscipline[i],
-    //           checked: true,
-    //         };
-    //         //store uniquediscipline that already exist in db
-    //         this.setState({
-    //           disciplinecheckedItems: [
-    //             ...this.state.disciplinecheckedItems,
-    //             uniqueDiscipline[i],
-    //           ],
-    //         },
-    //           () => { }
-    //         );
-    //         newuniqueDiscipline.push(data);
-    //       }
-    //       //console.log(newuniqueDiscipline);
-
-    //       // get uniquesubdiscipline across 5 fields in db
-    //       for (var i = 0; i < uniquesubDiscipline.length; i++) {
-    //         if (
-    //           uniquesubDiscipline[i] === this.props.subdisciplne1 ||
-    //           uniquesubDiscipline[i] === this.props.subdisciplne2 ||
-    //           uniquesubDiscipline[i] === this.props.subdisciplne3 ||
-    //           uniquesubDiscipline[i] === this.props.subdisciplne4 ||
-    //           uniquesubDiscipline[i] === this.props.subdisciplne5
-    //         ) {
-    //           //ensure that uniquesubdiscipline that is on db is checked that is used for display
-    //           const data = {
-    //             Name: uniquesubDiscipline[i],
-    //             checked: true,
-    //           };
-
-    //           //store uniquesubdiscipline that already exist in db
-    //           this.setState(
-    //             {
-    //               subdisciplinecheckedItems: [
-    //                 ...this.state.subdisciplinecheckedItems,
-    //                 uniquesubDiscipline[i],
-    //               ],
-    //             },
-    //             () => {
-    //               console.log(this.state.subdisciplinecheckedItems);
-    //             }
-    //           );
-    //           newuniquesubDiscipline.push(data);
-    //         }
-    //         // ensure that uniquesubdiscipline that is not on db is unchecked that is used for display
-    //         else {
-    //           const data = {
-    //             Name: uniquesubDiscipline[i],
-    //             checked: false,
-    //           };
-    //           newuniquesubDiscipline.push(data);
-    //         }
-    //       }
-
-    //       if (this.state.disciplinecheckedItems.length >= 2) {
-    //         for (var i = 0; i < newuniqueDiscipline.length; i++) {
-    //           if (
-    //             Object.values(this.state.disciplinecheckedItems).includes(
-    //               newuniqueDiscipline[i].Name
-    //             )
-    //           ) {
-    //             this.setState({
-    //               [newuniqueDiscipline[i].Name]: false,
-    //             });
-    //           } else {
-    //             this.setState({
-    //               [newuniqueDiscipline[i].Name]: true,
-    //             });
-    //           }
-    //         }
-    //       }
-
-    //       if (this.state.subdisciplinecheckedItems.length >= 5) {
-    //         for (var i = 0; i < newuniquesubDiscipline.length; i++) {
-    //           if (
-    //             Object.values(this.state.subdisciplinecheckedItems).includes(
-    //               newuniquesubDiscipline[i].Name
-    //             )
-    //           ) {
-    //             this.setState({
-    //               ["sub" + newuniquesubDiscipline[i].Name]: false,
-    //             });
-    //           } else {
-    //             this.setState({
-    //               ["sub" + newuniquesubDiscipline[i].Name]: true,
-    //             });
-    //           }
-    //         }
-    //       }
-
-    //       //console.log(uniqueAcademicLevel);
-    //       this.setState({
-    //         University: uniqueUniversity,
-    //         Category: uniqueCategory,
-    //         Modeofstudy: Modeofstudy,
-    //         Discipline: newuniqueDiscipline,
-    //         AcademicLevel: uniqueAcademicLevel,
-    //         entryqualification: entryqualification,
-    //         subDiscipline: newuniquesubDiscipline,
-    //       });
-    //     });
-  }
-
-  handleCheckbox = (e) => {
-    this.setState({
-      [e.target.name]: e.target.checked
-    })
-    console.log(e.target.name)
   }
 
   DisciplinehandleChange(event) {
@@ -621,11 +329,11 @@ export default class EditStudySIMProgModal extends React.Component {
       }
     }
 
-    console.log(subdiscipline1);
-    console.log(subdiscipline2);
-    console.log(subdiscipline3);
-    console.log(subdiscipline4);
-    console.log(subdiscipline5);
+    console.log("Subdisc1" + subdiscipline1);
+    console.log("Subdisc2" + subdiscipline2);
+    console.log("Subdisc3" + subdiscipline3);
+    console.log("Subdisc4" + subdiscipline4);
+    console.log("Subdisc5" + subdiscipline5);
 
     console.log("aboutprogramme1: " + this.state.aboutprogramme1);
     console.log("aboutprogramme2: " + this.state.aboutprogramme2);
@@ -692,7 +400,7 @@ export default class EditStudySIMProgModal extends React.Component {
           subDisciplineName4: subdiscipline4,
           subDisciplineName5: subdiscipline5
         },
-        logoUrl: this.state.url,
+        logoUrl: this.state.logoUrl,
         discipline: {
           disciplineName1: discipline1,
           disciplineName2: discipline2
@@ -812,6 +520,10 @@ export default class EditStudySIMProgModal extends React.Component {
     if (!(this.state.aboutprogramme1 || this.state.aboutprogramme2 || this.state.aboutprogramme3)) {
       aboutProgError = "Please enter programme details!";
     }
+    
+    if ((!this.state.aboutprogramme2) && this.state.aboutprogramme3) {
+      aboutProgError = "Please enter programme details!";
+    }
 
     if (!this.state.applicationperiod1.length >= 1) {
       applicationPeriodError = "Please enter application period details!";
@@ -888,10 +600,10 @@ export default class EditStudySIMProgModal extends React.Component {
                         <option value="" className="editStudySIMProgFormSelectOption">Choose a University</option>
 
                         {this.props.universities && this.props.universities.map((uni, index) => {
-                            index = index + 1;
-                            return (
-                              <option key={index} value={uni} className="editStudySIMProgFormSelectOption">{uni}</option>
-                            );
+                          index = index + 1;
+                          return (
+                            <option key={index} value={uni} className="editStudySIMProgFormSelectOption">{uni}</option>
+                          );
                         })}
                       </Form.Control>
                     </InputGroup>
@@ -927,17 +639,28 @@ export default class EditStudySIMProgModal extends React.Component {
 
                     <Container className="editStudySIMProgForm_MoSCon">
                       <Form.Group>
-                        <Row>
-                          <Col>
-                            <Form.Check name="fulltime" type="checkbox" label="Full-Time" className="editStudySIMProgForm_CheckBox" defaultChecked={this.state.ModeOfStudy.fullTime} onChange={this.handleCheckbox} />
-                          </Col>
-                        </Row>
-
-                        <Row>
-                          <Col>
-                            <Form.Check name="parttime" type="checkbox" label="Part-Time" className="editStudySIMProgForm_CheckBox" defaultChecked={this.state.ModeOfStudy.partTime} onChange={this.handleCheckbox} />
-                          </Col>
-                        </Row>
+                        {this.state.Modeofstudy && this.state.Modeofstudy.map((mos) => {
+                          {
+                            if (mos == 'fullTime') {
+                              return (
+                                <Row>
+                                  <Col>
+                                    <Form.Check name="fulltime" id={mos} value={mos} type="checkbox" label="Full-Time" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.ModeOfStudy.fullTime} onChange={this.handleChange} />
+                                  </Col>
+                                </Row>
+                              )
+                            }
+                            else if (mos == 'partTime') {
+                              return (
+                                <Row>
+                                  <Col>
+                                    <Form.Check name="parttime" id={mos} value={mos} type="checkbox" label="Part-Time" className="editStudySIMProgForm_CheckBox" defaultChecked={this.props.ModeOfStudy.partTime} onChange={this.handleChange} />
+                                  </Col>
+                                </Row>
+                              )
+                            }
+                          }
+                        })}
                       </Form.Group>
                     </Container>
 
@@ -1123,7 +846,7 @@ export default class EditStudySIMProgModal extends React.Component {
                         <Container className="editStudySIMProgForm_StructureOverseasCon">
                           <Row>
                             <Col style={{ paddingLeft: "10%" }}>
-                              <Form.Check name="programmestructurecoursework" value="Coursework" type="checkbox" label="Yes" className="editStudySIMProgForm_CheckBox" onChange={this.handleChange} defaultChecked={this.state.programmestructurecoursework} />
+                              <Form.Check name="programmestructurecoursework" value="Coursework" type="checkbox" label="Yes" className="editStudySIMProgForm_CheckBox" onChange={this.handleChange} defaultChecked={this.props.programmestructurecoursework} />
                             </Col>
                           </Row>
                         </Container>
