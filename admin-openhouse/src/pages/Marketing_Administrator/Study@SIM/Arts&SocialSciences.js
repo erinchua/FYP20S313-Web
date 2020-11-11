@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fire, { auth, db } from "../../../config/firebase";
+import fire from "../../../config/firebase";
 import history from "../../../config/history";
 import { Container, Row, Col, Button, Table, Modal } from "react-bootstrap";
 
@@ -81,7 +81,6 @@ class StudySIM_ArtsSocialSciences extends Component {
             programmeName: doc.data().programmeTitle,
             awardBy: doc.data().awardedBy,
             logoUrl: doc.data().logoUrl,
-            // CategoryProgramme: doc.data().category,
             ModeOfStudy: doc.data().modeOfStudy,
             discipline1: doc.data().discipline.disciplineName1,
             discipline2: doc.data().discipline.disciplineName2,
@@ -171,7 +170,7 @@ class StudySIM_ArtsSocialSciences extends Component {
         discipline1: prog.discipline1,
         discipline2: prog.discipline2,
         academiclevel: prog.AcademicLevel,
-        olevel: prog.Qualification.oLevel,
+        oLevel: prog.Qualification.oLevel,
         aLevel: prog.Qualification.aLevel,
         degree: prog.Qualification.degree,
         diploma: prog.Qualification.diploma,
@@ -181,7 +180,7 @@ class StudySIM_ArtsSocialSciences extends Component {
         subdiscipline4: prog.subDiscipline.subDisciplineName4,
         subdiscipline5: prog.subDiscipline.subDisciplineName5,
         logoUrl: prog.logoUrl,
-            
+
         //details
         aboutprogramme1: prog.aboutprogramme.aboutProgramme1,
         aboutprogramme2: prog.aboutprogramme.aboutProgramme2,
@@ -300,8 +299,8 @@ class StudySIM_ArtsSocialSciences extends Component {
                             <th className="studySIMProgHeader_Delete">Delete</th>
                           </tr>
                         </thead>
-                        
-                        
+
+
                         <tbody>
                           {this.state.artsocialscience && this.state.artsocialscience.map((artsocialscience, index) => {
                             index = index + 1;
@@ -309,7 +308,7 @@ class StudySIM_ArtsSocialSciences extends Component {
                               <tr key={index}>
                                 <td className="studySIMProgData_SNo text-center">{index}</td>
                                 <td className="studySIMProgData_ProgName text-left">
-                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {this.handleViewStudySIMProgDetailsModal(artsocialscience)}}>
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => { this.handleViewStudySIMProgDetailsModal(artsocialscience) }}>
                                     {artsocialscience.programmeName}
                                   </a>
                                 </td>
@@ -321,14 +320,14 @@ class StudySIM_ArtsSocialSciences extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_AcademicLvl text-left">{artsocialscience.AcademicLevel}</td>
-                                
+
                                 <td className="studySIMProgData_MoS text-left">
                                   {artsocialscience.ModeOfStudy.fullTime === true && (
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Full-Time</Col>
                                     </Row>
                                   )}
-                                    
+
                                   {artsocialscience.ModeOfStudy.partTime === true && (
                                     <Row className="justify-content-center">
                                       <Col className="text-left">- Part-Time</Col>
@@ -384,24 +383,24 @@ class StudySIM_ArtsSocialSciences extends Component {
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{artsocialscience.subDiscipline.subDisciplineName3}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{artsocialscience.subDiscipline.subDisciplineName4}</Col>
                                   </Row>
-                                  
+
                                   <Row className="justify-content-center">
                                     <Col className="text-left">{artsocialscience.subDiscipline.subDisciplineName5}</Col>
                                   </Row>
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">
-                                  <Button className="editStudySIMProgBtn" onClick={() => {this.handleEditStudySIMProgModal(artsocialscience)}}>
+                                  <Button className="editStudySIMProgBtn" onClick={() => { this.handleEditStudySIMProgModal(artsocialscience) }}>
                                     <FontAwesomeIcon size="lg" className="editStudySIMProgBtnIcon" icon={faEdit} />
                                   </Button>
                                 </td>
 
                                 <td className="studySIMProgData_Delete text-center">
-                                  <Button className="deleteStudySIMProgBtn" onClick={() => {this.handleDeleteStudySIMProgModal(artsocialscience.docid);}}>
+                                  <Button className="deleteStudySIMProgBtn" onClick={() => { this.handleDeleteStudySIMProgModal(artsocialscience.docid); }}>
                                     <FontAwesomeIcon size="lg" className="deleteStudySIMProgBtnIcon" icon={faTrashAlt} />
                                   </Button>
                                 </td>
@@ -409,7 +408,7 @@ class StudySIM_ArtsSocialSciences extends Component {
                             );
                           })}
                         </tbody>
-                          
+
                       </Table>
                     </Col>
                   </Row>
@@ -462,7 +461,7 @@ class StudySIM_ArtsSocialSciences extends Component {
             discipline1={this.state.discipline1}
             discipline2={this.state.discipline2}
             academiclevel={this.state.academiclevel}
-            olevel={this.state.olevel}
+            oLevel={this.state.oLevel}
             aLevel={this.state.aLevel}
             degree={this.state.degree}
             diploma={this.state.diploma}
@@ -489,13 +488,13 @@ class StudySIM_ArtsSocialSciences extends Component {
             docid={this.state.docid}
 
             // List of options from DB
-            universities = {this.state.universities}
-            disciplines = {this.state.disciplines}
-            subDisciplines = {this.state.subDisciplines}
+            universities={this.state.universities}
+            disciplines={this.state.disciplines}
+            subDisciplines={this.state.subDisciplines}
             academicLvls={this.state.academicLvls}
 
             // Button props
-            handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
+            handleSaveChanges={() => { this.handleEditStudySIMProgModal() }}
             handleCancelEdit={this.handleEditStudySIMProgModal}
           />
         </Modal>
@@ -511,10 +510,10 @@ class StudySIM_ArtsSocialSciences extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <DeleteStudySIMProgModal 
-            docid={this.state.docid} 
+          <DeleteStudySIMProgModal
+            docid={this.state.docid}
             logoUrl={this.state.logoUrl}
-            handleConfirmDelete={() => {this.handleDeleteStudySIMProgModal()}} 
+            handleConfirmDelete={() => { this.handleDeleteStudySIMProgModal() }}
             handleCancelDelete={this.handleDeleteStudySIMProgModal}
           />
         </Modal>
