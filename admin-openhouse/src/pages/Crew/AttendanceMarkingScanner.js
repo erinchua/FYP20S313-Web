@@ -97,7 +97,7 @@ class AttendanceMarkingScanner extends Component {
     });
   }
 
-  handleScan = (data) => {
+  handleScan = async (data) => {
     var counter = 0;
     if (data) {
       this.setState({
@@ -116,7 +116,7 @@ class AttendanceMarkingScanner extends Component {
         var proguni = result[5];
 
 
-        db.collection("Attendance")
+        await db.collection("Attendance")
           .orderBy("id", "desc")
           .limit(1)
           .get()
@@ -135,13 +135,13 @@ class AttendanceMarkingScanner extends Component {
                 docid = "attendance-" + id;
               }
               //Check if attendee existed in a progTalk
-              const attendee = db.collection("Attendance").where("talkName", "==", progTalk).where("email", "==", email).get()
+              const attendee = await db.collection("Attendance").where("talkName", "==", progTalk).where("email", "==", email).get()
               if (!attendee.empty) {
                 console.log("Student existed in attendance")
                 return
               }
 
-              db.collection("Attendance")
+              await db.collection("Attendance")
                 .doc(docid)
                 .set({
                   date: progdate,
