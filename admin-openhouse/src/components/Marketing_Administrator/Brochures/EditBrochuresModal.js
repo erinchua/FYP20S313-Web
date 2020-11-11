@@ -1,4 +1,4 @@
-import { Container, Row, Col, Table, Button, Modal, Form } from 'react-bootstrap';
+import { Container, Row, Col, Button, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
 import { db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
@@ -18,7 +18,15 @@ async function savePicture(blobURL, folderName, fileName) {
     return url;
 }
 
+const initialStates = {
+    descriptionError: "",
+    brochureUrlError: "",
+    imageUrlError: "",
+}
+
 class EditBrochuresModal extends Component {
+
+    state = initialStates;
 
     constructor(props) {
         super(props);
@@ -41,20 +49,16 @@ class EditBrochuresModal extends Component {
         this.setState({
             [e.target.name]: e.target.value,
         });
-        console.log([e.target.name], e.target.value)
     };
 
     handleFileUpload = (e) => {
         if (e.target.files?.length > 0){
-            console.log(e.target.files)
-            console.log(e.target.files?.item(0).type);
 
             const file = e.target.files?.item(0);
             const fileURL = URL.createObjectURL(file);
 
             //Set imageUrl state to the URL
             if (e.target.files?.item(0).type === "image/png" || e.target.files?.item(0).type === "image/jpg" || e.target.files?.item(0).type === "image/jpeg" || e.target.files?.item(0).type === "image/gif") {
-                console.log("image")
                 console.log("Create:", fileURL);
                 this.setState({
                     imageUrl: fileURL,
@@ -63,7 +67,6 @@ class EditBrochuresModal extends Component {
 
             //Set brochureUrl state to the URL
             if (e.target.files?.item(0).type === "application/pdf") {
-                console.log("brochure")
                 console.log("Create:", fileURL);
                 this.setState({
                     brochureUrl: fileURL,
@@ -72,6 +75,7 @@ class EditBrochuresModal extends Component {
         }
     };
 
+    //When click on "Save Changes" in edit modal
     handleSave = async() => {
         var folderName = "";
         var imageTitle = "";
@@ -82,35 +86,24 @@ class EditBrochuresModal extends Component {
         var brochureExtension = "";
         var imageName = "";
         var brochureName = "";
+        const isValid = this.validate();
 
+        //When upload a new brochure and image and state will starts with "blob:"
         if (this.state.imageUrl.startsWith("blob:") || this.state.brochureUrl.startsWith("blob:")) {
-            console.log("With BLOBBLOB")
 
+            //Check if its Prospectus/Programmes - For Programmes
             if (this.props.university !== "") {
-                console.log(this.props.university)
-                console.log(this.props.description)
 
                 imageTitle = this.props.imageUrl.split(/\%2..*%2F(.*?)\?alt/)[1].split(".")[0]
-                console.log(imageTitle)
                 imageRes = this.props.imageUrl.split("?alt=")[0];
-                console.log(imageRes)
                 imageExtension = imageRes.substr(imageRes.length - 4);
-                console.log(imageExtension)
 
                 brochureTitle = this.props.brochureUrl.split(/\%2..*%2F(.*?)\?alt/)[1].split(".")[0]
-                console.log(brochureTitle)
                 brochureRes = this.props.brochureUrl.split("?alt=")[0];
-                console.log(brochureRes)
                 brochureExtension = brochureRes.substr(brochureRes.length - 4);
-                console.log(brochureExtension)
-
-
-                console.log (this.state.onClickImage)
-                console.log(this.state.onClickBrochures)
-
                 folderName = "Programmes/" + this.props.university
-                console.log("folder name: " + folderName);
 
+                //If upload only image
                 if (this.state.onClickImage === "images" && this.state.onClickBrochures === "") {
                     if (!imageExtension.includes('.png') && !imageExtension.includes('.jpg') && !imageExtension.includes('.PNG') && !imageExtension.includes('.JPG') && !imageExtension.includes('.gif') && !imageExtension.includes('.GIF')) {
                         imageName = imageTitle;
@@ -124,21 +117,26 @@ class EditBrochuresModal extends Component {
                         this.setState({
                             url: url
                         });
-                        console.log(this.state.url)
                     }
 
-                    db.collection("Brochures").doc(this.props.id)
-                    .update({
-                        description: this.state.description,
-                        brochureUrl: this.state.brochureUrl,
-                        imageUrl: this.state.url,
-                    })
-                    .then(() => {
-                        console.log("Updated the Brochures");
-                        this.props.handleEdit();
-                    });
+                    if (isValid) {
+                        this.setState(initialStates);
+
+                        db.collection("Brochures").doc(this.props.id)
+                        .update({
+                            description: this.state.description,
+                            brochureUrl: this.state.brochureUrl,
+                            imageUrl: this.state.url,
+                        })
+                        .then(() => {
+                            console.log("Updated the Brochures");
+                            this.props.handleEdit();
+                        });
+                    }
+
                 }
 
+                //If upload only brochure
                 if (this.state.onClickBrochures === "brochures" && this.state.onClickImage === "") {
                     if (!brochureExtension.includes('.pdf') && !brochureExtension.includes('.PDF')) {
                         brochureName = brochureTitle;
@@ -152,24 +150,26 @@ class EditBrochuresModal extends Component {
                         this.setState({
                             document: document
                         });
-                        console.log(this.state.document)
                     } 
 
-                    db.collection("Brochures").doc(this.props.id)
-                    .update({
-                        description: this.state.description,
-                        brochureUrl: this.state.document,
-                        imageUrl: this.state.imageUrl,
-                    })
-                    .then(() => {
-                        console.log("Updated the Brochures");
-                        this.props.handleEdit();
-                    });
+                    if (isValid) {
+                        this.setState(initialStates);
+
+                        db.collection("Brochures").doc(this.props.id)
+                        .update({
+                            description: this.state.description,
+                            brochureUrl: this.state.document,
+                            imageUrl: this.state.imageUrl,
+                        })
+                        .then(() => {
+                            console.log("Updated the Brochures");
+                            this.props.handleEdit();
+                        });
+                    }
                 }
 
+                //If upload both image and brochure
                 if (this.state.onClickImage === "images" && this.state.onClickBrochures === "brochures") {
-                    console.log("bothhh")
-
                     if (!imageExtension.includes('.png') && !imageExtension.includes('.jpg') && !imageExtension.includes('.PNG') && !imageExtension.includes('.JPG') && !imageExtension.includes('.gif') && !imageExtension.includes('.GIF')) {
                         imageName = imageTitle;
                         const url = await savePicture(this.state.imageUrl, folderName, imageName);
@@ -182,7 +182,6 @@ class EditBrochuresModal extends Component {
                         this.setState({
                             url: url
                         });
-                        console.log(this.state.url)
                     }
 
                     if (!brochureExtension.includes('.pdf') && !brochureExtension.includes('.PDF')) {
@@ -197,41 +196,36 @@ class EditBrochuresModal extends Component {
                         this.setState({
                             document: document
                         });
-                        console.log(this.state.document)
                     } 
 
-                    db.collection("Brochures").doc(this.props.id)
-                    .update({
-                        description: this.state.description,
-                        brochureUrl: this.state.document,
-                        imageUrl: this.state.url,
-                    })
-                    .then(() => {
-                        console.log("Updated the Brochures");
-                        this.props.handleEdit();
-                    });
+                    if (isValid) {
+                        this.setState(initialStates);
+
+                        db.collection("Brochures").doc(this.props.id)
+                        .update({
+                            description: this.state.description,
+                            brochureUrl: this.state.document,
+                            imageUrl: this.state.url,
+                        })
+                        .then(() => {
+                            console.log("Updated the Brochures");
+                            this.props.handleEdit();
+                        });
+                    }
                 }
 
+            //Check if its Prospectus/Programmes - For Prospectus
             } else {
-                console.log("prospectus: " + this.props.description)
 
                 imageTitle = this.props.imageUrl.split(/\%2..*%2F(.*?)\?alt/)[1].split(".")[0]
-                console.log(imageTitle)
                 imageRes = this.props.imageUrl.split("?alt=")[0];
-                console.log(imageRes)
                 imageExtension = imageRes.substr(imageRes.length - 4);
-                console.log(imageExtension)
 
                 brochureTitle = this.props.brochureUrl.split(/\%2..*%2F(.*?)\?alt/)[1].split(".")[0]
-                console.log(brochureTitle)
                 brochureRes = this.props.brochureUrl.split("?alt=")[0];
-                console.log(brochureRes)
                 brochureExtension = brochureRes.substr(brochureRes.length - 4);
-                console.log(brochureExtension)
 
-                console.log (this.state.onClickImage)
-                console.log(this.state.onClickBrochures)
-
+                //If upload only image
                 if (this.state.onClickImage === "images" && this.state.onClickBrochures === "") {
                     if (!imageExtension.includes('.png') && !imageExtension.includes('.jpg') && !imageExtension.includes('.PNG') && !imageExtension.includes('.JPG') && !imageExtension.includes('.gif') && !imageExtension.includes('.GIF')) {
                         imageName = imageTitle;
@@ -245,21 +239,25 @@ class EditBrochuresModal extends Component {
                         this.setState({
                             url: url
                         });
-                        console.log(this.state.url)
                     }
 
-                    db.collection("Brochures").doc(this.props.id)
-                    .update({
-                        description: this.state.description,
-                        brochureUrl: this.state.brochureUrl,
-                        imageUrl: this.state.url,
-                    })
-                    .then(() => {
-                        console.log("Updated the Brochures");
-                        this.props.handleEdit();
-                    });
+                    if (isValid) {
+                        this.setState(initialStates);
+
+                        db.collection("Brochures").doc(this.props.id)
+                        .update({
+                            description: this.state.description,
+                            brochureUrl: this.state.brochureUrl,
+                            imageUrl: this.state.url,
+                        })
+                        .then(() => {
+                            console.log("Updated the Brochures");
+                            this.props.handleEdit();
+                        });
+                    }
                 }
 
+                //If upload only brochure
                 if (this.state.onClickBrochures === "brochures" && this.state.onClickImage === "") {
                     if (!brochureExtension.includes('.pdf') && !brochureExtension.includes('.PDF')) {
                         brochureName = brochureTitle;
@@ -273,24 +271,26 @@ class EditBrochuresModal extends Component {
                         this.setState({
                             document: document
                         });
-                        console.log(this.state.document)
                     } 
 
-                    db.collection("Brochures").doc(this.props.id)
-                    .update({
-                        description: this.state.description,
-                        brochureUrl: this.state.document,
-                        imageUrl: this.state.imageUrl,
-                    })
-                    .then(() => {
-                        console.log("Updated the Brochures");
-                        this.props.handleEdit();
-                    });
+                    if (isValid) {
+                        this.setState(initialStates);
+
+                        db.collection("Brochures").doc(this.props.id)
+                        .update({
+                            description: this.state.description,
+                            brochureUrl: this.state.document,
+                            imageUrl: this.state.imageUrl,
+                        })
+                        .then(() => {
+                            console.log("Updated the Brochures");
+                            this.props.handleEdit();
+                        });
+                    }
                 }
 
+                //If upload both image and brochure
                 if (this.state.onClickImage === "images" && this.state.onClickBrochures === "brochures") {
-                    console.log("bothhh")
-
                     if (!imageExtension.includes('.png') && !imageExtension.includes('.jpg') && !imageExtension.includes('.PNG') && !imageExtension.includes('.JPG') && !imageExtension.includes('.gif') && !imageExtension.includes('.GIF')) {
                         imageName = imageTitle;
                         const url = await savePicture(this.state.imageUrl, "Prospectus", imageName);
@@ -303,7 +303,6 @@ class EditBrochuresModal extends Component {
                         this.setState({
                             url: url
                         });
-                        console.log(this.state.url)
                     }
 
                     if (!brochureExtension.includes('.pdf') && !brochureExtension.includes('.PDF')) {
@@ -318,34 +317,66 @@ class EditBrochuresModal extends Component {
                         this.setState({
                             document: document
                         });
-                        console.log(this.state.document)
                     } 
 
-                    db.collection("Brochures").doc(this.props.id)
-                    .update({
-                        description: this.state.description,
-                        brochureUrl: this.state.document,
-                        imageUrl: this.state.url,
-                    })
-                    .then(() => {
-                        console.log("Updated the Brochures");
-                        this.props.handleEdit();
-                    });
+                    if (isValid) {
+                        this.setState(initialStates);
+
+                        db.collection("Brochures").doc(this.props.id)
+                        .update({
+                            description: this.state.description,
+                            brochureUrl: this.state.document,
+                            imageUrl: this.state.url,
+                        })
+                        .then(() => {
+                            console.log("Updated the Brochures");
+                            this.props.handleEdit();
+                        });
+                    }
                 }
             }
 
+        //When never upload a new brochure and image and edit description only
         } else {
-            console.log("Without BLOBBLOB")
+            if (isValid) {
+                this.setState(initialStates);
 
-            db.collection("Brochures").doc(this.props.id)
-            .update({
-                description: this.state.description,
-            })
-            .then(() => {
-                console.log("Updated the Brochures' Description");
-                this.props.handleEdit();
-            });
+                db.collection("Brochures").doc(this.props.id)
+                .update({
+                    description: this.state.description,
+                })
+                .then(() => {
+                    console.log("Updated the Brochures' Description");
+                    this.props.handleEdit();
+                });
+            }
         }
+    }
+
+    //Validation for the edit modal fields
+    validate = () => {
+        let descriptionError = "";
+        let brochureUrlError = "";
+        let imageUrlError = "";
+
+        if (!this.state.description) {
+            descriptionError = "Please enter a valid description name for the brochure.";
+        }
+
+        if (!this.state.brochureUrl) {
+            brochureUrlError = "Please browse a valid brochure document.";
+        }
+
+        if (!this.state.imageUrl) {
+            imageUrlError = "Please browse a cover image for the brochure.";
+        }
+
+        if (descriptionError || brochureUrlError || imageUrlError) {
+            this.setState({descriptionError, brochureUrlError, imageUrlError});
+            return false;
+        } 
+
+        return true;
     }
 
     render(){
@@ -363,7 +394,7 @@ class EditBrochuresModal extends Component {
                                 </Form.Group> 
                                 <Form.Group as={Col} md="7">
                                     <Form.Control id="Brochures-inputFields" type="text" name="description" placeholder="Description" defaultValue={this.props.description} onChange={this.updateInput} required noValidate></Form.Control>
-                                    <div className="errorMessage"></div>
+                                    <div className="errorMessage">{this.state.descriptionError}</div>
                                 </Form.Group>
                             </Form.Group>                     
                         </Form.Group>
@@ -384,7 +415,7 @@ class EditBrochuresModal extends Component {
                                 </Form.Group> 
                                 <Form.Group as={Col} md="7">
                                     <Form.File name="imageUrl" className="Brochures-imgFile" label={this.props.imageUrl} onChange={this.handleFileUpload} onClick={() => this.setState({onClickImage: "images"})} custom required></Form.File>
-                                    <div className="errorMessage"></div>
+                                    <div className="errorMessage">{this.state.imageUrlError}</div>
                                 </Form.Group>
                             </Form.Group>
                         </Form.Group>
@@ -401,7 +432,7 @@ class EditBrochuresModal extends Component {
                                 
                                 <Form.Group as={Col} md="7">
                                     <Form.File name="brochureUrl" className="Brochures-imgFile" label={this.props.brochureUrl} onChange={this.handleFileUpload} onClick={() => this.setState({onClickBrochures: "brochures"})} custom required></Form.File>
-                                    <div className="errorMessage"></div>
+                                    <div className="errorMessage">{this.state.brochureUrlError}</div>
                                 </Form.Group>
                             </Form.Group>
                         </Form.Group>
