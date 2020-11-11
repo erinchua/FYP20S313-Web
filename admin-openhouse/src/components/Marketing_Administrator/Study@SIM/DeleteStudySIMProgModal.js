@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Button, Col, Row } from "react-bootstrap";
 
-import { db } from "../../../config/firebase";
+import { db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,16 +18,42 @@ export default class DeleteStudySIMProgModal extends React.Component {
     };
   }
 
-  delete() {
-    var a = this;
+  deleteProgramme() {
+    // In Progress
+    // console.log(this.props.logoUrl)
 
-    const userRef = db
-    .collection("Programmes")
-    .doc(this.props.docid)
-    .delete()
-    .then(function () {
-      // a.props.handleConfirmDelete();
-    });
+    // var title = this.props.logoUrl.split(/\%2..*%2F(.*?)\?alt/)[1].split(".")[0]
+    // var res = this.props.logoUrl.split("?alt=")[0];
+    // var extension = res.substr(res.length - 4);
+
+    // if (!extension.includes('.png') && !extension.includes('.jpg') && !extension.includes('.PNG') && !extension.includes('.JPG')) {
+    //   var fileName = title;
+    //   const store = storage.ref(`/Universities/`).child(fileName);
+
+    //   db.collection("ProgrammesWeb")
+    //   .doc(this.props.docid).delete()
+    //   .then(dataSnapshot => {
+    //       console.log("Deleted programme");
+    //       store.delete().then(dataSnapshot => {
+    //           console.log("Deleted Image in Storage");
+    //           this.props.handleConfirmDelete();
+    //       });
+    //   }); 
+    // } 
+    // else {
+    //   var fileName = title + extension;
+    //   const store = storage.ref(`/Universities/`).child(fileName);
+
+    //   db.collection("ProgrammesWeb")
+    //   .doc(this.props.docid).delete()
+    //   .then(dataSnapshot => {
+    //     console.log("Deleted programme");
+    //     store.delete().then(dataSnapshot => {
+    //         console.log("Deleted Image in Storage");
+    //         this.props.handleConfirmDelete();
+    //     });
+    //   });
+    // }
   }
 
   
@@ -55,7 +81,7 @@ export default class DeleteStudySIMProgModal extends React.Component {
 
           <Row className="justify-content-center">
             <Col md="6" className="text-right deleteStudySIMProgModalCol">
-              <Button id="confirmDeleteStudySIMProgModalBtn" onClick={() => {this.delete(); this.props.handleConfirmDelete();}}>
+              <Button id="confirmDeleteStudySIMProgModalBtn" onClick={() => {this.deleteProgramme()}}>
                 Confirm
               </Button>
             </Col>

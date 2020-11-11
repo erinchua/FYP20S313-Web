@@ -7,6 +7,16 @@ import history from "../../../config/history";
 import "../../../css/Marketing_Administrator/EditStudySIMProgModal.css";
 
 
+async function savePicture(blobURL, imageName) {
+  const pictureRef = storage.ref(`/Universities/`).child(imageName);
+  const response = await fetch(blobURL);
+  const blob = await response.blob(); //fetch blob object
+  const snapshot = await pictureRef.put(blob); //upload
+  const url = await snapshot.ref.getDownloadURL(); //url in storage
+  console.log("image URL:", url);
+  return url;
+}
+
 const initialStates = {
   progNameError: "",
   logoUrlError: "",
@@ -42,6 +52,7 @@ export default class EditStudySIMProgModal extends React.Component {
       category: this.props.category,
       academiclevel: this.props.academiclevel,
       logoUrl: this.props.logoUrl,
+      url: "",
       parttime: "",
       fulltime: "",
       diploma: "",
@@ -469,8 +480,8 @@ export default class EditStudySIMProgModal extends React.Component {
   }
 
   handleChange = (e) => {
-    console.log(e.target.name);
-    console.log(e.target.value);
+    // console.log(e.target.name);
+    // console.log(e.target.value);
     this.setState({
       [e.target.name]: [e.target.value],
     });
@@ -535,21 +546,21 @@ export default class EditStudySIMProgModal extends React.Component {
     }
   };
 
-  edit() {
+  edit = async() => {
     console.log("programme: " + this.state.programme);
     console.log("university: " + this.state.university);
     console.log("logoUrl: " + this.state.logoUrl)
-    console.log("category: " + this.state.category);
+    // console.log("category: " + this.state.category);
     console.log("academiclevel: " + this.state.academiclevel);
 
-    console.log("PT: " + this.state.parttime);
     console.log("FT: " + this.state.fulltime);
+    console.log("PT: " + this.state.parttime);
     console.log("alevel: " + this.state.alevel);
     console.log("degree: " + this.state.degree);
     console.log("diploma: " + this.state.diploma);
     console.log("olevel: " + this.state.olevel);
     //-----------------------------------------------------
-    //console.log("discipline: " + this.state.disciplinecheckedItems);
+    console.log("discipline: " + this.state.disciplinecheckedItems);
 
     var discipline = this.state.disciplinecheckedItems;
     var discipline1 = "";
@@ -568,7 +579,7 @@ export default class EditStudySIMProgModal extends React.Component {
     console.log(discipline2);
 
     //------------------------------------------------------------------------------
-    //console.log("subdiscipline: " + this.state.subdisciplinecheckedItems);
+    console.log("subdiscipline: " + this.state.subdisciplinecheckedItems);
     var subdiscipline = this.state.subdisciplinecheckedItems;
     var subdiscipline1 = "";
     var subdiscipline2 = "";
@@ -606,7 +617,7 @@ export default class EditStudySIMProgModal extends React.Component {
     console.log("applicationperiod2: " + this.state.applicationperiod2);
     console.log("intakemonthsfulltime: " + this.state.intakemonthsfulltime);
 
-    console.log("intakemonthspartimetime: " + this.state.intakemonthsparttime);
+    console.log("intakemonthspartime: " + this.state.intakemonthsparttime);
     console.log("durationfulltime: " + this.state.durationfulltime);
     console.log("durationparttime: " + this.state.durationparttime);
 
@@ -615,142 +626,318 @@ export default class EditStudySIMProgModal extends React.Component {
     console.log("programmestructurecoursework: " + this.state.programmestructurecoursework);
     console.log("programmestructureexaminati: " + this.state.programmestructureexamination);
 
-    const parentthis = this;
-    if (this.state.files !== undefined) {
-      const foldername = "Universities";
-      const file = this.state.files[0];
-      const storageRef = storage.ref(foldername);
-      const fileRef = storageRef.child(file.name).put(file);
-      fileRef.on("state_changed", function (snapshot) {
-        fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-          console.log(downloadURL);
+    const isValid = this.validate();
+    var title = "";
+    var res = "";
+    var extension = "";
+    var fileName = "";
 
-          // Validation
-          const isValid = this.validate();
-          if (isValid) {
-            this.setState(initialStates);
+    console.log("props.logoUrl: " + this.props.logoUrl)
 
-            const userRef = db.collection("Programmes").doc(parentthis.props.docid);
-            userRef.update({
-              academicLevel: parentthis.state.academiclevel.toString(),
-              "applicationPeriod.period1": parentthis.state.applicationperiod1.toString(),
+    if (this.props.logoUrl.startsWith("blob:")) {
+      title = this.props.logoUrl.split(/\%2..*%2F(.*?)\?alt/)[1].split(".")[0]
+      res = this.props.logoUrl.split("?alt=")[0];
+      extension = res.substr(res.length - 4);
 
-              "applicationPeriod.period2":
-                parentthis.state.applicationperiod2.toString(),
-                awardedBy: parentthis.state.university.toString(),
-                category: parentthis.state.category.toString(),
-
-              "discipline.disciplineName1": discipline1,
-              "discipline.disciplineName2": discipline2,
-              "duration.fullTime": parentthis.state.durationfulltime.toString(),
-              "duration.partTime": parentthis.state.durationparttime.toString(),
-              "entryQualifications.aLevel": parentthis.state.alevel,
-              "entryQualifications.degree": parentthis.state.degree,
-              "entryQualifications.diploma": parentthis.state.diploma,
-              "entryQualifications.oLevel": parentthis.state.olevel,
-              "intakeMonths.fullTime": parentthis.state.intakemonthsfulltime.toString(),
-
-              "intakeMonths.partTime":
-                parentthis.state.intakemonthsparttime.toString(),
-                logoFile: downloadURL,
-
-              "modeOfStudy.fullTime": parentthis.state.fulltime,
-              "modeOfStudy.partTime": parentthis.state.parttime,
-              "overseaOpportunity.exchange": parentthis.state.overseaopportunityexchange,
-              "overseaOpportunity.transfer": parentthis.state.overseaopportunitytransfer,
-              "programmeOverview.aboutProgramme1": parentthis.state.aboutprogramme1.toString(),
-              "programmeOverview.aboutProgramme2": parentthis.state.aboutprogramme2.toString(),
-              "programmeOverview.aboutProgramme3": parentthis.state.aboutprogramme3.toString(),
-              "programmeStructure.coursework": parentthis.state.programmestructurecoursework,
-
-              "programmeStructure.examination":
-                parentthis.state.programmestructureexamination,
-                programmeTitle: parentthis.state.programme.toString(),
-
-              "subDiscipline.subDisciplineName1": subdiscipline1,
-              "subDiscipline.subDisciplineName2": subdiscipline2,
-              "subDiscipline.subDisciplineName3": subdiscipline3,
-              "subDiscipline.subDisciplineName4": subdiscipline4,
-              "subDiscipline.subDisciplineName5": subdiscipline5
-            })
-              .then(dataSnapshot => {
-                this.props.handleSaveChanges();
-              });
-          }
+      if (!extension.includes('.png') && !extension.includes('.jpg') && !extension.includes('.PNG') && !extension.includes('.JPG')) {
+        fileName = title;
+        const url = await savePicture(this.state.logoUrl, fileName);
+        this.setState({
+            url: url
         });
-
-      });
-    } else {
-      // Validation
-      const isValid = this.validate();
-      if (isValid) {
-        this.setState(initialStates);
-
-        const userRef = db.collection("ProgrammesWeb").doc(parentthis.props.docid);
-        userRef
-          .update({
-            academicLevel: parentthis.state.academiclevel.toString(),
-            "applicationPeriod.period1": parentthis.state.applicationperiod1.toString(),
-
-            "applicationPeriod.period2":
-              parentthis.state.applicationperiod2.toString(),
-            awardedBy: parentthis.state.university.toString(),
-            category: parentthis.state.category.toString(),
-
-            "discipline.disciplineName1": discipline1,
-            "discipline.disciplineName2": discipline2,
-            "duration.fullTime": parentthis.state.durationfulltime.toString(),
-            "duration.partTime": parentthis.state.durationparttime.toString(),
-            "entryQualifications.aLevel": parentthis.state.alevel,
-            "entryQualifications.degree": parentthis.state.degree,
-            "entryQualifications.diploma": parentthis.state.diploma,
-            "entryQualifications.oLevel": parentthis.state.olevel,
-            "intakeMonths.fullTime": parentthis.state.intakemonthsfulltime.toString(),
-            "intakeMonths.partTime": parentthis.state.intakemonthsparttime.toString(),
-
-            "modeOfStudy.fullTime": parentthis.state.fulltime,
-            "modeOfStudy.partTime": parentthis.state.parttime,
-            "overseaOpportunity.exchange": parentthis.state.overseaopportunityexchange,
-            "overseaOpportunity.transfer": parentthis.state.overseaopportunitytransfer,
-            "programmeOverview.aboutProgramme1": parentthis.state.aboutprogramme1.toString(),
-            "programmeOverview.aboutProgramme2": parentthis.state.aboutprogramme2.toString(),
-            "programmeOverview.aboutProgramme3": parentthis.state.aboutprogramme3.toString(),
-            "programmeStructure.coursework": parentthis.state.programmestructurecoursework,
-
-            "programmeStructure.examination":
-              parentthis.state.programmestructureexamination,
-            programmeTitle: parentthis.state.programme.toString(),
-
-            "subDiscipline.subDisciplineName1": subdiscipline1,
-            "subDiscipline.subDisciplineName2": subdiscipline2,
-            "subDiscipline.subDisciplineName3": subdiscipline3,
-            "subDiscipline.subDisciplineName4": subdiscipline4,
-            "subDiscipline.subDisciplineName5": subdiscipline5,
-          })
-          .then(dataSnapshot => {
-            this.props.handleSaveChanges();
-          });
+      } else {
+        fileName = title + extension;
+        const url = await savePicture(this.state.logoUrl, fileName);
+        this.setState({
+            url: url
+        });
       }
     }
+
+    const parentthis = this;
+
+    if (isValid) {
+      this.setState(initialStates);
+
+      const userRef = db.collection("Programmes").doc(this.props.docid);
+      userRef.update({
+        id: this.props.docid,
+        entryQualifications: {
+          diploma: parentthis.state.diploma,
+          oLevel: parentthis.state.olevel,
+          degree: parentthis.state.degree,
+          aLevel: parentthis.state.alevel
+        },
+        subDiscipline: {
+          subDisciplineName1: subdiscipline1,
+          subDisciplineName2: subdiscipline2,
+          subDisciplineName3: subdiscipline3,
+          subDisciplineName4: subdiscipline4,
+          subDisciplineName5: subdiscipline5
+        },
+        logoUrl: this.state.url,
+        discipline: {
+          disciplineName1: discipline1,
+          disciplineName2: discipline2
+        },
+        programmeStructure: {
+          coursework: parentthis.state.programmestructurecoursework,
+          examination: parentthis.state.programmestructureexamination
+        },
+        awardedBy: parentthis.state.university.toString(),
+        academicLevel: parentthis.state.academiclevel.toString(),
+        intakeMonths: {
+          fullTime: parentthis.state.intakemonthsfulltime.toString(),
+          partTime: parentthis.state.intakemonthsparttime.toString()
+        },
+        duration: {
+          partTime: parentthis.state.durationparttime.toString(),
+          fullTime: parentthis.state.durationfulltime.toString()
+        },
+        applicationPeriod: {
+          period1: parentthis.state.applicationperiod1.toString(),
+          period2: parentthis.state.applicationperiod2.toString()
+        },
+        overseaOpportunity: {
+          exchange: parentthis.state.overseaopportunityexchange,
+          transfer: parentthis.state.overseaopportunitytransfer
+        },
+        programmeTitle: parentthis.state.programme.toString(),
+        modeOfStudy: {
+          partTime: parentthis.state.parttime,
+          fullTime: parentthis.state.fulltime
+        },
+        // category: parentthis.state.category.toString(),
+        programmeOverview: {
+          aboutProgramme1: parentthis.state.aboutprogramme1.toString(),
+          aboutProgramme2: parentthis.state.aboutprogramme2.toString(),
+          aboutProgramme3: parentthis.state.aboutprogramme3.toString()
+        }
+      })
+      .then(dataSnapshot => {
+        this.props.handleSaveChanges();
+      }); 
+
+    }
+
   }
 
-  handleFileUpload = (files) => {
-    this.setState({
-      files: files,
-    });
-  };
+  // edit() {
+  //   console.log("programme: " + this.state.programme);
+  //   console.log("university: " + this.state.university);
+  //   console.log("logoUrl: " + this.state.logoUrl)
+  //   console.log("category: " + this.state.category);
+  //   console.log("academiclevel: " + this.state.academiclevel);
 
-  // handleFileUpload = (e) => {
-  //   if (e.target.files?.length > 0){
-  //     const file = e.target.files?.item(0);
-  //     const logoURL = URL.createObjectURL(file);
+  //   console.log("PT: " + this.state.parttime);
+  //   console.log("FT: " + this.state.fulltime);
+  //   console.log("alevel: " + this.state.alevel);
+  //   console.log("degree: " + this.state.degree);
+  //   console.log("diploma: " + this.state.diploma);
+  //   console.log("olevel: " + this.state.olevel);
+  //   //-----------------------------------------------------
+  //   //console.log("discipline: " + this.state.disciplinecheckedItems);
 
-  //     console.log("Create:", logoURL);
-  //     this.setState({
-  //         logoUrl: logoURL,
-  //     })
+  //   var discipline = this.state.disciplinecheckedItems;
+  //   var discipline1 = "";
+  //   var discipline2 = "";
+
+  //   for (var index = 0; index < discipline.length; ++index) {
+  //     if (index === 0) {
+  //       discipline1 = discipline[index];
+  //     }
+  //     if (index === 1) {
+  //       discipline2 = discipline[index];
+  //     }
   //   }
+
+  //   console.log(discipline1);
+  //   console.log(discipline2);
+
+  //   //------------------------------------------------------------------------------
+  //   //console.log("subdiscipline: " + this.state.subdisciplinecheckedItems);
+  //   var subdiscipline = this.state.subdisciplinecheckedItems;
+  //   var subdiscipline1 = "";
+  //   var subdiscipline2 = "";
+  //   var subdiscipline3 = "";
+  //   var subdiscipline4 = "";
+  //   var subdiscipline5 = "";
+  //   for (var index = 0; index < subdiscipline.length; ++index) {
+  //     if (index === 0) {
+  //       subdiscipline1 = subdiscipline[index];
+  //     }
+  //     if (index === 1) {
+  //       subdiscipline2 = subdiscipline[index];
+  //     }
+  //     if (index === 2) {
+  //       subdiscipline3 = subdiscipline[index];
+  //     }
+  //     if (index === 3) {
+  //       subdiscipline4 = subdiscipline[index];
+  //     }
+  //     if (index === 4) {
+  //       subdiscipline5 = subdiscipline[index];
+  //     }
+  //   }
+
+  //   console.log(subdiscipline1);
+  //   console.log(subdiscipline2);
+  //   console.log(subdiscipline3);
+  //   console.log(subdiscipline4);
+  //   console.log(subdiscipline5);
+
+  //   console.log("aboutprogramme1: " + this.state.aboutprogramme1);
+  //   console.log("aboutprogramme2: " + this.state.aboutprogramme2);
+  //   console.log("aboutprogramme3: " + this.state.aboutprogramme3);
+  //   console.log("applicationperiod1: " + this.state.applicationperiod1);
+  //   console.log("applicationperiod2: " + this.state.applicationperiod2);
+  //   console.log("intakemonthsfulltime: " + this.state.intakemonthsfulltime);
+
+  //   console.log("intakemonthspartimetime: " + this.state.intakemonthsparttime);
+  //   console.log("durationfulltime: " + this.state.durationfulltime);
+  //   console.log("durationparttime: " + this.state.durationparttime);
+
+  //   console.log("overseaopportunityexchange: " + this.state.overseaopportunityexchange);
+  //   console.log("overseaopportunitytransfer: " + this.state.overseaopportunitytransfer);
+  //   console.log("programmestructurecoursework: " + this.state.programmestructurecoursework);
+  //   console.log("programmestructureexaminati: " + this.state.programmestructureexamination);
+
+  //   const parentthis = this;
+  //   if (this.state.files !== undefined) {
+  //     const foldername = "Universities";
+  //     const file = this.state.files[0];
+  //     const storageRef = storage.ref(foldername);
+  //     const fileRef = storageRef.child(file.name).put(file);
+  //     fileRef.on("state_changed", function (snapshot) {
+  //       fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+  //         console.log(downloadURL);
+
+  //         // Validation
+  //         const isValid = this.validate();
+  //         if (isValid) {
+  //           this.setState(initialStates);
+
+  //           const userRef = db.collection("Programmes").doc(parentthis.props.docid);
+  //           userRef.update({
+  //             academicLevel: parentthis.state.academiclevel.toString(),
+  //             "applicationPeriod.period1": parentthis.state.applicationperiod1.toString(),
+
+  //             "applicationPeriod.period2":
+  //               parentthis.state.applicationperiod2.toString(),
+  //               awardedBy: parentthis.state.university.toString(),
+  //               category: parentthis.state.category.toString(),
+
+  //             "discipline.disciplineName1": discipline1,
+  //             "discipline.disciplineName2": discipline2,
+  //             "duration.fullTime": parentthis.state.durationfulltime.toString(),
+  //             "duration.partTime": parentthis.state.durationparttime.toString(),
+  //             "entryQualifications.aLevel": parentthis.state.alevel,
+  //             "entryQualifications.degree": parentthis.state.degree,
+  //             "entryQualifications.diploma": parentthis.state.diploma,
+  //             "entryQualifications.oLevel": parentthis.state.olevel,
+  //             "intakeMonths.fullTime": parentthis.state.intakemonthsfulltime.toString(),
+
+  //             "intakeMonths.partTime":
+  //               parentthis.state.intakemonthsparttime.toString(),
+  //               logoFile: downloadURL,
+
+  //             "modeOfStudy.fullTime": parentthis.state.fulltime,
+  //             "modeOfStudy.partTime": parentthis.state.parttime,
+  //             "overseaOpportunity.exchange": parentthis.state.overseaopportunityexchange,
+  //             "overseaOpportunity.transfer": parentthis.state.overseaopportunitytransfer,
+  //             "programmeOverview.aboutProgramme1": parentthis.state.aboutprogramme1.toString(),
+  //             "programmeOverview.aboutProgramme2": parentthis.state.aboutprogramme2.toString(),
+  //             "programmeOverview.aboutProgramme3": parentthis.state.aboutprogramme3.toString(),
+  //             "programmeStructure.coursework": parentthis.state.programmestructurecoursework,
+
+  //             "programmeStructure.examination":
+  //               parentthis.state.programmestructureexamination,
+  //               programmeTitle: parentthis.state.programme.toString(),
+
+  //             "subDiscipline.subDisciplineName1": subdiscipline1,
+  //             "subDiscipline.subDisciplineName2": subdiscipline2,
+  //             "subDiscipline.subDisciplineName3": subdiscipline3,
+  //             "subDiscipline.subDisciplineName4": subdiscipline4,
+  //             "subDiscipline.subDisciplineName5": subdiscipline5
+  //           })
+  //           .then(dataSnapshot => {
+  //             this.props.handleSaveChanges();
+  //           });
+  //         }
+  //       });
+
+  //     });
+  //   } else {
+  //     // Validation
+  //     const isValid = this.validate();
+  //     if (isValid) {
+  //       this.setState(initialStates);
+
+  //       const userRef = db.collection("Programmes").doc(parentthis.props.docid);
+  //       userRef
+  //         .update({
+  //           academicLevel: parentthis.state.academiclevel.toString(),
+  //           "applicationPeriod.period1": parentthis.state.applicationperiod1.toString(),
+
+  //           "applicationPeriod.period2":
+  //             parentthis.state.applicationperiod2.toString(),
+  //             awardedBy: parentthis.state.university.toString(),
+  //             category: parentthis.state.category.toString(),
+
+  //           "discipline.disciplineName1": discipline1,
+  //           "discipline.disciplineName2": discipline2,
+  //           "duration.fullTime": parentthis.state.durationfulltime.toString(),
+  //           "duration.partTime": parentthis.state.durationparttime.toString(),
+  //           "entryQualifications.aLevel": parentthis.state.alevel,
+  //           "entryQualifications.degree": parentthis.state.degree,
+  //           "entryQualifications.diploma": parentthis.state.diploma,
+  //           "entryQualifications.oLevel": parentthis.state.olevel,
+  //           "intakeMonths.fullTime": parentthis.state.intakemonthsfulltime.toString(),
+  //           "intakeMonths.partTime": parentthis.state.intakemonthsparttime.toString(),
+
+  //           "modeOfStudy.fullTime": parentthis.state.fulltime,
+  //           "modeOfStudy.partTime": parentthis.state.parttime,
+  //           "overseaOpportunity.exchange": parentthis.state.overseaopportunityexchange,
+  //           "overseaOpportunity.transfer": parentthis.state.overseaopportunitytransfer,
+  //           "programmeOverview.aboutProgramme1": parentthis.state.aboutprogramme1.toString(),
+  //           "programmeOverview.aboutProgramme2": parentthis.state.aboutprogramme2.toString(),
+  //           "programmeOverview.aboutProgramme3": parentthis.state.aboutprogramme3.toString(),
+  //           "programmeStructure.coursework": parentthis.state.programmestructurecoursework,
+
+  //           "programmeStructure.examination":
+  //             parentthis.state.programmestructureexamination,
+  //             programmeTitle: parentthis.state.programme.toString(),
+
+  //           "subDiscipline.subDisciplineName1": subdiscipline1,
+  //           "subDiscipline.subDisciplineName2": subdiscipline2,
+  //           "subDiscipline.subDisciplineName3": subdiscipline3,
+  //           "subDiscipline.subDisciplineName4": subdiscipline4,
+  //           "subDiscipline.subDisciplineName5": subdiscipline5,
+  //         })
+  //         .then(dataSnapshot => {
+  //           this.props.handleSaveChanges();
+  //         });
+  //     }
+  //   }
+  // }
+
+  // handleFileUpload = (files) => {
+  //   this.setState({
+  //     files: files,
+  //   });
   // };
+
+  handleFileUpload = (e) => {
+    if (e.target.files?.length > 0){
+      const file = e.target.files?.item(0);
+      const logoURL = URL.createObjectURL(file);
+
+      console.log("Create:", logoURL);
+      this.setState({
+          logoUrl: logoURL,
+      })
+    }
+  };
 
   // Handle Checkbox Validations
   handleCheckbox = (e) => {
@@ -782,11 +969,11 @@ export default class EditStudySIMProgModal extends React.Component {
       logoUrlError = "Please upload a logo!";
     }
 
-    if (!this.state.university) {
+    if (!this.state.university.toString()) {
       universityError = "Please select a valid university!";
     }
 
-    if (!this.state.academiclevel) {
+    if (!this.state.academiclevel.toString()) {
       academicLevelError = "Please select a valid academic level!";
     }
 
@@ -841,41 +1028,6 @@ export default class EditStudySIMProgModal extends React.Component {
     return true;
   }
 
-  //Reset Forms
-  resetForm = () => {
-    this.setState({
-      progNameError: "",
-      logoUrlError: "",
-      universityError: "",
-      academicLevelError: "",
-      modeOfStudyError: "",
-      disciplineError: "",
-      entryQualError: "",
-      subDisciplineError: "",
-      aboutProgError: "",
-      applicationPeriodError: "",
-      intakeMonthsError: "",
-      durationError: "",
-      id: "",
-      programme: "",
-      logoUrl: "",
-      university: "",
-      academiclevel: "",
-      disciplinecheckedItems: [],
-      entryqualificationcheckedItems: [],
-      subdisciplinecheckedItems: [],
-      aboutprogramme1: "",
-      aboutprogramme2: "",
-      aboutprogramme3: "",
-      applicationperiod1: "",
-      applicationperiod2: "",
-      intakemonthsfulltime: "",
-      intakemonthsparttime: "",
-      durationfulltime: "",
-      durationparttime: ""
-    })
-  }
-
 
   render() {
     return (
@@ -896,7 +1048,7 @@ export default class EditStudySIMProgModal extends React.Component {
                 <Form.Row className="justify-content-center editStudySIMProgForm_InnerRow">
                   <Col md="9" className="text-center">
                     <InputGroup className="editStudySIMProgFormColInputGrp">
-                      <FormControl type="text" name="programme" id="editStudySIMProgForm_ProgName" placeholder="Name of Programme*" defaultValue={this.state.programme} onChange={this.handleChange} required />
+                      <FormControl type="text" name="programme" id="editStudySIMProgForm_ProgName" placeholder="Name of Programme*" defaultValue={this.props.programmeName} onChange={this.handleChange} required />
                     </InputGroup>
 
                     <div className="errorMessage text-left">{this.state.progNameError}</div>
@@ -909,9 +1061,7 @@ export default class EditStudySIMProgModal extends React.Component {
                     <Form.Label className="editStudySIMProgFormLabel">Logo File:</Form.Label>
 
                     <InputGroup className="editStudySIMProgFormColInputGrp">
-                      {/* <FormControl type="file" name="logoFile" id="editStudySIMProgForm_LogoFile" label="Logo File*" custom required onChange={(e) => { this.handleFileUpload(e.target.files); }} /> */}
-                    
-                      <Form.File name="logoUrl" id="editStudySIMProgForm_LogoFile" className="editStudySIMProgForm_LogoFile" label={this.props.logoUrl} custom required /> {/* onChange={this.handleFileUpload} */}
+                      <Form.File name="logoUrl" id="editStudySIMProgForm_LogoFile" className="editStudySIMProgForm_LogoFile" label={this.props.logoUrl} custom required onChange={this.handleFileUpload} />
                     </InputGroup>
 
                     <div className="errorMessage text-left">{this.state.logoUrlError}</div>
@@ -925,16 +1075,10 @@ export default class EditStudySIMProgModal extends React.Component {
                       <Form.Control as="select" name="university" defaultValue={this.props.University} className="editStudySIMProgFormSelect" required noValidate placeholder="Choose a University" onChange={this.handleChange}>
                         <option value="" className="editStudySIMProgFormSelectOption">Choose a University</option>
 
-                        {this.props.universities && this.props.universities.map((University, index) => {
-                          if (University === this.props.University) {
+                        {this.props.universities && this.props.universities.map((uni) => {
                             return (
-                              <option value={University} className="editStudySIMProgFormSelectOption" selected>{University}</option>
+                              <option value={uni} className="editStudySIMProgFormSelectOption">{uni}</option>
                             );
-                          } else {
-                            return (
-                              <option value={University} className="editStudySIMProgFormSelectOption">{University}</option>
-                            );
-                          }
                         })}
                       </Form.Control>
                     </InputGroup>
@@ -950,18 +1094,11 @@ export default class EditStudySIMProgModal extends React.Component {
                       <Form.Control as="select" name="academiclevel" defaultValue={this.props.academiclevel} className="editStudySIMProgFormSelect" required noValidate onChange={this.handleChange}>
                         <option value="" className="editStudySIMProgFormSelectOption">Choose an Academic Level</option>
 
-                        {this.state.AcademicLevel && this.state.AcademicLevel.map((AcademicLevel, index) => {
-                          if (AcademicLevel === this.props.academiclevel) {
-                            return (
-                              <option value={AcademicLevel} className="editStudySIMProgFormSelectOption" selected>{AcademicLevel}</option>
-                            );
-                          } else {
-                            return (
-                              <option value={AcademicLevel} className="editStudySIMProgFormSelectOption">{AcademicLevel}</option>
-                            );
-                          }
-                        }
-                        )}
+                        {this.props.academicLvls && this.props.academicLvls.map((AcademicLevel) => {
+                          return (
+                            <option value={AcademicLevel} className="editStudySIMProgFormSelectOption">{AcademicLevel}</option>
+                          );
+                        })}
                       </Form.Control>
                     </InputGroup>
 
@@ -1207,7 +1344,7 @@ export default class EditStudySIMProgModal extends React.Component {
                         <Container className="editStudySIMProgForm_StructureOverseasCon">
                           <Row>
                             <Col style={{ paddingLeft: "10%" }}>
-                              <Form.Check name="exchange" value="Exchange" type="checkbox" label="Yes" className="editStudySIMProgForm_CheckBox" defaultChecked={this.state.overseaopportunityexchange} onChange={this.handleChange} />
+                              <Form.Check name="overseaopportunityExchange" value="Exchange" type="checkbox" label="Yes" className="editStudySIMProgForm_CheckBox" defaultChecked={this.state.overseaopportunityexchange} onChange={this.handleChange} />
                             </Col>
                           </Row>
                         </Container>
@@ -1220,7 +1357,7 @@ export default class EditStudySIMProgModal extends React.Component {
                         <Container className="editStudySIMProgForm_StructureOverseasCon">
                           <Row>
                             <Col style={{ paddingLeft: "10%" }}>
-                              <Form.Check name="transfer" value="Transfer" type="checkbox" label="Yes" className="editStudySIMProgForm_CheckBox" defaultChecked={this.state.overseaopportunitytransfer} onChange={this.handleChange} />
+                              <Form.Check name="overseaopportunitytransfer" value="Transfer" type="checkbox" label="Yes" className="editStudySIMProgForm_CheckBox" defaultChecked={this.state.overseaopportunitytransfer} onChange={this.handleChange} />
                             </Col>
                           </Row>
                         </Container>
@@ -1287,7 +1424,7 @@ export default class EditStudySIMProgModal extends React.Component {
           <Container>
             <Row>
               <Col md="6" className="text-right">
-                <Button id="saveChangesEditProgFormBtn" onClick={() => { this.edit(); }}>Save Changes</Button>
+                <Button id="saveChangesEditProgFormBtn" onClick={() => this.edit()}>Save Changes</Button>
               </Col>
 
               <Col md="6" className="text-left">

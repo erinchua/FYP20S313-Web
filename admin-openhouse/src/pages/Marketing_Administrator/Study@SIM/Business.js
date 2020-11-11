@@ -74,7 +74,7 @@ class StudySIM_Business extends Component {
             docid: doc.id,
             programmeName: doc.data().programmeTitle,
             awardBy: doc.data().awardedBy,
-            Logofile: doc.data().logoUrl,
+            logoUrl: doc.data().logoUrl,
             CategoryProgramme: doc.data().category,
             ModeOfStudy: doc.data().modeOfStudy,
             discipline1: doc.data().discipline.disciplineName1,
@@ -149,10 +149,44 @@ class StudySIM_Business extends Component {
   };
 
   /* Edit Programme Talk Modal */
-  handleEditStudySIMProgModal = () => {
+  handleEditStudySIMProgModal = (prog) => {
     if (this.state.editStudySIMProgModal == false) {
       this.setState({
-        editStudySIMProgModal: true
+        editStudySIMProgModal: true,
+
+        // Edit Modal Props
+        programmeName: prog.programmeName,
+        University: prog.awardBy,
+        ModeOfStudy: prog.ModeOfStudy,
+        discipline1: prog.discipline1,
+        discipline2: prog.discipline2,
+        academiclevel: prog.AcademicLevel,
+        olevel: prog.Qualification.oLevel,
+        aLevel: prog.Qualification.aLevel,
+        degree: prog.Qualification.degree,
+        diploma: prog.Qualification.diploma,
+        subdiscipline1: prog.subDiscipline.subDisciplineName1,
+        subdiscipline2: prog.subDiscipline.subDisciplineName2,
+        subdiscipline3: prog.subDiscipline.subDisciplineName3,
+        subdiscipline4: prog.subDiscipline.subDisciplineName4,
+        subdiscipline5: prog.subDiscipline.subDisciplineName5,
+        logoUrl: prog.logoUrl,
+            
+        //details
+        aboutprogramme1: prog.aboutprogramme.aboutProgramme1,
+        aboutprogramme2: prog.aboutprogramme.aboutProgramme2,
+        aboutprogramme3: prog.aboutprogramme.aboutProgramme3,
+        applicationperiod1: prog.applicationperiod.period1,
+        applicationperiod2: prog.applicationperiod.period2,
+        programmestructurecoursework: prog.programmestructure.coursework,
+        programmestructureexamination: prog.programmestructure.examination,
+        overseaopportunityexchange: prog.overseaopportunity.exchange,
+        overseaopportunitytransfer: prog.overseaopportunity.transfer,
+        intakemonthsfulltime: prog.intakemonths.fullTime,
+        intakemonthsparttime: prog.intakemonths.partTime,
+        durationfulltime: prog.duration.fullTime,
+        durationparttime: prog.duration.partTime,
+        docid: prog.docid
       });
     } else {
       this.setState({
@@ -162,11 +196,12 @@ class StudySIM_Business extends Component {
   };
 
   /* Delete Programme Modal */
-  handleDeleteStudySIMProgModal = () => {
+  handleDeleteStudySIMProgModal = (id) => {
     if (this.state.deleteStudySIMProgModal == false) {
       this.setState({
         deleteStudySIMProgModal: true
       });
+      this.state.docid = id;
     } else {
       this.setState({
         deleteStudySIMProgModal: false
@@ -175,10 +210,26 @@ class StudySIM_Business extends Component {
   };
 
   /* View Programme Details Modal */
-  handleViewStudySIMProgDetailsModal = () => {
+  handleViewStudySIMProgDetailsModal = (prog) => {
     if (this.state.viewStudySIMProgDetailsModal == false) {
       this.setState({
-        viewStudySIMProgDetailsModal: true
+        viewStudySIMProgDetailsModal: true,
+
+        // View Modal Props
+        programmeName: prog.programmeName,
+        aboutprogramme1: prog.aboutprogramme.aboutProgramme1,
+        aboutprogramme2: prog.aboutprogramme.aboutProgramme2,
+        aboutprogramme3: prog.aboutprogramme.aboutProgramme3,
+        applicationperiod1: prog.applicationperiod.period1,
+        applicationperiod2: prog.applicationperiod.period2,
+        programmestructurecoursework: prog.programmestructure.coursework,
+        programmestructureexamination: prog.programmestructure.examination,
+        overseaopportunityexchange: prog.overseaopportunity.exchange,
+        overseaopportunitytransfer: prog.overseaopportunity.transfer,
+        intakemonthsfulltime: prog.intakemonths.fullTime,
+        intakemonthsparttime: prog.intakemonths.partTime,
+        durationfulltime: prog.duration.fullTime,
+        durationparttime: prog.duration.partTime
       });
     } else {
       this.setState({
@@ -246,33 +297,14 @@ class StudySIM_Business extends Component {
                               <tr key={index}>
                                 <td className="studySIMProgData_SNo text-center">{index}</td>
                                 <td className="studySIMProgData_ProgName text-left">
-                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {
-                                      this.setState({
-                                        programmeName: business.programmeName,
-                                        aboutprogramme1: business.aboutprogramme.aboutProgramme1,
-                                        aboutprogramme2: business.aboutprogramme.aboutProgramme2,
-                                        aboutprogramme3: business.aboutprogramme.aboutProgramme3,
-                                        applicationperiod1: business.applicationperiod.period1,
-                                        applicationperiod2: business.applicationperiod.period2,
-                                        programmestructurecoursework: business.programmestructure.coursework,
-                                        programmestructureexamination: business.programmestructure.examination,
-                                        overseaopportunityexchange: business.overseaopportunity.exchange,
-                                        overseaopportunitytransfer: business.overseaopportunity.transfer,
-                                        intakemonthsfulltime: business.intakemonths.fullTime,
-                                        intakemonthsparttime: business.intakemonths.partTime,
-                                        durationfulltime: business.duration.fullTime,
-                                        durationparttime: business.duration.partTime,
-                                      });
-                                      this.handleViewStudySIMProgDetailsModal();
-                                    }}
-                                  >
+                                  <a className="studySIMProgData_ProgNameLink" onClick={() => {this.handleViewStudySIMProgDetailsModal(business)}}>
                                     {business.programmeName}
                                   </a>
                                 </td>
 
                                 <td className="studySIMProgData_AwardedBy text-left">{business.awardBy}</td>
                                 <td className="studySIMProgData_LogoFile text-left">
-                                  <img src={business.Logofile} className="logoFileImg" alt="No Logo file"></img>
+                                  <img src={business.logoUrl} className="logoFileImg" alt="No Logo file"></img>
                                 </td>
 
                                 <td className="studySIMProgData_AcademicLvl text-left">{business.AcademicLevel}</td>
@@ -350,54 +382,13 @@ class StudySIM_Business extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_Edit text-center">
-                                  <Button className="editStudySIMProgBtn" onClick={() => {
-                                      this.setState({
-                                        programmeName: business.programmeName,
-                                        University: business.awardBy,
-                                        category: business.CategoryProgramme,
-                                        ModeOfStudy: business.ModeOfStudy,
-                                        discipline1: business.discipline1,
-                                        discipline2: business.discipline2,
-                                        academiclevel: business.AcademicLevel,
-                                        olevel: business.Qualification.oLevel,
-                                        aLevel: business.Qualification.aLevel,
-                                        degree: business.Qualification.degree,
-                                        diploma: business.Qualification.diploma,
-                                        subdiscipline1: business.subDiscipline.subDisciplineName1,
-                                        subdiscipline2: business.subDiscipline.subDisciplineName2,
-                                        subdiscipline3: business.subDiscipline.subDisciplineName3,
-                                        subdiscipline4: business.subDiscipline.subDisciplineName4,
-                                        subdiscipline5: business.subDiscipline.subDisciplineName5,
-
-                                      //details
-                                      aboutprogramme1: business.aboutprogramme.aboutProgramme1,
-                                      aboutprogramme2: business.aboutprogramme.aboutProgramme2,
-                                      aboutprogramme3: business.aboutprogramme.aboutProgramme3,
-                                      applicationperiod1: business.applicationperiod.period1,
-                                      applicationperiod2: business.applicationperiod.period2,
-                                      programmestructurecoursework: business.programmestructure.coursework,
-                                      programmestructureexamination: business.programmestructure.examination,
-                                      overseaopportunityexchange: business.overseaopportunity.exchange,
-                                      overseaopportunitytransfer: business.overseaopportunity.transfer,
-                                      intakemonthsfulltime: business.intakemonths.fullTime,
-                                      intakemonthsparttime: business.intakemonths.partTime,
-                                      durationfulltime: business.duration.fullTime,
-                                      durationparttime: business.duration.partTime,
-                                      docid: business.docid,
-                                    });
-                                    this.handleEditStudySIMProgModal();
-                                  }}
-                                  >
+                                  <Button className="editStudySIMProgBtn" onClick={() => {this.handleEditStudySIMProgModal(business)}}>
                                     <FontAwesomeIcon size="lg" className="editStudySIMProgBtnIcon" icon={faEdit} />
                                   </Button>
                                 </td>
 
                                 <td className="studySIMProgData_Delete text-center">
-                                  <Button className="deleteStudySIMProgBtn" onClick={() => {
-                                      this.setState({ docid: business.docid, });
-                                      this.handleDeleteStudySIMProgModal();
-                                    }}
-                                  >
+                                  <Button className="deleteStudySIMProgBtn" onClick={() => {this.handleDeleteStudySIMProgModal(business.docid)}}>
                                     <FontAwesomeIcon size="lg" className="deleteStudySIMProgBtnIcon" icon={faTrashAlt} />
                                   </Button>
                                 </td>
@@ -436,7 +427,6 @@ class StudySIM_Business extends Component {
             disciplines={this.state.disciplines}
             subDisciplines={this.state.subDisciplines}
             academicLvls={this.state.academicLvls}
-
           />
         </Modal>
 
@@ -455,7 +445,8 @@ class StudySIM_Business extends Component {
           <EditStudySIMProgModal
             programmeName={this.state.programmeName}
             University={this.state.University}
-            category={this.state.category}
+            // category={this.state.category}
+            logoUrl={this.state.logoUrl}
             ModeOfStudy={this.state.ModeOfStudy}
             discipline1={this.state.discipline1}
             discipline2={this.state.discipline2}
@@ -486,14 +477,15 @@ class StudySIM_Business extends Component {
             durationparttime={this.state.durationparttime}
             docid={this.state.docid}
 
-            // For option values
-            handleSaveChanges={() => { this.handleEditStudySIMProgModal() }}
-            handleCancelEdit={this.handleEditStudySIMProgModal}
-            universities={this.state.universities}
-            disciplines={this.state.disciplines}
-            subDisciplines={this.state.subDisciplines}
+            // List of options from DB
+            universities = {this.state.universities}
+            disciplines = {this.state.disciplines}
+            subDisciplines = {this.state.subDisciplines}
             academicLvls={this.state.academicLvls}
 
+            // Button props
+            handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
+            handleCancelEdit={this.handleEditStudySIMProgModal}
           />
         </Modal>
 
