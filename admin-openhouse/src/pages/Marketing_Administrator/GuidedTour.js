@@ -147,7 +147,7 @@ class GuidedTour extends Component {
                     if (id.toString().length == 1) {
                         docid = "tour-00" + (id)
                     } else if(id.toString().length == 2) {
-                        docid = "tour-0" + (id)
+                        docid = "tour-" + (id)
                     } else {
                         docid = "tour-" + (id)
                     }
