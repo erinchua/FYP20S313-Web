@@ -25,6 +25,7 @@ class StudySIM_ITComputerSciences extends Component {
       disciplines: [],
       subDiscplines: [],
       universities: [],
+      docid: "",
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,
@@ -165,7 +166,7 @@ class StudySIM_ITComputerSciences extends Component {
         discipline1: prog.discipline1,
         discipline2: prog.discipline2,
         academiclevel: prog.AcademicLevel,
-        olevel: prog.Qualification.oLevel,
+        oLevel: prog.Qualification.oLevel,
         aLevel: prog.Qualification.aLevel,
         degree: prog.Qualification.degree,
         diploma: prog.Qualification.diploma,
@@ -200,12 +201,15 @@ class StudySIM_ITComputerSciences extends Component {
   };
 
   /* Delete Programme Modal */
-  handleDeleteStudySIMProgModal = (id) => {
+  handleDeleteStudySIMProgModal = (prog) => {
     if (this.state.deleteStudySIMProgModal == false) {
       this.setState({
-        deleteStudySIMProgModal: true
+        deleteStudySIMProgModal: true,
+        logoUrl: prog.logoUrl,
+        docid: prog.docid
       });
-      this.state.docid = id;
+      this.state.logoUrl = prog.logoUrl;
+      this.state.docid = prog.docid;
     } else {
       this.setState({
         deleteStudySIMProgModal: false
@@ -392,7 +396,7 @@ class StudySIM_ITComputerSciences extends Component {
                                 </td>
 
                                 <td className="studySIMProgData_Delete text-center">
-                                  <Button className="deleteStudySIMProgBtn" onClick={() => {this.handleDeleteStudySIMProgModal(ITComputerScience.docid)}}>
+                                  <Button className="deleteStudySIMProgBtn" onClick={() => {this.handleDeleteStudySIMProgModal(ITComputerScience)}}>
                                     <FontAwesomeIcon size="lg" className="deleteStudySIMProgBtnIcon" icon={faTrashAlt} />
                                   </Button>
                                 </td>
@@ -425,7 +429,10 @@ class StudySIM_ITComputerSciences extends Component {
           keyboard={false}
           className="addStudySIMProgModal"
         >
-          <AddStudySIMProgModal handleAdd={() => { this.handleAddStudySIMProgModal() }}
+          <AddStudySIMProgModal 
+            // Button Props
+            handleAdd={() => { this.handleAddStudySIMProgModal() }}
+            
             // Option values
             universities={this.state.universities}
             disciplines={this.state.disciplines}
@@ -455,7 +462,7 @@ class StudySIM_ITComputerSciences extends Component {
             discipline1={this.state.discipline1}
             discipline2={this.state.discipline2}
             academiclevel={this.state.academiclevel}
-            olevel={this.state.olevel}
+            oLevel={this.state.oLevel}
             aLevel={this.state.aLevel}
             degree={this.state.degree}
             diploma={this.state.diploma}
@@ -487,11 +494,12 @@ class StudySIM_ITComputerSciences extends Component {
             subDisciplines = {this.state.subDisciplines}
             academicLvls={this.state.academicLvls}
 
-            // Button props
+            // Button Props
             handleSaveChanges={() => {this.handleEditStudySIMProgModal()}}
             handleCancelEdit={this.handleEditStudySIMProgModal}
           />
         </Modal>
+
 
         {/* Delete Programme Talk Modal */}
         <Modal
@@ -503,8 +511,16 @@ class StudySIM_ITComputerSciences extends Component {
           backdrop="static"
           keyboard={false}
         >
-          <DeleteStudySIMProgModal docid={this.state.docid} handleConfirmDelete={() => { this.handleDeleteStudySIMProgModal(); }} handleCancelDelete={this.handleDeleteStudySIMProgModal} />
+          <DeleteStudySIMProgModal 
+            docid={this.state.docid} 
+            logoUrl={this.state.logoUrl}
+
+            // Button Props
+            handleConfirmDelete={() => {this.handleDeleteStudySIMProgModal()}} 
+            handleCancelDelete={this.handleDeleteStudySIMProgModal}
+          />
         </Modal>
+
 
         {/* View Programme Details Modal */}
         <Modal
