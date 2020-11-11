@@ -504,6 +504,10 @@ export default class AddStudySIMProgModal extends React.Component {
       aboutProgError = "Please enter programme details!";
     }
 
+    if ((!this.state.aboutprogramme2) && this.state.aboutprogramme3) {
+      aboutProgError = "Please enter programme details!";
+    }
+
     if (!this.state.applicationperiod1.length >= 1) {
       applicationPeriodError = "Please enter application period details!";
     }
