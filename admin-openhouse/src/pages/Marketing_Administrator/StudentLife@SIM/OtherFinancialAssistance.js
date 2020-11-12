@@ -234,7 +234,6 @@ class OtherFinancialAssistance extends Component {
                         description: this.state.ampDescription,
                     })
                     .then(() => {
-                        console.log("Updated AMP Education Bursary!");
                         this.setState({
                             ampEditModal: false,
                         });
@@ -259,7 +258,6 @@ class OtherFinancialAssistance extends Component {
                         .update({
                             contact: firebase.firestore.FieldValue.arrayUnion(...splitContact)
                         }).then(() => {
-                            console.log("Updated AMP Education Bursary!");
                             this.setState({
                                 ampEditModal: false,
                             });
@@ -289,7 +287,6 @@ class OtherFinancialAssistance extends Component {
                         description: this.state.mtfaDescription,
                     })
                     .then(() => {
-                        console.log("Updated MTFA!");
                         this.setState({
                             mtfaEditModal: false,
                         });
@@ -315,7 +312,6 @@ class OtherFinancialAssistance extends Component {
                         .update({
                             contact: firebase.firestore.FieldValue.arrayUnion(...splitContact)
                         }).then(() => {
-                            console.log("Updated MTFA!");
                             this.setState({
                                 mtfaEditModal: false,
                             });
@@ -344,7 +340,6 @@ class OtherFinancialAssistance extends Component {
                         description: this.state.lembagaDescription,
                     })
                     .then(() => {
-                        console.log("Updated LBKM!");
                         this.setState({
                             lembagaEditModal: false,
                         });
@@ -369,7 +364,6 @@ class OtherFinancialAssistance extends Component {
                         .update({
                             contact: firebase.firestore.FieldValue.arrayUnion(...splitContact)
                         }).then(() => {
-                            console.log("Updated LBKM!");
                             this.setState({
                                 lembagaEditModal: false,
                             });
@@ -398,7 +392,6 @@ class OtherFinancialAssistance extends Component {
                         description: this.state.sivadasDescription,
                     })
                     .then(() => {
-                        console.log("Updated Sivadas!");
                         this.setState({
                             sivadasEditModal: false,
                         });
@@ -423,7 +416,6 @@ class OtherFinancialAssistance extends Component {
                         .update({
                             contact: firebase.firestore.FieldValue.arrayUnion(...splitContact)
                         }).then(() => {
-                            console.log("Updated Sivadas!");
                             this.setState({
                                 sivadasEditModal: false,
                             });

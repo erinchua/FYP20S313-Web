@@ -45,14 +45,10 @@ export default class ForgetPasswordModal extends React.Component {
         auth
         .sendPasswordResetEmail(this.state.email, actionCodeSettings)
         .then(function () {
-            //alert("OK");
-            console.log("Reset email sent")
             history.push("/Login");
             window.location.reload();
         })
         .catch(function (error) {
-            //alert("No Such Email");
-            console.log("Email does not exist")
         });
     };
 
@@ -80,10 +76,7 @@ export default class ForgetPasswordModal extends React.Component {
                 break;
         }
         
-        this.setState({errors, [e.target.name]: e.target.value}, ()=> {
-            console.log(errors)
-        })
-    
+        this.setState({errors, [e.target.name]: e.target.value}, ()=> {})    
     }
 
 

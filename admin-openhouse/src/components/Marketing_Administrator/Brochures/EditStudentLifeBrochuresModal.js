@@ -14,7 +14,6 @@ async function savePicture(blobURL, folderName, fileName) {
     const blob = await response.blob(); //fetch blob object
     const snapshot = await pictureRef.put(blob); //upload
     const url = await snapshot.ref.getDownloadURL(); //url in storage
-    console.log("File URL:", url);
     return url;
 }
 
@@ -51,7 +50,6 @@ class EditStudentLifeBrochuresModal extends Component {
             const file = e.target.files?.item(0);
             const fileURL = URL.createObjectURL(file);
 
-            console.log("Create:", fileURL);
             this.setState({
                 brochureUrl: fileURL,
             });            
@@ -96,7 +94,6 @@ class EditStudentLifeBrochuresModal extends Component {
                     brochureUrl: this.state.document,
                 })
                 .then(() => {
-                    console.log("Updated the Student Life Brochures");
                     this.props.handleEdit();
                 });
             }
@@ -111,7 +108,6 @@ class EditStudentLifeBrochuresModal extends Component {
                     description: this.state.description,
                 })
                 .then(() => {
-                    console.log("Updated the Student Life Brochures' Description");
                     this.props.handleEdit();
                 });
             }

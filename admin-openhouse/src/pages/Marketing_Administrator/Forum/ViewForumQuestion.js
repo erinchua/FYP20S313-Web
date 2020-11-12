@@ -14,7 +14,6 @@ class ViewForumQuestion extends Component {
 
     constructor() {
         super();
-        // this.logout = this.logout.bind(this);
         this.state = {
           firstName: "",
           lastName: "",
@@ -72,7 +71,6 @@ class ViewForumQuestion extends Component {
           .then((snapshot) => {
             const questions = [];
             snapshot.forEach((doc) => {
-              console.log(doc.data().id);
               if (doc.data().id == params) {
                 const data = {
                   entry: doc.data().entry,

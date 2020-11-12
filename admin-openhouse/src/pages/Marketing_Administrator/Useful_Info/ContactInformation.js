@@ -104,7 +104,6 @@ class ContactInformation extends Component {
     const isValid = this.validate();
     if (isValid) {
       this.setState(initialStates);
-      console.log(this.state.id)
 
       db
       .collection("ContactInfo")

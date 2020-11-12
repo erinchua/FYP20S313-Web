@@ -96,9 +96,7 @@ class LiveTalk extends Component {
   }
 
   display= () => {
-    var getYear = new Date().getFullYear();
-    console.log(getYear);
-    
+    var getYear = new Date().getFullYear();    
     const livetalk = [];
 
     // Get All Universities

@@ -13,7 +13,6 @@ async function savePicture(blobURL, imageName) {
   const blob = await response.blob(); //fetch blob object
   const snapshot = await pictureRef.put(blob); //upload
   const url = await snapshot.ref.getDownloadURL(); //url in storage
-  console.log("image URL:", url);
   return url;
 }
 
@@ -247,17 +246,6 @@ export default class AddStudySIMProgModal extends React.Component {
   addProgramme = async () => {
     const isValid = this.validate();
 
-    console.log("programme: " + this.state.programme);
-    console.log("university: " + this.state.university);
-    console.log("category: " + this.state.category);
-    console.log("academiclevel: " + this.state.academiclevel);
-
-    console.log("FT: " + this.state.fulltime);
-    console.log("PT: " + this.state.parttime);
-    console.log("alevel: " + this.state.alevel);
-    console.log("degree: " + this.state.degree);
-    console.log("diploma: " + this.state.diploma);
-    console.log("olevel: " + this.state.olevel);
     //-----------------------------------------------------
 
     var discipline = this.state.disciplinecheckedItems;
@@ -272,9 +260,6 @@ export default class AddStudySIMProgModal extends React.Component {
         discipline2 = discipline[index];
       }
     }
-
-    console.log(discipline1);
-    console.log(discipline2);
 
     //------------------------------------------------------------------------------
 
@@ -301,28 +286,6 @@ export default class AddStudySIMProgModal extends React.Component {
         subdiscipline5 = subdiscipline[index];
       }
     }
-
-    console.log(subdiscipline1);
-    console.log(subdiscipline2);
-    console.log(subdiscipline3);
-    console.log(subdiscipline4);
-    console.log(subdiscipline5);
-
-    console.log("aboutprogramme1: " + this.state.aboutprogramme1);
-    console.log("aboutprogramme2: " + this.state.aboutprogramme2);
-    console.log("aboutprogramme3: " + this.state.aboutprogramme3);
-    console.log("applicationperiod1: " + this.state.applicationperiod1);
-    console.log("applicationperiod2: " + this.state.applicationperiod2);
-    console.log("intakemonthsfulltime: " + this.state.intakemonthsfulltime);
-
-    console.log("intakemonthspartimetime: " + this.state.intakemonthsparttime);
-    console.log("durationfulltime: " + this.state.durationfulltime);
-    console.log("durationparttime: " + this.state.durationparttime);
-
-    console.log("overseaopportunityexchange: " + this.state.overseaopportunityexchange);
-    console.log("overseaopportunitytransfer: " + this.state.overseaopportunitytransfer);
-    console.log("programmestructurecoursework: " + this.state.programmestructurecoursework);
-    console.log("programmestructureexamination: " + this.state.programmestructureexamination);
 
     const parentthis = this;
     var title = "";
@@ -356,13 +319,10 @@ export default class AddStudySIMProgModal extends React.Component {
 
             if (id.toString().length == 1) {
               docid = "programme-00" + (id)
-              console.log(docid)
             } else if (id.toString().length == 2) {
               docid = "programme-0" + (id)
-              console.log(docid)
             } else {
               docid = "programme-" + (id)
-              console.log(docid)
             }
 
             db.collection("ProgrammesWeb")
@@ -421,7 +381,6 @@ export default class AddStudySIMProgModal extends React.Component {
                 }
               })
               .then(dataSnapshot => {
-                console.log("Added Programme!");
                 this.props.handleAdd();
               });
 
@@ -435,7 +394,6 @@ export default class AddStudySIMProgModal extends React.Component {
       const file = e.target.files?.item(0);
       const logoURL = URL.createObjectURL(file);
 
-      console.log("Create:", logoURL);
       this.setState({
         logoUrl: logoURL,
       })

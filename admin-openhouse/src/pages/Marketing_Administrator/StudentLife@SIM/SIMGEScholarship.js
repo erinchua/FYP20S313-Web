@@ -302,7 +302,6 @@ class SIMGEScholarship extends Component {
                             description: this.state.scholarshipOneDescription
                         })
                     }).then(() => {
-                        console.log("Updated Scholarship-01!")
                         this.setState({
                             editOneModal: false,
                         });
@@ -326,7 +325,6 @@ class SIMGEScholarship extends Component {
                     .update({
                         content: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipTwoContent)
                     }).then(() => {
-                        console.log("Updated Scholarship-02!")
                         this.setState({
                             editTwoModal: false,
                         });
@@ -350,7 +348,6 @@ class SIMGEScholarship extends Component {
                     .update({
                         covers: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipThreeCovers)
                     }).then(() => {
-                        console.log("Updated Scholarship-03!")
                         this.setState({
                             editThreeModal: false,
                         });
@@ -374,7 +371,6 @@ class SIMGEScholarship extends Component {
                     .update({
                         applicationPeriods: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipFourApplicationPeriods)
                     }).then(() => {
-                        console.log("Updated Scholarship-04!")
                         this.setState({
                             editFourModal: false,
                         });
@@ -396,7 +392,6 @@ class SIMGEScholarship extends Component {
                     simPdpaPolicy: this.state.scholarshipFiveSimPdpaPolicy
                 })
                 .then(() => {
-                    console.log("Updated Scholarship-05!");
                     this.setState({
                         editFiveOthersModal: false,
                     });
@@ -419,7 +414,6 @@ class SIMGEScholarship extends Component {
                     .update({
                         content: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipFiveContent)
                     }).then(() => {
-                        console.log("Updated Scholarship-05 Content!")
                         this.setState({
                             editFiveModal: false,
                         });
@@ -443,7 +437,6 @@ class SIMGEScholarship extends Component {
                     .update({
                         examples: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipFiveExamples)
                     }).then(() => {
-                        console.log("Updated Scholarship-05 Examples!")
                         this.setState({
                             editFiveExamplesModal: false,
                         });
@@ -463,7 +456,6 @@ class SIMGEScholarship extends Component {
                     description: this.state.scholarshipSixDescription, 
                 })
                 .then(() => {
-                    console.log("Updated Scholarship-06!")
                     this.setState({
                         editSixModal: false,
                     });
@@ -519,7 +511,6 @@ class SIMGEScholarship extends Component {
                     .update({
                         content: firebase.firestore.FieldValue.arrayUnion(current)
                     }).then(() => {
-                        console.log("Updated Scholarship-07!");
                         this.setState({
                             editSevenModal: false,
                         });
@@ -543,7 +534,6 @@ class SIMGEScholarship extends Component {
                     .update({
                         content: firebase.firestore.FieldValue.arrayUnion(this.state.scholarshipEightContent)
                     }).then(() => {
-                        console.log("Updated Scholarship-08!")
                         this.setState({
                             editEightModal: false,
                         });
@@ -608,7 +598,6 @@ class SIMGEScholarship extends Component {
     }
 
     handleEditFour = (scholarshipFour) => {
-        console.log(scholarshipFour)
         if (this.state.editFourModal == false) {
             this.setState({
                 editFourModal: true,

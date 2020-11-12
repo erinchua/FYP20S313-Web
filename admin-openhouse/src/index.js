@@ -8,7 +8,6 @@ import history from "./config/history";
 import App from "./App";
 import Login from "./pages/Login";
 import SAHome from "./pages/Super_Administrator/SAHome";
-import ResetPassword from "./pages/Marketing_Administrator/ResetPassword";
 import StudentAccounts from "./pages/Marketing_Administrator/StudentAccounts";
 import CampusFacilitiesMap from "./pages/Marketing_Administrator/CampusFacilitiesMap";
 import Openhouse from "./pages/Marketing_Administrator/Openhouse";
@@ -44,16 +43,12 @@ import GenerateStudentRegistration from "./pages/Marketing_Administrator/Generat
 import StudentLifeBrochure from "./pages/Marketing_Administrator/Brochure/StudentLifeBrochure";
 import StudySIMBrochure from "./pages/Marketing_Administrator/Brochure/StudySIMBrochure";
 import AttendanceMarkingScanner from "./pages/Crew/AttendanceMarkingScanner";
-import AdmissionApplication from "./pages/Marketing_Administrator/Useful_Info/AdmissionApplication";
 import GenerateAttendance from "./pages/Marketing_Administrator/GenerateReport/GenerateAttendance";
 import OtherFinancialAssistance from "./pages/Marketing_Administrator/StudentLife@SIM/OtherFinancialAssistance";
 import SIMGEBursary from "./pages/Marketing_Administrator/StudentLife@SIM/SIMGEBursary";
 import Sponsors from "./pages/Marketing_Administrator/StudentLife@SIM/Sponsors";
 import SIMGEScholarship from "./pages/Marketing_Administrator/StudentLife@SIM/SIMGEScholarship";
 import SocialMediaCampaigns from "./pages/Marketing_Administrator/SocialMediaCampaigns";
-
-// import test from "./temp/testing";
-
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -63,7 +58,6 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component={App} />
         <Route path="/Login" component={Login} />
-        <Route path="/ResetPassword" component={ResetPassword} />
 
         {/* Routes for Crew */}
         <Route path="/AttendanceMarkingScanner" component={AttendanceMarkingScanner} />
@@ -106,7 +100,6 @@ ReactDOM.render(
         <Route path="/GenerateStudentRegistration" component={GenerateStudentRegistration} />
         <Route path="/StudentLifeBrochure" component={StudentLifeBrochure} />
         <Route path="/StudySIMBrochure" component={StudySIMBrochure} />
-        <Route path="/AdmissionApplication" component={AdmissionApplication} />
         <Route path="/GenerateAttendance" component={GenerateAttendance} />
         <Route path="/OtherFinancialAssistance" component={OtherFinancialAssistance} />
         <Route path="/SIMGEBursary" component={SIMGEBursary} />
