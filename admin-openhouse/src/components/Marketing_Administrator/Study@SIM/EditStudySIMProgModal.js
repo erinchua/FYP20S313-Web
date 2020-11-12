@@ -109,12 +109,10 @@ export default class EditStudySIMProgModal extends React.Component {
                 this.setState({
                   [x[i].innerText]: false,
                 });
-                console.log(x[i].innerText);
               } else {
                 this.setState({
                   [x[i].innerText]: true,
                 });
-                console.log(x[i].innerText);
               }
             }
           }
@@ -251,20 +249,6 @@ export default class EditStudySIMProgModal extends React.Component {
   };
 
   edit = async () => {
-    console.log("programme: " + this.state.programme);
-    console.log("university: " + this.state.university);
-    console.log("logoUrl: " + this.state.logoUrl)
-    console.log("academiclevel: " + this.state.academiclevel);
-
-    console.log("FT: " + this.state.fulltime);
-    console.log("PT: " + this.state.parttime);
-    console.log("alevel: " + this.state.alevel);
-    console.log("degree: " + this.state.degree);
-    console.log("diploma: " + this.state.diploma);
-    console.log("olevel: " + this.state.olevel);
-    //-----------------------------------------------------
-    console.log("discipline: " + this.state.disciplinecheckedItems);
-
     var discipline = this.state.disciplinecheckedItems;
     var discipline1 = "";
     var discipline2 = "";
@@ -278,11 +262,8 @@ export default class EditStudySIMProgModal extends React.Component {
       }
     }
 
-    console.log(discipline1);
-    console.log(discipline2);
-
     //------------------------------------------------------------------------------
-    console.log("subdiscipline: " + this.state.subdisciplinecheckedItems);
+
     var subdiscipline = this.state.subdisciplinecheckedItems;
     var subdiscipline1 = "";
     var subdiscipline2 = "";
@@ -307,36 +288,12 @@ export default class EditStudySIMProgModal extends React.Component {
       }
     }
 
-    console.log("Subdisc1" + subdiscipline1);
-    console.log("Subdisc2" + subdiscipline2);
-    console.log("Subdisc3" + subdiscipline3);
-    console.log("Subdisc4" + subdiscipline4);
-    console.log("Subdisc5" + subdiscipline5);
-
-    console.log("aboutprogramme1: " + this.state.aboutprogramme1);
-    console.log("aboutprogramme2: " + this.state.aboutprogramme2);
-    console.log("aboutprogramme3: " + this.state.aboutprogramme3);
-    console.log("applicationperiod1: " + this.state.applicationperiod1);
-    console.log("applicationperiod2: " + this.state.applicationperiod2);
-    console.log("intakemonthsfulltime: " + this.state.intakemonthsfulltime);
-
-    console.log("intakemonthspartime: " + this.state.intakemonthsparttime);
-    console.log("durationfulltime: " + this.state.durationfulltime);
-    console.log("durationparttime: " + this.state.durationparttime);
-
-    console.log("overseaopportunityexchange: " + this.state.overseaopportunityexchange);
-    console.log("overseaopportunitytransfer: " + this.state.overseaopportunitytransfer);
-    console.log("programmestructurecoursework: " + this.state.programmestructurecoursework);
-    console.log("programmestructureexaminati: " + this.state.programmestructureexamination);
-
     const isValid = this.validate();
     var title = "";
     var res = "";
     var extension = "";
     var fileName = "";
     const parentthis = this;
-
-    console.log("props.logoUrl: " + this.props.logoUrl)
 
     if (this.state.logoUrl.startsWith("blob:")) {
       title = this.props.logoUrl.split(/\%2F(.*?)\?alt/)[1].split(".")[0]

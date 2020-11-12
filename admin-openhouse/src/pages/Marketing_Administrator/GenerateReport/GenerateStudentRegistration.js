@@ -92,7 +92,6 @@ class GenerateStudentRegistration extends Component {
         };
         counter++;
         users.push(data);
-        console.log(data)
       });
 
       this.setState({ users: users });
@@ -105,7 +104,6 @@ class GenerateStudentRegistration extends Component {
     .collection("Students")
     .onSnapshot((snapshot) => {
       snapshot.forEach((doc) => {
-        console.log(doc.id);
         counter++;
       });
 
@@ -114,12 +112,10 @@ class GenerateStudentRegistration extends Component {
             totalNumber: counter
         },
         () => {
-          console.log(this.state.totalNumber);
           this.generatePDF();
         }
       );
     });
-    console.log(counter);
   }
 
   generatePDF(){

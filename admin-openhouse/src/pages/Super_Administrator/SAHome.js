@@ -5,7 +5,6 @@ import history from "../../config/history";
 import emailjs from "emailjs-com";
 import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
 
-
 import "../../css/Super_Administrator/SAHome.css";
 import "../../css/Super_Administrator/SAHomeModals.css";
 
@@ -191,8 +190,6 @@ class SAHome extends Component {
             administratorType
         })
         .then(res => {
-          // console.log('MAIL SENT!')
-          // alert("Mail Sent")
         })
           this.setState({ addUserModal: false });
           this.display();

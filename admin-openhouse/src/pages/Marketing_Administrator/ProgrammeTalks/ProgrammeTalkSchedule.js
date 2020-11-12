@@ -145,8 +145,6 @@ class ProgrammeTalkSchedule extends Component {
 
   display= () => {
     var getYear = new Date().getFullYear();
-    console.log(getYear);
-    
     const progtalk = [];
 
     // Get All Universities

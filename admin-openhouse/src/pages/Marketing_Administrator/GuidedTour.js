@@ -162,7 +162,6 @@ class GuidedTour extends Component {
                         venue: this.state.venue,
                     })
                     .then(dataSnapshot => {
-                        console.log("Added the tour");
                         this.setState({
                             addModal: false
                         });
@@ -178,7 +177,6 @@ class GuidedTour extends Component {
     DeleteGuidedTour(e, guidedTourId) {
         db.collection("GuidedTours").doc(guidedTourId).delete()
         .then(dataSnapshot => {
-            console.log("Deleted the tour");
             this.setState({
                 deleteModal: false
             });
@@ -202,7 +200,6 @@ class GuidedTour extends Component {
                 venue: this.state.venue
             })
             .then(dataSnapshot => {
-                console.log("Updated the tour");
                 this.setState({
                     editModal: false,
                 });

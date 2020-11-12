@@ -91,9 +91,7 @@ display() {
         counter : counter,
       };
       counter++;
-       
       attendance.push(data);
-      console.log(data)
     });
 
     this.setState({ attendance: attendance });
@@ -130,8 +128,6 @@ display() {
       uniqueProgName = uniqueProgName.filter((val) => val !== "");
       this.setState({ talkname: uniqueProgName });
     });
-    console.log(university)
-    console.log(talkname)
   }
 
   handleUniversityChange = (e) => {
@@ -177,7 +173,6 @@ display() {
           };
           counter++;
           attendance.push(data);
-          console.log(data)
         });
         this.setState({ 
           attendance: attendance 
@@ -202,7 +197,6 @@ display() {
           };
           counter++;
           attendance.push(data);
-          console.log(data)
         });
         this.setState({ 
           attendance: attendance 
@@ -221,8 +215,7 @@ display() {
         uniqueProgName = uniqueProgName.filter((val) => val !== "");
         this.setState({ talkname: uniqueProgName });
       });
-      }
-    //Retrieve Attendance
+    }
     
   }
 
@@ -257,7 +250,6 @@ display() {
           };
           counter++;
           attendance.push(data);
-          console.log(data)
         });
         this.setState({ 
           attendance: attendance 
@@ -284,7 +276,6 @@ display() {
           };
           counter++;
           attendance.push(data);
-          console.log(data)
         });
         this.setState({ 
           attendance: attendance 
@@ -312,7 +303,6 @@ display() {
           };
           counter++;
           attendance.push(data);
-          console.log(data)
         });
         this.setState({ 
           attendance: attendance 
@@ -330,7 +320,6 @@ display() {
       "November", "December"
     ];
 
-    // var user = this.state.userEmail;
     var adminuser = "\nRequested by: " + this.state.userEmail;
     doc.setFontSize(10);   
     doc.text(14, 25, adminuser);

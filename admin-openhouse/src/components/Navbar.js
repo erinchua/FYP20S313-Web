@@ -50,7 +50,8 @@ export default class NavBar extends React.Component {
     logout() {
         auth.signOut();
         history.push("/Login");
-      }
+        localStorage.clear();
+    }
 
     /* Change Password Modal */
     handleChangePasswordModal = () => {

@@ -152,7 +152,6 @@ class Prizes extends Component {
                         id: docid,
                     })
                     .then(dataSnapshot => {
-                        console.log("Added the prize");
                         this.setState({
                             addModal: false,
                         });
@@ -167,7 +166,6 @@ class Prizes extends Component {
     DeletePrize(e, prizeId) {
         db.collection("Prizes").doc(prizeId).delete()
         .then(dataSnapshot => {
-            console.log("Deleted the prize");
             this.setState({
                 deleteModal: false
             });
@@ -191,7 +189,6 @@ class Prizes extends Component {
                 id: prizeId,
             })
             .then(dataSnapshot => {
-                console.log("Updated the prize");
                 this.setState({
                     editModal: false
                 });
@@ -220,7 +217,6 @@ class Prizes extends Component {
                             "day.1.venue": this.state.venue,
                         })
                         .then(dataSnapshot => {
-                            console.log("Updated the venue");
                             this.setState ({
                                 editVenueModal: false
                             });
@@ -244,7 +240,6 @@ class Prizes extends Component {
                             "day.2.venue": this.state.venue,
                         })
                         .then(dataSnapshot => {
-                            console.log("Updated the venue");
                             this.setState ({
                                 editVenueModal: false
                             });

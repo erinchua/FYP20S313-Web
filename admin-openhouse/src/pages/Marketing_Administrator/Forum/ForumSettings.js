@@ -124,20 +124,6 @@ class ForumSettings extends Component {
         }
     };
   
-    /*/   this.setState({
-        checked: true,
-        text: "Enable",
-        confirmModal: false,
-      });
-      console.log("Forum Disabled");
-      const db = fire.firestore();
-  
-      const userRef = db.collection("Openhouse").doc("openhouse-001");
-  
-      userRef.update({
-        disableForum: true,
-      });*/
-  
     //OnClick Method for Cancel Button
     onClickCancel = () => {
         this.checked = this.state.checked;
@@ -148,13 +134,11 @@ class ForumSettings extends Component {
                 checked: true,
                 confirmModal: false,
             });
-            console.log("Forum is still Disabled");
         } else {
             this.setState({
                 checked: false,
                 confirmModal: false,
             });
-            console.log("Forum is still Enabled");
         }
     };
   
