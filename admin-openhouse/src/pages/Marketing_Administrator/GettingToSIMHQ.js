@@ -55,7 +55,19 @@ export function sortAlphabet(a, b) {
     return 0;
 }
 
+const initialStates = {
+    mapUrlError: "",
+    carDescriptionError: "",
+    carParkingDescriptionError: "",
+    busDescriptionError: "",
+    busNoError: "",
+    mrtDescriptionError: "",
+    mrtLineError: "",
+}
+
 class GettingToSIMHQ extends Component {
+
+    state = initialStates;
 
     constructor() {
         super();
@@ -159,31 +171,26 @@ class GettingToSIMHQ extends Component {
         this.setState({
             [e.target.name]: e.target.value,
         });
-        if(e.target.title === "SIMHQbusNo"){
+
+        if (e.target.title === "SIMHQbusNo"){
             this.setState({
                 busLocation: "SIMHQbusNo"                
-            })
-        }
-        else if (e.target.title === "OppSIMHQbusNo"){
+            });
+        } else if (e.target.title === "OppSIMHQbusNo"){
             this.setState({
                 busLocation: "OppSIMHQbusNo"                
-            }) 
+            });
         }
 
-        if(e.target.title === "Downtown"){
+        if (e.target.title === "Downtown"){
             this.setState({
                 mrtLine: "Downtown"                
-            })
-        }
-        else if (e.target.title === "Eastwest"){
+            });
+        } else if (e.target.title === "Eastwest"){
             this.setState({
                 mrtLine: "Eastwest"                
-            }) 
+            });
         }
-        console.log(e.target.name)
-        console.log(e.target.value)
-        console.dir(e.target.title)
-
     };
 
     componentDidMount() {
@@ -191,7 +198,6 @@ class GettingToSIMHQ extends Component {
     }
 
     display() {
-
         db.collection("CampusLocation").onSnapshot((snapshot) => {
             snapshot.forEach((doc) => {
 
@@ -204,30 +210,24 @@ class GettingToSIMHQ extends Component {
                     const oppSim = doc.data().oppSimHq.buses;
                     for (var i = 0; i < Object.keys(oppSim).length; i++) {
                         oppSimHq.push(oppSim[Object.keys(oppSim)[i]]);
-                        
                     }
 
                     const sim = doc.data().simHq.buses;
                     for (var i = 0; i < Object.keys(sim).length; i++) {
-                        simHq.push(sim[Object.keys(sim)[i]]);
-                        //this.state.SIMHQbusNo2
-                        
+                        simHq.push(sim[Object.keys(sim)[i]]);                        
                     }
 
                     // set each SIMHQbus to state
                     for (var i = 0; i <simHq.length; i++) {
                         var statename = "SIMHQbusNo"+(i+1);
-                         this.state[statename] =  simHq.sort(sortFunction)[i]
-                        }
-                        
-                        // set each OppSIMHQbus to state
-                        for (var i = 0; i <oppSimHq.length; i++) {
-                            var statename = "OppSIMHQbusNo"+(i+1);
-                        
-                               this.state[statename] =  oppSimHq.sort(sortFunction)[i]
-                            
-                        }
-            
+                        this.state[statename] =  simHq.sort(sortFunction)[i]
+                    }
+                    
+                    // set each OppSIMHQbus to state
+                    for (var i = 0; i <oppSimHq.length; i++) {
+                        var statename = "OppSIMHQbusNo"+(i+1);
+                        this.state[statename] =  oppSimHq.sort(sortFunction)[i]
+                    }
 
                     const data = {
                         busId: doc.id,
@@ -290,17 +290,14 @@ class GettingToSIMHQ extends Component {
                     console.log(downTownLine.length)
                     for (var i = 0; i <downTownLine.length; i++) {
                         var statename = "Downtownstation"+(i+1);
-                        console.log(statename)
                         this.state[statename] =  downTownLine.sort(sortAlphabet)[i]
-                        }
+                    }
                         
-                        // set each eastwestmrt to state
-                        for (var i = 0; i <eastWestLine.length; i++) {
-                            var statename = "Eastweststation"+(i+1);
-                        
-                            this.state[statename] =  eastWestLine.sort(sortAlphabet)[i]
-                            
-                        }
+                    // set each eastwestmrt to state
+                    for (var i = 0; i <eastWestLine.length; i++) {
+                        var statename = "Eastweststation"+(i+1);
+                        this.state[statename] =  eastWestLine.sort(sortAlphabet)[i]
+                    }
 
                     const data = {
                         mrtId: doc.id,
@@ -330,103 +327,109 @@ class GettingToSIMHQ extends Component {
                     maparray.push(data);
                     this.setState({ 
                         mapurl : doc.data().url,
-                        mapArray: maparray });
+                        mapArray: maparray 
+                    });
                 }
-
             });
         });;
 
     }
 
-    carupdate = (e, locationid) => {
-        db.collection("CampusLocation").doc("car")
-        .update({
-            carDescription: this.state.carDescription,
-        })
-        .then(dataSnapshot => {
-            console.log("Updated Car Info");
-            this.setState({
-                carEditModal: false
-            });
-            this.display();
-        });
-    };
+    carupdate = () => {
+        const isValid = this.validateCar();
 
-    busupdate = (e, locationid) => {
-        var title = this.state.busLocation
-        
-      if (title == "SIMHQbusNo") {
-            const userRef = db.collection("CampusLocation").doc("bus")
+        if (isValid) {
+            this.setState(initialStates);
+
+            db.collection("CampusLocation").doc("car")
             .update({
-                "simHq.description": this.state.SIMHQbusDescription,
-                "simHq.buses.bus1": this.state.SIMHQbusNo1,
-                "simHq.buses.bus2": this.state.SIMHQbusNo2,
-                "simHq.buses.bus3": this.state.SIMHQbusNo3,
-                "simHq.buses.bus4": this.state.SIMHQbusNo4,
-                "simHq.buses.bus5": this.state.SIMHQbusNo5,
-                "simHq.buses.bus6": this.state.SIMHQbusNo6,
-                "simHq.buses.bus7": this.state.SIMHQbusNo7,
-                "simHq.buses.bus8": this.state.SIMHQbusNo8,
-                "simHq.buses.bus9": this.state.SIMHQbusNo9,
-                "simHq.buses.bus10": this.state.SIMHQbusNo10,
+                carDescription: this.state.carDescription,
             })
-            .then(dataSnapshot => {
-                console.log("Updated Bus Info");
+            .then(() => {
+                console.log("Updated Car Info");
                 this.setState({
-                    busEditModal: false
-                });
-                this.display();
-            });
-        } else if(title == "OppSIMHQbusNo") {
-            const userRef = db.collection("CampusLocation").doc("bus")
-            .update({
-                "oppSimHq.description": this.state.OppSIMHQbusDescription,
-                "oppSimHq.buses.bus1": this.state.OppSIMHQbusNo1,
-                "oppSimHq.buses.bus2": this.state.OppSIMHQbusNo2,
-                "oppSimHq.buses.bus3": this.state.OppSIMHQbusNo3,
-                "oppSimHq.buses.bus4": this.state.OppSIMHQbusNo4,
-                "oppSimHq.buses.bus5": this.state.OppSIMHQbusNo5,
-                "oppSimHq.buses.bus6": this.state.OppSIMHQbusNo6,
-                "oppSimHq.buses.bus7": this.state.OppSIMHQbusNo7,
-                "oppSimHq.buses.bus8": this.state.OppSIMHQbusNo8,
-                "oppSimHq.buses.bus9": this.state.OppSIMHQbusNo9,
-            })
-            .then(dataSnapshot => {
-                console.log("Updated Bus Info");
-                this.setState({
-                    busEditModal: false
+                    carEditModal: false
                 });
                 this.display();
             });
         }
     };
 
-    mrtupdate = (e, locationid) => {
-            var title = this.state.mrtLine
-                    
-            if (title == "Downtown") {
-                const userRef = db.collection("CampusLocation").doc("mrt")
+    busupdate = () => {
+        var title = this.state.busLocation;
+        const isValid = this.validateBus();
+        
+        if (title == "SIMHQbusNo") {
+            if (isValid) {
+                this.setState(initialStates);
+
+                db.collection("CampusLocation").doc("bus")
+                .update({
+                    "simHq.description": this.state.SIMHQbusDescription,
+                    "simHq.buses.bus1": this.state.SIMHQbusNo1,
+                    "simHq.buses.bus2": this.state.SIMHQbusNo2,
+                    "simHq.buses.bus3": this.state.SIMHQbusNo3,
+                    "simHq.buses.bus4": this.state.SIMHQbusNo4,
+                    "simHq.buses.bus5": this.state.SIMHQbusNo5,
+                    "simHq.buses.bus6": this.state.SIMHQbusNo6,
+                    "simHq.buses.bus7": this.state.SIMHQbusNo7,
+                    "simHq.buses.bus8": this.state.SIMHQbusNo8,
+                    "simHq.buses.bus9": this.state.SIMHQbusNo9,
+                    "simHq.buses.bus10": this.state.SIMHQbusNo10,
+                })
+                .then(() => {
+                    console.log("Updated Bus Info");
+                    this.setState({
+                        busEditModal: false
+                    });
+                    this.display();
+                });
+            }
+
+        } else if (title == "OppSIMHQbusNo") {
+            if (isValid) {
+                this.setState(initialStates);
+
+                db.collection("CampusLocation").doc("bus")
+                .update({
+                    "oppSimHq.description": this.state.OppSIMHQbusDescription,
+                    "oppSimHq.buses.bus1": this.state.OppSIMHQbusNo1,
+                    "oppSimHq.buses.bus2": this.state.OppSIMHQbusNo2,
+                    "oppSimHq.buses.bus3": this.state.OppSIMHQbusNo3,
+                    "oppSimHq.buses.bus4": this.state.OppSIMHQbusNo4,
+                    "oppSimHq.buses.bus5": this.state.OppSIMHQbusNo5,
+                    "oppSimHq.buses.bus6": this.state.OppSIMHQbusNo6,
+                    "oppSimHq.buses.bus7": this.state.OppSIMHQbusNo7,
+                    "oppSimHq.buses.bus8": this.state.OppSIMHQbusNo8,
+                    "oppSimHq.buses.bus9": this.state.OppSIMHQbusNo9,
+                })
+                .then(() => {
+                    console.log("Updated Bus Info");
+                    this.setState({
+                        busEditModal: false
+                    });
+                    this.display();
+                });
+            }
+        }
+    };
+
+    mrtupdate = () => {
+        var title = this.state.mrtLine;
+        const isValid = this.validateMrt();
+                
+        if (title == "Downtown") {
+            if (isValid) {
+                this.setState(initialStates);
+
+                db.collection("CampusLocation").doc("mrt")
                 .update({
                     "downtownLine.description": this.state.DowntownmrtDescription,
                     "downtownLine.stations.station1": this.state.Downtownstation1,
                     "downtownLine.stations.station2": this.state.Downtownstation2,
                     "downtownLine.stations.station3": this.state.Downtownstation3,
                 })
-                .then(dataSnapshot => {
-                    console.log("Updated MRT Info");
-                    this.setState({
-                        mrtEditModal: false
-                    });
-                    this.display();
-                });
-            } else if(title == "Eastwest") {
-                const userRef = db.collection("CampusLocation").doc("mrt")
-                .update({
-                    "eastwestLine.description": this.state.EastwestmrtDescription,
-                    "eastwestLine.stations.station1": this.state.Eastweststation1,
-                    "eastwestLine.stations.station2": this.state.Eastweststation2,
-                })
-                .then(dataSnapshot => {
+                .then(() => {
                     console.log("Updated MRT Info");
                     this.setState({
                         mrtEditModal: false
@@ -434,20 +437,46 @@ class GettingToSIMHQ extends Component {
                     this.display();
                 });
             }
+
+        } else if(title == "Eastwest") {
+            if (isValid) {
+                this.setState(initialStates);
+
+                db.collection("CampusLocation").doc("mrt")
+                .update({
+                    "eastwestLine.description": this.state.EastwestmrtDescription,
+                    "eastwestLine.stations.station1": this.state.Eastweststation1,
+                    "eastwestLine.stations.station2": this.state.Eastweststation2,
+                })
+                .then(() => {
+                    console.log("Updated MRT Info");
+                    this.setState({
+                        mrtEditModal: false
+                    });
+                    this.display();
+                });
+            }
+        }
     };
 
-    carparkupdate = (e, locationid) => {
-        db.collection("CampusLocation").doc("car")
-        .update({
-            carParkingDescription: this.state.carParkDescription,
-        })
-        .then(dataSnapshot => {
-            console.log("Updated Car Park Info");
-            this.setState({
-                carParkEditModal: false
+    carparkupdate = () => {
+        const isValid = this.validateCarParking();
+
+        if (isValid) {
+            this.setState(initialStates);
+
+            db.collection("CampusLocation").doc("car")
+            .update({
+                carParkingDescription: this.state.carParkingDescription,
+            })
+            .then(() => {
+                console.log("Updated Car Park Info");
+                this.setState({
+                    carParkEditModal: false
+                });
+                this.display();
             });
-            this.display();
-        });
+        }
     };
 
     handleFileUpload = (files) => {
@@ -464,6 +493,8 @@ class GettingToSIMHQ extends Component {
         desertRef.delete();
         const parentthis = this;
 
+        const isValid = this.validateCampusMap();
+
         if (this.state.files !== undefined) {
             const foldername = "CampusLocation";
             const file = this.state.files[0];
@@ -473,13 +504,18 @@ class GettingToSIMHQ extends Component {
                 fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
                     console.log("File available at", downloadURL);
 
-                    const userRef = db.collection("CampusLocation").doc("map")
-                    .update({
-                        url: downloadURL,
-                    })
-                    .then(function() {
-                        console.log("Updated the Map Image");
-                    });
+                    if (isValid) {
+                        this.setState(initialStates);
+
+                        db.collection("CampusLocation").doc("map")
+                        .update({
+                            url: downloadURL,
+                        })
+                        .then(function() {
+                            console.log("Updated the Map Image");
+                        });
+                    }
+                    
                 });
                 const progress = Math.round(
                     (snapshot.bytesTransferred / snapshot.totalBytes) * 100
@@ -511,6 +547,7 @@ class GettingToSIMHQ extends Component {
             this.setState({
                 mapEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -526,6 +563,7 @@ class GettingToSIMHQ extends Component {
             this.setState({
                 carEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -541,6 +579,7 @@ class GettingToSIMHQ extends Component {
             this.setState({
                 carParkEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -556,6 +595,7 @@ class GettingToSIMHQ extends Component {
             this.setState({
                 busEditModal: false
             });
+            this.setState(initialStates);
         }
     }
 
@@ -571,7 +611,95 @@ class GettingToSIMHQ extends Component {
             this.setState({
                 mrtEditModal: false
             });
+            this.setState(initialStates);
         }
+    }
+
+    validateCampusMap = () => {
+        let mapUrlError = "";
+
+        if (!this.state.mapUrl) {
+            mapUrlError = "Please browse a valid image."
+        }
+
+        if (mapUrlError) {
+            this.setState({mapUrlError});
+            return false;
+        }
+
+        return true;
+    }
+
+    validateCar = () => {
+        let carDescriptionError = "";
+
+        if (!this.state.carDescription) {
+            carDescriptionError = "Please enter a valid description."
+        }
+
+        if (carDescriptionError) {
+            this.setState({carDescriptionError});
+            return false;
+        }
+
+        return true;
+    }
+
+    validateCarParking = () => {
+        let carParkingDescriptionError = "";
+
+        if (!this.state.carParkingDescription) {
+            carParkingDescriptionError = "Please enter a valid description."
+        }
+
+        if (carParkingDescriptionError) {
+            this.setState({carParkingDescriptionError});
+            return false;
+        }
+
+        return true;
+    }
+
+    validateBus = () => {
+        let busDescriptionError = "";
+        let busNoError = "";
+
+        if (!this.state.OppSIMHQbusDescription || !this.state.SIMHQbusDescription) {
+            busDescriptionError = "Please enter a valid description."
+        }
+
+        /*//Dont delete this
+        if (!this.state.oppSimBus) {
+            busNoError = "Please enter valid bus numbers."
+        }*/
+
+        if (busDescriptionError || busNoError) {
+            this.setState({busDescriptionError, busNoError});
+            return false;
+        }
+
+        return true;
+    }
+
+    validateMrt = () => {
+        let mrtDescriptionError = "";
+        let mrtLineError = "";
+
+        if (!this.state.DowntownmrtDescription || !this.state.EastwestmrtDescription) {
+            mrtDescriptionError = "Please enter a valid description."
+        }
+
+        /*//Dont delete this
+        if (!this.state.oppSimBus) {
+            mrtLineError = "Please enter valid bus numbers."
+        }*/
+
+        if (mrtDescriptionError || mrtLineError) {
+            this.setState({mrtDescriptionError, mrtLineError});
+            return false;
+        }
+
+        return true;
     }
 
     render() {
@@ -828,7 +956,7 @@ class GettingToSIMHQ extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.File type="file" name="imgFile" className="GettingToSimHq-imgFile" label={this.state.mapUrl} onChange={(e) => {this.handleFileUpload(e.target.files)}} custom required></Form.File>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.mapUrlError}</div>
                                             </Form.Group>
                                         </Form.Group>                     
                                     </Form.Group>
@@ -866,7 +994,7 @@ class GettingToSIMHQ extends Component {
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="4" type="text" name="carDescription" placeholder="Car Information" required defaultValue={this.state.carDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <div className="errorMessage">{this.state.carDescriptionError}</div>
                                             </Form.Group>
                                         </Form.Group>                     
                                     </Form.Group>
@@ -903,8 +1031,8 @@ class GettingToSIMHQ extends Component {
                                                 <FontAwesomeIcon size="2x" icon={faParking}/>
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
-                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="4" type="text" name="carParkDescription" placeholder="Car Park Information" required defaultValue={this.state.carParkingDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                <div className="errorMessage"></div>
+                                                <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="4" type="text" name="carParkingDescription" placeholder="Car Park Information" required defaultValue={this.state.carParkingDescription} onChange={this.updateInput} noValidate></Form.Control>
+                                                <div className="errorMessage">{this.state.carParkingDescriptionError}</div>
                                             </Form.Group>
                                         </Form.Group>                     
                                     </Form.Group>
@@ -945,7 +1073,7 @@ class GettingToSIMHQ extends Component {
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
                                                             <Form.Control id="GettingToSimHq-inputFields" type="text" name="SIMHQbusDescription" placeholder="Location" required defaultValue={this.state.simBusDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                            <div className="errorMessage"></div>
+                                                            <div className="errorMessage">{this.state.busDescriptionError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
@@ -959,7 +1087,7 @@ class GettingToSIMHQ extends Component {
                                                                 </Form.Group> 
                                                                 <Form.Group as={Col} md="7">
                                                                     <Form.Control id="GettingToSimHq-textAreas" title="SIMHQbusNo" as="textarea" rows="2" type="text" name={"SIMHQbusNo"+ (index+1)} placeholder="Bus Numbers" required defaultValue={this.state.editSimArray[index]} onChange={this.updateInput} noValidate></Form.Control>
-                                                                    <div className="errorMessage"></div>
+                                                                    <div className="errorMessage">{this.state.busNoError}</div>
                                                                 </Form.Group>
                                                             </Form.Group>                     
                                                         </Form.Group>
@@ -977,13 +1105,11 @@ class GettingToSIMHQ extends Component {
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
                                                             <Form.Control id="GettingToSimHq-inputFields" type="text" name="OppSIMHQbusDescription" placeholder="Location" required defaultValue={this.state.oppSimBusDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                            <div className="errorMessage"></div>
+                                                            <div className="errorMessage">{this.state.busDescriptionError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
                                                 {this.state.editOppSimArray && this.state.editOppSimArray.map((bus, index) => {
-                                                    
-                                                    
                                                     return (
                                                         <Form.Group>
                                                             <Form.Group as={Row} className="GettingToSimHq-formGroup">
@@ -992,7 +1118,7 @@ class GettingToSIMHQ extends Component {
                                                                 </Form.Group> 
                                                                 <Form.Group as={Col} md="7">
                                                                     <Form.Control id="GettingToSimHq-textAreas"  title="OppSIMHQbusNo" as="textarea" rows="2" type="text" name={"OppSIMHQbusNo"+ (index+1)} placeholder="Bus Numbers" required defaultValue={this.state.editOppSimArray[index]} onChange={this.updateInput} noValidate></Form.Control>
-                                                                    <div className="errorMessage"></div>
+                                                                    <div className="errorMessage">{this.state.busNoError}</div>
                                                                 </Form.Group>
                                                             </Form.Group>                     
                                                         </Form.Group>
@@ -1038,7 +1164,7 @@ class GettingToSIMHQ extends Component {
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
                                                             <Form.Control id="GettingToSimHq-inputFields" type="text" name="DowntownmrtDescription" placeholder="MRT Line" required defaultValue={this.state.downTownDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                            <div className="errorMessage"></div>
+                                                            <div className="errorMessage">{this.state.mrtDescriptionError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
@@ -1052,7 +1178,7 @@ class GettingToSIMHQ extends Component {
                                                             </Form.Group> 
                                                             <Form.Group as={Col} md="7">
                                                                 <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" title="Downtown" name={"Downtownstation" + (index+1)} placeholder="MRT Station Names" required defaultValue={this.state.editDownTownArray[index]} onChange={this.updateInput} noValidate></Form.Control>
-                                                                <div className="errorMessage"></div>
+                                                                <div className="errorMessage">{this.state.mrtLineError}</div>
                                                             </Form.Group>
                                                         </Form.Group>                     
                                                     </Form.Group>
@@ -1070,7 +1196,7 @@ class GettingToSIMHQ extends Component {
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
                                                             <Form.Control id="GettingToSimHq-inputFields" type="text" name="EastwestmrtDescription" placeholder="MRT Line" required defaultValue={this.state.eastWestDescription} onChange={this.updateInput} noValidate></Form.Control>
-                                                            <div className="errorMessage"></div>
+                                                            <div className="errorMessage">{this.state.mrtDescriptionError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     
                                                 </Form.Group>
@@ -1084,7 +1210,7 @@ class GettingToSIMHQ extends Component {
                                                             </Form.Group> 
                                                             <Form.Group as={Col} md="7">
                                                                 <Form.Control id="GettingToSimHq-textAreas" as="textarea" rows="2" type="text" title="Eastwest" name={"Eastweststation" + (index+1)} placeholder="MRT Station Names" required defaultValue={this.state.editEastWestArray[index]} onChange={this.updateInput} noValidate></Form.Control>
-                                                                <div className="errorMessage"></div>
+                                                                <div className="errorMessage">{this.state.mrtLineError}</div>
                                                             </Form.Group>
                                                         </Form.Group>                     
                                                     </Form.Group>

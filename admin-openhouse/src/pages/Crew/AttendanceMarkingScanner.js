@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { auth, db } from "../../config/firebase";
 import history from "../../config/history";
 import firebase from "firebase/app";
-import Login from "../../pages/Login";
 
 import "../../css/Crew/AttendanceMarkingScanner.css";
 import NavBar from "../../components/Navbar";
@@ -34,6 +33,8 @@ class AttendanceMarkingScanner extends Component {
             openWebCam: false,
             user: "",
             result: "",
+            //Others
+            isMarketing: "",
             //Below states are for the functions
             attendance: "",
             programmeTalks: "",
@@ -54,25 +55,41 @@ class AttendanceMarkingScanner extends Component {
                 .collection("Administrators")
                 .where("email", "==", user.email)
                 .onSnapshot((snapshot) => {
-                    console.log(snapshot.size);
-                    this.setState(
-                    {
-                        user: snapshot.size,
-                    },
-                    () => {
-                        if (this.state.user > 0) {
-                            this.handleSelectionModal();
-                            this.display();
-                        } else {
-                            history.push("/Login");
-                            window.location.reload();
-                        }
-                    }
-                    );
+                    snapshot.forEach((doc) => {
+                        console.log(snapshot.size);
+                        this.setState({
+                            user: snapshot.size,
+                        },
+                        () => {
+                            if (this.state.user > 0) {
+                                if (doc.data().administratorType === "Marketing Administrator") {
+                                    this.setState({
+                                        isMarketing: true
+                                    });
+                                    this.handleSelectionModal();
+                                    this.display();
+                                }
+
+                                if (doc.data().administratorType === "Crew") {
+                                    this.setState({
+                                        isMarketing: false
+                                    });
+                                    this.handleSelectionModal();
+                                    this.display();
+                                }
+
+                            } else {
+                                history.push("/Login");
+                                window.location.reload();
+                                localStorage.clear();
+                            }
+                        });
+                    })
                 });
             } else {
                 history.push("/Login");
                 window.location.reload();
+                localStorage.clear();
             }
         });
     }
@@ -123,7 +140,7 @@ class AttendanceMarkingScanner extends Component {
         });
     }
 
-    handleScan = (data) => {
+    handleScan = async(data) => {
         if (data) {
             this.setState({
                 result: data,
@@ -140,8 +157,7 @@ class AttendanceMarkingScanner extends Component {
                 var date = result[4];
                 var universityName = result[5];
 
-
-                db.collection("Attendance").orderBy("id", "desc").limit(1).get()
+                await db.collection("Attendance").orderBy("id", "desc").limit(1).get()
                 .then((snapshot) => {
                     snapshot.forEach((doc) => {
                         var docid = "";
@@ -157,69 +173,35 @@ class AttendanceMarkingScanner extends Component {
                             docid = "attendance-" + id;
                         }
 
-                        db.collection("Attendance").doc(docid)
-                        .set({
-                            date: date,
-                            email: email,
-                            firstName: firstName,
-                            lastName: lastName,
-                            talkName: talkName,
-                            universityName: universityName,
-                            id: docid,
-                        })
-                        .then(() => {
-                            console.log("Added the attendance");
+                        //Check if attendee existed in a progTalk
+                        const attendee = db.collection("Attendance").where("talkName", "==", talkName).where("email", "==", email).get()
+                        if (!attendee.empty) {
                             this.setState({
-                                openWebCam: true,
+                                showAlert: true,
                             });
-                            this.display();
-                        });
+                            return
+                        } else {
+                            db.collection("Attendance").doc(docid)
+                            .set({
+                                date: date,
+                                email: email,
+                                firstName: firstName,
+                                lastName: lastName,
+                                talkName: talkName,
+                                universityName: universityName,
+                                id: docid,
+                            })
+                            .then(() => {
+                                console.log("Added the attendance");
+                                this.setState({
+                                    openWebCam: true,
+                                });
+                                this.display();
+                            });
+                        }
+                        
                     });
                 });
-
-                // for (var i = 0; i < this.state.attendance.length; i++) {
-                //     if (this.state.attendance[i].email !== email) {
-                //         db.collection("Attendance").orderBy("id", "desc").limit(1).get()
-                //         .then((snapshot) => {
-                //             snapshot.forEach((doc) => {
-                //                 var docid = "";
-                //                 var res = doc.data().id.substring(11);
-                //                 var id = parseInt(res);
-                //                 id += 1;
-        
-                //                 if (id.toString().length == 1) {
-                //                     docid = "attendance-00" + id;
-                //                 } else if (id.toString().length == 2) {
-                //                     docid = "attendance-0" + id;
-                //                 } else {
-                //                     docid = "attendance-" + id;
-                //                 }
-        
-                //                 db.collection("Attendance").doc(docid)
-                //                 .set({
-                //                     date: date,
-                //                     email: email,
-                //                     firstName: firstName,
-                //                     lastName: lastName,
-                //                     talkName: talkName,
-                //                     universityName: universityName,
-                //                     id: docid,
-                //                 })
-                //                 .then(() => {
-                //                     console.log("Added the attendance");
-                //                     this.setState({
-                //                         openWebCam: true,
-                //                     });
-                //                     this.display();
-                //                 });
-                //             });
-                //         });
-                //     } else {
-                //         this.setState({
-                //             showAlert: true,
-                //         });
-                //     }
-                // }
             }
         }
     };
@@ -243,8 +225,7 @@ class AttendanceMarkingScanner extends Component {
             this.setState({
                 openWebCam: false,
             });
-            localStorage.clear();
-            localStorage.setItem('selectionModal_status', 1);
+            localStorage.removeItem('webCam_status');
         }
 
         if (this.state.openWebCam) {
@@ -276,7 +257,7 @@ class AttendanceMarkingScanner extends Component {
                         <Container fluid className="AttendanceMarking-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
                             <Row>
                                 <Col md={2} style={{paddingRight: 0}}>
-                                    <SideNavBar isMarketing={false}/>
+                                    <SideNavBar isMarketing={this.state.isMarketing}/>
                                 </Col>
 
                                 <Col md={10} style={{paddingLeft: 0}}>
@@ -285,9 +266,11 @@ class AttendanceMarkingScanner extends Component {
                                             <Col md={6} className="text-left" id="AttendanceMarking-firstRowCol">
                                                 <h4 id="AttendanceMarking-title">Attendance Marking Scanner</h4>
                                             </Col>
-                                            <Col md={6} className="text-right" id="AttendanceMarking-firstRowCol">
-                                                <Button id="AttendanceMarking-scannerBtn" onClick={this.handleWebCam}><FontAwesomeIcon size="lg" icon={faQrcode} /><span id="AttendanceMarking-scannerBtnText">Scan</span></Button>
-                                            </Col>
+                                            {this.state.isMarketing === false ? 
+                                                <Col md={6} className="text-right" id="AttendanceMarking-firstRowCol">
+                                                    <Button id="AttendanceMarking-scannerBtn" onClick={this.handleWebCam}><FontAwesomeIcon size="lg" icon={faQrcode} /><span id="AttendanceMarking-scannerBtnText">Scan</span></Button>
+                                                </Col> : ''
+                                            }
                                         </Row>
 
                                         <Row id="AttendanceMarking-secondRow">
@@ -386,10 +369,10 @@ class AttendanceMarkingScanner extends Component {
                 }
 
                 {this.state.showAlert == true ?
-                    <Modal show={this.state.showAlert} onHide={() => this.setState({ showAlert: false })} size="sm" centered backdrop="static" keyboard={false}>
-                        <Alert show={this.state.showAlert} onClose={() => this.setState({ showAlert: false })} dismissible>
+                    <Modal show={this.state.showAlert} onHide={() => [this.setState({ showAlert: false }), localStorage.removeItem('webCam_status')]} size="sm" centered backdrop="static" keyboard={false}>
+                        <Alert show={this.state.showAlert} onClose={() => [this.setState({ showAlert: false }), localStorage.removeItem('webCam_status')]} dismissible>
                             <Alert.Heading>Error Occurred!</Alert.Heading>
-                            <p id="AttendanceMarking-alertFail-data">You have already marked your attendance!</p>
+                            <p id="AttendanceMarking-alertFail-data">Student has already marked his/her attendance!</p>
                         </Alert>
                     </Modal> : ''
                 }

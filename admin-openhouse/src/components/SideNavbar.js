@@ -122,8 +122,8 @@ export default class SideNavBar extends React.Component {
                                     </Nav.Item>
                                 </Nav>
                             </Navbar>
-                        </Container>
-                        :                        
+                        </Container> 
+                        :
                         <Container fluid className="sideNavBar-con">
                             <Navbar bg="dark" className="sideNavBar-container">
                                 <Nav defaultActiveKey="/MAHome" className="sideNavBar-content flex-column">
@@ -133,7 +133,7 @@ export default class SideNavBar extends React.Component {
                                     <div className="border"></div>
                                     <Nav.Item className="sideNavBar-navItems">
                                         <Nav.Link href="/Openhouse" className="sideNavBar-navLinks">Open House Details</Nav.Link>
-                                        <Nav.Link href="/" className="sideNavBar-navLinks">Attendance Taking Scanner</Nav.Link>
+                                        <Nav.Link href="/AttendanceMarkingScanner" onClick={() => [localStorage.clear()]} className="sideNavBar-navLinks">Attendance Taking Scanner</Nav.Link>
                                     </Nav.Item>
                                     <div className="border"></div>
                                     <Nav.Item className="sideNavBar-navItems">
@@ -237,7 +237,7 @@ export default class SideNavBar extends React.Component {
                                     <div className="border"></div>
                                 </Nav>
                             </Navbar>
-                            </Container> 
+                        </Container> 
                     }
                     
 
