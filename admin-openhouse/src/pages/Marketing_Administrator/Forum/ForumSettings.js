@@ -27,11 +27,9 @@ class ForumSettings extends Component {
     authListener() {
         auth.onAuthStateChanged((user) => {
             if (user) {
-        
                 var getrole = db
                 .collection("Administrators")
                 .where("email", "==", user.email);
-
                 getrole.get().then((snapshot) => {
                     snapshot.forEach((doc) => {
                         if (doc.data().administratorType === "Marketing Administrator") {
@@ -48,10 +46,7 @@ class ForumSettings extends Component {
     }
 
     display() {
-    
-        const userRe1 = db
-        .collection("Openhouse")
-        .doc("openhouse")
+        db.collection("Openhouse").doc("openhouse")
         .onSnapshot((snapshot) => {
             if (snapshot.data().disableForum === false) {
                 this.setState({
@@ -106,17 +101,13 @@ class ForumSettings extends Component {
       this.confirmModal = this.state.confirmModal;
   
         if (this.text === "Enable") {
-
             const userRef = db.collection("Openhouse").doc("openhouse");
-    
             userRef.update({
                 disableForum: false,
                 checked: false
             });
         } else {
-    
             const userRef = db.collection("Openhouse").doc("openhouse");
-    
             userRef.update({
                 disableForum: true,
                 checked: true
@@ -156,7 +147,11 @@ class ForumSettings extends Component {
             
                             <Col md={10} style={{ paddingLeft: 0 }}>
                                 <Container fluid id="Forum-topContentContainer">
-                                    <Row id="Forum-firstRow"></Row>
+                                    <Row id="Forum-firstRow">
+                                        <Col md={12} id="Forum-firstRowCol">
+                                            <h4 id="Forum-title">Forum Settings</h4>
+                                        </Col>
+                                    </Row>
                 
                                     <Row id="Forum-secondRow">
                                         <Col md={12} className="text-center" id="Forum-secondRowCol">
@@ -194,29 +189,23 @@ class ForumSettings extends Component {
                         <Modal.Header closeButton></Modal.Header>
                         <Modal.Body>
                             <Row className="justify-content-center">
-                            <Col md={12} className="text-center ForumSettings-switchModalCol">
-                                <FontAwesomeIcon size="3x" icon={faTimesCircle} />
-                            </Col>
+                                <Col md={12} className="text-center ForumSettings-switchModalCol">
+                                    <FontAwesomeIcon size="3x" icon={faTimesCircle} />
+                                </Col>
                             </Row>
             
                             <Row className="justify-content-center">
                                 <Col md={12} className="text-center ForumSettings-switchModalCol">
-                                    <h5 id="ForumSettings-switchText">
-                                        Are you sure you want to {this.state.text} the forum?
-                                    </h5>
+                                    <h5 id="ForumSettings-switchText">Are you sure you want to {this.state.text} the forum?</h5>
                                 </Col>
-                                </Row>
+                            </Row>
                 
-                                <Row className="justify-content-center">
+                            <Row className="justify-content-center">
                                 <Col md={6} className="text-right ForumSettings-switchModalCol">
-                                    <Button id="ForumSettings-switchConfirmBtn" onClick={this.onClickConfirm}>
-                                        Confirm
-                                    </Button>
+                                    <Button id="ForumSettings-switchConfirmBtn" onClick={this.onClickConfirm}>Confirm</Button>
                                 </Col>
                                 <Col md={6} className="text-left ForumFlagged-switchModalCol">
-                                    <Button id="ForumSettings-switchCancelBtn" onClick={this.onClickCancel}>
-                                    Cancel
-                                    </Button>
+                                    <Button id="ForumSettings-switchCancelBtn" onClick={this.onClickCancel}>Cancel</Button>
                                 </Col>
                             </Row>
                         </Modal.Body>

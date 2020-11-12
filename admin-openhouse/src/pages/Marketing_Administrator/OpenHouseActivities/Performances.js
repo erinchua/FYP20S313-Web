@@ -160,7 +160,7 @@ class Performances extends Component {
                         venue: this.state.venue,
                         id: docid,
                     })
-                    .then(dataSnapshot => {
+                    .then(() => {
                         this.setState({
                             addModal: false
                         });
@@ -198,7 +198,7 @@ class Performances extends Component {
                 date: this.state.date,
                 venue: this.state.venue
             })
-            .then(dataSnapshot => {
+            .then(() => {
                 this.setState({
                     editModal: false
                 });

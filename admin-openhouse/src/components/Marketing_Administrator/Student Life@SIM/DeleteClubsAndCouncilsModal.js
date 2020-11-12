@@ -1,4 +1,4 @@
-import { Container, Row, Col, Table, Button, Modal, Form } from 'react-bootstrap';
+import { Row, Col, Table, Button, Modal, Form } from 'react-bootstrap';
 import React, { Component } from "react";
 import { db, storage } from "../../../config/firebase";
 import history from "../../../config/history";
@@ -28,8 +28,8 @@ class DeleteClubsAndCouncilsModal extends Component {
             const store = storage.ref(`/ClubsAndCouncil/${this.props.categoryType}`).child(fileName);
 
             db.collection("ClubsAndCouncils").doc(this.props.id).delete()
-            .then(dataSnapshot => {
-                store.delete().then(dataSnapshot => {
+            .then(() => {
+                store.delete().then(() => {
                     this.props.handleDelete();
                 });
             });
@@ -39,8 +39,8 @@ class DeleteClubsAndCouncilsModal extends Component {
             const store = storage.ref(`/ClubsAndCouncil/${this.props.categoryType}`).child(fileName);
 
             db.collection("ClubsAndCouncils").doc(this.props.id).delete()
-            .then(dataSnapshot => {
-                store.delete().then(dataSnapshot => {
+            .then(() => {
+                store.delete().then(() => {
                     this.props.handleDelete();
                 });
             });

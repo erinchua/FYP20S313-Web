@@ -8,7 +8,6 @@ export default class ViewStudySIMProgDetailsModal extends React.Component {
     super(props);
   }
 
-
   render() {
     return (
       <div>

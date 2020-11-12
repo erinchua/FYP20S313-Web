@@ -140,8 +140,8 @@ class GameActivities extends Component {
         if (isValid) {
             this.setState(initialStates);
 
-            var lastdoc = db.collection("GamesActivities").orderBy('id', 'desc')
-            .limit(1).get().then((snapshot) =>  {
+            db.collection("GamesActivities").orderBy('id', 'desc').limit(1).get()
+            .then((snapshot) =>  {
                 snapshot.forEach((doc) => {
                     var docid= "";
                     var res = doc.data().id.substring(12, 9);
@@ -166,7 +166,7 @@ class GameActivities extends Component {
                         id: docid,
                         boothNumber: this.state.boothNumber,
                     })
-                    .then(dataSnapshot => {
+                    .then(() => {
                         this.setState({
                             addModal: false
                         });
@@ -180,7 +180,7 @@ class GameActivities extends Component {
     //Delete game/activity when click on 'Confirm' button in Delete Modal - Integrated
     DeleteGameActivities(e, gamesActivitiesId) {
         db.collection("GamesActivities").doc(gamesActivitiesId).delete()
-        .then(dataSnapshot => {
+        .then(() => {
             this.setState({
                 deleteModal: false
             });
@@ -195,9 +195,7 @@ class GameActivities extends Component {
         const isValid = this.validate();
         if (isValid) {
             this.setState(initialStates);
-            const userRef = db
-            .collection("GamesActivities")
-            .doc(gamesActivitiesId)
+            db.collection("GamesActivities").doc(gamesActivitiesId)
             .set({
                 id: gamesActivitiesId,
                 gameBoothName: this.state.gameBoothName,
@@ -207,7 +205,7 @@ class GameActivities extends Component {
                 venue: this.state.venue,
                 pointsAward: +this.state.pointsAward,
             })
-            .then(dataSnapshot => {
+            .then(() => {
                 this.setState({
                     editModal: false
                 });

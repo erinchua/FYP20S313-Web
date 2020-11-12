@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal,Button, Col, Row } from 'react-bootstrap';
+import { Modal, Button, Col, Row } from 'react-bootstrap';
 
 import { auth, db } from "../../config/firebase";
 import history from "../../config/history";
@@ -53,4 +53,3 @@ export default class DeleteAnnouncementModal extends React.Component {
         )
     }
 }
-

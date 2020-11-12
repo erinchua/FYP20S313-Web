@@ -30,8 +30,8 @@ export default class DeleteStudySIMProgModal extends React.Component {
 
       db.collection("ProgrammesWeb")
       .doc(this.props.docid).delete()
-      .then(dataSnapshot => {
-          store.delete().then(dataSnapshot => {
+      .then(() => {
+          store.delete().then(() => {
               this.props.handleConfirmDelete();
           });
       }); 
@@ -42,8 +42,8 @@ export default class DeleteStudySIMProgModal extends React.Component {
 
       db.collection("ProgrammesWeb")
       .doc(this.props.docid).delete()
-      .then(dataSnapshot => {
-        store.delete().then(dataSnapshot => {
+      .then(() => {
+        store.delete().then(() => {
             this.props.handleConfirmDelete();
         });
       });

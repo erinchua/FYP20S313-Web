@@ -128,7 +128,7 @@ class AddClubsAndCouncilsModal extends Component {
                         clubsAndCouncilsLogo: this.state.url,
                         id: docid,
                     })
-                    .then(dataSnapshot => {
+                    .then(() => {
                         this.props.handleClose();
                     });
                 })
