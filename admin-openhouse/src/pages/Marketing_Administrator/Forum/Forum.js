@@ -1,4 +1,4 @@
-import { Container, Row, Col, Table, Button } from 'react-bootstrap';
+import { Container, Row, Col, Table } from 'react-bootstrap';
 import React, { Component } from "react";
 import { auth, db } from "../../../config/firebase";
 import history from "../../../config/history";
@@ -7,82 +7,76 @@ import '../../../css/Marketing_Administrator/Forum.css';
 import NavBar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import SideNavBar from '../../../components/SideNavbar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHandPointLeft } from '@fortawesome/free-solid-svg-icons';
 
 class Forum extends Component {
     constructor() {
         super();
         this.state = {
-          firstName: "",
-          lastName: "",
-          email: "",
-          contactNo: "",
-          dob: "",
-          highestQualification: "",
-          nationality: "",
-          isSuspendedFromForum: "",
+            firstName: "",
+            lastName: "",
+            email: "",
+            contactNo: "",
+            dob: "",
+            highestQualification: "",
+            nationality: "",
+            isSuspendedFromForum: "",
         };
-      }
+    }
     
-      authListener() {
+    authListener() {
         auth.onAuthStateChanged((user) => {
-          if (user) {
-    
-            var getrole = db
-              .collection("Administrators")
-              .where("email", "==", user.email);
-            getrole.get().then((snapshot) => {
-              snapshot.forEach((doc) => {
-                if (doc.data().administratorType === "Marketing Administrator") {
-                  this.display();
-                } else {
-                  history.push("/Login");
-                }
-              });
-            });
-          } else {
-            history.push("/Login");
-          }
+            if (user) {
+                var getrole = db
+                .collection("Administrators")
+                .where("email", "==", user.email);
+                getrole.get().then((snapshot) => {
+                    snapshot.forEach((doc) => {
+                        if (doc.data().administratorType === "Marketing Administrator") {
+                            this.display();
+                        } else {
+                            history.push("/Login");
+                        }
+                    });
+                });
+            } else {
+                history.push("/Login");
+            }
         });
-      }
-      updateInput = (e) => {
+    }
+
+    updateInput = (e) => {
         this.setState({
-          [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value,
         });
-      };
-    
-      componentDidMount() {
+    };
+
+    componentDidMount() {
         this.authListener();
-      }
+    }
     
-      display() {
-        var a = this;
-        var counter = 1;
+    display() {
         const userRef = db.collection("Forum");
         const question = [];
+
         userRef.get().then((snapshot) => {
-          snapshot.forEach((doc) => {
-            const questionquery = userRef
-              .doc(doc.id)
-              .collection("Questions")
-              .get()
-              .then((snapshot) => {
-                snapshot.forEach((doc) => {
-                  const data = {
-                    questionid: doc.id,
-                    question: doc.data().entry,
-                    postedby: doc.data().posterName,
-                    datetime: doc.data().dateTime,
-                    noofcomments: doc.data().noOfComments,
-                  };
-                  question.push(data);
+            snapshot.forEach((doc) => {
+                userRef.doc(doc.id).collection("Questions").get()
+                .then((snapshot) => {
+                    snapshot.forEach((doc) => {
+                        const data = {
+                            questionid: doc.id,
+                            question: doc.data().entry,
+                            postedby: doc.data().posterName,
+                            datetime: doc.data().dateTime,
+                            noofcomments: doc.data().noOfComments,
+                        };
+                        question.push(data);
+                    });
+                    this.setState({ questions: question });
                 });
-                this.setState({ questions: question });
-              });
-          });
+            });
         });
-      }
+    }
 
     render() {
         return (

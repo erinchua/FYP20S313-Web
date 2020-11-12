@@ -1,4 +1,4 @@
-import { Navbar, Nav, Accordion, useAccordionToggle, AccordionContext, OverlayTrigger, Tooltip, Container, Modal, Form, Row, Col, Button } from 'react-bootstrap';
+import { Navbar, Nav, Accordion, useAccordionToggle, AccordionContext, OverlayTrigger, Tooltip, Container } from 'react-bootstrap';
 import React, { useContext } from 'react';
 
 import '../css/SideNavBar.css';
@@ -177,7 +177,6 @@ export default class SideNavBar extends React.Component {
                                                         <ContextAwareToggle eventKey="3">Useful Info</ContextAwareToggle>
                                                         <Accordion.Collapse eventKey="3">
                                                             <div>
-                                                                <Nav.Link href="/AdmissionApplication" className="sideNavBar-inner-navLinks">Admission & Application</Nav.Link>
                                                                 <Nav.Link href="/ContactInformation" className="sideNavBar-inner-navLinks">Contact Information</Nav.Link>
                                                                 <Nav.Link href="/OpenHouseFeedback" className="sideNavBar-inner-navLinks">Open House Feedback Form</Nav.Link>
                                                                 <Nav.Link href="/CommonFAQs" className="sideNavBar-inner-navLinks">Common FAQs</Nav.Link>
@@ -240,7 +239,6 @@ export default class SideNavBar extends React.Component {
                         </Container> 
                     }
                     
-
             </div>
         )
     }

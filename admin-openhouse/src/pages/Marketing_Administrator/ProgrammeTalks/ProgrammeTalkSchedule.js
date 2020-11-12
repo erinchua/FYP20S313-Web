@@ -17,507 +17,503 @@ import DeleteProgTalkModal from "../../../components/Marketing_Administrator/Ope
 
 
 const initialStates = {
-  progTalkError: "",
-  venueError: "",
-  capacityLimitError: "",
-  startTimeError: "",
-  endTimeError: "",
-  dateError: "",
-  universityError: "",
-  disciplineError: "",
-  progTalkDetailsError: "",
+    progTalkError: "",
+    venueError: "",
+    capacityLimitError: "",
+    startTimeError: "",
+    endTimeError: "",
+    dateError: "",
+    universityError: "",
+    disciplineError: "",
+    progTalkDetailsError: "",
 }
 
 class ProgrammeTalkSchedule extends Component {
-  state = initialStates;
+    state = initialStates;
 
-  constructor() {
-    super();
-    this.state = {
-      awardingUni: "",
-      capacityLimit: "",
-      date: "",
-      endTime: "",
-      hasRecording: "",
-      isLive: "",
-      noRegistered: "",
-      startTime: "",
-      talkName: "",
-      venue: "",
-      url: "",
-      id: "",
-      details: "",
-      discipline: [],
-      day1: [
-        {
-          docid : "",
-          id: "",
-          talkName: "",
-          awardingUni : "",
-          startTime:  "",     
-          endTime: "",
-          date: "",
-          venue: "",
-          capacityLimit: "",
-          noRegistered: "",
-          hasRecording: "",
-          url : "",
-          isLive: "",
-          details: "",
-          discipline: [],
-          day1_counter: ""
-        }
-      ],
-      day2: [
-        {
-          docid : "",
-          id: "",
-          talkName: "",
-          awardingUni : "",
-          startTime:  "",     
-          endTime: "",
-          date: "",
-          venue: "",
-          capacityLimit: "",
-          noRegistered: "",
-          hasRecording: "",
-          url : "",
-          isLive: "",
-          details: "",
-          discipline: [],
-          day2_counter: ""
-        }
-      ],
-      day1Date: "",
-      day2Date: "",
-      openHouseDay1: "",
-      openHouseDay2: "",
-      progList: [],
+    constructor() {
+        super();
+        this.state = {
+            awardingUni: "",
+            capacityLimit: "",
+            date: "",
+            endTime: "",
+            hasRecording: "",
+            isLive: "",
+            noRegistered: "",
+            startTime: "",
+            talkName: "",
+            venue: "",
+            url: "",
+            id: "",
+            details: "",
+            discipline: [],
+            day1: [
+                {
+                docid : "",
+                id: "",
+                talkName: "",
+                awardingUni : "",
+                startTime:  "",     
+                endTime: "",
+                date: "",
+                venue: "",
+                capacityLimit: "",
+                noRegistered: "",
+                hasRecording: "",
+                url : "",
+                isLive: "",
+                details: "",
+                discipline: [],
+                day1_counter: ""
+                }
+            ],
+            day2: [
+                {
+                docid : "",
+                id: "",
+                talkName: "",
+                awardingUni : "",
+                startTime:  "",     
+                endTime: "",
+                date: "",
+                venue: "",
+                capacityLimit: "",
+                noRegistered: "",
+                hasRecording: "",
+                url : "",
+                isLive: "",
+                details: "",
+                discipline: [],
+                day2_counter: ""
+                }
+            ],
+            day1Date: "",
+            day2Date: "",
+            openHouseDay1: "",
+            openHouseDay2: "",
+            progList: [],
 
-      // University collection
-      uniId: "",
-      universityName: "",
-      uniList: [],
+            // University collection
+            uniId: "",
+            universityName: "",
+            uniList: [],
 
-      // Discipline collection
-      disciplineId: "",
-      disciplineName: "",
-      disciplineList: [],
+            // Discipline collection
+            disciplineId: "",
+            disciplineName: "",
+            disciplineList: [],
 
-      addProgTalkModal: false,
-      editProgTalkModal: false,
-      deleteProgTalkModal: false,
-    };
-    this.resetForm = this.resetForm.bind(this);
-  }
+            addProgTalkModal: false,
+            editProgTalkModal: false,
+            deleteProgTalkModal: false,
+        };
+        this.resetForm = this.resetForm.bind(this);
+    }
 
-  authListener() {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        var getrole = db
-        .collection("Administrators")
-        .where("email", "==", user.email);
-        getrole.get().then((snapshot) => {
-          snapshot.forEach((doc) => {
-            if (doc.data().administratorType === "Marketing Administrator") {
-              this.display();
+    authListener() {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                var getrole = db
+                .collection("Administrators")
+                .where("email", "==", user.email);
+                getrole.get().then((snapshot) => {
+                    snapshot.forEach((doc) => {
+                        if (doc.data().administratorType === "Marketing Administrator") {
+                            this.display();
+                        } else {
+                            history.push("/Login");
+                        }
+                    });
+                });
             } else {
-              history.push("/Login");
-            }
-          });
-        });
-      } else {
-        history.push("/Login");
-      }
-    });
-  }
-
-  updateInput = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  
-  };
-
-  componentDidMount() {
-    this.authListener();
-  }
-
-  display= () => {
-    var getYear = new Date().getFullYear();
-    const progtalk = [];
-
-    // Get All Universities
-    db.collection("Universities").get()
-    .then((snapshot) => {
-      const uni_list = [];
-      snapshot.forEach((doc) => {
-        const data = {
-          docid: doc.id,
-          uniId: doc.data().id,
-          universityName: doc.data().universityName,
-        };
-        uni_list.push(data);
-      });
-      this.setState({ uniList: uni_list });
-    });
-
-    // Get All Disciplines
-    db.collection("Disciplines").get()
-    .then((snapshot) => {
-      const discipline_list = [];
-      snapshot.forEach((doc) => {
-        const data = {
-          docid: doc.id,
-          disciplineId: doc.data().id,
-          disciplineName: doc.data().name
-        };
-        discipline_list.push(data);
-      });
-      this.setState({ disciplineList: discipline_list });
-    });
-
-    // Retrieve Open House Dates from Openhouse Collection
-    const dates = [];
-    db.collection("Openhouse").get()
-    .then((snapshot) => {
-      snapshot.forEach((doc) => {
-        const data = doc.get('day');
-        for (var i = 0; i < Object.keys(data).length; i++) {
-          const retrieved = {
-              date: data[Object.keys(data)[i]].date
-          };
-          dates.push(retrieved)
-        }
-      });
-      this.setState({openHouseDates: dates})
-      this.setState({openHouseDay1: dates[0].date}) // Use date from OpenHouse  
-      this.setState({openHouseDay2: dates[1].date}) // Use date from OpenHouse       
-      var day1_counter = 1;
-
-      const day1  = db
-      .collection("ProgrammeTalks").where("date", "==", dates[0].date)
-      .get()
-      .then((snapshot) => {
-        const progtalk = [];
-        snapshot.forEach((doc) => {
-          const data = {
-            docid: doc.id,
-            id: doc.data().id,
-            talkName: doc.data().talkName,
-            date: doc.data().date,
-            awardingUni: doc.data().awardingUni,
-            startTime: doc.data().startTime,     
-            endTime: doc.data().endTime,
-            venue: doc.data().venue,
-            capacityLimit: doc.data().capacityLimit.toString(),
-            noRegistered: doc.data().noRegistered.toString(),
-            hasRecording: doc.data().hasRecording.toString(),
-            url: doc.data().url,
-            isLive: doc.data().isLive.toString(),
-            details: doc.data().details,
-            discipline: doc.data().discipline,
-            day1_counter: day1_counter,
-          };
-            day1_counter++;
-            if(!doc.data().isLive && !doc.data().hasRecording) {
-              progtalk.push(data)
+                history.push("/Login");
             }
         });
-        this.setState({ day1: progtalk });
-        this.setState({ day1Date: progtalk[0].date}) 
-        this.setState({ openHouseDay1: dates[0].date}) // Use date from OpenHouse
-      });
-
-      //day 2
-      var day2_counter = 1
-
-      const day2  = db
-      .collection("ProgrammeTalks").where("date", "==", dates[1].date)
-      .get()
-      .then((snapshot) => {
-        const progtalk = [];
-        snapshot.forEach((doc) => {
-          const data = {
-            docid: doc.id,
-            id: doc.data().id,
-            talkName:doc.data().talkName,
-            awardingUni: doc.data().awardingUni,
-            startTime:  doc.data().startTime,     
-            endTime: doc.data().endTime,
-            date: doc.data().date,
-            venue: doc.data().venue,
-            capacityLimit: doc.data().capacityLimit.toString(),
-            noRegistered: doc.data().noRegistered.toString(),
-            hasRecording: doc.data().hasRecording.toString(),
-            url: doc.data().url,
-            isLive: doc.data().isLive.toString(),
-            details: doc.data().details,
-            discipline: doc.data().discipline,
-            day2_counter: day2_counter,
-          };
-          day2_counter++;
-          if(!doc.data().isLive && !doc.data().hasRecording) {
-            progtalk.push(data)
-          }        
-        });
-        this.setState({ day2: progtalk });   
-        this.setState({ day2Date: progtalk[0].date}) 
-        this.setState({ openHouseDay2: dates[1].date}) // Use date from OpenHouse
-      });
-    })
-  }
-
-  addProgrammeTalk = (e) => { 
-    e.preventDefault();
-
-    const isValid = this.validate();
-    if (isValid) {
-      this.setState(initialStates);
-      
-      var lastdoc = db.collection("ProgrammeTalks").orderBy('id','desc')
-      .limit(1).get().then((snapshot) =>  {
-        snapshot.forEach((doc) => {
-          var docid= "";
-          var res = doc.data().id.substring(8, 5);
-          var id = parseInt(res);
-          id += 1
-
-          if(id.toString().length == 1){
-            docid= "talk-00" + (id) 
-          }
-          else if(id.toString().length == 2){
-            docid= "talk-0" + (id) 
-            }
-          else{
-            docid="talk-" + (id) 
-          }
-
-          db
-          .collection("ProgrammeTalks")
-          .doc(docid)
-          .set({
-            awardingUni: this.state.awardingUni,
-            capacityLimit: +this.state.capacityLimit,
-            date: this.state.date,
-            endTime: this.state.endTime,
-            hasRecording: false,
-            isLive: false,
-            noRegistered: +this.state.noRegistered,
-            startTime: this.state.startTime,
-            talkName: this.state.talkName,
-            venue: this.state.venue,
-            url: this.state.url,
-            id: docid,
-            details: this.state.details,
-            discipline: this.state.discipline,
-          })
-          .then(dataSnapshot => {
-            this.display();
-            this.setState({addProgTalkModal: false}); 
-          }); 
-        })
-      })
     }
-  };
 
-  DeleteProgrammeTalk(e, progtalkid) {
-    const userRef = db
-    .collection("ProgrammeTalks")
-    .doc(progtalkid)
-    .delete()
-    .then(dataSnapshot => {
-      this.display();
-      this.setState({deleteProgTalkModal: false}); 
-    });
-  }
-
-  editProgTalk() {
-    const isValid = this.validate();
-    if (isValid) {
-      this.setState(initialStates);
-
-      db
-      .collection("ProgrammeTalks")
-      .doc(this.state.id)
-      .update({
-          awardingUni: this.state.awardingUni,
-          endTime: this.state.endTime,
-          startTime: this.state.startTime,
-          talkName: this.state.talkName,
-          venue: this.state.venue,
-          capacityLimit: +this.state.capacityLimit,
-          date: this.state.date,
-          details: this.state.details,
-          discipline: this.state.discipline
-      })
-      .then(dataSnapshot => {
+    updateInput = (e) => {
         this.setState({
-          editProgTalkModal: false
+            [e.target.name]: e.target.value,
+        });
+    
+    };
+
+    componentDidMount() {
+        this.authListener();
+    }
+
+    display= () => {
+            // Get All Universities
+            db.collection("Universities").get()
+            .then((snapshot) => {
+                const uni_list = [];
+                snapshot.forEach((doc) => {
+                    const data = {
+                        docid: doc.id,
+                        uniId: doc.data().id,
+                        universityName: doc.data().universityName,
+                    };
+                    uni_list.push(data);
+                });
+                this.setState({ uniList: uni_list });
+            });
+
+            // Get All Disciplines
+            db.collection("Disciplines").get()
+            .then((snapshot) => {
+                const discipline_list = [];
+                snapshot.forEach((doc) => {
+                    const data = {
+                        docid: doc.id,
+                        disciplineId: doc.data().id,
+                        disciplineName: doc.data().name
+                    };
+                    discipline_list.push(data);
+                });
+                this.setState({ disciplineList: discipline_list });
+            });
+
+            // Retrieve Open House Dates from Openhouse Collection
+        const dates = [];
+        db.collection("Openhouse").get()
+        .then((snapshot) => {
+            snapshot.forEach((doc) => {
+                const data = doc.get('day');
+                for (var i = 0; i < Object.keys(data).length; i++) {
+                const retrieved = {
+                    date: data[Object.keys(data)[i]].date
+                };
+                dates.push(retrieved)
+                }
+            });
+            this.setState({openHouseDates: dates})
+            this.setState({openHouseDay1: dates[0].date}) // Use date from OpenHouse  
+            this.setState({openHouseDay2: dates[1].date}) // Use date from OpenHouse       
+            var day1_counter = 1;
+
+            db
+            .collection("ProgrammeTalks").where("date", "==", dates[0].date)
+            .get()
+            .then((snapshot) => {
+                const progtalk = [];
+                snapshot.forEach((doc) => {
+                const data = {
+                    docid: doc.id,
+                    id: doc.data().id,
+                    talkName: doc.data().talkName,
+                    date: doc.data().date,
+                    awardingUni: doc.data().awardingUni,
+                    startTime: doc.data().startTime,     
+                    endTime: doc.data().endTime,
+                    venue: doc.data().venue,
+                    capacityLimit: doc.data().capacityLimit.toString(),
+                    noRegistered: doc.data().noRegistered.toString(),
+                    hasRecording: doc.data().hasRecording.toString(),
+                    url: doc.data().url,
+                    isLive: doc.data().isLive.toString(),
+                    details: doc.data().details,
+                    discipline: doc.data().discipline,
+                    day1_counter: day1_counter,
+                };
+                    day1_counter++;
+                    if(!doc.data().isLive && !doc.data().hasRecording) {
+                    progtalk.push(data)
+                    }
+                });
+                this.setState({ day1: progtalk });
+                this.setState({ day1Date: progtalk[0].date}) 
+                this.setState({ openHouseDay1: dates[0].date}) // Use date from OpenHouse
+            });
+
+            //day 2
+            var day2_counter = 1
+
+            db
+            .collection("ProgrammeTalks").where("date", "==", dates[1].date)
+            .get()
+            .then((snapshot) => {
+                const progtalk = [];
+                snapshot.forEach((doc) => {
+                    const data = {
+                        docid: doc.id,
+                        id: doc.data().id,
+                        talkName:doc.data().talkName,
+                        awardingUni: doc.data().awardingUni,
+                        startTime:  doc.data().startTime,     
+                        endTime: doc.data().endTime,
+                        date: doc.data().date,
+                        venue: doc.data().venue,
+                        capacityLimit: doc.data().capacityLimit.toString(),
+                        noRegistered: doc.data().noRegistered.toString(),
+                        hasRecording: doc.data().hasRecording.toString(),
+                        url: doc.data().url,
+                        isLive: doc.data().isLive.toString(),
+                        details: doc.data().details,
+                        discipline: doc.data().discipline,
+                        day2_counter: day2_counter,
+                    };
+                    day2_counter++;
+                    if(!doc.data().isLive && !doc.data().hasRecording) {
+                        progtalk.push(data)
+                    }        
+                });
+                this.setState({ day2: progtalk });   
+                this.setState({ day2Date: progtalk[0].date}) 
+                this.setState({ openHouseDay2: dates[1].date}) // Use date from OpenHouse
+            });
         })
-        this.display()
-      }); 
-    }
-  }
-
-  /* Checkbox - Discipline */
-  handleCheckbox = (event) => {
-    let disciplineArray = this.state.discipline
-    if (disciplineArray.includes(event.target.value)) {
-      disciplineArray = disciplineArray.filter(discipline => discipline !== event.target.value)
-    } else {
-      disciplineArray.push(event.target.value);
-    }
-    this.setState({discipline: disciplineArray});
-  }
-
-  /* Add Programme Talk Modal */
-  handleAddProgTalkModal = () => {
-    if (this.state.addProgTalkModal == false) {
-      this.setState({
-        addProgTalkModal: true,
-        discipline: []
-      });
-    }
-    else {
-      this.setState({
-        addProgTalkModal: false
-      });
-      this.resetForm();
-    }
-  };
-
-  /* Edit Programme Talk Modal */
-  handleEditProgTalkModal = (day) => {
-    if (this.state.editProgTalkModal == false) {
-      this.setState({
-        id: day.id,
-        editProgTalkModal: true,
-        awardingUni: day.awardingUni,
-        capacityLimit: day.capacityLimit,
-        date: day.date,
-        endTime: day.endTime,
-        hasRecording: day.hasRecording,
-        isLive: day.isLive,
-        noRegistered: day.noRegistered,
-        startTime: day.startTime,
-        talkName: day.talkName,
-        venue: day.venue,
-        url: day.url,
-        details: day.details,
-        discipline: day.discipline
-      })
-    }
-    else {
-      this.setState({
-        editProgTalkModal: false
-      });
-      this.resetForm();
-    }
-  };
-
-  /* Delete Programme Talk Modal */
-  handleDeleteProgTalkModal = (id) => {
-    if (this.state.deleteProgTalkModal == false) {
-      this.setState({
-        deleteProgTalkModal: true,
-      });
-      this.state.id = id;
-    }
-    else {
-      this.setState({
-        deleteProgTalkModal: false
-      });
-    }
-  };
-
-  //Validations for the Forms in Modals
-  validate = () => {
-    let progTalkError = "";
-    let venueError = "";
-    let capacityLimitError = "";
-    let startTimeError = "";
-    let endTimeError = "";
-    let dateError = "";
-    let universityError = "";
-    let disciplineError = ""
-    let progTalkDetailsError = "";
-
-    const validCapacityLimit = RegExp(/^[0-9]+$/);
-
-    if ( !(this.state.talkName && this.state.talkName.length >= 4) ) {
-      progTalkError = "Please enter a valid programme talk name!";
-    } 
-
-    if (! (this.state.venue && this.state.venue.length >= 3) ) {
-      venueError = "Please enter a valid venue. E.g. SIM HQ BLK A Atrium!";
     }
 
-    if (! (this.state.capacityLimit && validCapacityLimit.test(this.state.capacityLimit)) ) {
-      capacityLimitError = "Please enter a valid capacity limit!";
+    addProgrammeTalk = (e) => { 
+        e.preventDefault();
+
+        const isValid = this.validate();
+        if (isValid) {
+            this.setState(initialStates);
+            
+            db.collection("ProgrammeTalks").orderBy('id','desc')
+            .limit(1).get().then((snapshot) =>  {
+                snapshot.forEach((doc) => {
+                    var docid= "";
+                    var res = doc.data().id.substring(8, 5);
+                    var id = parseInt(res);
+                    id += 1
+
+                    if(id.toString().length == 1){
+                        docid= "talk-00" + (id) 
+                    }
+                    else if(id.toString().length == 2){
+                        docid= "talk-0" + (id) 
+                        }
+                    else{
+                        docid="talk-" + (id) 
+                    }
+
+                    db
+                    .collection("ProgrammeTalks")
+                    .doc(docid)
+                    .set({
+                        awardingUni: this.state.awardingUni,
+                        capacityLimit: +this.state.capacityLimit,
+                        date: this.state.date,
+                        endTime: this.state.endTime,
+                        hasRecording: false,
+                        isLive: false,
+                        noRegistered: +this.state.noRegistered,
+                        startTime: this.state.startTime,
+                        talkName: this.state.talkName,
+                        venue: this.state.venue,
+                        url: this.state.url,
+                        id: docid,
+                        details: this.state.details,
+                        discipline: this.state.discipline,
+                    })
+                    .then(() => {
+                        this.display();
+                        this.setState({addProgTalkModal: false}); 
+                    }); 
+                });
+            });
+        }
+    };
+
+    DeleteProgrammeTalk(e, progtalkid) {
+        db
+        .collection("ProgrammeTalks")
+        .doc(progtalkid)
+        .delete()
+        .then(() => {
+            this.display();
+            this.setState({deleteProgTalkModal: false}); 
+        });
     }
 
-    if ( !(this.state.startTime.includes(":") && (this.state.startTime.includes("AM") || this.state.startTime.includes("PM"))) ) {
-      startTimeError = "Please enter a valid start time. E.g. 1:30PM";
+    editProgTalk() {
+        const isValid = this.validate();
+        if (isValid) {
+            this.setState(initialStates);
+
+            db
+            .collection("ProgrammeTalks")
+            .doc(this.state.id)
+            .update({
+                awardingUni: this.state.awardingUni,
+                endTime: this.state.endTime,
+                startTime: this.state.startTime,
+                talkName: this.state.talkName,
+                venue: this.state.venue,
+                capacityLimit: +this.state.capacityLimit,
+                date: this.state.date,
+                details: this.state.details,
+                discipline: this.state.discipline
+            })
+            .then(() => {
+                this.setState({
+                    editProgTalkModal: false
+                })
+                this.display()
+            }); 
+        }
     }
 
-    if ( !(this.state.endTime.includes(":") && (this.state.endTime.includes("AM") || this.state.endTime.includes("PM"))) ) {
-      endTimeError = "Please enter a valid end time. E.g. 2:30PM";
+    /* Checkbox - Discipline */
+    handleCheckbox = (event) => {
+        let disciplineArray = this.state.discipline
+        if (disciplineArray.includes(event.target.value)) {
+            disciplineArray = disciplineArray.filter(discipline => discipline !== event.target.value)
+        } else {
+            disciplineArray.push(event.target.value);
+        }
+        this.setState({discipline: disciplineArray});
     }
 
-    if (!this.state.date) {
-      dateError = "Please select a valid date!";
+    /* Add Programme Talk Modal */
+    handleAddProgTalkModal = () => {
+        if (this.state.addProgTalkModal == false) {
+            this.setState({
+                addProgTalkModal: true,
+                discipline: []
+            });
+        }
+        else {
+            this.setState({
+                addProgTalkModal: false
+            });
+            this.resetForm();
+        }
+    };
+
+    /* Edit Programme Talk Modal */
+    handleEditProgTalkModal = (day) => {
+        if (this.state.editProgTalkModal == false) {
+            this.setState({
+                id: day.id,
+                editProgTalkModal: true,
+                awardingUni: day.awardingUni,
+                capacityLimit: day.capacityLimit,
+                date: day.date,
+                endTime: day.endTime,
+                hasRecording: day.hasRecording,
+                isLive: day.isLive,
+                noRegistered: day.noRegistered,
+                startTime: day.startTime,
+                talkName: day.talkName,
+                venue: day.venue,
+                url: day.url,
+                details: day.details,
+                discipline: day.discipline
+            })
+        }
+        else {
+            this.setState({
+                editProgTalkModal: false
+            });
+            this.resetForm();
+        }
+    };
+
+    /* Delete Programme Talk Modal */
+    handleDeleteProgTalkModal = (id) => {
+        if (this.state.deleteProgTalkModal == false) {
+            this.setState({
+                deleteProgTalkModal: true,
+            });
+            this.state.id = id;
+        }
+        else {
+            this.setState({
+                deleteProgTalkModal: false
+            });
+        }
+    };
+
+    //Validations for the Forms in Modals
+    validate = () => {
+        let progTalkError = "";
+        let venueError = "";
+        let capacityLimitError = "";
+        let startTimeError = "";
+        let endTimeError = "";
+        let dateError = "";
+        let universityError = "";
+        let disciplineError = ""
+        let progTalkDetailsError = "";
+
+        const validCapacityLimit = RegExp(/^[0-9]+$/);
+
+        if ( !(this.state.talkName && this.state.talkName.length >= 4) ) {
+            progTalkError = "Please enter a valid programme talk name!";
+        } 
+
+        if (! (this.state.venue && this.state.venue.length >= 3) ) {
+            venueError = "Please enter a valid venue. E.g. SIM HQ BLK A Atrium!";
+        }
+
+        if (! (this.state.capacityLimit && validCapacityLimit.test(this.state.capacityLimit)) ) {
+            capacityLimitError = "Please enter a valid capacity limit!";
+        }
+
+        if ( !(this.state.startTime.includes(":") && (this.state.startTime.includes("AM") || this.state.startTime.includes("PM"))) ) {
+            startTimeError = "Please enter a valid start time. E.g. 1:30PM";
+        }
+
+        if ( !(this.state.endTime.includes(":") && (this.state.endTime.includes("AM") || this.state.endTime.includes("PM"))) ) {
+            endTimeError = "Please enter a valid end time. E.g. 2:30PM";
+        }
+
+        if (!this.state.date) {
+            dateError = "Please select a valid date!";
+        }
+
+        if (!this.state.awardingUni) {
+            universityError = "Please select a valid university!";
+        }
+
+        if (this.state.discipline.length == 0) {
+            disciplineError = "Please select at least 1 discipline!";
+        }
+
+        if ( !(this.state.details && this.state.details.length >= 1) ) {
+            progTalkDetailsError = "Please enter valid programme talk details!";
+        }
+
+        if (progTalkError || venueError || capacityLimitError || startTimeError || endTimeError || dateError 
+        || universityError || disciplineError || progTalkDetailsError) {
+            this.setState({
+                progTalkError, venueError, capacityLimitError, startTimeError, endTimeError, dateError, universityError,
+                disciplineError, progTalkDetailsError
+            });
+            return false;
+        } 
+
+        return true;
     }
 
-    if (!this.state.awardingUni) {
-      universityError = "Please select a valid university!";
+    //Reset Forms
+    resetForm = () => {
+        this.setState({
+            progTalkError: "",
+            venueError: "",
+            capacityLimitError: "",
+            startTimeError: "",
+            endTimeError: "",
+            dateError: "",
+            universityError: "",
+            disciplineError: "",
+            progTalkDetailsError: "",
+            id: "", 
+            talkName: "", 
+            venue: "", 
+            capacityLimit: "", 
+            startTime: "", 
+            endTime: "", 
+            date: "", 
+            awardingUni: "",
+            discipline: [],
+            details: ""
+        })
     }
-
-    if (this.state.discipline.length == 0) {
-      disciplineError = "Please select at least 1 discipline!";
-    }
-
-    if ( !(this.state.details && this.state.details.length >= 1) ) {
-      progTalkDetailsError = "Please enter valid programme talk details!";
-    }
-
-    if (progTalkError || venueError || capacityLimitError || startTimeError || endTimeError || dateError 
-    || universityError || disciplineError || progTalkDetailsError) {
-      this.setState({
-        progTalkError, venueError, capacityLimitError, startTimeError, endTimeError, dateError, universityError,
-        disciplineError, progTalkDetailsError
-      });
-      return false;
-    } 
-
-    return true;
-  }
-
-  //Reset Forms
-  resetForm = () => {
-    this.setState({
-      progTalkError: "",
-      venueError: "",
-      capacityLimitError: "",
-      startTimeError: "",
-      endTimeError: "",
-      dateError: "",
-      universityError: "",
-      disciplineError: "",
-      progTalkDetailsError: "",
-      id: "", 
-      talkName: "", 
-      venue: "", 
-      capacityLimit: "", 
-      startTime: "", 
-      endTime: "", 
-      date: "", 
-      awardingUni: "",
-      discipline: [],
-      details: ""
-    })
-  }
-
 
   render() {
     return (

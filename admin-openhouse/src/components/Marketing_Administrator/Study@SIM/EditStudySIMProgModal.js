@@ -371,7 +371,7 @@ export default class EditStudySIMProgModal extends React.Component {
             aboutProgramme3: parentthis.state.aboutprogramme3.toString()
           }
         })
-        .then(dataSnapshot => {
+        .then(() => {
           this.props.handleSaveChanges();
         });
       }
@@ -432,7 +432,7 @@ export default class EditStudySIMProgModal extends React.Component {
             aboutProgramme3: parentthis.state.aboutprogramme3.toString()
           }
         })
-        .then(dataSnapshot => {
+        .then(() => {
           this.props.handleSaveChanges();
         });
       }

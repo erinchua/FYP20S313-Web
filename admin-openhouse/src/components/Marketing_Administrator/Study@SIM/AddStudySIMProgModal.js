@@ -380,7 +380,7 @@ export default class AddStudySIMProgModal extends React.Component {
                   aboutProgramme2: parentthis.state.aboutprogramme2.toString()
                 }
               })
-              .then(dataSnapshot => {
+              .then(() => {
                 this.props.handleAdd();
               });
 

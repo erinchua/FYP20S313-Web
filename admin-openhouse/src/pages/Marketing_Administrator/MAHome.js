@@ -11,71 +11,60 @@ import Chart from 'react-google-charts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSyncAlt, faMobileAlt, faSchool, faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons';
 
-
-
 class MAHome extends Component {
     constructor() {
         super();
         // this.logout = this.logout.bind(this);
         this.state = {
-          numbers: 223,
+            numbers: 223,
         };
-      }
+    }
 
-      authListener() {
+    authListener() {
         auth.onAuthStateChanged((user) => {
-          if (user) {
-    
-            var getrole = db
-              .collection("Administrators")
-              .where("email", "==", user.email);
-            getrole.get().then((snapshot) => {
-              snapshot.forEach((doc) => {
-                if (doc.data().administratorType === "Marketing Administrator") {
-                  this.display();
-                } else {
-                  history.push("/Login");
-                }
-              });
-            });
-          } else {
-            history.push("/Login");
-          }
+            if (user) {
+                var getrole = db
+                .collection("Administrators")
+                .where("email", "==", user.email);
+                getrole.get().then((snapshot) => {
+                    snapshot.forEach((doc) => {
+                        if (doc.data().administratorType === "Marketing Administrator") {
+                            this.display();
+                        } else {
+                            history.push("/Login");
+                        }
+                    });
+                });
+            } else {
+                history.push("/Login");
+            }
         });
-      }
+    }
 
-      componentDidMount() {
+    componentDidMount() {
         this.authListener();
-      }
-      display() {
-        var counter = 0;
-        const registeredstudentsquery = db
-          .collection("Students")
-          .onSnapshot((snapshot) => {
-            console.log(snapshot.size);
-            this.setState({ registeredstudents: snapshot.size });
-          });
+    }
 
-          const attendancequery = db
-          .collection("Attendance")
-          
-          .onSnapshot((snapshot) => {
-            console.log(snapshot.size);
+    display() {
+        db.collection("Students")
+        .onSnapshot((snapshot) => {
+            this.setState({ registeredstudents: snapshot.size });
+        });
+
+        db.collection("Attendance")
+        .onSnapshot((snapshot) => {
             this.setState({ attendanceregistered: snapshot.size });
-          });
-    
-        const programtalkquery = db
-          .collection("ProgrammeTalks")
-          .onSnapshot((snapshot) => {
+        });
+
+        db.collection("ProgrammeTalks")
+        .onSnapshot((snapshot) => {
             var counter = 0;
             snapshot.forEach((doc) => {
-              counter = counter + doc.data().noRegistered;
+                counter = counter + doc.data().noRegistered;
             });
-            console.log(counter);
             this.setState({ programtalkregisterd: counter });
-          });
-
-      }
+        });
+    }
 
     render() {
         return (
@@ -137,11 +126,12 @@ class MAHome extends Component {
                                         <Row id="MAHome-fourthRow">
                                             <Col md={12}>
                                                 <Chart id="MAHome-fourthChart" height="45vh" chartType="BarChart" data={[
-    ["Label", "Total Number of Participants", { role: "style" }],
-    ["Total number of registered prospective students for the open house mobile application", this.state.registeredstudents, "color: #deecfc"],
-    ["Total number of prospective student actual turn-ups for open house programme talks", this.state.attendanceregistered, "color: #b9ceeb"],
-    ["Total number of registrations for open house programme talks (through mobile application)", this.state.programtalkregisterd, "color: #87a8d0"],
-]} options={{legend: "none", vAxis: {textStyle: {fontSize: 8.5}}}}/>
+                                                        ["Label", "Total Number of Participants", { role: "style" }],
+                                                        ["Total number of registered prospective students for the open house mobile application", +this.state.registeredstudents, "color: #deecfc"],
+                                                        ["Total number of prospective student actual turn-ups for open house programme talks", +this.state.attendanceregistered, "color: #b9ceeb"],
+                                                        ["Total number of registrations for open house programme talks (through mobile application)", +this.state.programtalkregisterd, "color: #87a8d0"],
+                                                    ]} options={{legend: "none", vAxis: {textStyle: {fontSize: 8.5}}}}
+                                                />
                                             </Col>
                                         </Row>
                                     </Container>
@@ -155,7 +145,6 @@ class MAHome extends Component {
             </div>
         )
     }
-
 }
 
 export default MAHome;

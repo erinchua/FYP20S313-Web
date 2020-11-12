@@ -151,7 +151,7 @@ class Prizes extends Component {
                         stock: +this.state.stock,
                         id: docid,
                     })
-                    .then(dataSnapshot => {
+                    .then(() => {
                         this.setState({
                             addModal: false,
                         });
@@ -165,7 +165,7 @@ class Prizes extends Component {
     //Delete prize when click on 'Confirm' button in Delete Modal - Integrated
     DeletePrize(e, prizeId) {
         db.collection("Prizes").doc(prizeId).delete()
-        .then(dataSnapshot => {
+        .then(() => {
             this.setState({
                 deleteModal: false
             });
@@ -188,7 +188,7 @@ class Prizes extends Component {
                 stock: +this.state.stock,
                 id: prizeId,
             })
-            .then(dataSnapshot => {
+            .then(() => {
                 this.setState({
                     editModal: false
                 });
@@ -216,7 +216,7 @@ class Prizes extends Component {
                             "day.1.date": this.state.date,
                             "day.1.venue": this.state.venue,
                         })
-                        .then(dataSnapshot => {
+                        .then(() => {
                             this.setState ({
                                 editVenueModal: false
                             });
@@ -239,7 +239,7 @@ class Prizes extends Component {
                             "day.2.date": this.state.date,
                             "day.2.venue": this.state.venue,
                         })
-                        .then(dataSnapshot => {
+                        .then(() => {
                             this.setState ({
                                 editVenueModal: false
                             });

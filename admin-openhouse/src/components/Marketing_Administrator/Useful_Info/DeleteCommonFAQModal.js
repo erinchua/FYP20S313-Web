@@ -53,4 +53,3 @@ export default class DeleteCommonFAQModal extends React.Component {
         )
     }
 }
-
