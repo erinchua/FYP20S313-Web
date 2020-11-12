@@ -159,7 +159,7 @@ class AttendanceMarkingScanner extends Component {
 
                 await db.collection("Attendance").orderBy("id", "desc").limit(1).get()
                 .then((snapshot) => {
-                    snapshot.forEach((doc) => {
+                    snapshot.forEach(async (doc) => {
                         var docid = "";
                         var res = doc.data().id.substring(11);
                         var id = parseInt(res);
@@ -174,14 +174,14 @@ class AttendanceMarkingScanner extends Component {
                         }
 
                         //Check if attendee existed in a progTalk
-                        const attendee = db.collection("Attendance").where("talkName", "==", talkName).where("email", "==", email).get()
+                        const attendee = await db.collection("Attendance").where("talkName", "==", talkName).where("email", "==", email).get()
                         if (!attendee.empty) {
                             this.setState({
                                 showAlert: true,
                             });
                             return
                         } else {
-                            db.collection("Attendance").doc(docid)
+                            await db.collection("Attendance").doc(docid)
                             .set({
                                 date: date,
                                 email: email,
