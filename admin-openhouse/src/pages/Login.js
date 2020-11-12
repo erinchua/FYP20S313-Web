@@ -59,7 +59,6 @@ class Login extends Component {
                     .where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
                     if (snapshot.empty) {
-                        console.log("No such user!");
                         this.setState({ showAlert: true });
                     } else {
                         snapshot.forEach((doc) => {
@@ -90,13 +89,11 @@ class Login extends Component {
     superauthListener() {
         auth.onAuthStateChanged((user) => {
             if (user) {
-                console.log(user.email)
                 var getrole = db
                     .collection("Administrators")
                     .where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
                     if (snapshot.empty) {
-                        console.log("No such user!");
                         this.setState({ showAlert: true });
                     } else {
                         snapshot.forEach((doc) => {
@@ -132,7 +129,6 @@ class Login extends Component {
                     .where("email", "==", user.email);
                 getrole.get().then((snapshot) => {
                     if (snapshot.empty) {
-                        console.log("No such user!");
                         this.setState({ showAlert: true });
                     } else {
                         snapshot.forEach((doc) => {
@@ -257,7 +253,6 @@ class Login extends Component {
         auth
         .signInWithEmailAndPassword(this.state.email, this.state.password)
         .then((u) => {
-           console.log(accounttype)
             if (accounttype === "marketing") {
                 this.marketingauthListener();
             } else if (accounttype === "super") {
@@ -269,7 +264,6 @@ class Login extends Component {
         .catch((error) => {
             //Alert box for login failure
             this.setState({ showAlert: true });
-            console.log("Login Failure");
         });
     }
 

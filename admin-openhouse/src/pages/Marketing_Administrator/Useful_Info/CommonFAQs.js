@@ -110,7 +110,6 @@ class CommonFAQs extends Component {
       });
       this.setState({ faqTypeList: faqTypeList });
       var filteredFAQType = faqTypeList.filter(onlyUnique);
-      console.log("Hello: " + filteredFAQType)
 
       this.setState({ 
         commonfaq_openhouse: commonfaq_openhouse,

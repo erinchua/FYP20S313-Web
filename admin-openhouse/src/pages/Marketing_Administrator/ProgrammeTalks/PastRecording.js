@@ -142,8 +142,6 @@ class PastRecording extends Component {
 
   display= () => {
     var getYear = new Date().getFullYear();
-    console.log(getYear);
-    
     const pastrecording = [];
 
     // Get All Universities

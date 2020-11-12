@@ -274,7 +274,6 @@ class SIMGEBursary extends Component {
                     description: this.state.valueDescription
                 })
                 .then(() => {
-                    console.log("Updated Description for Value and Tenure of Bursary!");
                     this.setState({
                         valueTenureEditModal: false
                     });
@@ -297,7 +296,6 @@ class SIMGEBursary extends Component {
                     .update({
                         content: firebase.firestore.FieldValue.arrayUnion(this.state.eligibilityContent)
                     }).then(() => {
-                        console.log("Updated Eligibility Content!");
                         this.setState({
                             eligibilityEditModal: false,
                         });
@@ -317,7 +315,6 @@ class SIMGEBursary extends Component {
                     description: this.state.repaymentDescription
                 })
                 .then(() => {
-                    console.log("Updated Description for Repayment!");
                     this.setState({
                         repaymentEditModal: false
                     });
@@ -337,7 +334,6 @@ class SIMGEBursary extends Component {
                     steps: this.state.applySteps
                 })
                 .then(() => {
-                    console.log("Updated How to Apply!");
                     this.setState({
                         howToApplyEditModal: false
                     });
@@ -370,7 +366,6 @@ class SIMGEBursary extends Component {
                         })
                     })
                     .then(() => {
-                        console.log("Updated How to Apply's Content!");
                         this.setState({
                             howToApplyContentEditModal: false
                         });
@@ -390,7 +385,6 @@ class SIMGEBursary extends Component {
                     simPdpaPolicy: this.state.supportDocsSimPdpaPolicy
                 })
                 .then(() => {
-                    console.log("Updated Required Supporting Documents' SIM PDPA Policy!");
                     this.setState({
                         supportingDocsEditModal: false
                     });
@@ -425,7 +419,6 @@ class SIMGEBursary extends Component {
                     .update({
                         content: firebase.firestore.FieldValue.arrayUnion(current)
                     }).then(() => {
-                        console.log("Updated Required Supporting Documents!");
                         this.setState({
                             supportingDocsContentEditModal: false,
                         });
@@ -450,7 +443,6 @@ class SIMGEBursary extends Component {
                         content: firebase.firestore.FieldValue.arrayUnion(this.state.noteContent)
                     })
                     .then(() => {
-                        console.log("Updated Thing to Note's Content!");
                         this.setState({
                             thingsToNoteEditModal: false
                         });
@@ -470,7 +462,6 @@ class SIMGEBursary extends Component {
                     email: this.state.contactInfoEmail
                 })
                 .then(() => {
-                    console.log("Updated Contact Information's Email!");
                     this.setState({
                         contactInfoEditModal: false
                     });

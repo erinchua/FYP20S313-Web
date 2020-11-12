@@ -29,9 +29,7 @@ class DeleteClubsAndCouncilsModal extends Component {
 
             db.collection("ClubsAndCouncils").doc(this.props.id).delete()
             .then(dataSnapshot => {
-                console.log("Deleted the Club/Council");
                 store.delete().then(dataSnapshot => {
-                    console.log("Deleted Image in Storage");
                     this.props.handleDelete();
                 });
             });
@@ -42,9 +40,7 @@ class DeleteClubsAndCouncilsModal extends Component {
 
             db.collection("ClubsAndCouncils").doc(this.props.id).delete()
             .then(dataSnapshot => {
-                console.log("Deleted the Club/Council");
                 store.delete().then(dataSnapshot => {
-                    console.log("Deleted Image in Storage");
                     this.props.handleDelete();
                 });
             });

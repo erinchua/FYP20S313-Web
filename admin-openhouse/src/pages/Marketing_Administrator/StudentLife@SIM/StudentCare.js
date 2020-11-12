@@ -17,7 +17,6 @@ async function savePicture(blobURL, imageName) {
     const blob = await response.blob(); //fetch blob object
     const snapshot = await pictureRef.put(blob); //upload
     const url = await snapshot.ref.getDownloadURL(); //url in storage
-    console.log("image URL:", url);
     return url;
 }
 
@@ -257,7 +256,6 @@ class StudentCare extends Component {
             const file = e.target.files?.item(0);
             const homeURL = URL.createObjectURL(file);
 
-            console.log("Create:", homeURL);
             if (id == this.state.studentWellnessId) {
                 this.setState({
                     studentWellnessLogo: homeURL,
@@ -333,7 +331,6 @@ class StudentCare extends Component {
                         logo: this.state.url,
                     })
                     .then(dataSnapshot => {
-                        console.log("Updated Student Wellness Centre");
                         this.setState({
                             studentWellnessEditModal: false
                         });
@@ -350,7 +347,6 @@ class StudentCare extends Component {
                         desc: this.state.studentWellnessDescription,
                     })
                     .then(dataSnapshot => {
-                        console.log("Updated Student Wellness Centre");
                         this.setState({
                             studentWellnessEditModal: false
                         });
@@ -391,7 +387,6 @@ class StudentCare extends Component {
                         logo: this.state.url,
                     })
                     .then(dataSnapshot => {
-                        console.log("Updated Counselling Service");
                         this.setState({
                             counsellingServiceEditModal: false
                         });
@@ -408,7 +403,6 @@ class StudentCare extends Component {
                         desc: this.state.counsellingServiceDescription,
                     })
                     .then(dataSnapshot => {
-                        console.log("Updated Counselling Service");
                         this.setState({
                             counsellingServiceEditModal: false
                         });
@@ -449,7 +443,6 @@ class StudentCare extends Component {
                         logo: this.state.url,
                     })
                     .then(dataSnapshot => {
-                        console.log("Updated SIM Peer Support");
                         this.setState({
                             peerSupportEditModal: false
                         });
@@ -466,7 +459,6 @@ class StudentCare extends Component {
                         desc: this.state.peerSupportDescription,
                     })
                     .then(dataSnapshot => {
-                        console.log("Updated SIM Peer Support");
                         this.setState({
                             peerSupportEditModal: false
                         });
@@ -507,7 +499,6 @@ class StudentCare extends Component {
                         logo: this.state.url,
                     })
                     .then(dataSnapshot => {
-                        console.log("Updated SIM Wellness Advocates");
                         this.setState({
                             wellnessAdvocatesEditModal: false
                         });
@@ -524,7 +515,6 @@ class StudentCare extends Component {
                         desc: this.state.wellnessAdvocatesDescription,
                     })
                     .then(dataSnapshot => {
-                        console.log("Updated SIM Wellness Advocates");
                         this.setState({
                             wellnessAdvocatesEditModal: false
                         });
@@ -572,7 +562,6 @@ class StudentCare extends Component {
                             "activities.activity1.activitiesLogo": this.state.url,
                         })
                         .then(dataSnapshot => {
-                            console.log("Updated Activities");
                             this.setState({
                                 activityEditModal: false
                             });
@@ -585,7 +574,6 @@ class StudentCare extends Component {
                             "activities.activity2.activitiesLogo": this.state.url,
                         })
                         .then(dataSnapshot => {
-                            console.log("Updated Activities");
                             this.setState({
                                 activityEditModal: false
                             });
@@ -598,7 +586,6 @@ class StudentCare extends Component {
                             "activities.activity3.activitiesLogo": this.state.url,
                         })
                         .then(dataSnapshot => {
-                            console.log("Updated Activities");
                             this.setState({
                                 activityEditModal: false
                             });
@@ -619,7 +606,6 @@ class StudentCare extends Component {
                             "activities.activity1.activitiesName": this.state.activityName,
                         })
                         .then(dataSnapshot => {
-                            console.log("Updated Activity Name");
                             this.setState({
                                 activityEditModal: false
                             });
@@ -631,7 +617,6 @@ class StudentCare extends Component {
                             "activities.activity2.activitiesName": this.state.activityName,
                         })
                         .then(dataSnapshot => {
-                            console.log("Updated Activity Name");
                             this.setState({
                                 activityEditModal: false
                             });
@@ -643,7 +628,6 @@ class StudentCare extends Component {
                             "activities.activity3.activitiesName": this.state.activityName,
                         })
                         .then(dataSnapshot => {
-                            console.log("Updated Activity Name");
                             this.setState({
                                 activityEditModal: false
                             });
@@ -662,7 +646,6 @@ class StudentCare extends Component {
                     desc: this.state.workDescription,
                 })
                 .then(dataSnapshot => {
-                    console.log("Updated Work Description");
                     this.setState({
                         workEditModal: false
                     });

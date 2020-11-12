@@ -14,7 +14,6 @@ async function savePicture(blobURL, category, imageName) {
     const blob = await response.blob(); //fetch blob object
     const snapshot = await pictureRef.put(blob); //upload
     const url = await snapshot.ref.getDownloadURL(); //url in storage
-    console.log("image URL:", url);
     return url;
 }
 
@@ -54,7 +53,6 @@ class EditClubsAndCouncilsModal extends Component {
             const file = e.target.files?.item(0);
             const homeURL = URL.createObjectURL(file);
 
-            console.log("Create:", homeURL);
             this.setState({
                 clubsAndCouncilsLogo: homeURL,
             })
@@ -123,7 +121,6 @@ class EditClubsAndCouncilsModal extends Component {
                     clubsAndCouncilsLogo: this.state.url,
                 })
                 .then(dataSnapshot => {
-                    console.log("Updated the Club/Council");
                     this.props.handleEdit();
                 });
             }
@@ -139,7 +136,6 @@ class EditClubsAndCouncilsModal extends Component {
                     clubsAndCouncilTitle: this.state.clubsAndCouncilTitle,
                 })
                 .then(dataSnapshot => {
-                    console.log("Updated the Club/Council");
                     this.props.handleEdit();
                 });
             }

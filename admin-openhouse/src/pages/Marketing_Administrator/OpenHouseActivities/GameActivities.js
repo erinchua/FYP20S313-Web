@@ -128,7 +128,6 @@ class GameActivities extends Component {
             const sorted = data.sort(sortFunction);
 
             this.setState({gamesActivities: sorted})
-            console.log(sorted)
         })
         
     }
@@ -168,7 +167,6 @@ class GameActivities extends Component {
                         boothNumber: this.state.boothNumber,
                     })
                     .then(dataSnapshot => {
-                        console.log("Added the Game/Activity");
                         this.setState({
                             addModal: false
                         });
@@ -183,7 +181,6 @@ class GameActivities extends Component {
     DeleteGameActivities(e, gamesActivitiesId) {
         db.collection("GamesActivities").doc(gamesActivitiesId).delete()
         .then(dataSnapshot => {
-            console.log("Deleted the Game/Activity");
             this.setState({
                 deleteModal: false
             });
@@ -211,7 +208,6 @@ class GameActivities extends Component {
                 pointsAward: +this.state.pointsAward,
             })
             .then(dataSnapshot => {
-                console.log("Updated the Game/Activity");
                 this.setState({
                     editModal: false
                 });

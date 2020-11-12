@@ -161,7 +161,6 @@ class Performances extends Component {
                         id: docid,
                     })
                     .then(dataSnapshot => {
-                        console.log("Added the performance");
                         this.setState({
                             addModal: false
                         });
@@ -176,7 +175,6 @@ class Performances extends Component {
     DeletePerformance(e, performanceId) {
         db.collection("Performances").doc(performanceId).delete()
         .then(dataSnapshot => {
-            console.log("Deleted the performance");
             this.setState({
                 deleteModal: false
             });
@@ -201,7 +199,6 @@ class Performances extends Component {
                 venue: this.state.venue
             })
             .then(dataSnapshot => {
-                console.log("Updated the performance");
                 this.setState({
                     editModal: false
                 });

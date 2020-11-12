@@ -14,7 +14,6 @@ async function savePicture(blobURL, folderName, fileName) {
     const blob = await response.blob(); //fetch blob object
     const snapshot = await pictureRef.put(blob); //upload
     const url = await snapshot.ref.getDownloadURL(); //url in storage
-    console.log("File URL:", url);
     return url;
 }
 
@@ -59,7 +58,6 @@ class EditBrochuresModal extends Component {
 
             //Set imageUrl state to the URL
             if (e.target.files?.item(0).type === "image/png" || e.target.files?.item(0).type === "image/jpg" || e.target.files?.item(0).type === "image/jpeg" || e.target.files?.item(0).type === "image/gif") {
-                console.log("Create:", fileURL);
                 this.setState({
                     imageUrl: fileURL,
                 });
@@ -67,7 +65,6 @@ class EditBrochuresModal extends Component {
 
             //Set brochureUrl state to the URL
             if (e.target.files?.item(0).type === "application/pdf") {
-                console.log("Create:", fileURL);
                 this.setState({
                     brochureUrl: fileURL,
                 });
@@ -129,7 +126,6 @@ class EditBrochuresModal extends Component {
                             imageUrl: this.state.url,
                         })
                         .then(() => {
-                            console.log("Updated the Brochures");
                             this.props.handleEdit();
                         });
                     }
@@ -162,7 +158,6 @@ class EditBrochuresModal extends Component {
                             imageUrl: this.state.imageUrl,
                         })
                         .then(() => {
-                            console.log("Updated the Brochures");
                             this.props.handleEdit();
                         });
                     }
@@ -208,7 +203,6 @@ class EditBrochuresModal extends Component {
                             imageUrl: this.state.url,
                         })
                         .then(() => {
-                            console.log("Updated the Brochures");
                             this.props.handleEdit();
                         });
                     }
@@ -251,7 +245,6 @@ class EditBrochuresModal extends Component {
                             imageUrl: this.state.url,
                         })
                         .then(() => {
-                            console.log("Updated the Brochures");
                             this.props.handleEdit();
                         });
                     }
@@ -283,7 +276,6 @@ class EditBrochuresModal extends Component {
                             imageUrl: this.state.imageUrl,
                         })
                         .then(() => {
-                            console.log("Updated the Brochures");
                             this.props.handleEdit();
                         });
                     }
@@ -329,7 +321,6 @@ class EditBrochuresModal extends Component {
                             imageUrl: this.state.url,
                         })
                         .then(() => {
-                            console.log("Updated the Brochures");
                             this.props.handleEdit();
                         });
                     }
@@ -346,7 +337,6 @@ class EditBrochuresModal extends Component {
                     description: this.state.description,
                 })
                 .then(() => {
-                    console.log("Updated the Brochures' Description");
                     this.props.handleEdit();
                 });
             }

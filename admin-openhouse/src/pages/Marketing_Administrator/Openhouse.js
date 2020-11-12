@@ -24,7 +24,6 @@ async function savePicture(blobURL, imageFile) {
     const blob = await response.blob(); //fetch blob object
     const snapshot = await pictureRef.put(blob); //upload
     const url = await snapshot.ref.getDownloadURL(); //url in storage
-    console.log("image URL:", url);
     return url;
 }
 
@@ -78,26 +77,6 @@ class Openhouse extends Component {
 
     componentDidMount() {
         this.authListener();
-        /* const db = fire.firestore();
-
-        const userRef = db.collection("Openhouse").doc("openhouse-003");
-
-        userRef.set({
-        id: "openhouse-001",
-        day: {
-            1: {
-            date: "23-Nov-2020",
-            startTime: "9:00AM",
-            endTime: "6:30PM",
-            },
-            2: {
-            endTime: "7:00PM",
-            startTime: "9:00AM",
-            date: "24-Nov-2020",
-            },
-        },
-        openhouseTitle: "SIM Openhouse 2020",
-        });*/
     }
 
     display() {
@@ -125,7 +104,6 @@ class Openhouse extends Component {
                 };
                 users.push(data);
                 const date = daydata[Object.keys(daydata)[i]].date;
-                //   console.log(date);
             }
             });
 
@@ -250,9 +228,7 @@ class Openhouse extends Component {
     }
 
     onAuthSuccess = (e, openhouseid, day) => {
-        console.log("Updated the information");
         window.location.reload();
-        
     };
 
     //Get respective data out by ids and the day number for Edit Modal - Integrated
@@ -306,12 +282,10 @@ class Openhouse extends Component {
     componentWillUnmount() {
         if (this.mobileHomeImage.startsWith('blob:')) {
             URL.revokeObjectURL(this.mobileHomeImage); //cleanup blob
-            console.log("revoke:", this.mobileHomeImage);
         };
 
         if (this.mobileOpenHouseProgImage.startsWith('blob:')) {
             URL.revokeObjectURL(this.mobileOpenHouseProgImage); //cleanup blob
-            console.log("revoke:", this.mobileOpenHouseProgImage);
         };
     };
 
@@ -321,7 +295,6 @@ class Openhouse extends Component {
             const file = e.target.files?.item(0);
             const homeURL = URL.createObjectURL(file);
 
-            console.log("Create: ", homeURL);
             this.setState({
                 mobileHomeImage: homeURL,
             })
@@ -334,7 +307,6 @@ class Openhouse extends Component {
             const file = e.target.files?.item(0);
             const programmeURL = URL.createObjectURL(file);
 
-            console.log("Create: ", programmeURL);
             this.setState({
                 mobileOpenHouseProgImage: programmeURL,
             })
@@ -351,7 +323,6 @@ class Openhouse extends Component {
                 mobileHomeImage: url,
             })
             .then(function() {
-                console.log("Uploaded Home Image");
                 window.location.reload();
             });
         }
@@ -367,7 +338,6 @@ class Openhouse extends Component {
                 mobileOpenHouseProgImage: url,
             })
             .then(function() {
-                console.log("Uploaded Open House Programme Image");
                 window.location.reload();
             });
         }

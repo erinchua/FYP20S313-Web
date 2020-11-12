@@ -141,7 +141,6 @@ class ForumFlagged extends Component {
 
   //Remove Post Modal - Confirm Button
   handleRemoveConfirm = () => {
-    console.log("Confirm remove post");
     this.removepost();
     this.removeModal = this.state.removeModal;
     if (this.removeModal == true) {
@@ -157,7 +156,6 @@ class ForumFlagged extends Component {
 
   //Keep Post Modal - Cancel Button
   handleKeepConfirm = () => {
-    console.log("Confirm keep post");
     this.keeppost();
     this.keepModal = this.state.keepModal;
     if (this.keepModal == true) {
@@ -184,14 +182,13 @@ class ForumFlagged extends Component {
     var reportid = this.state.reportid;
     var postid = this.state.postid;
     var reporttype = this.state.type;
-    console.log(reporttype);
+
     if (reporttype === "Question") {
       reporttype = "Questions";
     } else {
       reporttype = "Comments";
     }
 
-    console.log(postid);
     const userRef = db
       .collectionGroup(reporttype)
       .get()
@@ -213,8 +210,6 @@ class ForumFlagged extends Component {
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
-          console.log(doc.data());
-          console.log(reportid);
           if (doc.data().id === reportid) {
             doc.ref.update({
               isHandled: true,
@@ -232,20 +227,17 @@ class ForumFlagged extends Component {
     var reportid = this.state.reportid;
     var postid = this.state.postid;
     var reporttype = this.state.type;
-    console.log(reporttype);
+
     if (reporttype === "Question") reporttype = "Questions";
     else {
       reporttype = "Comments";
     }
 
-    console.log(postid);
     const isHandled = db
       .collectionGroup("Reports")
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
-          console.log(doc.data());
-          console.log(reportid);
           if (doc.data().id === reportid) {
             doc.ref.update({
               isHandled: true,

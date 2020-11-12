@@ -122,7 +122,6 @@ class Sponsors extends Component {
                     email: this.state.email
                 })
                 .then(() => {
-                    console.log("Updated Email");
                     this.setState({
                         editEmailModal: false,
                     });
@@ -140,7 +139,6 @@ class Sponsors extends Component {
                     website: this.state.website
                 })
                 .then(() => {
-                    console.log("Updated Website");
                     this.setState({
                         editWebsiteModal: false,
                     });
@@ -158,7 +156,6 @@ class Sponsors extends Component {
                     description: this.state.description
                 })
                 .then(() => {
-                    console.log("Updated Description");
                     this.setState({
                         editDescriptionModal: false,
                     });
@@ -176,12 +173,10 @@ class Sponsors extends Component {
                     applicationPeriods: firebase.firestore.FieldValue.arrayRemove(this.state.previousPeriods)
                 })
                 .then(() => {
-                    console.log("Removed Application Periods");
                     db.collection("Scholarship").doc("scholarship-09")
                     .update({
                         applicationPeriods: firebase.firestore.FieldValue.arrayUnion(this.state.applicationPeriods)
                     }).then(() => {
-                        console.log("Updated Application Periods")
                         this.setState({
                             editApplicationPeriodsModal: false,
                         });
