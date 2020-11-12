@@ -252,7 +252,7 @@ class ForumFlagged extends Component {
                                     <Container fluid id="Forum-topContentContainer">
                                         <Row id="Forum-firstRow">
                                             <Col md={12} id="Forum-firstRowCol">
-                                            <h4 id="Forum-title">Forum - Flagged Posts</h4>
+                                                <h4 id="Forum-title">Forum - Flagged Posts</h4>
                                             </Col>
                                         </Row>
 

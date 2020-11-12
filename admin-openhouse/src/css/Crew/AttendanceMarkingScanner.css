@@ -181,7 +181,7 @@
     border: 1px solid #c8c8c8;
 }
 
-.errorMessage {
-    color: red;
-    font-size: 85%;
+#AttendanceMarking-options {
+    color: #434343 !important;
+    font-size: 85% !important;
 }

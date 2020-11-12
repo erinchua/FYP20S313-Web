@@ -14,7 +14,6 @@ import { faSyncAlt, faMobileAlt, faSchool, faChalkboardTeacher } from '@fortawes
 class MAHome extends Component {
     constructor() {
         super();
-        // this.logout = this.logout.bind(this);
         this.state = {
             numbers: 223,
         };
@@ -62,7 +61,7 @@ class MAHome extends Component {
             snapshot.forEach((doc) => {
                 counter = counter + doc.data().noRegistered;
             });
-            this.setState({ programtalkregisterd: counter });
+            this.setState({ programmetalkregistered: counter });
         });
     }
 
@@ -82,11 +81,8 @@ class MAHome extends Component {
                                     <Container fluid id="MAHome-topContentContainer">
                                         <Row id="MAHome-firstRow"></Row>
                                         <Row id="MAHome-secondRow">
-                                            <Col md={10} id="MAHome-secondRowCol1">
+                                            <Col md={12} id="MAHome-secondRowCol1">
                                                 <p>Real-Time Numbers</p>
-                                            </Col>
-                                            <Col md={2} id="MAHome-secondRowCol2">
-                                                <Button size="sm" id="MAHome-refreshBtn"><FontAwesomeIcon size="lg" icon={faSyncAlt}/></Button>
                                             </Col>
                                         </Row>
 
@@ -117,7 +113,7 @@ class MAHome extends Component {
                                                         <FontAwesomeIcon size="3x" icon={faChalkboardTeacher}/>
                                                     </Col>
                                                     <Col md={6} className="MAHome-thirdInnerCol2">
-                                                        <h3>{this.state.programtalkregisterd}</h3>
+                                                        <h3>{this.state.programmetalkregistered}</h3>
                                                     </Col>
                                                 </Row>
                                             </Col>
@@ -129,7 +125,7 @@ class MAHome extends Component {
                                                         ["Label", "Total Number of Participants", { role: "style" }],
                                                         ["Total number of registered prospective students for the open house mobile application", +this.state.registeredstudents, "color: #deecfc"],
                                                         ["Total number of prospective student actual turn-ups for open house programme talks", +this.state.attendanceregistered, "color: #b9ceeb"],
-                                                        ["Total number of registrations for open house programme talks (through mobile application)", +this.state.programtalkregisterd, "color: #87a8d0"],
+                                                        ["Total number of registrations for open house programme talks (through mobile application)", +this.state.programmetalkregistered, "color: #87a8d0"],
                                                     ]} options={{legend: "none", vAxis: {textStyle: {fontSize: 8.5}}}}
                                                 />
                                             </Col>

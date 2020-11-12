@@ -147,7 +147,11 @@ class ForumSettings extends Component {
             
                             <Col md={10} style={{ paddingLeft: 0 }}>
                                 <Container fluid id="Forum-topContentContainer">
-                                    <Row id="Forum-firstRow"></Row>
+                                    <Row id="Forum-firstRow">
+                                        <Col md={12} id="Forum-firstRowCol">
+                                            <h4 id="Forum-title">Forum Settings</h4>
+                                        </Col>
+                                    </Row>
                 
                                     <Row id="Forum-secondRow">
                                         <Col md={12} className="text-center" id="Forum-secondRowCol">
