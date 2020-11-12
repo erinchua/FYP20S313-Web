@@ -27,7 +27,7 @@ export default class NavBar extends React.Component {
         this.state = {
             useremail: null,
             isMA: false,
-
+            //Below states are for the modals
             changePasswordModal: false,
             handleChangePasswordModal: false
         }
@@ -40,11 +40,8 @@ export default class NavBar extends React.Component {
                 a.setState(() => ({
                     useremail: user.email, })
                 )
-            }  else {
-        
             }
         });
-         
     }
 
     logout() {
@@ -66,8 +63,6 @@ export default class NavBar extends React.Component {
             });
         }
     };
-
-
 
     render(){
         return (
@@ -127,5 +122,3 @@ export default class NavBar extends React.Component {
         )
     }
 }
-    
-

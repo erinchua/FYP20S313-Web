@@ -136,7 +136,7 @@ class GuidedTour extends Component {
         if (isValid) {
             this.setState(initialStates);
 
-            var lastdoc = db.collection("GuidedTours").orderBy('id', 'desc')
+            db.collection("GuidedTours").orderBy('id', 'desc')
             .limit(1).get().then((snapshot) =>  {
                 snapshot.forEach((doc) => {
                     var docid = "";
@@ -161,7 +161,7 @@ class GuidedTour extends Component {
                         tourName: this.state.tourName,
                         venue: this.state.venue,
                     })
-                    .then(dataSnapshot => {
+                    .then(() => {
                         this.setState({
                             addModal: false
                         });
@@ -176,7 +176,7 @@ class GuidedTour extends Component {
     //Delete tour when click on 'Confirm' button in Delete Modal - Integrated
     DeleteGuidedTour(e, guidedTourId) {
         db.collection("GuidedTours").doc(guidedTourId).delete()
-        .then(dataSnapshot => {
+        .then(() => {
             this.setState({
                 deleteModal: false
             });
@@ -199,7 +199,7 @@ class GuidedTour extends Component {
                 date: this.state.date,
                 venue: this.state.venue
             })
-            .then(dataSnapshot => {
+            .then(() => {
                 this.setState({
                     editModal: false,
                 });

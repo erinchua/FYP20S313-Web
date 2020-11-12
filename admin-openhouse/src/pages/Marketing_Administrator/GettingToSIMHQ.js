@@ -287,7 +287,6 @@ class GettingToSIMHQ extends Component {
                     }
 
                     // set each downtownmrt to state
-                    console.log(downTownLine.length)
                     for (var i = 0; i <downTownLine.length; i++) {
                         var statename = "Downtownstation"+(i+1);
                         this.state[statename] =  downTownLine.sort(sortAlphabet)[i]
@@ -346,7 +345,6 @@ class GettingToSIMHQ extends Component {
                 carDescription: this.state.carDescription,
             })
             .then(() => {
-                console.log("Updated Car Info");
                 this.setState({
                     carEditModal: false
                 });
@@ -378,7 +376,6 @@ class GettingToSIMHQ extends Component {
                     "simHq.buses.bus10": this.state.SIMHQbusNo10,
                 })
                 .then(() => {
-                    console.log("Updated Bus Info");
                     this.setState({
                         busEditModal: false
                     });
@@ -404,7 +401,6 @@ class GettingToSIMHQ extends Component {
                     "oppSimHq.buses.bus9": this.state.OppSIMHQbusNo9,
                 })
                 .then(() => {
-                    console.log("Updated Bus Info");
                     this.setState({
                         busEditModal: false
                     });
@@ -430,7 +426,6 @@ class GettingToSIMHQ extends Component {
                     "downtownLine.stations.station3": this.state.Downtownstation3,
                 })
                 .then(() => {
-                    console.log("Updated MRT Info");
                     this.setState({
                         mrtEditModal: false
                     });
@@ -449,7 +444,6 @@ class GettingToSIMHQ extends Component {
                     "eastwestLine.stations.station2": this.state.Eastweststation2,
                 })
                 .then(() => {
-                    console.log("Updated MRT Info");
                     this.setState({
                         mrtEditModal: false
                     });
@@ -470,7 +464,6 @@ class GettingToSIMHQ extends Component {
                 carParkingDescription: this.state.carParkingDescription,
             })
             .then(() => {
-                console.log("Updated Car Park Info");
                 this.setState({
                     carParkEditModal: false
                 });
@@ -502,7 +495,6 @@ class GettingToSIMHQ extends Component {
             const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
             fileRef.on("state_changed", function (snapshot) {
                 fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-                    console.log("File available at", downloadURL);
 
                     if (isValid) {
                         this.setState(initialStates);
@@ -511,8 +503,8 @@ class GettingToSIMHQ extends Component {
                         .update({
                             url: downloadURL,
                         })
-                        .then(function() {
-                            console.log("Updated the Map Image");
+                        .then(() => {
+                            this.displau()
                         });
                     }
                     
@@ -526,12 +518,9 @@ class GettingToSIMHQ extends Component {
                     parentthis.setState({ progress: "Uploaded!" });
                 }
             });
-            console.log();
             this.setState({
                 mapEditModal: false
             })
-        } else {
-            console.log("No Files Selected");
         }
     };
 

@@ -192,7 +192,6 @@ class AttendanceMarkingScanner extends Component {
                                 id: docid,
                             })
                             .then(() => {
-                                console.log("Added the attendance");
                                 this.setState({
                                     openWebCam: true,
                                 });
