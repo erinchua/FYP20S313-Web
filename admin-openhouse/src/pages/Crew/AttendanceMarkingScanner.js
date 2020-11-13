@@ -192,7 +192,6 @@ class AttendanceMarkingScanner extends Component {
                                 id: docid,
                             })
                             .then(() => {
-                                console.log("Added the attendance");
                                 this.setState({
                                     openWebCam: true,
                                 });
@@ -328,7 +327,7 @@ class AttendanceMarkingScanner extends Component {
 
                 {/* Attendance Marking Scanner Modal - Crew */}
                 {this.state.selectionModal == true ? 
-                    <Modal show={this.state.selectionModal} onHide={() => this.setState({selectionModal: false})} size="lg" centered keyboard={false}>
+                    <Modal show={this.state.selectionModal} onHide={() => this.setState({selectionModal: false})} size="lg" centered backdrop="static" keyboard={false}>
                         <Modal.Header closeButton className="justify-content-center">
                             <Modal.Title id="AttendanceMarking-modalTitle" className="w-100">Select a Programme Talk</Modal.Title>
                         </Modal.Header>
@@ -341,15 +340,15 @@ class AttendanceMarkingScanner extends Component {
                                                 <FontAwesomeIcon size="lg" icon={faMicrophone}/>
                                             </Form.Group> 
                                             <Form.Group as={Col} md="7">
-                                                <Form.Control id="AttendanceMarking-inputFields" name="programmeTalkName" as="select" required defaultValue={""} onChange={this.updateInput} noValidate>
-                                                    <option value="">Select a Programme Talk</option>
+                                                <Form.Control id="AttendanceMarking-inputFields" name="programmeTalkName" as="select" required onChange={this.updateInput} noValidate>
+                                                    <option value="" id="AttendanceMarking-options">Select a Programme Talk</option>
                                                     {this.state.programmeTalks && this.state.programmeTalks.map((talks) => {
                                                         return(
-                                                            <option value={talks.talkName}>{talks.talkName}</option>
+                                                            <option value={talks.talkName} id="AttendanceMarking-options">{talks.talkName}</option>
                                                         )
                                                     })}
                                                 </Form.Control>
-                                                <div className="errorMessage"></div>
+                                                
                                             </Form.Group>
                                         </Form.Group>
                                     </Form.Group>

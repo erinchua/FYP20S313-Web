@@ -120,7 +120,7 @@ class EditClubsAndCouncilsModal extends Component {
                     clubsAndCouncilTitle: this.state.clubsAndCouncilTitle,
                     clubsAndCouncilsLogo: this.state.url,
                 })
-                .then(dataSnapshot => {
+                .then(() => {
                     this.props.handleEdit();
                 });
             }
@@ -135,7 +135,7 @@ class EditClubsAndCouncilsModal extends Component {
                     clubsAndCouncilDescription: this.state.clubsAndCouncilDescription,
                     clubsAndCouncilTitle: this.state.clubsAndCouncilTitle,
                 })
-                .then(dataSnapshot => {
+                .then(() => {
                     this.props.handleEdit();
                 });
             }
