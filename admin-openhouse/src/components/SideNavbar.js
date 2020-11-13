@@ -130,12 +130,12 @@ export default class SideNavBar extends React.Component {
                                     <Nav.Item className="sideNavBar-navItems">
                                         <Nav.Link href="/MAHome" className="sideNavBar-navLinks"><FontAwesomeIcon icon={faBars} id="sideNavBar-homeIcon" />Home</Nav.Link>
                                     </Nav.Item>
-                                    <div className="border"></div>
+                                    <div id="border"></div>
                                     <Nav.Item className="sideNavBar-navItems">
                                         <Nav.Link href="/Openhouse" className="sideNavBar-navLinks">Open House Details</Nav.Link>
                                         <Nav.Link href="/AttendanceMarkingScanner" onClick={() => [localStorage.clear()]} className="sideNavBar-navLinks">Attendance Taking Scanner</Nav.Link>
                                     </Nav.Item>
-                                    <div className="border"></div>
+                                    <div id="border"></div>
                                     <Nav.Item className="sideNavBar-navItems">
                                         <Accordion>
                                             <ContextAwareToggle eventKey="0">User Accounts</ContextAwareToggle>
@@ -146,7 +146,7 @@ export default class SideNavBar extends React.Component {
                                             </Accordion.Collapse>
                                         </Accordion>
                                     </Nav.Item>
-                                    <div className="border"></div>
+                                    <div id="border"></div>
                                     <Nav.Item className="sideNavBar-navItems">
                                         <Accordion>
                                             <ContextAwareToggle eventKey="1">Mobile Application</ContextAwareToggle>
@@ -221,7 +221,7 @@ export default class SideNavBar extends React.Component {
                                             </Accordion.Collapse>
                                         </Accordion>
                                     </Nav.Item>
-                                    <div className="border"></div>
+                                    <div id="border"></div>
                                     <Nav.Item className="sideNavBar-navItems">
                                         <Accordion>
                                             <ContextAwareToggle eventKey="6">Generate Report</ContextAwareToggle>
@@ -233,7 +233,7 @@ export default class SideNavBar extends React.Component {
                                             </Accordion.Collapse>
                                         </Accordion>
                                     </Nav.Item>
-                                    <div className="border"></div>
+                                    <div id="border"></div>
                                 </Nav>
                             </Navbar>
                         </Container> 
