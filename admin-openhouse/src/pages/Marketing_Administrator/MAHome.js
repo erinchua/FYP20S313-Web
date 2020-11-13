@@ -82,7 +82,7 @@ class MAHome extends Component {
                                         <Row id="MAHome-firstRow"></Row>
                                         <Row id="MAHome-secondRow">
                                             <Col md={12} id="MAHome-secondRowCol1">
-                                                <p>Real-Time Numbers</p>
+                                                <p>Current Statistics</p>
                                             </Col>
                                         </Row>
 

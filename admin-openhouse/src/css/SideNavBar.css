@@ -44,8 +44,8 @@
     margin-right: 10%;
 }
 
-.border {
-    border: 1px solid white;
+#border {
+    border: 0.5px solid white !important;
 }
 
 .sideNavBar-accordion {
