@@ -3,7 +3,7 @@ import fire, { auth, db } from "../../config/firebase";
 import firecreate from "../../config/firebasecreate";
 import history from "../../config/history";
 import emailjs from "emailjs-com";
-import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, FormControl, InputGroup, Table, Modal, Alert } from 'react-bootstrap';
 
 import "../../css/Super_Administrator/SAHome.css";
 import "../../css/Super_Administrator/SAHomeModals.css";
@@ -73,6 +73,7 @@ class SAHome extends Component {
 
             addUserModal: false,
             deleteAdminModal: false,
+            showAlert: false,
 
             //in here put the userID you got from emailjs 
             REACT_APP_EMAILJS_USERID: 'user_wvpEVGrbniS4sAZqjDk2S', 
@@ -193,6 +194,12 @@ class SAHome extends Component {
                     })
                     this.setState({ addUserModal: false });
                     this.display();
+                });
+            })
+            .catch(() => {
+                this.setState({ 
+                    showAlert: true,
+                    addUserModal: false,
                 });
             });
         }
@@ -514,6 +521,15 @@ class SAHome extends Component {
                         </Row>
                     </Modal.Body>
                 </Modal>
+
+                {this.state.showAlert == true ?
+                    <Modal show={this.state.showAlert} onHide={() => this.setState({ showAlert: false })} size="sm" centered backdrop="static" keyboard={false}>
+                        <Alert show={this.state.showAlert} onClose={() => this.setState({ showAlert: false })} dismissible>
+                            <Alert.Heading>Error Occurred!</Alert.Heading>
+                            <p id="alertFail-data">The email address is already in used by another account!</p>
+                        </Alert>
+                    </Modal> : ''
+                }
             </div>
         );
     }
