@@ -36,8 +36,7 @@ export default class ForgetPasswordModal extends React.Component {
     ResetPassword = (e) => {
         e.preventDefault();
         var actionCodeSettings = {
-            // After password reset, the user will be give the ability to go back
-            // to this page.
+            // After the password reset, the user will be redirected back to this link
             url: "http://localhost:3000/",
             handleCodeInApp: false
         };
