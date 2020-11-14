@@ -26,6 +26,7 @@ export default class ChangePasswordModal extends React.Component {
 
     this.state = {
       email: "",
+      previousPassword: "",
       currentPassword: "",
       newPassword: "",
       verifyNewPassword: "",
@@ -114,7 +115,7 @@ export default class ChangePasswordModal extends React.Component {
           user
           .updatePassword(newPassword)
           .then(function () {
-            var getrole = db
+            db
             .collection("Administrators")
             .where("email", "==", user.email)
             .get()
@@ -127,7 +128,10 @@ export default class ChangePasswordModal extends React.Component {
           })
           .catch(function (error) {});
         })
-        .catch(function (error) {
+        .catch(() => {
+            this.setState({
+                currentPwdError: "Please enter your current password!",
+            });
         });
       } else {
       }
@@ -144,9 +148,6 @@ export default class ChangePasswordModal extends React.Component {
 
     if ( !(this.state.currentPassword || validPassword.test(this.state.currentPassword)) ) {
       currentPwdError = "Please enter a valid password!";
-    } 
-    else if (!(this.state.currentPassword !== this.state.currentpassword)) {
-      currentPwdError = "Please enter your current password!"
     }
 
     if (! (this.state.newPassword && validPassword.test(this.state.newPassword) && (this.state.newPassword !== this.state.currentPassword)) ) {
@@ -183,7 +184,7 @@ export default class ChangePasswordModal extends React.Component {
       <div>
         <Modal 
           show={this.props.showModal}
-          onHide={this.props.hideModal}
+          onHide={() => {this.props.hideModal(); this.resetForm()}}
           aria-labelledby="changePasswordModalTitle"
           size="lg"
           centered
@@ -241,7 +242,7 @@ export default class ChangePasswordModal extends React.Component {
                 </Col>
 
                 <Col md="6" className="text-left">
-                  <Button id="cancelChangePasswordFormBtn" onClick={this.props.cancelBtn}>Cancel</Button>
+                  <Button id="cancelChangePasswordFormBtn" onClick={() => {this.props.cancelBtn(); this.resetForm()}}>Cancel</Button>
                 </Col>
               </Row>
             </Container>

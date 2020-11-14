@@ -347,6 +347,7 @@ class PastRecording extends Component {
 
     /* Add Past Rec Modal */
     handleAddPastRecModal = () => {
+        this.resetForm();
         if (this.state.addPastRecModal == false) {
             this.setState({
                 addPastRecModal: true,
@@ -357,7 +358,6 @@ class PastRecording extends Component {
             this.setState({
                 addPastRecModal: false
             });
-            this.resetForm();
         }
     };
 

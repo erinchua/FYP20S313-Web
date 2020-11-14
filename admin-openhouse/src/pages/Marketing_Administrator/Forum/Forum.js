@@ -12,14 +12,15 @@ class Forum extends Component {
     constructor() {
         super();
         this.state = {
-            firstName: "",
-            lastName: "",
-            email: "",
-            contactNo: "",
-            dob: "",
-            highestQualification: "",
-            nationality: "",
-            isSuspendedFromForum: "",
+            questionId: "",
+            entry: "",
+            posterName: "",
+            dateTime: "",
+            noOfComments: "",
+            deleted: "",
+            posterId: "",
+            reported: "",
+            questions: "",
         };
     }
     
@@ -64,11 +65,14 @@ class Forum extends Component {
                 .then((snapshot) => {
                     snapshot.forEach((doc) => {
                         const data = {
-                            questionid: doc.id,
-                            question: doc.data().entry,
-                            postedby: doc.data().posterName,
-                            datetime: doc.data().dateTime,
-                            noofcomments: doc.data().noOfComments,
+                            questionId: doc.id,
+                            entry: doc.data().entry,
+                            posterName: doc.data().posterName,
+                            dateTime: doc.data().dateTime,
+                            noOfComments: doc.data().noOfComments,
+                            deleted: doc.data().deleted,
+                            posterId: doc.data().posterId,
+                            reported: doc.data().reported,
                         };
                         question.push(data);
                     });
@@ -113,19 +117,35 @@ class Forum extends Component {
                                                     <tbody id="Forum-tableBody">
                                                     {this.state.questions &&
                                                     this.state.questions.map((questions, index) => {
-                                                        return (
-                                                            <tr>
-                                                            <td>{index + 1}</td>
-                                                            <td className="text-left">
-                                                                <a className="Forum-question" href={"/ViewForumQuestion?id=" + questions.questionid}>
-                                                                {questions.question}
-                                                                </a>
-                                                            </td>
-                                                            <td>{questions.postedby}</td>
-                                                            <td>{questions.datetime}</td>
-                                                            <td>{questions.noofcomments}</td>
-                                                            </tr>
-                                                        );
+                                                        if (questions.deleted === false) {
+                                                            return (
+                                                                <tr>
+                                                                <td>{index + 1}</td>
+                                                                <td className="text-left">
+                                                                    <a className="Forum-question" href={"/ViewForumQuestion?id=" + questions.questionId}>
+                                                                    {questions.entry}
+                                                                    </a>
+                                                                </td>
+                                                                <td>{questions.posterName}</td>
+                                                                <td>{questions.dateTime}</td>
+                                                                <td>{questions.noOfComments}</td>
+                                                                </tr>
+                                                            );
+                                                        } else {
+                                                            return (
+                                                                <tr>
+                                                                <td>{index + 1}</td>
+                                                                <td className="text-left">
+                                                                    <a className="Forum-question" href={"/ViewForumQuestion?id=" + questions.questionId}>
+                                                                    [Deleted]
+                                                                    </a>
+                                                                </td>
+                                                                <td>{questions.posterName}</td>
+                                                                <td>{questions.dateTime}</td>
+                                                                <td>{questions.noOfComments}</td>
+                                                                </tr>
+                                                            );
+                                                        }
                                                     })}
                                                     </tbody>
                                                 </Table>

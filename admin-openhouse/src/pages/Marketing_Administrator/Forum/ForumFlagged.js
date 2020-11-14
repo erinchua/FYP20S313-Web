@@ -14,14 +14,44 @@ class ForumFlagged extends Component {
     constructor() {
         super();
         this.state = {
+            //Questions states
+            questionId: "",
+            entry: "", 
+            isDeleted: "",
+            postedBy: "",
+            dateTime: "",
+            noOfComments: "",
+            posterId: "",
+            posterName: "",
+            reported: "",
+            questions: "",
+            //Reports states
+            dateTime: "",
+            entry: "",
+            reportId: "",
+            offender: "",
+            offenderId: "",
+            postContent: "",
+            postId: "",
+            postType: "",
+            reporter: "",
+            reporterId: "",
+            reports: "",
+            //Comments states
+            commentId: "",
+            dateTime: "",
+            isDeleted: "",
+            entry: "",
+            noOfReplies: "",
+            posterId: "",
+            posterName: "",
+            commentQnsId: "",
+            reported: "", 
+            comments: "",
+            //Below states are for the modals
             removeModal: false,
             keepModal: false,
-            postid: "",
-            type: "",
-            reportid: "",
         };
-        this.handleRemoveModal = this.handleRemoveModal.bind(this);
-        this.handleKeepModal = this.handleKeepModal.bind(this);
     }
 
     authListener() {
@@ -57,35 +87,93 @@ class ForumFlagged extends Component {
 
     display() {
         db.collectionGroup("Reports").onSnapshot((snapshot) => {
-            const flagged = [];
+            const reportsCollection = [];
 
             snapshot.forEach((doc) => {
                 const data = {
-                    questionscomment: doc.data().postContent,
-                    reason: doc.data().entry,
-                    type: doc.data().postType,
-                    postedby: doc.data().offender,
-                    datetime: doc.data().dateTime,
-                    reportedby: doc.data().reporter,
-                    postid: doc.data().postId,
-                    isHandled: doc.data().isHandled,
-                    reportid: doc.data().id,
+                    dateTime: doc.data().dateTime,
+                    entry: doc.data().entry,
+                    reportId: doc.id,
+                    offender: doc.data().offender,
+                    offenderId: doc.data().offenderId,
+                    postContent: doc.data().postContent,
+                    postId: doc.data().postId,
+                    postType: doc.data().postType,
+                    reporter: doc.data().reporter,
+                    reporterId: doc.data().reporterId,
                 };
-                flagged.push(data);
+                reportsCollection.push(data);
                 this.setState({ 
-                    flagged: flagged 
+                    reports: reportsCollection,
                 });
             });
         });
+
+        db.collectionGroup("Questions").onSnapshot((snapshot) => {
+            const questionsCollection = [];
+
+            snapshot.forEach((doc) => {
+                const data = {
+                    questionId: doc.id,
+                    entry: doc.data().entry,
+                    isDeleted: doc.data().deleted,
+                    postedBy: doc.data().posterName,
+                    dateTime: doc.data().dateTime,
+                    noOfComments: doc.data().noOfComments,
+                    posterId: doc.data().posterId,
+                    posterName: doc.data().posterName,
+                    reported: doc.data().reported,
+                }
+                questionsCollection.push(data);
+                this.setState({
+                    questions: questionsCollection,
+                });
+            });
+        });
+
+        db.collectionGroup("Comments").onSnapshot((snapshot) => {
+            const commentsCollection = [];
+
+            snapshot.forEach((doc) => {
+                const data = {
+                    commentId: doc.id,
+                    dateTime: doc.data().dateTime,
+                    isDeleted: doc.data().deleted,
+                    entry: doc.data().entry,
+                    noOfReplies: doc.data().noOfReplies,
+                    posterId: doc.data().posterId,
+                    posterName: doc.data().posterName,
+                    commentQnsId: doc.data().questionId,
+                    reported: doc.data().reported, 
+                }
+                commentsCollection.push(data);
+                this.setState({
+                    comments: commentsCollection,
+                });
+            });
+        })
+
     }
 
     //Remove Post Modal
-    handleRemoveModal = () => {
+    handleRemoveModal = (type, parameter) => {
         this.removeModal = this.state.removeModal;
         if (this.removeModal == false) {
             this.setState({
                 removeModal: true,
+                postType: type,
             });
+
+            if (type === "Question") {
+                this.setState({
+                    questionId: parameter.questionId
+                });
+            } else {
+                this.setState({
+                    commentId: parameter.commentId
+                });
+            }
+
         } else {
             this.setState({
                 removeModal: false,
@@ -94,146 +182,115 @@ class ForumFlagged extends Component {
     };
 
     //Keep Post Modal
-    handleKeepModal = () => {
+    handleKeepModal = (type, parameter) => {
         this.keepModal = this.state.keepModal;
         if (this.keepModal == false) {
             this.setState({
                 keepModal: true,
+                postType: type,
             });
-        } else {
-            this.setState({
-                keepModal: false,
-            });
-        }
-    };
 
-    //Remove Post Modal - Cancel Button
-    handleRemoveCancel = () => {
-        this.removeModal = this.state.removeModal;
-        if (this.removeModal == true) {
-            this.setState({
-                removeModal: false,
-            });
-        } else {
-            this.setState({
-                removeModal: true,
-            });
-        }
-    };
-
-    //Keep Post Modal - Cancel Button
-    handleKeepCancel = () => {
-        this.keepModal = this.state.keepModal;
-        if (this.keepModal == true) {
-            this.setState({
-                keepModal: false,
-            });
-        } else {
-            this.setState({
-                keepModal: true,
-            });
-        }
-    };
-
-    //Remove Post Modal - Confirm Button
-    handleRemoveConfirm = () => {
-        this.removepost();
-        this.removeModal = this.state.removeModal;
-        if (this.removeModal == true) {
-            this.setState({
-                removeModal: false,
-            });
-        } else {
-            this.setState({
-                removeModal: true,
-            });
-        }
-    };
-
-    //Keep Post Modal - Cancel Button
-    handleKeepConfirm = () => {
-        this.keeppost();
-        this.keepModal = this.state.keepModal;
-        if (this.keepModal == true) {
-            this.setState({
-                keepModal: false,
-            });
-        } else {
-            this.setState({
-                keepModal: true,
-            });
-        }
-    };
-
-    retrievepostdetails(postid, type) {
-        this.setState({
-            id: postid,
-            type: type,
-        });
-    }
-
-    removepost() {
-        var reportid = this.state.reportid;
-        var postid = this.state.postid;
-        var reporttype = this.state.type;
-
-        if (reporttype === "Question") {
-            reporttype = "Questions";
-        } else {
-            reporttype = "Comments";
-        }
-
-        db.collectionGroup(reporttype).get()
-        .then((snapshot) => {
-            snapshot.forEach((doc) => {
-            if (doc.data().id.toString() === postid.toString()) {
-                doc.ref
-                .update({
-                    deleted: true,
-                })
-                .then(function () {
-                    alert("Updated");
+            if (type === "Question") {
+                this.setState({
+                    questionId: parameter.questionId
+                });
+            } else {
+                this.setState({
+                    commentId: parameter.commentId
                 });
             }
-            });
-        });
-        db.collectionGroup("Reports").get()
-        .then((snapshot) => {
-            snapshot.forEach((doc) => {
-                if (doc.data().id === reportid) {
-                    doc.ref.update({
-                        isHandled: true,
-                    });
-                }
-            });
-        });
-        this.state.postid = "";
-        this.state.type = "";
-        this.state.reportid = "";
-    }
 
-    keeppost() {
-        var reportid = this.state.reportid;
-        var reporttype = this.state.type;
+        } else {
+            this.setState({
+                keepModal: false,
+            });
+        }
+    };
 
-        if (reporttype === "Question") reporttype = "Questions";
-        else {
-            reporttype = "Comments";
+    removePost = (id) => {
+        if (id === this.state.questionId) {
+            db.collectionGroup("Questions").get()
+            .then((snapshot) => {
+                snapshot.forEach((doc) => {
+                    if (doc.id === id) {
+                        doc.ref
+                        .update({
+                            deleted: true,
+                        })
+                        .then(() => {
+                            this.display();
+                            this.setState({
+                                removeModal: false,
+                            });
+                        });
+                    }
+                });
+            });
         }
 
-        db.collectionGroup("Reports").get()
-        .then((snapshot) => {
-            snapshot.forEach((doc) => {
-                if (doc.data().id === reportid) {
-                    doc.ref.update({
-                        isHandled: true,
-                    });
-                }
+        if (id === this.state.commentId) {
+            db.collectionGroup("Comments").get()
+            .then((snapshot) => {
+                snapshot.forEach((doc) => {
+                    if (doc.id === id) {
+                        doc.ref
+                        .update({
+                            deleted: true,
+                        })
+                        .then(() => {
+                            this.display();
+                            this.setState({
+                                removeModal: false,
+                            });
+                        });
+                    }
+                });
             });
-        });
-        this.state.postid = "";
-        this.state.type = "";
-        this.state.reportid = "";
+        }
+    }
+
+    keepPost = (id) => {
+        if (id === this.state.questionId) {
+            db.collectionGroup("Questions").get()
+            .then((snapshot) => {
+                snapshot.forEach((doc) => {
+                    if (doc.id === id) {
+                        doc.ref
+                        .update({
+                            deleted: false,
+                            reported: false,
+                        })
+                        .then(() => {
+                            this.display();
+                            this.setState({
+                                keepModal: false,
+                            });
+                        });
+                    }
+                });
+            });
+        }
+
+        if (id === this.state.commentId) {
+            db.collectionGroup("Comments").get()
+            .then((snapshot) => {
+                snapshot.forEach((doc) => {
+                    if (doc.id === id) {
+                        doc.ref
+                        .update({
+                            deleted: false,
+                            reported: false,
+                        })
+                        .then(() => {
+                            this.display();
+                            this.setState({
+                                keepModal: false,
+                            });
+                        });
+                    }
+                });
+            });
+        }
     }
 
     render() {
@@ -261,41 +318,68 @@ class ForumFlagged extends Component {
                                                 <Table responsive="sm" bordered id="Forum-tableContainer">
                                                     <thead id="Forum-tableHeader">
                                                         <tr>
-                                                            <th id="ForumFlagged-SNo">S/N</th>
                                                             <th id="ForumFlagged-questionsComments">Question/Comment</th>
                                                             <th id="ForumFlagged-reasons">Reason</th>
-                                                            <th>Type</th>
-                                                            <th>Posted By</th>
-                                                            <th>Date/Time</th>
-                                                            <th id="ForumFlagged-comments">No. of Comments</th>
+                                                            <th id="ForumFlagged-type">Type</th>
+                                                            <th id="ForumFlagged-postedBy">Posted By</th>
+                                                            <th id="ForumFlagged-dateTime">Date/Time</th>
+                                                            <th id="ForumFlagged-comments">No. of Comments/Replies</th>
                                                             <th id="ForumFlagged-icons">Remove Post</th>
                                                             <th id="ForumFlagged-icons">Keep Post</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="Forum-tableBody">
-                                                        {this.state.flagged && this.state.flagged.map((flagged, index) => {
-                                                            if (flagged.isHandled === false) {
+                                                        {this.state.reports && this.state.reports.map((rep) => {
+                                                            if (rep.postType === "Question") {
                                                                 return (
                                                                     <tr>
-                                                                        <td>{index + 1}</td>
-                                                                        <td>{flagged.questionscomment}</td>
-                                                                        <td>{flagged.reason}</td>
-                                                                        <td>{flagged.type}</td>
-                                                                        <td>{flagged.postedby}</td>
-                                                                        <td>{flagged.datetime}</td>
-                                                                        <td>{flagged.reportedby}</td>
-                                                                        <td>
-                                                                            <Button size="lg" id="ForumFlagged-removeBtn" onClick={() => {this.state.postid = flagged.postid; this.state.type = flagged.type; this.state.reportid = flagged.reportid; this.handleRemoveModal();}}>
-                                                                                <FontAwesomeIcon size="lg" icon={faTimesCircle}/>
-                                                                            </Button>
-                                                                        </td>
-                                                                        <td>
-                                                                            <Button  size="lg" id="ForumFlagged-keepBtn" onClick={() => {this.state.postid = flagged.postid; this.state.type = flagged.type; this.state.reportid = flagged.reportid; this.handleKeepModal();}}>
-                                                                                <FontAwesomeIcon size="lg" icon={faCheckCircle} />
-                                                                            </Button>
-                                                                        </td>
+                                                                        {this.state.questions && this.state.questions.map((qns) => {
+                                                                            if (rep.postId == qns.questionId && qns.reported == true && qns.isDeleted != true) {
+                                                                                return (
+                                                                                    <>
+                                                                                        <td>{rep.postContent}</td>
+                                                                                        <td>{rep.entry}</td>
+                                                                                        <td>{rep.postType}</td>
+                                                                                        <td>{rep.offender}</td>
+                                                                                        <td>{qns.dateTime}</td>
+                                                                                        <td>{qns.noOfComments}</td>
+                                                                                        <td>
+                                                                                            <Button size="lg" id="ForumFlagged-removeBtn" onClick={() => this.handleRemoveModal(rep.postType, qns)}><FontAwesomeIcon size="lg" icon={faTimesCircle}/></Button>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <Button size="lg" id="ForumFlagged-keepBtn" onClick={() => this.handleKeepModal(rep.postType, qns)}><FontAwesomeIcon size="lg" icon={faCheckCircle} /></Button>
+                                                                                        </td>
+                                                                                    </>
+                                                                                )
+                                                                            }
+                                                                        })}
                                                                     </tr>
-                                                                );
+                                                                )
+                                                            } else {
+                                                                return (
+                                                                    <tr>
+                                                                        {this.state.comments && this.state.comments.map((comments) => {
+                                                                            if (rep.postId == comments.commentId && comments.reported == true && comments.isDeleted != true) {
+                                                                                return (
+                                                                                    <>
+                                                                                        <td>{rep.postContent}</td>
+                                                                                        <td>{rep.entry}</td>
+                                                                                        <td>{rep.postType}</td>
+                                                                                        <td>{rep.offender}</td>
+                                                                                        <td>{comments.dateTime}</td>
+                                                                                        <td>{comments.noOfReplies}</td>
+                                                                                        <td>
+                                                                                            <Button size="lg" id="ForumFlagged-removeBtn" onClick={() => this.handleRemoveModal(rep.postType, comments)}><FontAwesomeIcon size="lg" icon={faTimesCircle}/></Button>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <Button size="lg" id="ForumFlagged-keepBtn" onClick={() => this.handleKeepModal(rep.postType, comments)}><FontAwesomeIcon size="lg" icon={faCheckCircle} /></Button>
+                                                                                        </td>
+                                                                                    </>
+                                                                                )
+                                                                            }
+                                                                        })}
+                                                                    </tr>
+                                                                )
                                                             }
                                                         })}
                                                     </tbody>
@@ -326,16 +410,22 @@ class ForumFlagged extends Component {
                             </Row>
 
                             <Row className="justify-content-center">
-                                <Col md={6} className="text-right ForumFlagged-removeModalCol">
-                                    <Button id="ForumFlagged-removeConfirmBtn" onClick={this.handleRemoveConfirm}>Confirm</Button>
-                                </Col>
+                                {this.state.postType === "Question" ?
+                                    <Col md={6} className="text-right ForumFlagged-removeModalCol">
+                                        <Button id="ForumFlagged-removeConfirmBtn" onClick={() => this.removePost(this.state.questionId)}>Confirm</Button>
+                                    </Col> 
+                                    : 
+                                    <Col md={6} className="text-right ForumFlagged-removeModalCol">
+                                        <Button id="ForumFlagged-removeConfirmBtn" onClick={() => this.removePost(this.state.commentId)}>Confirm</Button>
+                                    </Col>
+                                }
                                 <Col md={6} className="text-left ForumFlagged-removeModalCol">
-                                    <Button id="ForumFlagged-removeCancelBtn" onClick={this.handleRemoveCancel}>Cancel</Button>
+                                    <Button id="ForumFlagged-removeCancelBtn" onClick={this.handleRemoveModal}>Cancel</Button>
                                 </Col>
                             </Row>
                         </Modal.Body>
                     </Modal>
-                ) : ( "")}
+                ) : ("")}
 
                 {this.state.keepModal == true ? (
                     <Modal show={this.state.keepModal} onHide={this.handleKeepModal} size="md" centered keyboard={false}>
@@ -354,11 +444,17 @@ class ForumFlagged extends Component {
                             </Row>
 
                             <Row className="justify-content-center">
-                                <Col md={6} className="text-right ForumFlagged-keepModalCol">
-                                    <Button id="ForumFlagged-keepConfirmBtn" onClick={this.handleKeepConfirm}>Confirm</Button>
-                                </Col>
+                                {this.state.postType === "Question" ?
+                                    <Col md={6} className="text-right ForumFlagged-removeModalCol">
+                                        <Button id="ForumFlagged-removeConfirmBtn" onClick={() => this.keepPost(this.state.questionId)}>Confirm</Button>
+                                    </Col> 
+                                    : 
+                                    <Col md={6} className="text-right ForumFlagged-removeModalCol">
+                                        <Button id="ForumFlagged-removeConfirmBtn" onClick={() => this.keepPost(this.state.commentId)}>Confirm</Button>
+                                    </Col>
+                                }
                                 <Col md={6} className="text-left ForumFlagged-keepModalCol">
-                                    <Button id="ForumFlagged-keepCancelBtn" onClick={this.handleKeepCancel}>Cancel</Button>
+                                    <Button id="ForumFlagged-keepCancelBtn" onClick={this.handleKeepModal}>Cancel</Button>
                                 </Col>
                             </Row>
                         </Modal.Body>

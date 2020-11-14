@@ -185,7 +185,7 @@ class ForumSettings extends Component {
                 </Container>
         
                 {this.state.confirmModal == true ? (
-                    <Modal show={this.state.confirmModal} onHide={this.handleToggle} size="md" centered keyboard={false}>
+                    <Modal show={this.state.confirmModal} onHide={this.onClickCancel} size="md" centered keyboard={false}>
                         <Modal.Header closeButton></Modal.Header>
                         <Modal.Body>
                             <Row className="justify-content-center">
