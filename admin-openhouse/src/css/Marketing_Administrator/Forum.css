@@ -79,15 +79,15 @@
     box-shadow: none;
 }
 
-#ForumFlagged-SNo {
-    width: 3%;
+#ForumFlagged-questionsComments, #ForumFlagged-reasons, #ForumFlagged-dateTime {
+    width: 21%;
 }
 
-#ForumFlagged-questionsComments, #ForumFlagged-reasons {
-    width: 20%;
+#ForumFlagged-postedBy, #ForumFlagged-comments {
+    width: 10%;
 }
 
-#ForumFlagged-comments, #ForumFlagged-icons {
+#ForumFlagged-icons, #ForumFlagged-type {
     width: 5%;
 }
 
@@ -108,12 +108,20 @@
     color: white;    
 }
 
+#ForumFlagged-removeCancelBtn:focus {
+    box-shadow: none;  
+}
+
 #ForumFlagged-removeConfirmBtn {
     width: 40%;
     background: none;
     border: 1px solid #EA526F;
     border-radius: 6px;
     color: #EA526F;
+}
+
+#ForumFlagged-removeConfirmBtn:focus {
+    box-shadow: none;  
 }
 
 #ForumFlagged-keepCancelBtn {
@@ -124,12 +132,20 @@
     color: white;
 }
 
+#ForumFlagged-keepCancelBtn:focus {
+    box-shadow: none;  
+}
+
 #ForumFlagged-keepConfirmBtn {
     width: 40%;
     background: none;
     border: 1px solid #f69e7b;
     border-radius: 6px;
     color: #f69e7b;
+}
+
+#ForumFlagged-keepConfirmBtn:focus {
+    box-shadow: none;  
 }
 
 /* -- Forum Settings --  */

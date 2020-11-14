@@ -370,6 +370,7 @@ class ProgrammeTalkSchedule extends Component {
 
     /* Add Programme Talk Modal */
     handleAddProgTalkModal = () => {
+        this.resetForm();
         if (this.state.addProgTalkModal == false) {
             this.setState({
                 addProgTalkModal: true,
@@ -380,7 +381,6 @@ class ProgrammeTalkSchedule extends Component {
             this.setState({
                 addProgTalkModal: false
             });
-            this.resetForm();
         }
     };
 

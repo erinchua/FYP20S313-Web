@@ -451,7 +451,7 @@ class Performances extends Component {
                                             <FontAwesomeIcon size="lg" icon={faMapPin}/>
                                         </Form.Group> 
                                         <Form.Group as={Col} md="7">
-                                            <Form.Control id="Performances-inputFields" type="text" name="performanceName" placeholder="Tour: e.g. DreamWerkz" required value={this.state.performanceName} onChange={this.updateInput} noValidate></Form.Control>
+                                            <Form.Control id="Performances-inputFields" type="text" name="performanceName" placeholder="Performance Name: e.g. DreamWerkz" required value={this.state.performanceName} onChange={this.updateInput} noValidate></Form.Control>
                                                 <div className="errorMessage">{this.state.performanceNameError}</div>
                                         </Form.Group>
                                     </Form.Group>                     
@@ -536,7 +536,7 @@ class Performances extends Component {
                                                             <FontAwesomeIcon size="lg" icon={faMapPin}/>
                                                         </Form.Group> 
                                                         <Form.Group as={Col} md="7">
-                                                            <Form.Control id="Performances-inputFields" type="text" name="performanceName" placeholder="Tour: e.g. DreamWerkz" onChange={this.updateInput} required defaultValue={this.state.performanceName} noValidate></Form.Control>
+                                                            <Form.Control id="Performances-inputFields" type="text" name="performanceName" placeholder="Performance Name: e.g. DreamWerkz" onChange={this.updateInput} required defaultValue={this.state.performanceName} noValidate></Form.Control>
                                                             <div className="errorMessage">{this.state.performanceNameError}</div>
                                                         </Form.Group>
                                                     </Form.Group>                     

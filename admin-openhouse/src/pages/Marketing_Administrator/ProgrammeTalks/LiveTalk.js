@@ -268,6 +268,7 @@ class LiveTalk extends Component {
 
     /* Add Live Talk Modal */
     handleAddLiveTalkModal = () => {
+        this.resetForm();
         if (this.state.addLiveTalkModal == false) {
             this.setState({
                 addLiveTalkModal: true,
@@ -277,7 +278,6 @@ class LiveTalk extends Component {
             this.setState({
                 addLiveTalkModal: false
             });
-            this.resetForm();
         }
     };
 

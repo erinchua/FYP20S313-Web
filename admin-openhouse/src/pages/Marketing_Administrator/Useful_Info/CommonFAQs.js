@@ -188,6 +188,7 @@ class CommonFAQs extends Component {
 
     /* Add Live Talk Modal */
     handleAddCommonFAQModal = () => {
+        this.resetForm();
         if (this.state.addCommonFAQModal == false) {
             this.setState({
                 addCommonFAQModal: true,
@@ -197,7 +198,6 @@ class CommonFAQs extends Component {
             this.setState({
                 addCommonFAQModal: false
             });
-            this.resetForm();
         }
     };
 

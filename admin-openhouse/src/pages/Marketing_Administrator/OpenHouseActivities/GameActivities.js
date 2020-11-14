@@ -26,10 +26,18 @@ export function sortFunction(a, b) {
     }
 
     if (+aSplitNumberAlpha[0] == +bSplitNumberAlpha[0]) {
-        if (aSplitNumberAlpha[1] == '' && bSplitNumberAlpha[1] != '') {
+        if (bSplitNumberAlpha[1] != '') {
+            return -1;
+        }
+        if (aSplitNumberAlpha[1] != '') {
+            return -1;
+        }
+
+        if (aSplitNumberAlpha[1] > bSplitNumberAlpha[1]) {
             return 1;
         }
-        if (bSplitNumberAlpha[1] == '' && aSplitNumberAlpha[1] != '') {
+
+        if (aSplitNumberAlpha[1] < bSplitNumberAlpha[1]) {
             return -1;
         }
     }
