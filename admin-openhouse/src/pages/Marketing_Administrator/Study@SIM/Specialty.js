@@ -75,7 +75,7 @@ class StudySIM_Speciality extends Component {
             docid: doc.id,
             programmeName: doc.data().programmeTitle,
             awardBy: doc.data().awardedBy,
-            Logofile: doc.data().logoUrl,
+            logoUrl: doc.data().logoUrl,
             CategoryProgramme: doc.data().category,
             ModeOfStudy: doc.data().modeOfStudy,
             discipline1: doc.data().discipline.disciplineName1,
@@ -311,7 +311,7 @@ class StudySIM_Speciality extends Component {
                                 <td className="studySIMProgData_AwardedBy text-left">{Specialty.awardBy}</td>
 
                                 <td className="studySIMProgData_LogoFile text-left">
-                                  <img src={Specialty.Logofile} className="logoFileImg" alt="No Logo file"></img>
+                                  <img src={Specialty.logoUrl} className="logoFileImg" alt="No Logo file"></img>
                                 </td>
 
                                 <td className="studySIMProgData_AcademicLvl text-left">{Specialty.AcademicLevel}</td>
