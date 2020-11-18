@@ -1,4 +1,3 @@
-const db = require('./config/adminConfig');
 const fs = require('fs');
 const converter = require('json-2-csv');
 
@@ -16,12 +15,4 @@ converter.csv2json(csvFile, (err, json) => {
     fs.writeFileSync(`${pathDir}${args}Converted.json`, JSON.stringify(json, null, 2), err => {
         if (err) return console.log(`${err} Error writing file`)
     });
-
-    // To store in Firestore
-    /* json.forEach(elem => {
-        db.collection('toJSONTest').doc(elem.id).set(elem).catch(err => {
-            return console.log(err);
-        })
-    }); */
 });
-    
