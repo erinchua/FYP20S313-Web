@@ -9,7 +9,7 @@ import NavBar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import SideNavBar from '../../components/SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBus, faCar, faEdit, faFileImage, faLocationArrow, faParking, faTrain } from '@fortawesome/free-solid-svg-icons';
+import { faBus, faCar, faEdit, faParking, faTrain, faLocationArrow } from '@fortawesome/free-solid-svg-icons';
 
 //Sort Bus Numbers
 export function sortFunction(a, b) {
@@ -56,7 +56,6 @@ export function sortAlphabet(a, b) {
 }
 
 const initialStates = {
-    mapUrlError: "",
     carDescriptionError: "",
     carParkingDescriptionError: "",
     busDescriptionError: "",
@@ -72,10 +71,6 @@ class GettingToSIMHQ extends Component {
     constructor() {
         super();
         this.state = {
-            //Below states are for Map 
-            mapId: "",
-            mapUrl: "",
-            mapArray: "",
             //Below states are for Car 
             carId: "",
             carDescription: "",
@@ -136,14 +131,10 @@ class GettingToSIMHQ extends Component {
             carParkingDescription: "",
             carParkArray: "",
             //Below states are for modals
-            mapEditModal: false,
             carEditModal: false,
             busEditModal: false,
             mrtEditModal: false,
             carParkEditModal: false,
-            //
-            modeOfTransport: "",
-            progress: "",
         };
     }
 
@@ -315,20 +306,6 @@ class GettingToSIMHQ extends Component {
                     this.state.DowntownmrtDescription  = doc.data().downtownLine.description;
                     this.state.EastwestmrtDescription  = doc.data().eastwestLine.description;
                 }
-                
-                //Map Image File
-                if (doc.id === "map") {
-                    const maparray = [];
-                    const data = {
-                        mapId: doc.id,
-                        url: doc.data().url,
-                    };
-                    maparray.push(data);
-                    this.setState({ 
-                        mapurl : doc.data().url,
-                        mapArray: maparray 
-                    });
-                }
             });
         });;
 
@@ -478,68 +455,6 @@ class GettingToSIMHQ extends Component {
         });
     };
 
-    handleSave = (mapImage) => {
-        // Create a reference to the file to delete
-        var desertRef = storage.refFromURL(this.state.mapurl)
-
-        // Delete the file
-        desertRef.delete();
-        const parentthis = this;
-
-        const isValid = this.validateCampusMap();
-
-        if (this.state.files !== undefined) {
-            const foldername = "CampusLocation";
-            const file = this.state.files[0];
-            const storageRef = storage.ref(foldername);
-            const fileRef = storageRef.child(this.state.files[0].name).put(this.state.files[0]);
-            fileRef.on("state_changed", function (snapshot) {
-                fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-
-                    if (isValid) {
-                        this.setState(initialStates);
-
-                        db.collection("CampusLocation").doc("map")
-                        .update({
-                            url: downloadURL,
-                        })
-                        .then(() => {
-                            this.displau()
-                        });
-                    }
-                    
-                });
-                const progress = Math.round(
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                );
-                if (progress != "100") {
-                    parentthis.setState({ progress: progress });
-                } else {
-                    parentthis.setState({ progress: "Uploaded!" });
-                }
-            });
-            this.setState({
-                mapEditModal: false
-            })
-        }
-    };
-
-    handleMapEditModal = (map) => {
-        if (this.state.mapEditModal == false) {
-            this.setState({
-                mapEditModal: true,
-                mapId: map.id,
-                mapUrl: map.url,
-            })
-        }
-        else {
-            this.setState({
-                mapEditModal: false
-            });
-            this.setState(initialStates);
-        }
-    }
-
     handleCarEditModal = (car) => {
         if (this.state.carEditModal == false) {
             this.setState({
@@ -604,21 +519,6 @@ class GettingToSIMHQ extends Component {
         }
     }
 
-    validateCampusMap = () => {
-        let mapUrlError = "";
-
-        if (!this.state.mapUrl) {
-            mapUrlError = "Please browse a valid image."
-        }
-
-        if (mapUrlError) {
-            this.setState({mapUrlError});
-            return false;
-        }
-
-        return true;
-    }
-
     validateCar = () => {
         let carDescriptionError = "";
 
@@ -657,11 +557,6 @@ class GettingToSIMHQ extends Component {
             busDescriptionError = "Please enter a valid description."
         }
 
-        /*//Dont delete this
-        if (!this.state.oppSimBus) {
-            busNoError = "Please enter valid bus numbers."
-        }*/
-
         if (busDescriptionError || busNoError) {
             this.setState({busDescriptionError, busNoError});
             return false;
@@ -677,11 +572,6 @@ class GettingToSIMHQ extends Component {
         if (!this.state.DowntownmrtDescription || !this.state.EastwestmrtDescription) {
             mrtDescriptionError = "Please enter a valid description."
         }
-
-        /*//Dont delete this
-        if (!this.state.oppSimBus) {
-            mrtLineError = "Please enter valid bus numbers."
-        }*/
 
         if (mrtDescriptionError || mrtLineError) {
             this.setState({mrtDescriptionError, mrtLineError});
@@ -713,29 +603,23 @@ class GettingToSIMHQ extends Component {
 
                                         <Row id="GettingToSimHq-secondRow">
                                             <Col md={12} id="GettingToSimHq-secondRowCol">
-                                                <Tab.Container defaultActiveKey="map">
+                                                <Tab.Container defaultActiveKey="car">
                                                     <Row className="GettingToSimHq-secondInnerRow">
                                                         <Col md={12} className="GettingToSimHq-secondInnerCol">
-                                                            <Nav defaultActiveKey="map" className="GettingToSimHq-nav" variant="tabs">
-                                                                <Col md={3} className="text-center GettingToSimHq-navItemCon">
-                                                                    <Nav.Item className="GettingToSimHq-navItems">
-                                                                        <Nav.Link eventKey="map" className="GettingToSimHq-navLinks">Campus Map</Nav.Link>
-                                                                    </Nav.Item>
-                                                                </Col>
-
-                                                                <Col md={3} className="text-center GettingToSimHq-navItemCon">
+                                                            <Nav defaultActiveKey="car" className="GettingToSimHq-nav" variant="tabs">
+                                                                <Col md={4} className="text-center GettingToSimHq-navItemCon">
                                                                     <Nav.Item className="GettingToSimHq-navItems">
                                                                         <Nav.Link eventKey="car" className="GettingToSimHq-navLinks">Car Information</Nav.Link>
                                                                     </Nav.Item>
                                                                 </Col>
 
-                                                                <Col md={3} className="text-center GettingToSimHq-navItemCon">
+                                                                <Col md={4} className="text-center GettingToSimHq-navItemCon">
                                                                     <Nav.Item className="GettingToSimHq-navItems">
                                                                         <Nav.Link eventKey="bus" className="GettingToSimHq-navLinks">Bus Information</Nav.Link>
                                                                     </Nav.Item>
                                                                 </Col>
 
-                                                                <Col md={3} className="text-center GettingToSimHq-navItemCon">
+                                                                <Col md={4} className="text-center GettingToSimHq-navItemCon">
                                                                     <Nav.Item className="GettingToSimHq-navItems">
                                                                         <Nav.Link eventKey="mrt" className="GettingToSimHq-navLinks">MRT Information</Nav.Link>
                                                                     </Nav.Item>
@@ -748,30 +632,6 @@ class GettingToSIMHQ extends Component {
                                                     <Row className="GettingToSimHq-secondInnerRow">
                                                         <Col md={12} className="GettingToSimHq-secondInnerCol">
                                                             <Tab.Content>
-
-                                                                {/* Map */}
-                                                                <Tab.Pane eventKey="map">
-                                                                    <Col md={12} className="text-center GettingToSimHq-tableColCon">
-                                                                        <Table responsive="sm" bordered className="GettingToSimHq-tableCon">
-                                                                            <thead id="GettingToSimHq-tableHeader">
-                                                                                <tr>
-                                                                                    <th>Image</th>
-                                                                                    <th id="GettingToSimHq-editHeading">Edit</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            {this.state.mapArray && this.state.mapArray.map((map) => {
-                                                                                return (
-                                                                                    <tbody id="GettingToSimHq-tableBody" key={map.mapId}>
-                                                                                        <tr>
-                                                                                            <td className="text-left">Getting to SIM HQ Map Image</td>
-                                                                                            <td><Button size="sm" id="GettingToSimHq-editBtn" onClick={() => this.handleMapEditModal(map)}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
-                                                                                        </tr>
-                                                                                    </tbody>
-                                                                                )
-                                                                            })}
-                                                                        </Table>
-                                                                    </Col>
-                                                                </Tab.Pane>
 
                                                                 {/* Car and Car Park */}
                                                                 <Tab.Pane eventKey="car">
@@ -923,49 +783,6 @@ class GettingToSIMHQ extends Component {
 
                     <Footer />
                 </Container>
-
-                {/* Map Image Edit Modal */}
-                {this.state.mapEditModal == true ? 
-                    <Modal show={this.state.mapEditModal} onHide={this.handleMapEditModal} size="lg" centered keyboard={false}>
-                        <Modal.Header closeButton className="justify-content-center">
-                            <Modal.Title id="GettingToSimHq-modalTitle" className="w-100">Edit Map Image</Modal.Title>
-                        </Modal.Header>
-                        <div>
-                            <Modal.Body>
-                                <Form noValidate>
-                                    <Form.Group>
-                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
-                                            <img height="200px" width="400px" src={this.state.mapUrl} style={{marginBottom: "3%"}}/>
-                                        </Form.Group>                     
-                                    </Form.Group>
-                                    <Form.Group>
-                                        <Form.Group as={Row} className="GettingToSimHq-formGroup">
-                                            <Form.Group as={Col} md="1">
-                                                <FontAwesomeIcon size="lg" icon={faFileImage} />
-                                            </Form.Group> 
-                                            <Form.Group as={Col} md="7">
-                                                <Form.File type="file" name="imgFile" className="GettingToSimHq-imgFile" label={this.state.mapUrl} onChange={(e) => {this.handleFileUpload(e.target.files)}} custom required></Form.File>
-                                                <div className="errorMessage">{this.state.mapUrlError}</div>
-                                            </Form.Group>
-                                        </Form.Group>                     
-                                    </Form.Group>
-                                </Form>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Container>
-                                    <Row id="GettingToSimHq-editFooter">
-                                        <Col md={6} className="GettingToSimHq-editCol">
-                                            <Button id="GettingToSimHq-saveBtn" type="submit" onClick={this.handleSave}>Save Changes</Button>
-                                        </Col>
-                                        <Col md={6} className="GettingToSimHq-editCol">
-                                            <Button id="GettingToSimHq-cancelBtn" onClick={this.handleMapEditModal}>Cancel</Button>
-                                        </Col>
-                                    </Row>
-                                </Container>
-                            </Modal.Footer>
-                        </div>
-                    </Modal>: ''
-                }
 
                 {/* Car Edit Modal */}
                 {this.state.carEditModal == true ? 

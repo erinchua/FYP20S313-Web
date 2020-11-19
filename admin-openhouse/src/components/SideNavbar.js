@@ -133,7 +133,7 @@ export default class SideNavBar extends React.Component {
                                     <div id="border"></div>
                                     <Nav.Item className="sideNavBar-navItems">
                                         <Nav.Link href="/Openhouse" className="sideNavBar-navLinks">Open House Details</Nav.Link>
-                                        <Nav.Link href="/AttendanceMarkingScanner" onClick={() => [localStorage.clear()]} className="sideNavBar-navLinks">Attendance Taking Scanner</Nav.Link>
+                                        <Nav.Link href="/AttendanceMarkingScanner" onClick={() => [localStorage.clear()]} className="sideNavBar-navLinks">Programme Talk Attendance List</Nav.Link>
                                     </Nav.Item>
                                     <div id="border"></div>
                                     <Nav.Item className="sideNavBar-navItems">
