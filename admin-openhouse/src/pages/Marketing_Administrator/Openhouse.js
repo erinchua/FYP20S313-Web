@@ -85,33 +85,27 @@ class Openhouse extends Component {
 
         db.collection("Openhouse").get().then((snapshot) => {
             snapshot.forEach((doc) => {
-            const daydata = doc.get("day");
-            if (Array.isArray(daydata)) {
-                for (var i = 0; i < Object.keys(daydata).length; i++) {
-                    console.log(daydata[i].date);
-                    console.log(daydata[i].startTime);
-                    console.log(daydata[i].endTime);
+                const daydata = doc.get("day");
+                if (Array.isArray(daydata)) {
+                    for (var i = 0; i < Object.keys(daydata).length; i++) {
+                        console.log(daydata[i].date);
+                        console.log(daydata[i].startTime);
+                        console.log(daydata[i].endTime);
+                    }
                 }
-            }
-            for (var i = 0; i < Object.keys(daydata).length; i++) {
-                const data = {
-                    day: Object.keys(doc.data().day)[i],
-                    date: daydata[Object.keys(daydata)[i]].date,
-                    startTime: daydata[Object.keys(daydata)[i]].startTime,
-                    endTime: daydata[Object.keys(daydata)[i]].endTime,
-                    description: daydata[Object.keys(daydata)[i]].description,
-                    docid: doc.id,
-                };
-                users.push(data);
-                const date = daydata[Object.keys(daydata)[i]].date;
-            }
-            });
+                for (var i = 0; i < Object.keys(daydata).length; i++) {
+                    const data = {
+                        day: Object.keys(doc.data().day)[i],
+                        date: daydata[Object.keys(daydata)[i]].date,
+                        startTime: daydata[Object.keys(daydata)[i]].startTime,
+                        endTime: daydata[Object.keys(daydata)[i]].endTime,
+                        description: daydata[Object.keys(daydata)[i]].description,
+                        docid: doc.id,
+                    };
+                    users.push(data);
+                    const date = daydata[Object.keys(daydata)[i]].date;
+                }
 
-            this.setState({ users: users });
-        });
-
-        db.collection("Openhouse").get().then((snapshot) => {
-            snapshot.forEach((doc) => {
                 const data = {
                     docid: doc.id,
                     mobileHomeImage: doc.data().mobileHomeImage,
@@ -119,7 +113,8 @@ class Openhouse extends Component {
                 };
                 images.push(data);
             });
-            this.setState({images: images});
+
+            this.setState({ users: users, images: images });
         });
 
     }
@@ -131,50 +126,18 @@ class Openhouse extends Component {
     };
 
     //Get respective data out by ids and the day number for Edit Modal - Integrated
-    edit(e, openhouseid, day) {
+    edit(e, user) {
         this.editModal = this.state.editModal;
         if (this.editModal == false) {
             this.setState({
                 editModal: true,
+                day: user.day,
+                date: user.date,
+                startTime: user.startTime,
+                endTime: user.endTime,
+                description: user.description,
+                docid: user.docid
             });
-            this.state.docid = openhouseid;
-            this.state.day = day;
-
-            db.collection("Openhouse").doc(openhouseid).get()
-            .then((doc) => {
-                const daydata = doc.get('day');
-
-                if (day == Object.keys(daydata).length - 1) {
-                    for (var i = 0; i < Object.keys(daydata).length - 1; i++){
-                        this.setState({
-                            day: day,
-                            date: daydata[Object.keys(daydata)[i]].date,
-                            startTime: daydata[Object.keys(daydata)[i]].startTime,
-                            endTime: daydata[Object.keys(daydata)[i]].endTime,
-                            description: daydata[Object.keys(daydata)[i]].description,
-                            docid: doc.id,
-                        });
-                    }
-                }
-
-                if (day == Object.keys(daydata).length) {
-                    for (var i = 1; i < Object.keys(daydata).length; i++){
-                        this.setState({
-                            day: day,
-                            date: daydata[Object.keys(daydata)[i]].date,
-                            startTime: daydata[Object.keys(daydata)[i]].startTime,
-                            endTime: daydata[Object.keys(daydata)[i]].endTime,
-                            description: daydata[Object.keys(daydata)[i]].description,
-                            docid: doc.id,
-                        });
-                    }
-                }
-            });
-        } else {
-            this.setState({
-                editModal: false
-            });
-            this.resetForm();
         }
     }
 
@@ -198,7 +161,12 @@ class Openhouse extends Component {
                             "day.1.endTime": this.state.endTime,
                             "day.1.description": this.state.description,
                         })
-                        .then(() => this.onAuthSuccess(e, openhouseid, day));
+                        .then(() => {
+                            this.setState({
+                                editModal: false,
+                            });
+                            this.display()
+                        });
                         
                     }
                 }
@@ -218,8 +186,12 @@ class Openhouse extends Component {
                             "day.2.endTime": this.state.endTime,
                             "day.2.description": this.state.description,
                         })
-                        .then(() => this.onAuthSuccess(e, openhouseid, day));
-                        
+                        .then(() => {
+                            this.setState({
+                                editModal: false,
+                            });
+                            this.display()
+                        });
                     }
                 }
             }
@@ -227,25 +199,14 @@ class Openhouse extends Component {
 
     }
 
-    onAuthSuccess = (e, openhouseid, day) => {
-        window.location.reload();
-    };
-
     //Get respective data out by ids and the day number for Edit Modal - Integrated
-    editHomeImage(e, imageId, imageFile) {
+    editHomeImage(e, imageFile) {
         this.editHomeModal = this.state.editHomeModal;
         if (this.editHomeModal == false) {
             this.setState({
                 editHomeModal: true,
-            });
-            this.state.docid = imageId;
-            this.state.mobileHomeImage = imageFile;
-            
-            db.collection("Openhouse").doc(imageId).get()
-            .then((doc) => {
-                this.setState({
-                    mobileHomeImage: doc.data().mobileHomeImage,
-                })
+                mobileHomeImage: imageFile,
+                mobileHomeImage_title: imageFile,
             });
         } else {
             this.setState({
@@ -256,20 +217,13 @@ class Openhouse extends Component {
     }
 
     //Get respective data out by ids and the day number for Edit Modal - Integrated
-    editProgrammeImage(e, imageId, imageFile) {
+    editProgrammeImage(e, imageFile) {
         this.editProgrammeModal = this.state.editProgrammeModal;
         if (this.editProgrammeModal == false) {
             this.setState({
                 editProgrammeModal: true,
-            });
-            this.state.docid = imageId;
-            this.state.mobileOpenHouseProgImage = imageFile;
-            
-            db.collection("Openhouse").doc(imageId).get()
-            .then((doc) => {
-                this.setState({
-                    mobileOpenHouseProgImage: doc.data().mobileOpenHouseProgImage,
-                })
+                mobileOpenHouseProgImage: imageFile,
+                mobileOpenHouseProgImage_title: imageFile,
             });
         } else {
             this.setState({
@@ -315,30 +269,80 @@ class Openhouse extends Component {
 
     //Upload image when click on "Save Changes" in Edit Modal
     uploadHomeImage = async() => {
+        var title = "";
+        var res = "";
+        var extension = "";
+        var fileName = "";
 
         if (this.state.mobileHomeImage.startsWith('blob:')) {
-            const url = await savePicture(this.state.mobileHomeImage, this.state.mobileHomeImage_title);
+
+            title = this.state.mobileHomeImage_title.split(/\%2F(.*?)\?alt/)[1].split(".")[0]
+            res = this.state.mobileHomeImage_title.split("?alt=")[0];
+            extension = res.substr(res.length - 4);
+
+            if (!extension.includes('.png') && !extension.includes('.jpg') && !extension.includes('.PNG') && !extension.includes('.JPG') && !extension.includes('.gif') && !extension.includes('.GIF')) {
+                fileName = title;
+                const url = await savePicture(this.state.mobileHomeImage, fileName);
+                this.setState({
+                    url: url
+                });
+            } else {
+                fileName = title + extension;
+                const url = await savePicture(this.state.mobileHomeImage, fileName);
+                this.setState({
+                    url: url
+                });
+            }
+
             db.collection("Openhouse").doc("openhouse")
             .update({
-                mobileHomeImage: url,
+                mobileHomeImage: this.state.url,
             })
-            .then(function() {
-                window.location.reload();
+            .then(() => {
+                this.setState({
+                    editHomeModal: false
+                });
+                this.display();
             });
         }
     }
 
     //Upload image when click on "Save Changes" in Edit Modal
     uploadProgrammeImage = async() => {
+        var title = "";
+        var res = "";
+        var extension = "";
+        var fileName = "";
 
         if (this.state.mobileOpenHouseProgImage.startsWith('blob:')) {
-            const url = await savePicture(this.state.mobileOpenHouseProgImage, this.state.mobileOpenHouseProgImage_title);
+
+            title = this.state.mobileOpenHouseProgImage_title.split(/\%2F(.*?)\?alt/)[1].split(".")[0]
+            res = this.state.mobileOpenHouseProgImage_title.split("?alt=")[0];
+            extension = res.substr(res.length - 4);
+
+            if (!extension.includes('.png') && !extension.includes('.jpg') && !extension.includes('.PNG') && !extension.includes('.JPG') && !extension.includes('.gif') && !extension.includes('.GIF')) {
+                fileName = title;
+                const url = await savePicture(this.state.mobileOpenHouseProgImage, fileName);
+                this.setState({
+                    url: url
+                });
+            } else {
+                fileName = title + extension;
+                const url = await savePicture(this.state.mobileOpenHouseProgImage, fileName);
+                this.setState({
+                    url: url
+                });
+            }
+
             db.collection("Openhouse").doc("openhouse")
             .update({
-                mobileOpenHouseProgImage: url,
+                mobileOpenHouseProgImage: this.state.url,
             })
-            .then(function() {
-                window.location.reload();
+            .then(() => {
+                this.setState({
+                    editProgrammeModal: false
+                });
+                this.display();
             });
         }
     }
@@ -437,7 +441,7 @@ class Openhouse extends Component {
                                                                     <td>{user.startTime}</td>
                                                                     <td>{user.endTime}</td>
                                                                     <td id="OpenHouse-descriptionData">{user.description}</td>
-                                                                    <td><Button size="sm" id="OpenHouse-editBtn" onClick={(e) => {this.edit(e, user.docid, user.day)}}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                    <td><Button size="sm" id="OpenHouse-editBtn" onClick={(e) => {this.edit(e, user)}}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                 </tr>
                                                             );
                                                         })}
@@ -467,19 +471,13 @@ class Openhouse extends Component {
                                                             <tbody id="OpenHouse-tableBody">
                                                                 <tr>
                                                                     <td className="text-left">Mobile Application - Home Screen</td>
-                                                                    <td><Button size="sm" id="OpenHouse-editBtn" onClick={(e) => [this.setState({mobileHomeImage_title: "Mobile Home Image"}), this.editHomeImage(e, image.docid, image.mobileHomeImage)]}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                    <td><Button size="sm" id="OpenHouse-editBtn" onClick={(e) => [this.editHomeImage(e, image.mobileHomeImage)]}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td className="text-left">Mobile Application - Open House Programme Screen</td>
-                                                                    <td><Button size="sm" id="OpenHouse-editBtn" onClick={(e) => [this.setState({mobileOpenHouseProgImage_title: "Mobile Open House Programme Image"}), this.editProgrammeImage(e, image.docid, image.mobileOpenHouseProgImage)]}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
+                                                                    <td><Button size="sm" id="OpenHouse-editBtn" onClick={(e) => [this.editProgrammeImage(e, image.mobileOpenHouseProgImage)]}><FontAwesomeIcon size="lg" icon={faEdit}/></Button></td>
                                                                 </tr>
                                                             </tbody>
-                                                            /* //Testing
-                                                            <span>
-                                                                <img height="200px" width="400px" src={image.mobileHomeImage}/>
-                                                                <br/>
-                                                                <img height="200px" width="400px" src={image.mobileOpenHouseProgImage}/>
-                                                            </span> */
                                                         )
                                                     })}
                                                 </Table>
@@ -582,86 +580,78 @@ class Openhouse extends Component {
                 {this.state.editHomeModal == true ? 
                     <Modal show={this.state.editHomeModal} onHide={() => {this.setState({editHomeModal: false})}} size="lg" centered keyboard={false}>
                         <Modal.Header closeButton></Modal.Header>
-                        {this.state.images && this.state.images.map((image) => {
-                            if (image.docid === this.state.docid) {
-                                return (
-                                    <div>
-                                        <Modal.Body>
-                                            <Form noValidate>
-                                                <Form.Group>
-                                                    <Form.Group as={Row} className="OpenHouse-formGroup">
-                                                        <Form.Group as={Col} md="1">
-                                                            <FontAwesomeIcon size="lg" icon={faFileImage} />
-                                                        </Form.Group> 
-                                                        <Form.Group as={Col} md="7">
-                                                            <Form.File type="file" name="imgFile" className="OpenHouse-imgFile" label={this.state.mobileHomeImage} onChange={this.handleHomeChange} custom required></Form.File>
-                                                            <div className="errorMessage"></div>
-                                                        </Form.Group>
-                                                    </Form.Group>                     
+                            <div>
+                                <Modal.Body>
+                                    <Form noValidate>
+                                        <Form.Group>
+                                            <Form.Group as={Row} className="OpenHouse-formGroup">
+                                                <img height="150px" width="300px" src={this.state.mobileHomeImage} style={{marginTop: "1%", marginBottom: "1%"}}/>
+                                            </Form.Group>                     
+                                        </Form.Group>
+                                        <Form.Group>
+                                            <Form.Group as={Row} className="OpenHouse-formGroup">
+                                                <Form.Group as={Col} md="1">
+                                                    <FontAwesomeIcon size="lg" icon={faFileImage} />
+                                                </Form.Group> 
+                                                <Form.Group as={Col} md="7">
+                                                    <Form.File type="file" name="imgFile" className="OpenHouse-imgFile" label={this.state.mobileHomeImage} onChange={this.handleHomeChange} custom required></Form.File>
                                                 </Form.Group>
-                                            </Form>
-                                        </Modal.Body>
-                                        <Modal.Footer>
-                                            <Container>
-                                                <Row id="OpenHouse-editFooter">
-                                                    <Col md={6} className="OpenHouse-editCol">
-                                                        <Button id="OpenHouse-saveBtn" type="submit" onClick={this.uploadHomeImage}>Save Changes</Button>
-                                                    </Col>
-                                                    <Col md={6} className="OpenHouse-editCol">
-                                                        <Button id="OpenHouse-cancelBtn" onClick={() => {this.setState({editHomeModal: false})}}>Cancel</Button>
-                                                    </Col>
-                                                </Row>
-                                            </Container>
-                                        </Modal.Footer>
-                                    </div>
-                                )
-                            } else {
-                                return ('')
-                            }
-                        })}
+                                            </Form.Group>                     
+                                        </Form.Group>
+                                    </Form>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Container>
+                                        <Row id="OpenHouse-editFooter">
+                                            <Col md={6} className="OpenHouse-editCol">
+                                                <Button id="OpenHouse-saveBtn" type="submit" onClick={() => this.uploadHomeImage()}>Save Changes</Button>
+                                            </Col>
+                                            <Col md={6} className="OpenHouse-editCol">
+                                                <Button id="OpenHouse-cancelBtn" onClick={() => {this.setState({editHomeModal: false})}}>Cancel</Button>
+                                            </Col>
+                                        </Row>
+                                    </Container>
+                                </Modal.Footer>
+                            </div>
                     </Modal>: ''
                 }
 
                 {this.state.editProgrammeModal == true ? 
                     <Modal show={this.state.editProgrammeModal} onHide={() => {this.setState({editProgrammeModal: false})}} size="lg" centered keyboard={false}>
                         <Modal.Header closeButton></Modal.Header>
-                        {this.state.images && this.state.images.map((image) => {
-                            if (image.docid === this.state.docid) {
-                                return (
-                                    <div>
-                                        <Modal.Body>
-                                            <Form noValidate>
-                                                <Form.Group>
-                                                    <Form.Group as={Row} className="OpenHouse-formGroup">
-                                                        <Form.Group as={Col} md="1">
-                                                            <FontAwesomeIcon size="lg" icon={faFileImage} />
-                                                        </Form.Group> 
-                                                        <Form.Group as={Col} md="7">
-                                                            <Form.File name="imgFile" className="OpenHouse-imgFile" label={this.state.mobileOpenHouseProgImage} onChange={this.handleProgrammeChange} custom required></Form.File>
-                                                            <div className="errorMessage"></div>
-                                                        </Form.Group>
-                                                    </Form.Group>                     
+                            <div>
+                                <Modal.Body>
+                                    <Form noValidate>
+                                        <Form.Group>
+                                            <Form.Group as={Row} className="OpenHouse-formGroup">
+                                                <img height="150px" width="300px" src={this.state.mobileOpenHouseProgImage} style={{marginTop: "1%", marginBottom: "1%"}}/>
+                                            </Form.Group>                     
+                                        </Form.Group>
+                                        <Form.Group>
+                                            <Form.Group as={Row} className="OpenHouse-formGroup">
+                                                <Form.Group as={Col} md="1">
+                                                    <FontAwesomeIcon size="lg" icon={faFileImage} />
+                                                </Form.Group> 
+                                                <Form.Group as={Col} md="7">
+                                                    <Form.File name="imgFile" className="OpenHouse-imgFile" label={this.state.mobileOpenHouseProgImage} onChange={this.handleProgrammeChange} custom required></Form.File>
                                                 </Form.Group>
-                                            </Form>
-                                        </Modal.Body>
-                                        <Modal.Footer>
-                                            <Container>
-                                                <Row id="OpenHouse-editFooter">
-                                                    <Col md={6} className="OpenHouse-editCol">
-                                                        <Button id="OpenHouse-saveBtn" type="submit" onClick={this.uploadProgrammeImage}>Save Changes</Button>
-                                                    </Col>
-                                                    <Col md={6} className="OpenHouse-editCol">
-                                                        <Button id="OpenHouse-cancelBtn" onClick={() => {this.setState({editProgrammeModal: false})}}>Cancel</Button>
-                                                    </Col>
-                                                </Row>
-                                            </Container>
-                                        </Modal.Footer>
-                                    </div>
-                                )
-                            } else {
-                                return ('')
-                            }
-                        })}
+                                            </Form.Group>                     
+                                        </Form.Group>
+                                    </Form>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Container>
+                                        <Row id="OpenHouse-editFooter">
+                                            <Col md={6} className="OpenHouse-editCol">
+                                                <Button id="OpenHouse-saveBtn" type="submit" onClick={() => this.uploadProgrammeImage()}>Save Changes</Button>
+                                            </Col>
+                                            <Col md={6} className="OpenHouse-editCol">
+                                                <Button id="OpenHouse-cancelBtn" onClick={() => {this.setState({editProgrammeModal: false})}}>Cancel</Button>
+                                            </Col>
+                                        </Row>
+                                    </Container>
+                                </Modal.Footer>
+                            </div>
                     </Modal>: ''
                 }
 
