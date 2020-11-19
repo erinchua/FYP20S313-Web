@@ -252,11 +252,11 @@ class AttendanceMarkingScanner extends Component {
         return (
             <div>
                 <Container fluid className="AttendanceMarking-container">
-                    {this.state.isMarketing === false ?
+                    {this.state.isMarketing == false ?
                         <NavBar isMA={false} /> : ''
                     }
 
-                    {this.state.isMarketing === true ? 
+                    {this.state.isMarketing == true ? 
                         <NavBar isMA={true} /> : ''
                     }
 
