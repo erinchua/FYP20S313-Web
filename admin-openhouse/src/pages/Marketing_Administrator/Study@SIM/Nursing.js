@@ -26,6 +26,10 @@ class StudySIM_Nursing extends Component {
       subDiscplines: [],
       universities: [],
 
+      ModeOfStudy: {
+        "fullTime": false,
+        "partTime": false
+      },
       docid: "",
 
       addStudySIMProgModal: false,
