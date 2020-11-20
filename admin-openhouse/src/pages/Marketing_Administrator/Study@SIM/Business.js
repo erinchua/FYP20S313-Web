@@ -16,6 +16,7 @@ import EditStudySIMProgModal from "../../../components/Marketing_Administrator/S
 import DeleteStudySIMProgModal from "../../../components/Marketing_Administrator/Study@SIM/DeleteStudySIMProgModal";
 import ViewStudySIMProgDetailsModal from "../../../components/Marketing_Administrator/Study@SIM/ViewStudySIMProgDetailsModal";
 
+
 class StudySIM_Business extends Component {
   constructor() {
     super();
@@ -25,6 +26,10 @@ class StudySIM_Business extends Component {
       subDiscplines: [],
       universities: [],
 
+      ModeOfStudy: {
+        "fullTime": false,
+        "partTime": false
+      },
       docid: "",
 
       addStudySIMProgModal: false,
