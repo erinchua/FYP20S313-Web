@@ -13,28 +13,28 @@ import { faBus, faCar, faEdit, faParking, faTrain, faLocationArrow } from '@fort
 
 //Sort Bus Numbers
 export function sortFunction(a, b) {
-    const aSplit = a;
-    const bSplit = b;
-    let aSplitNumberAlpha = aSplit.match(/[a-zA-Z]+|\d+/ig)
-    let bSplitNumberAlpha = bSplit.match(/[a-zA-Z]+|\d+/ig)  
+    // const aSplit = a;
+    // const bSplit = b;
+    // let aSplitNumberAlpha = aSplit.match(/[a-zA-Z]+|\d+/ig)
+    // let bSplitNumberAlpha = bSplit.match(/[a-zA-Z]+|\d+/ig)  
 
-    if (+aSplitNumberAlpha[0] > +bSplitNumberAlpha[0]) {
-        return 1;
-    }
+    // if (+aSplitNumberAlpha[0] > +bSplitNumberAlpha[0]) {
+    //     return 1;
+    // }
     
-    if (+aSplitNumberAlpha[0] < +bSplitNumberAlpha[0]) {
-        return -1;
-    }
+    // if (+aSplitNumberAlpha[0] < +bSplitNumberAlpha[0]) {
+    //     return -1;
+    // }
 
-    if (+aSplitNumberAlpha[0] == +bSplitNumberAlpha[0]) {
-        if (aSplitNumberAlpha[1] == '' && bSplitNumberAlpha[1] != '') {
-            return 1;
-        }
-        if (bSplitNumberAlpha[1] == '' && aSplitNumberAlpha[1] != '') {
-            return -1;
-        }
-    }
-    return 0;
+    // if (+aSplitNumberAlpha[0] == +bSplitNumberAlpha[0]) {
+    //     if (aSplitNumberAlpha[1] == '' && bSplitNumberAlpha[1] != '') {
+    //         return 1;
+    //     }
+    //     if (bSplitNumberAlpha[1] == '' && aSplitNumberAlpha[1] != '') {
+    //         return -1;
+    //     }
+    // }
+    // return 0;
 }
 
 //Sort MRT Lines
