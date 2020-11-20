@@ -25,6 +25,13 @@ class StudySIM_Speciality extends Component {
       disciplines: [],
       subDiscplines: [],
       universities: [],
+
+      ModeOfStudy: {
+        "fullTime": false,
+        "partTime": false
+      },
+      docid: "",
+      
       addStudySIMProgModal: false,
       editStudySIMProgModal: false,
       deleteStudySIMProgModal: false,

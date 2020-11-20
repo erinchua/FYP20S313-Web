@@ -449,12 +449,6 @@ class GettingToSIMHQ extends Component {
         }
     };
 
-    handleFileUpload = (files) => {
-        this.setState({
-            files: files,
-        });
-    };
-
     handleCarEditModal = (car) => {
         if (this.state.carEditModal == false) {
             this.setState({
