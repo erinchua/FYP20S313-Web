@@ -25,8 +25,13 @@ class StudentAccounts extends Component {
             dob: "",
             highestQualification: "",
             nationality: "",
-            isSuspendedFromForum: "",
             id: "",
+            userId: "",
+            isSuspended: "",
+            //Below states are for the functions
+            users: "",
+            forum: "",
+            //Below states are for the modals
             suspendStudAcctModal: false,
             unsuspendStudAcctModal: false,
         };
@@ -77,30 +82,30 @@ class StudentAccounts extends Component {
                     dob: doc.data().dob,
                     highestQualification: doc.data().highestQualification,
                     nationality: doc.data().nationality,
-                    isSuspendedFromForum: doc.data().isSuspendedFromForum,
                     id: doc.id,
                     counter : counter,
                 };
                 counter++;
                 users.push(data);
             });
-
             this.setState({ users: users });
+        });
+
+        db.collection("Forum").get()
+        .then((snapshot) => {
+            const forum = [];
+            snapshot.forEach((doc) => {
+                const data = {
+                    userId: doc.id,
+                    isSuspended: doc.data().suspended
+                }
+                forum.push(data);
+            });
+            this.setState({ forum: forum });
         });
     }
 
     Unsuspend(e, studentdocid) {
-        db.collection("Students").doc(studentdocid)
-        .update({
-            isSuspendedFromForum: false,
-        })
-        .then(() => {
-            this.setState({
-                suspendStudAcctModal: false
-            });
-            this.display()
-        }); 
-
         db.collection("Forum").doc(studentdocid)
         .update({
             suspended: false,
@@ -114,17 +119,6 @@ class StudentAccounts extends Component {
     }
 
     Suspend(e, studentdocid) {
-        db.collection("Students").doc(studentdocid)
-        .update({
-            isSuspendedFromForum: true,
-        })
-        .then(() => {
-            this.setState({
-                suspendStudAcctModal: false
-            });
-            this.display()
-        }); 
-
         db.collection("Forum").doc(studentdocid)
         .update({
             suspended: true,
@@ -156,7 +150,6 @@ class StudentAccounts extends Component {
                         dob: doc.data().dob,
                         highestQualification: doc.data().highestQualification,
                         nationality: doc.data().nationality,
-                        isSuspendedFromForum: doc.data().isSuspendedFromForum,
                         id: doc.id,
                         counter : counter,
                     };
@@ -183,7 +176,6 @@ class StudentAccounts extends Component {
                         dob: doc.data().dob,
                         highestQualification: doc.data().highestQualification,
                         nationality: doc.data().nationality,
-                        isSuspendedFromForum: doc.data().isSuspendedFromForum,
                         id: doc.id,
                         counter : counter,
                     };
@@ -211,9 +203,9 @@ class StudentAccounts extends Component {
     };
 
     /* Handle Suspend Modals */
-    retrieveuserdata_suspend(id, isSuspendedFromForum){
-        this.state.id = id
-        this.state.isSuspendedFromForum = isSuspendedFromForum
+    retrieveuserdata_suspend(id, isSuspended){
+        this.state.userId = id
+        this.state.isSuspended = isSuspended
         this.handleSuspendStudAcctModal();
     }
 
@@ -286,15 +278,21 @@ class StudentAccounts extends Component {
                                                                 <td id="studAcctData_DOB">{user.dob}</td>
                                                                 <td id="studAcctData_HighestQual">{user.highestQualification}</td>
                                                                 <td id="studAcctData_Nationality">{user.nationality}</td>
-                                                                <td id="studAcctData_SuspendStud">
-                                                                    <Button id="unsuspendStudBtn" onClick={(e) => {this.retrieveuserdata_suspend(user.id, user.isSuspendedFromForum);} } >
-                                                                        {user.isSuspendedFromForum ?
-                                                                        <FontAwesomeIcon size="lg" id="suspendStudBtnIcon" icon={faUserCheck} />
-                                                                        :
-                                                                        <FontAwesomeIcon size="lg" id="unsuspendStudBtnIcon" icon={faBan} /> 
-                                                                        }
-                                                                    </Button>
-                                                                </td>
+                                                                {this.state.forum && this.state.forum.map((forum) => {
+                                                                    if (user.id === forum.userId) {
+                                                                        return(
+                                                                            <td id="studAcctData_SuspendStud" key={forum.userId}>
+                                                                                <Button id="unsuspendStudBtn" onClick={(e) => {this.retrieveuserdata_suspend(forum.userId, forum.isSuspended);} } >
+                                                                                    {forum.isSuspended ?
+                                                                                    <FontAwesomeIcon size="lg" id="suspendStudBtnIcon" icon={faUserCheck} />
+                                                                                    :
+                                                                                    <FontAwesomeIcon size="lg" id="unsuspendStudBtnIcon" icon={faBan} /> 
+                                                                                    }
+                                                                                </Button>
+                                                                            </td>
+                                                                        )
+                                                                    }
+                                                                })}
                                                             </tr>
                                                             );
                                                         })}
@@ -320,7 +318,7 @@ class StudentAccounts extends Component {
                     backdrop="static"
                     keyboard={false}
                 >
-                {this.state.isSuspendedFromForum == false ?
+                {this.state.isSuspended == false ?
                     <>
                     <Modal.Header closeButton className="justify-content-center">
                         <Modal.Title id="suspendStudAcctModalTitle">
@@ -343,7 +341,7 @@ class StudentAccounts extends Component {
 
                         <Row className="justify-content-center">
                             <Col size="6" className="text-right suspendStudAcctModalCol">
-                                <Button id="confirmSuspendStudAcctModalBtn" onClick={ (e) => {this.Suspend(e, this.state.id)} }>Confirm</Button>
+                                <Button id="confirmSuspendStudAcctModalBtn" onClick={ (e) => {this.Suspend(e, this.state.userId)} }>Confirm</Button>
                             </Col>
 
                             <Col size="6" className="text-left suspendStudAcctModalCol">
@@ -375,7 +373,7 @@ class StudentAccounts extends Component {
 
                         <Row className="justify-content-center">
                             <Col size="6" className="text-right unsuspendStudAcctModalCol">
-                                <Button id="confirmUnsuspendStudAcctModalBtn" onClick={ (e) => {this.Unsuspend(e, this.state.id)} }>Confirm</Button>
+                                <Button id="confirmUnsuspendStudAcctModalBtn" onClick={ (e) => {this.Unsuspend(e, this.state.userId)} }>Confirm</Button>
                             </Col>
 
                             <Col size="6" className="text-left unsuspendStudAcctModalCol">

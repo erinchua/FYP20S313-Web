@@ -20,6 +20,7 @@ export default class DeleteStudySIMProgModal extends React.Component {
   }
 
   deleteProgramme() {
+      console.log(this.props.logoUrl)
     var title = this.props.logoUrl.split(/\%2F(.*?)\?alt/)[1].split(".")[0]
     var res = this.props.logoUrl.split("?alt=")[0];
     var extension = res.substr(res.length - 4);

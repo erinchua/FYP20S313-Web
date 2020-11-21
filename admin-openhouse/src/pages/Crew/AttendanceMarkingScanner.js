@@ -35,6 +35,7 @@ class AttendanceMarkingScanner extends Component {
             result: "",
             //Others
             isMarketing: "",
+            allTalks: false,
             //Below states are for the functions
             attendance: "",
             programmeTalks: "",
@@ -149,7 +150,7 @@ class AttendanceMarkingScanner extends Component {
 
             if (this.state.result != null) {
                 var qrCodeString = this.state.result;
-                var result = qrCodeString.split(",");
+                var result = qrCodeString.split("~");
                 var firstName = result[0];
                 var lastName = result[1];
                 var email = result[2];
@@ -251,7 +252,13 @@ class AttendanceMarkingScanner extends Component {
         return (
             <div>
                 <Container fluid className="AttendanceMarking-container">
-                    <NavBar isMA={false} />
+                    {this.state.isMarketing == false ?
+                        <NavBar isMA={false} /> : ''
+                    }
+
+                    {this.state.isMarketing == true ? 
+                        <NavBar isMA={true} /> : ''
+                    }
 
                         <Container fluid className="AttendanceMarking-content" style={{ paddingLeft: 0, paddingRight: 0 }}>
                             <Row>
@@ -262,13 +269,20 @@ class AttendanceMarkingScanner extends Component {
                                 <Col md={10} style={{paddingLeft: 0}}>
                                     <Container fluid id="AttendanceMarking-topContentContainer">
                                         <Row id="AttendanceMarking-firstRow">
-                                            <Col md={6} className="text-left" id="AttendanceMarking-firstRowCol">
-                                                <h4 id="AttendanceMarking-title">Attendance Marking Scanner</h4>
-                                            </Col>
+                                            {this.state.isMarketing === true ? 
+                                                <Col md={6} className="text-left" id="AttendanceMarking-firstRowCol">
+                                                    <h4 id="AttendanceMarking-title">Programme Talk Attendance List</h4>
+                                                </Col> : ''
+                                            }
                                             {this.state.isMarketing === false ? 
+                                                <>
+                                                <Col md={6} className="text-left" id="AttendanceMarking-firstRowCol">
+                                                    <h4 id="AttendanceMarking-title">Attendance Marking Scanner</h4>
+                                                </Col>
                                                 <Col md={6} className="text-right" id="AttendanceMarking-firstRowCol">
                                                     <Button id="AttendanceMarking-scannerBtn" onClick={this.handleWebCam}><FontAwesomeIcon size="lg" icon={faQrcode} /><span id="AttendanceMarking-scannerBtnText">Scan</span></Button>
-                                                </Col> : ''
+                                                </Col>
+                                                </> : ''
                                             }
                                         </Row>
 
@@ -312,6 +326,19 @@ class AttendanceMarkingScanner extends Component {
                                                                     </tr>
                                                                 </tbody>
                                                             )
+                                                        } else if (this.state.programmeTalkName === "all") {
+                                                            return (
+                                                                <tbody id="AttendanceMarking-tableBody" key={attendance.id}>
+                                                                    <tr>
+                                                                        <td>{attendance.firstName}</td>
+                                                                        <td>{attendance.lastName}</td>
+                                                                        <td>{attendance.email}</td>
+                                                                        <td>{attendance.date}</td>
+                                                                        <td className="text-left">{attendance.universityName}</td>
+                                                                        <td className="text-left">{attendance.talkName}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            )
                                                         }
                                                     })}
                                                 </Table>
@@ -342,6 +369,7 @@ class AttendanceMarkingScanner extends Component {
                                             <Form.Group as={Col} md="7">
                                                 <Form.Control id="AttendanceMarking-inputFields" name="programmeTalkName" as="select" required onChange={this.updateInput} noValidate>
                                                     <option value="" id="AttendanceMarking-options">Select a Programme Talk</option>
+                                                    <option value="all" id="AttendanceMarking-options">All</option>
                                                     {this.state.programmeTalks && this.state.programmeTalks.map((talks) => {
                                                         return(
                                                             <option value={talks.talkName} id="AttendanceMarking-options">{talks.talkName}</option>

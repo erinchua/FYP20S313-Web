@@ -383,7 +383,7 @@ class EditBrochuresModal extends Component {
                                     <FontAwesomeIcon size="lg" icon={faHeading}/>
                                 </Form.Group> 
                                 <Form.Group as={Col} md="7">
-                                    <Form.Control id="Brochures-inputFields" type="text" name="description" placeholder="Description" defaultValue={this.props.description} onChange={this.updateInput} required noValidate></Form.Control>
+                                    <Form.Control readOnly id="Brochures-inputFields" type="text" name="description" placeholder="Description" defaultValue={this.props.description} onChange={this.updateInput} required noValidate></Form.Control>
                                     <div className="errorMessage">{this.state.descriptionError}</div>
                                 </Form.Group>
                             </Form.Group>                     
