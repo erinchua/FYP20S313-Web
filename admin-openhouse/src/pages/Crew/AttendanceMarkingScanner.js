@@ -150,7 +150,7 @@ class AttendanceMarkingScanner extends Component {
 
             if (this.state.result != null) {
                 var qrCodeString = this.state.result;
-                var result = qrCodeString.split(",");
+                var result = qrCodeString.split("~");
                 var firstName = result[0];
                 var lastName = result[1];
                 var email = result[2];
