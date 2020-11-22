@@ -1,0 +1,246 @@
+[
+    {
+        "id": "facility-001",
+        "blockName": "A",
+        "facilityName": "Library",
+        "location": "Blk A, Level 1"
+    },
+    {
+        "id": "facility-002",
+        "blockName": "A",
+        "facilityName": "Sudent Learning Centre",
+        "location": "Blk A, Level 5"
+    },
+    {
+        "id": "facility-003",
+        "blockName": "A",
+        "facilityName": "Student Lounge",
+        "location": "Blk A, Level 4"
+    },
+    {
+        "id": "facility-004",
+        "blockName": "A",
+        "facilityName": "Student Gym",
+        "location": "Blk A, Level 4"
+    },
+    {
+        "id": "facility-005",
+        "blockName": "A",
+        "facilityName": "Heritage Gallery",
+        "location": "Blk A, Level 2"
+    },
+    {
+        "id": "facility-006",
+        "blockName": "A",
+        "facilityName": "Popular Bookshop",
+        "location": "Blk A, Level 3"
+    },
+    {
+        "id": "facility-007",
+        "blockName": "A",
+        "facilityName": "Multi-Purpose Hall",
+        "location": "Blk A, Level 4"
+    },
+    {
+        "id": "facility-008",
+        "blockName": "A",
+        "facilityName": "Open Study Areas",
+        "location": "Blk A - Level 1 - 5"
+    },
+    {
+        "id": "facility-009",
+        "blockName": "A",
+        "facilityName": "Administration Office",
+        "location": "Blk A, Level 2"
+    },
+    {
+        "id": "facility-010",
+        "blockName": "A",
+        "facilityName": "Computer Labs",
+        "location": "Blk A"
+    },
+    {
+        "id": "facility-011",
+        "blockName": "A",
+        "facilityName": "Lecture Theatres",
+        "location": "Blk A"
+    },
+    {
+        "id": "facility-012",
+        "blockName": "A",
+        "facilityName": "Classrooms",
+        "location": "Blk A"
+    },
+    {
+        "id": "facility-013",
+        "blockName": "A",
+        "facilityName": "F&B Foodclique (Food Court)",
+        "location": "Blk A, Level 3"
+    },
+    {
+        "id": "facility-014",
+        "blockName": "A",
+        "facilityName": "F&B Kampung (Food Court)",
+        "location": "Blk A, Level 3"
+    },
+    {
+        "id": "facility-015",
+        "blockName": "A",
+        "facilityName": "Convenience Store Buzz",
+        "location": "Blk A, Level 1"
+    },
+    {
+        "id": "facility-016",
+        "blockName": "B",
+        "facilityName": "4 Multi-Purpose Halls",
+        "location": "Blk B"
+    },
+    {
+        "id": "facility-017",
+        "blockName": "B",
+        "facilityName": "Open Study Areas",
+        "location": "Blk B"
+    },
+    {
+        "id": "facility-018",
+        "blockName": "B",
+        "facilityName": "Student Activity Hub",
+        "location": "Blk B, Level 1"
+    },
+    {
+        "id": "facility-019",
+        "blockName": "B",
+        "facilityName": "Student Involvement Centre",
+        "location": "Blk B, Level 1"
+    },
+    {
+        "id": "facility-020",
+        "blockName": "B",
+        "facilityName": "Library Extension",
+        "location": "Blk B"
+    },
+    {
+        "id": "facility-021",
+        "blockName": "B",
+        "facilityName": "Administration Office",
+        "location": "Blk B"
+    },
+    {
+        "id": "facility-022",
+        "blockName": "B",
+        "facilityName": "Classrooms",
+        "location": "Blk B"
+    },
+    {
+        "id": "facility-023",
+        "blockName": "B",
+        "facilityName": "Computer Labs",
+        "location": "Blk B"
+    },
+    {
+        "id": "facility-024",
+        "blockName": "B",
+        "facilityName": "Lecture Theatres",
+        "location": "Blk B"
+    },
+    {
+        "id": "facility-025",
+        "blockName": "B",
+        "facilityName": "F&B Foodfest (Cafe)",
+        "location": "Blk B, Level 1"
+    },
+    {
+        "id": "facility-026",
+        "blockName": "B",
+        "facilityName": "F&B Subway (Fast Food Restaurant)",
+        "location": "Blk B, Level 1"
+    },
+    {
+        "id": "facility-027",
+        "blockName": "C",
+        "facilityName": "Student Wellness Centre",
+        "location": "Blk C, Level 2"
+    },
+    {
+        "id": "facility-028",
+        "blockName": "C",
+        "facilityName": "Financial Training Centre",
+        "location": "Blk C, Level 1"
+    },
+    {
+        "id": "facility-029",
+        "blockName": "C",
+        "facilityName": "Education Technology and Production (ETP) Studio",
+        "location": "Blk C"
+    },
+    {
+        "id": "facility-030",
+        "blockName": "C",
+        "facilityName": "Administration Office",
+        "location": "Blk C"
+    },
+    {
+        "id": "facility-031",
+        "blockName": "C",
+        "facilityName": "Classrooms",
+        "location": "Blk C"
+    },
+    {
+        "id": "facility-032",
+        "blockName": "C",
+        "facilityName": "Computer Labs",
+        "location": "Blk C"
+    },
+    {
+        "id": "facility-033",
+        "blockName": "C",
+        "facilityName": "Seminar Rooms",
+        "location": "Blk C"
+    },
+    {
+        "id": "facility-034",
+        "blockName": "C",
+        "facilityName": "F&B Starbucks (Cafe)",
+        "location": "Blk C, Level 1"
+    },
+    {
+        "id": "facility-035",
+        "blockName": "D",
+        "facilityName": "Tennis Courts",
+        "location": "Blk D, Level 4"
+    },
+    {
+        "id": "facility-036",
+        "blockName": "D",
+        "facilityName": "Multi-Purpose Sports Hall with Sport Therapy Room/First Aid Room",
+        "location": "Blk D, Level 2"
+    },
+    {
+        "id": "facility-037",
+        "blockName": "D",
+        "facilityName": "Performing Arts Theatre",
+        "location": "Blk D, Level 1"
+    },
+    {
+        "id": "facility-038",
+        "blockName": "D",
+        "facilityName": "Dance Studio",
+        "location": "Blk D, Level 1"
+    },
+    {
+        "id": "facility-039",
+        "blockName": "D",
+        "facilityName": "Student Activity Room",
+        "location": "Blk D"
+    },
+    {
+        "id": "facility-040",
+        "blockName": "D",
+        "facilityName": "Administration Office",
+        "location": "Blk D"
+    },
+    {
+        "id": "map",
+        "url": ""
+    }
+]

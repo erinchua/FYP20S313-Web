@@ -1,0 +1,22 @@
+[
+    {
+        "id": "openhouse",
+        "openhouseTitle": "SIM Openhouse 2020",
+        "day": {
+            "1": {
+                "date": "21-Nov-2020",
+                "startTime": "9:00AM",
+                "endTime": "5:00PM"
+            },
+            "2": {
+                "date": "22-Nov-2020",
+                "startTime": "9:00AM",
+                "endTime": "5:00PM"
+            }
+        },
+        "disableForum": false,
+        "checked": false,
+        "mobileHomeImage": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Openhouse%2FSIM%20Open%20House%202020%20Banner.gif?alt=media&token=f03fdb70-fd76-4ece-b42b-66ea67a01e49",
+        "mobileOpenHouseProgImage": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Openhouse%2FOpen%20House%20Programmes.gif?alt=media&token=ad1d988a-b94a-4a6d-a6b4-570fc26941c1"
+    }
+]

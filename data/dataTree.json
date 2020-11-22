@@ -1,0 +1,210 @@
+[
+    {
+        "sim": {
+            "openhouse": {
+                "day": [
+                    {
+                        "date": "",
+                        "startTime": "",
+                        "endTime": ""
+                    }
+                ],
+                "programmes": {
+                    "programmeTalks": {
+                        "talkName": "",
+                        "details": "",
+                        "discipline": [],
+                        "awardingUni": "",
+                        "date": "",
+                        "startTime": "",
+                        "endTime": "",
+                        "venue": "",
+                        "capacityLimit": 0,
+                        "noRegistered": 0,
+                        "isLive": false,
+                        "hasRecording": false,
+                        "url": ""
+                    },
+                    "guidedTours": {
+                        "tourName": "",
+                        "date": "",
+                        "startTime": "",
+                        "endTime": "",
+                        "venue": ""
+                    },
+                    "gamesActivities": {
+                        "performances": {
+                            "performanceName": "",
+                            "date": "",
+                            "startTime": "",
+                            "endTime": "",
+                            "venue": ""
+                        },
+                        "games": {
+                            "gameBoothName": "",
+                            "boothNumber": "",
+                            "date": "",
+                            "startTime": "",
+                            "venue": "",
+                            "pointsAward": 0,
+                            "prizes": {
+                                "prizeName": "",
+                                "prizePointsCost": 0,
+                                "stock": 0,
+                                "venue": {
+                                    "day": [
+                                        {
+                                            "date": "",
+                                            "venue": ""
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "students": {
+                    "scheduler": {
+                        "registeredProgrammes": []
+                    },
+                    "forum": {
+                        "question": {},
+                        "comments": {
+                            "replies": {}
+                        }
+                    },
+                    "games": {
+                        "points": 0,
+                        "redeemed": []
+                    },
+                    "mobileSetting": {
+                        "announcementNotif": false,
+                        "openhouseNotif": false
+                    }
+                },
+                "information": {
+                    "feeback": {
+                        "attendedDate": "",
+                        "feedbackDescription": "",
+                        "natureOfFeedback": ""
+                    },
+                    "commonFAQ": {
+                        "faqQuestion": "",
+                        "faqAnswer": "",
+                        "faqType": ""
+                    },
+                    "announcements": {
+                        "title": "",
+                        "details": "",
+                        "date": "",
+                        "time": "",
+                        "datePosted": ""
+                    }
+                }
+            },
+            "information": {
+                "universities": {
+                    "universityName": "",
+                    "url": "",
+                    "logo": ""
+                },
+                "programmes": {
+                    "programmeTitle": "",
+                    "modeOfStudy": {
+                        "partTime": false,
+                        "fullTime": false
+                    },
+                    "academicLevel": "",
+                    "discipline": [],
+                    "subDiscipline": [],
+                    "entryQualifications": {
+                        "aLevel": false,
+                        "oLevel": false,
+                        "degree": false,
+                        "diploma": false
+                    },
+                    "awardedBy": "",
+                    "programOverview": [],
+                    "applicationPeriod": [
+                        {
+                            "intake": "",
+                            "period": ""
+                        }
+                    ],
+                    "programmeStructure": {
+                        "coursework": false,
+                        "examination": false
+                    },
+                    "overseaOpportunity": {
+                        "exchange": false,
+                        "transfer": false
+                    },
+                    "intakeMonths": {
+                        "partTime": "",
+                        "fullTime": ""
+                    },
+                    "duration": {
+                        "partTime": "",
+                        "fullTime": ""
+                    },
+                    "uniLogo": ""
+                },
+                "clubsAndCouncils": {
+                    "clubsAndCouncilTitle": "",
+                    "clubsAndCouncilDescription": "",
+                    "clubsAndCouncilsLogo": "",
+                    "categoryType": ""
+                },
+                "campusFacilities": {
+                    "facilityName": "",
+                    "blockName": "",
+                    "location": ""
+                },
+                "gettingToSim": {
+                    "car": {
+                        "carDescription": "",
+                        "carParkingDescription": ""
+                    },
+                    "bus": {
+                        "busStop": []
+                    },
+                    "mrt": {
+                        "line": [
+                            {
+                                "description": "",
+                                "stations": []
+                            }
+                        ]
+                    }
+                },
+                "contactInfo": {
+                    "contactTitle": "",
+                    "operatingHours": {
+                        "weekday": "",
+                        "weekend": "",
+                        "noOperation": ""
+                    },
+                    "contactNo": "",
+                    "email": "",
+                    "country": ""
+                },
+                "supportAndServices": {
+                    "scholarship": {
+                        "segment": "",
+                        "header": "",
+                        "content": ""
+                    },
+                    "bursary": {
+                        "segment": "",
+                        "header": "",
+                        "content": ""
+                    }
+                },
+                "studentCare": {
+                    "desc": "",
+                    "logo": ""
+                }
+            }
+        }
+    }
+]

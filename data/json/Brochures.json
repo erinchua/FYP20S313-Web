@@ -1,0 +1,192 @@
+[
+    {
+        "id": "uobbroc-001",
+        "university": "University of Birmingham",
+        "description": "UoB-BSc-UG",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FBirmingham%2FUoB-BSc-UG.pdf?alt=media&token=3193f238-06d1-47d4-bc8e-50f65e62d44b",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FBirmingham%2FBirmingham-BachelorOfSci.jpg?alt=media&token=674ef674-7a79-43e0-9eb4-41b62a103763"
+    },
+    {
+        "id": "uobbroc-002",
+        "university": "University of Birmingham",
+        "description": "UoB-MBA",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FBirmingham%2FUoB-MBA.pdf?alt=media&token=ecef47dc-1b5b-4fb0-b296-ff479c89a25e",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FBirmingham%2FBirmingham-MasterOfBA.jpg?alt=media&token=11090f40-b55a-4864-b505-fc28984cb2f5"
+    },
+    {
+        "id": "uobbroc-003",
+        "university": "University of Birmingham",
+        "description": "UoB-MSc",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FBirmingham%2FUoB-MSc.pdf?alt=media&token=a9cfcc65-231d-4310-9be9-416ad0a12fe5",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FBirmingham%2FBirmingham-MasterOfSci.jpg?alt=media&token=cd17ae5a-a226-49ef-82ab-3548baa749ba"
+    },
+    {
+        "id": "ubbroc-001",
+        "university": "University of Buffalo",
+        "description": "UB-Brochure",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FBuffalo%2FUB-Brochure_09Sept2020.pdf?alt=media&token=67a55c60-8fb8-481c-9f6f-06bdc1983d17",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FBuffalo%2FBuffalo.jpg?alt=media&token=124cbe59-5d33-4c07-b544-2b81598fbc4b3"
+    },
+    {
+        "id": "ltubroc-001",
+        "university": "La Trobe University",
+        "description": "LTU-Business",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FLaTrobe%2FLTU-Business-Brochure.pdf?alt=media&token=e7504da1-fd5b-461c-93ef-2f77b1391acc",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FLaTrobe%2FLaTrobe.jpg?alt=media&token=666f1406-43f4-4bd0-aee2-4d4b7df550eb"
+    },
+    {
+        "id": "rmitbroc-001",
+        "university": "RMIT University",
+        "description": "RMIT-Aviation",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FRMIT%2FRMIT-Aviation.pdf?alt=media&token=8973507f-36c1-4e8a-9c84-509bf370caef",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FRMIT%2FRMIT-BachelorOfAppliedSci.jpg?alt=media&token=b1887182-0244-4eba-a726-8283fd7f040a"
+    },
+    {
+        "id": "rmitbroc-002",
+        "university": "RMIT University",
+        "description": "RMIT-Business",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FRMIT%2FRMIT-Business.pdf?alt=media&token=64ad1a25-62db-4fa0-bf41-9b9a20952fcb",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FRMIT%2FRMIT-BachelorOfBusiness.jpg?alt=media&token=4e417c96-6d1b-46b5-8917-081dda1b1522"
+    },
+    {
+        "id": "rmitbroc-003",
+        "university": "RMIT University",
+        "description": "RMIT-Comms-Design",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FRMIT%2FRMIT-Comms-Design.pdf?alt=media&token=c3f78ba9-f1ec-4f7a-aafe-c798608964e6",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FRMIT%2FRMIT-BachelorOfDesign.jpg?alt=media&token=9f717a53-168d-453f-a957-ddd96666f9b4"
+    },
+    {
+        "id": "rmitbroc-004",
+        "university": "RMIT University",
+        "description": "RMIT-Constr-Mgmt",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FRMIT%2FRMIT-Constr-Mgmt.pdf?alt=media&token=86ee115e-9190-4a6b-8395-bf8d1eed879e",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FRMIT%2FRMIT-ConstructionManagement.jpg?alt=media&token=e0744b8d-5d6d-4c35-89bf-2f57cb38409b"
+    },
+    {
+        "id": "rmitbroc-005",
+        "university": "RMIT University",
+        "description": "RMIT-Prof-Comms",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FRMIT%2FRMIT-Prof-Comms.pdf?alt=media&token=6454d728-05f2-4fd1-b38c-27541e8a67dc",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FRMIT%2FRMIT-BachelorOfCommunication.jpg?alt=media&token=7fe821d9-9d14-4f33-b1f6-0c63f8fa4b41"
+    },
+    {
+        "id": "simbroc-001",
+        "university": "Singapore Institute of Management",
+        "description": "SIM-DIP",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FSIM%2FSIM-Diploma.pdf?alt=media&token=6b1c7e2c-e191-43b9-8290-c76c47dc1f4d",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FSIM%2FSIMGE-Diploma-Certificate.jpg?alt=media&token=6f9fc740-6b1e-4da2-86e2-12c7048d9365"
+    },
+    {
+        "id": "simbroc-002",
+        "university": "Singapore Institute of Management",
+        "description": "SIM-GradDIP",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FSIM%2FSIM-Graduate-Diploma.pdf?alt=media&token=56151073-6196-4ebb-b343-55c84106ae5f",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FSIM%2FSIMGE-Graduate.jpg?alt=media&token=fd2669fe-cb76-4fd4-bb14-5ef50206940d"
+    },
+    {
+        "id": "stirlingbroc-001",
+        "university": "University of Stirling",
+        "description": "Stirling-Brochure",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FStirling%2FStirling-Brochure-30Sep20.pdf?alt=media&token=44c1becf-15d8-4688-893e-cba80e936443",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FStirling%2FStirling-BachelorOfArts.jpg?alt=media&token=26a526e4-9792-4a9e-b392-3e7ceb0277ed"
+    },
+    {
+        "id": "usydbroc-001",
+        "university": "University of Sydney",
+        "description": "USYD-Nursing",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FSydney%2FUSYD-Nursing-Brochure.pdf?alt=media&token=ad8696fa-d75b-407e-8a14-59569310ef2f",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FSydney%2FSydney.jpg?alt=media&token=a482336d-9cbc-4771-9c6c-2a18b9552328"
+    },
+    {
+        "id": "warwickbroc-001",
+        "university": "University of Warwick",
+        "description": "Warwick-CSM",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FWarwick%2FWarwick-CSM.pdf?alt=media&token=2c67fb67-a8be-4356-b9db-6cfc0e82fd55",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FWarwick%2FWarwick-Cyber.jpg?alt=media&token=90d6e8bf-2ba8-4b88-8d68-8df85a609896"
+    },
+    {
+        "id": "warwickbroc-002",
+        "university": "University of Warwick",
+        "description": "Warwick-EBM-SCLM",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FWarwick%2FWarwick-EBM-SCLM.pdf?alt=media&token=a33f4917-f21d-4359-ae68-9d10d2ff709b",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FWarwick%2FWarwick-Business.jpg?alt=media&token=1a422bfe-1af1-4f18-84a6-78cb12686aad"
+    },
+    {
+        "id": "warwickbroc-003",
+        "university": "University of Warwick",
+        "description": "Warwick-PPM",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FWarwick%2FWarwick-PPM.pdf?alt=media&token=4109adc0-8f7f-487d-b2f8-323dcdd42534",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FWarwick%2FWarwick-Project.jpg?alt=media&token=a2ff1507-5df2-4c59-a16f-9f5be31a169f"
+    },
+    {
+        "id": "uowbroc-001",
+        "university": "University of Wollongong",
+        "description": "UOW-IT",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FWollongong%2FUOW-IT.pdf?alt=media&token=fb1f006b-a250-4280-b06c-566ac36ee3fe",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FWollongong%2FWollongong-BachelorOfComSci.jpg?alt=media&token=0a750d51-4200-4c95-947e-e0dd49164aa1"
+    },
+    {
+        "id": "uowbroc-002",
+        "university": "University of Wollongong",
+        "description": "UOW-Psy-Sci",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FWollongong%2FUOW-Psy-Sci.pdf?alt=media&token=1f74403c-ed7e-4b1a-8e04-721fad9474da",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FWollongong%2FWollongong-BachelorOfPsySci.jpg?alt=media&token=846751c8-710b-44c5-a723-07673b1282c1"
+    },
+    {
+        "id": "uolbroc-001",
+        "university": "University of London",
+        "description": "UOL-BSc-CS",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FUOL%2FUOL-BSc-CS.pdf?alt=media&token=f97b8b26-7cfd-44e9-b23d-1cd9a99d747c7",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FUOL%2FLondon-BachelorOfSci2.jpg?alt=media&token=cbbedbc2-95ea-4c7d-b291-15bf76d825b0"
+    },
+    {
+        "id": "uolbroc-002",
+        "university": "University of London",
+        "description": "UOL-EMFSS",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FUOL%2FUOL-EMFSS.pdf?alt=media&token=f26a3e44-306e-49af-be48-2863e74e63cf",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FUOL%2FLondon-BachelorOfSci.jpg?alt=media&token=9fceb5ae-8fd7-4f9b-8b90-8655717f5efe"
+    },
+    {
+        "id": "uolbroc-003",
+        "university": "University of London",
+        "description": "UOL-IFP",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FUOL%2FUOL-IFP.pdf?alt=media&token=c5a24beb-53fe-41af-9dc8-f69f05ca53ff",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FUOL%2FLondon-InternationFoundationProg.jpg?alt=media&token=8f71bd45-19ff-4bd3-8bdb-b9c41238930c"
+    },
+    {
+        "id": "uolbroc-004",
+        "university": "University of London",
+        "description": "UOL-MSc-Data-Sci",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FUOL%2FUOL-MSc-Data-Sci.pdf?alt=media&token=a30e80de-97b7-4be2-ab7d-abcdf65bc493",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FUOL%2FLondon-MasterOfSci.jpg?alt=media&token=a312e71c-22a3-4ba3-be07-0c21a36e4c5a"
+    },
+    {
+        "id": "uolbroc-005",
+        "university": "University of London",
+        "description": "UOL-MScPA",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FUOL%2FUOL-MScPA.pdf?alt=media&token=02a5b1ac-8f0e-40a2-8a64-2cd8ee7ab256",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProgrammes%2FUOL%2FLondon-ProfessionalAccountancy.jpg?alt=media&token=62e43594-b0b6-4126-afcd-0f465dc6fda5"
+    },
+    {
+        "id": "prospect-001",
+        "description": "Prospectus",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProspectus%2FProspectus.pdf?alt=media&token=e87f8d9c-4eb5-46b1-8288-cbf3f588d8f7",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProspectus%2Ffull-time-prospectus.jpg?alt=media&token=01ca517a-cb61-4244-8b3d-f5f006549fff"
+    },
+    {
+        "id": "prospect-002",
+        "description": "Part-Time-Prospectus",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProspectus%2FPart-Time-Prospectus.pdf?alt=media&token=3a66ea9b-5711-4c1b-a3ca-4d94786f2671",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FProspectus%2Fpart-time-prospectus.jpg?alt=media&token=f5cc938f-612b-4673-ba84-3000756e9b7b"
+    },
+    {
+        "id": "study-001",
+        "description": "Scholarship-FAQ",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FStudy%2FSIM-GE-Scholarship.pdf?alt=media&token=62b3ad7b-185b-48ba-9ec0-c615a0bee1dd"
+    },
+    {
+        "id": "study-002",
+        "description": "Bursary-FAQ",
+        "brochureUrl": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Brochures%2FStudy%2FSIM-GE-Bursary.pdf?alt=media&token=1cacedee-48e9-40e1-afe8-13aef6d1d321"
+    }
+]

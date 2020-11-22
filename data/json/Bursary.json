@@ -1,0 +1,174 @@
+[
+    {
+        "id": "bursary-01",
+        "segment": "SIM GE Bursary",
+        "header": "Value and Tenure of Bursary",
+        "description": "The bursary quantum is up to $2,000 and is tenable for one year of study. (This has been now increased to $2,400 under the SIM COVID-19 Support Fund for bursaries given out in 2020. Please refer to FAQ for more information.)"
+    },
+    {
+        "id": "bursary-02",
+        "segment": "SIM GE Bursary",
+        "header": "Eligibility",
+        "content": [
+            "Full-time / Part-time SIM GE students pursuing Diploma, Undergraduate or Postgraduate programmes, excluding those who are currently in Bridging / Preparatory / Certificate in English course",
+            "Must have enrolled and started classes",
+            "Singapore Citizen / Singapore Permanent Resident / International Student",
+            "Ceiling for Per Capita Income (PCI): S$600 (e.g. Total Gross Household Income = $3000, Total Number of Household Members = 5, PCI = $3000 / 5 = $600)",
+            "Have financial difficulties caused by loss of job, loss of income-earner or medical treatment / condition",
+            "Have satisfactory academic results",
+            "Must not hold on to any SIM GE sponsorship / scholarship or have not been awarded the SIM GE bursary within the last one year at the point of application."
+        ]
+    },
+    {
+        "id": "bursary-03",
+        "segment": "SIM GE Bursary",
+        "header": "Repayment",
+        "description": "No repayment is required. However, the bursary must be refunded in part or in full if the student discontinues his or her studies."
+    },
+    {
+        "id": "bursary-04",
+        "segment": "SIM GE Bursary",
+        "header": "How to Apply",
+        "steps": "Login to SIMConnect => My Apps Tab => Self Service => Campus Finance => Financial Aid => Apply for Bursary",
+        "description": "Application is open throughout the year but will be processed and awarded on a quarterly basis. Late entries will be considered in the subsequent quarter.",
+        "content": [
+            {
+                "applicationPeriod": "Quarter 1 – Jan to Mar",
+                "closingDate": "31 March",
+                "processingPeriod": "April to May",
+                "notificationPeriod": "June"
+            },
+            {
+                "applicationPeriod": "Quarter 2 – Apr to Jun",
+                "closingDate": "30 June",
+                "processingPeriod": "July to August",
+                "notificationPeriod": "September"
+            },
+            {
+                "applicationPeriod": "Quarter 3 – Jul to Sep",
+                "closingDate": "30 September",
+                "processingPeriod": "October to November",
+                "notificationPeriod": "December"
+            },
+            {
+                "applicationPeriod": "Quarter 4 – Oct to Dec)",
+                "closingDate": "31 December",
+                "processingPeriod": "January to February",
+                "notificationPeriod": "March"
+            }
+        ]
+    },
+    {
+        "id": "bursary-05",
+        "segment": "SIM GE Bursary",
+        "header": "Required Supporting Documents",
+        "content": [
+            {
+                "title": "Household Income-related Documents",
+                "description": [
+                    "Latest 15 Months’ CPF Contribution History (Compulsory for all household members above 16 years old including applicant, even if not working)",
+                    "Latest Notice of Assessment (NOA) from IRAS (For household members who are self-employed)",
+                    "Latest Payslip (For household members who are working full-time/ part-time / working as private hire drivers)",
+                    "Signed Self-Declaration Letter Stating the Income on Average Per Month (For household members who take up adhoc jobs)",
+                    "NSF Allowance Payslip (For household members who are serving National Service)",
+                    "Summary of CPF Annual Statement – Ordinary Account, Special Account, Medisave Account, Retirement Account (Compulsory for all household members above 16 years old including applicant, even if not working)"
+                ]
+            },
+            {
+                "title": "Results / Official Transcript",
+                "description": [
+                    "Latest SIM GE (Download or print-screen your cumulative results from the partner university portal or SIMConnect) / A level / Diploma / O Level results"
+                ]
+            },
+            {
+                "title": "NRIC",
+                "description": [
+                    "NRIC / Birth Certificate (For all household members including applicant)"
+                ]
+            },
+            {
+                "title": "Expenses-related Documents",
+                "description": [
+                    "Rental Agreement / Acceptance Letter (For rented accommodation)",
+                    "Other supporting documents related to household expenses e.g. utilities bill"
+                ]
+            },
+            {
+                "title": "Personal-related Documents (If applicable)",
+                "description": [
+                    "Divorce Certificate",
+                    "Death Certificate",
+                    "Latest Medical Diagnosis / Memo",
+                    "Latest Medical Bills",
+                    "Unemployment Letter (E.g. Retrenchment Letter / Resignation Letter / End of Service Letter / Self-Declaration Letter with signature)",
+                    "Study Grant / Loan Acceptance Letter (For those who receive support from government or other organisations)",
+                    "Bankruptcy Letter"
+                ]
+            }
+        ],
+        "simPdpaPolicy": "https://www.simge.edu.sg/contact-us/personal-data-protection-act/"
+    },
+    {
+        "id": "bursary-06",
+        "segment": "SIM GE Bursary",
+        "header": "Things to Note",
+        "content": [
+            "Not all eligible applications will be guaranteed award.",
+            "Bursary recipients will need to make course fees payment first and have started classes before the bursaries can be disbursed.",
+            "The disbursement of SIM GE Bursary will be in the form of Interbank GIRO transfer / cheque, and will usually take place about three weeks to a month thereafter.",
+            "Please do update your bank account details and mailing address in SIMConnect so that payment can be credited directly into your bank account / mail to you accordingly to the address in SIMConnect if awarded."
+        ]
+    },
+    {
+        "id": "bursary-07",
+        "segment": "SIM GE Bursary",
+        "header": "Contact Information",
+        "email": "bursary@sim.edu.sg"
+    },
+    {
+        "id": "bursary-08",
+        "segment": "Other Financial Assistance",
+        "header": "AMP Education Bursary",
+        "description": "The Association of Muslim Professionals (AMP) was established on 10 October 1991, formed with core programmes in education, human resource development, social development and research.\nThe AMP Education Bursary offers monetary assistance to students who are pursuing their polytechnic or university education. The bursary award seeks to recognize their academic achievements and be a source of motivation for them to strive harder in their studies. It hopes to see students through their pursuit of higher levels of education and in future, give back to those in need within the community.",
+        "website": "https://www.amp.org.sg/service/ready-for-school-fund/#ert_pane1-1",
+        "contact": [
+            "6416 3966"
+        ],
+        "email": "corporate@amp.org.sg"
+    },
+    {
+        "id": "bursary-09",
+        "segment": "Other Financial Assistance",
+        "header": "MTFA Bursary",
+        "description": "Muslimin Trust Fund Association (MTFA), a registered charitable Muslim organisation in Singapore aims to provide financial assistance to Muslim students from lower-income families in Singapore as well as orphans who wish to further their education in various fields.",
+        "website": "https://www.mtfa.org/scholarship-bursary/",
+        "address": "MTFA Office, 5 Mattar Road, Darul Ihsan Orphanage Building, Singapore 387713",
+        "contact": [
+            "6747 7556",
+            "6746 5729"
+        ],
+        "email": "adminMTFA@mtfa.org"
+    },
+    {
+        "id": "bursary-10",
+        "segment": "Other Financial Assistance",
+        "header": "Lembaga Biasiswa Kenanga Maulud",
+        "description": "LBKM was formed in 1965 with the concerted determination and commitment of the leaders of about 70 Malay/Muslim organisations who felt the need to have an organisation that can cater to the financial needs of the needy students.\nSince their establishment in 1965, their main focus has been to provide financial assistance in the form of bursaries to needy students.",
+        "website": "http://lbkm.org.sg/bursary-scholarship/lbkm-bursaries/",
+        "contact": [
+            "6447 4770"
+        ],
+        "email": "enquiries@lbkm.org.sg"
+    },
+    {
+        "id": "bursary-11",
+        "segment": "Other Financial Assistance",
+        "header": "Sivadas-HEB Education Fund",
+        "description": "The Sivadas-HEB Education Fund, a fund established by the trustees of the Estate of the Late Sivadas Sankaran, provides needy Hindu children with financial assistance to get a good education.\nThe Sivadas-HEB Education Fund invites Hindu students from low-income families pursuing tertiary education to apply for financial assistance to help them meet the cost of their education. Students can apply for a Tuition Subsidy. The tuition subsidy will be limited to a maximum of 50% of the yearly tuition fee subject to a maximum of $5,000 per year, according to the year of study or any other amount as determined by the Sivadas-HEB Education Fund Committee.",
+        "website": "https://heb.org.sg/assistance-schemes/sivadas-heb-tertiary-bursary/",
+        "contact": [
+            "6296 3469"
+        ],
+        "email": "admin@heb.org.sg"
+    }
+]

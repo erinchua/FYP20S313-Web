@@ -1,0 +1,122 @@
+[
+	{
+		"id": "contact-001",
+		"country": "local",
+		"contactTitle": "General Enquiries",
+		"operatingHours": {
+			"weekday": "8.30am to 5.30pm (Mon-Fri)",
+			"weekend": "8.30am to 12.30pm (Saturday)",
+			"noOperation": ""
+		},
+		"contactNo": "6468 8866",
+		"email": "receptions@sim.edu.sg"
+	},
+	{
+		"id": "contact-002",
+		"country": "local",
+		"contactTitle": "Student Services Enquiries",
+		"operatingHours": {
+			"weekday": "8.30am to 5.30pm (Mon-Fri)",
+			"weekend": "9.00am to 1.00pm (Saturdays)",
+			"noOperation": "Closed on public holidays and SIM / SIMPL shutdown days"
+		},
+		"contactNo": "6248 9393",
+		"email": "students@sim.edu.sg"
+	},
+	{
+		"id": "contact-003",
+		"country": "local",
+		"contactTitle": "Programmes Enquiries",
+		"operatingHours": {
+			"weekday": "8.30am to 5.30pm (Mon-Fri)",
+			"weekend": "9.00am to 1.00pm (Saturday)",
+			"noOperation": "Closed on public holidays and SIM shutdown days (Eve of Christmas Day, Eve of New Year’s Day and Eve of Chinese New Year)"
+		},
+		"contactNo": "6248 9746",
+		"email": "study@sim.edu.sg"
+	},
+	{
+		"id": "contact-004",
+		"country": "Indonesia",
+		"name": "Mr. Mohamad Johan Bin Azman",
+		"contactNo": [
+			"+62 813 1769 2017",
+			"+65 9835 4063"
+		],
+		"email": "mjohan@sim.edu.sg"
+	},
+	{
+		"id": "contact-005",
+		"country": "Indonesia",
+		"name": "Ms. Martina Ayu Christanti",
+		"contactNo": [
+			"+62 878 2578 4437"
+		],
+		"email": "martinac@sim.edu.sg"
+	},
+	{
+		"id": "contact-006",
+		"country": "Indonesia",
+		"name": "Mr. Daniel Saputro",
+		"contactNo": [
+			"+62 812 9181 9881"
+		],
+		"email": "daniels@sim.edu.sg"
+	},
+	{
+		"id": "contact-007",
+		"country": "Indonesia",
+		"name": "Ms. Fenny Annora",
+		"contactNo": [
+			"+62 818 0307 3001"
+		],
+		"email": "fennyannora@sim.edu.sg"
+	},
+	{
+		"id": "contact-008",
+		"country": "Indonesia",
+		"name": "Mr. Wilson Prayoga",
+		"contactNo": [
+			"+62 817 9906 747"
+		],
+		"email": [
+			"wilsonp@sim.edu.sg"
+		]
+	},
+	{
+		"id": "contact-009",
+		"country": "Malaysia",
+		"name": "Level 30, The Gardens North Tower Mid Valley City, Lingkaran Syed Putra 59200 Kuala Lumpur, Malaysia",
+		"email": "sim.my@sim.edu.sg",
+		"contactNo": [
+			"(+603) 2035 9680",
+			"(+603) 2035 9681",
+			"Whatsapp:+60 174570878 "
+		]
+	},
+	{
+		"id": "contact-010",
+		"country": "Malaysia",
+		"name": "Ms. Janice Chian",
+		"email": "janicechian@sim.edu.sg",
+		"contactNo": [
+			"+60 174570878"
+		]
+	},
+	{
+		"id": "contact-011",
+		"country": "Malaysia",
+		"name": "Ms. Yvonne Chan",
+		"contactNo": [
+			"+60 165923956"
+		]
+	},
+	{
+		"id": "contact-009",
+		"country": "Malaysia",
+		"name": "Mr. Wong Yoke Yau",
+		"contactNo": [
+			"+60 176783693"
+		]
+	}
+]
