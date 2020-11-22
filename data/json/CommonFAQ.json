@@ -1,0 +1,62 @@
+[
+    {
+        "id": "question-001",
+        "faqType": "Openhouse",
+        "faqQuestion": "Do I have to register to attend the open house?",
+        "faqAnswer": "Yes, you have to register to use all the cool features in our app!"
+    },
+    {
+        "id": "question-002",
+        "faqType": "Openhouse",
+        "faqQuestion": "Is there a way to view all the courses and programmes in offline?",
+        "faqAnswer": "You can download our programme and student life brochure under"
+    },
+    {
+        "id": "question-003",
+        "faqType": "General",
+        "faqQuestion": "Who can I look for if I still have any question after attending the openhouse?",
+        "faqAnswer": "You can look under Useful Info -> Contact Information for the contact information."
+    },
+    {
+        "id": "question-004",
+        "faqType": "Openhouse",
+        "faqQuestion": "If I missed a live talk, is there any way for me to watch again?",
+        "faqAnswer": "You can check under Open House Programmes -> Programme Talks -> Past Recordings page for all the available recordings."
+    },
+    {
+        "id": "question-005",
+        "faqType": "General",
+        "faqQuestion": "What are the ways for me to reach SIM HQ?",
+        "faqAnswer": "You can refer to our Contact Us page that how to get to SIM HQ."
+    },
+    {
+        "id": "question-006",
+        "faqType": "Openhouse",
+        "faqQuestion": "What can I do with my extra points from games activities?",
+        "faqAnswer": "Please redeem and use up all your points during the openhouse as there will be no more prizes afterward."
+    },
+    {
+        "id": "question-007",
+        "faqType": "Openhouse",
+        "faqQuestion": "Can I post any stuffs unrelated to the openhouse on the forum?",
+        "faqAnswer": "Please try to keep the forum to be relevant to the openhouse, thank you."
+    },
+    {
+        "id": "question-008",
+        "faqType": "General",
+        "faqQuestion": "Can I withdraw or change from the course that I have enrolled?",
+        "faqAnswer": "Please contact the administration office, 62489393 or email them at students@sim.edu.sg."
+    },
+    {
+        "id": "question-009",
+        "faqType": "General",
+        "faqQuestion": "If I forgot to mark/tap my attendance, what can I do?",
+        "faqAnswer": "You can contact your lecturer and appeal for your attendance."
+    },
+    {
+        "id": "question-010",
+        "faqType": "General",
+        "faqQuestion": "I am unsure if I am eligible for scholarship or bursary, what can I do?",
+        "faqAnswer": "You can contact SIM administration office for enquires."
+    }
+]

@@ -1,0 +1,218 @@
+[
+    {
+        "id": "performance-100",
+        "performanceName": "String Ensemble",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK A",
+        "startTime": "10:00AM",
+        "endTime": "10:30AM"
+    },
+    {
+        "id": "performance-101",
+        "performanceName": "Salsa En Soul",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK A",
+        "startTime": "10:45AM",
+        "endTime": "11:15PM"
+    },
+    {
+        "id": "performance-102",
+        "performanceName": "Malay Cultural Dance",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK A",
+        "startTime": "11:30AM",
+        "endTime": "12:00PM"
+    },
+    {
+        "id": "performance-103",
+        "performanceName": "Guitar Club",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK A",
+        "startTime": "12:15PM",
+        "endTime": "12:45PM"
+    },
+    {
+        "id": "performance-104",
+        "performanceName": "Esprimere Singing Club",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK A",
+        "startTime": "1:00PM",
+        "endTime": "1:30PM"
+    },
+    {
+        "id": "performance-105",
+        "performanceName": "DreamWerkz",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK A",
+        "startTime": "1:45PM",
+        "endTime": "2:15PM"
+    },
+    {
+        "id": "performance-106",
+        "performanceName": "DanceSport",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK A",
+        "startTime": "2:30PM",
+        "endTime": "3:00PM"
+    },
+    {
+        "id": "performance-107",
+        "performanceName": "Dance Art",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK A",
+        "startTime": "3:15PM",
+        "endTime": "3:45PM"
+    },
+    {
+        "id": "performance-108",
+        "performanceName": "Film and Performing Arts",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK B",
+        "startTime": "4:00PM",
+        "endTime": "4:30PM"
+    },
+    {
+        "id": "performance-200",
+        "performanceName": "Aikido",
+        "date": "22-Nov-2020",
+        "venue": "SIM HQ BLK A",
+        "startTime": "10:00AM",
+        "endTime": "10:30AM"
+    },
+    {
+        "id": "performance-201",
+        "performanceName": "Fencing",
+        "date": "22-Nov-2020",
+        "venue": "SIM HQ BLK A",
+        "startTime": "10:45AM",
+        "endTime": "11:15AM"
+    },
+    {
+        "id": "performance-202",
+        "performanceName": "Judo",
+        "date": "22-Nov-2020",
+        "venue": "SIM HQ BLK A",
+        "startTime": "11:45AM",
+        "endTime": "12:15PM"
+    },
+    {
+        "id": "performance-203",
+        "performanceName": "Karate",
+        "date": "22-Nov-2020",
+        "venue": "SIM HQ BLK B",
+        "startTime": "12:30PM",
+        "endTime": "1:00PM"
+    },
+    {
+        "id": "performance-204",
+        "performanceName": "Muay Thai",
+        "date": "22-Nov-2020",
+        "venue": "SIM HQ BLK A",
+        "startTime": "1:15PM",
+        "endTime": "1:45PM"
+    },
+    {
+        "id": "performance-205",
+        "performanceName": "Silat",
+        "date": "22-Nov-2020",
+        "venue": "SIM HQ BLK A",
+        "startTime": "2:00PM",
+        "endTime": "2:30PM"
+    },
+    {
+        "id": "performance-206",
+        "performanceName": "Taekwondo",
+        "date": "22-Nov-2020",
+        "venue": "SIM HQ BLK A",
+        "startTime": "2:45PM",
+        "endTime": "3:15PM"
+    },
+    {
+        "id": "performance-207",
+        "performanceName": "Japanese Culture Cosplay Showcase",
+        "date": "22-Nov-2020",
+        "venue": "SIM HQ BLK B",
+        "startTime": "3:30PM",
+        "endTime": "4:00PM"
+    },
+    {
+        "id": "performance-109",
+        "performanceName": "Badminton Showcase",
+        "date": "21-Nov-2020",
+        "venue": "Blk D Multi-Purpose Sports Hall",
+        "startTime": "10:30AM",
+        "endTime": "11:30AM"
+    },
+    {
+        "id": "performance-110",
+        "performanceName": "Basketball Showcase",
+        "date": "21-Nov-2020",
+        "venue": "Blk D Multi-Purpose Sports Hall",
+        "startTime": "12:00PM",
+        "endTime": "1:00PM"
+    },
+    {
+        "id": "performance-111",
+        "performanceName": "Floorball Showcase",
+        "date": "21-Nov-2020",
+        "venue": "Blk D Multi-Purpose Sports Hall",
+        "startTime": "1:30PM",
+        "endTime": "2:30PM"
+    },
+    {
+        "id": "performance-112",
+        "performanceName": "Handball Showcase",
+        "date": "21-Nov-2020",
+        "venue": "Blk D Multi-Purpose Sports Hall",
+        "startTime": "3:00PM",
+        "endTime": "4:00PM"
+    },
+    {
+        "id": "performance-113",
+        "performanceName": "Tennis Showcase",
+        "date": "21-Nov-2020",
+        "venue": "Blk D Tennis Court",
+        "startTime": "12:00PM",
+        "endTime": "2:00PM"
+    },
+    {
+        "id": "performance-208",
+        "performanceName": "Squash Showcase",
+        "date": "22-Nov-2020",
+        "venue": "Blk D Multi-Purpose Sports Hall",
+        "startTime": "10:30AM",
+        "endTime": "11:30AM"
+    },
+    {
+        "id": "performance-209",
+        "performanceName": "Tchoukball Showcase",
+        "date": "22-Nov-2020",
+        "venue": "Blk D Multi-Purpose Sports Hall",
+        "startTime": "12:00PM",
+        "endTime": "1:00PM"
+    },
+    {
+        "id": "performance-210",
+        "performanceName": "Volleyball Showcase",
+        "date": "22-Nov-2020",
+        "venue": "Blk D Multi-Purpose Sports Hall",
+        "startTime": "1:30PM",
+        "endTime": "2:30PM"
+    },
+    {
+        "id": "performance-211",
+        "performanceName": "Netball Showcase",
+        "date": "21-Nov-2020",
+        "venue": "Blk D Multi-Purpose Sports Hall",
+        "startTime": "3:00PM",
+        "endTime": "4:00PM"
+    },
+    {
+        "id": "performance-212",
+        "performanceName": "Tennis Showcase",
+        "date": "22-Nov-2020",
+        "venue": "Blk D Tennis Court",
+        "startTime": "1:00PM",
+        "endTime": "3:00PM"
+    }
+]

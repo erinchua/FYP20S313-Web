@@ -1,0 +1,541 @@
+[
+	{
+		"id": "club-001",
+		"clubsAndCouncilTitle": "Japanese Culture and Gaming Society",
+		"clubsAndCouncilDescription": "Immerse  yourself in our gaming community and the colorful world of Japanese animation, cosplay, manga, and the Japanese culture.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FArtsCulture%2FAnimeGaming.jpg?alt=media&token=38ebcb92-8dac-49c3-a503-f736d49d64f7",
+		"categoryType": "Arts & Culture"
+	},
+	{
+		"id": "club-002",
+		"clubsAndCouncilTitle": "Dance Art",
+		"clubsAndCouncilDescription": "Dance takes an art form and transcends into beautiful expression over here through Jazz and Contemporary dance.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FArtsCulture%2FDanceArt.png?alt=media&token=11b76322-6306-4c02-9542-df7787290d55",
+		"categoryType": "Arts & Culture"
+	},
+	{
+		"id": "club-003",
+		"clubsAndCouncilTitle": "DanceSport",
+		"clubsAndCouncilDescription": "Take a step into the world of ballroom dancing where you discover that dance is so much more than a leisurely affair. It’s a sport!",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FArtsCulture%2FDanceSport.png?alt=media&token=c1f7ec50-9572-48e1-a5e1-af2fb213892b",
+		"categoryType": "Arts & Culture"
+	},
+	{
+		"id": "club-004",
+		"clubsAndCouncilTitle": "DreamWerkz",
+		"clubsAndCouncilDescription": "Bounce ‘n’ bop to music hits and slick beats as you “Dance to express; not impress”.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FArtsCulture%2FDreamWerkz.png?alt=media&token=dec7e2c7-d9af-447a-b6d9-cb5c7e594b7e",
+		"categoryType": "Arts & Culture"
+	},
+	{
+		"id": "club-005",
+		"clubsAndCouncilTitle": "Esprimere Singing Club",
+		"clubsAndCouncilDescription": "Think you’ve got what it takes to be the next vocal talent or simply just have a passion for singing? Join us, take center stage, and sing your heart out.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FArtsCulture%2FEsprimereSinging.png?alt=media&token=e685955e-eaa9-4483-97dd-99868d9f4537",
+		"categoryType": "Arts & Culture"
+	},
+	{
+		"id": "club-006",
+		"clubsAndCouncilTitle": "Film and Performing Arts Society",
+		"clubsAndCouncilDescription": "Discover more about yourself in different characters & emotions as you explore the realms of performing arts & theatre. All the world’s a stage, so let’s live it in Lights, Camera, Action!",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FArtsCulture%2FFilmPerformingArtsSociety.png?alt=media&token=d5e76c4c-ed63-4f0f-b4b2-45ac23c6efbc",
+		"categoryType": "Arts & Culture"
+	},
+	{
+		"id": "club-007",
+		"clubsAndCouncilTitle": "Guitar Club",
+		"clubsAndCouncilDescription": "Ever dreamed of serenading that special someone or perhaps playing your favourite tune? Learn more and develop a further interest into this popular musical instrument in a club that welcomes both beginners & experienced guitarists!",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FArtsCulture%2FGuitar.png?alt=media&token=73f3e526-2cbc-49de-acc8-ecd3ffa126cc",
+		"categoryType": "Arts & Culture"
+	},
+	{
+		"id": "club-008",
+		"clubsAndCouncilTitle": "Malay Cultural and Muslim Society",
+		"clubsAndCouncilDescription": "Discover what it means to be Malay & Muslim in the world today. Let us celebrate and preserve the Malay culture & heritage together!",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FArtsCulture%2FMalayCulturalMuslimSociety.png?alt=media&token=b5107aef-5503-421f-abf4-557c2d82ae66",
+		"categoryType": "Arts & Culture"
+	},
+	{
+		"id": "club-009",
+		"clubsAndCouncilTitle": "Photography Club",
+		"clubsAndCouncilDescription": "Capture the world through your lenses as we explore the world together with other photography enthusiasts.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FArtsCulture%2FPhotography.png?alt=media&token=37c96a6b-8b12-4f76-bc9a-fb57a2e2eb91",
+		"categoryType": "Arts & Culture"
+	},
+	{
+		"id": "club-010",
+		"clubsAndCouncilTitle": "Salsa En Soul",
+		"clubsAndCouncilDescription": "Live it up in this dance of strong passion & rhythmic energy. Come, light up the floor with us!",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FArtsCulture%2FSalsaEnSoul.png?alt=media&token=397ed304-db11-4881-af95-e45ef66d8afa",
+		"categoryType": "Arts & Culture"
+	},
+	{
+		"id": "club-011",
+		"clubsAndCouncilTitle": "Chinese National Network (CNN)",
+		"clubsAndCouncilDescription": "We aim to help Chinese students assimilate quickly into campus life by concerning ourselves with your welfare, studies, and social integration while retaining our Chinese cultural heritage.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FInternationalStudent%2FChineseNationalNetworkSIMCNN.png?alt=media&token=96308d95-0f7b-4d5c-a026-467b5dc661ce",
+		"categoryType": "InternationalStudent"
+	},
+	{
+		"id": "club-012",
+		"clubsAndCouncilTitle": "Indonesian Community (InSIM)",
+		"clubsAndCouncilDescription": "Bonding the Indonesian way! This is the place where we express our unique opinions, talents, and creativity. We are “Where Indonesians bond in SIMGE”.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FInternationalStudent%2FIndonesianCommunityINSIM.png?alt=media&token=da0c0023-feef-4377-a84b-502b06cb644c",
+		"categoryType": "InternationalStudent"
+	},
+	{
+		"id": "club-013",
+		"clubsAndCouncilTitle": "International Multicultural Mix (IMMIX)",
+		"clubsAndCouncilDescription": "All nationalities & cultures are welcomed! Let’s share the diverse cultural backgrounds of students new to Singapore and build a community of new bonds & friendship.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FInternationalStudent%2FInternationalMulticulturalMixIMMIX.png?alt=media&token=6d5b615a-80b0-4f3e-afd9-652a17733714",
+		"categoryType": "InternationalStudent"
+	},
+	{
+		"id": "club-014",
+		"clubsAndCouncilTitle": "Malaysian Community (MCSIM)",
+		"clubsAndCouncilDescription": "The ideal platform for Malaysians to bond and blend into university life at SIMGE. Jom, let’s together-gather!",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FInternationalStudent%2FMalaysianCommunityMCSIM.png?alt=media&token=035a95bf-1512-41c2-b8d9-c011696ce440",
+		"categoryType": "InternationalStudent"
+	},
+	{
+		"id": "club-015",
+		"clubsAndCouncilTitle": "Myanmar Community (MY-SIM)",
+		"clubsAndCouncilDescription": "Creates a home-away-from-home for all Burmese students as we support each other and share our unique culture.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FInternationalStudent%2FMyanmarCommunityMYSIM.png?alt=media&token=b213211e-cfdc-40c8-a854-a525331639ed",
+		"categoryType": "InternationalStudent"
+	},
+	{
+		"id": "club-016",
+		"clubsAndCouncilTitle": "Vietnamese Community (SIMVNC)",
+		"clubsAndCouncilDescription": "Links the Vietnamese student community to others in Singapore through extensive participation in traditional Vietnamese events and activities.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FInternationalStudent%2FSIMIndianSociety.jpg?alt=media&token=62e45d71-2bbf-4a46-82dd-0de5d56a25b8",
+		"categoryType": "InternationalStudent"
+	},
+	{
+		"id": "club-017",
+		"clubsAndCouncilTitle": "SIM Indian Society (SIS)",
+		"clubsAndCouncilDescription": "Aims to forge bonds of friendship and support the Indian student community while bringing the diverse cultures & traditions of India in SIMGE.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FInternationalStudent%2FVietnameseCommunitySIMVNC.png?alt=media&token=e8811ba3-e635-4283-8093-7a848bfcb82d",
+		"categoryType": "InternationalStudent"
+	},
+	{
+		"id": "club-018",
+		"clubsAndCouncilTitle": "SIM-RMIT Student Council",
+		"clubsAndCouncilDescription": "SIM-RMIT Student Council endeavor to achieve a vibrantly enriching campus life to all SIM-RMIT students.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FStudentCouncil%2FSIMRMIT.PNG?alt=media&token=b60a5e61-8d80-491b-9183-44686a620de5",
+		"categoryType": "StudentCouncil"
+	},
+	{
+		"id": "club-019",
+		"clubsAndCouncilTitle": "SIM-UB Student Council",
+		"clubsAndCouncilDescription": "SIM-UB Student Council endeavours to foster an identity of being a UB student at SIM.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FStudentCouncil%2FSIMUB.png?alt=media&token=db3a8737-003e-4140-b939-5fcbad898dcf",
+		"categoryType": "StudentCouncil"
+	},
+	{
+		"id": "club-020",
+		"clubsAndCouncilTitle": "SIM-UOB Student Council",
+		"clubsAndCouncilDescription": "SIM UOB Student Council seeks to promote educational, arts, sports, social and welfare activities among its members.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FStudentCouncil%2FSIMUOB.png?alt=media&token=7626d736-b305-4ba7-8d66-18060a614c86",
+		"categoryType": "StudentCouncil"
+	},
+	{
+		"id": "club-021",
+		"clubsAndCouncilTitle": "SIM-UOL Student Council",
+		"clubsAndCouncilDescription": "SIM-UOL Student Representative Council strive to promote a vibrant and holistic campus experience that moves beyond mere academic excellence.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FStudentCouncil%2FSIMUOL.png?alt=media&token=78962435-fd96-4362-b300-8915dfea9c97",
+		"categoryType": "StudentCouncil"
+	},
+	{
+		"id": "club-022",
+		"clubsAndCouncilTitle": "SIM-UOW Student Council",
+		"clubsAndCouncilDescription": "SIM-UOW Student Council aims to bring a vibrant student life and to provide opportunities for developing leadership skills, provide networking as well as team-building opportunity.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FStudentCouncil%2FSIMUOW.png?alt=media&token=9e089941-ca53-4b58-a9ea-15be5567d4f1",
+		"categoryType": "StudentCouncil"
+	},
+	{
+		"id": "club-023",
+		"clubsAndCouncilTitle": "SIM-UOS Student Council",
+		"clubsAndCouncilDescription": "SIM-UOS Student Council aspires to cultivate a dynamic culture and build an identity for Stirling students in SIM, through the provision of non-academic experiences and  opportunities.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FStudentCouncil%2FSIMUOS.png?alt=media&token=4b7537e8-3cde-4cd3-b8d1-ba65f868fcac",
+		"categoryType": "StudentCouncil"
+	},
+	{
+		"id": "club-024",
+		"clubsAndCouncilTitle": "Accounting Association",
+		"clubsAndCouncilDescription": "Kick-start your career as we share knowledge, experience and create links with accounting firms and bodies.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FAccountingAssociation.png?alt=media&token=20fb3330-1fb2-4f17-a0cc-091319fb7341",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-025",
+		"clubsAndCouncilTitle": "AIESEC in SIM",
+		"clubsAndCouncilDescription": "As part of the world’s largest youth-run organisation, AIESEC in SIM provides a chance to participate in cross-cultural global internship with a focus of empowering young people so they can make a positive impact on society.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FAIESECinSIM.png?alt=media&token=7206d082-2236-46a8-ab0d-e943e59ea489",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-026",
+		"clubsAndCouncilTitle": "Business Strategy Club",
+		"clubsAndCouncilDescription": "Learn to tackle business cases from Biz Strat through knowledge sharing and networking sessions and competing in all sorts of business case competitions.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FBusinessStratClub.jpg?alt=media&token=c509c6ff-8f26-4553-99f6-d4e8768a3785",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-027",
+		"clubsAndCouncilTitle": "Board Gaming Society",
+		"clubsAndCouncilDescription": "Long before MMORPG, board games ruled the leisure time of countless game enthusiasts and continues to do so.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FBoardGamingSociety.png?alt=media&token=745da416-64b2-416d-a6ac-9a990e2375ac",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-028",
+		"clubsAndCouncilTitle": "Buddhist Bhavana",
+		"clubsAndCouncilDescription": "Learn more about the teachings of Buddha in a fun & inspiring way while attaining spiritual guidance.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FBuddhistBhavana.png?alt=media&token=00956ee1-b701-4843-95d0-2c18abc6d0f2",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-029",
+		"clubsAndCouncilTitle": "Catholic Society",
+		"clubsAndCouncilDescription": "Learn more about the Catholic faith through regular Wednesday meetings.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FCatholicSociety.png?alt=media&token=bb2a12cd-4377-4508-8f9d-d671cfcbadee",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-030",
+		"clubsAndCouncilTitle": "Christian Fellowship",
+		"clubsAndCouncilDescription": "An Inter-denominational group with regular meetings on every Wednesday for Bible Study and outings.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FChristianFellowship.png?alt=media&token=c7ba0517-a2dc-421d-acff-8c742beeb725",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-031",
+		"clubsAndCouncilTitle": "Data Analysis",
+		"clubsAndCouncilDescription": "DAC provides a platform for students to learn data analytics and equip themselves with vital skills for the new data-driven world through the use of software.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FDataAnalysis.jpg?alt=media&token=a3065858-2646-41b3-8403-f7834dee10a8",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-032",
+		"clubsAndCouncilTitle": "Debate Club",
+		"clubsAndCouncilDescription": "For the love of an intellectual challenge let us engage in competitive parliamentary style debates on a plethora of hot topics.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2Fdebateclub.png?alt=media&token=dfc47949-3986-4d32-b814-93c4610e96d6",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-033",
+		"clubsAndCouncilTitle": "Economics Society",
+		"clubsAndCouncilDescription": "With keen interest on global economic issues, you can start to attain deeper knowledge in this intriguing topic.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2Feconomicssociety.png?alt=media&token=335b8990-d6f0-4bf4-bda0-4ceb20c0a3b0",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-034",
+		"clubsAndCouncilTitle": "Eco-SIM",
+		"clubsAndCouncilDescription": "Join our go-green initiatives! Learn how we can stay in touch with nature while cultivating good practices to co-create a sustainable future for everyone.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FECOSIM.png?alt=media&token=a39aa30b-3ad5-4c0c-8eee-6c4e093589ea",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-035",
+		"clubsAndCouncilTitle": "I-Care",
+		"clubsAndCouncilDescription": "We care about community service and work towards building awareness and social transformation as we meet social needs and encourage social entrepreneurship.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FI-Care.png?alt=media&token=4423552e-9f41-4caf-afbc-b262ea2fc4ca",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-036",
+		"clubsAndCouncilTitle": "International Affairs",
+		"clubsAndCouncilDescription": "Shaping the global mindset of tomorrow and communicate stories that make a difference. Embrace global citizenry.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FIntAffairs.jpg?alt=media&token=c71963a6-82e7-41b1-a6be-cbd22e13dbca",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-037",
+		"clubsAndCouncilTitle": "Innovation and Networking Society",
+		"clubsAndCouncilDescription": "We bring together passionate, tech-savvy individuals who wish to apply their interests, build up their knowledge bank and acquire relevant skills. Join us to be part of SIM’s professional initiative to groom and bridge talents to the technology industry.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FInnovationNetworking.png?alt=media&token=0746f4bd-e0e1-41c9-9ca9-05c3aa36925d",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-038",
+		"clubsAndCouncilTitle": "Investment & Networking",
+		"clubsAndCouncilDescription": "The exciting world of investment is fraught with dangers and snares which we will help educate you and help you make wiser decisions.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FInvestmentNetworking.png?alt=media&token=bf363a1d-2e10-4155-8fb6-04a80699f0eb",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-039",
+		"clubsAndCouncilTitle": "IT",
+		"clubsAndCouncilDescription": "Keep up with the latest in IT trends and technologies with this affiliate of the Singapore Computer Society student chapter.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FIT.png?alt=media&token=b71dee5c-3221-4118-bc4a-ef21af7dac7d",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-040",
+		"clubsAndCouncilTitle": "Philosophy",
+		"clubsAndCouncilDescription": "If mental sparring is your cuppa, our engaging discussions will definitely give you a good workout!",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FPhilosophy.png?alt=media&token=ed704ed7-c1dc-4a3f-94ed-a0fbe3136a17",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-041",
+		"clubsAndCouncilTitle": "Psychology Society",
+		"clubsAndCouncilDescription": "Students meet the real world as we bring greater awareness to mental health issues beyond the textbook.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FPsychology.png?alt=media&token=484527d8-2bb7-4aff-88f9-064854a87f92",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-042",
+		"clubsAndCouncilTitle": "Singapore Affairs Society",
+		"clubsAndCouncilDescription": "Engage yourself with social issues and civil discourse in Singapore to become a more aware of the state of affairs in this nation.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FSGAffairs.png?alt=media&token=45d8cecc-e28a-4d59-8bbf-af9786c9b8ff",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-043",
+		"clubsAndCouncilTitle": "Society of Mathematical Sciences",
+		"clubsAndCouncilDescription": "Interested in puzzles like Sudoku, geometric diagrams or even just the Mathematical Sciences in general? Look no further!",
+		"clubsAndCouncilsLogo": "",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-044",
+		"clubsAndCouncilTitle": "Sociology",
+		"clubsAndCouncilDescription": "Sociology is more than just a subject as we go out on excursions and engage with real-world sociological needs.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FMathmaticalSciences.png?alt=media&token=d732e065-de91-4f75-8926-ad84d58c2edf",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-045",
+		"clubsAndCouncilTitle": "Student Toastmasters",
+		"clubsAndCouncilDescription": "Rise up and give a toast, let fellow speakers and professionals rate you as you practise and improve your public speaking skills.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FStudentToastMaster.png?alt=media&token=ba957cd3-3ec2-4964-a7b5-217853f567bf",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-046",
+		"clubsAndCouncilTitle": "Young Entrepreneurs Network",
+		"clubsAndCouncilDescription": "Meet other like-minded entrepreneurs as we network and support each other through our entrepreneurial journey.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSpecialInterest%2FYoungEntrepreneurs.png?alt=media&token=ab1948ad-b853-49af-97af-3faa4bdf8985",
+		"categoryType": "SpecialInterest"
+	},
+	{
+		"id": "club-047",
+		"clubsAndCouncilTitle": "Aikido",
+		"clubsAndCouncilDescription": "This mysteriously passive, non-competitive, limited contact martial art is suitable for people of all ages and both genders.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FAikido.png?alt=media&token=e57952f2-1505-42c1-b863-a8d74df84de6",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-048",
+		"clubsAndCouncilTitle": "Aquathlon",
+		"clubsAndCouncilDescription": "A demanding sport that combines swimming and running, we compete in various biathlons and triathlons to test ourselves against the best.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FAquathlon.png?alt=media&token=79cb1594-b4c6-41d7-9fe4-305a87bd795e",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-049",
+		"clubsAndCouncilTitle": "Badminton",
+		"clubsAndCouncilDescription": "We have both Learn-To-Play sessions and competitive teams for all badminton enthusiasts. Come join the fastest racquet sport in the world!",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FBadminton.png?alt=media&token=b7c6b61f-35d0-4583-ac88-cf0ee0ac39cc",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-050",
+		"clubsAndCouncilTitle": "Basketball",
+		"clubsAndCouncilDescription": "Inspire your fans and liven the crowd with your fancy dribbles, perfect passes and 3-point shots! Join this well-established sport and compete with us in various tournaments.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FBasketball.png?alt=media&token=fac0c6a2-204c-4ff8-b874-024a24a80c36",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-051",
+		"clubsAndCouncilTitle": "Bowling",
+		"clubsAndCouncilDescription": "Whether you are seriously competitive or simply love the sport, train hard with us and see yourself embrace the sound of continuous strikes!",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FBowling.png?alt=media&token=69ac117e-cf6e-4a82-8b40-95c7a530a534",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-052",
+		"clubsAndCouncilTitle": "Canoe Polo",
+		"clubsAndCouncilDescription": "Five players, five canoes, one ball – this is an exciting water sport which combines basketball, water polo and canoeing.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FCanoePolo.png?alt=media&token=537c915e-3a62-477b-8c00-357ffc6750d8",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-053",
+		"clubsAndCouncilTitle": "Canoeing",
+		"clubsAndCouncilDescription": "This is a fun, outdoor sport for those who love the sun, the sand and the sea.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FCanoeing.png?alt=media&token=ef367bf2-9a67-4434-98d6-3516e0258050",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-054",
+		"clubsAndCouncilTitle": "Cuesports",
+		"clubsAndCouncilDescription": "If you love 9-ball pool, then come down to our club! We train and play in a competitive, yet friendly environment, and would love nothing more than to increase the spread of our game.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FCuesports.png?alt=media&token=da20f44b-0df4-403b-b2fb-8ffd6cdece8c",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-055",
+		"clubsAndCouncilTitle": "Dragon Boat",
+		"clubsAndCouncilDescription": "One man, one paddle, one team – power in harmony is what we are.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FDragonBoat.png?alt=media&token=7094ab61-a006-4a55-8701-4117a188c893",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-056",
+		"clubsAndCouncilTitle": "Fencing",
+		"clubsAndCouncilDescription": "If you have lightning fast reflexes, great hand-eye coordination and inhuman motor skills, you might just be a natural-born Fencer!",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FFencing.png?alt=media&token=4b56857d-9c70-4695-8784-08133aa1e963",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-057",
+		"clubsAndCouncilTitle": "Floorball",
+		"clubsAndCouncilDescription": "From our humble beginnings in 2005, we are now competing at top levels in SUniG & IVP! With a growing legacy, we wish to invite all of you to be a part of our story!",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FFloorball.png?alt=media&token=326ca3a5-1067-4a12-bff9-674dac8461a6",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-058",
+		"clubsAndCouncilTitle": "Handball",
+		"clubsAndCouncilDescription": "This fast-paced team game is coached by an experienced coach who will impart to you all the skills and techniques for this popular game.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FHandball.png?alt=media&token=a3661b63-a7f6-4368-acd9-3e7b55cb106e",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-059",
+		"clubsAndCouncilTitle": "Judo",
+		"clubsAndCouncilDescription": "Learn the gentle spirit of Judo and see it become a part of your studies, your lifestyle and your heart with confidence, mindfulness and equanimity.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FJudo.png?alt=media&token=75006c51-8b0c-4446-9b45-af35ca8f6952",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-060",
+		"clubsAndCouncilTitle": "Karate",
+		"clubsAndCouncilDescription": "Learn why Karate has inspired countless movies, video games and documentaries.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FKarate.png?alt=media&token=642d607e-7f5b-49e3-b648-771a45cea320",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-061",
+		"clubsAndCouncilTitle": "Lifesaving & Swimming",
+		"clubsAndCouncilDescription": "Swimming is one of the basic physical activities human beings have partaken in since time immemorial. Not only does it make us stronger physically, swimming also grants us the ability to help others, and even save lives, instilling a sense of self-belief into those who become one with the wave.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FLifesavingSwimming.png?alt=media&token=0c77bdfa-7a32-470d-9a85-9b400c099e79",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-062",
+		"clubsAndCouncilTitle": "Muay Thai",
+		"clubsAndCouncilDescription": "With intense sparring sessions and training of the mind, learn to defend yourself, build your fitness, or strive to become a champion of the legendary martial art.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FMuaythai.png?alt=media&token=e184cd19-7b46-4efa-94f9-6b946fadc185",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-063",
+		"clubsAndCouncilTitle": "Netball",
+		"clubsAndCouncilDescription": "The game for ladies, we welcome fierce and casual competition alike. Regardless of which, we promise that you will find Netball to be the perfect sport.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FNetball.png?alt=media&token=fd18b9cc-0ef6-4c70-a051-9e357c20cf86",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-064",
+		"clubsAndCouncilTitle": "Outdoor Adventure",
+		"clubsAndCouncilDescription": "Why do just one sport when you can experience kayaking, cycling, swimming, rock climbing and so much more?",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FOutdoorAdventure.png?alt=media&token=1f50538f-3ffe-4abd-acc1-c2b3a96fd9bb",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-065",
+		"clubsAndCouncilTitle": "Silat",
+		"clubsAndCouncilDescription": "A fascinating martial arts that can be practised for fitness, self defence or competition; Silat at SIM has grown from strength to strength.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FSilat.png?alt=media&token=aea7644d-e397-429f-a979-335893e6d6b1",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-066",
+		"clubsAndCouncilTitle": "Squash",
+		"clubsAndCouncilDescription": "One of the most intense of racquet sports, we have both recreational and competitive teams.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FSquash.png?alt=media&token=1b4655de-03cd-4da7-ab03-3b94bbc15697",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-067",
+		"clubsAndCouncilTitle": "Soccer",
+		"clubsAndCouncilDescription": "The ever-popular sport, our soccer team does not just train and play, but aspires to build a strong sense of kinship amongst our members.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FSoccer.png?alt=media&token=5db4a080-1208-4359-9bd6-84d8cf81a4b0",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-068",
+		"clubsAndCouncilTitle": "Taekwondo",
+		"clubsAndCouncilDescription": "Probably the most structured of all martial arts, it is a sport for both fitness and self-defence alike.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FTaekwondo.png?alt=media&token=d4f4a2fd-421c-4223-844c-908c2cf239bf",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-069",
+		"clubsAndCouncilTitle": "Table Tennis",
+		"clubsAndCouncilDescription": "Made popular by Singapore’s strong performance on the international scene, we have both recreational and competitive teams.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FTableTennis.png?alt=media&token=95b19b15-1a55-48ec-9431-81b11faa4687",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-070",
+		"clubsAndCouncilTitle": "Track & Field",
+		"clubsAndCouncilDescription": "The mettle of an athlete is tested on the track and field, where we strive to develop our mental and physical potential to its fullest.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FTrack%26Field.jpg?alt=media&token=81d069ec-c700-4bd6-9c7c-34019ca7274f",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-071",
+		"clubsAndCouncilTitle": "Tchoukball",
+		"clubsAndCouncilDescription": "A non-contact handball game, similar to an amalgamation of handball, netball, and volleyball, this sport is quickly becoming a new must-see phenomenon at local sports events – join the craze!",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FTchoukball.jpg?alt=media&token=07be0cf8-bc4f-48fa-be18-5bb039359a06",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-072",
+		"clubsAndCouncilTitle": "Tennis",
+		"clubsAndCouncilDescription": "The classic racquet sport – how else would you describe it? Whether you are just getting into the sport, or whether you already have some experience under your belt, this club is meant for all enthusiasts of the court!",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FTennis.png?alt=media&token=90761b7f-c339-4096-b5f7-3c74a571c739",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-073",
+		"clubsAndCouncilTitle": "Touch Football",
+		"clubsAndCouncilDescription": "Ladies, meet the fastest growing sport in Singapore as we play football the American way.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FTouchfootball.png?alt=media&token=9305762c-32cf-402c-8f43-60c65f6be798",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-074",
+		"clubsAndCouncilTitle": "Ultimate Frisbee",
+		"clubsAndCouncilDescription": "A recently born sport at SIM, we have grown from a small club to competing in Perth, improving ourselves and increasing the breadth of our audience with both recreational and competitive teams playing every week.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FUltimateFrisbee.png?alt=media&token=354a3c90-eed9-45a2-acb7-36d87ee717f7",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-075",
+		"clubsAndCouncilTitle": "Volleyball",
+		"clubsAndCouncilDescription": "One of the oldest sport in SIM and a popular game among schools in Singapore, this is a sport that is physically driven and demands strong team spirit. If you are interested or am already loving the sport, come join the team!",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FVolleyball.png?alt=media&token=3e4957db-6042-4fe5-83cc-9568d234c59a",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-076",
+		"clubsAndCouncilTitle": "Windsurfing",
+		"clubsAndCouncilDescription": "If you love to ride the waves and feel the wind, then there is no better way to sail out to the open seas.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FWindsurfing.png?alt=media&token=25634828-08fa-4d7b-aee3-923fab919164",
+		"categoryType": "SportsFitness"
+	},
+	{
+		"id": "club-077",
+		"clubsAndCouncilTitle": "Weiqi",
+		"clubsAndCouncilDescription": "One of the newest clubs, learn this ancient game of skill, cunning and brutal warfare embodied in a deceptively simple chess-like game.",
+		"clubsAndCouncilsLogo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/ClubsAndCouncil%2FSportsFitness%2FWeiqi.png?alt=media&token=83e4de49-f29f-4d6b-b2c2-59c86e59e00d",
+		"categoryType": "SportsFitness"
+	}
+]

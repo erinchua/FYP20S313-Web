@@ -1,0 +1,114 @@
+[
+    {
+        "id": "tour-10",
+        "tourName": "Campus Tour BLK A",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK A Atrium",
+        "startTime": "10:00AM",
+        "endTime": "10:45AM"
+    },
+    {
+        "id": "tour-11",
+        "tourName": "Campus Tour BLK B",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK B Career Connect Office",
+        "startTime": "11:30AM",
+        "endTime": "12:15AM"
+    },
+    {
+        "id": "tour-12",
+        "tourName": "Campus Tour BLK C",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK C Entrance Lobby",
+        "startTime": "10:45AM",
+        "endTime": "11:30PM"
+    },
+    {
+        "id": "tour-13",
+        "tourName": "Campus Tour BLK A & B",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK A Entrance Lobby",
+        "startTime": "12:30AM",
+        "endTime": "2:00PM"
+    },
+    {
+        "id": "tour-14",
+        "tourName": "Campus Tour BLK A",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK A Atrium",
+        "startTime": "3:00PM",
+        "endTime": "3:45PM"
+    },
+    {
+        "id": "tour-15",
+        "tourName": "Campus Tour BLK B",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK B Student Lounge",
+        "startTime": "3:45PM",
+        "endTime": "4:30PM"
+    },
+    {
+        "id": "tour-16",
+        "tourName": "Campus Tour BLK C",
+        "date": "21-Nov-2020",
+        "venue": "SIM HQ BLK C Entrance Lobby",
+        "startTime": "2:15PM",
+        "endTime": "3:00PM"
+    },
+    {
+        "id": "tour-20",
+        "tourName": "Campus Tour BLK A",
+        "date": "22-Nov-2020",
+        "venue": "SIM HQ BLK A Atrium",
+        "startTime": "10:00AM",
+        "endTime": "10:45AM"
+    },
+    {
+        "id": "tour-21",
+        "tourName": "Campus Tour BLK B",
+        "date": "22-Nov-2020",
+        "venue": "SIM HQ BLK B Student Lounge",
+        "startTime": "11:30AM",
+        "endTime": "12:15AM"
+    },
+    {
+        "id": "tour-22",
+        "tourName": "Campus Tour BLK C",
+        "date": "22-Nov-2020",
+        "venue": "SIM HQ BLK C Entrance Lobby",
+        "startTime": "10:45AM",
+        "endTime": "11:30AM"
+    },
+    {
+        "id": "tour-23",
+        "tourName": "Campus Tour BLK A & B",
+        "date": "22-Nov-2020",
+        "venue": "SIM HQ BLK A Entrance Lobby",
+        "startTime": "12:30AM",
+        "endTime": "2:00PM"
+    },
+    {
+        "id": "tour-24",
+        "tourName": "Campus Tour BLK A",
+        "date": "22-Nov-2020",
+        "venue": "SIM HQ BLK A Atrium",
+        "startTime": "3:00PM",
+        "endTime": "3:45PM"
+    },
+    {
+        "id": "tour-25",
+        "tourName": "Campus Tour BLK B",
+        "date": "22-Nov-2020",
+        "venue": "SIM HQ BLK B Student Lounge",
+        "startTime": "3:45PM",
+        "endTime": "4:30PM"
+    },
+    {
+        "id": "tour-26",
+        "tourName": "Campus Tour BLK C",
+        "date": "22-Nov-2020",
+        "venue": "SIM HQ BLK C Entrance Lobby",
+        "startTime": "2:15PM",
+        "endTime": "3:00PM"
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "id": "discipline-001",
+        "name": "Arts & Social Sciences"
+    },
+    {
+        "id": "discipline-002",
+        "name": "Business"
+    },
+    {
+        "id": "discipline-003",
+        "name": "IT & Computer Science"
+    },
+    {
+        "id": "discipline-004",
+        "name": "Nursing"
+    },
+    {
+        "id": "discipline-005",
+        "name": "Specialty"
+    }
+]
