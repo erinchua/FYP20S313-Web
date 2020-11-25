@@ -1,0 +1,85 @@
+#login-content-container {
+    background-color: #313942;
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-tabContainer li {
+    background-color: #b5cfd8;
+    min-width: 33%;
+}
+
+.login-tabHeading {
+    font-weight: bold;
+    color: #424242;
+    font-size: 90%;
+}
+
+.login-tabHeading:hover {
+    color: #424242;
+    border-color: #b5cfd8 !important;
+}
+
+.login-tabHeading:focus {
+    color: #424242;
+    border-color:  #b5cfd8 !important;
+}
+
+.login-tabContainer .login-tabHeading.active {
+    background-color: #7393a7 !important;
+    color: white !important;
+    border-color: #7393a7 !important;
+}
+
+#login-tabContent {
+    background-color: #FFFFFF;
+}
+
+#simLogo-container {
+    padding-top: 5%;
+}
+
+#simLogo {
+    height: 30%;
+    width: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+#login-form {
+    padding: 10% 0%;
+}
+
+.login-formGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-forgetPassword {
+    margin-top: -5%;
+}
+
+#login-button {
+    background-color: #424242;
+    border: 0;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+#login-button:focus {
+    box-shadow: none;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 85%;
+}
+
+#login-alertFail-data {
+    font-size: 90%;
+    color: #434343;
+}

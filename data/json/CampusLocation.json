@@ -1,0 +1,61 @@
+[
+    {
+        "id": "car",
+        "carDescription": "The campus is easily accessible via Pan-Island Expressway (PIE), go via Exit 26A and turn into Clementi Road.",
+        "carParkingDescription": "(With effect from 1 February 2017)\nApplicable to all white lots within SIM HQ car park\nCharges: Cars – $1.28 (inclusive of GST), based on 30-minute block charging\nOperating Hours: 6.00am to 11.59pm (Daily including weekends. Closed on Public Holidays)\nGrace Period: 15 minutes"
+    },
+    {
+        "id": "bus",
+        "simHq": {
+            "buses": {
+                "bus1": "52",
+                "bus2": "61",
+                "bus3": "74",
+                "bus4": "75",
+                "bus5": "151",
+                "bus6": "154",
+                "bus7": "184",
+                "bus8": "74E",
+                "bus9": "151E",
+                "bus10": "154B"
+            },
+            "description": "SIM HQ, 12091, Clementi Road"
+        },
+        "oppSimHq": {
+            "buses": {
+                "bus1": "52",
+                "bus2": "61",
+                "bus3": "74",
+                "bus4": "75",
+                "bus5": "151",
+                "bus6": "154",
+                "bus7": "184",
+                "bus8": "74E",
+                "bus9": "151E"
+            },
+            "description": "Opp SIM HQ, 12099, Clementi Road"
+        }
+    },
+    {
+        "id": "mrt",
+        "downtownLine": {
+            "stations": {
+                "station1": "Beauty World",
+                "station2": "Sixth Avenue",
+                "station3": "King Albert Park"
+            },
+            "description": "Downtown Line"
+        },
+        "eastwestLine": {
+            "stations": {
+                "station1": "Clementi",
+                "station2": "Dover"
+            },
+            "description": "East West Line"
+        }
+    },
+    {
+        "id": "map",
+        "url": ""
+    }
+]

@@ -1,0 +1,149 @@
+[
+    {
+        "id": "scholarship-01",
+        "segment": "SIM GE Scholarship",
+        "header": "Categories of Scholarships",
+        "content": [
+            {
+                "title": "Academic Excellence and Leadership",
+                "description": "Awards are granted to outstanding students who have achieved academic excellence and demonstrated leadership qualities both in and outside the classroom."
+            },
+            {
+                "title": "Sports and Artistic Talent",
+                "description": "Awards are granted to athletes who possess an impressive track record of achievement in sports or individuals with outstanding artistic talents."
+            }
+        ]
+    },
+    {
+        "id": "scholarship-02",
+        "segment": "SIM GE Scholarship",
+        "header": "Eligibility",
+        "content": [
+            "Outstanding Singapore-Cambridge GCE ‘A’ Level, Local Polytechnic Diploma, IB Diploma or Year 12 equivalent qualifications",
+            "An impressive community contribution and co-curricular activities involvement record",
+            "Strong leadership, interpersonal and communication skills"
+        ]
+    },
+    {
+        "id": "scholarship-03",
+        "segment": "SIM GE Scholarship",
+        "header": "Value of Scholarship",
+        "covers": [
+            "Course fees",
+            "Examination fees",
+            "Other compulsory fees",
+            "Book allowance"
+        ]
+    },
+    {
+        "id": "scholarship-04",
+        "segment": "SIM GE Scholarship",
+        "header": "Application",
+        "applicationPeriods": [
+            "March",
+            "September"
+        ]
+    },
+    {
+        "id": "scholarship-05",
+        "segment": "SIM GE Scholarship",
+        "header": "Application Documents & Procedures",
+        "content": [
+            "Scholarship Application Form (The next SIM GE Scholarship application is in March 2021. Please check the website again for the application form)",
+            "All official academic documents (from Secondary to Tertiary Level), in original language with English translation, if applicable.",
+            "All co-curricular activity records (from Secondary to Tertiary Level)",
+            "Documentary evidence of achievements and awards",
+            "Testimonial(s) for industrial / professional attachments(s) / National Service (if applicable)",
+            "Scholarship Essays (4 questions) (can be found in the Scholarship Application Form)"
+        ],
+        "simPdpaPolicy": "https://www.simge.edu.sg/contact-us/personal-data-protection-act/",
+        "email": "scholarship@sim.edu.sg",
+        "emailFormat": "<Scholarship Category> – <Most recent school/ university partner> <Most recent results (eg. cumulative average marks/ GPA/ listing of grades)>",
+        "examples": [
+            "Sports – Temasek Polytechnic CGPA 2.5",
+            "Academic – SIM CGPA 3.8",
+            "Academic – Tampines Meridian Junior College H2 Grade 3Bs",
+            "Arts – UOL Avg 55"
+        ]
+    },
+    {
+        "id": "scholarship-06",
+        "segment": "SIM GE Scholarship",
+        "header": "Selection Process",
+        "description": "All shortlisted candidates are required to undergo an interview by the SIM Global Education Scholarships Selection Panel. Only shortlisted candidates will be notified.\nThe decision of SIM Global Education is final and we do not enter into any correspondence on the award of the Scholarship (including the reasons for not awarding the Scholarship). We reserve the right to vary the terms and conditions of any SIM Global Education Scholarship without prior notice."
+    },
+    {
+        "id": "scholarship-07",
+        "segment": "SIM GE Scholarship",
+        "header": "Tenure of Scholarship",
+        "content": [
+            {
+                "programmes": "All programmes except the SIM-UOL programmes",
+                "applicationPeriod": [
+                    {
+                        "period": "March",
+                        "description": "The Scholarship Award will take effect from the semester starting in the second half of the same year (unless stated otherwise)."
+                    },
+                    {
+                        "period": "September",
+                        "description": "The Scholarship Award will take effect from the semester starting in the first half of the next year (unless stated otherwise)."
+                    }
+                ]
+            },
+            {
+                "programmes": "UOL programmes with 1 year term",
+                "applicationPeriod": [
+                    {
+                        "period": "March",
+                        "description": "The Scholarship Award will take effect from August/ September in the same year."
+                    },
+                    {
+                        "period": "September",
+                        "description": "The Scholarship Award will take effect from August/ September in the same year."
+                    }
+                ]
+            },
+            {
+                "programmes": "UOL programmes with 6 month term",
+                "applicationPeriod": [
+                    {
+                        "period": "March",
+                        "description": "The Scholarship Award will take effect from April in the same year."
+                    },
+                    {
+                        "period": "September",
+                        "description": "The Scholarship Award will take effect from October in the same year."
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "scholarship-08",
+        "segment": "SIM GE Scholarship",
+        "header": "Terms & Conditions",
+        "content": [
+            "Scholar is required to sit for all tests, assessments and examinations and obtain the Qualification within the minimum period required of study.",
+            "Scholar is not allowed to change the Programme at any time.",
+            "Scholar shall not take up or register or enrol in any diploma or degree course(s) without the prior written approval of the Sponsor.",
+            "Scholar shall not, without the prior written approval of the Sponsor, hold the Scholarship Award concurrently with any other scholarship or tuition grant.",
+            "Every scholar is expected to contribute to SIM GE / the community.",
+            "Academic performance will be reviewed every semester.",
+            "The Scholarship may be withdrawn at any time if, in the opinion of the Sponsor, the scholar’s progress or behaviour is deemed unsatisfactory.",
+            "If for whatever reasons the Scholarship is terminated, the scholar shall be further liable to repay SIM GE all of the Sponsorship Award Benefits that have been paid by SIM GE."
+        ]
+    },
+    {
+        "id": "scholarship-09",
+        "segment": "Sponsors",
+        "header": "SAFRA-SIM GE Sponsorship",
+        "description": "SAFRA members can tap on the SAFRA-SIM GE Sponsorship under the SAFRA Education Scheme to further their education. SIM Global Education will sponsor up to a maximum of ten Nominated Members, by SAFRA, for each academic year.\nThe sponsorship is only applicable for full-time SIM diploma programmes and part-time University of London (UOL) undergraduate degree programmes.\nSuccessful members will be granted 50% sponsorship of course fees for diploma programmes. Full SIM course fees sponsorship is granted for part time UOL undergraduate degree programmes but the sponsorship excludes fees payable to UOL.",
+        "applicationPeriods": [
+            "March",
+            "September"
+        ],
+        "sponsor": "SAFRA",
+        "website": "www.safra.sg",
+        "email": "oelaine@safra.sg"
+    }
+]

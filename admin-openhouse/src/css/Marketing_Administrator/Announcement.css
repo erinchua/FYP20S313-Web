@@ -1,0 +1,166 @@
+.announcementCon {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 0 auto;
+    padding: 0 !important;
+}
+
+.announcementContent {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+.announcementContentCon {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#announcementContentHeaderRow {
+    background: #88B7B5;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.announcementContentHeaderCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#announcementHeaderText {
+    color: #424242;
+}
+
+#addAnnouncementBtn {
+    background: none;
+    color: #424242;
+    min-width: 20%;
+    border-radius: 6px;
+    border: 1px solid #424242;
+}
+
+#addAnnouncementBtnIcon {
+    margin-right: 5%;
+}
+
+#addAnnouncementBtnText {
+    margin-left: 5%;
+}
+
+#addAnnouncementBtn:hover {
+    background: #424242;
+    color: #ffffff;
+    border-color: #424242;
+}
+
+#addAnnouncementBtn:focus {
+    box-shadow: none;
+}
+
+/**********************************************/
+/**************** Table Header ****************/
+#announcementTable {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+#announcementHeader_AnnouncementTitle {
+    width: 25%;
+    color: #424242;
+    font-size: 90%;
+}
+
+#announcementHeader_PostedDateTime {
+    width: 20%;
+    color: #424242;
+    font-size: 90%;
+}
+
+#announcementHeader_Detail {
+    width: 35%;
+    color: #424242;
+    font-size: 90%;
+}
+
+#announcementHeader_Edit {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+#announcementHeader_Delete {
+    width: 10%;
+    color: #424242;
+    font-size: 90%;
+}
+
+/**************** Table Data ****************/
+#announcementData_AnnouncementTitle {
+    width: 25%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+#announcementData_PostedDateTime {
+    width: 20%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+#announcementData_Detail {
+    width: 35%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+#announcementData_Edit {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+}
+
+#announcementData_Delete {
+    width: 10%;
+    color: #434343;
+    font-size: 85%;
+}
+
+#editAnnouncementBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#editAnnouncementBtnIcon {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#editAnnouncementBtn:focus {
+    box-shadow: none;
+}
+
+#deleteAnnouncementBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#deleteAnnouncementBtnIcon {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#deleteAnnouncementBtn:focus {
+    box-shadow: none;
+}

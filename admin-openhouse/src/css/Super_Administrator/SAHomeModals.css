@@ -1,0 +1,100 @@
+/**********************************************************************************************/
+/* Add User Modal Css */
+/**********************************************************************************************/
+#addUserModalTitle {
+    text-align: center;
+    color: #424242;
+}
+
+.addAdminFormRow {
+    padding-bottom: 2%;
+}
+
+.addAdminFormCol {
+    margin: 1% 0 1% 0;
+    padding-right: 2%;
+}
+
+.addAdminFormIcon {
+    color: #424242;
+}
+
+.addAdminFormText {
+    color: #434343;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+}
+
+.addAdminFormText:focus {
+    box-shadow: 1px 1px 10px #ffffff !important;
+}
+
+#addAdminFormSelectOption {
+    color: #434343;
+}
+
+.addAdminFormBtnRow {
+    padding: 3% 0 3% 0;
+}
+
+#addAdminFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+}
+
+#addAdminFormBtn:focus {
+    box-shadow: none;
+}
+
+/**********************************************************************************************/
+/* Delete User Modal Css */
+/**********************************************************************************************/
+#deleteAdminModalTitle {
+    font-size: 95%;
+    color: #EA526F;
+}
+
+.deleteAdminModalCol {
+    padding-bottom: 4%;
+}
+
+#deleteAdminModalIcon {
+    width: 20%;
+}
+
+#deleteAdminModalText {
+    font-size: 90%;
+    color: #424242;
+}
+
+#confirmDeleteAdminModalBtn {
+    background: none;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #EA526F;
+    width: 40%;
+}
+
+#cancelDeleteAdminModalBtn {
+    background: #EA526F;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #ffffff;
+    width: 40%;
+}
+
+/**********************************************************************************************/
+/* Modal Validation Css */
+/**********************************************************************************************/
+.errorText {
+    color: red;
+}
+
+/**********************************************************************************************/
+/* Alert Box */
+/**********************************************************************************************/
+#alertFail-data {
+    font-size: 90%;
+    color: #434343;
+}

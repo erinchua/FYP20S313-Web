@@ -1,0 +1,183 @@
+#addStudySIMProgModalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+#addStudySIMProgModalBody {
+    height: 60% !important;
+    overflow-y: auto !important;
+    padding-bottom: 0;
+}
+
+.addStudySIMProgFormCol {
+    padding: 0 2% 0 2%;
+}
+
+.addStudySIMProgForm_InnerRow {
+    padding-bottom: 4%;
+}
+
+#addStudySIMProgForm_ProgName {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;
+    font-size: 85%;
+}
+
+#addStudySIMProgForm_ProgName:focus {
+    box-shadow: none;
+}
+
+.addStudySIMProgForm_LogoFile .custom-file-input {
+    border: 1px solid #c8c8c8;
+    border-radius: 6px;
+    font-size: 85% !important;
+    color: #434343;
+}
+
+.addStudySIMProgForm_LogoFile .custom-file-label {
+    color: #434343;
+    overflow: hidden;
+    font-size: 90% !important;
+}
+
+.addStudySIMProgForm_LogoFile:focus {
+    box-shadow: none;
+}
+
+.addStudySIMProgFormSelect {
+    color: #434343 !important;
+    border: none !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    border-radius: 0 !important;
+    font-size: 85% !important;
+}
+
+.addStudySIMProgFormSelect:focus {
+    box-shadow: none !important;
+}
+
+.addStudySIMProgFormSelectOption {
+    color: #434343 !important;
+    font-size: 85% !important;
+} 
+
+.addStudySIMProgFormLabel {
+    color: #424242;
+    font-size: 90% !important;
+    font-weight: bold;
+}
+
+.addStudySIMProgForm_CheckBox {
+    color: #434343;
+}
+
+.addStudySIMProgForm_InnerCol {
+    height: 80%;
+}
+
+.addStudySIMProgForm_applicationPeriodCon {
+    padding: 0 0 2% 0 !important;
+}
+
+.addStudySIMProgForm_applicationPeriodMainCon {
+    padding: none;
+    overflow-y: auto;
+    max-height: 50vh;
+    overflow-x: hidden;
+}
+
+.addStudySIMProgModal .addStudySIMProgForm_MoSCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 10vh;
+    overflow-x: hidden;
+    font-size: 85% !important;
+}
+
+.addStudySIMProgModal .addStudySIMProgForm_EntryQualCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 10vh;
+    overflow-x: hidden;
+    font-size: 85% !important;
+}
+
+.addStudySIMProgModal .addStudySIMProgForm_DisciplineCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 10vh;
+    overflow-x: hidden;
+    font-size: 85% !important;
+}
+
+.addStudySIMProgModal .addStudySIMProgForm_SubDisciplineCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 85vh;
+    overflow-x: hidden;
+    font-size: 85% !important;
+}
+
+.addStudySIMProgModal .addStudySIMProgForm_StructureOverseasCon {
+    background: #dff0ef;
+    padding: 2%;
+    border-radius: 6px;
+    overflow-y: auto;
+    max-height: 10vh;
+    overflow-x: hidden;
+    font-size: 85% !important;
+}
+
+#addStudySIMProgFormBtn {
+    background: #60c6d9;
+    border-color: #60c6d9;
+    border-radius: 6px;
+    width: 20%;
+}
+
+#addStudySIMProgFormBtn:focus {
+    box-shadow: none;
+}
+
+.addStudySIMProgForm_TextArea {
+    resize: none !important;
+    border-radius: 6px !important;
+    color: #434343 !important;
+    font-size: 85% !important;
+}
+
+.addApplicationPeriodBtn {
+    background: none !important;
+    color: #424242 !important;
+    min-width: 5%;
+    border-radius: 6px;
+    border: none !important;
+}
+
+.addApplicationPeriodBtn:hover {
+    background: #424242 !important;
+    color: #ffffff !important;
+    border-color: #424242 !important;
+}
+
+.addApplicationPeriodBtn:focus {
+    box-shadow: none !important;
+}
+
+/**********************************************************************************************/
+/* Modal Validation Css */
+/**********************************************************************************************/
+.errorMessage {
+    color: red;
+    font-size: 80%;
+}

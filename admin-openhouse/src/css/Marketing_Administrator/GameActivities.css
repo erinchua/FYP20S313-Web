@@ -1,0 +1,265 @@
+.GamesActivities-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.GamesActivities-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#GamesActivities-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#GamesActivities-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#GamesActivities-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#GamesActivities-title {
+    color: #424242;
+}
+
+#GamesActivities-addBtn {
+    background: none;
+    border: 1px solid #424242;
+    color: #424242;
+    min-width: 20%;
+    border-radius: 6px;
+}
+
+#GamesActivities-addBtn:hover {
+    background: #424242;
+    border-color: #424242;
+    color: white;
+}
+
+#GamesActivities-addBtn:focus {
+    box-shadow: none;
+}
+
+#GamesActivities-addBtnText {
+    margin-left: 10%;
+}
+
+#GamesActivities-secondRow {
+    margin: 0 !important;
+}
+
+#GamesActivities-secondRowCol {
+    padding: 0 !important;
+}
+
+.GamesActivities-secondInnerRow {
+    margin: 0 !important;
+}
+
+.GamesActivities-secondInnerCol {
+    padding: 0 !important;
+}
+
+.GamesActivities-navItemCon {
+    padding: 0 !important;
+}
+
+.GamesActivities-navItems {
+    background-color: #e4f2f0;
+}
+
+.GamesActivities-navLinks {
+    color: #424242;
+    font-weight: bold;
+}
+
+.GamesActivities-navLinks:hover {
+    background-color: #62929E;
+    color: white;
+    border-color: #62929E !important;
+}
+
+.GamesActivities-navLinks:focus {
+    background-color: #62929E;
+    color: white;
+    border-color: #62929E !important;
+}
+
+.GamesActivities-nav .GamesActivities-navLinks.active {
+    background-color: #62929E !important;
+    color: white !important;
+    border-color: #62929E !important;
+}
+
+/* -- Day 1 and 2 Content -- */
+.GamesActivities-tableColCon {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+
+.GamesActivities-tableCon {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+.GamesActivities-tableHeader {
+    color: #424242;
+    font-size: 90%;
+    background-color: white;
+}
+
+.GamesActivities-tableBody {
+    color: #434343;
+    font-size: 85%;
+    background-color: white;
+}
+
+#GamesActivities-editBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#GamesActivities-editBtn:focus {
+    box-shadow: none;
+}
+
+#GamesActivities-deleteBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#GamesActivities-deleteBtn:focus {
+    box-shadow: none;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 80%;
+}
+
+/* -- Add/Edit Modal -- */
+.GamesActivities-formGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#GamesActivities-modalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+#GamesActivities-addfooter, #GamesActivities-editFooter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.GamesActivities-addFooterCol, .GamesActivities-editFooterCol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#GamesActivities-submitBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#GamesActivities-submitBtn:focus {
+    box-shadow: none;    
+}
+
+#GamesActivities-saveBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#GamesActivities-saveBtn:focus {
+    box-shadow: none;    
+}
+
+#GamesActivities-cancelBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: #60c6d9;    
+}
+
+#GamesActivities-cancelBtn:focus {
+    box-shadow: none;    
+}
+
+#GamesActivities-inputFields {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;    
+    font-size: 85%;
+}
+
+#GamesActivities-inputFields:focus {
+    box-shadow: none;
+}
+
+#GamesActivities-gameBoothNameData {
+    text-transform: capitalize;
+}
+
+ /* -- Delete Modal -- */
+.GamesActivities-deleteFooterCol {
+    padding-bottom: 4%;
+}
+
+#GamesActivities-deleteText {
+    font-size: 95%;
+    color: #424242;
+}
+
+#GamesActivities-deleteConfirmBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #EA526F
+}
+
+#GamesActivities-deleteConfirmBtn:focus {
+    box-shadow: none;    
+}
+
+#GamesActivities-deleteCancelBtn {
+    width: 40%;
+    background: #EA526F;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: white;
+}
+
+#GamesActivities-deleteCancelBtn:focus {
+    box-shadow: none;    
+}

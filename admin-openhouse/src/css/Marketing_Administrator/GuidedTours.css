@@ -1,0 +1,261 @@
+.GuidedTours-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.GuidedTours-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#GuidedTours-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#GuidedTours-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#GuidedTours-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#GuidedTours-title {
+    color: #424242;
+}
+
+#GuidedTours-addBtn {
+    background: none;
+    border: 1px solid #424242;
+    color: #424242;
+    min-width: 20%;
+    border-radius: 6px;
+}
+
+#GuidedTours-addBtn:hover {
+    background: #424242;
+    border-color: #424242;
+    color: white;
+}
+
+#GuidedTours-addBtn:focus {
+    box-shadow: none;
+}
+
+#GuidedTours-addBtnText {
+    margin-left: 10%;
+}
+
+#GuidedTours-secondRow {
+    margin: 0 !important;
+}
+
+#GuidedTours-secondRowCol {
+    padding: 0 !important;
+}
+
+.GuidedTours-secondInnerRow {
+    margin: 0 !important;
+}
+
+.GuidedTours-secondInnerCol {
+    padding: 0 !important;
+}
+
+.GuidedTours-navItemCon {
+    padding: 0 !important;
+}
+
+.GuidedTours-navItems {
+    background-color: #e4f2f0;
+}
+
+.GuidedTours-navLinks {
+    color: #424242;
+    font-weight: bold;
+}
+
+.GuidedTours-navLinks:hover {
+    background-color: #62929E;
+    color: white;
+    border-color: #62929E !important;
+}
+
+.GuidedTours-navLinks:focus {
+    background-color: #62929E;
+    color: white;
+    border-color: #62929E !important;
+}
+
+.GuidedTours-nav .GuidedTours-navLinks.active {
+    background-color: #62929E !important;
+    color: white !important;
+    border-color: #62929E !important;
+}
+
+/* -- Day 1 and 2 Content -- */
+.GuidedTours-tableColCon {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+
+.GuidedTours-tableCon {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+.GuidedTours-tableHeader {
+    color: #424242;
+    font-size: 90%;
+    background-color: white;
+}
+
+.GuidedTours-tableBody {
+    color: #434343;
+    font-size: 85%;
+    background-color: white;
+}
+
+#GuidedTours-editBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#GuidedTours-editBtn:focus {
+    box-shadow: none;
+}
+
+#GuidedTours-deleteBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#GuidedTours-deleteBtn:focus {
+    box-shadow: none;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 80%;
+}
+
+/* -- Add/Edit Modal -- */
+.GuidedTours-formGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#GuidedTours-modalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+#GuidedTours-addfooter, #GuidedTours-editFooter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.GuidedTours-addFooterCol, .GuidedTours-editFooterCol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#GuidedTours-submitBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#GuidedTours-submitBtn:focus {
+    box-shadow: none;    
+}
+
+#GuidedTours-saveBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#GuidedTours-saveBtn:focus {
+    box-shadow: none;    
+}
+
+#GuidedTours-cancelBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: #60c6d9;    
+}
+
+#GuidedTours-cancelBtn:focus {
+    box-shadow: none;    
+}
+
+#GuidedTours-inputFields {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;    
+    font-size: 85%;
+}
+
+#GuidedTours-inputFields:focus {
+    box-shadow: none;
+}
+
+ /* -- Delete Modal -- */
+.GuidedTours-deleteFooterCol {
+    padding-bottom: 4%;
+}
+
+#GuidedTours-deleteText {
+    font-size: 95%;
+    color: #424242;
+}
+
+#GuidedTours-deleteConfirmBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: #EA526F
+}
+
+#GuidedTours-deleteConfirmBtn:focus {
+    box-shadow: none;    
+}
+
+#GuidedTours-deleteCancelBtn {
+    width: 40%;
+    background: #EA526F;
+    border: 1px solid #EA526F;
+    border-radius: 6px;
+    color: white;
+}
+
+#GuidedTours-deleteCancelBtn:focus {
+    box-shadow: none;    
+}

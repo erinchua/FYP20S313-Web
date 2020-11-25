@@ -1,0 +1,172 @@
+.OpenHouse-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.OpenHouse-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#OpenHouse-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#OpenHouse-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#OpenHouse-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#OpenHouse-title {
+    color: #424242;
+}
+
+#OpenHouse-secondRow {
+    margin: 0 !important;
+}
+
+#OpenHouse-secondRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#OpenHouse-thirdRow {
+    margin: 0 !important;
+}
+
+#OpenHouse-thirdRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#OpenHouse-thirdRowColHeading {
+    height: 100%;
+    width: 100%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+#OpenHouse-tableHeader {
+    color: #424242;
+    font-size: 90%;
+    background-color: white;
+}
+
+#OpenHouse-tableBody {
+    color: #434343;
+    font-size: 85%;
+    background-color: white;
+}
+
+#OpenHouse-editBtn {
+    background: none;
+    color: #434343;
+    border: none;
+}
+
+#OpenHouse-editBtn:focus {
+    box-shadow: none;
+}
+
+.OpenHouse-formGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#OpenHouse-editFooter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.OpenHouse-editCol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#OpenHouse-saveBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#OpenHouse-saveBtn:focus {
+    box-shadow: none;   
+}
+
+#OpenHouse-cancelBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: #60c6d9;
+}
+
+#OpenHouse-cancelBtn:focus {
+    box-shadow: none;   
+}
+
+#OpenHouse-inputFields {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;    
+    font-size: 85%;
+}
+
+#OpenHouse-inputFields:focus {
+    box-shadow: none;
+}
+
+#OpenHouse-descriptionData {
+    text-transform: capitalize;
+}
+
+#OpenHouse-thirdTableHeading {
+    width: 11.5%;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 85%;
+}
+
+#border {
+    border: 0.5px solid #e8e8e8;
+    margin: 2% 0% 1% 0%;
+}
+
+.OpenHouse-imgFile .custom-file-input {
+    border: 1px solid #c8c8c8;
+    border-radius: 6px;
+    font-size: 85% !important;
+    color: #434343;
+}
+
+.OpenHouse-imgFile .custom-file-label {
+    color: #434343;
+    overflow: hidden;
+    font-size: 90% !important;
+}
+
+.OpenHouse-imgFile:focus {
+    box-shadow: none;
+}

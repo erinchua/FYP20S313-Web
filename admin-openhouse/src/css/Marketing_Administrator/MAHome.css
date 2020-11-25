@@ -1,0 +1,82 @@
+.MAHome-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.MAHome-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#MAHome-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#MAHome-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#MAHome-secondRow {
+    margin: 0 !important;
+    margin-bottom: 1% !important;
+}
+
+#MAHome-thirdRow {
+    display: flex;
+    justify-content: space-around;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.MAHome-thirdInnerRow {
+    margin: 0 !important;
+    padding: 10% 0;
+}
+
+#MAHome-fourthRow {
+    margin: 0 !important;
+}
+
+#MAHome-refreshBtn {
+    background: none;
+    color: black;
+    border: none;
+}
+
+#MAHome-refreshBtn {
+    box-shadow: none;
+}
+
+#MAHome-secondRowCol1 {
+    font-weight: bold;
+}
+
+#MAHome-secondRowCol2 {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.MAHome-thirdInnerCol1 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.MAHome-thirdInnerCol2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#MAHome-fourthChart {
+    font-size: 50%;
+}

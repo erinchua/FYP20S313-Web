@@ -1,0 +1,104 @@
+.SportsFitness-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.SportsFitness-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#SportsFitness-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#SportsFitness-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#SportsFitness-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#SportsFitness-title {
+    color: #424242;
+}
+
+#SportsFitness-secondRow {
+    margin: 0 !important;
+}
+
+#SportsFitness-secondRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#SportsFitness-tableHeader {
+    color: #424242;
+    font-size: 90%;
+    background-color: white;
+}
+
+#SportsFitness-tableBody {
+    color: #434343;
+    font-size: 85%;
+    background-color: white;
+}
+
+#SportsFitness-addBtn {
+    background: none;
+    border: 1px solid #424242;
+    color: #424242;
+    min-width: 20%;
+    border-radius: 6px;
+}
+
+#SportsFitness-addBtn:hover {
+    background: #424242;
+    border-color: #424242;
+    color: white;
+}
+
+#SportsFitness-addBtn:focus {
+    box-shadow: none;
+}
+
+#SportsFitness-addBtnText {
+    margin-left: 10%;
+}
+
+#SportsFitness-editBtn {
+    background: none;
+    color: #434343;
+    border: none;
+}
+
+#SportsFitness-editBtn:focus {
+    box-shadow: none;
+}
+
+#SportsFitness-deleteBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#SportsFitness-deleteBtn:focus {
+    box-shadow: none;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 80%;
+}

@@ -1,0 +1,214 @@
+[
+    {
+        "id": "subdiscipline-001",
+        "name": "Accounting"
+    },
+    {
+        "id": "subdiscipline-002",
+        "name": "Accounting and Finance"
+    },
+    {
+        "id": "subdiscipline-003",
+        "name": "Artificial Intelligence"
+    },
+    {
+        "id": "subdiscipline-004",
+        "name": "Aviation"
+    },
+    {
+        "id": "subdiscipline-005",
+        "name": "Banking"
+    },
+    {
+        "id": "subdiscipline-006",
+        "name": "Banking and Finance"
+    },
+    {
+        "id": "subdiscipline-007",
+        "name": "Big Data"
+    },
+    {
+        "id": "subdiscipline-008",
+        "name": "Business"
+    },
+    {
+        "id": "subdiscipline-009",
+        "name": "Business administration"
+    },
+    {
+        "id": "subdiscipline-010",
+        "name": "Business Analytics"
+    },
+    {
+        "id": "subdiscipline-011",
+        "name": "Communication"
+    },
+    {
+        "id": "subdiscipline-012",
+        "name": "Computing"
+    },
+    {
+        "id": "subdiscipline-013",
+        "name": "Construction and Management"
+    },
+    {
+        "id": "subdiscipline-014",
+        "name": "Cyber Security"
+    },
+    {
+        "id": "subdiscipline-015",
+        "name": "Cyber Security and Management"
+    },
+    {
+        "id": "subdiscipline-016",
+        "name": "Data Science"
+    },
+    {
+        "id": "subdiscipline-017",
+        "name": "Design"
+    },
+    {
+        "id": "subdiscipline-018",
+        "name": "Digital Systems Security"
+    },
+    {
+        "id": "subdiscipline-019",
+        "name": "Economics"
+    },
+    {
+        "id": "subdiscipline-020",
+        "name": "Economics and Finance"
+    },
+    {
+        "id": "subdiscipline-021",
+        "name": "Economics and Business"
+    },
+    {
+        "id": "subdiscipline-022",
+        "name": "Entreprenuership and Innovation"
+    },
+    {
+        "id": "subdiscipline-023",
+        "name": "Finance"
+    },
+    {
+        "id": "subdiscipline-024",
+        "name": "Finance Technology (FinTech)"
+    },
+    {
+        "id": "subdiscipline-025",
+        "name": "Game and Mobile Development"
+    },
+    {
+        "id": "subdiscipline-026",
+        "name": "Geographic Information Science"
+    },
+    {
+        "id": "subdiscipline-027",
+        "name": "Human Resource Management"
+    },
+    {
+        "id": "subdiscipline-028",
+        "name": "Information Technology"
+    },
+    {
+        "id": "subdiscipline-029",
+        "name": "International"
+    },
+    {
+        "id": "subdiscipline-030",
+        "name": "International Business"
+    },
+    {
+        "id": "subdiscipline-031",
+        "name": "International Healthcare Leadership"
+    },
+    {
+        "id": "subdiscipline-032",
+        "name": "International Relations"
+    },
+    {
+        "id": "subdiscipline-033",
+        "name": "International Studies"
+    },
+    {
+        "id": "subdiscipline-034",
+        "name": "International Trade"
+    },
+    {
+        "id": "subdiscipline-035",
+        "name": "Investments"
+    },
+    {
+        "id": "subdiscipline-036",
+        "name": "Law"
+    },
+    {
+        "id": "subdiscipline-037",
+        "name": "Logistics and Supply Chain Management"
+    },
+    {
+        "id": "subdiscipline-038",
+        "name": "Management"
+    },
+    {
+        "id": "subdiscipline-039",
+        "name": "Marketing"
+    },
+    {
+        "id": "subdiscipline-040",
+        "name": "Mathematics"
+    },
+    {
+        "id": "subdiscipline-041",
+        "name": "Multimedia and Game Development"
+    },
+    {
+        "id": "subdiscipline-042",
+        "name": "Nursing"
+    },
+    {
+        "id": "subdiscipline-043",
+        "name": "Organisational Leadership and Change"
+    },
+    {
+        "id": "subdiscipline-044",
+        "name": "Politics"
+    },
+    {
+        "id": "subdiscipline-045",
+        "name": "Progect Management"
+    },
+    {
+        "id": "subdiscipline-046",
+        "name": "Psychology"
+    },
+    {
+        "id": "subdiscipline-047",
+        "name": "Retail Marketing"
+    },
+    {
+        "id": "subdiscipline-048",
+        "name": "Social Sciences"
+    },
+    {
+        "id": "subdiscipline-049",
+        "name": "Sociology"
+    },
+    {
+        "id": "subdiscipline-050",
+        "name": "Sport Business Management"
+    },
+    {
+        "id": "subdiscipline-051",
+        "name": "Strategy"
+    },
+    {
+        "id": "subdiscipline-052",
+        "name": "Tourism, Hospitality & Events Management"
+    },
+    {
+        "id": "subdiscipline-053",
+        "name": "Web and Mobile Development"
+    }
+]

@@ -1,0 +1,18 @@
+[
+    {
+        "id": "academiclvl-001",
+        "level": "Diploma"
+    },
+    {
+        "id": "academiclvl-002",
+        "level": "Certificate"
+    },
+    {
+        "id": "academiclvl-003",
+        "level": "Bachelor"
+    },
+    {
+        "id": "academiclvl-004",
+        "level": "Postgraduate/Masters"
+    }
+]

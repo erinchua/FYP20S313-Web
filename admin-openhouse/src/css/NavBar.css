@@ -1,0 +1,84 @@
+.navbarCon {
+    padding: 0 !important;
+    height: 8vh;
+}
+
+#navbar {
+    background: #313942;
+    padding: 0 1% 0 1%;
+    min-width: 100%;
+    width: 100%;
+    height: 100%;
+}
+
+#webAppLogoNav {
+    margin-right: 0;
+    width: 20%;
+}
+
+#webAppLogo {
+    width: 40%;
+    height: 25%;
+    border-radius: 8px;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+#logoutBtn {
+    color: #ffffff;
+    text-align: center;
+    font-size: 90%;
+    background: none;
+    border-color: #ffffff;
+}
+
+#logoutBtn:hover {
+    background: #ffffff;
+    color: #313942;
+}
+
+#SAEmail {
+    color: #ffffff;
+    text-align: center;
+    font-size: 90%;
+}
+
+#navContent {
+    min-width: 80%;
+}
+
+/* MA Nav */
+#MAEmail {
+    color: #ffffff;
+    text-align: center;
+    font-size: 90%;
+}
+
+#navDropdown {
+    color: #ffffff;
+}
+
+.navDropdownItem {
+    color: #ffffff !important;
+    background: #424242 !important;
+    padding: 0;
+    font-size: 85%;
+}
+
+.dropdown-menu-right {
+    background: #424242 !important;
+    border: 1px solid #424242;
+    margin-top: 10% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.navDropdownItem:hover {
+    background: #e4f2f0 !important;
+    color: #424242 !important;
+}
+
+.dropdownNavIcon {
+    margin-right: 5%;
+    font-size: 85%;
+}

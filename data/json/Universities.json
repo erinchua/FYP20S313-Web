@@ -1,0 +1,80 @@
+[
+    {
+        "id": "SIM",
+        "universityName": "Singapore Institute of Management",
+        "url": "https://www.simge.edu.sg/",
+        "logo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Universities%2FSIMGE-transparent-logo.png?alt=media&token=98a50df2-7b92-4719-be18-8323b49bc52d"
+    },
+    {
+        "id": "GrenobleEcole",
+        "universityName": "Grenoble Ecole de Management",
+        "url": "https://en.grenoble-em.com/",
+        "logo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Universities%2FLogo_Grenoble_Ecole_de_Management.png?alt=media&token=c47ff5ac-4d62-4f6f-86c0-d3f7ca45b0ac"
+    },
+    {
+        "id": "LaTrobeU",
+        "universityName": "La Trobe University",
+        "url": "https://www.latrobe.edu.au/",
+        "logo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Universities%2FLTU_Int_H_RGB_V3-200x76px.png?alt=media&token=2098d10d-5cbe-4430-9499-011de6e1d49b"
+    },
+    {
+        "id": "RMITU",
+        "universityName": "RMIT University",
+        "url": "https://www.rmit.edu.au/",
+        "logo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Universities%2FRMIT_POS_RGB_High-res-210x85px.png?alt=media&token=ff4b1ed9-2ff4-4009-9d3a-314a4c07c22f"
+    },
+    {
+        "id": "UoBirmingham",
+        "universityName": "University of Birmingham",
+        "url": "https://www.birmingham.ac.uk/index.aspx",
+        "logo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Universities%2Funiversity-of-birmingham-logo.png?alt=media&token=97b839c7-a15a-4c62-8edc-17c3ce54e8b1"
+    },
+    {
+        "id": "UBuffalo",
+        "universityName": "University at Buffalo",
+        "url": "https://www.buffalo.edu/",
+        "logo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Universities%2Funiveristy-of-buffalo-logo.png?alt=media&token=d1c0dfc0-e090-49cb-a4b8-dcba4ed58359"
+    },
+    {
+        "id": "UoLondon",
+        "universityName": "University of London",
+        "url": "",
+        "logo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Universities%2FUOL-logo.png?alt=media&token=573177e1-2170-47a7-a3ed-a07344253a61"
+    },
+    {
+        "id": "UoManchester",
+        "universityName": "University of Manchester",
+        "url": "https://www.manchester.ac.uk/",
+        "logo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Universities%2Flogo-university-of-manchester.png?alt=media&token=3d7ce067-414f-4fc2-8668-830ad119d938"
+    },
+    {
+        "id": "UoStirling",
+        "universityName": "University of Stirling",
+        "url": "https://www.stir.ac.uk/news/2019/09/stirling-crowned-uk-sports-university-of-the-year/",
+        "logo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Universities%2Fsim000875-2.png?alt=media&token=83673f98-f7ac-4cb2-9e3b-8b77710cf52b"
+    },
+    {
+        "id": "UoSydney",
+        "universityName": "University of Sydney",
+        "url": "https://www.sydney.edu.au/nursing",
+        "logo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Universities%2Fthe-university-of-sydney-logo.png?alt=media&token=6068fcaf-27ec-48c4-8405-15c15018ed35"
+    },
+    {
+        "id": "UoWarwick",
+        "universityName": "University of Warwick",
+        "url": "https://www2.warwick.ac.uk/fac/sci/wmg/about/",
+        "logo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Universities%2FWMG-logo.png?alt=media&token=cd546211-0c22-4768-881a-391f5b2b6bab"
+    },
+    {
+        "id": "UoWollongong",
+        "universityName": "University of Wollongong",
+        "url": "https://www.uow.edu.au/index.html",
+        "logo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Universities%2Funiversity-of-wollongong-logo.png?alt=media&token=d9ff618a-4b4c-4fb0-ab17-05e1cfb56d15"
+    },
+    {
+        "id": "MonashC",
+        "universityName": "Monash College",
+        "url": "https://www.monashcollege.edu.au/",
+        "logo": "https://firebasestorage.googleapis.com/v0/b/fyp20s3-13.appspot.com/o/Universities%2FMonashCollege.png?alt=media&token=fce20eb0-a39d-477f-bfa7-2281375b7b87"
+    }
+]

@@ -1,0 +1,224 @@
+.commonFAQCon {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 0 auto;
+    padding: 0 !important;
+}
+
+.commonFAQContent {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+.commonFAQContentCon {
+    background: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#commonFAQContentHeaderRow {
+    background: #88B7B5;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.commonFAQContentHeaderCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#commonFAQHeaderText {
+    color: #424242;
+}
+
+#addCommonFAQBtn {
+    background: none;
+    color: #424242;
+    min-width: 20%;
+    border-radius: 6px;
+    border: 1px solid #424242;
+}
+
+#addCommonFAQBtnIcon {
+    margin-right: 5%;
+}
+
+#addCommonFAQBtnText {
+    margin-left: 5%;
+}
+
+#addCommonFAQBtn:hover {
+    background: #424242;
+    color: #ffffff;
+    border-color: #424242;
+}
+
+#addCommonFAQBtn:focus {
+    box-shadow: none;
+}
+
+/*******************************************************/
+/* Tabs Con Css*/
+.commonFAQContentTabRow {
+    margin: 0 !important;
+}
+
+.commonFAQContentTabCol {
+    padding: 0 !important;
+}
+
+.commonFAQTabConRow {
+    margin: 0 !important;
+    padding: 0;
+}
+
+.commonFAQTabConCol {
+    padding: 0 !important;
+}
+
+.commonFAQTabConInnerCol {
+    padding: 0 !important;
+}
+
+.commonFAQTab_NavItem {
+    background: #e4f2f0;
+}
+
+.commonFAQTab_FAQ {
+    color: #424242;
+    font-weight: bold;
+}
+
+.commonFAQTab_FAQ:focus {
+    color: #ffffff;
+    background: #62929E;
+    border-color: #62929E !important;
+}
+
+.commonFAQTab_FAQ:hover {
+    color: #ffffff;
+    background: #62929E;
+    border-color: #62929E !important;
+}
+
+.commonFAQTabNav .commonFAQTab_FAQ.active {
+    background: #62929E !important;
+    color: #ffffff !important;
+    border-color: #62929E !important;   
+}
+
+.commonFAQTabpaneCol {
+    padding: 0 !important;
+}
+
+/*******************************************************/
+/* Common FAQs Table - Openhouse */
+.commonFAQTable_Openhouse {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+.commonFAQHeader_SNo {
+    width: 3%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.commonFAQHeader_Question {
+    width: 16%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.commonFAQHeader_Answer {
+    width: 16%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.commonFAQHeader_Edit {
+    width: 5%;
+    color: #424242;
+    font-size: 90%;
+}
+
+.commonFAQHeader_Delete {
+    width: 5%;
+    color: #424242;
+    font-size: 90%;
+}
+
+/******************* Table Data *******************/
+.commonFAQData_SNo {
+    width: 3%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.commonFAQData_Question {
+    width: 16%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.commonFAQData_Answer {
+    width: 16%;
+    color: #434343;
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
+.commonFAQData_Edit {
+    width: 5%;
+    color: #434343;
+    font-size: 85%;
+}
+
+.commonFAQHeader_Delete {
+    width: 5%;
+    color: #434343;
+    font-size: 85%;
+}
+
+#editCommonFAQBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#editCommonFAQBtn:focus {
+    box-shadow: none;
+}
+
+#editCommonFAQBtnIcon {
+    color: #424242;
+}
+
+#deleteCommonFAQBtn {
+    background: none;
+    border: none;
+    color: #434343;
+}
+
+#deleteCommonFAQBtn:focus {
+    box-shadow: none;
+}
+
+#deleteCommonFAQBtnIcon {
+    color: #424242;
+}
+
+/*******************************************************/
+/* Common FAQ Table - General */
+#commonFAQTable_General {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}

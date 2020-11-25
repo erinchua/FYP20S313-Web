@@ -1,0 +1,239 @@
+.StudentCare-container {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex: 1 0 auto;
+    overflow-x: hidden;
+    padding: 0 !important;
+}
+
+.StudentCare-content {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#StudentCare-topContentContainer {
+    background-color: #ffffff;
+    min-height: 84vh;
+    padding: 0 !important;
+}
+
+#StudentCare-firstRow {
+    background-color: #88B7B5;
+    height: 13vh;
+    margin: 0 !important;
+}
+
+#StudentCare-firstRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#StudentCare-title {
+    color: #424242;
+}
+
+#StudentCare-secondRow {
+    margin: 0 !important;
+}
+
+#StudentCare-secondRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.StudentCare-secondInnerRow {
+    margin: 0 !important;
+}
+
+.StudentCare-secondInnerCol {
+    padding: 0 !important;
+}
+
+.StudentCare-navItemCon {
+    padding: 0 !important;
+    width: 20%;
+}
+
+.StudentCare-navItems {
+    background-color: #e4f2f0;
+}
+
+.StudentCare-navLinks {
+    color: #424242;
+    font-weight: bold;
+}
+
+.StudentCare-navLinks:hover {
+    background-color: #62929E;
+    color: white;
+    border-color: #62929E !important;
+}
+
+.StudentCare-navLinks:focus {
+    background-color: #62929E;
+    color: white;
+    border-color: #62929E !important;
+}
+
+.StudentCare-nav .StudentCare-navLinks.active {
+    background-color: #62929E !important;
+    color: white !important;
+    border-color: #62929E !important;
+}
+
+#StudentCare-titleRow {
+    margin: 0 !important;
+}
+
+#StudentCare-thirdRowCol {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#StudentCare-titleRowCol {
+    height: 100%;
+    width: 100%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+.StudentCare-tableColCon {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.StudentCare-tableCon {
+    width: 100%;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+
+#StudentCare-editHeading {
+    width: 15%;
+}
+
+#StudentCare-LogoHeading {
+    width: 20%;
+}
+
+#StudentCare-tableHeader {
+    color: #424242;
+    font-size: 90%;
+    background-color: white;
+}
+
+#StudentCare-tableBody {
+    color: #434343;
+    font-size: 85%;
+    background-color: white;
+}
+
+#StudentCare-editBtn {
+    background: none;
+    color: #434343;
+    border: none;
+}
+
+#StudentCare-editBtn:focus {
+    box-shadow: none;
+}
+
+#StudentCare-modalTitle {
+    color: #424242;
+    text-align: center;
+}
+
+.StudentCare-formGroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#StudentCare-editFooter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.StudentCare-editCol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#StudentCare-saveBtn {
+    width: 40%;
+    background: #60c6d9;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: white;    
+}
+
+#StudentCare-saveBtn:focus {
+    box-shadow: none;   
+}
+
+#StudentCare-cancelBtn {
+    width: 40%;
+    background: none;
+    border: 1px solid #60c6d9;
+    border-radius: 6px;
+    color: #60c6d9;
+}
+
+#StudentCare-cancelBtn:focus {
+    box-shadow: none;   
+}
+
+#StudentCare-inputFields {
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0;
+    color: #434343;    
+    font-size: 85%;
+}
+
+#StudentCare-inputFields:focus {
+    box-shadow: none;
+}
+
+#StudentCare-textAreas {
+    color: #434343;    
+    font-size: 85%;
+    border: 1px solid #c8c8c8;
+}
+
+#StudentCare-textAreas:focus {
+    box-shadow: none;
+    border: 1px solid #c8c8c8;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 85%;
+}
+
+#border {
+    border: 0.5px solid #e8e8e8;
+    margin: 2% 0% 1% 0%;
+}
+
+.StudentCare-imgFile .custom-file-input {
+    border: 1px solid #c8c8c8;
+    border-radius: 6px;
+    font-size: 85% !important;
+    color: #434343;
+}
+
+.StudentCare-imgFile .custom-file-label {
+    color: #434343;
+    overflow: hidden;
+    font-size: 90% !important;
+}
+
+.StudentCare-imgFile:focus {
+    box-shadow: none;
+}
